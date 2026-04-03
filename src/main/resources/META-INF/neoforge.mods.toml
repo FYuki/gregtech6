@@ -1,0 +1,50 @@
+modLoader   = "javafml"
+loaderVersion = "${loader_version_range}"
+license     = "LGPL-3.0-or-later"
+
+issueTrackerURL = "https://gregtech.mechaenetia.com/"
+
+[[mods]]
+modId       = "${mod_id}"
+version     = "${file.jarVersion}"
+displayName = "${mod_name}"
+description = '''
+Has taken Minecraft to a whole new Level of complexity!
+A technical/industrial mod featuring multi-energy systems (EU, LU, QU, KU, RU, HU, ...),
+deep material science, machines, multiblocks, world generation and 30000+ machine variants
+via the MultiTileEntity registry.
+'''
+logoFile    = "logos/logo_gt.png"
+logoBlur    = false
+
+authors     = "${mod_authors}"
+credits     = """OvermindDL1 for Code and Website Hosting; Estebes and codewarrior for some Code;
+Mr. Brain for some Crop Textures; Zerrens for the Crate Texture; Bear989 and codewarrior for Testing;
+and of course all the Contributors who got their Pull Requests accepted."""
+
+[[dependencies."${mod_id}"]]
+    modId        = "neoforge"
+    type         = "required"
+    versionRange = "${neoforge_version_range}"
+    ordering     = "NONE"
+    side         = "BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId        = "minecraft"
+    type         = "required"
+    versionRange = "${minecraft_version_range}"
+    ordering     = "NONE"
+    side         = "BOTH"
+
+# ---------------------------------------------------------------------------
+# Optional mod integrations – enabled when the corresponding mod is present.
+# GregTech will detect these at runtime and activate the compat module.
+# (Replaces the 59 compat modules from 1.7.10; only those with 1.21.x
+#  releases are listed here.  Phase 8 will update this list.)
+# ---------------------------------------------------------------------------
+# [[dependencies."${mod_id}"]]
+#     modId        = "jei"
+#     type         = "optional"
+#     versionRange = "[19,)"
+#     ordering     = "NONE"
+#     side         = "CLIENT"

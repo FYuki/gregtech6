@@ -21,6 +21,7 @@
 # Build files
 !/build.gradle
 !/settings.gradle
+!/gradle.properties
 !/gradlew
 !/gradlew.bat
 !/gradle/wrapper/gradle-wrapper.jar
@@ -53,5 +54,6 @@
 !/src/main/resources/**/*.lang
 !/src/main/resources/**/*.info
 !/src/main/resources/**/*.mcmeta
+!/src/main/resources/**/*.toml
 # Some old scripts in resources...
 !/src/main/resources/**/*.bat
