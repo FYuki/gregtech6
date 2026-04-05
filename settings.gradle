@@ -1,8 +1,13 @@
 pluginManagement {
     repositories {
+        maven { url = 'https://maven.neoforged.net/releases' }
         gradlePluginPortal()
         mavenCentral()
-        maven { url = 'https://maven.neoforged.net/releases' }
+    }
+    plugins {
+        // Pin NeoForge Gradle version here so build.gradle can omit the version.
+        // Version is read from gradle.properties (neogradle_version).
+        id 'net.neoforged.gradle.userdev' version "${neogradle_version}"
     }
 }
 
