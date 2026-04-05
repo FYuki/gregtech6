@@ -4,11 +4,6 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
-    plugins {
-        // Pin NeoForge Gradle version here so build.gradle can omit the version.
-        // Version is read from gradle.properties (neogradle_version).
-        id 'net.neoforged.gradle.userdev' version "${neogradle_version}"
-    }
 }
 
 // foojay-resolver plugin disabled: requires plugins.gradle.org access, which is blocked in this environment.
