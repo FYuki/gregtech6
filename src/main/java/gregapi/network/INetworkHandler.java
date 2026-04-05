@@ -21,36 +21,40 @@ package gregapi.network;
 
 import java.util.UUID;
 
-import cpw.mods.fml.common.network.FMLEmbeddedChannel;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
+ *
+ * PHASE2: Updated to NeoForge 1.21.4 types.
+ *   EntityPlayerMP → ServerPlayer
+ *   ChunkCoordinates → BlockPos
+ *   World → Level
+ *   TargetPoint moved to inner record
+ *   FMLEmbeddedChannel removed
  */
 public interface INetworkHandler {
+	/** Positional target for area-broadcast packets. */
+	record TargetPoint(Level level, double x, double y, double z, double range) {}
+
 	/** It sends a Packet from Client to Server. */
-	public void sendToServer(IPacket aPacket);
+	void sendToServer(IPacket aPacket);
 	/** It sends a Packet to the Player, who is mentioned inside the Parameter. */
-	public void sendToPlayer(IPacket aPacket, EntityPlayerMP aPlayer);
-	/** It sends a Packet to all Players, who are in the specified Range. */
-	public void sendToAllAround(IPacket aPacket, TargetPoint aPosition);
-	/** It sends a Packet to all Players, who watch the Chunk on these X/Z Coordinates. */
-	public void sendToAllPlayersInRange(IPacket aPacket, World aWorld, int aX, int aZ);
-	/** It sends a Packet to all Players, who watch the Chunk on these X/Z Coordinates. */
-	public void sendToAllPlayersInRange(IPacket aPacket, World aWorld, ChunkCoordinates aCoords);
-	/** It sends a Packet to all Players, who watch the Chunk on these X/Z Coordinates. */
-	public void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, World aWorld, int aX, int aZ);
-	/** It sends a Packet to all Players, who watch the Chunk on these X/Z Coordinates. */
-	public void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, World aWorld, ChunkCoordinates aCoords);
-	/** It sends a Packet to all Players, who watch the Chunk on these X/Z Coordinates. */
-	public void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, World aWorld, int aX, int aZ);
-	/** It sends a Packet to all Players, who watch the Chunk on these X/Z Coordinates. */
-	public void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, World aWorld, ChunkCoordinates aCoords);
-	
-	/** For very advanced usage only! */
-	public FMLEmbeddedChannel getChannel(Side aSide);
+	void sendToPlayer(IPacket aPacket, ServerPlayer aPlayer);
+	/** It sends a Packet to all Players in the specified range. */
+	void sendToAllAround(IPacket aPacket, TargetPoint aPosition);
+	/** It sends a Packet to all Players watching the Chunk at X/Z. */
+	void sendToAllPlayersInRange(IPacket aPacket, Level aWorld, int aX, int aZ);
+	/** It sends a Packet to all Players watching the Chunk at the BlockPos. */
+	void sendToAllPlayersInRange(IPacket aPacket, Level aWorld, BlockPos aCoords);
+	/** It sends a Packet to one Player (by UUID) if they watch the Chunk at X/Z. */
+	void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, Level aWorld, int aX, int aZ);
+	/** It sends a Packet to one Player (by UUID) if they watch the Chunk at the BlockPos. */
+	void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, Level aWorld, BlockPos aCoords);
+	/** It sends a Packet to all Players except one watching the Chunk at X/Z. */
+	void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, Level aWorld, int aX, int aZ);
+	/** It sends a Packet to all Players except one watching the Chunk at the BlockPos. */
+	void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, Level aWorld, BlockPos aCoords);
 }

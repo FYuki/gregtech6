@@ -19,9 +19,20 @@
 
 package gregtech;
 
-import cpw.mods.fml.common.*;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.registry.EntityRegistry;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.InterModComms;
+// PHASE3: EntityRegistry → DeferredRegister<EntityType>
 import gregapi.api.Abstract_Mod;
 import gregapi.api.Abstract_Proxy;
 import gregapi.block.prefixblock.PrefixBlockItem;
@@ -81,32 +92,38 @@ import static gregapi.data.CS.*;
 /**
  * @author Gregorius Techneticies
  */
-@Mod(modid=ModIDs.GT, name="GregTech", version="GT6-MC1710", dependencies="required-after:"+ModIDs.GAPI_POST)
+@Mod(ModIDs.GT)
 public class GT6_Main extends Abstract_Mod {
-	@SidedProxy(modId = ModIDs.GT, clientSide = "gregtech.GT_Client", serverSide = "gregtech.GT_Server")
 	public static GT_Proxy gt_proxy;
-	
-	public GT6_Main() {
+
+	public GT6_Main(IEventBus modEventBus) {
 		GT = this;
 		NW_GT = new NetworkHandler(MD.GT.mID, "GREG");
+		// Replace @SidedProxy: instantiate the correct proxy for the current dist
+		gt_proxy = FMLEnvironment.dist.isClient()
+			? new gregtech.GT_Client()
+			: new gregtech.GT_Server();
+		// Wire mod-bus lifecycle events to Abstract_Mod dispatcher
+		modEventBus.addListener(this::onSetup);
+		modEventBus.addListener(this::onIMCEnqueue);
+		modEventBus.addListener(this::onLoadComplete);
+		// Wire game-bus server lifecycle events
+		NeoForge.EVENT_BUS.addListener(this::onServerStarting);
+		NeoForge.EVENT_BUS.addListener(this::onServerStarted);
+		NeoForge.EVENT_BUS.addListener(this::onServerStopping);
+		NeoForge.EVENT_BUS.addListener(this::onServerStopped);
 	}
+
+	// Mod bus lifecycle → Abstract_Mod dispatcher
+	private void onSetup(FMLCommonSetupEvent aEvent)    { onModPreInit(aEvent); }
+	private void onIMCEnqueue(InterModEnqueueEvent aEvent) { onModInit(aEvent); }
+	private void onLoadComplete(FMLLoadCompleteEvent aEvent) { onModPostInit(aEvent); }
 	
 	@Override
-	public void onModPreInit2(FMLPreInitializationEvent aEvent) {
-		try {
-			LoadController tLoadController = ((LoadController)UT.Reflection.getFieldContent(Loader.instance(), "modController", T, T));
-			List<ModContainer> tModList = tLoadController.getActiveModList(), tNewModsList = new ArrayList<>(tModList.size());
-			ModContainer tGregTech = null;
-			for (short i = 0; i < tModList.size(); i++) {
-				ModContainer tMod = tModList.get(i);
-				if (tMod.getModId().equalsIgnoreCase(MD.GT.mID)) tGregTech = tMod; else tNewModsList.add(tMod);
-			}
-			if (tGregTech != null) tNewModsList.add(tGregTech);
-			UT.Reflection.setFieldContent(tLoadController, "activeModList", tNewModsList);
-		} catch(Throwable e) {
-			e.printStackTrace(ERR);
-		}
-		
+	public void onModPreInit2(FMLCommonSetupEvent aEvent) {
+		// PHASE2: LoadController ordering hack removed - NeoForge handles mod load order declaratively
+		// via neoforge.mods.toml [[dependencies]] instead.
+
 		gt_proxy.mSkeletonsShootGTArrows = ConfigsGT.GREGTECH.get("general", "SkeletonsShootGTArrows", 16);
 		gt_proxy.mFlintChance            = (int)UT.Code.bind(1, 100, ConfigsGT.GREGTECH.get("general", "FlintAndSteelChance", 30));
 		gt_proxy.mDisableVanillaOres     = ConfigsGT.GREGTECH.get("general", "DisableVanillaOres"    , T);
@@ -175,7 +192,7 @@ public class GT6_Main extends Abstract_Mod {
 //      new Loader_CoverBehaviors().run();
 //      new Loader_Sonictron().run();
 		
-		new CompatMods(MD.MC, this) {@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {
+		new CompatMods(MD.MC, this) {@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {
 			// We ain't got Water in that Water Bottle. That would be an infinite Water Exploit.
 			for (FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) if (tData.filledContainer.getItem() == Items.potionitem && ST.meta_(tData.filledContainer) == 0) {tData.fluid.amount = 0; break;}
 			
@@ -264,7 +281,7 @@ public class GT6_Main extends Abstract_Mod {
 		new Compat_Recipes_ExtraUtilities       (MD.ExU           , this);
 		new Compat_Recipes_WRCBE                (MD.WR_CBE_C      , this);
 		
-		new CompatMods(MD.GT, this) {@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {
+		new CompatMods(MD.GT, this) {@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {
 			ArrayListNoNulls<Runnable> tList = new ArrayListNoNulls<>(F,
 				new Loader_Recipes_Replace(),
 				new Loader_Recipes_Foreign(),
@@ -276,12 +293,12 @@ public class GT6_Main extends Abstract_Mod {
 	}
 	
 	@Override
-	public void onModInit2(FMLInitializationEvent aEvent) {
+	public void onModInit2(InterModEnqueueEvent aEvent) {
 		for (FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) if (tData.filledContainer.getItem() == Items.potionitem && ST.meta_(tData.filledContainer) == 0) {tData.fluid.amount = 0; break;}
 		
 		new Loader_Late_Items_And_Blocks().run();
 		
-		if (MD.IC2C.mLoaded) for (int i = 0; i <= 6; i++) FMLInterModComms.sendMessage(MD.IC2C.mID, "generatorDrop", ST.save(UT.NBT.makeInt("Key", i), "Value", IL.IC2_Machine.get(1)));
+		if (MD.IC2C.mLoaded) for (int i = 0; i <= 6; i++) InterModComms.sendTo(MD.IC2C.mID, "generatorDrop", ST.save(UT.NBT.makeInt("Key", i), "Value", IL.IC2_Machine.get(1)));
 		
 		ArrayListNoNulls<Runnable> tList = new ArrayListNoNulls<>(F,
 			new Loader_MultiTileEntities(),
@@ -297,7 +314,7 @@ public class GT6_Main extends Abstract_Mod {
 	}
 	
 	@Override
-	public void onModPostInit2(FMLPostInitializationEvent aEvent) {
+	public void onModPostInit2(FMLLoadCompleteEvent aEvent) {
 		ItemStack tLignite = ST.make(MD.UB, "ligniteCoal", 1, 0);
 		if (ST.valid(tLignite)) CR.remove(tLignite, tLignite, tLignite, tLignite, tLignite, tLignite, tLignite, tLignite, tLignite);
 		
@@ -492,7 +509,7 @@ public class GT6_Main extends Abstract_Mod {
 	}
 
 	@Override
-	public void onModServerStarting2(FMLServerStartingEvent aEvent) {
+	public void onModServerStarting2(ServerStartingEvent aEvent) {
 		for (FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) if (tData.filledContainer.getItem() == Items.potionitem && ST.meta_(tData.filledContainer) == 0) {tData.fluid.amount = 0; break;}
 		
 		
@@ -560,7 +577,7 @@ public class GT6_Main extends Abstract_Mod {
 	
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void onModServerStopping2(FMLServerStoppingEvent aEvent) {
+	public void onModServerStopping2(ServerStoppingEvent aEvent) {
 		try {
 		if (D1 || ORD != System.out) {
 			ORD.println("*");
@@ -639,19 +656,13 @@ public class GT6_Main extends Abstract_Mod {
 		} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
 	
-	@Override public void onModServerStarted2(FMLServerStartedEvent aEvent) {/**/}
-	@Override public void onModServerStopped2(FMLServerStoppedEvent aEvent) {/**/}
+	@Override public void onModServerStarted2(ServerStartedEvent aEvent) {/**/}
+	@Override public void onModServerStopped2(ServerStoppedEvent aEvent) {/**/}
 
 	@Override public String getModID() {return MD.GT.mID;}
 	@Override public String getModName() {return MD.GT.mName;}
 	@Override public String getModNameForLog() {return "GT_Mod";}
 	@Override public Abstract_Proxy getProxy() {return gt_proxy;}
-
-	@Mod.EventHandler public void onPreLoad         (FMLPreInitializationEvent  aEvent) {onModPreInit(aEvent);}
-	@Mod.EventHandler public void onLoad            (FMLInitializationEvent     aEvent) {onModInit(aEvent);}
-	@Mod.EventHandler public void onPostLoad        (FMLPostInitializationEvent aEvent) {onModPostInit(aEvent);}
-	@Mod.EventHandler public void onServerStarting  (FMLServerStartingEvent     aEvent) {onModServerStarting(aEvent);}
-	@Mod.EventHandler public void onServerStarted   (FMLServerStartedEvent      aEvent) {onModServerStarted(aEvent);}
-	@Mod.EventHandler public void onServerStopping  (FMLServerStoppingEvent     aEvent) {onModServerStopping(aEvent);}
-	@Mod.EventHandler public void onServerStopped   (FMLServerStoppedEvent      aEvent) {onModServerStopped(aEvent);}
+	// NeoForge lifecycle: mod-bus listeners registered in constructor; game-bus server events also registered there.
+	// Old @Mod.EventHandler methods removed - no longer needed in NeoForge.
 }

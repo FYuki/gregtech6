@@ -19,21 +19,29 @@
 
 package gregapi.compat;
 
-import cpw.mods.fml.common.event.*;
 import gregapi.code.ArrayListNoNulls;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.registries.MissingMappingsEvent;
 
 import java.util.Collection;
 
 
 public interface ICompat {
 	public static final Collection<ICompat> COMPAT_CLASSES = new ArrayListNoNulls<>();
-	
-	public void onPreLoad       (FMLPreInitializationEvent aEvent);
-	public void onLoad          (FMLInitializationEvent aEvent);
-	public void onPostLoad      (FMLPostInitializationEvent aEvent);
-	public void onServerStarting(FMLServerStartingEvent aEvent);
-	public void onServerStarted (FMLServerStartedEvent aEvent);
-	public void onServerStopping(FMLServerStoppingEvent aEvent);
-	public void onServerStopped (FMLServerStoppedEvent aEvent);
-	public void onIDChanging    (FMLModIdMappingEvent aEvent);
+
+	public void onPreLoad       (FMLCommonSetupEvent aEvent);
+	public void onLoad          (InterModEnqueueEvent aEvent);
+	public void onPostLoad      (FMLLoadCompleteEvent aEvent);
+	public void onServerStarting(ServerStartingEvent aEvent);
+	public void onServerStarted (ServerStartedEvent aEvent);
+	public void onServerStopping(ServerStoppingEvent aEvent);
+	public void onServerStopped (ServerStoppedEvent aEvent);
+	/** @deprecated PHASE7: Registry remapping - use MissingMappingsEvent per registry type */
+	public void onIDChanging    (MissingMappingsEvent<?> aEvent);
 }

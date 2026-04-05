@@ -20,21 +20,19 @@
 package gregapi;
 
 import cofh.lib.util.ComparableItem;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.IWorldGenerator;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
+// PHASE2: FMLCommonHandler removed → use NeoForge.EVENT_BUS
+// PHASE2: FMLLog removed → use LogUtils.getLogger()
+// PHASE3: IFuelHandler → FuelLevelChangeEvent; IWorldGenerator → Feature (PHASE5)
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+// PHASE2: TickEvent.Phase replaced by PlayerTickEvent.Phase
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+// PHASE3: IGuiHandler → MenuType + IContainerFactory
+// PHASE3: GameRegistry → DeferredRegister
 import ganymedes01.etfuturum.entities.EntityHusk;
 import ganymedes01.etfuturum.entities.EntityStray;
 import ganymedes01.etfuturum.entities.EntityZombieVillager;
@@ -120,7 +118,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
@@ -147,12 +145,14 @@ import static gregapi.data.CS.*;
 /**
  * @author Gregorius Techneticies
  */
-public abstract class GT_API_Proxy extends Abstract_Proxy implements IGuiHandler, IFuelHandler, IWorldGenerator {
+// PHASE3: IGuiHandler, IFuelHandler, IWorldGenerator removed — use NeoForge equivalents
+public abstract class GT_API_Proxy extends Abstract_Proxy {
 	public GT_API_Proxy() {
-		GameRegistry.registerFuelHandler(this);
-		GameRegistry.registerWorldGenerator(this, Integer.MAX_VALUE);
-		MinecraftForge.EVENT_BUS.register(this);
-		FMLCommonHandler.instance().bus().register(this);
+		// PHASE3: GameRegistry.registerFuelHandler → FuelHandler event; registerWorldGenerator → PHASE5 Feature
+		// GameRegistry.registerFuelHandler(this);
+		// GameRegistry.registerWorldGenerator(this, Integer.MAX_VALUE);
+		NeoForge.EVENT_BUS.register(this);
+		// FMLCommonHandler.instance().bus() removed in NeoForge — game bus events are on NeoForge.EVENT_BUS.
 	}
 	
 	public int addArmor(String aPrefix) {
@@ -211,13 +211,13 @@ public abstract class GT_API_Proxy extends Abstract_Proxy implements IGuiHandler
 	}
 	
 	@Override
-	public void onProxyBeforeServerStarted(Abstract_Mod aMod, FMLServerStartedEvent aEvent) {
+	public void onProxyBeforeServerStarted(Abstract_Mod aMod, ServerStartedEvent aEvent) {
 		SERVER_TIME = 0;
 		MultiTileEntityRegistry.onServerStart();
 	}
 	
 	@Override
-	public void onProxyAfterServerStopping(Abstract_Mod aMod, FMLServerStoppingEvent aEvent) {
+	public void onProxyAfterServerStopping(Abstract_Mod aMod, ServerStoppingEvent aEvent) {
 		checkSaveLocation(null, T);
 		MultiTileEntityRegistry.onServerStop();
 	}
@@ -1349,7 +1349,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy implements IGuiHandler
 								EntityItemPickupEvent tEvent = new EntityItemPickupEvent(aEvent.harvester, tEntity);
 								ST.set(aDrop, tEvent.item.getEntityItem(), T, T);
 								// I have to ignore this event being cancellable because that causes Item Dupes.
-								MinecraftForge.EVENT_BUS.post(tEvent);
+								NeoForge.EVENT_BUS.post(tEvent);
 								if (tEvent.getResult() == Result.ALLOW || tEntity.isDead || aDrop.stackSize <= 0 || ST.invalid(aDrop)) {
 									aDrops.remove();
 								} else if (ST.add(aEvent.harvester, aDrop)) {

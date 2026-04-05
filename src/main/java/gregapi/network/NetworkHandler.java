@@ -19,183 +19,225 @@
 
 package gregapi.network;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.UUID;
-
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.network.FMLEmbeddedChannel;
-import cpw.mods.fml.common.network.FMLOutboundHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import cpw.mods.fml.relauncher.Side;
 import gregapi.util.UT;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandler.Sharable;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.MessageToMessageCodec;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author Gregorius Techneticies
+ *
+ * PHASE2 REWRITE: Replaced FMLEmbeddedChannel / FMLProxyPacket (removed in NeoForge 1.14+)
+ * with the NeoForge 1.21 CustomPacketPayload + PacketDistributor API.
+ *
+ * Architecture:
+ *  - A single GregPacketPayload wraps raw GT6 packet bytes plus a channel ID string.
+ *    This avoids registering a separate payload type for every GT6 network channel.
+ *  - All NetworkHandler instances register themselves in REGISTRY keyed by channelId.
+ *  - registerPayloadHandlers() must be called from the mod bus RegisterPayloadHandlersEvent
+ *    exactly ONCE (registered in gregapi.GT_API via @SubscribeEvent on the mod bus).
  */
-@Sharable
-public final class NetworkHandler extends MessageToMessageCodec<FMLProxyPacket, IPacket> implements INetworkHandler {
-	private final EnumMap<Side, FMLEmbeddedChannel> mChannel;
-	private final IPacket[] mPacketTypes;
-	private final String mModID;
-	
+public final class NetworkHandler implements INetworkHandler {
+
+	// ---------------------------------------------------------------------------
+	// Static payload registration (one payload type covers all GT6 channels)
+	// ---------------------------------------------------------------------------
+
+	/** Maps channelId → NetworkHandler so dispatching can find the right instance. */
+	private static final Map<String, NetworkHandler> REGISTRY = new HashMap<>();
+
 	/**
-	 * Just instantiate your Network Handler once with this simple Constructor and everything else should be done.
-	 * 
-	 * For usage keep that instance in a Variable somewhere so you can send Packets.
-	 * 
-	 * For an example look into the Main File (GT_API), where I initialise the API Network Handler.
-	 * 
-	 * @param aModID the ID of your Mod.
-	 * @param aChannelName Name of your Channel (use 4 Characters or less, we don't want to Lag out the Connection), the GT Channel is called "GREG" and the API Channel is called "GAPI".
-	 * @param aPacketTypes An Array of your Packet Types (an empty instance of every Packet you want to use for decoding). Remember that "getPacketID" must return a for your Handler individual Number. All 256 Byte Values are possible. Yes I mean the negative ones.
+	 * Single NeoForge payload type that carries raw GT6 packet bytes.
+	 * Registered once; the channelId field routes to the correct NetworkHandler.
+	 */
+	public record GregPacketPayload(String channelId, byte[] data) implements CustomPacketPayload {
+		public static final Type<GregPacketPayload> TYPE =
+			new Type<>(ResourceLocation.fromNamespaceAndPath("gregtech", "packet"));
+
+		public static final StreamCodec<FriendlyByteBuf, GregPacketPayload> STREAM_CODEC = StreamCodec.of(
+			(buf, payload) -> {
+				buf.writeUtf(payload.channelId());
+				buf.writeByteArray(payload.data());
+			},
+			buf -> new GregPacketPayload(buf.readUtf(), buf.readByteArray())
+		);
+
+		@Override
+		public Type<? extends CustomPacketPayload> type() { return TYPE; }
+
+		/** Dispatch to the owning NetworkHandler and execute the decoded IPacket. */
+		public void handle(IPayloadContext ctx) {
+			NetworkHandler handler = REGISTRY.get(channelId());
+			if (handler == null) return;
+			ctx.enqueueWork(() -> {
+				ByteArrayDataInput in = ByteStreams.newDataInput(data());
+				int packetId = UT.Code.unsignB(in.readByte());
+				if (handler.mPacketTypes[packetId] == null) {
+					// Version mismatch: server/client GT6 versions differ
+					System.err.println("[GregTech] Received unknown packet ID " + packetId
+						+ " on channel '" + channelId() + "' — version mismatch?");
+					return;
+				}
+				IPacket packet = handler.mPacketTypes[packetId].decode(in);
+				// PHASE3: pass ctx.player().level() instead of null for client-side world
+				packet.process(null, handler);
+			});
+		}
+	}
+
+	/**
+	 * Call this from the mod's RegisterPayloadHandlersEvent subscriber (once only).
+	 * Example in GT_API:
+	 *   {@code @SubscribeEvent}
+	 *   {@code public static void onRegisterPayloads(RegisterPayloadHandlersEvent event) {}
+	 *       NetworkHandler.registerPayloadHandlers(event);
+	 *   }
+	 */
+	public static void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
+		PayloadRegistrar registrar = event.registrar("1");
+		registrar.playBidirectional(
+			GregPacketPayload.TYPE,
+			GregPacketPayload.STREAM_CODEC,
+			(payload, ctx) -> payload.handle(ctx)
+		);
+	}
+
+	// ---------------------------------------------------------------------------
+	// Instance state
+	// ---------------------------------------------------------------------------
+
+	private final IPacket[] mPacketTypes;
+	private final String mChannelId;
+
+	/**
+	 * @param aModID       the mod ID (e.g. "gregtech")
+	 * @param aChannelName a short channel label (e.g. "GREG", "GAPI")
+	 * @param aPacketTypes prototype instances of every packet type; getPacketID() must be unique per handler
 	 */
 	public NetworkHandler(String aModID, String aChannelName, IPacket... aPacketTypes) {
-		mModID = aModID;
-		if (aChannelName.length() > 4) throw new IllegalArgumentException("String for Channel Name must contain 4 Characters or less!");
-		mChannel = NetworkRegistry.INSTANCE.newChannel(aChannelName, this, FMLCommonHandler.instance().getSide()==Side.CLIENT?new HandlerClient(this):new HandlerServer(this));
+		mChannelId = aModID.toLowerCase() + ":" + aChannelName.toLowerCase();
+		REGISTRY.put(mChannelId, this);
 		mPacketTypes = new IPacket[256];
-		for (int i = 0; i < aPacketTypes.length; i++) {
-			int tID = UT.Code.unsignB(aPacketTypes[i].getPacketID());
-			if (mPacketTypes[tID] == null) mPacketTypes[tID] = aPacketTypes[i]; else throw new IllegalArgumentException("Duplicate Packet ID! " + tID);
+		for (IPacket pkt : aPacketTypes) {
+			int id = UT.Code.unsignB(pkt.getPacketID());
+			if (mPacketTypes[id] == null) mPacketTypes[id] = pkt;
+			else throw new IllegalArgumentException("Duplicate Packet ID " + id + " on channel " + mChannelId);
 		}
 	}
-	
-	@Override
-	protected void encode(ChannelHandlerContext aContext, IPacket aPacket, List<Object> aOutput) throws Exception {
-		aOutput.add(new FMLProxyPacket(Unpooled.buffer().writeByte(aPacket.getPacketID()).writeBytes(aPacket.encode().toByteArray()), aContext.channel().attr(NetworkRegistry.FML_CHANNEL).get()));
-	}
-	
-	@Override
-	protected void decode(ChannelHandlerContext aContext, FMLProxyPacket aPacket, List<Object> aOutput) throws Exception {
-		ByteArrayDataInput aData = ByteStreams.newDataInput(aPacket.payload().array());
-		int aID = UT.Code.unsignB(aData.readByte());
-		if (mPacketTypes[aID] == null) {
-			FMLLog.warning("Your Version of '" + mModID + "' definetly does not match the Version installed on the Server you joined! Do not report this as a Bug! You failed to install/update the proper Version of '" + mModID + "' all by yourself!");
-		} else {
-			aOutput.add(mPacketTypes[aID].decode(aData));
+
+	// ---------------------------------------------------------------------------
+	// Internal encoding helper
+	// ---------------------------------------------------------------------------
+
+	private GregPacketPayload encode(IPacket aPacket) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (DataOutputStream dos = new DataOutputStream(baos)) {
+			dos.writeByte(aPacket.getPacketID());
+			dos.write(aPacket.encode().toByteArray());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return new GregPacketPayload(mChannelId, baos.toByteArray());
 	}
-	
+
+	// ---------------------------------------------------------------------------
+	// INetworkHandler implementation
+	// ---------------------------------------------------------------------------
+
 	@Override
 	public void sendToServer(IPacket aPacket) {
 		if (aPacket == null) return;
-		FMLEmbeddedChannel tChannel = getChannel(Side.CLIENT);
-		tChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
-		tChannel.writeAndFlush(aPacket);
+		PacketDistributor.sendToServer(encode(aPacket));
 	}
-	
+
 	@Override
-	public void sendToPlayer(IPacket aPacket, EntityPlayerMP aPlayer) {
+	public void sendToPlayer(IPacket aPacket, ServerPlayer aPlayer) {
 		if (aPacket == null) return;
-		FMLEmbeddedChannel tChannel = getChannel(Side.SERVER);
-		tChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
-		tChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(aPlayer);
-		tChannel.writeAndFlush(aPacket);
+		PacketDistributor.sendToPlayer(aPlayer, encode(aPacket));
 	}
-	
+
 	@Override
-	public void sendToAllAround(IPacket aPacket, TargetPoint aPosition) {
+	public void sendToAllAround(IPacket aPacket, INetworkHandler.TargetPoint aPosition) {
 		if (aPacket == null) return;
-		FMLEmbeddedChannel tChannel = getChannel(Side.SERVER);
-		tChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
-		tChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(aPosition);
-		tChannel.writeAndFlush(aPacket);
+		if (!(aPosition.level() instanceof ServerLevel sl)) return;
+		PacketDistributor.sendToPlayersNear(sl, null,
+			aPosition.x(), aPosition.y(), aPosition.z(), aPosition.range(),
+			encode(aPacket));
 	}
-	
-	@Override public void sendToAllPlayersInRange(IPacket aPacket, World aWorld, ChunkCoordinates aCoords) {sendToAllPlayersInRange(aPacket, aWorld, aCoords.posX, aCoords.posZ);}
-	@Override public void sendToAllPlayersInRange(IPacket aPacket, World aWorld, int aX, int aZ) {
-		if (aPacket == null) return;
-		if (aWorld != null && !aWorld.isRemote) for (Object tObject : aWorld.playerEntities) {
-			if (tObject instanceof EntityPlayerMP) {
-				EntityPlayerMP tPlayer = (EntityPlayerMP)tObject;
-				Chunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
-				if (tPlayer.getServerForPlayer().getPlayerManager().isPlayerWatchingChunk(tPlayer, tChunk.xPosition, tChunk.zPosition)) sendToPlayer(aPacket, tPlayer);
-			} else return;
-		}
-	}
-	
-	@Override public void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, World aWorld, ChunkCoordinates aCoords) {sendToPlayerIfInRange(aPacket, aPlayer, aWorld, aCoords.posX, aCoords.posZ);}
-	@Override public void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, World aWorld, int aX, int aZ) {
-		if (aPacket == null) return;
-		if (aWorld != null && !aWorld.isRemote) for (Object tObject : aWorld.playerEntities) {
-			if (tObject instanceof EntityPlayerMP) {
-				EntityPlayerMP tPlayer = (EntityPlayerMP)tObject;
-				if (tPlayer.getUniqueID().equals(aPlayer)) {
-					Chunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
-					if (tPlayer.getServerForPlayer().getPlayerManager().isPlayerWatchingChunk(tPlayer, tChunk.xPosition, tChunk.zPosition)) {
-						sendToPlayer(aPacket, tPlayer);
-					}
-					return;
-				}
-			} else return;
-		}
-	}
-	
-	@Override public void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, World aWorld, ChunkCoordinates aCoords) {sendToAllPlayersInRangeExcept(aPacket, aPlayer, aWorld, aCoords.posX, aCoords.posZ);}
-	@Override public void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, World aWorld, int aX, int aZ) {
-		if (aPacket == null) return;
-		if (aWorld != null && !aWorld.isRemote) for (Object tObject : aWorld.playerEntities) {
-			if (tObject instanceof EntityPlayerMP) {
-				EntityPlayerMP tPlayer = (EntityPlayerMP)tObject;
-				if (!tPlayer.getUniqueID().equals(aPlayer)) {
-					Chunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
-					if (tPlayer.getServerForPlayer().getPlayerManager().isPlayerWatchingChunk(tPlayer, tChunk.xPosition, tChunk.zPosition)) {
-						sendToPlayer(aPacket, tPlayer);
-					}
-				}
-			} else return;
-		}
-	}
-	
+
 	@Override
-	public FMLEmbeddedChannel getChannel(Side aSide) {
-		return mChannel.get(aSide);
+	public void sendToAllPlayersInRange(IPacket aPacket, Level aWorld, BlockPos aCoords) {
+		sendToAllPlayersInRange(aPacket, aWorld, aCoords.getX(), aCoords.getZ());
 	}
-	
-	@Sharable
-	static final class HandlerClient extends SimpleChannelInboundHandler<IPacket> {
-		public final INetworkHandler mNetworkHandler;
-		
-		public HandlerClient(INetworkHandler aNetworkHandler) {
-			mNetworkHandler = aNetworkHandler;
-		}
-		
-		@Override
-		protected void channelRead0(ChannelHandlerContext ctx, IPacket aPacket) throws Exception {
-			aPacket.process(Minecraft.getMinecraft().thePlayer == null ? null : Minecraft.getMinecraft().thePlayer.worldObj, mNetworkHandler);
-//          DEB.println(aPacket.getClass().getName());
-//          if (aPacket instanceof PacketCoordinates) DEB.println(" X: " + ((PacketCoordinates)aPacket).mX + " - Y: " + ((PacketCoordinates)aPacket).mY + " - Z: " + ((PacketCoordinates)aPacket).mZ);
+
+	@Override
+	public void sendToAllPlayersInRange(IPacket aPacket, Level aWorld, int aX, int aZ) {
+		if (aPacket == null || aWorld == null || aWorld.isClientSide()) return;
+		GregPacketPayload payload = encode(aPacket);
+		for (ServerPlayer tPlayer : ((ServerLevel) aWorld).players()) {
+			// PHASE3: isPlayerWatchingChunk → PlayerChunkTracker / forceTickViewerOf
+			if (tPlayer.chunkPosition().equals(
+					new net.minecraft.world.level.ChunkPos(
+							net.minecraft.core.SectionPos.blockToSectionCoord(aX),
+							net.minecraft.core.SectionPos.blockToSectionCoord(aZ)))) {
+				PacketDistributor.sendToPlayer(tPlayer, payload);
+			}
 		}
 	}
-	
-	@Sharable
-	static final class HandlerServer extends SimpleChannelInboundHandler<IPacket> {
-		public final INetworkHandler mNetworkHandler;
-		
-		public HandlerServer(INetworkHandler aNetworkHandler) {
-			mNetworkHandler = aNetworkHandler;
+
+	@Override
+	public void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, Level aWorld, BlockPos aCoords) {
+		sendToPlayerIfInRange(aPacket, aPlayer, aWorld, aCoords.getX(), aCoords.getZ());
+	}
+
+	@Override
+	public void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, Level aWorld, int aX, int aZ) {
+		if (aPacket == null || aWorld == null || aWorld.isClientSide()) return;
+		net.minecraft.world.level.ChunkPos targetChunk = new net.minecraft.world.level.ChunkPos(
+			net.minecraft.core.SectionPos.blockToSectionCoord(aX),
+			net.minecraft.core.SectionPos.blockToSectionCoord(aZ));
+		GregPacketPayload payload = encode(aPacket);
+		for (ServerPlayer tPlayer : ((ServerLevel) aWorld).players()) {
+			if (tPlayer.getUUID().equals(aPlayer) && tPlayer.chunkPosition().equals(targetChunk)) {
+				PacketDistributor.sendToPlayer(tPlayer, payload);
+				return;
+			}
 		}
-		
-		@Override
-		protected void channelRead0(ChannelHandlerContext ctx, IPacket aPacket) throws Exception {
-			aPacket.process(null, mNetworkHandler);
+	}
+
+	@Override
+	public void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, Level aWorld, BlockPos aCoords) {
+		sendToAllPlayersInRangeExcept(aPacket, aPlayer, aWorld, aCoords.getX(), aCoords.getZ());
+	}
+
+	@Override
+	public void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, Level aWorld, int aX, int aZ) {
+		if (aPacket == null || aWorld == null || aWorld.isClientSide()) return;
+		net.minecraft.world.level.ChunkPos targetChunk = new net.minecraft.world.level.ChunkPos(
+			net.minecraft.core.SectionPos.blockToSectionCoord(aX),
+			net.minecraft.core.SectionPos.blockToSectionCoord(aZ));
+		GregPacketPayload payload = encode(aPacket);
+		for (ServerPlayer tPlayer : ((ServerLevel) aWorld).players()) {
+			if (!tPlayer.getUUID().equals(aPlayer) && tPlayer.chunkPosition().equals(targetChunk)) {
+				PacketDistributor.sendToPlayer(tPlayer, payload);
+			}
 		}
 	}
 }

@@ -19,13 +19,18 @@
 
 package gregapi;
 
-import cpw.mods.fml.common.*;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+// PHASE3: EntityRegistry → DeferredRegister<EntityType>
+// PHASE3: GameRegistry → DeferredRegister
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.api.Abstract_Mod;
 import gregapi.api.Abstract_Proxy;
 import gregapi.block.ToolCompat;
@@ -106,9 +111,10 @@ import static gregapi.data.CS.*;
  * 
  * This loads before compatible Mods, except Micdoodlecore. GT_API_Post loads after all compatible Mods.
  */
-@Mod(modid=ModIDs.GAPI, name="Greg-API", version="GT6-MC1710", dependencies="required-before:"+ModIDs.GAPI_POST+"; after:"+ModIDs.MD8+"; before:"+ModIDs.IC2+"; before:"+ModIDs.IC2C+"; before:"+ModIDs.NC+"; before:"+ModIDs.IHL+"; before:"+ModIDs.FUNK+"; before:"+ModIDs.BAUBLES+"; before:"+ModIDs.HEE+"; before:"+ModIDs.GaSu+"; before:"+ModIDs.GaNe+"; before:"+ModIDs.GaEn+"; before:"+ModIDs.WdSt+"; before:"+ModIDs.CrGu+"; before:"+ModIDs.COFH_API+"; before:"+ModIDs.COFH_API_ENERGY+"; before:"+ModIDs.COFH_CORE+"; before:"+ModIDs.CC+"; before:"+ModIDs.OC+"; before:"+ModIDs.HEX+"; before:"+ModIDs.DE+"; before:"+ModIDs.AV+"; before:"+ModIDs.FR+"; before:"+ModIDs.FRMB+"; before:"+ModIDs.BINNIE+"; before:"+ModIDs.BINNIE_BEE+"; before:"+ModIDs.BINNIE_TREE+"; before:"+ModIDs.BINNIE_GENETICS+"; before:"+ModIDs.BINNIE_BOTANY+"; before:"+ModIDs.IE+"; before:"+ModIDs.UB+"; before:"+ModIDs.COG+"; before:"+ModIDs.PFAA+"; before:"+ModIDs.MIN+"; before:"+ModIDs.RH+"; before:"+ModIDs.CANDY+"; before:"+ModIDs.ABYSSAL+"; before:"+ModIDs.SOULFOREST+"; before:"+ModIDs.ARS+"; before:"+ModIDs.TC+"; before:"+ModIDs.TCTE+"; before:"+ModIDs.TCFM+"; before:"+ModIDs.BOTA+"; before:"+ModIDs.ALF+"; before:"+ModIDs.WTCH+"; before:"+ModIDs.HOWL+"; before:"+ModIDs.MoCr+"; before:"+ModIDs.WiMo+"; before:"+ModIDs.Birb+"; before:"+ModIDs.ChocoCraft+"; before:"+ModIDs.GoG+"; before:"+ModIDs.DRPG+"; before:"+ModIDs.LycM+"; before:"+ModIDs.LycM_Arctic+"; before:"+ModIDs.LycM_Demon+"; before:"+ModIDs.LycM_Desert+"; before:"+ModIDs.LycM_Forest+"; before:"+ModIDs.LycM_Fresh+"; before:"+ModIDs.LycM_Inferno+"; before:"+ModIDs.LycM_Jungle+"; before:"+ModIDs.LycM_Mountain+"; before:"+ModIDs.LycM_Plains+"; before:"+ModIDs.LycM_Salt+"; before:"+ModIDs.LycM_Shadow+"; before:"+ModIDs.LycM_Swamp+"; before:"+ModIDs.RC+"; before:"+ModIDs.BP+"; before:"+ModIDs.PR+"; before:"+ModIDs.PR_EXPANSION+"; before:"+ModIDs.PR_INTEGRATION+"; before:"+ModIDs.PR_TRANSMISSION+"; before:"+ModIDs.PR_TRANSPORT+"; before:"+ModIDs.PR_EXPLORATION+"; before:"+ModIDs.PR_COMPATIBILITY+"; before:"+ModIDs.PR_FABRICATION+"; before:"+ModIDs.PR_ILLUMINATION+"; before:"+ModIDs.PE+"; before:"+ModIDs.AE+"; before:"+ModIDs.MO+"; before:"+ModIDs.TE_FOUNDATION+"; before:"+ModIDs.TE_DYNAMICS+"; before:"+ModIDs.TE_DRILLS+"; before:"+ModIDs.TE+"; before:"+ModIDs.ZTONES+"; before:"+ModIDs.CHSL+"; before:"+ModIDs.NePl+"; before:"+ModIDs.NeLi+"; before:"+ModIDs.EnLi+"; before:"+ModIDs.EtFu+"; before:"+ModIDs.BB+"; before:"+ModIDs.DYNAMIC_TREES+"; before:"+ModIDs.BbLC+"; before:"+ModIDs.CARP+"; before:"+ModIDs.BETTER_RECORDS+"; before:"+ModIDs.TF+"; before:"+ModIDs.ERE+"; before:"+ModIDs.MFR+"; before:"+ModIDs.FSP+"; before:"+ModIDs.SC2+"; before:"+ModIDs.PnC+"; before:"+ModIDs.ExU+"; before:"+ModIDs.ExS+"; before:"+ModIDs.EIO+"; before:"+ModIDs.RT+"; before:"+ModIDs.AA+"; before:"+ModIDs.TreeCap+"; before:"+ModIDs.HaC+"; before:"+ModIDs.CookBook+"; before:"+ModIDs.APC+"; before:"+ModIDs.ENVM+"; before:"+ModIDs.MaCr+"; before:"+ModIDs.BC_TRANSPORT+"; before:"+ModIDs.BC_SILICON+"; before:"+ModIDs.BC_FACTORY+"; before:"+ModIDs.BC_ENERGY+"; before:"+ModIDs.BC_ROBOTICS+"; before:"+ModIDs.BC+"; before:"+ModIDs.BC_BUILDERS+"; before:"+ModIDs.MgC+"; before:"+ModIDs.BR+"; before:"+ModIDs.HBM+"; before:"+ModIDs.ELN+"; before:"+ModIDs.DRGN+"; before:"+ModIDs.ElC+"; before:"+ModIDs.CrC+"; before:"+ModIDs.ReC+"; before:"+ModIDs.RoC+"; before:"+ModIDs.Mek+"; before:"+ModIDs.Mek_Tools+"; before:"+ModIDs.Mek_Generators+"; before:"+ModIDs.GC+"; before:"+ModIDs.GC_PLANETS+"; before:"+ModIDs.GC_GALAXYSPACE+"; before:"+ModIDs.VULPES+"; before:"+ModIDs.GC_ADV_ROCKETRY+"; before:"+ModIDs.GC_EXTRAPLANETS+"; before:"+ModIDs.BTL+"; before:"+ModIDs.AETHER+"; before:"+ModIDs.AETHEL+"; before:"+ModIDs.TROPIC+"; before:"+ModIDs.ATUM+"; before:"+ModIDs.EB+"; before:"+ModIDs.EBXL+"; before:"+ModIDs.BoP+"; before:"+ModIDs.HiL+"; before:"+ModIDs.ATG+"; before:"+ModIDs.RTG+"; before:"+ModIDs.RWG+"; before:"+ModIDs.CW2+"; before:"+ModIDs.A97_MINING+"; before:"+ModIDs.MYST+"; before:"+ModIDs.WARPBOOK+"; before:"+ModIDs.LOSTBOOKS+"; before:"+ModIDs.LOOTBAGS+"; before:"+ModIDs.EUREKA+"; before:"+ModIDs.ENCHIRIDION+"; before:"+ModIDs.ENCHIRIDION2+"; before:"+ModIDs.SmAc+"; before:"+ModIDs.HQM+"; before:"+ModIDs.SD+"; before:"+ModIDs.BTRS+"; before:"+ModIDs.JABBA+"; before:"+ModIDs.MaCu+"; before:"+ModIDs.PdC+"; before:"+ModIDs.Bamboo+"; before:"+ModIDs.PMP+"; before:"+ModIDs.Fossil+"; before:"+ModIDs.GrC+"; before:"+ModIDs.GrC_Apples+"; before:"+ModIDs.GrC_Bamboo+"; before:"+ModIDs.GrC_Bees+"; before:"+ModIDs.GrC_Cellar+"; before:"+ModIDs.GrC_Fish+"; before:"+ModIDs.GrC_Grapes+"; before:"+ModIDs.GrC_Hops+"; before:"+ModIDs.GrC_Milk+"; before:"+ModIDs.GrC_Rice+"; before:"+ModIDs.BG2+"; before:"+ModIDs.BWM+"; before:"+ModIDs.OMT+"; before:"+ModIDs.TG+"; before:"+ModIDs.FM+"; before:"+ModIDs.FZ+"; before:"+ModIDs.MNTL+"; before:"+ModIDs.OB+"; before:"+ModIDs.PA+"; before:"+ModIDs.TiC+"; before:"+ModIDs.MF2+"; before:"+ModIDs.TRANSLOCATOR+"; before:"+ModIDs.WR_CBE_C+"; before:"+ModIDs.WR_CBE_A+"; before:"+ModIDs.WR_CBE_L+"; before:"+ModIDs.VOLTZ+"; before:"+ModIDs.MFFS+"; before:"+ModIDs.ICBM+"; before:"+ModIDs.ATSCI+"; before:inventorytweaks; before:ironbackpacks; before:journeymap; before:LogisticsPipes; before:LunatriusCore; before:NEIAddons; before:NEIAddons|Developer; before:NEIAddons|AppEng; before:NEIAddons|Botany; before:NEIAddons|Forestry; before:NEIAddons|CraftingTables; before:NEIAddons|ExNihilo; before:neiintegration; before:openglasses; before:simplyjetpacks; before:Stackie; before:StevesCarts; before:TiCTooltips; before:worldedit; before:McMultipart; before:OpenPeripheralCore; before:OpenPeripheralIntegration; before:OpenPeripheral; ")
+// PHASE2: @Mod now takes only modId. Load-order dependencies moved to neoforge.mods.toml.
+// PHASE2: Original 200+ dependency entries preserved in neoforge.mods.toml [[dependencies]] section.
+@Mod(ModIDs.GAPI)"; before:"+ModIDs.IC2+"; before:"+ModIDs.IC2C+"; before:"+ModIDs.NC+"; before:"+ModIDs.IHL+"; before:"+ModIDs.FUNK+"; before:"+ModIDs.BAUBLES+"; before:"+ModIDs.HEE+"; before:"+ModIDs.GaSu+"; before:"+ModIDs.GaNe+"; before:"+ModIDs.GaEn+"; before:"+ModIDs.WdSt+"; before:"+ModIDs.CrGu+"; before:"+ModIDs.COFH_API+"; before:"+ModIDs.COFH_API_ENERGY+"; before:"+ModIDs.COFH_CORE+"; before:"+ModIDs.CC+"; before:"+ModIDs.OC+"; before:"+ModIDs.HEX+"; before:"+ModIDs.DE+"; before:"+ModIDs.AV+"; before:"+ModIDs.FR+"; before:"+ModIDs.FRMB+"; before:"+ModIDs.BINNIE+"; before:"+ModIDs.BINNIE_BEE+"; before:"+ModIDs.BINNIE_TREE+"; before:"+ModIDs.BINNIE_GENETICS+"; before:"+ModIDs.BINNIE_BOTANY+"; before:"+ModIDs.IE+"; before:"+ModIDs.UB+"; before:"+ModIDs.COG+"; before:"+ModIDs.PFAA+"; before:"+ModIDs.MIN+"; before:"+ModIDs.RH+"; before:"+ModIDs.CANDY+"; before:"+ModIDs.ABYSSAL+"; before:"+ModIDs.SOULFOREST+"; before:"+ModIDs.ARS+"; before:"+ModIDs.TC+"; before:"+ModIDs.TCTE+"; before:"+ModIDs.TCFM+"; before:"+ModIDs.BOTA+"; before:"+ModIDs.ALF+"; before:"+ModIDs.WTCH+"; before:"+ModIDs.HOWL+"; before:"+ModIDs.MoCr+"; before:"+ModIDs.WiMo+"; before:"+ModIDs.Birb+"; before:"+ModIDs.ChocoCraft+"; before:"+ModIDs.GoG+"; before:"+ModIDs.DRPG+"; before:"+ModIDs.LycM+"; before:"+ModIDs.LycM_Arctic+"; before:"+ModIDs.LycM_Demon+"; before:"+ModIDs.LycM_Desert+"; before:"+ModIDs.LycM_Forest+"; before:"+ModIDs.LycM_Fresh+"; before:"+ModIDs.LycM_Inferno+"; before:"+ModIDs.LycM_Jungle+"; before:"+ModIDs.LycM_Mountain+"; before:"+ModIDs.LycM_Plains+"; before:"+ModIDs.LycM_Salt+"; before:"+ModIDs.LycM_Shadow+"; before:"+ModIDs.LycM_Swamp+"; before:"+ModIDs.RC+"; before:"+ModIDs.BP+"; before:"+ModIDs.PR+"; before:"+ModIDs.PR_EXPANSION+"; before:"+ModIDs.PR_INTEGRATION+"; before:"+ModIDs.PR_TRANSMISSION+"; before:"+ModIDs.PR_TRANSPORT+"; before:"+ModIDs.PR_EXPLORATION+"; before:"+ModIDs.PR_COMPATIBILITY+"; before:"+ModIDs.PR_FABRICATION+"; before:"+ModIDs.PR_ILLUMINATION+"; before:"+ModIDs.PE+"; before:"+ModIDs.AE+"; before:"+ModIDs.MO+"; before:"+ModIDs.TE_FOUNDATION+"; before:"+ModIDs.TE_DYNAMICS+"; before:"+ModIDs.TE_DRILLS+"; before:"+ModIDs.TE+"; before:"+ModIDs.ZTONES+"; before:"+ModIDs.CHSL+"; before:"+ModIDs.NePl+"; before:"+ModIDs.NeLi+"; before:"+ModIDs.EnLi+"; before:"+ModIDs.EtFu+"; before:"+ModIDs.BB+"; before:"+ModIDs.DYNAMIC_TREES+"; before:"+ModIDs.BbLC+"; before:"+ModIDs.CARP+"; before:"+ModIDs.BETTER_RECORDS+"; before:"+ModIDs.TF+"; before:"+ModIDs.ERE+"; before:"+ModIDs.MFR+"; before:"+ModIDs.FSP+"; before:"+ModIDs.SC2+"; before:"+ModIDs.PnC+"; before:"+ModIDs.ExU+"; before:"+ModIDs.ExS+"; before:"+ModIDs.EIO+"; before:"+ModIDs.RT+"; before:"+ModIDs.AA+"; before:"+ModIDs.TreeCap+"; before:"+ModIDs.HaC+"; before:"+ModIDs.CookBook+"; before:"+ModIDs.APC+"; before:"+ModIDs.ENVM+"; before:"+ModIDs.MaCr+"; before:"+ModIDs.BC_TRANSPORT+"; before:"+ModIDs.BC_SILICON+"; before:"+ModIDs.BC_FACTORY+"; before:"+ModIDs.BC_ENERGY+"; before:"+ModIDs.BC_ROBOTICS+"; before:"+ModIDs.BC+"; before:"+ModIDs.BC_BUILDERS+"; before:"+ModIDs.MgC+"; before:"+ModIDs.BR+"; before:"+ModIDs.HBM+"; before:"+ModIDs.ELN+"; before:"+ModIDs.DRGN+"; before:"+ModIDs.ElC+"; before:"+ModIDs.CrC+"; before:"+ModIDs.ReC+"; before:"+ModIDs.RoC+"; before:"+ModIDs.Mek+"; before:"+ModIDs.Mek_Tools+"; before:"+ModIDs.Mek_Generators+"; before:"+ModIDs.GC+"; before:"+ModIDs.GC_PLANETS+"; before:"+ModIDs.GC_GALAXYSPACE+"; before:"+ModIDs.VULPES+"; before:"+ModIDs.GC_ADV_ROCKETRY+"; before:"+ModIDs.GC_EXTRAPLANETS+"; before:"+ModIDs.BTL+"; before:"+ModIDs.AETHER+"; before:"+ModIDs.AETHEL+"; before:"+ModIDs.TROPIC+"; before:"+ModIDs.ATUM+"; before:"+ModIDs.EB+"; before:"+ModIDs.EBXL+"; before:"+ModIDs.BoP+"; before:"+ModIDs.HiL+"; before:"+ModIDs.ATG+"; before:"+ModIDs.RTG+"; before:"+ModIDs.RWG+"; before:"+ModIDs.CW2+"; before:"+ModIDs.A97_MINING+"; before:"+ModIDs.MYST+"; before:"+ModIDs.WARPBOOK+"; before:"+ModIDs.LOSTBOOKS+"; before:"+ModIDs.LOOTBAGS+"; before:"+ModIDs.EUREKA+"; before:"+ModIDs.ENCHIRIDION+"; before:"+ModIDs.ENCHIRIDION2+"; before:"+ModIDs.SmAc+"; before:"+ModIDs.HQM+"; before:"+ModIDs.SD+"; before:"+ModIDs.BTRS+"; before:"+ModIDs.JABBA+"; before:"+ModIDs.MaCu+"; before:"+ModIDs.PdC+"; before:"+ModIDs.Bamboo+"; before:"+ModIDs.PMP+"; before:"+ModIDs.Fossil+"; before:"+ModIDs.GrC+"; before:"+ModIDs.GrC_Apples+"; before:"+ModIDs.GrC_Bamboo+"; before:"+ModIDs.GrC_Bees+"; before:"+ModIDs.GrC_Cellar+"; before:"+ModIDs.GrC_Fish+"; before:"+ModIDs.GrC_Grapes+"; before:"+ModIDs.GrC_Hops+"; before:"+ModIDs.GrC_Milk+"; before:"+ModIDs.GrC_Rice+"; before:"+ModIDs.BG2+"; before:"+ModIDs.BWM+"; before:"+ModIDs.OMT+"; before:"+ModIDs.TG+"; before:"+ModIDs.FM+"; before:"+ModIDs.FZ+"; before:"+ModIDs.MNTL+"; before:"+ModIDs.OB+"; before:"+ModIDs.PA+"; before:"+ModIDs.TiC+"; before:"+ModIDs.MF2+"; before:"+ModIDs.TRANSLOCATOR+"; before:"+ModIDs.WR_CBE_C+"; before:"+ModIDs.WR_CBE_A+"; before:"+ModIDs.WR_CBE_L+"; before:"+ModIDs.VOLTZ+"; before:"+ModIDs.MFFS+"; before:"+ModIDs.ICBM+"; before:"+ModIDs.ATSCI+"; before:inventorytweaks; before:ironbackpacks; before:journeymap; before:LogisticsPipes; before:LunatriusCore; before:NEIAddons; before:NEIAddons|Developer; before:NEIAddons|AppEng; before:NEIAddons|Botany; before:NEIAddons|Forestry; before:NEIAddons|CraftingTables; before:NEIAddons|ExNihilo; before:neiintegration; before:openglasses; before:simplyjetpacks; before:Stackie; before:StevesCarts; before:TiCTooltips; before:worldedit; before:McMultipart; before:OpenPeripheralCore; before:OpenPeripheralIntegration; before:OpenPeripheral; ")
 public class GT_API extends Abstract_Mod {
-	@SidedProxy(modId = ModIDs.GAPI, clientSide = "gregapi.GT_API_Proxy_Client", serverSide = "gregapi.GT_API_Proxy_Server")
 	public static GT_API_Proxy api_proxy;
 	
 	public static final Collection<Map<ItemStackContainer, ?>> STACKMAPS = new ArrayListNoNulls<>();
@@ -116,14 +122,29 @@ public class GT_API extends Abstract_Mod {
 	/** Used to register Icons. It is not necessary to make those into Lists */
 	public static Set<Runnable> sBlockIconload = new HashSetNoNulls<>(), sItemIconload = new HashSetNoNulls<>();
 	/** The Icon Registers from Blocks and Items. They will get set right before the corresponding Icon Load Phase as executed in the Runnable List above. */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static IIconRegister sBlockIcons, sItemIcons;
 	
 	private LoggerPlayerActivity mPlayerLogger;
 	
 	@SuppressWarnings("unchecked")
-	public GT_API() {
+	public GT_API(net.neoforged.bus.api.IEventBus modEventBus) {
 		GAPI = this;
+		// Replace @SidedProxy: instantiate per dist
+		api_proxy = net.neoforged.fml.loading.FMLEnvironment.dist.isClient()
+			? new gregapi.GT_API_Proxy_Client()
+			: new gregapi.GT_API_Proxy_Server();
+		// Register lifecycle events on mod bus
+		modEventBus.addListener(this::onSetup);
+		modEventBus.addListener(this::onIMCEnqueue);
+		modEventBus.addListener(this::onLoadComplete);
+		// Register NeoForge payload type (once, from GAPI which loads first)
+		modEventBus.addListener(NetworkHandler::registerPayloadHandlers);
+		// Register server lifecycle events on game bus
+		net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(this::onModServerStarting);
+		net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(this::onModServerStarted);
+		net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(this::onModServerStopping);
+		net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(this::onModServerStopped);
 		
 		if (!MD.ENCHIRIDION.mLoaded) MD.MaCu.mLoaded = F;
 		
@@ -227,9 +248,14 @@ public class GT_API extends Abstract_Mod {
 		tSet.add(Blocks.tnt);
 	}
 	
-	@Mod.EventHandler
-	public void onPreLoad(FMLPreInitializationEvent aEvent) {
-		DirectoriesGT.CONFIG = aEvent.getModConfigurationDirectory();
+	// Mod-bus bridge methods (replaces @Mod.EventHandler)
+	private void onSetup(net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent aEvent)    { onPreLoad(aEvent); }
+	private void onIMCEnqueue(net.neoforged.fml.event.lifecycle.InterModEnqueueEvent aEvent) { onModInit(aEvent); }
+	private void onLoadComplete(net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent aEvent) { onModPostInit(aEvent); }
+
+	public void onPreLoad(net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent aEvent) {
+		// PHASE2: aEvent.getModConfigurationDirectory() removed → use FMLPaths.CONFIGDIR.get()
+		DirectoriesGT.CONFIG = net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get().toFile();
 		
 		DirectoriesGT.CONFIG_GT = new File(DirectoriesGT.CONFIG, "GregTech");
 		if (!DirectoriesGT.CONFIG_GT.exists()) DirectoriesGT.CONFIG_GT = new File(DirectoriesGT.CONFIG, "gregtech");
@@ -244,8 +270,7 @@ public class GT_API extends Abstract_Mod {
 		onModPreInit(aEvent);
 	}
 	
-	@Mod.EventHandler
-	public void onLoad(FMLInitializationEvent aEvent) {
+	public void onLoad(net.neoforged.fml.event.lifecycle.InterModEnqueueEvent aEvent) {
 		for (OreDictMaterial tMaterial : OreDictMaterial.MATERIAL_ARRAY) if (tMaterial != null && !tMaterial.contains(TD.Properties.INVALID_MATERIAL)) {
 			tMaterial.mOreProcessingMultiplier = UT.Code.bindStack(ConfigsGT.OREPROCESSING.get(ConfigCategories.Materials.oreprocessingoutputmultiplier, tMaterial.mNameInternal, 1));
 			tMaterial.mOreMultiplier = (byte)ConfigsGT.MATERIAL.get(tMaterial.mNameInternal, "MultiplierOre", tMaterial.mOreMultiplier);
@@ -270,15 +295,12 @@ public class GT_API extends Abstract_Mod {
 	@Override public String getModNameForLog() {return "GT_API";}
 	@Override public Abstract_Proxy getProxy() {return api_proxy;}
 	
-	@Mod.EventHandler public void onPostLoad        (FMLPostInitializationEvent aEvent) {onModPostInit(aEvent);}
-	@Mod.EventHandler public void onServerStarting  (FMLServerStartingEvent     aEvent) {onModServerStarting(aEvent);}
-	@Mod.EventHandler public void onServerStarted   (FMLServerStartedEvent      aEvent) {onModServerStarted(aEvent);}
-	@Mod.EventHandler public void onServerStopping  (FMLServerStoppingEvent     aEvent) {onModServerStopping(aEvent);}
-	@Mod.EventHandler public void onServerStopped   (FMLServerStoppedEvent      aEvent) {onModServerStopped(aEvent);}
+	// NeoForge: lifecycle is wired in constructor via modEventBus.addListener(); game bus events similarly.
+	// Old @Mod.EventHandler methods removed.
 	
 	@Override
 	@SuppressWarnings({ "resource", "deprecation" })
-	public void onModPreInit2(FMLPreInitializationEvent aEvent) {
+	public void onModPreInit2(FMLCommonSetupEvent aEvent) {
 		FMLInterModComms.sendRuntimeMessage(MD.GT.mID, "carbonconfig", "remapGui", MD.GAPI.mID);
 		
 		File
@@ -731,8 +753,8 @@ public class GT_API extends Abstract_Mod {
 		IL.Circuit_Selector.set(new ItemIntegratedCircuit());
 		// Initialises the Empty Slot Marker Item.
 		IL.Empty_Slot.set(new ItemEmptySlot());
-		// Register the GUI Handler.
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, api_proxy);
+		// PHASE3: GUI Handler registration → MenuType + IContainerFactory (DeferredRegister<MenuType>)
+		// NetworkRegistry.INSTANCE.registerGuiHandler removed in NeoForge 1.14+.
 		// Fixing vanilla Oak Plank Slab Recipe.
 		CR.remove(ST.make(Blocks.planks, 1, 0), ST.make(Blocks.planks, 1, 1), ST.make(Blocks.planks, 1, 2));
 		CR.shaped(ST.make(Blocks.wooden_slab, 6, 0), CR.NONE, "WWW", 'W', ST.make(Blocks.planks, 1, 0));
@@ -758,7 +780,7 @@ public class GT_API extends Abstract_Mod {
 	}
 	
 	@Override
-	public void onModInit2(FMLInitializationEvent aEvent) {
+	public void onModInit2(InterModEnqueueEvent aEvent) {
 		if (MD.CHSL.mLoaded) try {
 			Carving.chisel.getGroup("cobblestone").setOreName(null);
 			Carving.chisel.getGroup("glowstone").setOreName(null);
@@ -771,7 +793,7 @@ public class GT_API extends Abstract_Mod {
 	}
 	
 	@Override
-	public void onModPostInit2(FMLPostInitializationEvent aEvent) {
+	public void onModPostInit2(FMLLoadCompleteEvent aEvent) {
 		if (MD.IC2.mLoaded) {
 			PotionsGT.ID_RADIATION    = ic2.api.info.Info.POTION_RADIATION.id;
 		}
@@ -844,58 +866,33 @@ public class GT_API extends Abstract_Mod {
 	}
 	
 	@Override
-	public void onModServerStarting2(FMLServerStartingEvent aEvent) {
+	public void onModServerStarting2(ServerStartingEvent aEvent) {
 		for (ICompat tCompat : ICompat.COMPAT_CLASSES) try {tCompat.onServerStarting(aEvent);} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
 	
 	@Override
-	public void onModServerStarted2(FMLServerStartedEvent aEvent) {
+	public void onModServerStarted2(ServerStartedEvent aEvent) {
 		for (Map<ItemStackContainer, ?> tMap : STACKMAPS) UT.Code.reMap(tMap);
 		for (ICompat tCompat : ICompat.COMPAT_CLASSES) try {tCompat.onServerStarted(aEvent);} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
 	
 	@Override
-	public void onModServerStopping2(FMLServerStoppingEvent aEvent) {
+	public void onModServerStopping2(ServerStoppingEvent aEvent) {
 		for (ICompat tCompat : ICompat.COMPAT_CLASSES) try {tCompat.onServerStopping(aEvent);} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
 	
 	@Override
-	public void onModServerStopped2(FMLServerStoppedEvent aEvent) {
+	public void onModServerStopped2(ServerStoppedEvent aEvent) {
 		for (ICompat tCompat : ICompat.COMPAT_CLASSES) try {tCompat.onServerStopped(aEvent);} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
 	
-	@Mod.EventHandler
-	public void onIDChangingEvent(FMLModIdMappingEvent aEvent) {
-		// Fixing missing Blocks caused by DragonAPI. The Issue is more complicated but it should fix some part of it.
-		if (Block.blockRegistry.getObjectById( 26) == null) Block.blockRegistry.addObject( 26, "bed", Blocks.bed);
-		if (Block.blockRegistry.getObjectById( 34) == null) Block.blockRegistry.addObject( 34, "piston_head", Blocks.piston_head);
-		if (Block.blockRegistry.getObjectById( 55) == null) Block.blockRegistry.addObject( 55, "redstone_wire", Blocks.redstone_wire);
-		if (Block.blockRegistry.getObjectById( 59) == null) Block.blockRegistry.addObject( 59, "wheat", Blocks.wheat);
-		if (Block.blockRegistry.getObjectById( 63) == null) Block.blockRegistry.addObject( 63, "standing_sign", Blocks.standing_sign);
-		if (Block.blockRegistry.getObjectById( 64) == null) Block.blockRegistry.addObject( 64, "wooden_door", Blocks.wooden_door);
-		if (Block.blockRegistry.getObjectById( 68) == null) Block.blockRegistry.addObject( 68, "wall_sign", Blocks.wall_sign);
-		if (Block.blockRegistry.getObjectById( 71) == null) Block.blockRegistry.addObject( 71, "iron_door", Blocks.iron_door);
-		if (Block.blockRegistry.getObjectById( 74) == null) Block.blockRegistry.addObject( 74, "lit_redstone_ore", Blocks.lit_redstone_ore);
-		if (Block.blockRegistry.getObjectById( 75) == null) Block.blockRegistry.addObject( 75, "unlit_redstone_torch", Blocks.unlit_redstone_torch);
-		if (Block.blockRegistry.getObjectById( 83) == null) Block.blockRegistry.addObject( 83, "reeds", Blocks.reeds);
-		if (Block.blockRegistry.getObjectById( 92) == null) Block.blockRegistry.addObject( 92, "cake", Blocks.cake);
-		if (Block.blockRegistry.getObjectById( 93) == null) Block.blockRegistry.addObject( 93, "unpowered_repeater", Blocks.unpowered_repeater);
-		if (Block.blockRegistry.getObjectById( 94) == null) Block.blockRegistry.addObject( 94, "powered_repeater", Blocks.powered_repeater);
-		if (Block.blockRegistry.getObjectById(104) == null) Block.blockRegistry.addObject(104, "pumpkin_stem", Blocks.pumpkin_stem);
-		if (Block.blockRegistry.getObjectById(105) == null) Block.blockRegistry.addObject(105, "melon_stem", Blocks.melon_stem);
-		if (Block.blockRegistry.getObjectById(115) == null) Block.blockRegistry.addObject(115, "nether_wart", Blocks.nether_wart);
-		if (Block.blockRegistry.getObjectById(117) == null) Block.blockRegistry.addObject(117, "brewing_stand", Blocks.brewing_stand);
-		if (Block.blockRegistry.getObjectById(118) == null) Block.blockRegistry.addObject(118, "cauldron", Blocks.cauldron);
-		if (Block.blockRegistry.getObjectById(124) == null) Block.blockRegistry.addObject(124, "lit_redstone_lamp", Blocks.lit_redstone_lamp);
-		if (Block.blockRegistry.getObjectById(132) == null) Block.blockRegistry.addObject(132, "tripwire", Blocks.tripwire);
-		if (Block.blockRegistry.getObjectById(140) == null) Block.blockRegistry.addObject(140, "flower_pot", Blocks.flower_pot);
-		if (Block.blockRegistry.getObjectById(144) == null) Block.blockRegistry.addObject(144, "skull", Blocks.skull);
-		if (Block.blockRegistry.getObjectById(149) == null) Block.blockRegistry.addObject(149, "unpowered_comparator", Blocks.unpowered_comparator);
-		if (Block.blockRegistry.getObjectById(150) == null) Block.blockRegistry.addObject(150, "powered_comparator", Blocks.powered_comparator);
-		
-		OUT.println(getModNameForLog() + ": Remapping ItemStackMaps due to ID Map change. Those damn Items should have a consistent Hashcode, but noooo, ofcourse they break Basic Code Conventions! Thanks Forge and Mojang!");
-		
-		for (Map<ItemStackContainer, ?> tMap : STACKMAPS) UT.Code.reMap(tMap);
+	// PHASE7: FMLModIdMappingEvent removed in NeoForge — registry remapping via MissingMappingsEvent per registry.
+	// Block numeric ID fixups below are obsolete in 1.21 (all blocks use ResourceLocation keys).
+	public void onIDChangingEvent(net.neoforged.neoforge.registries.MissingMappingsEvent aEvent) {
+		// PHASE3: Block.blockRegistry numeric ID fixups removed — blocks use string keys in 1.21+
+		// if (Block.blockRegistry.getObjectById( 26) == null) ...
+		// PHASE3: Block.blockRegistry numeric ID fixups removed — blocks use ResourceLocation keys in NeoForge 1.21.
+		// PHASE7: ItemStackMap remapping → MissingMappingsEvent<Item>.
 		for (ICompat tCompat : ICompat.COMPAT_CLASSES) try {tCompat.onIDChanging(aEvent);} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
 }

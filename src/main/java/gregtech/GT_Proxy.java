@@ -19,12 +19,15 @@
 
 package gregtech;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.EnderManTeleportEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import gregapi.GT_API;
 import gregapi.api.Abstract_Mod;
 import gregapi.api.Abstract_Proxy;
@@ -64,19 +67,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.terraingen.BiomeEvent;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
-import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable;
-import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate;
-import net.minecraftforge.fluids.Fluid;
+import net.neoforged.neoforge.common.NeoForge;
+// PHASE5: Fluid helper return types use net.minecraft.world.level.material.Fluid (old net.minecraftforge.fluids.Fluid removed)
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -95,14 +88,13 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 	public int mSkeletonsShootGTArrows = 16, mFlintChance = 30;
 	
 	public GT_Proxy() {
-		MinecraftForge.EVENT_BUS         .register(this);
-		MinecraftForge.ORE_GEN_BUS       .register(this);
-		MinecraftForge.TERRAIN_GEN_BUS   .register(this);
-		FMLCommonHandler.instance().bus().register(this);
+		// NeoForge uses a single unified event bus; ORE_GEN_BUS and TERRAIN_GEN_BUS no longer exist.
+		// World-gen customisation in 1.21 is done via Data Pack Features (PHASE5).
+		NeoForge.EVENT_BUS.register(this);
 	}
 	
 	@Override
-	public void onProxyBeforePreInit(Abstract_Mod aMod, FMLPreInitializationEvent aEvent) {
+	public void onProxyBeforePreInit(Abstract_Mod aMod, FMLCommonSetupEvent aEvent) {
 		super.onProxyBeforePreInit(aMod, aEvent);
 		
 		// Because of the whole ban wave Mojang did with their new Microsoft Bullshit Auth System, I am not going to
@@ -124,63 +116,22 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 		mSupporterListSilver.removeAll(mSupporterListGold);
 	}
 	
-	@SubscribeEvent
-	public void onClientConnectedToServerEvent(ClientConnectedToServerEvent aEvent) {
-		//
-	}
-	
+	// PHASE2: ClientConnectedToServerEvent removed — NeoForge uses ClientPlayerNetworkEvent.LoggingIn (PHASE6).
+
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onEndermanTeleportEvent(EnderTeleportEvent aEvent) {
-		if (aEvent.entityLiving instanceof EntityEnderman && aEvent.entityLiving.getActivePotionEffect(Potion.weakness) != null) aEvent.setCanceled(T);
+	public void onEndermanTeleportEvent(EnderManTeleportEvent aEvent) {
+		// PHASE2: Potion.weakness → MobEffects.WEAKNESS; getActivePotionEffect → getEffect (PHASE3 MC API)
+		if (aEvent.getEntity() instanceof EntityEnderman && aEvent.getEntity().hasEffect(net.minecraft.world.effect.MobEffects.WEAKNESS)) aEvent.setCanceled(T);
 	}
-	
-	private static final EnumSet<EventType> PREVENTED_ORES = EnumSet.of(EventType.COAL, EventType.IRON, EventType.GOLD, EventType.DIAMOND, EventType.REDSTONE, EventType.LAPIS, EventType.QUARTZ);
-	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onOreGenEvent(GenerateMinable aEvent) {
-		if (mDisableVanillaOres && !WD.dimTF(aEvent.world) && PREVENTED_ORES.contains(aEvent.type)) aEvent.setResult(Result.DENY);
-	}
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onTerrainGenEvent(DecorateBiomeEvent.Decorate aEvent) {
-		if (aEvent.world.provider.dimensionId == 0) {
-			if (MD.RTG.mLoaded) {
-				String tClassName = UT.Reflection.getLowercaseClass(aEvent.world.provider.terrainType);
-				if ("WorldProviderSurfaceRTG".equalsIgnoreCase(tClassName) || "WorldTypeRTG".equalsIgnoreCase(tClassName)) return;
-			}
-			if (GENERATE_STREETS && (UT.Code.inside(-48, 47, aEvent.chunkX) || UT.Code.inside(-48, 47, aEvent.chunkZ))) {aEvent.setResult(Result.DENY); return;}
-			if (GENERATE_BIOMES  && (UT.Code.inside(-96, 95, aEvent.chunkX) && UT.Code.inside(-96, 95, aEvent.chunkZ))) {aEvent.setResult(Result.DENY); return;}
-		}
-	}
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onTerrainGenEvent(PopulateChunkEvent.Populate aEvent) {
-		if (aEvent.world.provider.dimensionId == 0) {
-			if (mDisableVanillaLakes && (aEvent.type == Populate.EventType.LAKE || aEvent.type == Populate.EventType.LAVA)) {aEvent.setResult(Result.DENY); return;}
-			if (MD.RTG.mLoaded) {
-				String tClassName = UT.Reflection.getLowercaseClass(aEvent.world.provider.terrainType);
-				if ("WorldProviderSurfaceRTG".equalsIgnoreCase(tClassName) || "WorldTypeRTG".equalsIgnoreCase(tClassName)) return;
-			}
-			if (GENERATE_STREETS && (UT.Code.inside(-48, 47, aEvent.chunkX) || UT.Code.inside(-48, 47, aEvent.chunkZ))) {aEvent.setResult(Result.DENY); return;}
-			if (GENERATE_BIOMES  && (UT.Code.inside(-96, 95, aEvent.chunkX) && UT.Code.inside(-96, 95, aEvent.chunkZ))) {aEvent.setResult(Result.DENY); return;}
-		}
-	}
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onGetVillageBlockIDEvent(BiomeEvent.GetVillageBlockID aEvent) {
-		if (aEvent.original == Blocks.cobblestone) {
-			aEvent.replacement = (aEvent.biome == null ? BlocksGT.Andesite : BlocksGT.stones[(aEvent.biome.biomeID+6) % BlocksGT.stones.length]);
-			aEvent.setResult(Result.DENY);
-		}
-	}
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onGetVillageBlockMetaEvent(BiomeEvent.GetVillageBlockMeta aEvent) {
-		if (aEvent.original == Blocks.cobblestone || aEvent.original instanceof BlockStones) {
-			aEvent.replacement = BlockStones.SBRIK;
-			aEvent.setResult(Result.DENY);
-		}
-		if (aEvent.original == Blocks.sandstone) {
-			aEvent.replacement = 2; // That's smooth Sandstone.
-			aEvent.setResult(Result.DENY);
-		}
-	}
+
+	// PHASE5: Ore/terrain gen events removed in NeoForge 1.21 — reimplement via Feature/PlacedFeature DataPacks.
+	// mDisableVanillaOres: disable vanilla ore Features in the dimension biome modifier JSON.
+	// mDisableVanillaLakes: disable lake decoration similarly.
+	// GENERATE_STREETS / GENERATE_BIOMES: custom Dimension + ChunkGenerator (PHASE5).
+	// Village block override: Structure Processor (PHASE5).
+
+	// PHASE5: BiomeEvent.GetVillageBlockID/Meta removed — use StructureProcessor to replace cobblestone
+	// in village structures with GT stone variants.
 	
 	private static final HashSetNoNulls<String> CHECKED_PLAYERS = new HashSetNoNulls<>();
 	
@@ -347,10 +298,11 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onEntitySpawningEvent(EntityJoinWorldEvent aEvent) {
-		if (aEvent.entity == null) return;
-		
-		if (aEvent.entity instanceof EntityLiving) {
+	public void onEntitySpawningEvent(EntityJoinLevelEvent aEvent) {
+		if (aEvent.getEntity() == null) return;
+		// PHASE3: EntityLiving → LivingEntity; EntityVillager → Villager; EntityAITasks → GoalSelector;
+		//         EntityAITempt → TemptGoal; Items.emerald → Items.EMERALD; worldObj → level(); etc.
+		if (aEvent.getEntity() instanceof EntityLiving) {
 			// AI Tasks for Entities
 			EntityAITasks tTasks = ((EntityLiving)aEvent.entity).tasks;
 			if (tTasks != null) {
@@ -413,14 +365,20 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityLivingDropsEventEvent(LivingDropsEvent aEvent) {
-		if (aEvent.entity.worldObj.isRemote || aEvent.entityLiving == null) return;
-		Override_Drops.handleDrops(aEvent.entityLiving, UT.Reflection.getLowercaseClass(aEvent.entityLiving), aEvent.drops, aEvent.source, aEvent.lootingLevel, aEvent.entityLiving.isBurning(), aEvent.recentlyHit);
+		// PHASE3: aEvent.entity → aEvent.getEntity(); worldObj.isRemote → level().isClientSide();
+		//         aEvent.entityLiving → aEvent.getEntity(); aEvent.drops → aEvent.getDrops();
+		//         aEvent.source → aEvent.getSource(); aEvent.lootingLevel → aEvent.getLootingLevel();
+		//         aEvent.recentlyHit → aEvent.isRecentlyHit()
+		if (aEvent.getEntity().level().isClientSide()) return;
+		Override_Drops.handleDrops(aEvent.getEntity(), UT.Reflection.getLowercaseClass(aEvent.getEntity()), aEvent.getDrops(), aEvent.getSource(), aEvent.getLootingLevel(), aEvent.getEntity().isOnFire(), aEvent.isRecentlyHit());
 	}
-	
+
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEntityLivingFallEvent(LivingFallEvent aEvent) {
-		if (!aEvent.entity.worldObj.isRemote && aEvent.entity instanceof EntityPlayer) {
-			if (ST.equal(((EntityPlayer)aEvent.entity).getCurrentEquippedItem(), ToolsGT.sMetaTool, ToolsGT.SCISSORS) || ST.equal(((EntityPlayer)aEvent.entity).getCurrentEquippedItem(), ToolsGT.sMetaTool, ToolsGT.POCKET_SCISSORS)) aEvent.distance *= 2;
+		// PHASE3: entity → getEntity(); worldObj.isRemote → level().isClientSide(); EntityPlayer → Player;
+		//         getCurrentEquippedItem → getMainHandItem()
+		if (!aEvent.getEntity().level().isClientSide() && aEvent.getEntity() instanceof EntityPlayer) {
+			if (ST.equal(((EntityPlayer)aEvent.getEntity()).getCurrentEquippedItem(), ToolsGT.sMetaTool, ToolsGT.SCISSORS) || ST.equal(((EntityPlayer)aEvent.getEntity()).getCurrentEquippedItem(), ToolsGT.sMetaTool, ToolsGT.POCKET_SCISSORS)) aEvent.setDistance(aEvent.getDistance() * 2);
 		}
 	}
 	

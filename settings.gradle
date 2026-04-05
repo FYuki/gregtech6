@@ -6,8 +6,7 @@ pluginManagement {
     }
 }
 
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
-}
+// foojay-resolver plugin disabled: requires plugins.gradle.org access, which is blocked in this environment.
+// Java 21 is already installed; Gradle will find it via JAVA_HOME or PATH without the foojay resolver.
 
 rootProject.name = 'gregtech6'

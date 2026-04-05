@@ -23,13 +23,13 @@ import static gregapi.data.CS.*;
 
 import java.util.List;
 
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppedEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.compat.ICompat;
 import gregapi.util.CR;
@@ -106,27 +106,27 @@ public abstract class Abstract_Mod {
 	public abstract String getModNameForLog();
 	/** Return the actual Proxy. Note: DO NOT RETURN mProxy! */
 	public abstract Abstract_Proxy getProxy();
-	/** Called on PreInit */
-	public abstract void onModPreInit2(FMLPreInitializationEvent aEvent);
-	/** Called on Init */
-	public abstract void onModInit2(FMLInitializationEvent aEvent);
-	/** Called on PostInit */
-	public abstract void onModPostInit2(FMLPostInitializationEvent aEvent);
+	/** Called on PreInit (NeoForge: FMLCommonSetupEvent) */
+	public abstract void onModPreInit2(FMLCommonSetupEvent aEvent);
+	/** Called on Init (NeoForge: InterModEnqueueEvent) */
+	public abstract void onModInit2(InterModEnqueueEvent aEvent);
+	/** Called on PostInit (NeoForge: FMLLoadCompleteEvent) */
+	public abstract void onModPostInit2(FMLLoadCompleteEvent aEvent);
 	/** Called on Server Start, NEVER DO ANYTHING LAGGY HERE!!! */
-	public abstract void onModServerStarting2(FMLServerStartingEvent aEvent);
+	public abstract void onModServerStarting2(ServerStartingEvent aEvent);
 	/** Called after Server Start, NEVER DO ANYTHING LAGGY HERE!!! */
-	public abstract void onModServerStarted2(FMLServerStartedEvent aEvent);
+	public abstract void onModServerStarted2(ServerStartedEvent aEvent);
 	/** Called on Server Stop */
-	public abstract void onModServerStopping2(FMLServerStoppingEvent aEvent);
+	public abstract void onModServerStopping2(ServerStoppingEvent aEvent);
 	/** Called after Server Stop */
-	public abstract void onModServerStopped2(FMLServerStoppedEvent aEvent);
-	
+	public abstract void onModServerStopped2(ServerStoppedEvent aEvent);
+
 	/** Called after the Last GT PreInit Phase happened. */
-	public void onModFinalPreInit(FMLPreInitializationEvent aEvent) {/**/}
+	public void onModFinalPreInit(FMLCommonSetupEvent aEvent) {/**/}
 	/** Called after the Last GT Init Phase happened. */
-	public void onModFinalInit(FMLInitializationEvent aEvent) {/**/}
+	public void onModFinalInit(InterModEnqueueEvent aEvent) {/**/}
 	/** Called after the Last GT PostInit Phase happened. */
-	public void onModFinalPostInit(FMLPostInitializationEvent aEvent) {/**/}
+	public void onModFinalPostInit(FMLLoadCompleteEvent aEvent) {/**/}
 	
 	
 	@Override public String toString() {return getModID();}
@@ -148,7 +148,7 @@ public abstract class Abstract_Mod {
 	
 	// Just add Calls to these from within your Mods load phases.
 	
-	public void onModPreInit(FMLPreInitializationEvent aEvent) {
+	public void onModPreInit(FMLCommonSetupEvent aEvent) {
 		if (mStartedPreInit) return;
 		try {
 			mProxy = getProxy();
@@ -196,7 +196,7 @@ public abstract class Abstract_Mod {
 		}
 	}
 	
-	public void onModInit(FMLInitializationEvent aEvent) {
+	public void onModInit(InterModEnqueueEvent aEvent) {
 		if (mStartedInit) return;
 		try {
 			OUT.println(getModNameForLog() + ": ===================");
@@ -243,7 +243,7 @@ public abstract class Abstract_Mod {
 		}
 	}
 	
-	public void onModPostInit(FMLPostInitializationEvent aEvent) {
+	public void onModPostInit(FMLLoadCompleteEvent aEvent) {
 		if (mStartedPostInit) return;
 		try {
 			OUT.println(getModNameForLog() + ": =======================");
@@ -299,7 +299,7 @@ public abstract class Abstract_Mod {
 		}
 	}
 	
-	public void onModServerStarting(FMLServerStartingEvent aEvent) {
+	public void onModServerStarting(ServerStartingEvent aEvent) {
 		loadRunnables(mBeforeServerStarting);
 		mStartedServerStarting++;
 		if (mProxy != null) mProxy.onProxyBeforeServerStarting(this, aEvent);
@@ -310,7 +310,7 @@ public abstract class Abstract_Mod {
 		loadRunnables(mAfterServerStarting);
 	}
 	
-	public void onModServerStarted(FMLServerStartedEvent aEvent) {
+	public void onModServerStarted(ServerStartedEvent aEvent) {
 		loadRunnables(mBeforeServerStarted);
 		mStartedServerStarted++;
 		if (mProxy != null) mProxy.onProxyBeforeServerStarted(this, aEvent);
@@ -321,7 +321,7 @@ public abstract class Abstract_Mod {
 		loadRunnables(mAfterServerStarted);
 	}
 	
-	public void onModServerStopping(FMLServerStoppingEvent aEvent) {
+	public void onModServerStopping(ServerStoppingEvent aEvent) {
 		loadRunnables(mBeforeServerStopping);
 		mStartedServerStopping++;
 		if (mProxy != null) mProxy.onProxyBeforeServerStopping(this, aEvent);
@@ -332,7 +332,7 @@ public abstract class Abstract_Mod {
 		loadRunnables(mAfterServerStopping);
 	}
 	
-	public void onModServerStopped(FMLServerStoppedEvent aEvent) {
+	public void onModServerStopped(ServerStoppedEvent aEvent) {
 		loadRunnables(mBeforeServerStopped);
 		mStartedServerStopped++;
 		if (mProxy != null) mProxy.onProxyBeforeServerStopped(this, aEvent);
