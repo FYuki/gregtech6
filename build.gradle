@@ -50,10 +50,10 @@ runs {
     }
 
     clientData {
-        arguments '--mod', project.mod_id,
-                  '--all',
-                  '--output', file('src/generated/resources/').absolutePath,
-                  '--existing', file('src/main/resources/').absolutePath
+        arguments.addAll '--mod', project.mod_id,
+                         '--all',
+                         '--output', file('src/generated/resources/').absolutePath,
+                         '--existing', file('src/main/resources/').absolutePath
     }
 }
 
@@ -161,20 +161,41 @@ tasks.withType(JavaCompile).configureEach {
     options.compilerArgs      += ['-Xlint:deprecation', '-Xlint:unchecked']
 }
 
-task defaultConfigPack(type: Zip) {
+// Expand ${variable} placeholders in neoforge.mods.toml at build time.
+// Without this, NeoForge gets literal "${mod_id}" strings and the mod won't load.
+tasks.withType(ProcessResources).configureEach {
+    def replaceProperties = [
+        minecraft_version      : project.minecraft_version,
+        minecraft_version_range: project.minecraft_version_range,
+        neoforge_version       : project.neoforge_version,
+        neoforge_version_range : project.neoforge_version_range,
+        loader_version_range   : project.loader_version_range,
+        mod_id                 : project.mod_id,
+        mod_name               : project.mod_name,
+        mod_version            : project.mod_version,
+        mod_license            : project.mod_license,
+        mod_authors            : project.mod_authors,
+    ]
+    inputs.properties replaceProperties
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand replaceProperties
+    }
+}
+
+tasks.register('defaultConfigPack', Zip) {
     from '.defaultconfigs/'
     include '**/'
     archiveClassifier = 'defaultConfigPack'
 }
 
-task changelog(type: Copy) {
+tasks.register('changelog', Copy) {
     from('CHANGELOG.md') {
         rename '.*', "${base.archivesName.get()}-${version}-changelog.md"
     }
     into layout.buildDirectory.dir('libs')
 }
 
-task supporterlist(type: Copy) {
+tasks.register('supporterlist', Copy) {
     from('src/main/resources/supporterlist.txt') {
         rename '.*', "${base.archivesName.get()}-${version}-supporterlist.txt"
     }
@@ -182,7 +203,7 @@ task supporterlist(type: Copy) {
 }
 
 jar {
-    dependsOn supporterlist, changelog, defaultConfigPack
+    dependsOn tasks.named('supporterlist'), tasks.named('changelog'), tasks.named('defaultConfigPack')
     manifest {
         attributes([
             'Specification-Title'   : project.mod_name,
