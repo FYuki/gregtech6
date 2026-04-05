@@ -16,7 +16,13 @@
 
 # Documentation files
 !/README.md
+!/CLAUDE.md
 !/old_todo_list.txt
+!/docs/**/*
+
+# Claude Code project settings
+!/.claude/settings.json
+!/.claude/phase-review.sh
 
 # Build files
 !/build.gradle

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"$CLAUDE_TOOL_INPUT\" | grep -q \"git commit\" && BRANCH=$(git -C /home/user/gregtech6 branch --show-current) && [[ \"$BRANCH\" == phase/* ]] && /home/user/gregtech6/.claude/phase-review.sh || true'"
+          }
+        ]
+      }
+    ]
+  }
+}
