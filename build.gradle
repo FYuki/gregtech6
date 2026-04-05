@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'eclipse'
     id 'idea'
     id 'net.neoforged.gradle.userdev' version '7.1.21'
@@ -12,6 +12,10 @@ group   = project.mod_group_id
 version = resolveVersion()
 description = project.mod_description
 
+base {
+    archivesName = project.mod_id
+}
+
 // ---------------------------------------------------------------------------
 // Java toolchain: Java 21 required for NeoForge 1.21.x
 // ---------------------------------------------------------------------------
@@ -21,56 +25,40 @@ java {
 }
 
 // ---------------------------------------------------------------------------
-// NeoForge configuration
+// NeoGradle 7.1.x: NeoForge is now a regular dependency (no neoForge{} block)
+// Run configs are declared at top level; modSource wires the mod automatically.
+// Access Transformers are auto-discovered from META-INF/accesstransformer.cfg.
 // ---------------------------------------------------------------------------
-neoForge {
-    version = project.neoforge_version
-
-    // Parchment: Mojang official mappings + community parameter/javadoc names
-    parchment {
-        mappingsVersion   = project.parchment_version
-        minecraftVersion  = project.parchment_minecraft_version
+runs {
+    configureEach {
+        modSource project.sourceSets.main
+        jvmArgument '-Xmx4096m'
+        jvmArgument '-Xms1024m'
     }
 
-    // Access Transformers – convert protected/private fields/methods to public
-    accessTransformers {
-        file('src/main/resources/META-INF/accesstransformer.cfg')
+    client {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
 
-    // Run configurations
-    runs {
-        client {
-            client()
-            systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-            // Memory: same as original build.gradle
-            jvmArgument '-Xmx4096m'
-            jvmArgument '-Xms1024m'
-        }
-        server {
-            server()
-            programArgument '--nogui'
-            jvmArgument '-Xmx4096m'
-            jvmArgument '-Xms1024m'
-        }
-        gameTestServer {
-            type = 'gameTestServer'
-            systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-        }
-        data {
-            data()
-            programArguments '--mod', project.mod_id,
-                             '--all',
-                             '--output', file('src/generated/resources/').absolutePath,
-                             '--existing', file('src/main/resources/').absolutePath
-        }
+    server {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        argument '--nogui'
     }
 
-    mods {
-        "${project.mod_id}" {
-            sourceSet sourceSets.main
-        }
+    gameTestServer {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    data {
+        arguments '--mod', project.mod_id,
+                  '--all',
+                  '--output', file('src/generated/resources/').absolutePath,
+                  '--existing', file('src/main/resources/').absolutePath
     }
 }
+
+// Generated resources from data generators (runData)
+sourceSets.main.resources.srcDir 'src/generated/resources'
 
 // ---------------------------------------------------------------------------
 // Repositories
@@ -105,7 +93,8 @@ repositories {
 // Dependencies
 // ---------------------------------------------------------------------------
 dependencies {
-    // NeoForge is already provided via the neoForge { version = ... } block.
+    // NeoForge itself (replaces the old neoForge { version = ... } block)
+    implementation "net.neoforged:neoforge:${project.neoforge_version}"
 
     // -----------------------------------------------------------------------
     // Active dependencies with 1.21.x releases
@@ -172,11 +161,6 @@ tasks.withType(JavaCompile).configureEach {
     options.compilerArgs      += ['-Xlint:deprecation', '-Xlint:unchecked']
 }
 
-// Generated resources from data generators (runData)
-sourceSets.main.resources.srcDir 'src/generated/resources'
-
-// Source JAR already created by java { withSourcesJar() }
-
 task defaultConfigPack(type: Zip) {
     from '.defaultconfigs/'
     include '**/'
@@ -209,9 +193,6 @@ jar {
             'Implementation-Vendor' : project.mod_authors,
         ])
     }
-    // NOTE: FMLCorePlugin / FMLAT manifest entries are no longer used in NeoForge.
-    // Access Transformers are declared in neoForge { accessTransformers { } } above.
-    // The ASM CoreMod (GT_ASM) has been converted to Mixin in Phase 6.
 }
 
 // ---------------------------------------------------------------------------

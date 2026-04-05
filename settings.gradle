@@ -1,12 +1,14 @@
 pluginManagement {
     repositories {
-        maven { url = 'https://maven.neoforged.net/releases' }
         gradlePluginPortal()
-        mavenCentral()
+        maven { url = 'https://maven.neoforged.net/releases' }
     }
 }
 
-// foojay-resolver plugin disabled: requires plugins.gradle.org access, which is blocked in this environment.
-// Java 21 is already installed; Gradle will find it via JAVA_HOME or PATH without the foojay resolver.
+// foojay-resolver: auto-provisions JDK 21 toolchain if not locally installed.
+// Remove this block if Java 21 is already available on the build machine.
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
 
 rootProject.name = 'gregtech6'
