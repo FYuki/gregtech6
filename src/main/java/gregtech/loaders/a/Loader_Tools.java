@@ -19,7 +19,7 @@
 
 package gregtech.loaders.a;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+// PHASE3: GameRegistry → DeferredRegister
 import gregapi.code.ICondition;
 import gregapi.code.ICondition.And;
 import gregapi.code.ICondition.Nor;

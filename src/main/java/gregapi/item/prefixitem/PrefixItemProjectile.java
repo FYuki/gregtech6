@@ -19,7 +19,7 @@
 
 package gregapi.item.prefixitem;
 
-import cpw.mods.fml.common.FMLLog;
+// PHASE2: FMLLog removed → use LogUtils.getLogger()
 import gregapi.code.ModData;
 import gregapi.code.ObjectStack;
 import gregapi.code.TagData;

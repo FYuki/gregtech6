@@ -19,8 +19,8 @@
 
 package gregtech.tileentity.extenders;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.code.ItemStackContainer;
 import gregapi.code.ItemStackSet;
 import gregapi.data.FL;
@@ -329,7 +329,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 		}
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public class MultiTileEntityGUIClientFilter extends ContainerClient {
 		private int mRows;
 		

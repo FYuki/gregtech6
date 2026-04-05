@@ -19,8 +19,8 @@
 
 package gregapi.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.data.LH;
 import gregapi.data.MD;
 import gregapi.item.IItemGT;
@@ -97,7 +97,7 @@ public class ItemBlockBase extends ItemBlock implements IBlock, IItemGT {
 		while (aList.remove(null));
 	}
 	
-	@Override @SideOnly(Side.CLIENT) public CreativeTabs getCreativeTab() {return field_150939_a.getCreativeTabToDisplayOn();}
+	@Override @OnlyIn(Dist.CLIENT) public CreativeTabs getCreativeTab() {return field_150939_a.getCreativeTabToDisplayOn();}
 	@Override public boolean func_150936_a(World aWorld, int aX, int aY, int aZ, int aSide, EntityPlayer aPlayer, ItemStack aStack) {return T;}
 	@Override public boolean onItemUseFirst(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {return mPlaceable.onItemUseFirst(this, aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ);}
 	@Override public boolean onItemUse(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {return mPlaceable.onItemUse(this, aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ);}

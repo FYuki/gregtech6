@@ -23,8 +23,8 @@ import static gregapi.data.CS.*;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.data.LH;
 import gregapi.data.LH.Chat;
 import gregapi.data.TD;
@@ -99,7 +99,7 @@ public class MultiTileEntityDrawerQuad extends TileEntityBase09FacingSingle impl
 		return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@Override public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return new ContainerClientDefault(new ContainerCommonDefault(aPlayer.inventory, this, aGUIID, (aGUIID % 4) * 36, 36));}
 	@Override public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return                            new ContainerCommonDefault(aPlayer.inventory, this, aGUIID, (aGUIID % 4) * 36, 36);}
 	

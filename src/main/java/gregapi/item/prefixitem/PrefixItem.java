@@ -19,9 +19,9 @@
 
 package gregapi.item.prefixitem;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+// PHASE3: GameRegistry → DeferredRegister
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.code.ModData;
 import gregapi.data.*;
 import gregapi.item.*;
@@ -123,7 +123,7 @@ public class PrefixItem extends Item implements Runnable, IItemUpdatable, IPrefi
 	
 	@Override public int getSpriteNumber() {return 1;}
 	@Override public int getRenderPasses(int metadata) {return 2;}
-	@Override @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister aIconRegister) {/**/}
+	@Override @OnlyIn(Dist.CLIENT) public void registerIcons(IIconRegister aIconRegister) {/**/}
 	@Override public boolean requiresMultipleRenderPasses() {return mPrefix.mIconIndexItem >= 0;}
 	@Override public IIcon getIconIndex(ItemStack aStack) {return getIconFromDamageForRenderPass(ST.meta_(aStack), 0);}
 	@Override public IIcon getIconFromDamage(int aMetaData) {return getIconFromDamageForRenderPass(aMetaData, 0);}

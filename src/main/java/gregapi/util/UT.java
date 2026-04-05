@@ -19,9 +19,9 @@
 
 package gregapi.util;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+// PHASE3: GameRegistry → DeferredRegister
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.GT_API;
 import gregapi.code.*;
 import gregapi.damage.DamageSources;
@@ -1602,7 +1602,7 @@ public class UT {
 		public static short getB(int aColors) {return (short) (aColors         & 255);}
 		public static short getA(int aColors) {return (short)((aColors >>> 24) & 255);}
 		
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		/** estebes helped with the code for this one, and yes that cast down there is fucking necessary... */
 		public static short[] color(ItemStack aStack) {
 			if (ST.invalid(aStack)) return UNCOLOURED;
@@ -1618,7 +1618,7 @@ public class UT {
 			return rColor;
 		}
 		
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		/** estebes helped with the code for this one */
 		public static short[] color(String aResourceLocation) {
 			ResourceLocation aux = null;
@@ -1633,7 +1633,7 @@ public class UT {
 			return tIcon == null ? null : color(tIcon);
 		}
 		
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		/** estebes helped with the code for this one */
 		public static short[] color(java.awt.image.BufferedImage icon) {
 			long tR = 0, tG = 0, tB = 0, tPixels = 0;

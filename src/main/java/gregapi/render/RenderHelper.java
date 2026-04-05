@@ -24,8 +24,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.util.ST;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -40,7 +40,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderHelper {
 	public static RenderItem   mRenderItem   = new RenderItem();
 	public static RenderBlocks mRenderBlocks = new RenderBlocks();

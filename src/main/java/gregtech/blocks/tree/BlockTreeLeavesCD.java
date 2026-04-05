@@ -19,8 +19,8 @@
 
 package gregtech.blocks.tree;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.tree.BlockBaseLeaves;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.data.CS.*;
@@ -113,13 +113,13 @@ public class BlockTreeLeavesCD extends BlockBaseLeaves implements Runnable {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public int getRenderColor(int aMeta) {
 		return UNCOLORED;
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {
 		return UNCOLORED;
 	}

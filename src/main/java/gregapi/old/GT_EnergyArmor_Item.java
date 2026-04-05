@@ -23,8 +23,8 @@ import static gregapi.data.CS.*;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.data.LH;
 import gregapi.util.UT;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -35,7 +35,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
 public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ {
@@ -61,7 +61,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 		mArmorAbsorbtionPercentage = aArmorAbsorbtionPercentage;
 		
 		
-		MinecraftForge.EVENT_BUS.register(this);
+		NeoForge.EVENT_BUS.register(this);
 	}
 	
 	@Override
@@ -80,7 +80,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void registerIcons(IIconRegister aIconRegister) {
 		this.itemIcon = aIconRegister.registerIcon(RES_PATH_ITEM + getUnlocalizedName());
 	}
@@ -235,7 +235,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 //  @SuppressWarnings("unchecked")
 	public void getSubItems(Item aItem, CreativeTabs var2, @SuppressWarnings("rawtypes") List var3) {
 		//ItemStack tCharged = ST.make(this, 1, 0), tUncharged = ST.make(this, 1, getMaxDamage());

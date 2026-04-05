@@ -19,7 +19,7 @@
 
 package gregtech.compat;
 
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.code.ModData;

@@ -20,10 +20,10 @@
 package gregtech;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+// PHASE2: TickEvent.Phase replaced by PlayerTickEvent.Phase
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import gregapi.GT_API;
 import gregapi.api.Abstract_Mod;
 import gregapi.config.ConfigCategories;

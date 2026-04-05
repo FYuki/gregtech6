@@ -19,7 +19,7 @@
 
 package gregapi.util;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+// PHASE2: FMLCommonHandler removed → use NeoForge.EVENT_BUS
 import gregapi.GT_API;
 import gregapi.block.IBlockDebugable;
 import gregapi.block.IBlockExtendedMetaData;
@@ -77,7 +77,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.fluids.*;
 import thaumcraft.api.nodes.INode;
 import twilightforest.TwilightForestMod;
@@ -1049,7 +1049,7 @@ public class WD {
 		
 		BlockScanningEvent tEvent = new BlockScanningEvent(aWorld, aPlayer, aX, aY, aZ, aSide, aScanLevel, aBlock, aTileEntity, rList, aClickX, aClickY, aClickZ);
 		tEvent.mEUCost = rEUAmount;
-		MinecraftForge.EVENT_BUS.post(tEvent);
+		NeoForge.EVENT_BUS.post(tEvent);
 		if (!tEvent.isCanceled()) aList.addAll(rList);
 		return tEvent.mEUCost;
 	}

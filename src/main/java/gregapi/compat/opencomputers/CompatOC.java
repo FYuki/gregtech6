@@ -19,7 +19,7 @@
 
 package gregapi.compat.opencomputers;
 
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import gregapi.compat.CompatBase;
 import gregapi.computer.IComputerizable;
 import gregapi.computer.ICoverComputerizable;

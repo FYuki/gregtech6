@@ -21,8 +21,8 @@ package gregapi.tileentity.client;
 
 import static gregapi.data.CS.*;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.random.IHasWorldAndCoords;
 import gregapi.tileentity.ITileEntityUnloadable;
 import net.minecraft.client.audio.ISound;
@@ -33,13 +33,13 @@ import net.minecraft.util.ResourceLocation;
  * @author Gregorius Techneticies
  */
 public interface ITileEntitySoundSource extends ITileEntityUnloadable {
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void startSound();
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void stopSound();
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static class SoundSourceTileEntity implements ITickableSound {
 		public boolean mRunning = F;
 		public float mSoundStrength, mSoundModulation;

@@ -19,9 +19,9 @@
 
 package gregapi.tileentity.tools;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+// PHASE2: FMLCommonHandler removed → use NeoForge.EVENT_BUS
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.data.FL;
 import gregapi.data.IL;
 import gregapi.data.LH;
@@ -581,7 +581,7 @@ public class MultiTileEntityAdvancedCraftingTable extends TileEntityBase09Facing
 	@Override public boolean canDrain(ForgeDirection aDirection, Fluid aFluid) {return F;}
 	@Override public FluidTankInfo[] getTankInfo(ForgeDirection aDirection) {return L1_FLUIDTANKINFO_DUMMY;}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@Override public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return aGUIID == 1 ? new ContainerClientDefault(   new ContainerCommonDefault(aPlayer.inventory, this, aGUIID, 35, 36)) : new MultiTileEntityGUIClientAdvancedCraftingTable(aPlayer.inventory, this, aGUIID);}
 	@Override public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return aGUIID == 1 ?                               new ContainerCommonDefault(aPlayer.inventory, this, aGUIID, 35, 36)  : new MultiTileEntityGUICommonAdvancedCraftingTable(aPlayer.inventory, this, aGUIID);}
 	
@@ -744,7 +744,7 @@ public class MultiTileEntityAdvancedCraftingTable extends TileEntityBase09Facing
 		}
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public class MultiTileEntityGUIClientAdvancedCraftingTable extends ContainerClient {
 		public MultiTileEntityGUIClientAdvancedCraftingTable(InventoryPlayer aInventoryPlayer, MultiTileEntityAdvancedCraftingTable aTileEntity, int aGUIID) {
 			super(new MultiTileEntityGUICommonAdvancedCraftingTable(aInventoryPlayer, aTileEntity, aGUIID), aTileEntity.mGUITexture);

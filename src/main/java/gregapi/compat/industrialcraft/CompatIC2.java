@@ -19,9 +19,9 @@
 
 package gregapi.compat.industrialcraft;
 
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 import gregapi.code.ItemStackContainer;
 import gregapi.code.ItemStackSet;
 import gregapi.compat.CompatBase;
@@ -47,7 +47,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 
 import static gregapi.data.CS.*;
 
@@ -59,7 +59,7 @@ public class CompatIC2 extends CompatBase implements ICompatIC2 {
 		if (ic2.api.recipe.Recipes.scrapboxDrops == null) {/**/}
 		if (ic2.api.recipe.Recipes.recyclerBlacklist == null) {/**/}
 		if (ic2.api.recipe.Recipes.recyclerWhitelist == null) {/**/}
-		MinecraftForge.EVENT_BUS.register(this);
+		NeoForge.EVENT_BUS.register(this);
 	}
 	
 	@Override

@@ -19,8 +19,8 @@
 
 package gregapi.item.multiitem;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.ItemStackSet;
 import gregapi.code.ObjectStack;
@@ -304,7 +304,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("unchecked")
 	public final void getSubItems(Item var1, CreativeTabs aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
 		for (int i = 0; i < 32766; i+=2) if (getToolStats(ST.make(this, 1, i)) != null) {
@@ -699,7 +699,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	@Override public boolean isFull3D() {return T;}
 	@Override public int getSpriteNumber() {return 1;}
 	@Override public boolean requiresMultipleRenderPasses() {return T;}
-	@Override @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister aIconRegister) {/**/}
+	@Override @OnlyIn(Dist.CLIENT) public void registerIcons(IIconRegister aIconRegister) {/**/}
 	@Override @SuppressWarnings("deprecation") public boolean hasEffect(ItemStack aStack) {return F;}
 	@Override public boolean hasEffect(ItemStack aStack, int aRenderPass) {return F;}
 	@Override public int getItemEnchantability() {return 0;}

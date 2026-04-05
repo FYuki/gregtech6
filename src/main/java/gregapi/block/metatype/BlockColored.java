@@ -21,8 +21,8 @@ package gregapi.block.metatype;
 
 import static gregapi.data.CS.*;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.data.LH;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictMaterial;
@@ -61,13 +61,13 @@ public class BlockColored extends BlockMetaType {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public int getRenderColor(int aMeta) {
 		return DYES_INT[UT.Code.bind4(aMeta)];
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {
 		return DYES_INT[UT.Code.bind4(aWorld.getBlockMetadata(aX, aY, aZ))];
 	}

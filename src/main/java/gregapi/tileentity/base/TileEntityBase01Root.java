@@ -21,8 +21,8 @@ package gregapi.tileentity.base;
 
 import appeng.api.movable.IMovableTile;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity;
 import gregapi.block.multitileentity.IMultiTileEntity.IMTE_GetLightValue;
 import gregapi.block.multitileentity.IMultiTileEntity.IMTE_IsProvidingStrongPower;
@@ -74,7 +74,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 
@@ -382,7 +382,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	@Optional.Method(modid = ModIDs.IC2)
 	private void loadIntoEnet() {
 		if (this instanceof IEnergyTile && (isEnergyType(TD.Energy.EU, SIDE_ANY, T) || isEnergyType(TD.Energy.EU, SIDE_ANY, F))) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile)this));
+			NeoForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile)this));
 			mIsAddedToEnet = T;
 		} else {
 			mDoEnetCheck = F;
@@ -391,7 +391,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	
 	@Optional.Method(modid = ModIDs.IC2)
 	private void unloadFromEnet() {
-		MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile)this));
+		NeoForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile)this));
 		mIsAddedToEnet = F;
 	}
 	
@@ -514,7 +514,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public float getExplosionResistance2(Entity aExploder, double aExplosionX, double aExplosionY, double aExplosionZ) {return getExplosionResistance2();}
 	public float getExplosionResistance2() {return 0;}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@Override public Object getGUIClient(int aGUIID, EntityPlayer aPlayer) {return null;}
 	@Override public Object getGUIServer(int aGUIID, EntityPlayer aPlayer) {return null;}
 	
@@ -530,14 +530,14 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 		return tTileEntity instanceof ITileEntitySurface ? !((ITileEntitySurface)tTileEntity).isSurfaceOpaque(OPOS[aSide]) : !WD.visOpq(worldObj, getOffsetX(aSide), getOffsetY(aSide), getOffsetZ(aSide), SIDES_VERTICAL[aSide] || WD.border(xCoord, zCoord, getOffsetX(aSide), getOffsetZ(aSide)), F);
 	}
 	
-	@SideOnly(Side.CLIENT) public boolean renderItem(Block aBlock, RenderBlocks aRenderer) {return F;}
-	@SideOnly(Side.CLIENT) public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ) {return F;}
-	@SideOnly(Side.CLIENT) public boolean usesRenderPass(int aRenderPass, boolean[] aShouldSideBeRendered) {return T;}
-	@SideOnly(Side.CLIENT) public boolean renderFullBlockSide(Block aBlock, RenderBlocks aRenderer, byte aSide) {return shouldSideBeRendered(aSide);}
-	@SideOnly(Side.CLIENT) public final IRenderedBlockObject passRenderingToObject(ItemStack aStack) {return ERROR_MESSAGE == null ? passRenderingToObject2(aStack) : ErrorRenderer.INSTANCE;}
-	@SideOnly(Side.CLIENT) public final IRenderedBlockObject passRenderingToObject(IBlockAccess aWorld, int aX, int aY, int aZ) {return ERROR_MESSAGE == null ? passRenderingToObject2(aWorld, aX, aY, aZ) : ErrorRenderer.INSTANCE;}
-	@SideOnly(Side.CLIENT) public IRenderedBlockObject passRenderingToObject2(ItemStack aStack) {return (IRenderedBlockObject)this;}
-	@SideOnly(Side.CLIENT) public IRenderedBlockObject passRenderingToObject2(IBlockAccess aWorld, int aX, int aY, int aZ) {return (IRenderedBlockObject)this;}
+	@OnlyIn(Dist.CLIENT) public boolean renderItem(Block aBlock, RenderBlocks aRenderer) {return F;}
+	@OnlyIn(Dist.CLIENT) public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ) {return F;}
+	@OnlyIn(Dist.CLIENT) public boolean usesRenderPass(int aRenderPass, boolean[] aShouldSideBeRendered) {return T;}
+	@OnlyIn(Dist.CLIENT) public boolean renderFullBlockSide(Block aBlock, RenderBlocks aRenderer, byte aSide) {return shouldSideBeRendered(aSide);}
+	@OnlyIn(Dist.CLIENT) public final IRenderedBlockObject passRenderingToObject(ItemStack aStack) {return ERROR_MESSAGE == null ? passRenderingToObject2(aStack) : ErrorRenderer.INSTANCE;}
+	@OnlyIn(Dist.CLIENT) public final IRenderedBlockObject passRenderingToObject(IBlockAccess aWorld, int aX, int aY, int aZ) {return ERROR_MESSAGE == null ? passRenderingToObject2(aWorld, aX, aY, aZ) : ErrorRenderer.INSTANCE;}
+	@OnlyIn(Dist.CLIENT) public IRenderedBlockObject passRenderingToObject2(ItemStack aStack) {return (IRenderedBlockObject)this;}
+	@OnlyIn(Dist.CLIENT) public IRenderedBlockObject passRenderingToObject2(IBlockAccess aWorld, int aX, int aY, int aZ) {return (IRenderedBlockObject)this;}
 	
 	public void updateTanks() {/**/}
 	public void updateInventory() {/**/}

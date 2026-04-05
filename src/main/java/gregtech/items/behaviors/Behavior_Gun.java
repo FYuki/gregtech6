@@ -256,7 +256,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		// EntityLivingBase, Ender Dragon and End Crystals only.
 		if (!(aTarget instanceof EntityLivingBase || aTarget instanceof EntityDragonPart || aTarget instanceof EntityEnderCrystal)) return F;
 	//  // To make Railcrafts Damage Enchantments work... // I later figured I'd just hardcode it in.
-	//  MinecraftForge.EVENT_BUS.post(new AttackEntityEvent(aPlayer, aTarget));
+	//  NeoForge.EVENT_BUS.post(new AttackEntityEvent(aPlayer, aTarget));
 		
 		OreDictItemData tData = OM.anydata(aBullet);
 		OreDictMaterial tGunMat = MultiItemTool.getPrimaryMaterial(aGun, MT.Steel);

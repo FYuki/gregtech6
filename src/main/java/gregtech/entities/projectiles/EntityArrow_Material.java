@@ -46,7 +46,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 
@@ -171,7 +171,7 @@ public class EntityArrow_Material extends EntityProjectile {
 					OreDictItemData tData = OM.anydata(mArrow);
 					
 					// To make Railcrafts Implosion Enchantment work...
-					if (tShootingEntity instanceof EntityPlayer) MinecraftForge.EVENT_BUS.post(new AttackEntityEvent((EntityPlayer)tShootingEntity, tHitEntity));
+					if (tShootingEntity instanceof EntityPlayer) NeoForge.EVENT_BUS.post(new AttackEntityEvent((EntityPlayer)tShootingEntity, tHitEntity));
 					
 					float
 					tMagicDamage = tHitEntity instanceof EntityLivingBase?EnchantmentHelper.func_152377_a(mArrow, ((EntityLivingBase)tHitEntity).getCreatureAttribute()):0,

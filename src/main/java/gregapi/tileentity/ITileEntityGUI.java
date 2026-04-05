@@ -19,8 +19,8 @@
 
 package gregapi.tileentity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
@@ -28,7 +28,7 @@ import net.minecraft.entity.player.EntityPlayer;
  */
 public interface ITileEntityGUI extends ITileEntityUnloadable {
 	/** Gets the GUI Elements. Negative GUIIDs are internal Usage. For example -1, -2, -3, -4, -5 and -6 are the Covers on the Side -GUIID-1 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public Object getGUIClient(int aGUIID, EntityPlayer aPlayer);
 	/** Gets the GUI Elements. Negative GUIIDs are internal Usage. For example -1, -2, -3, -4, -5 and -6 are the Covers on the Side -GUIID-1 */
 	public Object getGUIServer(int aGUIID, EntityPlayer aPlayer);

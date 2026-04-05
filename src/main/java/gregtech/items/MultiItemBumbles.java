@@ -19,8 +19,8 @@
 
 package gregtech.items;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.metatype.BlockStones;
 import gregapi.block.multitileentity.MultiTileEntityBlock;
 import gregapi.damage.DamageSources;
@@ -664,7 +664,7 @@ public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItem
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void registerIcons(IIconRegister aIconRegister) {
 		PRINCESS    = aIconRegister.registerIcon(mModID + ":" + getUnlocalizedName() + "/overlay_princess");
 		QUEEN       = aIconRegister.registerIcon(mModID + ":" + getUnlocalizedName() + "/overlay_queen");

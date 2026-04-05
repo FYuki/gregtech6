@@ -23,8 +23,8 @@ import static gregapi.data.CS.*;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.data.LH;
 import gregapi.item.multiitem.MultiItem;
 import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
@@ -37,7 +37,7 @@ public class Behavior_WritableBook extends AbstractBehaviorDefault {
 	public static final Behavior_WritableBook INSTANCE = new Behavior_WritableBook();
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
 		UT.Books.display(aPlayer, T, aStack);
 		return super.onItemRightClick(aItem, aStack, aWorld, aPlayer);

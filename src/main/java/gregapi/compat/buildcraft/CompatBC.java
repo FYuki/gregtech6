@@ -21,8 +21,8 @@ package gregapi.compat.buildcraft;
 
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.core.properties.WorldPropertyIsWood;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import gregapi.code.TagData;
 import gregapi.compat.CompatBase;
 import gregapi.data.OP;

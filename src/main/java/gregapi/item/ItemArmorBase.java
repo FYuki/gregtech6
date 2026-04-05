@@ -20,8 +20,8 @@
 package gregapi.item;
 
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import forestry.api.apiculture.IArmorApiarist;
 import gregapi.GT_API;
 import gregapi.data.CS.*;
@@ -154,7 +154,7 @@ public class ItemArmorBase extends ItemArmor implements IItemUpdatable, IItemGT,
 	@Override public String getUnlocalizedName(ItemStack aStack) {return getHasSubtypes()?mName+"."+ST.meta_(aStack):mName;}
 	@Override public String getItemStackDisplayName(ItemStack aStack) {return StatCollector.translateToLocal(getUnlocalizedName(aStack));}
 	@Override public final boolean getShareTag() {return T;} // just to be sure.
-	@Override @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister aIconRegister) {mIcon = aIconRegister.registerIcon(mModID + ":" + "armor/" + mArmorName + "/" + armorType);}
+	@Override @OnlyIn(Dist.CLIENT) public void registerIcons(IIconRegister aIconRegister) {mIcon = aIconRegister.registerIcon(mModID + ":" + "armor/" + mArmorName + "/" + armorType);}
 	@Override public IIcon getIconFromDamage(int aMeta) {return mIcon;}
 	@Override public IIcon getIconFromDamageForRenderPass(int aMeta, int aRenderpass) {return mIcon;}
 	@Override public void onCreated(ItemStack aStack, World aWorld, EntityPlayer aPlayer) {isItemStackUsable(aStack);}

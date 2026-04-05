@@ -20,8 +20,8 @@
 package gregapi.block.multitileentity;
 
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.data.CS.ModIDs;
 import gregapi.network.INetworkHandler;
@@ -158,9 +158,9 @@ public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
 	public static interface IMTE_IsSealable                         extends IMultiTileEntity {public boolean isSealable(byte aSide);}
 	public static interface IMTE_OnOxygenRemoved                    extends IMultiTileEntity {public void onOxygenRemoved();}
 	public static interface IMTE_OnOxygenAdded                      extends IMultiTileEntity {public void onOxygenAdded();}
-	public static interface IMTE_RegisterIcons                      extends IMultiTileEntity {@SideOnly(Side.CLIENT) public void registerIcons(IIconRegister aIconRegister);}
-	public static interface IMTE_AddHitEffects                      extends IMultiTileEntity {@SideOnly(Side.CLIENT) public boolean addHitEffects(World aWorld, MovingObjectPosition aTarget, EffectRenderer aRenderer);}
-	public static interface IMTE_AddDestroyEffects                  extends IMultiTileEntity {@SideOnly(Side.CLIENT) public boolean addDestroyEffects(int aMetaData, EffectRenderer aRenderer);}
+	public static interface IMTE_RegisterIcons                      extends IMultiTileEntity {@OnlyIn(Dist.CLIENT) public void registerIcons(IIconRegister aIconRegister);}
+	public static interface IMTE_AddHitEffects                      extends IMultiTileEntity {@OnlyIn(Dist.CLIENT) public boolean addHitEffects(World aWorld, MovingObjectPosition aTarget, EffectRenderer aRenderer);}
+	public static interface IMTE_AddDestroyEffects                  extends IMultiTileEntity {@OnlyIn(Dist.CLIENT) public boolean addDestroyEffects(int aMetaData, EffectRenderer aRenderer);}
 	
 	public static interface IMTE_SyncDataByte extends IMultiTileEntity {
 		/**
@@ -262,19 +262,19 @@ public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
 	
 	public static interface IMTE_OnRegistrationClient extends IMultiTileEntity {
 		/** Called when the TileEntity is being registered at the MultiTileEntity Registry. */
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		public void onRegistrationClient(MultiTileEntityRegistry aRegistry, short aID);
 	}
 	
 	public static interface IMTE_OnRegistrationFirstClient extends IMultiTileEntity {
 		/** Called when a TileEntity of this particular Class is being registered first at any MultiTileEntity Registry. So basically one call per Class. */
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		public void onRegistrationFirstClient(MultiTileEntityRegistry aRegistry, short aID);
 	}
 	
 	public static interface IMTE_OnRegistrationFirstOfRegisterClient extends IMultiTileEntity {
 		/** Called when a TileEntity of this particular Class is being registered first at a MultiTileEntity Registry. So basically one call per Class and Registry. */
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		public void onRegistrationFirstOfRegisterClient(MultiTileEntityRegistry aRegistry, short aID);
 	}
 	

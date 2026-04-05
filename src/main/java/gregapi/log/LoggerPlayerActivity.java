@@ -22,9 +22,9 @@ package gregapi.log;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 import gregapi.util.UT;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 
@@ -37,7 +37,7 @@ public class LoggerPlayerActivity implements Runnable {
 	public static PrintStream mLog = null;
 	
 	public LoggerPlayerActivity(PrintStream aLog) {
-		MinecraftForge.EVENT_BUS.register(this);
+		NeoForge.EVENT_BUS.register(this);
 		mLog = aLog;
 	}
 	

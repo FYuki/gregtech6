@@ -19,8 +19,8 @@
 
 package gregapi.old;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * Redstone Circuit Control Code
@@ -79,26 +79,26 @@ public abstract class GT_CircuitryBehavior {
 	/**
 	 * The Name of the Gate for the GUI
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public abstract String getName();
 	
 	/**
 	 * The Description of the Gate for the GUI
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public abstract String getDescription();
 	
 	/**
 	 * The Description of the Data Field for the GUI
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public abstract String getDataDescription(int[] aCircuitData, int aCircuitDataIndex);
 	
 	/**
 	 * How the Integer should be displayed in the GUI.
 	 * null means, that it just displays as regular Number.
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public String getDataDisplay(int[] aCircuitData, int aCircuitDataIndex) {
 		return null;
 	}

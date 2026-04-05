@@ -19,9 +19,9 @@
 
 package gregapi.item;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+// PHASE3: GameRegistry → DeferredRegister
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.GT_API;
 import gregapi.api.Abstract_Mod;
 import gregapi.config.ConfigCategories;
@@ -206,7 +206,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void registerIcons(IIconRegister aIconRegister) {
 		// Useful hack to register Block Icons. That is why the Fluid Display Item has to always exist.
 		if (Abstract_Mod.sFinalized >= Abstract_Mod.sModCountUsingGTAPI) {
@@ -230,7 +230,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public IIcon getIconFromDamage(int aMeta) {
 		Fluid aFluid = FluidRegistry.getFluid(aMeta);
 		if (aFluid == null) return FluidRegistry.WATER.getStillIcon();
@@ -239,7 +239,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public int getColorFromItemStack(ItemStack aStack, int aRenderPass) {
 		Fluid aFluid = FL.fluid(ST.meta_(aStack));
 		if (aFluid == null) return 16777215;
@@ -266,14 +266,14 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean hasEffect(ItemStack aStack, int aRenderPass) {
 		Fluid aFluid = FL.fluid(ST.meta_(aStack));
 		return aFluid != null && FluidsGT.ENCHANTED_EFFECT.contains(aFluid.getName());
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("unchecked")
 	public void getSubItems(Item aItem, CreativeTabs aTab, @SuppressWarnings("rawtypes") List aList) {
 		for (int i = 0, j = FluidRegistry.getMaxID(); i <= j; i++) {

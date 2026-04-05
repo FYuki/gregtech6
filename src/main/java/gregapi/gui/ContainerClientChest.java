@@ -23,8 +23,8 @@ import static gregapi.data.CS.*;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.tileentity.ITileEntityInventoryGUI;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
@@ -32,7 +32,7 @@ import net.minecraft.util.StatCollector;
 /**
  * @author Gregorius Techneticies
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContainerClientChest extends ContainerClient {
 	private int mRows;
 	

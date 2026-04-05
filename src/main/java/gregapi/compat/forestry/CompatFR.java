@@ -19,7 +19,7 @@
 
 package gregapi.compat.forestry;
 
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import forestry.api.farming.Farmables;
 import forestry.api.farming.ICrop;
 import forestry.api.farming.IFarmable;

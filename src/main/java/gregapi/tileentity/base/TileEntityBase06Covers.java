@@ -19,8 +19,8 @@
 
 package gregapi.tileentity.base;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity.*;
 import gregapi.cover.CoverData;
 import gregapi.cover.CoverRegistry;
@@ -478,10 +478,10 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	public void addCollisionBoxesToList2(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {/**/}
 	
 	// GUI Stuff
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@Override public final Object getGUIClient(int aGUIID, EntityPlayer aPlayer) {return aGUIID <= -1 && aGUIID >= -6 ? hasCovers() && mCovers.mBehaviours[-aGUIID-1] != null ? mCovers.mBehaviours[-aGUIID-1].getGUIServer((byte)(-aGUIID-1), mCovers, aPlayer) : null : getGUIClient2(aGUIID, aPlayer);}
 	@Override public final Object getGUIServer(int aGUIID, EntityPlayer aPlayer) {return aGUIID <= -1 && aGUIID >= -6 ? hasCovers() && mCovers.mBehaviours[-aGUIID-1] != null ? mCovers.mBehaviours[-aGUIID-1].getGUIClient((byte)(-aGUIID-1), mCovers, aPlayer) : null : getGUIServer2(aGUIID, aPlayer);}
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return null;}
 	public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return null;}
 	

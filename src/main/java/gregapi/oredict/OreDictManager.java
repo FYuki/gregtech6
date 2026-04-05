@@ -21,7 +21,7 @@ package gregapi.oredict;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 import gregapi.api.Abstract_Mod;
 import gregapi.code.*;
 import gregapi.config.Config;
@@ -40,7 +40,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerRegisterEvent;
@@ -118,7 +118,7 @@ public final class OreDictManager {
 		for (String tOreName : OreDictionary.getOreNames()) for (ItemStack tOreStack : OreDictionary.getOres(tOreName, F)) onOreRegistration1(new OreRegisterEvent(tOreName, tOreStack));
 		for (FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) onFluidContainerRegistration(new FluidContainerRegisterEvent(tData));
 		mIsRunningInIterationMode = F;
-		MinecraftForge.EVENT_BUS.register(this);
+		NeoForge.EVENT_BUS.register(this);
 	}
 	
 	/**

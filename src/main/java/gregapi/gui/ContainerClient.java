@@ -23,8 +23,8 @@ import static gregapi.data.CS.*;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.util.ST;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
@@ -34,7 +34,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * @author Gregorius Techneticies
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContainerClient extends GuiContainer {
 	
 	public boolean mCrashed = F;

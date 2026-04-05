@@ -20,8 +20,8 @@
 package gregapi.tileentity.inventories;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity.IMTE_GetMaxStackSize;
 import gregapi.block.multitileentity.IMultiTileEntity.IMTE_OnRegistrationFirstClient;
 import gregapi.block.multitileentity.IMultiTileEntity.IMTE_SyncDataInteger;
@@ -698,12 +698,12 @@ public abstract class MultiTileEntityMassStorage extends TileEntityBase09FacingS
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void onRegistrationFirstClient(MultiTileEntityRegistry aRegistry, short aID) {
 		ClientRegistry.bindTileEntitySpecialRenderer(getClass(), MultiTileEntityRendererMassStorage.INSTANCE);
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static class MultiTileEntityRendererMassStorage extends TileEntitySpecialRenderer {
 		public static MultiTileEntityRendererMassStorage INSTANCE = new MultiTileEntityRendererMassStorage();
 		

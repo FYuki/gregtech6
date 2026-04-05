@@ -19,7 +19,7 @@
 
 package gregapi.load;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+// PHASE3: GameRegistry → DeferredRegister
 import gregapi.data.*;
 import gregapi.old.Textures;
 import gregapi.oredict.OreDictItemData;

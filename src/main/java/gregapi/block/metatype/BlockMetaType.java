@@ -24,8 +24,8 @@ import static gregapi.data.CS.*;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.BlockBaseMeta;
 import gregapi.data.OP;
 import gregapi.data.RM;
@@ -153,7 +153,7 @@ public class BlockMetaType extends BlockBaseMeta {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {
 		if (aSide == OPOS[mSide]) return T;
 		if (aSide != mSide && SIDES_VALID[mSide]) {

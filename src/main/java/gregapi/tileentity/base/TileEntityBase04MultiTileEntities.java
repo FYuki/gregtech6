@@ -19,7 +19,7 @@
 
 package gregapi.tileentity.base;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+// PHASE3: GameRegistry → DeferredRegister
 import gregapi.block.multitileentity.IMultiTileEntity.*;
 import gregapi.block.multitileentity.MultiTileEntityClassContainer;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;

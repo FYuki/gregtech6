@@ -19,8 +19,8 @@
 
 package gregtech.tileentity.placeables;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity.*;
 import gregapi.block.multitileentity.MultiTileEntityBlockInternal;
 import gregapi.block.multitileentity.MultiTileEntityContainer;
@@ -466,7 +466,7 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 	public static boolean ALLOW_3D_COINS = T, ALLOW_3D_COINS_INV = T;
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void onRegistrationClient(MultiTileEntityRegistry aRegistry, short aID) {
 		ALLOW_3D_COINS = ConfigsGT.CLIENT.get(ConfigCategories.general, "use3DCoins", ALLOW_3D_COINS);
 		ALLOW_3D_COINS_INV = ConfigsGT.CLIENT.get(ConfigCategories.general, "use3DCoinsInv", ALLOW_3D_COINS_INV);

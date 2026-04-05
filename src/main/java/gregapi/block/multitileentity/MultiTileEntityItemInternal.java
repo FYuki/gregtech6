@@ -20,8 +20,8 @@
 package gregapi.block.multitileentity;
 
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity.*;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.TagData;
@@ -138,7 +138,7 @@ public class MultiTileEntityItemInternal extends ItemBlock implements squeek.app
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("unchecked")
 	public void getSubItems(Item aItem, CreativeTabs aTab, @SuppressWarnings("rawtypes") List aList) {
 		if (aTab instanceof CreativeTab) {
@@ -650,8 +650,8 @@ public class MultiTileEntityItemInternal extends ItemBlock implements squeek.app
 	@Override public ItemStack getContainerItem(ItemStack aStack) {return null;}
 	@Override public boolean doesContainerItemLeaveCraftingGrid(ItemStack aStack) {return F;}
 	@Override public int getSpriteNumber() {return 0;}
-	@Override @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister aRegister) {/**/}
-	@Override @SideOnly(Side.CLIENT) public IIcon getIconFromDamage(int aMeta) {itemIcon = Items.bread.getIconFromDamage(0); return itemIcon; /* Fixes Eating Animation Particles. */}
+	@Override @OnlyIn(Dist.CLIENT) public void registerIcons(IIconRegister aRegister) {/**/}
+	@Override @OnlyIn(Dist.CLIENT) public IIcon getIconFromDamage(int aMeta) {itemIcon = Items.bread.getIconFromDamage(0); return itemIcon; /* Fixes Eating Animation Particles. */}
 	@Override public boolean isBookEnchantable(ItemStack aStack, ItemStack aBook) {return F;}
 	@Override public boolean getIsRepairable(ItemStack aStack, ItemStack aMaterial) {return F;}
 	@Override public int getItemEnchantability() {return 0;}

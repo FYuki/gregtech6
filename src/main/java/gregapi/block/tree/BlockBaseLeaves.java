@@ -20,8 +20,8 @@
 package gregapi.block.tree;
 
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.data.MD;
 import gregapi.data.OP;
@@ -100,7 +100,7 @@ public abstract class BlockBaseLeaves extends BlockBaseTree implements IShearabl
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {
 		Block aBlock = aWorld.getBlock(aX, aY, aZ);
 		return !(aBlock.isOpaqueCube() || (Blocks.leaves.isOpaqueCube() && aBlock instanceof BlockBaseLeaves));
@@ -142,11 +142,11 @@ public abstract class BlockBaseLeaves extends BlockBaseTree implements IShearabl
 		return rDrops;
 	}
 	
-	@Override @SideOnly(Side.CLIENT)
+	@Override @OnlyIn(Dist.CLIENT)
 	public int getBlockColor() {return ColorizerFoliage.getFoliageColor(0.5, 1.0);}
-	@Override @SideOnly(Side.CLIENT)
+	@Override @OnlyIn(Dist.CLIENT)
 	public int getRenderColor(int p_149741_1_) {return ColorizerFoliage.getFoliageColorBasic();}
-	@Override @SideOnly(Side.CLIENT)
+	@Override @OnlyIn(Dist.CLIENT)
 	public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {
 		int l = 0, i1 = 0, j1 = 0;
 		for (int k1 = -1; k1 <= 1; ++k1) for (int l1 = -1; l1 <= 1; ++l1) {

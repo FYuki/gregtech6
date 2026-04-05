@@ -23,8 +23,8 @@ import static gregapi.data.CS.*;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.data.LH;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.tileentity.ITileEntityInventoryGUI;
@@ -288,7 +288,7 @@ public class ContainerCommonBasicMachine extends ContainerCommon {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void updateProgressBar(int aIndex, int aValue) {
 		super.updateProgressBar(aIndex, aValue);
 		switch (aIndex) {

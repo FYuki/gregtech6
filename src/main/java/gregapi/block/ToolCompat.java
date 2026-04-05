@@ -19,7 +19,7 @@
 
 package gregapi.block;
 
-import cpw.mods.fml.common.FMLLog;
+// PHASE2: FMLLog removed → use LogUtils.getLogger()
 import forestry.apiculture.tiles.TileCandle;
 import gregapi.data.*;
 import gregapi.item.multiitem.MultiItemTool;
@@ -43,7 +43,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -88,7 +88,7 @@ public class ToolCompat {
 		try {
 		
 		if (aTool.equals(TOOL_hoe) && (aEntityPlayer == null || aEntityPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack))) {
-			if (!MinecraftForge.EVENT_BUS.post(new UseHoeEvent(aEntityPlayer, aStack, aWorld, aX, aY, aZ))) {
+			if (!NeoForge.EVENT_BUS.post(new UseHoeEvent(aEntityPlayer, aStack, aWorld, aX, aY, aZ))) {
 				if (SIDES_TOP_HORIZONTAL[aSide] && !WD.hasCollide(aWorld, aX, aY+1, aZ) && (aBlock == Blocks.grass || aBlock == Blocks.dirt || aBlock == BlocksGT.Grass || IL.EtFu_Path.equal(aBlock) || IL.BoP_Grass_Origin.equal(aBlock) || IL.BoP_Grass_Long.equal(aBlock))) {
 					aWorld.playSoundEffect(aX + 0.5F, aY + 0.5F, aZ + 0.5F, Blocks.farmland.stepSound.getStepResourcePath(), (Blocks.farmland.stepSound.getVolume() + 1.0F) * 0.5F, Blocks.farmland.stepSound.getPitch() * 0.8F);
 					if (!aWorld.isRemote) aWorld.setBlock(aX, aY, aZ, Blocks.farmland);

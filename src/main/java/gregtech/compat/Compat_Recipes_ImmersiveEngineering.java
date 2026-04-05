@@ -21,7 +21,7 @@ package gregtech.compat;
 
 import static gregapi.data.CS.*;
 
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.ModData;

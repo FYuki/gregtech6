@@ -21,15 +21,15 @@ package gregapi.gui;
 
 import static gregapi.data.CS.*;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.tileentity.ITileEntityInventoryGUI;
 import net.minecraft.entity.player.InventoryPlayer;
 
 /**
  * @author Gregorius Techneticies
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContainerClientDefault extends ContainerClient {
 	public ContainerClientDefault(InventoryPlayer aInventoryPlayer, ITileEntityInventoryGUI aTileEntity) {
 		this(aInventoryPlayer, aTileEntity, RES_PATH_GUI + "chests/" + aTileEntity.getSizeInventoryGUI() + ".png");

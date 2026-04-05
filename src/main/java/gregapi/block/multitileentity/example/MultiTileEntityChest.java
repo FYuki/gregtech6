@@ -20,8 +20,8 @@
 package gregapi.block.multitileentity.example;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity.*;
 import gregapi.block.multitileentity.MultiTileEntityBlockInternal;
 import gregapi.block.multitileentity.MultiTileEntityContainer;
@@ -325,22 +325,22 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 		return T;
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	private static MultiTileEntityRendererChest RENDERER;
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void onRegistrationFirstClient(MultiTileEntityRegistry aRegistry, short aID) {
 		ClientRegistry.bindTileEntitySpecialRenderer(getClass(), RENDERER = new MultiTileEntityRendererChest());
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void onRegistrationClient(MultiTileEntityRegistry aRegistry, short aID) {
 		RENDERER.mResources.put(mTextureName, new ResourceLocation[] {new ResourceLocation(MD.GT.mID, TEX_DIR_MODEL + aRegistry.mNameInternal + "/" + mTextureName + ".colored.png"), new ResourceLocation(MD.GT.mID, TEX_DIR_MODEL + aRegistry.mNameInternal + "/" + mTextureName + ".plain.png")});
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static class MultiTileEntityRendererChest extends TileEntitySpecialRenderer {
 		private static final MultiTileEntityModelChest sModel = new MultiTileEntityModelChest();
 		public final Map<String, ResourceLocation[]> mResources = new HashMap<>();
@@ -386,7 +386,7 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 		}
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static class MultiTileEntityModelChest extends ModelBase {
 		private final ModelRenderer mLid, mBottom, mKnob;
 		
