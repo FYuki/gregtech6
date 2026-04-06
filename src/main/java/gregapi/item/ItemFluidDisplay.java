@@ -45,7 +45,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 // PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 import net.neoforged.neoforge.fluids.FluidStack;
 import gregapi.stubs.IFluidContainerItem;
@@ -54,6 +54,8 @@ import java.util.Collection;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies

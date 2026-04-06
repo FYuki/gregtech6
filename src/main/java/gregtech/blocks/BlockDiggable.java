@@ -28,8 +28,8 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.WD;
 import mods.railcraft.common.carts.EntityTunnelBore;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
@@ -105,7 +105,7 @@ public class BlockDiggable extends BlockBaseMeta implements IBlockOnWalkOver {
 	@Override
 	public boolean canSustainPlant(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
 		if (IS_CLAY[WD.meta(aWorld, aX, aY, aZ)]) return F;
-		if (aPlant == Blocks.reeds || aPlant instanceof BlockBush) return T;
+		if (aPlant == Blocks.reeds || aPlant instanceof BushBlock) return T;
 		EnumPlantType tType = aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ);
 		return tType == EnumPlantType.Plains || tType == EnumPlantType.Water || tType == EnumPlantType.Desert || tType == EnumPlantType.Beach;
 	}

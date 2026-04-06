@@ -32,11 +32,11 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.damagesource.DamageSource;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -45,13 +45,15 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
 import gregapi.stubs.BlockFluidClassic;
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies

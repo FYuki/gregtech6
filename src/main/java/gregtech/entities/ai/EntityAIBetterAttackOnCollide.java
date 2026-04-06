@@ -22,24 +22,24 @@ package gregtech.entities.ai;
 import static gregapi.data.CS.*;
 
 import gregapi.util.ST;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.item.EntityTNTPrimed;
+import gregapi.stubs.EntityAIAttackOnCollide;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.pathfinding.PathEntity;
-import net.minecraft.pathfinding.PathPoint;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 
 // Started off as a refactored copy of `EntityAIAttackOnCollide`
-public class EntityAIBetterAttackOnCollide extends EntityAIBase {
+public class EntityAIBetterAttackOnCollide extends Goal {
 	public Level mWorld;
-	public PathEntity mPath;
+	public Path mPath;
 	public Class<?> mTargetClass;
-	public EntityCreature mCreature;
+	public PathfinderMob mCreature;
 	public int mAttackCoolDown, mPathCoolDown, mFailedPathFindingPenalty;
 	public double mX, mY, mZ, mSpeedToTarget;
 	public boolean mLastingMemory;
@@ -97,7 +97,7 @@ public class EntityAIBetterAttackOnCollide extends EntityAIBase {
 			
 			mPathCoolDown = mFailedPathFindingPenalty + 4 + mCreature.getRNG().nextInt(7);
 			if (mCreature.getNavigator().getPath() != null) {
-				PathPoint tPathPoint = mCreature.getNavigator().getPath().getFinalPathPoint();
+				Node tPathPoint = mCreature.getNavigator().getPath().getFinalPathPoint();
 				if (tPathPoint != null && tTarget.getDistanceSq(tPathPoint.xCoord, tPathPoint.yCoord, tPathPoint.zCoord) < 1) {
 					mFailedPathFindingPenalty = 0;
 				} else {
@@ -134,7 +134,7 @@ public class EntityAIBetterAttackOnCollide extends EntityAIBase {
 					if (--tHeld.stackSize <= 0) mCreature.setCurrentItemOrArmor(0, NI);
 					
 					if (!mWorld.isRemote) {
-						EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(mWorld, mCreature.posX, mCreature.posY, mCreature.posZ, mCreature);
+						PrimedTnt entitytntprimed = new PrimedTnt(mWorld, mCreature.posX, mCreature.posY, mCreature.posZ, mCreature);
 						mWorld.spawnEntityInWorld(entitytntprimed);
 						mWorld.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1, 1);
 					}

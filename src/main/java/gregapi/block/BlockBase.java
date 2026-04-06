@@ -25,17 +25,17 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockFalling;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.material.PushReaction;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -49,6 +49,8 @@ import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -88,7 +90,7 @@ public abstract class BlockBase extends Block implements IBlockBase {
 	@Override public Item getItem(Level aWorld, int aX, int aY, int aZ) {return Item.getItemFromBlock(this);}
 	@Override public void registerBlockIcons(IIconRegister aIconRegister) {/**/}
 	@Override public boolean canSustainPlant(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {return F;}
-	@Override public boolean canCreatureSpawn(EnumCreatureType type, BlockGetter aWorld, int aX, int aY, int aZ) {byte aMeta = WD.meta(aWorld, aX, aY, aZ); return canCreatureSpawn(aMeta) && isSideSolid(aMeta, SIDE_TOP);}
+	@Override public boolean canCreatureSpawn(MobCategory type, BlockGetter aWorld, int aX, int aY, int aZ) {byte aMeta = WD.meta(aWorld, aX, aY, aZ); return canCreatureSpawn(aMeta) && isSideSolid(aMeta, SIDE_TOP);}
 	@Override public boolean isFireSource(Level aWorld, int aX, int aY, int aZ, Direction aSide) {return isFireSource(WD.meta(aWorld, aX, aY, aZ));}
 	@Override public boolean isFlammable(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide) {return isFlammable(WD.meta(aWorld, aX, aY, aZ));}
 	@Override public int getFlammability(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide) {return getFlammability(WD.meta(aWorld, aX, aY, aZ));}
@@ -132,12 +134,12 @@ public abstract class BlockBase extends Block implements IBlockBase {
 	
 	public boolean checkGravity(Level aWorld, int aX, int aY, int aZ) {
 		byte aMeta = WD.meta(aWorld, aX, aY, aZ);
-		if (aY > 0 && useGravity(aMeta) && BlockFalling.func_149831_e(aWorld, aX, aY - 1, aZ)) {
-			if (!BlockFalling.fallInstantly && aWorld.checkChunksExist(aX-32, aY-32, aZ-32, aX+32, aY+32, aZ+32)) {
-				if (!aWorld.isRemote) aWorld.spawnEntityInWorld(new EntityFallingBlock(aWorld, aX+0.5, aY+0.5, aZ+0.5, this, aMeta));
+		if (aY > 0 && useGravity(aMeta) && FallingBlock.func_149831_e(aWorld, aX, aY - 1, aZ)) {
+			if (!FallingBlock.fallInstantly && aWorld.checkChunksExist(aX-32, aY-32, aZ-32, aX+32, aY+32, aZ+32)) {
+				if (!aWorld.isRemote) aWorld.spawnEntityInWorld(new FallingBlockEntity(aWorld, aX+0.5, aY+0.5, aZ+0.5, this, aMeta));
 			} else {
 				aWorld.setBlockToAir(aX, aY, aZ);
-				while (BlockFalling.func_149831_e(aWorld, aX, aY-1, aZ) && aY > 0) --aY;
+				while (FallingBlock.func_149831_e(aWorld, aX, aY-1, aZ) && aY > 0) --aY;
 				if (aY > 0) WD.set(aWorld, aX, aY, aZ, this, aMeta, 2);
 			}
 			return T;

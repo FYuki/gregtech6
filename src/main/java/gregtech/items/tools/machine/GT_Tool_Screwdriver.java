@@ -27,10 +27,10 @@ import gregapi.item.multiitem.tools.ToolStats;
 import gregapi.old.Textures;
 import gregapi.render.IIconContainer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.monster.EntityCaveSpider;
-import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.CaveSpider;
+import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -41,7 +41,7 @@ import static gregapi.data.CS.*;
 
 public class GT_Tool_Screwdriver extends ToolStats {
 	public static final List<String> mEffectiveList = Arrays.asList(
-		EntityCaveSpider.class.getName(),
+		CaveSpider.class.getName(),
 		EntitySpider.class.getName(),
 		"EntityTFHedgeSpider",
 		"EntityTFKingSpider",

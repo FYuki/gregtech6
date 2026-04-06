@@ -33,7 +33,7 @@ import gregapi.tileentity.multiblocks.TileEntityBase10MultiBlockBase;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -141,7 +141,7 @@ public class MultiTileEntityLightningRod extends TileEntityBase10MultiBlockBase 
 								}
 							}
 							if (temp) {
-								worldObj.addWeatherEffect(new EntityLightningBolt(worldObj, xCoord, yCoord+mSize+4, zCoord));
+								worldObj.addWeatherEffect(new LightningBolt(worldObj, xCoord, yCoord+mSize+4, zCoord));
 								mEnergy = mCapacity;
 							}
 						}

@@ -31,12 +31,12 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -84,14 +84,14 @@ public class BlockSpikeFancy extends BlockBaseSpike {
 		int aMeta = WD.meta(aWorld, aX, aY, aZ);
 		if (aEntity instanceof LivingEntity) {
 			if (aMeta < 8) {
-				if (((LivingEntity)aEntity).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD)
+				if (((LivingEntity)aEntity).getCreatureAttribute() == MobType.UNDEAD)
 				aEntity.attackEntityFrom(DamageSources.getSpikeDamage(), TFC_DAMAGE_MULTIPLIER * ((aMeta & 7) < 6 ? 20.0F : 10.0F));
-				else if (!(aEntity instanceof EntityIronGolem || aEntity instanceof EntitySkeleton || aEntity instanceof EntitySlime))
+				else if (!(aEntity instanceof IronGolem || aEntity instanceof EntitySkeleton || aEntity instanceof Slime))
 				aEntity.attackEntityFrom(DamageSources.getSpikeDamage(), TFC_DAMAGE_MULTIPLIER * ((aMeta & 7) < 6 ?  2.0F :  1.0F));
 			} else {
 				if (UT.Entities.isEnderCreature((LivingEntity)aEntity) || UT.Entities.isWereCreature((LivingEntity)aEntity))
 				aEntity.attackEntityFrom(DamageSources.getSpikeDamage(), TFC_DAMAGE_MULTIPLIER * ((aMeta & 7) < 6 ? 20.0F : 10.0F));
-				else if (!(aEntity instanceof EntityIronGolem || aEntity instanceof EntitySkeleton || aEntity instanceof EntitySlime))
+				else if (!(aEntity instanceof IronGolem || aEntity instanceof EntitySkeleton || aEntity instanceof Slime))
 				aEntity.attackEntityFrom(DamageSources.getSpikeDamage(), TFC_DAMAGE_MULTIPLIER * ((aMeta & 7) < 6 ?  2.0F :  1.0F));
 			}
 		}
@@ -99,6 +99,6 @@ public class BlockSpikeFancy extends BlockBaseSpike {
 	
 	@Override
 	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
-		return WD.meta(aWorld, aX, aY, aZ) < 8 ? !(aEntity instanceof EntityWither) : !(aEntity instanceof EntityDragon);
+		return WD.meta(aWorld, aX, aY, aZ) < 8 ? !(aEntity instanceof WitherBoss) : !(aEntity instanceof EnderDragon);
 	}
 }

@@ -48,13 +48,13 @@ import gregapi.util.CR;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockCauldron;
+import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -66,6 +66,7 @@ import java.util.List;
 import java.util.Set;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IFluidTank; // stub
 
 /**
  * @author Gregorius Techneticies

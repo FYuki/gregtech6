@@ -21,10 +21,10 @@ package gregapi.block.metatype;
 
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.IIconContainer;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockGetter;
 
 public class BlockStonesWitherProof extends BlockStones {
@@ -43,6 +43,6 @@ public class BlockStonesWitherProof extends BlockStones {
 	
 	@Override
 	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
-		return !(aEntity instanceof EntityWither);
+		return !(aEntity instanceof WitherBoss);
 	}
 }

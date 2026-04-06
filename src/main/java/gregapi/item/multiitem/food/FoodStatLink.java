@@ -25,10 +25,10 @@ import java.util.List;
 
 import gregapi.data.CS.DrinksGT;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.item.EnumAction;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class FoodStatLink implements IFoodStat {
@@ -83,7 +83,7 @@ public class FoodStatLink implements IFoodStat {
 	}
 	
 	@Override
-	public EnumAction getFoodAction(Item aItem, ItemStack aStack) {
+	public UseAnim getFoodAction(Item aItem, ItemStack aStack) {
 		return mStats.getFoodAction(aItem, aStack);
 	}
 	

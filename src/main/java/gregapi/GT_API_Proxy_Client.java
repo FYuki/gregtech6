@@ -64,13 +64,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
+import gregapi.stubs.FurnaceRecipes;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
 import gregapi.stubs.DrawBlockHighlightEvent;
 import net.neoforged.neoforge.client.event.TextureAtlasStitchedEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 // PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 
 import java.util.Arrays;

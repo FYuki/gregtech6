@@ -34,12 +34,12 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.List;
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.T;
+import gregapi.stubs.IFluidTank; // stub
 
 /**
  * @author Gregorius Techneticies

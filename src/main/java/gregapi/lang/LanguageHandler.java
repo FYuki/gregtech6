@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.Configuration; // stub
 
 /**
  * @author Gregorius Techneticies

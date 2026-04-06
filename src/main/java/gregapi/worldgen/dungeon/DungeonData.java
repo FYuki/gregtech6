@@ -38,11 +38,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
 import gregapi.stubs.ChestGenHooks;
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.Random;
 

@@ -50,11 +50,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IFluidTank; // stub
 
 /**
  * @author Gregorius Techneticies

@@ -28,9 +28,9 @@ import gregapi.item.multiitem.MultiItem;
 import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.passive.EntityOcelot;
+import gregapi.stubs.EntityAITaskEntry;
+import gregapi.stubs.EntityAITempt;
+import net.minecraft.world.entity.animal.Cat;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -39,28 +39,28 @@ public class Behavior_FeedCat extends AbstractBehaviorDefault {
 	
 	@Override
 	public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {
-		if (aEntity instanceof EntityOcelot) {
-			for (Object tTask : ((EntityOcelot)aEntity).tasks.taskEntries) if (((EntityAITaskEntry)tTask).action instanceof EntityAITempt && ((EntityAITempt)((EntityAITaskEntry)tTask).action).isRunning()) {
+		if (aEntity instanceof Cat) {
+			for (Object tTask : ((Cat)aEntity).tasks.taskEntries) if (((EntityAITaskEntry)tTask).action instanceof EntityAITempt && ((EntityAITempt)((EntityAITaskEntry)tTask).action).isRunning()) {
 				if (aPlayer.getDistanceSqToEntity(aEntity) < 9.0D) {
 					UT.Entities.consumeCurrentItem(aPlayer);
 					if (!aPlayer.worldObj.isRemote) {
 						if (RNGSUS.nextInt(3) == 0) {
-							((EntityOcelot)aEntity).setTamed(T);
-							((EntityOcelot)aEntity).setTameSkin(1 + RNGSUS.nextInt(3));
-							((EntityOcelot)aEntity).func_152115_b(aPlayer.getUniqueID().toString());
+							((Cat)aEntity).setTamed(T);
+							((Cat)aEntity).setTameSkin(1 + RNGSUS.nextInt(3));
+							((Cat)aEntity).func_152115_b(aPlayer.getUniqueID().toString());
 							for (int i = 0; i < 7; ++i) aEntity.worldObj.spawnParticle("heart", aEntity.posX + (RNGSUS.nextFloat() * aEntity.width * 2.0F) - aEntity.width, aEntity.posY + 0.5D + (RNGSUS.nextFloat() * aEntity.height), aEntity.posZ + (RNGSUS.nextFloat() * aEntity.width * 2.0F) - aEntity.width, RNGSUS.nextGaussian() * 0.02D, RNGSUS.nextGaussian() * 0.02D, RNGSUS.nextGaussian() * 0.02D);
-							((EntityOcelot)aEntity).worldObj.setEntityState(aEntity, (byte)7);
+							((Cat)aEntity).worldObj.setEntityState(aEntity, (byte)7);
 						} else {
 							for (int i = 0; i < 7; ++i) aEntity.worldObj.spawnParticle("smoke", aEntity.posX + (RNGSUS.nextFloat() * aEntity.width * 2.0F) - aEntity.width, aEntity.posY + 0.5D + (RNGSUS.nextFloat() * aEntity.height), aEntity.posZ + (RNGSUS.nextFloat() * aEntity.width * 2.0F) - aEntity.width, RNGSUS.nextGaussian() * 0.02D, RNGSUS.nextGaussian() * 0.02D, RNGSUS.nextGaussian() * 0.02D);
-							((EntityOcelot)aEntity).worldObj.setEntityState(aEntity, (byte)6);
+							((Cat)aEntity).worldObj.setEntityState(aEntity, (byte)6);
 						}
 					}
 				}
 				return T;
 			}
-			if (((EntityOcelot)aEntity).isTamed() && ((EntityOcelot)aEntity).getGrowingAge() == 0 && !((EntityOcelot)aEntity).isInLove()) {
+			if (((Cat)aEntity).isTamed() && ((Cat)aEntity).getGrowingAge() == 0 && !((Cat)aEntity).isInLove()) {
 				UT.Entities.consumeCurrentItem(aPlayer);
-				((EntityOcelot)aEntity).func_146082_f(aPlayer);
+				((Cat)aEntity).func_146082_f(aPlayer);
 				return T;
 			}
 		}

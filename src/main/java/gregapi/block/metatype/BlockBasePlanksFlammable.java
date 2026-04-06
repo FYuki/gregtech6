@@ -23,8 +23,8 @@ import static gregapi.data.CS.*;
 
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.IIconContainer;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
 

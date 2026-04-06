@@ -20,6 +20,7 @@
 package gregapi.old;
 
 import gregapi.stubs.Tessellator;
+import gregapi.stubs.IIcon; // stub
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 
 public class GT_RenderUtil {

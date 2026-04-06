@@ -24,7 +24,7 @@ import gregapi.compat.galacticraft.IBlockSealable;
 import gregapi.data.IL;
 import gregapi.util.UT;
 import micdoodle8.mods.galacticraft.api.block.IOxygenReliantBlock;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction

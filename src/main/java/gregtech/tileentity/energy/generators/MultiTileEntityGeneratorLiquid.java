@@ -55,6 +55,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import gregapi.stubs.IFluidTank; // stub
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 /**

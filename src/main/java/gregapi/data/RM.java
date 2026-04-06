@@ -40,7 +40,7 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
+import gregapi.stubs.FurnaceRecipes;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.fluids.FluidStack;
 import team.chisel.carving.Carving;

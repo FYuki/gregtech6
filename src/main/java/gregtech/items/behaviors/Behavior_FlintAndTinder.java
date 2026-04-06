@@ -30,7 +30,7 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import gregtech.GT6_Main;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -68,10 +68,10 @@ public class Behavior_FlintAndTinder extends AbstractBehaviorDefault {
 	@Override
 	public boolean onLeftClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {
 		if (aPlayer.worldObj.isRemote) return F;
-		if (aEntity instanceof EntityCreeper) {
+		if (aEntity instanceof Creeper) {
 			((MultiItemTool)aItem).doDamage(aStack, 100, aPlayer, F);
 			UT.Sounds.send(SFX.MC_IGNITE, aEntity);
-			((EntityCreeper)aEntity).func_146079_cb();
+			((Creeper)aEntity).func_146079_cb();
 			return T;
 		}
 		return F;

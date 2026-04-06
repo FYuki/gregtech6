@@ -25,7 +25,7 @@ import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import gregtech.asm.GT_ASM;
-import net.minecraft.launchwrapper.IClassTransformer;
+import gregapi.stubs.IClassTransformer;
 
 /* Technomancy's ore dict processing step takes like 20 minutes on my computer to load with my modpack because it
  * exponentially goes through the oredict, just to do stuff that GT6 already does but better and faster, so disable that

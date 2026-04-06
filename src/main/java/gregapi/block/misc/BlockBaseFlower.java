@@ -31,18 +31,17 @@ import gregapi.util.WD;
 import micdoodle8.mods.galacticraft.api.block.IOxygenReliantBlock;
 import mods.railcraft.common.carts.EntityTunnelBore;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.IGrowable;
+import net.minecraft.world.level.block.FlowerBlock;
+import net.minecraft.world.level.block.BonemealableBlock;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.tileentity.TileEntityFlowerPot;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.level.BlockGetter;
@@ -54,6 +53,8 @@ import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -61,7 +62,7 @@ import static gregapi.data.CS.*;
 @Optional.InterfaceList(value = {
 	@Optional.Interface(iface = "micdoodle8.mods.galacticraft.api.block.IOxygenReliantBlock", modid = ModIDs.GC)
 })
-public abstract class BlockBaseFlower extends BlockFlower implements IBlockBase, IBlockSealable, IOxygenReliantBlock, IGrowable {
+public abstract class BlockBaseFlower extends BlockFlower implements IBlockBase, IBlockSealable, IOxygenReliantBlock, BonemealableBlock {
 	public final String mNameInternal;
 	public IIconContainer[] mIcons;
 	/** For Creative Subsets, not actually important. */
@@ -101,7 +102,7 @@ public abstract class BlockBaseFlower extends BlockFlower implements IBlockBase,
 	@Override public Item getItemDropped(int par1, Random aRandom, int par3) {return Item.getItemFromBlock(this);}
 	@Override public Item getItem(Level aWorld, int aX, int aY, int aZ) {return Item.getItemFromBlock(this);}
 	@Override public void registerBlockIcons(IIconRegister aIconRegister) {/**/}
-	@Override public boolean canCreatureSpawn(EnumCreatureType type, BlockGetter aWorld, int aX, int aY, int aZ) {return F;}
+	@Override public boolean canCreatureSpawn(MobCategory type, BlockGetter aWorld, int aX, int aY, int aZ) {return F;}
 	@SuppressWarnings("unchecked") @Override public void getSubBlocks(Item aItem, CreativeModeTab aTab, @SuppressWarnings("rawtypes") List aList) {for (int i = 0; i < maxMeta(); i++) aList.add(ST.make(aItem, 1, i));}
 	@Override public boolean isSealed(Level aWorld, int aX, int aY, int aZ, Direction aDirection) {return F;}
 	@Override public Block getBlock() {return this;}

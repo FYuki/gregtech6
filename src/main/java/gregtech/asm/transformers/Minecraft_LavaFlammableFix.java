@@ -27,7 +27,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import gregtech.asm.GT_ASM;
-import net.minecraft.launchwrapper.IClassTransformer;
+import gregapi.stubs.IClassTransformer;
 
 /**
  * @author OvermindDL1

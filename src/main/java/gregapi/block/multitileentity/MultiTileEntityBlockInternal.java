@@ -34,7 +34,7 @@ import gregapi.tileentity.ITileEntity;
 import gregapi.tileentity.ITileEntityMachineBlockUpdateable;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -42,6 +42,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies

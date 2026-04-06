@@ -35,14 +35,14 @@ import gregapi.render.IIconContainer;
 import gregapi.util.*;
 import mods.railcraft.common.carts.EntityTunnelBore;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.Container;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -58,7 +58,7 @@ import static gregapi.data.CS.*;
 import static gregapi.data.OP.gearGtSmall;
 import static gregapi.data.OP.rockGt;
 
-public class BlockStones extends BlockMetaType implements IOreDictListenerEvent, IBlockToolable, IBlockOnWalkOver, IGrowable, Runnable {
+public class BlockStones extends BlockMetaType implements IOreDictListenerEvent, IBlockToolable, IBlockOnWalkOver, BonemealableBlock, Runnable {
 	public static final boolean[]
 	  MOSSY     = {F,F,T,F,F,T,F,F,F,F,F,F,F,F,F,F}
 	, MOSSABLE  = {F,T,F,T,T,F,F,F,F,F,F,F,F,F,F,F}

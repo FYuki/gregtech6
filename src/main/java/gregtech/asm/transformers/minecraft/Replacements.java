@@ -22,13 +22,13 @@ package gregtech.asm.transformers.minecraft;
 import java.util.Random;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockStaticLiquid;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
@@ -44,15 +44,15 @@ public class Replacements {
 	/** Zombies convert their Victim. */
 	public static void EntityZombie_onKillEntity(Object aZombie, Object aVictim) {
 		// Just ALWAYS convert Villagers, not only sometimes or when the stupid Difficulty Setting is right.
-		if (aVictim instanceof EntityVillager) {
-			EntityVillager aVillager = (EntityVillager)aVictim;
+		if (aVictim instanceof Villager) {
+			Villager aVillager = (Villager)aVictim;
 			Level aWorld = aVillager.worldObj;
 			// Yep, new Zombie Object.
 			EntityZombie tZombieVillager = new EntityZombie(aWorld);
 			// Location and Head need to point to the right places.
 			tZombieVillager.copyLocationAndAnglesFrom(aVillager);
 			// Do normal spawning Stuff.
-			tZombieVillager.onSpawnWithEgg((IEntityLivingData)null);
+			tZombieVillager.onSpawnWithEgg((SpawnGroupData)null);
 			// Converting Villager Zombies back to Villagers would make it impossible to retrieve the Items, so don't pick up in the first place!
 			tZombieVillager.setCanPickUpLoot(false);
 			// Well yes, he clearly is a Villager Zombie.
@@ -134,7 +134,7 @@ public class Replacements {
 		return world.getBlock(x, y, z).isFlammable(world, x, y, z, Direction.UNKNOWN);
 	}
 
-	public static boolean EntityAICreeperSwell_shouldExecute(EntityCreeper swellingCreeper) {
+	public static boolean EntityAICreeperSwell_shouldExecute(Creeper swellingCreeper) {
 		LivingEntity target = swellingCreeper.getAttackTarget();
 		if(swellingCreeper.getCreeperState() > 0) return true;
 		if(target == null) return false;

@@ -23,10 +23,10 @@ import gregapi.block.misc.BlockBaseBars;
 import gregapi.data.LH;
 import gregapi.data.MT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.level.BlockGetter;
 
 public class BlockBarsTungstenSteel extends BlockBaseBars {
@@ -54,6 +54,6 @@ public class BlockBarsTungstenSteel extends BlockBaseBars {
 	
 	@Override
 	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
-		return !(aEntity instanceof EntityWither || aEntity instanceof EntityDragon);
+		return !(aEntity instanceof WitherBoss || aEntity instanceof EnderDragon);
 	}
 }

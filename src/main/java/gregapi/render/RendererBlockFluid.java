@@ -35,6 +35,7 @@ import gregapi.stubs.IFluidBlock;
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.T;
+import gregapi.stubs.IIcon; // stub
 
 public class RendererBlockFluid implements ISimpleBlockRenderingHandler {
 	public static int RENDER_ID = FluidRegistry.renderIdFluid;

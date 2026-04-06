@@ -26,6 +26,8 @@ import net.minecraft.world.level.block.Block;
 import gregapi.stubs.TextureMap;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.resources.ResourceLocation;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /** 
  * @author Gregorius Techneticies

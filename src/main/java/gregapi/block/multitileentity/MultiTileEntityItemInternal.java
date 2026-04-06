@@ -47,7 +47,7 @@ import ic2.api.item.ISpecialElectricItem;
 import micdoodle8.mods.galacticraft.api.item.IItemElectric;
 import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockSnow;
+import net.minecraft.world.level.block.SnowLayerBlock;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.LivingEntity;
@@ -56,9 +56,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.Container;
-import net.minecraft.item.EnumAction;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -74,6 +74,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -159,7 +161,7 @@ public class MultiTileEntityItemInternal extends ItemBlock implements squeek.app
 		
 		try {
 			Block tClickedBlock = aWorld.getBlock(aX, aY, aZ);
-			if (tClickedBlock instanceof BlockSnow && (aWorld.getBlockMetadata(aX, aY, aZ) & 7) < 1) {
+			if (tClickedBlock instanceof SnowLayerBlock && (aWorld.getBlockMetadata(aX, aY, aZ) & 7) < 1) {
 				aSide = SIDE_TOP;
 			} else if (tClickedBlock != Blocks.vine && tClickedBlock != Blocks.tallgrass && tClickedBlock != Blocks.deadbush && !tClickedBlock.isReplaceable(aWorld, aX, aY, aZ)) {
 				aX += OFFX[aSide]; aY += OFFY[aSide]; aZ += OFFZ[aSide];
@@ -400,14 +402,14 @@ public class MultiTileEntityItemInternal extends ItemBlock implements squeek.app
 	}
 	
 	@Override
-	public EnumAction getItemUseAction(ItemStack aStack) {
+	public UseAnim getItemUseAction(ItemStack aStack) {
 		MultiTileEntityContainer tTileEntityContainer = mBlock.mMultiTileEntityRegistry.getNewTileEntityContainer(aStack);
 		if (tTileEntityContainer != null && tTileEntityContainer.mTileEntity instanceof IMTE_GetItemUseAction) {
-			EnumAction rAction = ((IMTE_GetItemUseAction)tTileEntityContainer.mTileEntity).getItemUseAction(this, aStack);
+			UseAnim rAction = ((IMTE_GetItemUseAction)tTileEntityContainer.mTileEntity).getItemUseAction(this, aStack);
 			updateItemStack(aStack);
 			return rAction;
 		}
-		return EnumAction.none;
+		return UseAnim.none;
 	}
 	
 	@Override

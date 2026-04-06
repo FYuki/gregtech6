@@ -26,14 +26,14 @@ import gregapi.data.LH;
 import gregapi.lang.LanguageHandler;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.BlockDispenser;
+import net.minecraft.world.level.block.DispenserBlock;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
-import net.minecraft.dispenser.BehaviorProjectileDispense;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.IPosition;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.core.dispenser.ProjectileDispenseBehavior;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.Position;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.IProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -45,6 +45,8 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -65,7 +67,7 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 		LH.add(mName, aEnglish);
 		if (UT.Code.stringValid(aEnglishTooltip)) LH.add(mTooltip = mName + ".tooltip_main", aEnglishTooltip); else mTooltip = null;
 		ST.register(this, mName);
-		BlockDispenser.dispenseBehaviorRegistry.putObject(this, new GT_Item_Dispense());
+		DispenserBlock.dispenseBehaviorRegistry.putObject(this, new GT_Item_Dispense());
 	}
 	
 	@Override
@@ -86,8 +88,8 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 	}
 	
 	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
-		Direction enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
-		IPosition iposition = BlockDispenser.func_149939_a(aSource);
+		Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
+		Position iposition = DispenserBlock.func_149939_a(aSource);
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 		return aStack;
@@ -100,7 +102,7 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 		}
 		
 		@Override
-		protected IProjectile getProjectileEntity(Level aWorld, IPosition aPosition) {
+		protected IProjectile getProjectileEntity(Level aWorld, Position aPosition) {
 			return null;
 		}
 	}

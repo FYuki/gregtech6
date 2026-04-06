@@ -39,11 +39,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IFluidTank; // stub
 
 /**
  * @author Gregorius Techneticies

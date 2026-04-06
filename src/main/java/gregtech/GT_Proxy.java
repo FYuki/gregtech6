@@ -50,22 +50,22 @@ import gregtech.entities.ai.EntityAIBetterAttackOnCollide;
 import gregtech.entities.projectiles.EntityArrow_Material;
 import gregtech.tileentity.misc.MultiTileEntityCertificate;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityVillager;
+import gregapi.stubs.EntityAIAttackOnCollide;
+import gregapi.stubs.EntityAITasks;
+import gregapi.stubs.EntityAITempt;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 // PHASE5: Fluid helper return types use net.minecraft.world.level.material.Fluid (old net.minecraftforge.fluids.Fluid removed)
@@ -300,17 +300,17 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEntitySpawningEvent(EntityJoinLevelEvent aEvent) {
 		if (aEvent.getEntity() == null) return;
-		// PHASE3: Mob → LivingEntity; EntityVillager → Villager; EntityAITasks → GoalSelector;
+		// PHASE3: Mob → LivingEntity; Villager → Villager; EntityAITasks → GoalSelector;
 		//         EntityAITempt → TemptGoal; Items.emerald → Items.EMERALD; worldObj → level(); etc.
 		if (aEvent.getEntity() instanceof Mob) {
 			// AI Tasks for Entities
 			EntityAITasks tTasks = ((Mob)aEvent.entity).tasks;
 			if (tTasks != null) {
-				if (aEvent.entity instanceof EntityVillager) {
-					tTasks.addTask(3, new EntityAITempt((EntityCreature)aEvent.entity, 0.6D, Items.emerald, F));
+				if (aEvent.entity instanceof Villager) {
+					tTasks.addTask(3, new EntityAITempt((PathfinderMob)aEvent.entity, 0.6D, Items.emerald, F));
 				}
-				if (aEvent.entity instanceof EntityOcelot) {
-					if (ItemsGT.CANS != null) tTasks.addTask(3, new EntityAITempt((EntityCreature)aEvent.entity, 0.6D, ItemsGT.CANS, T));
+				if (aEvent.entity instanceof Cat) {
+					if (ItemsGT.CANS != null) tTasks.addTask(3, new EntityAITempt((PathfinderMob)aEvent.entity, 0.6D, ItemsGT.CANS, T));
 				}
 				if (aEvent.entity instanceof EntityZombie) {
 					for (int i = 0; i < tTasks.taskEntries.size(); i++) {
@@ -339,8 +339,8 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 		
 		if (aEvent.entity.worldObj.isRemote) return;
 		
-		if (mSkeletonsShootGTArrows > 0 && aEvent.entity.getClass() == EntityArrow.class && RNGSUS.nextInt(mSkeletonsShootGTArrows) == 0) {
-			if (((EntityArrow)aEvent.entity).shootingEntity instanceof EntitySkeleton) {
+		if (mSkeletonsShootGTArrows > 0 && aEvent.entity.getClass() == Arrow.class && RNGSUS.nextInt(mSkeletonsShootGTArrows) == 0) {
+			if (((Arrow)aEvent.entity).shootingEntity instanceof EntitySkeleton) {
 				OreDictMaterial tMaterial = MT.Craponite; // Just default to Anti-Bear989Sr Arrows
 				switch(RNGSUS.nextInt(10)) {
 				case 0: tMaterial = MT.Steel; break; // Sharpness 2
@@ -356,7 +356,7 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 				}
 				ItemStack tArrow = OP.arrowGtWood.mat(tMaterial, 1);
 				if (ST.valid(tArrow)) {
-					aEvent.entity.worldObj.spawnEntityInWorld(new EntityArrow_Material((EntityArrow)aEvent.entity, tArrow));
+					aEvent.entity.worldObj.spawnEntityInWorld(new EntityArrow_Material((Arrow)aEvent.entity, tArrow));
 					aEvent.entity.setDead();
 				}
 			}

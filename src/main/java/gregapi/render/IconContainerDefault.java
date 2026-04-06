@@ -25,6 +25,8 @@ import static gregapi.data.CS.*;
 import gregapi.stubs.TextureMap;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.resources.ResourceLocation;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 public class IconContainerDefault implements IIconContainer {
 	public final ResourceLocation mTextureFile;

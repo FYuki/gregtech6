@@ -27,7 +27,7 @@ import gregapi.data.CS.DrinksGT;
 import gregapi.data.FL;
 import gregapi.data.MD;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.item.EnumAction;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -99,11 +99,11 @@ public class FoodStatFluid implements IFoodStat {
 	}
 	
 	@Override
-	public EnumAction getFoodAction(Item aItem, ItemStack aStack) {
+	public UseAnim getFoodAction(Item aItem, ItemStack aStack) {
 		IFoodStat rStats = null;
 		FluidStack tFluid = FL.getFluid(aStack, T);
 		if (tFluid != null) rStats = DrinksGT.REGISTER.get(tFluid.getFluid().getName());
-		if (rStats == null) return EnumAction.drink;
+		if (rStats == null) return UseAnim.drink;
 		return rStats.getFoodAction(aItem, aStack);
 	}
 	

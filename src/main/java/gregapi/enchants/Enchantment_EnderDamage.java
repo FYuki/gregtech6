@@ -24,11 +24,11 @@ import gregapi.config.ConfigCategories;
 import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.util.UT;
-import net.minecraft.enchantment.EnchantmentDamage;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 
 /**
  * @author Gregorius Techneticies
@@ -82,9 +82,9 @@ public class Enchantment_EnderDamage extends EnchantmentDamage {
 	public void func_151367_b(LivingEntity aHurtEntity, Entity aDamagingEntity, int aLevel) {
 		if (UT.Entities.isEnderCreature(aHurtEntity)) {
 			// Weakness causes Endermen to not be able to teleport with GT being installed.
-			aHurtEntity.addPotionEffect(new PotionEffect(Potion.weakness.id , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));
+			aHurtEntity.addPotionEffect(new MobEffectInstance(Potion.weakness.id , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));
 			// They also get Poisoned. If you have this Enchant on an Arrow, you can kill the Ender Dragon easier.
-			aHurtEntity.addPotionEffect(new PotionEffect(Potion.poison.id   , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));
+			aHurtEntity.addPotionEffect(new MobEffectInstance(Potion.poison.id   , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));
 		}
 	}
 	

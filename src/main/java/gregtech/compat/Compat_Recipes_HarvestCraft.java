@@ -34,11 +34,10 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemFood;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE7: import OreDictionary removed — replaced by Tags
 // PHASE7: import ShapelessOreRecipe removed — use datapack recipes
 
 import java.util.ArrayList;

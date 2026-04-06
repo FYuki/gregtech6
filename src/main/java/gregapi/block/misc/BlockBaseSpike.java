@@ -30,12 +30,12 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.render.*;
 import gregapi.util.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import gregapi.stubs.RenderBlocks;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.IProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
@@ -53,6 +53,7 @@ import net.minecraft.core.Direction; // was Direction
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
 
 public abstract class BlockBaseSpike extends BlockBaseSealable implements IBlockOnWalkOver, IBlockToolable, IRenderedBlock {
 	public final OreDictMaterial mMat1, mMat2;

@@ -48,23 +48,23 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.stats.AchievementList;
+import gregapi.stubs.AchievementList;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction; // was Direction
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import FluidTankInfo removed
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.FluidTankInfo; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -682,12 +682,12 @@ public class MultiTileEntityAdvancedCraftingTable extends TileEntityBase09Facing
 	@Override public String getTileEntityName() {return "gt.multitileentity.crafting.advanced";}
 	
 	public class MultiTileEntityGUICommonAdvancedCraftingTable extends ContainerCommon {
-		public MultiTileEntityGUICommonAdvancedCraftingTable(InventoryPlayer aInventoryPlayer, MultiTileEntityAdvancedCraftingTable aTileEntity, int aGUIID) {
+		public MultiTileEntityGUICommonAdvancedCraftingTable(Inventory aInventoryPlayer, MultiTileEntityAdvancedCraftingTable aTileEntity, int aGUIID) {
 			super(aInventoryPlayer, aTileEntity, aGUIID);
 		}
 		
 		@Override
-		public int addSlots(InventoryPlayer aInventoryPlayer) {
+		public int addSlots(Inventory aInventoryPlayer) {
 			addSlotToContainer(new Slot_Normal(mTileEntity, 30, 135, 28).setTooltip(LH.ADVCRAFTING_INSERT_BLUEPRINT, LH.Chat.WHITE));
 			
 			addSlotToContainer(new Slot_Normal(mTileEntity,  0,   7,  8));
@@ -746,7 +746,7 @@ public class MultiTileEntityAdvancedCraftingTable extends TileEntityBase09Facing
 	
 	@OnlyIn(Dist.CLIENT)
 	public class MultiTileEntityGUIClientAdvancedCraftingTable extends ContainerClient {
-		public MultiTileEntityGUIClientAdvancedCraftingTable(InventoryPlayer aInventoryPlayer, MultiTileEntityAdvancedCraftingTable aTileEntity, int aGUIID) {
+		public MultiTileEntityGUIClientAdvancedCraftingTable(Inventory aInventoryPlayer, MultiTileEntityAdvancedCraftingTable aTileEntity, int aGUIID) {
 			super(new MultiTileEntityGUICommonAdvancedCraftingTable(aInventoryPlayer, aTileEntity, aGUIID), aTileEntity.mGUITexture);
 		}
 	}

@@ -41,13 +41,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidTank;
-import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTank;
+import gregapi.stubs.IFluidTank;
 import net.minecraft.world.level.material.Fluid;
 
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 
 /**
  * @author Gregorius Techneticies

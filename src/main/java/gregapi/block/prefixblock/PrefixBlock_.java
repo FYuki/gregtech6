@@ -27,7 +27,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.render.ITexture;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
 

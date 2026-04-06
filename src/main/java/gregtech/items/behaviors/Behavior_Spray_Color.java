@@ -26,10 +26,9 @@ import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockColored;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
@@ -106,9 +105,9 @@ public class Behavior_Spray_Color extends AbstractBehaviorDefault {
 				rUsed = T;
 			}
 		}
-		if (aEntity instanceof EntityWolf && ((EntityWolf)aEntity).isTamed()) {
-			if (((EntityWolf)aEntity).getCollarColor() != (~mColor & 15)) {
-				((EntityWolf)aEntity).setCollarColor(~mColor & 15);
+		if (aEntity instanceof Wolf && ((Wolf)aEntity).isTamed()) {
+			if (((Wolf)aEntity).getCollarColor() != (~mColor & 15)) {
+				((Wolf)aEntity).setCollarColor(~mColor & 15);
 				if (aEntity.worldObj.isRemote) return T;
 				rUsed = T;
 			}

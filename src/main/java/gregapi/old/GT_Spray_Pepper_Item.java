@@ -46,10 +46,10 @@ public class GT_Spray_Pepper_Item extends GT_Tool_Item {
 	@Override
 	public void onHitEntity(Entity aEntity) {
 		if (aEntity instanceof Mob) {
-			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.blindness.getId(), 1200, 2, false));
-			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 120, 2, false));
-			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 200, 2, false));
-			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.confusion.getId(), 600, 2, false));
+			((Mob)aEntity).addPotionEffect(new MobEffectInstance(Potion.blindness.getId(), 1200, 2, false));
+			((Mob)aEntity).addPotionEffect(new MobEffectInstance(Potion.poison.getId(), 120, 2, false));
+			((Mob)aEntity).addPotionEffect(new MobEffectInstance(Potion.weakness.getId(), 200, 2, false));
+			((Mob)aEntity).addPotionEffect(new MobEffectInstance(Potion.confusion.getId(), 600, 2, false));
 		}
 	}
 	*/

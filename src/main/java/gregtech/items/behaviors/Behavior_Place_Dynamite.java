@@ -36,7 +36,7 @@ import gregapi.util.WD;
 import gregapi.worldgen.StoneLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -73,7 +73,7 @@ public class Behavior_Place_Dynamite extends AbstractBehaviorDefault {
 					}
 					tStack.setTagCompound(tOldTag);
 					// Add Dynamite Coords to Remote Activator if in Hotbar.
-					for (int j = 0; j < InventoryPlayer.getHotbarSize(); j++) if (IL.Tool_Remote_Activator.equal(aPlayer.inventory.mainInventory[j], F, T)) {
+					for (int j = 0; j < Inventory.getHotbarSize(); j++) if (IL.Tool_Remote_Activator.equal(aPlayer.inventory.mainInventory[j], F, T)) {
 						if (Behavior_Remote.addCoords(aPlayer.inventory.mainInventory[j], aPlayer, aWorld, aX+OFFX[aSide], aY+OFFY[aSide], aZ+OFFZ[aSide])) {
 							break;
 						}

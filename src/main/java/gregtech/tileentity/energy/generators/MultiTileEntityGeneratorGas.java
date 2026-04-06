@@ -30,7 +30,7 @@ import gregapi.render.ITexture;
 import gregapi.tileentity.machines.ITileEntityAdjacentOnOff;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import IFluidTank removed — use IFluidHandler capability
+import gregapi.stubs.IFluidTank; // stub
 
 /**
  * @author Gregorius Techneticies

@@ -26,7 +26,7 @@ import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import gregtech.asm.GT_ASM;
-import net.minecraft.launchwrapper.IClassTransformer;
+import gregapi.stubs.IClassTransformer;
 
 /**
  * @author Gregorius Techneticies

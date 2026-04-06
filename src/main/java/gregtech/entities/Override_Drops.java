@@ -27,8 +27,6 @@ import gregapi.util.UT;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
@@ -621,7 +619,7 @@ public class Override_Drops {
 			int tAmount = 1+RNGSUS.nextInt(4);
 			if (aLooting > 0) tAmount += RNGSUS.nextInt(aLooting + 1);
 			while (tAmount-->0) aDrops.add(ST.entity(aDead, aBurn?IL.Food_DogMeat_Cooked.get(1):IL.Food_DogMeat_Raw.get(1)));
-		} else if (aDead instanceof EntityWolf) {
+		} else if (aDead instanceof Wolf) {
 			tReplaceIron = T;
 			int tAmount = RNGSUS.nextInt(3);
 			if (aLooting > 0) tAmount += RNGSUS.nextInt(aLooting + 1);
@@ -646,7 +644,7 @@ public class Override_Drops {
 			if (aLooting > 0) tAmount += RNGSUS.nextInt(aLooting + 1);
 			while (tAmount-->0) aDrops.add(ST.entity(aDead, aBurn?IL.Food_Mutton_Cooked.get(1):IL.Food_Mutton_Raw.get(1)));
 			}
-		} else if (aDead instanceof EntityMooshroom) {
+		} else if (aDead instanceof MushroomCow) {
 			tReplaceIron = T;
 			for (int i = 0; i < 4; i++) if (RNGSUS.nextInt(100) <= 25 + aLooting * 5) {
 				aDrops.add(ST.entity(aDead, IL.Hoof_Cow.get(1)));
@@ -752,7 +750,7 @@ public class Override_Drops {
 		
 		// Beheading Damage replaces all the Drops with one Head, if Heads available for Mob.
 		if (aDamage instanceof DamageSourceCombat && ((DamageSourceCombat)aDamage).mBeheadingDamage) {
-			if (aDead instanceof EntityCreeper) {
+			if (aDead instanceof Creeper) {
 				aDrops.clear();
 				aDrops.add(ST.entity(aDead, ST.make(Items.skull, 1, 4)));
 			} else if (aDead instanceof Player) {

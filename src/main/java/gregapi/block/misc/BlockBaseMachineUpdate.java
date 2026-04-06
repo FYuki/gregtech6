@@ -27,9 +27,9 @@ import gregapi.tileentity.ITileEntityMachineBlockUpdateable;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.Level;
 
 /**

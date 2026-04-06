@@ -30,19 +30,19 @@ import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.tileentity.ITileEntityInventoryGUI;
 import gregapi.tileentity.machines.MultiTileEntityBasicMachine;
 import gregapi.util.UT;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.world.entity.player.Inventory;
+import gregapi.stubs.ICrafting;
 
 public class ContainerCommonBasicMachine extends ContainerCommon {
 	private RecipeMap mRecipes;
 	
-	public ContainerCommonBasicMachine(InventoryPlayer aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, RecipeMap aRecipes, int aGUIID) {
+	public ContainerCommonBasicMachine(Inventory aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, RecipeMap aRecipes, int aGUIID) {
 		super(aInventoryPlayer, aTileEntity, aGUIID);
 		mRecipes = aRecipes;
 	}
 	
 	@Override
-	public int addSlots(InventoryPlayer aPlayerInventory) {
+	public int addSlots(Inventory aPlayerInventory) {
 		mRecipes = ((MultiTileEntityBasicMachine)mTileEntity).mRecipes;
 		int tIndex = 0;
 		

@@ -35,7 +35,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 import gregtech.asm.GT_ASM;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.launchwrapper.IClassTransformer;
+import gregapi.stubs.IClassTransformer;
 import net.minecraft.util.IntHashMap;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;

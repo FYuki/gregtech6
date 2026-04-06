@@ -41,7 +41,7 @@ import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.machines.ITileEntitySwitchableMode;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockRedstoneWire;
+import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;

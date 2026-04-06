@@ -45,9 +45,8 @@ import gregapi.util.UT;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.item.EnumAction;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Item;
-import net.minecraft.item.ItemFood;
 import net.minecraft.world.item.ItemStack;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.level.Level;
@@ -60,6 +59,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -284,9 +285,9 @@ public abstract class MultiItemRandom extends MultiItem implements Runnable {
 	}
 	
 	@Override
-	public EnumAction getItemUseAction(ItemStack aStack) {
+	public UseAnim getItemUseAction(ItemStack aStack) {
 		IFoodStat tStat = mFoodStats.get((short)getDamage(aStack));
-		return tStat == null ? EnumAction.none : tStat.getFoodAction(this, aStack);
+		return tStat == null ? UseAnim.none : tStat.getFoodAction(this, aStack);
 	}
 	
 	@Override

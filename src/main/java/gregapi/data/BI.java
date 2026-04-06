@@ -30,6 +30,8 @@ import gregapi.stubs.TextureMap;
 import net.minecraft.resources.ResourceLocation;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /** 
  * @author Gregorius Techneticies

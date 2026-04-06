@@ -26,7 +26,7 @@ import org.lwjgl.opengl.GL11;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.tileentity.ITileEntityInventoryGUI;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.util.StatCollector;
 
 /**
@@ -36,7 +36,7 @@ import net.minecraft.util.StatCollector;
 public class ContainerClientChest extends ContainerClient {
 	private int mRows;
 	
-	public ContainerClientChest(InventoryPlayer aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, int aGUIID) {
+	public ContainerClientChest(Inventory aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, int aGUIID) {
 		this(new ContainerCommonChest(aInventoryPlayer, aTileEntity, aGUIID));
 	}
 	

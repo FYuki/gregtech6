@@ -52,10 +52,9 @@ import gregtech.blocks.fluids.BlockWaterlike;
 import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.EntityList;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -65,10 +64,10 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -85,6 +84,8 @@ import twilightforest.TwilightForestMod;
 import java.util.*;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.WorldProvider; // stub
+import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -272,7 +273,7 @@ public class WD {
 				@SuppressWarnings("rawtypes")
 				Iterator tIterator = aPlayer.getActivePotionEffects().iterator();
 				while (tIterator.hasNext()) {
-					PotionEffect potioneffect = (PotionEffect)tIterator.next();
+					MobEffectInstance potioneffect = (MobEffectInstance)tIterator.next();
 					aPlayer.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(aPlayer.getEntityId(), potioneffect));
 				}
 				aPlayer.playerNetServerHandler.setPlayerLocation(aX+0.5, aY+0.5, aZ+0.5, aPlayer.rotationYaw, aPlayer.rotationPitch);
@@ -445,7 +446,7 @@ public class WD {
 		for (BlockPos tCoords : new BlockPos[] {new BlockPos(aX, aY, aZ), new BlockPos(aX+1, aY, aZ), new BlockPos(aX-1, aY, aZ), new BlockPos(aX, aY+1, aZ), new BlockPos(aX, aY-1, aZ), new BlockPos(aX, aY, aZ+1), new BlockPos(aX, aY, aZ-1)}) {
 			Block tBlock = block(aWorld, tCoords.posX, tCoords.posY, tCoords.posZ, F);
 			if (tBlock == Blocks.lava || tBlock == Blocks.flowing_lava) rTemperature = Math.max(rTemperature, C + 500);
-			else if (tBlock instanceof BlockFire) rTemperature = Math.max(rTemperature, C + 200);
+			else if (tBlock instanceof FireBlock) rTemperature = Math.max(rTemperature, C + 200);
 		}
 		return rTemperature;
 	}
@@ -536,11 +537,11 @@ public class WD {
 	public static boolean sign(Level aWorld, int aX, int aY, int aZ, byte aSide, long aFlags, String aLine1, String aLine2, String aLine3, String aLine4) {
 		aWorld.setBlock(aX, aY, aZ, Blocks.wall_sign, aSide, (byte)aFlags);
 		TileEntity tSign = te(aWorld, aX, aY, aZ, T);
-		if (!(tSign instanceof TileEntitySign)) return F;
-		((TileEntitySign)tSign).signText[0] = aLine1;
-		((TileEntitySign)tSign).signText[1] = aLine2;
-		((TileEntitySign)tSign).signText[2] = aLine3;
-		((TileEntitySign)tSign).signText[3] = aLine4;
+		if (!(tSign instanceof SignBlockEntity)) return F;
+		((SignBlockEntity)tSign).signText[0] = aLine1;
+		((SignBlockEntity)tSign).signText[1] = aLine2;
+		((SignBlockEntity)tSign).signText[2] = aLine3;
+		((SignBlockEntity)tSign).signText[3] = aLine4;
 		return T;
 	}
 	
@@ -615,10 +616,10 @@ public class WD {
 	}
 	
 	public static boolean liquid(Level aWorld, int aX, int aY, int aZ) {return liquid(aWorld.getBlock(aX, aY, aZ));}
-	public static boolean liquid(Block aBlock) {return aBlock instanceof BlockLiquid || aBlock instanceof IFluidBlock;}
+	public static boolean liquid(Block aBlock) {return aBlock instanceof LiquidBlock || aBlock instanceof IFluidBlock;}
 	
 	public static boolean liquid_classic(Level aWorld, int aX, int aY, int aZ) {return liquid_classic(aWorld.getBlock(aX, aY, aZ));}
-	public static boolean liquid_classic(Block aBlock) {return aBlock instanceof BlockLiquid || aBlock instanceof BlockFluidClassic;}
+	public static boolean liquid_classic(Block aBlock) {return aBlock instanceof LiquidBlock || aBlock instanceof BlockFluidClassic;}
 	
 	public static boolean liquid_finite(Level aWorld, int aX, int aY, int aZ) {return liquid_finite(aWorld.getBlock(aX, aY, aZ));}
 	public static boolean liquid_finite(Block aBlock) {return aBlock instanceof BlockFluidFinite;}
@@ -635,7 +636,7 @@ public class WD {
 	
 	public static boolean floor(Level aWorld, int aX, int aY, int aZ) {return floor(aWorld, aX, aY, aZ, aWorld.getBlock(aX, aY, aZ));}
 	public static boolean floor(Level aWorld, int aX, int aY, int aZ, Block aBlock) {return aBlock.isSideSolid(aWorld, aX, aY, aZ, FORGE_DIR[SIDE_UP]) || floor(aBlock);}
-	public static boolean floor(Block aBlock) {return aBlock.isOpaqueCube() || aBlock instanceof BlockSlab || aBlock instanceof BlockStairs || aBlock instanceof BlockMetaType;}
+	public static boolean floor(Block aBlock) {return aBlock.isOpaqueCube() || aBlock instanceof SlabBlock || aBlock instanceof StairBlock || aBlock instanceof BlockMetaType;}
 	
 	@SuppressWarnings("unlikely-arg-type")
 	public static boolean ore(Block aBlock, short aMeta) {return (aBlock instanceof IBlockPlacable && (BlocksGT.stoneToBrokenOres.containsValue(aBlock) || BlocksGT.stoneToNormalOres.containsValue(aBlock) || BlocksGT.stoneToSmallOres.containsValue(aBlock)) || OM.prefixcontains(ST.make(aBlock, 1, aMeta), TD.Prefix.ORE));}
@@ -685,7 +686,7 @@ public class WD {
 	public static boolean irrelevant(Level aWorld, int aX, int aY, int aZ, Block aBlock) {return air(aWorld, aX, aY, aZ, aBlock) || aBlock == Blocks.vine || aBlock == Blocks.snow_layer || aBlock == Blocks.fire || grass(aWorld, aX, aY, aZ) || anywater(aBlock);}
 	
 	public static boolean easyRep(Level aWorld, int aX, int aY, int aZ) {return easyRep(aWorld, aX, aY, aZ, aWorld.getBlock(aX, aY, aZ));}
-	public static boolean easyRep(Level aWorld, int aX, int aY, int aZ, Block aBlock) {return air(aWorld, aX, aY, aZ, aBlock) || aBlock instanceof BlockBush || aBlock instanceof BlockSnow || aBlock instanceof BlockFire || aBlock.isLeaves(aWorld, aX, aY, aZ) || aBlock.canBeReplacedByLeaves(aWorld, aX, aY, aZ);}
+	public static boolean easyRep(Level aWorld, int aX, int aY, int aZ, Block aBlock) {return air(aWorld, aX, aY, aZ, aBlock) || aBlock instanceof BushBlock || aBlock instanceof SnowLayerBlock || aBlock instanceof FireBlock || aBlock.isLeaves(aWorld, aX, aY, aZ) || aBlock.canBeReplacedByLeaves(aWorld, aX, aY, aZ);}
 	
 	public static boolean infiniteWater(Level aWorld, int aX, int aY, int aZ              ) {int tLevel = waterLevel(aWorld); return                                                                                       UT.Code.inside(tLevel-15, tLevel, aY) && BIOMES_RIVER_LAKE.contains(aWorld.getBiomeGenForCoords(aX, aZ).biomeName);}
 	public static boolean infiniteWater(Level aWorld, int aX, int aY, int aZ, Block aBlock) {int tLevel = waterLevel(aWorld); return waterstream(aBlock) || ((aBlock == Blocks.water || aBlock == Blocks.flowing_water) && UT.Code.inside(tLevel-15, tLevel, aY) && BIOMES_RIVER_LAKE.contains(aWorld.getBiomeGenForCoords(aX, aZ).biomeName));}
@@ -696,7 +697,7 @@ public class WD {
 	public static boolean hasCollide(Level aWorld, BlockPos aCoords) {return hasCollide(aWorld, aCoords, aWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ));}
 	public static boolean hasCollide(Level aWorld, BlockPos aCoords, Block aBlock) {return aBlock.isOpaqueCube() || aBlock.getCollisionBoundingBoxFromPool(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ) != null;}
 	
-	public static boolean flaming(Level aWorld, int aX, int aY, int aZ) {return block(aWorld, aX, aY, aZ, F) instanceof BlockFire;}
+	public static boolean flaming(Level aWorld, int aX, int aY, int aZ) {return block(aWorld, aX, aY, aZ, F) instanceof FireBlock;}
 	public static boolean burning(Level aWorld, int aX, int aY, int aZ) {return flaming(aWorld, aX, aY, aZ) || flaming(aWorld, aX+1, aY, aZ) || flaming(aWorld, aX-1, aY, aZ) || flaming(aWorld, aX, aY+1, aZ) || flaming(aWorld, aX, aY-1, aZ) || flaming(aWorld, aX, aY, aZ+1) || flaming(aWorld, aX, aY, aZ-1);}
 	
 	public static void burn(Level aWorld, BlockPos aCoords, boolean aReplaceCenter, boolean aCheckFlammability) {for (byte tSide : aReplaceCenter?ALL_SIDES_MIDDLE_UP:ALL_SIDES_VALID) fire(aWorld, aCoords.posX+OFFX[tSide], aCoords.posY+OFFY[tSide], aCoords.posZ+OFFZ[tSide], aCheckFlammability);}

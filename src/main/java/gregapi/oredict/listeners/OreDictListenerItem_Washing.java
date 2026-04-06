@@ -28,7 +28,7 @@ import gregapi.oredict.listeners.IOreDictListenerItem.OreDictListenerItem;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockCauldron;
+import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 

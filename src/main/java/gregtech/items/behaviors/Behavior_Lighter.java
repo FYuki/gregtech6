@@ -27,7 +27,7 @@ import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -63,12 +63,12 @@ public class Behavior_Lighter extends AbstractBehaviorDefault {
 		
 		boolean rOutput = F;
 		
-		if (aEntity instanceof EntityCreeper) {
+		if (aEntity instanceof Creeper) {
 			prepare(aStack);
 			long tFuelAmount = UT.NBT.getLighterFuel(aStack);
 			if (ST.equal(aStack, mUsedLighter, T)) {
 				UT.Sounds.send(SFX.MC_IGNITE, aEntity);
-				((EntityCreeper)aEntity).func_146079_cb();
+				((Creeper)aEntity).func_146079_cb();
 				if (!UT.Entities.hasInfiniteItems(aPlayer)) tFuelAmount--;
 				rOutput = T;
 			}

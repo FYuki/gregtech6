@@ -33,6 +33,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.List;
+import gregapi.stubs.IIcon; // stub
 
 /**
  * @author Gregorius Techneticies

@@ -37,13 +37,13 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import ic2.api.crops.ICropTile;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockCauldron;
+import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.Container;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemFood;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -345,8 +345,8 @@ public abstract class TileEntityBase08FluidContainer extends TileEntityBase07Pai
 		return isDrinkable() && aStack.stackSize == 1 ? Math.max(FoodStatFluid.INSTANCE.getFoodLevel(aStack.getItem(), aStack, null) * 8, 32) : 0;
 	}
 	
-	public EnumAction getItemUseAction(MultiTileEntityItemInternal aItem, ItemStack aStack) {
-		return isDrinkable() && aStack.stackSize == 1 ? FoodStatFluid.INSTANCE.getFoodAction(aStack.getItem(), aStack) : EnumAction.none;
+	public UseAnim getItemUseAction(MultiTileEntityItemInternal aItem, ItemStack aStack) {
+		return isDrinkable() && aStack.stackSize == 1 ? FoodStatFluid.INSTANCE.getFoodAction(aStack.getItem(), aStack) : UseAnim.none;
 	}
 	
 	public ItemStack onEaten(MultiTileEntityItemInternal aItem, ItemStack aStack, Level aWorld, Player aPlayer) {

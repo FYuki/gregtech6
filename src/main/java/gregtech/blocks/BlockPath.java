@@ -28,7 +28,7 @@ import gregapi.render.*;
 import gregapi.util.ST;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
 
 public class BlockPath extends BlockBaseMeta implements IBlockOnWalkOver, IRenderedBlock {
 	public BlockPath(String aUnlocalised) {

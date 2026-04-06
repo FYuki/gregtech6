@@ -33,7 +33,7 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
@@ -119,7 +119,7 @@ public class MultiTileEntityMiniPortalTwilight extends MultiTileEntityMiniPortal
 				setPortalActive();
 				if (mTarget != null) UT.Entities.sendchat(aPlayer, "X: " + mTarget.xCoord + "   Y: " + mTarget.yCoord + "   Z: " + mTarget.zCoord);
 				if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
-				worldObj.addWeatherEffect(new EntityLightningBolt(worldObj, xCoord, yCoord, zCoord));
+				worldObj.addWeatherEffect(new LightningBolt(worldObj, xCoord, yCoord, zCoord));
 			}
 		}
 		return T;

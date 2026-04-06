@@ -27,13 +27,13 @@ import gregapi.data.LH;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.tileentity.ITileEntityInventoryGUI;
 import gregapi.util.UT;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.entity.player.Inventory;
 
 @OnlyIn(Dist.CLIENT)
 public class ContainerClientBasicMachine extends ContainerClient {
 	private RecipeMap mRecipes;
 	
-	public ContainerClientBasicMachine(InventoryPlayer aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, RecipeMap aRecipes, int aGUIID, String aGUITexture) {
+	public ContainerClientBasicMachine(Inventory aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, RecipeMap aRecipes, int aGUIID, String aGUITexture) {
 		super(new ContainerCommonBasicMachine(aInventoryPlayer, aTileEntity, aRecipes, aGUIID), aGUITexture);
 		mRecipes = aRecipes;
 		mNEI = mRecipes.mNameNEI;

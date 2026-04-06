@@ -51,12 +51,11 @@ import mods.railcraft.common.items.enchantment.RailcraftEnchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.monster.*;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Items;
@@ -68,8 +67,8 @@ import net.minecraft.nbt.Tag.NBTPrimitive;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 // PHASE3: import Achievement removed — use Advancement
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.*;
@@ -79,8 +78,8 @@ import gregapi.stubs.IExtendedEntityProperties;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidTank;
-import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTank;
+import gregapi.stubs.IFluidTank;
 import net.minecraft.world.level.material.Fluid;
 import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
 
@@ -93,6 +92,9 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.Achievement; // stub
+import gregapi.stubs.IIcon; // stub
+import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -2875,13 +2877,13 @@ public class UT {
 		}
 		
 		public static boolean isWearingFullHeatHazmat(LivingEntity aEntity) {
-			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityBlaze.class || aEntity.getClass() == EntityPigZombie.class || aEntity.getClass() == EntityMagmaCube.class || aEntity.getClass() == EntityGhast.class) return T;
+			if (isCreative(aEntity) || aEntity.getClass() == WitherBoss.class || aEntity.getClass() == EntityBlaze.class || aEntity.getClass() == EntityPigZombie.class || aEntity.getClass() == MagmaCube.class || aEntity.getClass() == EntityGhast.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_HEAT.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
 		public static boolean isWearingFullBioHazmat(LivingEntity aEntity) {
-			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityIronGolem.class) return T;
+			if (isCreative(aEntity) || aEntity.getClass() == WitherBoss.class || aEntity.getClass() == IronGolem.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_BIO.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
@@ -2893,13 +2895,13 @@ public class UT {
 		}
 		
 		public static boolean isWearingFullInsectHazmat(LivingEntity aEntity) {
-			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityIronGolem.class) return T;
+			if (isCreative(aEntity) || aEntity.getClass() == WitherBoss.class || aEntity.getClass() == IronGolem.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_INSECTS.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
 		public static boolean isWearingFullRadioHazmat(LivingEntity aEntity) {
-			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityIronGolem.class) return T;
+			if (isCreative(aEntity) || aEntity.getClass() == WitherBoss.class || aEntity.getClass() == IronGolem.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_RADIOACTIVE.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
@@ -2911,7 +2913,7 @@ public class UT {
 		}
 		
 		public static boolean isWearingFullGasHazmat(LivingEntity aEntity) {
-			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityIronGolem.class) return T;
+			if (isCreative(aEntity) || aEntity.getClass() == WitherBoss.class || aEntity.getClass() == IronGolem.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_GAS.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
@@ -2919,7 +2921,7 @@ public class UT {
 		
 		
 		public static boolean isSlimeCreature(Entity aEntity) {
-			return aEntity instanceof EntitySlime || UT.Reflection.getLowercaseClass(aEntity).contains("slime");
+			return aEntity instanceof Slime || UT.Reflection.getLowercaseClass(aEntity).contains("slime");
 		}
 		public static boolean isEnderCreature(Entity aEntity) {
 			return aEntity instanceof EntityEnderman || UT.Reflection.getLowercaseClass(aEntity).contains("ender");
@@ -2928,10 +2930,10 @@ public class UT {
 			return aEntity instanceof EntityZombie || UT.Reflection.getLowercaseClass(aEntity).contains("zombie");
 		}
 		public static boolean isCreeperCreature(Entity aEntity) {
-			return aEntity instanceof EntityCreeper || UT.Reflection.getLowercaseClass(aEntity).contains("creeper");
+			return aEntity instanceof Creeper || UT.Reflection.getLowercaseClass(aEntity).contains("creeper");
 		}
 		public static boolean isGhastCreature(Entity aEntity) {
-			return aEntity instanceof EntityCreeper || UT.Reflection.getLowercaseClass(aEntity).contains("ghast");
+			return aEntity instanceof Creeper || UT.Reflection.getLowercaseClass(aEntity).contains("ghast");
 		}
 		public static boolean isExplosiveCreature(Entity aEntity) {
 			return isGhastCreature(aEntity) || isCreeperCreature(aEntity) || UT.Reflection.getLowercaseClass(aEntity).contains("firebeetle");
@@ -2992,8 +2994,8 @@ public class UT {
 		public static boolean applyChemDamage(Entity aEntity, float aDamage) {
 			if (aDamage > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && aEntity.getClass() != EntitySkeleton.class && !isWearingFullChemHazmat(((LivingEntity)aEntity))) {
 				aEntity.attackEntityFrom(DamageSources.getChemDamage(), TFC_DAMAGE_MULTIPLIER * aDamage);
-				PotionEffect tEffect;
-				((LivingEntity)aEntity).addPotionEffect(new PotionEffect(Potion.poison.id, Math.max(20, (int)(aDamage * 100 + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.poison))==null?0:tEffect.getDuration())))), 1));
+				MobEffectInstance tEffect;
+				((LivingEntity)aEntity).addPotionEffect(new MobEffectInstance(Potion.poison.id, Math.max(20, (int)(aDamage * 100 + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.poison))==null?0:tEffect.getDuration())))), 1));
 				return T;
 			}
 			return F;
@@ -3034,12 +3036,12 @@ public class UT {
 		}
 		
 		public static boolean applyRadioactivity(Entity aEntity, int aLevel, int aAmountOfItems) {
-			if (aLevel > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && ((LivingEntity)aEntity).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && ((LivingEntity)aEntity).getCreatureAttribute() != EnumCreatureAttribute.ARTHROPOD && !isWearingFullRadioHazmat(((LivingEntity)aEntity))) {
+			if (aLevel > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && ((LivingEntity)aEntity).getCreatureAttribute() != MobType.UNDEAD && ((LivingEntity)aEntity).getCreatureAttribute() != MobType.ARTHROPOD && !isWearingFullRadioHazmat(((LivingEntity)aEntity))) {
 				
 				EntityFoodTracker tTracker = EntityFoodTracker.get(aEntity);
 				if (tTracker != null) {tTracker.changeRadiation(aLevel * aAmountOfItems); return T;}
 				
-				PotionEffect tEffect;
+				MobEffectInstance tEffect;
 				applyPotion(aEntity, Potion.moveSlowdown    , aLevel * 140 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.moveSlowdown                       ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
 				applyPotion(aEntity, Potion.digSlowdown     , aLevel * 150 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.digSlowdown                        ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
 				applyPotion(aEntity, Potion.confusion       , aLevel * 130 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.confusion                          ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
@@ -3072,7 +3074,7 @@ public class UT {
 			}
 			if (aID < 0) return F;
 			if (aLevel >= 0) {
-				((LivingEntity)aEntity).addPotionEffect(new PotionEffect(aID, aDuration, aLevel, aInvisibleParticles));
+				((LivingEntity)aEntity).addPotionEffect(new MobEffectInstance(aID, aDuration, aLevel, aInvisibleParticles));
 				return T;
 			}
 			((LivingEntity)aEntity).removePotionEffect(aID);
@@ -3081,7 +3083,7 @@ public class UT {
 		
 		public static byte pot (Object aEntity, Potion aPotion) {
 			if (aPotion != null && aEntity instanceof LivingEntity) {
-				PotionEffect tEffect = ((LivingEntity)aEntity).getActivePotionEffect(aPotion);
+				MobEffectInstance tEffect = ((LivingEntity)aEntity).getActivePotionEffect(aPotion);
 				// Limit the output value to six bit, which should be more than enough for Potions, and prevent Byte Math Issues.
 				return tEffect == null ? -1 : UT.Code.bind6(tEffect.getAmplifier());
 			}

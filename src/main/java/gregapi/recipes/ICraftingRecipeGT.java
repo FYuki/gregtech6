@@ -19,10 +19,10 @@
 
 package gregapi.recipes;
 
+import gregapi.stubs.IRecipe; // PHASE7: IRecipe → Recipe<RecipeInput> in 1.21
 import gregapi.util.ST;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 
 /**
  * @author Gregorius Techneticies

@@ -34,9 +34,9 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.render.IIconContainer;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 
 public class BlockTreePlanks2FireProof extends BlockBasePlanks {

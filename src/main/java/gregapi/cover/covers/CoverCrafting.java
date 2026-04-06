@@ -24,7 +24,7 @@ import gregapi.render.ITexture;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.inventory.ContainerWorkbench;
+import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.network.play.server.S2DPacketOpenWindow;
 
 import static gregapi.data.CS.F;

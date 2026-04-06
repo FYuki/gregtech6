@@ -39,7 +39,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregtech.tileentity.food.MultiTileEntitySandwich;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockCauldron;
+import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

@@ -28,9 +28,9 @@ import gregapi.render.IIconContainer;
 import gregapi.tileentity.data.ITileEntityProgress;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.machines.MultiTileEntitySensorTE;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
+import gregapi.stubs.MobSpawnerBaseLogic;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 
 /**
  * @author Gregorius Techneticies

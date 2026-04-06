@@ -33,11 +33,11 @@ import gregapi.wooddict.WoodDictionary;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.potion.Potion;
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Collection;
@@ -116,7 +116,7 @@ public class RecipeMapBath extends RecipeMap {
 					return null;
 				}
 			}
-			if (aInput.getItem() instanceof ItemArmor) for (byte tColor = 0; tColor < 16; tColor++) for (FluidStack aDye : DYE_FLUIDS[tColor]) if (FL.equal(aDye, aFluids[0])) {
+			if (aInput.getItem() instanceof ArmorItem) for (byte tColor = 0; tColor < 16; tColor++) for (FluidStack aDye : DYE_FLUIDS[tColor]) if (FL.equal(aDye, aFluids[0])) {
 				ItemStack tOutput = CR.getany(aTileEntity==null?DW:aTileEntity.getWorld(), ST.array(aInput, NI, NI, NI, NI, NI, NI, NI, ST.make(Items.dye, 1, tColor)));
 				if (ST.invalid(tOutput)) return null;
 				return new Recipe(F, F, F, ST.array(ST.amount(1, aInput)), ST.array(tOutput), null, null, FL.array(aDye), ZL_FS, 512, 0, 0);
@@ -185,7 +185,7 @@ public class RecipeMapBath extends RecipeMap {
 	@Override
 	public boolean containsInput(ItemStack aStack, IHasWorldAndCoords aTileEntity, ItemStack aSpecialSlot) {
 		PlankEntry aEntry = WoodDictionary.PLANKS_ANY.get(aStack);
-		return (aEntry != null && ANY.WoodUntreated.mToThis.contains(aEntry.mMaterialPlank)) || (aStack != null && (aStack.getItem() instanceof ItemArmor || (aStack.getItem() instanceof IItemColorableRGB && (((IItemColorableRGB)aStack.getItem()).canRecolorItem(aStack) || ((IItemColorableRGB)aStack.getItem()).canDecolorItem(aStack))))) || (ST.food(aStack) > 0 && FL.getFluid(aStack, T) == null) || super.containsInput(aStack, aTileEntity, aSpecialSlot);
+		return (aEntry != null && ANY.WoodUntreated.mToThis.contains(aEntry.mMaterialPlank)) || (aStack != null && (aStack.getItem() instanceof ArmorItem || (aStack.getItem() instanceof IItemColorableRGB && (((IItemColorableRGB)aStack.getItem()).canRecolorItem(aStack) || ((IItemColorableRGB)aStack.getItem()).canDecolorItem(aStack))))) || (ST.food(aStack) > 0 && FL.getFluid(aStack, T) == null) || super.containsInput(aStack, aTileEntity, aSpecialSlot);
 	}
 	@Override public boolean containsInput(FluidStack aFluid, IHasWorldAndCoords aTileEntity, ItemStack aSpecialSlot) {return aFluid != null && aFluid.getFluid() != null && (super.containsInput(aFluid, aTileEntity, aSpecialSlot) || FluidsGT.BATH.contains(aFluid.getFluid().getName()));}
 	@Override public boolean containsInput(Fluid aFluid, IHasWorldAndCoords aTileEntity, ItemStack aSpecialSlot) {return aFluid != null && (super.containsInput(aFluid, aTileEntity, aSpecialSlot) || FluidsGT.BATH.contains(aFluid.getName()));}

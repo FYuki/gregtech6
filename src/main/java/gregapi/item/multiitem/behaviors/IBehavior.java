@@ -26,10 +26,10 @@ import java.util.List;
 import gregapi.code.TagData;
 import gregapi.item.IItemProjectile.EntityProjectile;
 import gregapi.item.multiitem.MultiItem;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.IPosition;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.Position;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -72,8 +72,8 @@ public interface IBehavior<E extends Item> {
 		
 		@Override
 		public ItemStack onDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
-			Direction enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
-			IPosition iposition = BlockDispenser.func_149939_a(aSource);
+			Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
+			Position iposition = DispenserBlock.func_149939_a(aSource);
 			ItemStack itemstack1 = aStack.splitStack(1);
 			BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 			return aStack;

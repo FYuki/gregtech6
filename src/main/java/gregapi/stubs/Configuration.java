@@ -1,6 +1,7 @@
 package gregapi.stubs;
 
 import java.io.File;
+import gregapi.stubs.Property; // stub
 
 // PHASE3: net.minecraftforge.common.config.Configuration removed.
 // NeoForge uses ModConfigSpec (TOML). This stub keeps GT6 code compiling during migration.

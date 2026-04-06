@@ -30,15 +30,15 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
-import net.minecraft.dispenser.BehaviorProjectileDispense;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.IPosition;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.core.dispenser.ProjectileDispenseBehavior;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.Position;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.IProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -70,7 +70,7 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 		mSpeedMultiplier = aSpeedMultiplier;
 		mStabbing = aStabbing;
 		mIsBullet = aIsBullet;
-		if (aDispensable) BlockDispenser.dispenseBehaviorRegistry.putObject(this, new MetaItemDispense());
+		if (aDispensable) DispenserBlock.dispenseBehaviorRegistry.putObject(this, new MetaItemDispense());
 	}
 	
 	@Override
@@ -149,8 +149,8 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	
 	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
 		Level aWorld = aSource.getWorld();
-		IPosition tPosition = BlockDispenser.func_149939_a(aSource);
-		Direction tFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Position tPosition = DispenserBlock.func_149939_a(aSource);
+		Direction tFacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
 		EntityProjectile tProjectile = getProjectile(mProjectileType, aStack, aWorld, tPosition.getX(), tPosition.getY(), tPosition.getZ());
 		if (tProjectile != null) {
 			tProjectile.setThrowableHeading(tFacing.getFrontOffsetX(), (tFacing.getFrontOffsetY() + 0.1F), tFacing.getFrontOffsetZ(), mSpeedMultiplier * 1.10F, mPrecision);
@@ -162,8 +162,8 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 		}
 		
 		// Default Item Dropping.
-		Direction enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
-		IPosition iposition = BlockDispenser.func_149939_a(aSource);
+		Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
+		Position iposition = DispenserBlock.func_149939_a(aSource);
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 		return aStack;
@@ -171,6 +171,6 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	
 	public static class MetaItemDispense extends BehaviorProjectileDispense {
 		@Override public ItemStack dispenseStack(IBlockSource aSource, ItemStack aStack) {return ((PrefixItemProjectile)aStack.getItem()).onDispense(aSource, aStack);}
-		@Override protected IProjectile getProjectileEntity(Level aWorld, IPosition aPosition) {return null;}
+		@Override protected IProjectile getProjectileEntity(Level aWorld, Position aPosition) {return null;}
 	}
 }

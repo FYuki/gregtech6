@@ -28,21 +28,21 @@ import gregapi.util.UT;
 import gregapi.util.UT.Enchantments;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.util.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.WorldServer;
@@ -80,7 +80,7 @@ public class EntityArrow_Material extends EntityProjectile {
 		super(aWorld, aEntity, aSpeed);
 	}
 	
-	public EntityArrow_Material(EntityArrow aArrow, ItemStack aStack) {
+	public EntityArrow_Material(Arrow aArrow, ItemStack aStack) {
 		super(aArrow.worldObj);
 		shootingEntity = aArrow.shootingEntity;
 		CompoundTag tNBT = UT.NBT.make();
@@ -186,7 +186,7 @@ public class EntityArrow_Material extends EntityProjectile {
 					tHitTimer   = -1;
 					
 					// Also work on Ghasts and such. But no double dipping on Anti Creeper Damage!
-					if (tImplosion > 0 && UT.Entities.isExplosiveCreature(tHitEntity) && !EntityCreeper.class.isInstance(tHitEntity)) tMagicDamage += 1.5F * tImplosion;
+					if (tImplosion > 0 && UT.Entities.isExplosiveCreature(tHitEntity) && !Creeper.class.isInstance(tHitEntity)) tMagicDamage += 1.5F * tImplosion;
 					
 					int[] tDamages = onHitEntity(tHitEntity, tShootingEntity==null?this:tShootingEntity, mArrow==null?ST.make(Items.arrow, 1, 0):mArrow, (int)(tDamage*2), (int)(tMagicDamage*2), tKnockback, tFireDamage, tHitTimer);
 					
@@ -219,7 +219,7 @@ public class EntityArrow_Material extends EntityProjectile {
 							if (tHitEntity instanceof LivingEntity) {
 								if (tHitTimer >= 0) tHitEntity.hurtResistantTime = tHitTimer;
 								
-								if (tHitEntity instanceof EntityCreeper && UT.NBT.getEnchantmentLevel(Enchantment.fireAspect, mArrow) > 0 && tImplosion <= 0) ((EntityCreeper)tHitEntity).func_146079_cb();
+								if (tHitEntity instanceof Creeper && UT.NBT.getEnchantmentLevel(Enchantment.fireAspect, mArrow) > 0 && tImplosion <= 0) ((Creeper)tHitEntity).func_146079_cb();
 								
 								LivingEntity tHitLivingEntity = (LivingEntity)tHitEntity;
 								

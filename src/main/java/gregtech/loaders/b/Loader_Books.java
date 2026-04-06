@@ -34,6 +34,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.Achievement; // stub
 
 @SuppressWarnings("ALL")
 public class Loader_Books implements Runnable {

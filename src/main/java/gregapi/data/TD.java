@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static gregapi.data.CS.F;
+import gregapi.stubs.Property; // stub
 
 /**
  * @author Gregorius Techneticies

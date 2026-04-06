@@ -30,14 +30,14 @@ import java.util.Map;
 import gregapi.data.CS.SFX;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.EnchantmentProtection;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragonPart;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
@@ -122,7 +122,7 @@ public class ExplosionGT extends Explosion {
 		for (int i1 = 0; i1 < tEntities.size(); ++i1) {
 			Entity tEntity = (Entity)tEntities.get(i1);
 			double tEntityDist = tEntity.getDistance(explosionX, explosionY, explosionZ) / tSize;
-			if (tEntityDist <= 1 && !(tEntity instanceof EntityWither || tEntity instanceof EntityDragon || tEntity instanceof EntityDragonPart || tEntity.getClass().getName().toLowerCase().contains("boss"))) {
+			if (tEntityDist <= 1 && !(tEntity instanceof WitherBoss || tEntity instanceof EnderDragon || tEntity instanceof EntityDragonPart || tEntity.getClass().getName().toLowerCase().contains("boss"))) {
 				double tKnockX = tEntity.posX - explosionX, tKnockY = tEntity.posY + tEntity.getEyeHeight() - explosionY, tKnockZ = tEntity.posZ - explosionZ;
 				double tDist = Mth.sqrt_double(tKnockX * tKnockX + tKnockY * tKnockY + tKnockZ * tKnockZ);
 				if (tDist > 0) {
@@ -192,5 +192,5 @@ public class ExplosionGT extends Explosion {
 	
 	@SuppressWarnings("rawtypes")
 	@Override public Map func_77277_b() {return field_77288_k;}
-	@Override public LivingEntity getExplosivePlacedBy() {return exploder == null ? null : (exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed)exploder).getTntPlacedBy() : (exploder instanceof LivingEntity ? (LivingEntity)exploder : null));}
+	@Override public LivingEntity getExplosivePlacedBy() {return exploder == null ? null : (exploder instanceof PrimedTnt ? ((PrimedTnt)exploder).getTntPlacedBy() : (exploder instanceof LivingEntity ? (LivingEntity)exploder : null));}
 }

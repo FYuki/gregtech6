@@ -34,7 +34,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.IPlantable;

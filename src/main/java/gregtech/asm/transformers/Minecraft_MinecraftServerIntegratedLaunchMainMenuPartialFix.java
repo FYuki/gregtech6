@@ -20,7 +20,7 @@
 package gregtech.asm.transformers;
 
 import gregtech.asm.GT_ASM;
-import net.minecraft.launchwrapper.IClassTransformer;
+import gregapi.stubs.IClassTransformer;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;

@@ -24,7 +24,7 @@ import static gregapi.data.CS.*;
 import gregapi.stubs.RenderingRegistry;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.resources.ResourceLocation;
 
 public class GT_Renderer_Entity_Arrow extends RenderArrow {
@@ -36,7 +36,7 @@ public class GT_Renderer_Entity_Arrow extends RenderArrow {
 	}
 	
 	@Override
-	protected ResourceLocation getEntityTexture(EntityArrow p_110775_1_) {
+	protected ResourceLocation getEntityTexture(Arrow p_110775_1_) {
 		return mTexture;
 	}
 }

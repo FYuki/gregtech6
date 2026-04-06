@@ -30,7 +30,7 @@ import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregtech.worldgen.NoiseGenerator;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.Level;
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome

@@ -43,7 +43,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -387,12 +387,12 @@ public class MultiTileEntityBumbliaryAdvanced extends TileEntityBase07Paintable 
 	@Override public String getTileEntityName() {return "gt.multitileentity.bumbliary.advanced";}
 	
 	public class MultiTileEntityGUICommonBumbliary extends ContainerCommon {
-		public MultiTileEntityGUICommonBumbliary(InventoryPlayer aInventoryPlayer, MultiTileEntityBumbliaryAdvanced aTileEntity, int aGUIID) {
+		public MultiTileEntityGUICommonBumbliary(Inventory aInventoryPlayer, MultiTileEntityBumbliaryAdvanced aTileEntity, int aGUIID) {
 			super(aInventoryPlayer, aTileEntity, aGUIID);
 		}
 		
 		@Override
-		public int addSlots(InventoryPlayer aInventoryPlayer) {
+		public int addSlots(Inventory aInventoryPlayer) {
 			addSlotToContainer(new Slot_Normal(mTileEntity,  0,  44,  8).setCanPut(F));
 			addSlotToContainer(new Slot_Normal(mTileEntity,  1,  62,  8).setCanPut(F).setCanTake(F));
 			addSlotToContainer(new Slot_Normal(mTileEntity,  2,  80,  8).setCanPut(F).setCanTake(F));
@@ -425,12 +425,12 @@ public class MultiTileEntityBumbliaryAdvanced extends TileEntityBase07Paintable 
 	}
 	
 	public class MultiTileEntityGUICommonBumbliaryScoop extends ContainerCommon {
-		public MultiTileEntityGUICommonBumbliaryScoop(InventoryPlayer aInventoryPlayer, MultiTileEntityBumbliaryAdvanced aTileEntity, int aGUIID) {
+		public MultiTileEntityGUICommonBumbliaryScoop(Inventory aInventoryPlayer, MultiTileEntityBumbliaryAdvanced aTileEntity, int aGUIID) {
 			super(aInventoryPlayer, aTileEntity, aGUIID);
 		}
 		
 		@Override
-		public int addSlots(InventoryPlayer aInventoryPlayer) {
+		public int addSlots(Inventory aInventoryPlayer) {
 			addSlotToContainer(new Slot_Normal(mTileEntity,  0,  44,  8).setCanPut(F));
 			addSlotToContainer(new Slot_Normal(mTileEntity,  1,  62,  8).setCanPut(F));
 			addSlotToContainer(new Slot_Normal(mTileEntity,  2,  80,  8).setCanPut(F));
@@ -464,14 +464,14 @@ public class MultiTileEntityBumbliaryAdvanced extends TileEntityBase07Paintable 
 	
 	@OnlyIn(Dist.CLIENT)
 	public class MultiTileEntityGUIClientBumbliary extends ContainerClient {
-		public MultiTileEntityGUIClientBumbliary(InventoryPlayer aInventoryPlayer, MultiTileEntityBumbliaryAdvanced aTileEntity, int aGUIID) {
+		public MultiTileEntityGUIClientBumbliary(Inventory aInventoryPlayer, MultiTileEntityBumbliaryAdvanced aTileEntity, int aGUIID) {
 			super(new MultiTileEntityGUICommonBumbliary(aInventoryPlayer, aTileEntity, aGUIID), RES_PATH_GUI + "machines/BumbliaryAdvanced.png");
 		}
 	}
 	
 	@OnlyIn(Dist.CLIENT)
 	public class MultiTileEntityGUIClientBumbliaryScoop extends ContainerClient {
-		public MultiTileEntityGUIClientBumbliaryScoop(InventoryPlayer aInventoryPlayer, MultiTileEntityBumbliaryAdvanced aTileEntity, int aGUIID) {
+		public MultiTileEntityGUIClientBumbliaryScoop(Inventory aInventoryPlayer, MultiTileEntityBumbliaryAdvanced aTileEntity, int aGUIID) {
 			super(new MultiTileEntityGUICommonBumbliaryScoop(aInventoryPlayer, aTileEntity, aGUIID), RES_PATH_GUI + "machines/BumbliaryAdvanced.png");
 		}
 	}

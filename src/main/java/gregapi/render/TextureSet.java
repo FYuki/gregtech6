@@ -30,6 +30,8 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /** 
  * @author Gregorius Techneticies

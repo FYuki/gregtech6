@@ -21,7 +21,7 @@ package gregapi.item;
 
 import gregapi.code.TagData;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -31,13 +31,13 @@ import net.minecraft.world.level.Level;
 public interface IItemProjectile {
 	/** @return if this Item has an Arrow Entity */
 	public boolean hasProjectile(TagData aProjectileType, ItemStack aStack);
-	/** @return an Arrow Entity to be spawned. If null then this is not an Arrow. Note: Other Projectiles still extend EntityArrow */
+	/** @return an Arrow Entity to be spawned. If null then this is not an Arrow. Note: Other Projectiles still extend Arrow */
 	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ);
-	/** @return an Arrow Entity to be spawned. If null then this is not an Arrow. Note: Other Projectiles still extend EntityArrow */
+	/** @return an Arrow Entity to be spawned. If null then this is not an Arrow. Note: Other Projectiles still extend Arrow */
 	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed);
 	
 	/** Class for being able to set the ItemStack when launching the Projectile. And for de-obfuscation of Parameters. */
-	public static abstract class EntityProjectile extends EntityArrow {
+	public static abstract class EntityProjectile extends Arrow {
 		public EntityProjectile(Level aWorld) {
 			super(aWorld);
 		}

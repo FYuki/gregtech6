@@ -22,7 +22,7 @@ package gregapi.item;
 import gregapi.stubs.Optional;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import forestry.api.apiculture.IArmorApiarist;
+import gregapi.stubs.IArmorApiarist;
 import gregapi.GT_API;
 import gregapi.data.CS.*;
 import gregapi.data.LH;
@@ -32,20 +32,20 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import ic2.api.item.IMetalArmor;
-import net.minecraft.block.BlockDispenser;
+import gregapi.stubs.IMetalArmor;
+import net.minecraft.world.level.block.DispenserBlock;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
-import net.minecraft.dispenser.BehaviorProjectileDispense;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.IPosition;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.core.dispenser.ProjectileDispenseBehavior;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.Position;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.IProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.core.Direction;
@@ -58,6 +58,8 @@ import gregapi.stubs.EnumHelper;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -66,7 +68,7 @@ import static gregapi.data.CS.*;
   @Optional.Interface(iface = "ic2.api.item.IMetalArmor", modid = ModIDs.IC2),
   @Optional.Interface(iface = "forestry.api.apiculture.IArmorApiarist", modid = ModIDs.FR)
 })
-public class ItemArmorBase extends ItemArmor implements IItemUpdatable, IItemGT, IItemNoGTOverride, ISpecialArmor, IMetalArmor, IArmorApiarist {
+public class ItemArmorBase extends ArmorItem implements IItemUpdatable, IItemGT, IItemNoGTOverride, ISpecialArmor, IMetalArmor, IArmorApiarist {
 	protected IIcon mIcon;
 	protected final String mModID;
 	protected final String mName, mTooltip;
@@ -114,8 +116,8 @@ public class ItemArmorBase extends ItemArmor implements IItemUpdatable, IItemGT,
 	}
 	
 	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
-		Direction enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
-		IPosition iposition = BlockDispenser.func_149939_a(aSource);
+		Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
+		Position iposition = DispenserBlock.func_149939_a(aSource);
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 		return aStack;
@@ -128,7 +130,7 @@ public class ItemArmorBase extends ItemArmor implements IItemUpdatable, IItemGT,
 		}
 		
 		@Override
-		protected IProjectile getProjectileEntity(Level aWorld, IPosition aPosition) {
+		protected IProjectile getProjectileEntity(Level aWorld, Position aPosition) {
 			return null;
 		}
 	}

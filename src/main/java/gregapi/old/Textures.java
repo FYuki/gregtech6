@@ -32,6 +32,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.resources.ResourceLocation;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 public class Textures {
 	public enum BlockIcons implements IIconContainer, Runnable {

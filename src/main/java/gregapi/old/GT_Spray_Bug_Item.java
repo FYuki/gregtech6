@@ -23,7 +23,7 @@ package gregapi.old;
 public class GT_Spray_Bug_Item extends GT_Tool_Item {
 	public GT_Spray_Bug_Item(String aUnlocalized, String aEnglish, int aMaxDamage, int aEntityDamage) {
 		super(aUnlocalized, aEnglish, "A very 'buggy' Spray", aMaxDamage, aEntityDamage, true);/*
-		addToEffectiveList(EntityCaveSpider.class.getName());
+		addToEffectiveList(CaveSpider.class.getName());
 		addToEffectiveList(EntitySpider.class.getName());
 		addToEffectiveList("EntityTFHedgeSpider");
 		addToEffectiveList("EntityTFKingSpider");
@@ -40,8 +40,8 @@ public class GT_Spray_Bug_Item extends GT_Tool_Item {
 	@Override
 	public void onHitEntity(Entity aEntity) {
 		if (aEntity instanceof Mob) {
-			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 60, 1, false));
-			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.confusion.getId(), 600, 1, false));
+			((Mob)aEntity).addPotionEffect(new MobEffectInstance(Potion.poison.getId(), 60, 1, false));
+			((Mob)aEntity).addPotionEffect(new MobEffectInstance(Potion.confusion.getId(), 600, 1, false));
 		}
 	}
 	

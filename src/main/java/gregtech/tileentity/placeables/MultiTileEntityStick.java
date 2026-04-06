@@ -32,7 +32,7 @@ import gregapi.util.ST;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
@@ -181,7 +181,7 @@ public class MultiTileEntityStick extends TileEntityBase03MultiTileEntities impl
 	@Override public boolean isSideSolid            (byte aSide) {return F;}
 	@Override public boolean isObstructingBlockAt   (byte aSide) {return F;}
 	@Override public boolean checkObstruction(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
-	@Override public boolean canEntityDestroy(Entity aEntity) {return !(aEntity instanceof EntityDragon);}
+	@Override public boolean canEntityDestroy(Entity aEntity) {return !(aEntity instanceof EnderDragon);}
 	@Override public boolean ignorePlayerCollisionWhenPlacing() {return T;}
 	
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_NONE;}

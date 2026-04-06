@@ -39,16 +39,15 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import gregtech.tileentity.misc.MultiTileEntityGregOLantern;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragonPart;
+import net.minecraft.world.entity.boss.EnderCrystal;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
@@ -56,7 +55,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.damagesource.DamageSource;
@@ -114,7 +113,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		for (Object tEntity : tEntities) if (tEntity instanceof Entity) {
 			AABB tBox = ((Entity)tEntity).boundingBox;
 			if (tBox != null) {
-				if (tEntity instanceof EntityEnderCrystal) tBox = tBox.getOffsetBoundingBox(0, 1.3, 0);
+				if (tEntity instanceof EnderCrystal) tBox = tBox.getOffsetBoundingBox(0, 1.3, 0);
 				if (tBox.calculateIntercept(tPos, tAim) != null) tTargets.add((Entity)tEntity);
 			}
 		}
@@ -226,7 +225,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 				tPower-=200;
 				continue;
 			}
-			if (aBlock instanceof BlockStairs || WD.opq(aPlayer.worldObj, aCoord.posX, aCoord.posY, aCoord.posZ, T, F)) {
+			if (aBlock instanceof StairBlock || WD.opq(aPlayer.worldObj, aCoord.posX, aCoord.posY, aCoord.posZ, T, F)) {
 				UT.Sounds.send(aBlock.stepSound.getBreakSound(), aPlayer.worldObj, aCoord);
 				tPower=0;
 				continue;
@@ -254,7 +253,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		// Endermen require Disjunction Enchantment on the Bullet, or having a Weakness Potion Effect on them.
 		if (aTarget instanceof EntityEnderman && ((EntityEnderman)aTarget).getActivePotionEffect(Potion.weakness) == null && UT.NBT.getEnchantmentLevel(Enchantment_EnderDamage.INSTANCE, aBullet) <= 0) for (int i = 0; i < 64; ++i) if (((EntityEnderman)aTarget).teleportRandomly()) return F;
 		// LivingEntity, Ender Dragon and End Crystals only.
-		if (!(aTarget instanceof LivingEntity || aTarget instanceof EntityDragonPart || aTarget instanceof EntityEnderCrystal)) return F;
+		if (!(aTarget instanceof LivingEntity || aTarget instanceof EntityDragonPart || aTarget instanceof EnderCrystal)) return F;
 	//  // To make Railcrafts Damage Enchantments work... // I later figured I'd just hardcode it in.
 	//  NeoForge.EVENT_BUS.post(new AttackEntityEvent(aPlayer, aTarget));
 		
@@ -306,7 +305,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		
 		if (aTarget.attackEntityFrom(tDamageSource, (tDamage + tMagicDamage) * TFC_DAMAGE_MULTIPLIER)) {
 			aTarget.hurtResistantTime = (aTarget instanceof LivingEntity ? ((LivingEntity)aTarget).maxHurtResistantTime : 20);
-			if (aTarget instanceof EntityCreeper && tFireDamage > 0 && tImplosion <= 0) ((EntityCreeper)aTarget).func_146079_cb();
+			if (aTarget instanceof Creeper && tFireDamage > 0 && tImplosion <= 0) ((Creeper)aTarget).func_146079_cb();
 			if (tKnockback > 0) aTarget.addVelocity(aDir.xCoord * tKnockback * aPower / 50000.0, 0.05, aDir.zCoord * tKnockback * aPower / 50000.0);
 			if (aTarget instanceof LivingEntity)
 			UT.Enchantments.applyBullshitA((LivingEntity)aTarget, aPlayer, aBullet);

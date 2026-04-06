@@ -30,12 +30,11 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import micdoodle8.mods.galacticraft.api.block.IOxygenReliantBlock;
 import mods.railcraft.common.carts.EntityTunnelBore;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -50,6 +49,7 @@ import java.util.Random;
 
 import static gregapi.data.CS.*;
 import static net.minecraftforge.common.EnumPlantType.Plains;
+import gregapi.stubs.IIcon; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -57,7 +57,7 @@ import static net.minecraftforge.common.EnumPlantType.Plains;
 @Optional.InterfaceList(value = {
 	@Optional.Interface(iface = "micdoodle8.mods.galacticraft.api.block.IOxygenReliantBlock", modid = ModIDs.GC)
 })
-public abstract class BlockBaseSapling extends BlockBaseMeta implements IPlantable, IGrowable, IOxygenReliantBlock {
+public abstract class BlockBaseSapling extends BlockBaseMeta implements IPlantable, BonemealableBlock, IOxygenReliantBlock {
 	public BlockBaseSapling(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, Math.min(8, aMaxMeta), aIcons);
 		setBlockBounds(0.1F, 0.0F, 0.1F, 0.9F, 0.8F, 0.9F);
@@ -127,7 +127,7 @@ public abstract class BlockBaseSapling extends BlockBaseMeta implements IPlantab
 	
 	public boolean canPlaceTree(Level aWorld, int aX, int aY, int aZ) {
 		Block tBlock = aWorld.getBlock(aX, aY, aZ);
-		return tBlock == this || tBlock instanceof BlockTallGrass || tBlock instanceof BlockSnow || tBlock instanceof BlockLeavesBase || tBlock.canBeReplacedByLeaves(aWorld, aX, aY, aZ);
+		return tBlock == this || tBlock instanceof BlockTallGrass || tBlock instanceof SnowLayerBlock || tBlock instanceof BlockLeavesBase || tBlock.canBeReplacedByLeaves(aWorld, aX, aY, aZ);
 	}
 	
 	@Override public boolean canPlaceBlockAt(Level aWorld, int aX, int aY, int aZ) {return super.canPlaceBlockAt(aWorld, aX, aY, aZ) && canBlockStay(aWorld, aX, aY, aZ);}

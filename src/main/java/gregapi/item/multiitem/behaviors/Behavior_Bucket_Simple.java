@@ -31,17 +31,17 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import iguanaman.hungeroverhaul.config.IguanaConfig;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockCauldron;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.world.level.block.CauldronBlock;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal.MushroomCow;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemBucket;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Direction;
@@ -67,7 +67,7 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 		FluidStack mFluid = FL.getFluid(aStack, T);
 		ItemStack tBucket = ST.make(Items.bucket, 1, 0);
 		
-		Direction aFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Direction aFacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
 		Level aWorld = aSource.getWorld();
 		int aX = aSource.getXInt() + aFacing.getFrontOffsetX(), aY = aSource.getYInt() + aFacing.getFrontOffsetY(), aZ = aSource.getZInt() + aFacing.getFrontOffsetZ();
 		
@@ -168,7 +168,7 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 	public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {
 		if (FL.getFluid(aStack, T) == null && aEntity instanceof LivingEntity && !((LivingEntity)aEntity).isChild()) {
 			if (aPlayer.worldObj.isRemote) return T;
-			if (aEntity.getClass() == EntityCow.class || aEntity.getClass() == EntityMooshroom.class) {
+			if (aEntity.getClass() == EntityCow.class || aEntity.getClass() == MushroomCow.class) {
 				if (MD.HO.mLoaded && IguanaConfig.milkedTimeout > 0 && !UT.Entities.hasInfiniteItems(aPlayer)) {
 					CompoundTag tNBT = aEntity.getEntityData();
 					if (tNBT.hasKey("Milked")) return T;

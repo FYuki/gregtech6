@@ -24,11 +24,11 @@ import gregapi.config.ConfigCategories;
 import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.util.UT;
-import net.minecraft.enchantment.EnchantmentDamage;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 
 /**
  * @author Gregorius Techneticies
@@ -88,8 +88,8 @@ public class Enchantment_SlimeDamage extends EnchantmentDamage {
 	@Override
 	public void func_151367_b(LivingEntity aHurtEntity, Entity aDamagingEntity, int aLevel) {
 		if (UT.Entities.isSlimeCreature(aHurtEntity)) {
-			aHurtEntity.addPotionEffect(new PotionEffect(Potion.weakness.id , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));
-			aHurtEntity.addPotionEffect(new PotionEffect(Potion.poison.id   , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));
+			aHurtEntity.addPotionEffect(new MobEffectInstance(Potion.weakness.id , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));
+			aHurtEntity.addPotionEffect(new MobEffectInstance(Potion.poison.id   , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));
 		}
 	}
 	

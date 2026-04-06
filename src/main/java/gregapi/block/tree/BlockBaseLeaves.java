@@ -31,11 +31,11 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import micdoodle8.mods.galacticraft.api.block.IOxygenReliantBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
 
 /**
  * @author Gregorius Techneticies

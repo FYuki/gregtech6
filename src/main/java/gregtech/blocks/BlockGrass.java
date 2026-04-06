@@ -27,7 +27,7 @@ import gregapi.render.IconContainerCopied;
 import gregapi.util.CR;
 import gregapi.util.ST;
 import gregapi.util.WD;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
 
 public class BlockGrass extends BlockBaseMeta {
 	public BlockGrass(String aUnlocalised) {

@@ -37,7 +37,7 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.StoneLayer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.block.Blocks;

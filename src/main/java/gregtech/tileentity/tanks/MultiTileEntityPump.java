@@ -53,6 +53,7 @@ import net.minecraft.core.BlockPos; // was BlockPos
 import net.neoforged.neoforge.fluids.FluidStack;
 import gregapi.stubs.IFluidBlock;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import gregapi.stubs.IFluidTank; // stub
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 /**

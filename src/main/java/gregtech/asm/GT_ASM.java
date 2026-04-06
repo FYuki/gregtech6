@@ -27,7 +27,7 @@ import gregapi.stubs.IFMLLoadingPlugin.Name;
 import gregapi.stubs.IFMLLoadingPlugin.SortingIndex;
 import gregapi.stubs.IFMLLoadingPlugin.TransformerExclusions;
 import gregtech.asm.transformers.*;
-import net.minecraft.launchwrapper.LaunchClassLoader;
+import gregapi.stubs.LaunchClassLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.*;
@@ -39,6 +39,7 @@ import org.objectweb.asm.util.TraceMethodVisitor;
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import gregapi.stubs.Configuration; // stub
 
 @Name("Greg-ASM®")
 @MCVersion("1.7.10")

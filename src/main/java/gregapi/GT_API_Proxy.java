@@ -82,32 +82,29 @@ import gregapi.wooddict.WoodEntry;
 import gregapi.worldgen.GT6WorldGenerator;
 import gregtech.items.behaviors.Behavior_Gun;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockHugeMushroom;
-import net.minecraft.block.BlockJukebox.TileEntityJukebox;
-import net.minecraft.block.BlockRailBase;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.HugeMushroomBlock;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.block.BaseRailBlock;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.*;
-import net.minecraft.item.crafting.FurnaceRecipes;
+import gregapi.stubs.FurnaceRecipes;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import gregapi.stubs.MobSpawnerBaseLogic;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.damagesource.DamageSource;
@@ -140,6 +137,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.WorldSettings; // stub
+import gregapi.stubs.IChunkProvider; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -581,7 +580,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 					// Minoshroom
 					if (MD.TF.mLoaded && aEvent.entityLiving instanceof EntityTFMinoshroom) {
 						// Once damaged, the Minoshroom will not stay bound to its Room!
-						((EntityCreature)aEvent.entityLiving).detachHome();
+						((PathfinderMob)aEvent.entityLiving).detachHome();
 						// Minoshroom surprise charge through the Fenced Gateways!
 						for (int iX = tX-15, eX = tX+15; iX <= eX; iX++) for (int iZ = tZ-15, eZ = tZ+15; iZ <= eZ; iZ++) for (int iY = tY+1, eY = tY+3; iY <= eY; iY++) {
 							if (aEvent.entityLiving.worldObj.getBlock(iX, iY, iZ) == Blocks.fence) {
@@ -715,8 +714,8 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		////}
 			
 			for (Object tPotion : aEvent.player.getActivePotionEffects()) {
-				if (tPotion instanceof PotionEffect && ((PotionEffect)tPotion).getDuration() <= 0) {
-					aEvent.player.removePotionEffect(((PotionEffect)tPotion).getPotionID());
+				if (tPotion instanceof MobEffectInstance && ((MobEffectInstance)tPotion).getDuration() <= 0) {
+					aEvent.player.removePotionEffect(((MobEffectInstance)tPotion).getPotionID());
 					break;
 				}
 			}
@@ -820,7 +819,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 							OreDictItemData tData = OM.anydata_(tStack);
 							if (tData != null && tData.validMaterial()) {
 								if ((tData.mMaterial.mMaterial == MT.Bedrockium || tData.mMaterial.mMaterial == MT.Neutronium) && (tData.validPrefix() || tData.mByProducts.length <= 0)) {
-									PotionEffect tEffect = null;
+									MobEffectInstance tEffect = null;
 									UT.Entities.applyPotion(aEvent.player, Potion.moveSlowdown.id, Math.max(140, ((tEffect = aEvent.player.getActivePotionEffect(Potion.moveSlowdown))==null?0:tEffect.getDuration())), 3, F);
 								}
 								if (tData.mMaterial.mMaterial == MT.Craponite) {
@@ -962,9 +961,9 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		// Do not refill Foods!
 		if (ST.food(aEvent.original) > 0) return;
 		// Do not refill Edibles!
-		if (aEvent.original.getItemUseAction() == EnumAction.eat) return;
+		if (aEvent.original.getItemUseAction() == UseAnim.eat) return;
 		// Do not refill Drinkables!
-		if (aEvent.original.getItemUseAction() == EnumAction.drink) return;
+		if (aEvent.original.getItemUseAction() == UseAnim.drink) return;
 		// Move into First Row.
 		if (tSlot < 9) {
 			if (ST.equal(aEvent.original, tInv[tSlot+27], T)) {
@@ -1490,7 +1489,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 			LevelChunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
 			if (tChunk != null && tChunk.getBlockStorageArray() != null && tChunk.getBlockStorageArray()[aY >> 4] != null && tChunk.getBlockStorageArray()[aY >> 4].getExtBlocklightValue(aX & 15, aY & 15, aZ & 15) > 0) {
 				// Vanilla Mobs only, just in case.
-				if (aMobClass == EntityCreeper.class || aMobClass == EntityEnderman.class || aMobClass == EntitySkeleton.class || aMobClass == EntityZombie.class || aMobClass == EntitySpider.class || aMobClass == EntityWitch.class || aMobClass == EntityBat.class) {aEvent.setResult(Result.DENY); return;}
+				if (aMobClass == Creeper.class || aMobClass == EntityEnderman.class || aMobClass == EntitySkeleton.class || aMobClass == EntityZombie.class || aMobClass == EntitySpider.class || aMobClass == EntityWitch.class || aMobClass == EntityBat.class) {aEvent.setResult(Result.DENY); return;}
 				// Well, that Zombie is kindof like Vanilla, so it counts.
 				if (MD.TC.mLoaded) if (aEvent.entityLiving instanceof EntityBrainyZombie) {aEvent.setResult(Result.DENY); return;}
 				// TODO Add Drowned and other Et Futurum Requiem Mobs once they are released.
@@ -1581,7 +1580,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	public int getBurnTime(ItemStack aFuel) {
 		if (ST.invalid(aFuel) || FL.getFluid(aFuel, T) != null) return 0;
 		Block aBlock = ST.block(aFuel);
-		if (aBlock instanceof BlockRailBase                                  ) return 0; // Needed so Railcrafts Tunnel Bore works properly and doesn't try to burn its Rails while laying them.
+		if (aBlock instanceof BaseRailBlock                                  ) return 0; // Needed so Railcrafts Tunnel Bore works properly and doesn't try to burn its Rails while laying them.
 		if (aBlock instanceof BlockHugeMushroom                              ) return (3 * TICKS_PER_SMELT) / 2;
 		if (aBlock == BlocksGT.BalesGrass                                    ) return (9 * TICKS_PER_SMELT) / ((ST.meta_(aFuel) & 3) == 1 ? 2 : 4);
 		if (aBlock instanceof BlockBaseBale                                  ) return (9 * TICKS_PER_SMELT) / 4;

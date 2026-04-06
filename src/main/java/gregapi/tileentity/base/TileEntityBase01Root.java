@@ -56,8 +56,8 @@ import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyTile;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockFire;
-import net.minecraft.block.BlockRailBase;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.BaseRailBlock;
 import gregapi.stubs.RenderBlocks;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -77,8 +77,8 @@ import gregapi.stubs.DrawBlockHighlightEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidTank;
-import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTank;
+import gregapi.stubs.IFluidTank;
 import gregapi.stubs.FluidTankInfo; // PHASE3: removed from NeoForge
 import net.minecraft.world.level.material.Fluid;
 
@@ -87,6 +87,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -573,7 +574,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 		return hasRedstoneIncomingFromNonRail(ALL_SIDES_VALID);
 	}
 	public boolean hasRedstoneIncomingFromNonRail(byte[] aSides) {
-		for (byte tSide : aSides) if (!(getBlockAtSide(tSide) instanceof BlockRailBase) && getRedstoneIncoming(tSide) > 0) return T;
+		for (byte tSide : aSides) if (!(getBlockAtSide(tSide) instanceof BaseRailBlock) && getRedstoneIncoming(tSide) > 0) return T;
 		return F;
 	}
 	
@@ -780,7 +781,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public boolean doDefaultStructuralChecks() {
 		for (TagData tEnergyType : getEnergyTypes(SIDE_ANY)) {
 			if (TD.Energy.ALL_WEAK_TO_FIRE.contains(tEnergyType)) for (byte tSide : ALL_SIDES_VALID) {
-				if (!isFireProof(tSide) && getBlockAtSide(tSide) instanceof BlockFire && rng(10) == 0) {
+				if (!isFireProof(tSide) && getBlockAtSide(tSide) instanceof FireBlock && rng(10) == 0) {
 					if (FIRE_EXPLOSIONS) explode(TD.Energy.ALL_EXPLODING.contains(tEnergyType) ? 4.0 : 0.1); else if (FIRE_BREAKING) explode(0.1);
 					if (mExplodeSpamCooldown++ == 0) {
 						UT.Sounds.send(TD.Energy.ALL_ELECTRIC.contains(tEnergyType)?SFX.IC_MACHINE_OVERLOAD:TD.Energy.ALL_KINETIC.contains(tEnergyType)?SFX.IC_MACHINE_INTERRUPT:SFX.MC_EXPLODE, this, F);

@@ -35,6 +35,8 @@ import ic2.api.crops.ICropTile;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 
 public class GT_BaseCrop extends CropCard {

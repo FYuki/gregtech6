@@ -26,10 +26,10 @@ import gregapi.code.ArrayListNoNulls;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockFalling;
+import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -40,7 +40,7 @@ import net.minecraft.world.level.Level;
 /**
  * @author Gregorius Techneticies
  */
-public class PrefixBlockFallingEntity extends EntityFallingBlock {
+public class PrefixBlockFallingEntity extends FallingBlockEntity {
 	protected IBlockPlacable mBlock;
 	protected ItemStack mStack;
 	
@@ -83,7 +83,7 @@ public class PrefixBlockFallingEntity extends EntityFallingBlock {
 				motionY *= -0.5D;
 				if (worldObj.getBlock(aX, aY, aZ) != Blocks.piston_extension) {
 					setDead();
-					if (!worldObj.canPlaceEntityOnSide(super.func_145805_f(), aX, aY, aZ, T, 1, null, mStack) || BlockFalling.func_149831_e(worldObj, aX, aY - 1, aZ) || !mBlock.placeBlock(worldObj, aX, aY, aZ, (byte)1, ST.meta_(mStack), mStack.getTagCompound(), T, T)) {
+					if (!worldObj.canPlaceEntityOnSide(super.func_145805_f(), aX, aY, aZ, T, 1, null, mStack) || FallingBlock.func_149831_e(worldObj, aX, aY - 1, aZ) || !mBlock.placeBlock(worldObj, aX, aY, aZ, (byte)1, ST.meta_(mStack), mStack.getTagCompound(), T, T)) {
 						if (field_145813_c) if (mBlock instanceof PrefixBlock) {for (ItemStack tStack : ((PrefixBlock)mBlock).mDrops.getDrops((PrefixBlock)mBlock, worldObj, aX, aY, aZ, ST.meta_(mStack), null, 0, F)) entityDropItem(tStack, 0.0F);} else entityDropItem(mStack, 0.0F);
 					}
 				}

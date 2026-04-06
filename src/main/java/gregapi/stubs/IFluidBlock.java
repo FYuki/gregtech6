@@ -1,6 +1,7 @@
 package gregapi.stubs;
 // PHASE3: IFluidBlock replaced by FluidBlock/LiquidBlock in NeoForge 1.21
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 @SuppressWarnings("unused")
 public interface IFluidBlock {
     FluidStack drain(net.minecraft.world.level.Level world, net.minecraft.core.BlockPos pos, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction action);

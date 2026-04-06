@@ -41,6 +41,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import java.util.*;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.Achievement; // stub
+import gregapi.stubs.Configuration; // stub
 
 /**
  * @author Gregorius Techneticies

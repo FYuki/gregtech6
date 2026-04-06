@@ -26,9 +26,10 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import gregapi.stubs.RenderBlocks;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import IFluidTank removed — use IFluidHandler capability
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IFluidTank; // stub
 
 /** 
  * @author Gregorius Techneticies

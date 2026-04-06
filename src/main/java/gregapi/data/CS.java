@@ -69,8 +69,8 @@ import net.minecraft.core.BlockPos; // was BlockPos
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidTank;
-import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTank;
+import gregapi.stubs.IFluidTank;
 import gregapi.stubs.FluidTankInfo; // PHASE3: removed from NeoForge
 import net.minecraft.world.level.material.Fluid;
 // PHASE7: import OreDictionary removed — replaced by Tags
@@ -79,6 +79,7 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
+import gregapi.stubs.Configuration; // stub
 
 /**
  * @author Gregorius Techneticies

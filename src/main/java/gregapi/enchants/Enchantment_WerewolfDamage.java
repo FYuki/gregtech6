@@ -26,14 +26,14 @@ import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.enchantment.EnchantmentDamage;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 
 import static gregapi.data.CS.RNGSUS;
 
@@ -105,8 +105,8 @@ public class Enchantment_WerewolfDamage extends EnchantmentDamage {
 					}
 				}
 			}
-			aHurtEntity.addPotionEffect(new PotionEffect(Potion.wither.id, aLevel * 200, (int)UT.Code.bind(1, 5, (10*aLevel) / 7)));
-			aHurtEntity.addPotionEffect(new PotionEffect(Potion.poison.id, aLevel * 200, (int)UT.Code.bind(1, 5, (10*aLevel) / 7)));
+			aHurtEntity.addPotionEffect(new MobEffectInstance(Potion.wither.id, aLevel * 200, (int)UT.Code.bind(1, 5, (10*aLevel) / 7)));
+			aHurtEntity.addPotionEffect(new MobEffectInstance(Potion.poison.id, aLevel * 200, (int)UT.Code.bind(1, 5, (10*aLevel) / 7)));
 		}
 	}
 	

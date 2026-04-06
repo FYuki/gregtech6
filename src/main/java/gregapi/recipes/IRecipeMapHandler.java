@@ -24,7 +24,7 @@ import static gregapi.data.CS.*;
 import gregapi.oredict.OreDictItemData;
 import gregapi.recipes.Recipe.RecipeMap;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 
 /**
  * @author Gregorius Techneticies

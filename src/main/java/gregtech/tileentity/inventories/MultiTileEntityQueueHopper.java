@@ -39,11 +39,11 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import gregtech.tileentity.tools.MultiTileEntityAnvil;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockRailBase;
-import net.minecraft.command.IEntitySelector;
+import net.minecraft.world.level.block.BaseRailBlock;
+import gregapi.stubs.IEntitySelector;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.monster.EntitySnowman;
+import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.Container;
@@ -141,7 +141,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 	
 	@Override
 	public void onWalkOver2(LivingEntity aEntity) {
-		if (isServerSide() && (aEntity.getClass() == EntitySnowman.class || "EntityNewSnowGolem".equalsIgnoreCase(UT.Reflection.getLowercaseClass(aEntity)))) {
+		if (isServerSide() && (aEntity.getClass() == SnowGolem.class || "EntityNewSnowGolem".equalsIgnoreCase(UT.Reflection.getLowercaseClass(aEntity)))) {
 			addStackToSlot(invsize()-1, ST.make(Items.snowball, 1, 0));
 		}
 	}
@@ -157,7 +157,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 			} else if ((mCheck == 0 || mInventoryChanged || mBlockUpdated || SYNC_SECOND) && !hasRedstoneIncomingFromNonRail()) {
 				if (!SIDES_TOP[mFacing] && !invempty()) {
 					DelegatorTileEntity tDelegator = getAdjacentTileEntity(mFacing);
-					if (tDelegator.getBlock() instanceof BlockRailBase) {
+					if (tDelegator.getBlock() instanceof BaseRailBlock) {
 						List tList = worldObj.getEntitiesWithinAABBExcludingEntity(null, tDelegator.box(0, 0, 0, 1, 1, 1), IEntitySelector.selectInventories);
 						if (tList != null && !tList.isEmpty()) tDelegator = new DelegatorTileEntity<>((Container)tList.get(0), tDelegator);
 					}
@@ -171,7 +171,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 					}
 				}
 				DelegatorTileEntity tDelegator = getAdjacentTileEntity(SIDE_TOP);
-				if (tDelegator.getBlock() instanceof BlockRailBase) {
+				if (tDelegator.getBlock() instanceof BaseRailBlock) {
 					List tList = worldObj.getEntitiesWithinAABBExcludingEntity(null, tDelegator.box(0, 0, 0, 1, 1, 1), IEntitySelector.selectInventories);
 					if (tList != null && !tList.isEmpty()) tDelegator = new DelegatorTileEntity<>((Container)tList.get(0), tDelegator);
 				}

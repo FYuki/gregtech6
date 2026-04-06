@@ -33,7 +33,6 @@ import gregapi.util.WD;
 import ic2.api.crops.ICropTile;
 import ic2.api.tile.IWrenchable;
 import micdoodle8.mods.galacticraft.core.blocks.BlockAdvanced;
-import net.minecraft.block.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -181,12 +180,12 @@ public class ToolCompat {
 				if (aCanCollect) for (ItemStack tDrop : WD.suckAll(aWorld, aX-1.5, aY-0.5, aZ-1.5, 4, 2, 4)) ST.give(aEntityPlayer, tDrop, aWorld, aX, aY, aZ);
 				return tDamage;
 			}
-			if (aBlock instanceof IGrowable) {
+			if (aBlock instanceof BonemealableBlock) {
 				int tDamage = 0;
 				for (int i = -1; i < 2; i++) for (int j = -1; j < 2; j++) for (int k = -1; k < 2; k++) if (aWorld.getBlockMetadata(aX+i, aY+j, aZ+k) == 7) {
 					byte  tMeta  = WD.meta (aWorld, aX+i, aY+j, aZ+k);
 					Block tBlock = WD.block(aWorld, aX+i, aY+j, aZ+k);
-					if (tBlock.getClass() == aBlock.getClass() && !((IGrowable)tBlock).func_149851_a(aWorld, aX+i, aY+j, aZ+k, F)) {
+					if (tBlock.getClass() == aBlock.getClass() && !((BonemealableBlock)tBlock).func_149851_a(aWorld, aX+i, aY+j, aZ+k, F)) {
 						tBlock.onBlockActivated(aWorld, aX+i, aY+j, aZ+k, aEntityPlayer, aSide, aHitX, aHitY, aHitZ);
 						tDamage += 10000;
 					}
@@ -232,7 +231,7 @@ public class ToolCompat {
 			if (aBlock instanceof BlockRotatedPillar || aBlock.getRenderType() == PILLAR_RENDER) {
 				if (aWorld.setBlockMetadataWithNotify(aX, aY, aZ, (aMeta + 4) & 15, 3)) return 5000;
 			}
-			if (aBlock instanceof BlockPistonBase || aBlock instanceof BlockDispenser) {
+			if (aBlock instanceof BlockPistonBase || aBlock instanceof DispenserBlock) {
 				if (aMeta < 6 && aWorld.setBlockMetadataWithNotify(aX, aY, aZ, (aMeta+1) % 6, 3)) return 2000;
 			}
 			if (aBlock instanceof BlockPumpkin || aBlock instanceof BlockFurnace || aBlock instanceof BlockChest || aBlock instanceof BlockEnderChest) {
@@ -249,10 +248,10 @@ public class ToolCompat {
 			}
 		}
 		if (aTool.equals(TOOL_crowbar)) {
-			if (aBlock instanceof BlockRailBase && (!MD.RC.mLoaded || !(MD.MC.owns(aBlock) || MD.RC.owns(aBlock)))) {
+			if (aBlock instanceof BaseRailBlock && (!MD.RC.mLoaded || !(MD.MC.owns(aBlock) || MD.RC.owns(aBlock)))) {
 				aWorld.isRemote = T;
 				// Why the fuck are the two Coordinate Parameters in isFlexibleRail switched? And then it is used like x y z instead of using the broken namings.
-				boolean tResult = aWorld.setBlock(aX, aY, aZ, aBlock, ((BlockRailBase)aBlock).isFlexibleRail(aWorld, aX, aY, aZ) ? (aMeta+1) % 10 : ((aMeta/8) * 8) + (((aMeta%8)+1) % 6), 0);
+				boolean tResult = aWorld.setBlock(aX, aY, aZ, aBlock, ((BaseRailBlock)aBlock).isFlexibleRail(aWorld, aX, aY, aZ) ? (aMeta+1) % 10 : ((aMeta/8) * 8) + (((aMeta%8)+1) % 6), 0);
 				aWorld.isRemote = F;
 				return tResult?2000:0;
 			}
@@ -285,7 +284,7 @@ public class ToolCompat {
 			if (aBlock instanceof BlockRotatedPillar || aBlock.getRenderType() == PILLAR_RENDER) {
 				if (aWorld.setBlockMetadataWithNotify(aX, aY, aZ, (aMeta + 4) & 15, 3)) return 5000;
 			}
-			if (aBlock instanceof BlockPistonBase || aBlock instanceof BlockDispenser) {
+			if (aBlock instanceof BlockPistonBase || aBlock instanceof DispenserBlock) {
 				if (aMeta < 6 && aWorld.setBlockMetadataWithNotify(aX, aY, aZ, (aMeta+1) % 6, 3)) return 2000;
 			}
 			if (aBlock instanceof BlockPumpkin || aBlock instanceof BlockFurnace || aBlock instanceof BlockChest || aBlock instanceof BlockEnderChest) {
@@ -339,14 +338,14 @@ public class ToolCompat {
 			}
 			
 			if (aMeta == aTargetSide) {
-				if (aBlock instanceof BlockPumpkin || aBlock instanceof BlockPistonBase || aBlock instanceof BlockDispenser || aBlock instanceof BlockFurnace || aBlock instanceof BlockChest || aBlock instanceof BlockHopper || aBlock instanceof BlockEnderChest) {
+				if (aBlock instanceof BlockPumpkin || aBlock instanceof BlockPistonBase || aBlock instanceof DispenserBlock || aBlock instanceof BlockFurnace || aBlock instanceof BlockChest || aBlock instanceof BlockHopper || aBlock instanceof BlockEnderChest) {
 					if (aWorld.setBlockToAir(aX, aY, aZ)) {
 						ST.drop(aWorld, aX+0.5, aY+0.5, aZ+0.5, ST.make(aBlock, 1, 0));
 						return 10000;
 					}
 				}
 			} else {
-				if (aBlock instanceof BlockPistonBase || aBlock instanceof BlockDispenser) {
+				if (aBlock instanceof BlockPistonBase || aBlock instanceof DispenserBlock) {
 					if (aMeta < 6 && aWorld.setBlockMetadataWithNotify(aX, aY, aZ, aTargetSide, 3)) return 10000;
 				}
 				if (aBlock instanceof BlockPumpkin || aBlock instanceof BlockFurnace || aBlock instanceof BlockChest || aBlock instanceof BlockEnderChest) {
@@ -356,7 +355,7 @@ public class ToolCompat {
 					if (SIDES_BOTTOM_HORIZONTAL[aTargetSide] && aWorld.setBlockMetadataWithNotify(aX, aY, aZ, aTargetSide, 3)) return 10000;
 				}
 			}
-			if (aBlock instanceof BlockRailBase || aBlock instanceof BlockRedstoneDiode || aBlock instanceof BlockPistonExtension || aBlock instanceof BlockPistonBase) {
+			if (aBlock instanceof BaseRailBlock || aBlock instanceof BlockRedstoneDiode || aBlock instanceof BlockPistonExtension || aBlock instanceof BlockPistonBase) {
 				// wrench doesn't work on those.
 			} else {
 				if (Arrays.asList(aBlock.getValidRotations(aWorld, aX, aY, aZ)).contains(Direction.getOrientation(aTargetSide))) {
@@ -403,7 +402,7 @@ public class ToolCompat {
 				if (aChatReturn != null) aChatReturn.add("There is Lava behind this Rock");
 				break;
 			}
-			if (tBlock instanceof BlockLiquid || tBlock instanceof IFluidBlock) {
+			if (tBlock instanceof LiquidBlock || tBlock instanceof IFluidBlock) {
 				if (aChatReturn != null) aChatReturn.add("There is a Fluid behind this Rock");
 				break;
 			}

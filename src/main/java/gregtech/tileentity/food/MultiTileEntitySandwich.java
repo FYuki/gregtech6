@@ -43,8 +43,8 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemFood;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.AABB;
@@ -258,8 +258,8 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	}
 	
 	@Override
-	public EnumAction getItemUseAction(MultiTileEntityItemInternal aItem, ItemStack aStack) {
-		return EnumAction.eat;
+	public UseAnim getItemUseAction(MultiTileEntityItemInternal aItem, ItemStack aStack) {
+		return UseAnim.eat;
 	}
 	
 	@Override

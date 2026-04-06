@@ -39,16 +39,15 @@ import gregtech.tileentity.plants.MultiTileEntityResinHoleRubber;
 import net.minecraft.world.level.block.Block;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySnowman;
-import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.core.BlockPos; // was BlockPos
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.level.Level;
@@ -57,6 +56,8 @@ import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItemBumbleBee {
 	public MultiItemBumbles(String aModID, String aUnlocalized) {
@@ -441,8 +442,8 @@ public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItem
 		if (UT.Entities.isWearingFullInsectHazmat(aAttacked)) return F;
 		boolean
 		  tSkeleton = (aAttacked instanceof EntitySkeleton || (aAttacked instanceof EntityHorse && ((EntityHorse)aAttacked).getHorseType() == 4))
-		, tSnowGolem = (aAttacked.getClass() == EntitySnowman.class)
-		, tIronGolem = (aAttacked instanceof EntityIronGolem)
+		, tSnowGolem = (aAttacked.getClass() == SnowGolem.class)
+		, tIronGolem = (aAttacked instanceof IronGolem)
 		, tPlayer = (aAttacked instanceof Player)
 		;
 		switch(aMetaData / 100) {

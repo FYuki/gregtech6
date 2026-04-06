@@ -21,8 +21,8 @@ package gregapi.block;
 
 import static gregapi.data.CS.*;
 
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.world.level.material.MapColor;
+import gregapi.stubs.MaterialLiquid;
 
 public class MaterialGas extends MaterialLiquid {
 	public static MaterialGas instance = new MaterialGas();

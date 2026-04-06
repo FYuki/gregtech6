@@ -21,8 +21,8 @@ package gregapi.render;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-// PHASE4: import IIconRegister removed — use TextureAtlasSprite
-// PHASE4: import IIcon removed — use TextureAtlasSprite
+import gregapi.stubs.IIcon;         // PHASE4: use TextureAtlasSprite
+import gregapi.stubs.IIconRegister; // PHASE4: use TextureStitchEvent
 import net.minecraft.resources.ResourceLocation;
 
 /** 

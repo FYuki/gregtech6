@@ -31,14 +31,14 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockRailBase;
+import net.minecraft.world.level.block.BaseRailBlock;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
-import net.minecraft.command.IEntitySelector;
+import gregapi.stubs.IEntitySelector;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.EntityMinecartCommandBlock;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.world.entity.vehicle.MinecartCommandBlock;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -56,11 +56,13 @@ import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
  */
-public class BlockBaseRail extends BlockRailBase implements IBlockBase, IBlockSealable, IBlockToolable {
+public class BlockBaseRail extends BaseRailBlock implements IBlockBase, IBlockSealable, IBlockToolable {
 	public final String mNameInternal;
 	public final float mSpeed, mExplosionResistance;
 	public final IIconContainer mIconPrimary, mIconSecondary;
@@ -114,7 +116,7 @@ public class BlockBaseRail extends BlockRailBase implements IBlockBase, IBlockSe
 	@Override public Item getItemDropped(int par1, Random par2Random, int par3) {return Item.getItemFromBlock(this);}
 	@Override public Item getItem(Level aWorld, int aX, int aY, int aZ) {return Item.getItemFromBlock(this);}
 	@Override public void registerBlockIcons(IIconRegister aIconRegister) {/**/}
-	@Override public boolean canCreatureSpawn(EnumCreatureType type, BlockGetter aWorld, int aX, int aY, int aZ) {return canCreatureSpawn(WD.meta(aWorld, aX, aY, aZ));}
+	@Override public boolean canCreatureSpawn(MobCategory type, BlockGetter aWorld, int aX, int aY, int aZ) {return canCreatureSpawn(WD.meta(aWorld, aX, aY, aZ));}
 	@SuppressWarnings("unchecked") @Override public void getSubBlocks(Item aItem, CreativeModeTab par2CreativeTabs, @SuppressWarnings("rawtypes") List aList) {aList.add(ST.make(aItem, 1, 0));}
 	@Override public IIcon getIcon(int aSide, int aMeta) {return ((mPowerRail||mDetectorRail?(aMeta&8)!=0:aMeta>=6)?mIconSecondary:mIconPrimary).getIcon(0);}
 	@Override public boolean isSealed(Level aWorld, int aX, int aY, int aZ, Direction aDirection) {return F;}

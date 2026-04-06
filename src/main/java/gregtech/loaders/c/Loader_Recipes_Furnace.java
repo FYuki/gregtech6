@@ -30,7 +30,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
+import gregapi.stubs.FurnaceRecipes;
 
 import java.util.Iterator;
 import java.util.Map;

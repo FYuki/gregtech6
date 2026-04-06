@@ -21,7 +21,7 @@ package gregtech.asm.transformers;
 
 import gregapi.log.LoggerFML;
 import gregtech.asm.GT_ASM;
-import net.minecraft.launchwrapper.IClassTransformer;
+import gregapi.stubs.IClassTransformer;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;

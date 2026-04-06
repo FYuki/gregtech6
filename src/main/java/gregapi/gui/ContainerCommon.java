@@ -23,9 +23,9 @@ import gregapi.tileentity.ITileEntityInventoryGUI;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.inventory.ICrafting;
+import gregapi.stubs.ICrafting;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -40,18 +40,18 @@ import static gregapi.data.CS.*;
 public class ContainerCommon extends Container {
 	public final int mOffset, mSlotCount, mGUIID;
 	public ITileEntityInventoryGUI mTileEntity;
-	public InventoryPlayer mInventoryPlayer;
+	public Inventory mInventoryPlayer;
 
-	public ContainerCommon(InventoryPlayer aInventoryPlayer, ITileEntityInventoryGUI aTileEntity) {
+	public ContainerCommon(Inventory aInventoryPlayer, ITileEntityInventoryGUI aTileEntity) {
 		this(aInventoryPlayer, aTileEntity, 0);
 	}
-	public ContainerCommon(InventoryPlayer aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, int aOffset, int aSlotCount) {
+	public ContainerCommon(Inventory aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, int aOffset, int aSlotCount) {
 		this(aInventoryPlayer, aTileEntity, 0, aOffset, aSlotCount);
 	}
-	public ContainerCommon(InventoryPlayer aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, int aGUIID) {
+	public ContainerCommon(Inventory aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, int aGUIID) {
 		this(aInventoryPlayer, aTileEntity, aGUIID, 0, aTileEntity.getSizeInventoryGUI());
 	}
-	public ContainerCommon(InventoryPlayer aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, int aGUIID, int aOffset, int aSlotCount) {
+	public ContainerCommon(Inventory aInventoryPlayer, ITileEntityInventoryGUI aTileEntity, int aGUIID, int aOffset, int aSlotCount) {
 		mInventoryPlayer = aInventoryPlayer;
 		mTileEntity = aTileEntity;
 		mTileEntity.openInventoryGUI();
@@ -67,7 +67,7 @@ public class ContainerCommon extends Container {
 	/**
 	 * To add the Slots to your GUI
 	 */
-	public int addSlots(InventoryPlayer aPlayerInventory) {
+	public int addSlots(Inventory aPlayerInventory) {
 		int i = mOffset;
 		if (useDefaultSlots()) switch(mSlotCount) {
 		case  1:
@@ -324,7 +324,7 @@ public class ContainerCommon extends Container {
 	
 	@Override public boolean canInteractWith(Player aPlayer) {return mTileEntity.isUseableByPlayerGUI(aPlayer);}
 	
-	protected void bindPlayerInventory(InventoryPlayer aInventoryPlayer, int aOffset) {
+	protected void bindPlayerInventory(Inventory aInventoryPlayer, int aOffset) {
 		for (int i = 0; i < 3; i++) for (int j = 0; j < 9; j++) {
 			addSlotToContainer(new Slot(aInventoryPlayer, j + i * 9 + 9, 8 + j * 18, aOffset + i * 18));
 		}
@@ -355,7 +355,7 @@ public class ContainerCommon extends Container {
 		
 		try {rStack = super.slotClick(aIndex, aMouse, aShift, aPlayer); detectAndSendChanges(); return rStack;} catch (Throwable e) {e.printStackTrace(ERR);}
 		
-		InventoryPlayer aPlayerInventory = aPlayer.inventory;
+		Inventory aPlayerInventory = aPlayer.inventory;
 		int tTempStackSize;
 		
 		if ((aShift == 0 || aShift == 1) && (aMouse == 0 || aMouse == 1)) {
@@ -681,7 +681,7 @@ public class ContainerCommon extends Container {
 	public void onContainerClosed(Player aPlayer) {
 		try {
 			mTileEntity.closeInventoryGUI();
-			InventoryPlayer tPlayerInventory = aPlayer.inventory;
+			Inventory tPlayerInventory = aPlayer.inventory;
 			for (ItemStack tStack : tPlayerInventory.mainInventory) {
 				ST.check(aPlayer, tStack);
 			}
@@ -727,7 +727,7 @@ public class ContainerCommon extends Container {
 	}
 	
 	@Override
-	public short getNextTransactionID(InventoryPlayer aPlayerInventory) {
+	public short getNextTransactionID(Inventory aPlayerInventory) {
 		return super.getNextTransactionID(aPlayerInventory);
 	}
 	

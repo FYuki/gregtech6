@@ -43,23 +43,23 @@ import gregapi.util.WD;
 import mekanism.api.MekanismAPI;
 import mods.railcraft.common.carts.EntityTunnelBore;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockFalling;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.FallingBlock;
+import gregapi.stubs.ITileEntityProvider;
+import net.minecraft.world.level.material.PushReaction;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.stats.StatList;
+import gregapi.stubs.StatList;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -77,6 +77,8 @@ import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -371,7 +373,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	public boolean scheduleUpdateIfNeeded(Level aWorld, int aX, int aY, int aZ, TileEntity aTileEntity) {
-		if (mGravity && aY > 0 && BlockFalling.func_149831_e(aWorld, aX, aY - 1, aZ)) {
+		if (mGravity && aY > 0 && FallingBlock.func_149831_e(aWorld, aX, aY - 1, aZ)) {
 			aWorld.scheduleBlockUpdate(aX, aY, aZ, this, 2);
 			return T;
 		}
@@ -469,12 +471,12 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	
 	@Override
 	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
-		if (aEntity instanceof EntityDragon) {
+		if (aEntity instanceof EnderDragon) {
 			if (mEnderDragonProof) return F;
 			OreDictMaterialStack aMaterial = getMaterialAtSide(aWorld, aX, aY, aZ, SIDE_ANY);
 			return aMaterial == null || !aMaterial.mMaterial.contains(TD.Properties.ENDER_DRAGON_PROOF);
 		}
-		if (aEntity instanceof EntityWither) {
+		if (aEntity instanceof WitherBoss) {
 			if (mWitherProof) return F;
 			OreDictMaterialStack aMaterial = getMaterialAtSide(aWorld, aX, aY, aZ, SIDE_ANY);
 			return aMaterial == null || !aMaterial.mMaterial.contains(TD.Properties.WITHER_PROOF);
@@ -607,7 +609,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	@Override public final boolean isOpaqueCube() {return mOpaque;}
 	@Override public boolean canSilkHarvest() {return F;}
 	@Override public boolean func_149730_j() {return mOpaque;}
-	@Override public boolean canCreatureSpawn(EnumCreatureType aType, BlockGetter aWorld, int aX, int aY, int aZ) {return !mSpawnProof;}
+	@Override public boolean canCreatureSpawn(MobCategory aType, BlockGetter aWorld, int aX, int aY, int aZ) {return !mSpawnProof;}
 	@Override public boolean shouldSideBeRendered(BlockGetter aWorld, int aX, int aY, int aZ, int aSide) {setBlockBoundsBasedOnState(aWorld, aX, aY, aZ); return super.shouldSideBeRendered(aWorld, aX, aY, aZ, aSide);}
 	@Override public boolean usesRenderPass(int aRenderPass, ItemStack aStack) {return T;}
 	@Override public boolean usesRenderPass(int aRenderPass, BlockGetter aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return T;}
@@ -649,14 +651,14 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	protected boolean checkGravity(Level aWorld, int aX, int aY, int aZ) {
-		if (mGravity && aY > 0 && aWorld.getTileEntity(aX, aY, aZ) != null && BlockFalling.func_149831_e(aWorld, aX, aY - 1, aZ)) {
-			if (!BlockFalling.fallInstantly && aWorld.checkChunksExist(aX-32, aY-32, aZ-32, aX+32, aY+32, aZ+32)) {
+		if (mGravity && aY > 0 && aWorld.getTileEntity(aX, aY, aZ) != null && FallingBlock.func_149831_e(aWorld, aX, aY - 1, aZ)) {
+			if (!FallingBlock.fallInstantly && aWorld.checkChunksExist(aX-32, aY-32, aZ-32, aX+32, aY+32, aZ+32)) {
 				if (!aWorld.isRemote) aWorld.spawnEntityInWorld(new PrefixBlockFallingEntity(aWorld, aX+0.5, aY+0.5, aZ+0.5, this, getItemStackFromBlock(aWorld, aX, aY, aZ, SIDE_UP)));
 			} else {
 				short tMetaData = getMetaDataValue(aWorld, aX, aY, aZ);
 				if (tMetaData > 0) {
 					aWorld.setBlockToAir(aX, aY, aZ);
-					while (BlockFalling.func_149831_e(aWorld, aX, aY-1, aZ) && aY > 0) --aY;
+					while (FallingBlock.func_149831_e(aWorld, aX, aY-1, aZ) && aY > 0) --aY;
 					if (aY > 0) placeBlock(aWorld, aX, aY, aZ, SIDE_UP, tMetaData, null, F, T);
 				}
 			}

@@ -22,7 +22,7 @@ package gregtech.blocks.wood;
 import gregapi.block.tree.BlockBaseBeam;
 import gregapi.data.LH;
 import gregapi.old.Textures;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 
 public class BlockTreeBeamAFireProof extends BlockBaseBeam {
 	public BlockTreeBeamAFireProof(String aUnlocalised) {

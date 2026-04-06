@@ -89,7 +89,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.worldgen.GT6WorldGenerator;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
@@ -105,6 +105,9 @@ import java.io.PrintStream;
 import java.util.*;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIconRegister; // stub
+import gregapi.stubs.Configuration; // stub
+import gregapi.stubs.MissingMappingsEvent; // stub
 
 /**
  * @author Gregorius Techneticies

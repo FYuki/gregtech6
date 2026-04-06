@@ -34,7 +34,7 @@ import gregapi.tileentity.energy.ITileEntityEnergy;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -80,9 +80,9 @@ public class MultiTileEntityCrank extends TileEntityBase11AttachmentSmall implem
 			}
 			// Don't check for Villagers while Players operate the Crank.
 			if (!mActive) {
-				List<EntityVillager> tList = new ArrayListNoNulls<>();
-				worldObj.getChunkFromBlockCoords(xCoord, zCoord).getEntitiesOfTypeWithinAAAB(EntityVillager.class, box(), tList, null);
-				for (EntityVillager tVillager : tList) if (UT.Code.roundDown(tVillager.posY+tVillager.getEyeHeight()) == yCoord && UT.Code.roundDown(tVillager.posX) == xCoord && UT.Code.roundDown(tVillager.posZ) == zCoord) {
+				List<Villager> tList = new ArrayListNoNulls<>();
+				worldObj.getChunkFromBlockCoords(xCoord, zCoord).getEntitiesOfTypeWithinAAAB(Villager.class, box(), tList, null);
+				for (Villager tVillager : tList) if (UT.Code.roundDown(tVillager.posY+tVillager.getEyeHeight()) == yCoord && UT.Code.roundDown(tVillager.posX) == xCoord && UT.Code.roundDown(tVillager.posZ) == zCoord) {
 					mActive = T;
 					ITileEntityEnergy.Util.emitEnergyToSide(TD.Energy.RU, mFacing, -UT.Code.divup(8L*UT.Entities.pot2Strength(tVillager), UT.Entities.pot1Weakness(tVillager)), UT.Entities.pot1Haste(tVillager), this);
 					// Multiple Players can use one Crank but multiple Villagers cannot (Collision Lag prevention)

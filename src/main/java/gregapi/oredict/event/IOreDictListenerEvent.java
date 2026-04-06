@@ -23,6 +23,7 @@ import gregapi.data.MT;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import net.minecraft.world.item.ItemStack;
+import gregapi.stubs.OreRegisterEvent; // stub
 // PHASE7: OreDictionary.OreRegisterEvent removed — use TagsUpdatedEvent
 
 /**

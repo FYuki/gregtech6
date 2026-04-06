@@ -56,8 +56,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidTank;
-import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTank;
+import gregapi.stubs.IFluidTank;
 import gregapi.stubs.FluidTankInfo; // PHASE3: removed from NeoForge
 import net.minecraft.world.level.material.Fluid;
 
@@ -65,6 +65,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 
 /**
  * @author Gregorius Techneticies

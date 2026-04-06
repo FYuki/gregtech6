@@ -23,7 +23,7 @@ import gregapi.block.misc.BlockBaseBars;
 import gregapi.data.LH;
 import gregapi.data.MT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 
 public class BlockBarsBrass extends BlockBaseBars {
 	public BlockBarsBrass(String aNameInternal) {

@@ -20,7 +20,7 @@
 package gregtech.asm.transformers;
 
 import gregtech.asm.GT_ASM;
-import net.minecraft.launchwrapper.IClassTransformer;
+import gregapi.stubs.IClassTransformer;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
@@ -50,7 +50,7 @@ public class Minecraft_Feature_CreeperSwellToward implements IClassTransformer  
 				// Then delete rest
 				while(at.getNext() != null) m.instructions.remove(at.getNext());
 				// `swellingCreper` is left on the stack, so now call our replacement function
-				m.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "gregtech/asm/transformers/minecraft/Replacements", "EntityAICreeperSwell_shouldExecute", "(Lnet/minecraft/entity/monster/EntityCreeper;)Z", false));
+				m.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "gregtech/asm/transformers/minecraft/Replacements", "EntityAICreeperSwell_shouldExecute", "(Lnet/minecraft/entity/monster/Creeper;)Z", false));
 				// And return the result that we returned
 				m.instructions.add(new InsnNode(Opcodes.IRETURN));
 			}

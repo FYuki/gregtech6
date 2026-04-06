@@ -37,7 +37,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import gregapi.stubs.Tessellator;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.event.ClickEvent;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import gregapi.stubs.RenderBlockOverlayEvent;

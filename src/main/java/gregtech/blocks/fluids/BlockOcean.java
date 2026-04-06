@@ -28,11 +28,12 @@ import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
 
 /**
  * @author Gregorius Techneticies

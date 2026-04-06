@@ -50,6 +50,7 @@ import gregapi.stubs.IFluidContainerItem;
 import java.util.*;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.OreRegisterEvent; // stub
 
 /**
  * @author Gregorius Techneticies

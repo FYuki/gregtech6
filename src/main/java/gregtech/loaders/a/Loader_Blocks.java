@@ -41,10 +41,10 @@ import gregtech.blocks.stone.BlockVanillaOresA;
 import gregtech.blocks.tool.*;
 import gregtech.experiments.BlockRiverAdvanced;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.effect.MobEffect;
 
 import static gregapi.data.CS.*;
 

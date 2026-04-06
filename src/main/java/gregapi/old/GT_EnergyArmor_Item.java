@@ -31,14 +31,15 @@ import gregapi.util.UT;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import gregapi.stubs.IIconRegister; // stub
 
-public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ {
+public class GT_EnergyArmor_Item extends ArmorItem /*implements ISpecialArmor*/ {
 	public int mCharge, mTransfer, mTier, mDamageEnergyCost, mSpecials;
 	public boolean mChargeProvider;
 	public double mArmorAbsorbtionPercentage;
@@ -192,7 +193,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 		if ((mSpecials & 512) != 0) {
 			if (GT_ModHandler.canUseElectricItem(aStack, 10000)) {
 				GT_ModHandler.useElectricItem(aStack, 10000, aPlayer);
-				aPlayer.addPotionEffect(new PotionEffect(Potion.invisibility.getId(), 25, 1, true));
+				aPlayer.addPotionEffect(new MobEffectInstance(Potion.invisibility.getId(), 25, 1, true));
 			}
 		}
 		

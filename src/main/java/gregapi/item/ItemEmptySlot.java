@@ -30,6 +30,8 @@ import gregapi.util.ST;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.item.Item;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 
 /**

@@ -24,12 +24,12 @@ import gregapi.item.multiitem.MultiItem;
 import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class Behavior_CureZombie extends AbstractBehaviorDefault {
 					aEntity.readFromNBT(tNBT);
 					aEntity.getDataWatcher().updateObject(14, Byte.valueOf((byte)1));
 					((EntityZombie)aEntity).removePotionEffect(Potion.weakness.id);
-					((EntityZombie)aEntity).addPotionEffect(new PotionEffect(Potion.damageBoost.id, tCureTime, Math.min(((EntityZombie)aEntity).worldObj.difficultySetting.getDifficultyId() - 1, 0)));
+					((EntityZombie)aEntity).addPotionEffect(new MobEffectInstance(Potion.damageBoost.id, tCureTime, Math.min(((EntityZombie)aEntity).worldObj.difficultySetting.getDifficultyId() - 1, 0)));
 					aEntity.worldObj.setEntityState(aEntity, (byte)16);
 				}
 				return T;

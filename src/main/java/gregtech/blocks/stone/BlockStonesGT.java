@@ -25,10 +25,10 @@ import gregapi.block.metatype.BlockMetaType;
 import gregapi.block.metatype.BlockStones;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.IIconContainer;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockGetter;
 
 public class BlockStonesGT extends BlockStones {
@@ -51,6 +51,6 @@ public class BlockStonesGT extends BlockStones {
 	
 	@Override
 	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
-		return (mWitherProof && aEntity instanceof EntityWither) ? F : super.canEntityDestroy(aWorld, aX, aY, aZ, aEntity);
+		return (mWitherProof && aEntity instanceof WitherBoss) ? F : super.canEntityDestroy(aWorld, aX, aY, aZ, aEntity);
 	}
 }

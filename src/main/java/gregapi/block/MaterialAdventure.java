@@ -19,8 +19,8 @@
 
 package gregapi.block;
 
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 
 import static gregapi.data.CS.F;
 

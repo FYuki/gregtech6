@@ -29,9 +29,9 @@ import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.UT;
 import gregapi.util.UT.Enchantments;
 import gregtech.entities.projectiles.EntityArrow_Material;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.IPosition;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.Position;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -95,8 +95,8 @@ public class Behavior_Arrow extends AbstractBehaviorDefault {
 	@Override
 	public ItemStack onDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
 		Level aWorld = aSource.getWorld();
-		IPosition tPosition = BlockDispenser.func_149939_a(aSource);
-		Direction tFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Position tPosition = DispenserBlock.func_149939_a(aSource);
+		Direction tFacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
 		EntityProjectile tEntityArrow = getProjectile(aItem, TD.Projectiles.ARROW, aStack, aWorld, tPosition.getX(), tPosition.getY(), tPosition.getZ());
 		if (tEntityArrow != null) {
 			tEntityArrow.setThrowableHeading(tFacing.getFrontOffsetX(), (tFacing.getFrontOffsetY() + 0.1F), tFacing.getFrontOffsetZ(), mSpeedMultiplier * 1.10F, mPrecision);

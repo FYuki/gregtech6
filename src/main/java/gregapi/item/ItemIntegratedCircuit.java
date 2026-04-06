@@ -41,6 +41,9 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
+import gregapi.stubs.Configuration; // stub
 
 /**
  * @author Gregorius Techneticies

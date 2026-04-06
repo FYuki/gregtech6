@@ -30,17 +30,17 @@ import gregapi.render.ITexture;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.entity.monster.EntityGolem;
-import net.minecraft.entity.monster.EntityMagmaCube;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.passive.IAnimals;
+import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.monster.MagmaCube;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
@@ -71,9 +71,9 @@ public class CoverDrain extends AbstractCoverAttachment {
 				Biome tBiome = aData.mTileEntity.getBiome();
 				if (tBiome.rainfall > 0 && tBiome.temperature >= 0.2) {
 					Block tInFront = aData.mTileEntity.getBlockAtSide(aCoverSide);
-					if (!(tInFront instanceof BlockLiquid) && !(tInFront instanceof IFluidBlock) && !tInFront.isSideSolid(aData.mTileEntity.getWorld(), aData.mTileEntity.getOffsetX(aCoverSide), aData.mTileEntity.getOffsetY(aCoverSide), aData.mTileEntity.getOffsetZ(aCoverSide), FORGE_DIR_OPPOSITES[aCoverSide]) && !tInFront.isSideSolid(aData.mTileEntity.getWorld(), aData.mTileEntity.getOffsetX(aCoverSide), aData.mTileEntity.getOffsetY(aCoverSide), aData.mTileEntity.getOffsetZ(aCoverSide), FORGE_DIR[SIDE_TOP])) {
+					if (!(tInFront instanceof LiquidBlock) && !(tInFront instanceof IFluidBlock) && !tInFront.isSideSolid(aData.mTileEntity.getWorld(), aData.mTileEntity.getOffsetX(aCoverSide), aData.mTileEntity.getOffsetY(aCoverSide), aData.mTileEntity.getOffsetZ(aCoverSide), FORGE_DIR_OPPOSITES[aCoverSide]) && !tInFront.isSideSolid(aData.mTileEntity.getWorld(), aData.mTileEntity.getOffsetX(aCoverSide), aData.mTileEntity.getOffsetY(aCoverSide), aData.mTileEntity.getOffsetZ(aCoverSide), FORGE_DIR[SIDE_TOP])) {
 						boolean temp = F;
-						if (tInFront instanceof BlockMetaType || tInFront instanceof BlockSlab || tInFront instanceof BlockStairs) {
+						if (tInFront instanceof BlockMetaType || tInFront instanceof SlabBlock || tInFront instanceof StairBlock) {
 							temp = aData.mTileEntity.getRainOffset(OFFX[aCoverSide], OFFY[aCoverSide]+1, OFFZ[aCoverSide]);
 						} else {
 							temp = aData.mTileEntity.getRainOffset(OFFX[aCoverSide], OFFY[aCoverSide]  , OFFZ[aCoverSide]) && (SIDES_TOP[aCoverSide] || aData.mTileEntity.getBlockOffset(OFFX[aCoverSide], -1, OFFZ[aCoverSide]).isSideSolid(aData.mTileEntity.getWorld(), aData.mTileEntity.getOffsetX(aCoverSide), aData.mTileEntity.getY()-1, aData.mTileEntity.getOffsetZ(aCoverSide), FORGE_DIR[SIDE_TOP]));
@@ -179,22 +179,22 @@ public class CoverDrain extends AbstractCoverAttachment {
 				if (aEntity instanceof EntityGolem) {
 					return F;
 				}
-				if (aEntity.getClass() == EntitySquid.class) {
+				if (aEntity.getClass() == Squid.class) {
 					FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.InkSquid.make(1), T);
 					return T;
 				}
-				if (aEntity instanceof EntitySlime) {
-					if (aEntity.getClass() == EntitySlime.class) {
-						FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.Slime_Green.make(Math.max(1, ((EntitySlime)aEntity).getSlimeSize())), T);
+				if (aEntity instanceof Slime) {
+					if (aEntity.getClass() == Slime.class) {
+						FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.Slime_Green.make(Math.max(1, ((Slime)aEntity).getSlimeSize())), T);
 						return T;
 					}
-					if (aEntity.getClass() == EntityMagmaCube.class) {
-						FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.Blaze.make(Math.max(1, ((EntitySlime)aEntity).getSlimeSize())), T);
+					if (aEntity.getClass() == MagmaCube.class) {
+						FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.Blaze.make(Math.max(1, ((Slime)aEntity).getSlimeSize())), T);
 						return T;
 					}
 					String tClass = UT.Reflection.getLowercaseClass(aEntity);
 					if (tClass.equalsIgnoreCase("EntityTFMazeSlime")) {
-						FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.Slime_Green.make(Math.max(1, ((EntitySlime)aEntity).getSlimeSize())), T);
+						FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.Slime_Green.make(Math.max(1, ((Slime)aEntity).getSlimeSize())), T);
 						return T;
 					}
 					if (tClass.equalsIgnoreCase("KingBlueSlime")) {
@@ -212,7 +212,7 @@ public class CoverDrain extends AbstractCoverAttachment {
 					return F;
 				}
 				if (aEntity instanceof IAnimals && FL.Sewage.exists()) {
-					if (!(aEntity instanceof EntityAgeable) || !((EntityAgeable)aEntity).isChild()) {
+					if (!(aEntity instanceof AgeableMob) || !((AgeableMob)aEntity).isChild()) {
 						FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.Sewage.make(Math.max(1, (long)(20 * aEntity.width * aEntity.width * aEntity.height))), T);
 						return T;
 					}

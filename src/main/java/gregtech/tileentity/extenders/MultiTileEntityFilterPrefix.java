@@ -39,14 +39,14 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
 import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction; // was Direction
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -244,12 +244,12 @@ public class MultiTileEntityFilterPrefix extends MultiTileEntityExtender impleme
 	}
 	
 	public class MultiTileEntityGUICommonFilterPrefix extends ContainerCommon {
-		public MultiTileEntityGUICommonFilterPrefix(InventoryPlayer aInventoryPlayer, MultiTileEntityFilterPrefix aTileEntity, int aGUIID) {
+		public MultiTileEntityGUICommonFilterPrefix(Inventory aInventoryPlayer, MultiTileEntityFilterPrefix aTileEntity, int aGUIID) {
 			super(aInventoryPlayer, aTileEntity, aGUIID);
 		}
 		
 		@Override
-		public int addSlots(InventoryPlayer aPlayerInventory) {
+		public int addSlots(Inventory aPlayerInventory) {
 			addSlotToContainer(new Slot_Holo(mTileEntity, mOffset, 80, 35, F, F, 1));
 			return 84;
 		}
@@ -278,7 +278,7 @@ public class MultiTileEntityFilterPrefix extends MultiTileEntityExtender impleme
 	
 	@OnlyIn(Dist.CLIENT)
 	public class MultiTileEntityGUIClientFilterPrefix extends ContainerClient {
-		public MultiTileEntityGUIClientFilterPrefix(InventoryPlayer aInventoryPlayer, MultiTileEntityFilterPrefix aTileEntity, int aGUIID) {
+		public MultiTileEntityGUIClientFilterPrefix(Inventory aInventoryPlayer, MultiTileEntityFilterPrefix aTileEntity, int aGUIID) {
 			super(new MultiTileEntityGUICommonFilterPrefix(aInventoryPlayer, aTileEntity, aGUIID), RES_PATH_GUI + "machines/FilterPrefix.png");
 		}
 	}

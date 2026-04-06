@@ -38,6 +38,8 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.entity.BlockEntity;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.core.Direction; // was Direction
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 public abstract class TriggerBC implements ITriggerExternal, ITriggerProvider {
 	public final String mModID, mName;

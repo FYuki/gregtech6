@@ -39,6 +39,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.resources.ResourceLocation;
+import gregapi.stubs.IIcon; // stub
 
 @OnlyIn(Dist.CLIENT)
 public class RenderHelper {

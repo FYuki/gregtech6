@@ -19,9 +19,9 @@
 
 package gregapi.tileentity.multiblocks;
 
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import FluidTankInfo removed
+import gregapi.stubs.FluidTankInfo; // stub
 
 /**
  * @author Gregorius Techneticies

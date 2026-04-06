@@ -50,6 +50,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IFluidTank; // stub
 
 public class MultiTileEntityEngineSteam extends TileEntityBase09FacingSingle implements ITileEntityAdjacentOnOff, ITileEntityEnergyFluxHandler, ITileEntityRunningActively, IFluidHandler {
 	/** The Array containing the different Engine State Colours from Blue over Green to Red */

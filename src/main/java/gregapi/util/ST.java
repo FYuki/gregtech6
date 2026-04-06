@@ -36,8 +36,7 @@ import gregapi.tileentity.delegate.ITileEntityCanDelegate;
 import gregapi.wooddict.WoodDictionary;
 import gregtech.worldgen.TwilightTreasureReplacer;
 import ic2.api.item.IC2Items;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -45,15 +44,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.Container;
 import gregapi.stubs.ISidedInventory;
-import net.minecraft.inventory.InventoryLargeChest;
-import net.minecraft.item.*;
+import gregapi.stubs.InventoryLargeChest;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.effect.MobEffect;
 // PHASE3: import Achievement removed — use Advancement
-import net.minecraft.stats.AchievementList;
+import gregapi.stubs.AchievementList;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.level.BlockGetter;
@@ -66,6 +64,7 @@ import twilightforest.TFAchievementPage;
 import java.util.*;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.Achievement; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -630,23 +629,23 @@ public class ST {
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static DelegatorTileEntity getPotentialDoubleChest(DelegatorTileEntity aPotentialChest) {
-		if (aPotentialChest.mTileEntity instanceof TileEntityChest) {
+		if (aPotentialChest.mTileEntity instanceof ChestBlockEntity) {
 			Block aChestBlock = aPotentialChest.getBlock();
 			if (aPotentialChest.getBlockAtSide(SIDE_X_NEG) == aChestBlock) {
 				TileEntity tAdjacentChest = aPotentialChest.getTileEntityAtSideAndDistance(SIDE_X_NEG, 1);
-				if (tAdjacentChest instanceof TileEntityChest) return new DelegatorTileEntity(new InventoryLargeChest("fucking mojang hax", (Container)tAdjacentChest, (Container)aPotentialChest.mTileEntity), aPotentialChest);
+				if (tAdjacentChest instanceof ChestBlockEntity) return new DelegatorTileEntity(new InventoryLargeChest("fucking mojang hax", (Container)tAdjacentChest, (Container)aPotentialChest.mTileEntity), aPotentialChest);
 			}
 			if (aPotentialChest.getBlockAtSide(SIDE_X_POS) == aChestBlock) {
 				TileEntity tAdjacentChest = aPotentialChest.getTileEntityAtSideAndDistance(SIDE_X_POS, 1);
-				if (tAdjacentChest instanceof TileEntityChest) return new DelegatorTileEntity(new InventoryLargeChest("fucking mojang hax", (Container)aPotentialChest.mTileEntity, (Container)tAdjacentChest), aPotentialChest);
+				if (tAdjacentChest instanceof ChestBlockEntity) return new DelegatorTileEntity(new InventoryLargeChest("fucking mojang hax", (Container)aPotentialChest.mTileEntity, (Container)tAdjacentChest), aPotentialChest);
 			}
 			if (aPotentialChest.getBlockAtSide(SIDE_Z_NEG) == aChestBlock) {
 				TileEntity tAdjacentChest = aPotentialChest.getTileEntityAtSideAndDistance(SIDE_Z_NEG, 1);
-				if (tAdjacentChest instanceof TileEntityChest) return new DelegatorTileEntity(new InventoryLargeChest("fucking mojang hax", (Container)tAdjacentChest, (Container)aPotentialChest.mTileEntity), aPotentialChest);
+				if (tAdjacentChest instanceof ChestBlockEntity) return new DelegatorTileEntity(new InventoryLargeChest("fucking mojang hax", (Container)tAdjacentChest, (Container)aPotentialChest.mTileEntity), aPotentialChest);
 			}
 			if (aPotentialChest.getBlockAtSide(SIDE_Z_POS) == aChestBlock) {
 				TileEntity tAdjacentChest = aPotentialChest.getTileEntityAtSideAndDistance(SIDE_Z_POS, 1);
-				if (tAdjacentChest instanceof TileEntityChest) return new DelegatorTileEntity(new InventoryLargeChest("fucking mojang hax", (Container)aPotentialChest.mTileEntity, (Container)tAdjacentChest), aPotentialChest);
+				if (tAdjacentChest instanceof ChestBlockEntity) return new DelegatorTileEntity(new InventoryLargeChest("fucking mojang hax", (Container)aPotentialChest.mTileEntity, (Container)tAdjacentChest), aPotentialChest);
 			}
 		}
 		return aPotentialChest;
@@ -742,9 +741,9 @@ public class ST {
 		}
 		
 		Block aBlock = aTo.getBlock();
-		if (aBlock instanceof BlockRailBase) {
+		if (aBlock instanceof BaseRailBlock) {
 			// Do not eject shit onto Rails directly.
-		} else if (aBlock.getMaterial() == Material.lava || aBlock instanceof BlockFire || (invalid(aBlock) && aTo.mY < 1)) {
+		} else if (aBlock.getMaterial() == Material.lava || aBlock instanceof FireBlock || (invalid(aBlock) && aTo.mY < 1)) {
 			for (int aSlotFrom : aSlotsFrom) {
 				ItemStack aStackFrom = aFrom.mTileEntity.getStackInSlot(aSlotFrom);
 				if (aStackFrom != null && aMinMove <= aStackFrom.stackSize && (aFilter == null || aFilter.contains(aStackFrom, T) != aInvertFilter) && canTake(aFrom.mTileEntity, aIgnoreSideFrom ? SIDE_ANY : aFrom.mSideOfTileEntity, aFrom.mSideOfTileEntity, aSlotFrom, aStackFrom)) {

@@ -34,11 +34,11 @@ import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Container;
-import net.minecraft.item.EnumAction;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -56,6 +56,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -130,7 +131,7 @@ public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
 	public static interface IMTE_IsAir                              extends IMultiTileEntity {public boolean isAir();}
 	public static interface IMTE_RemovedByPlayer                    extends IMultiTileEntity {public boolean removedByPlayer(Level aWorld, Player aPlayer, boolean aWillHarvest);}
 	public static interface IMTE_CanPlaceSnowLayerOnRemoval         extends IMTE_RemovedByPlayer {}
-	public static interface IMTE_CanCreatureSpawn                   extends IMultiTileEntity {public boolean canCreatureSpawn(EnumCreatureType aType);}
+	public static interface IMTE_CanCreatureSpawn                   extends IMultiTileEntity {public boolean canCreatureSpawn(MobCategory aType);}
 	public static interface IMTE_IsBed                              extends IMultiTileEntity {public boolean isBed(LivingEntity aPlayer);}
 	public static interface IMTE_GetBedSpawnPosition                extends IMultiTileEntity {public BlockPos getBedSpawnPosition(Player aPlayer);}
 	public static interface IMTE_SetBedOccupied                     extends IMultiTileEntity {public void setBedOccupied(Player aPlayer, boolean aOccupied);}
@@ -325,7 +326,7 @@ public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
 	}
 	
 	public static interface IMTE_GetItemUseAction extends IMultiTileEntity {
-		public EnumAction getItemUseAction(MultiTileEntityItemInternal aItem, ItemStack aStack);
+		public UseAnim getItemUseAction(MultiTileEntityItemInternal aItem, ItemStack aStack);
 	}
 	
 	public static interface IMTE_OnEaten extends IMultiTileEntity {

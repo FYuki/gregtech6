@@ -1,8 +1,6 @@
 package gregapi.stubs;
 
 import net.neoforged.neoforge.fluids.FluidStack;
-
-// PHASE3: FluidTankInfo was removed from NeoForge. Use IFluidTank.getFluid() / getCapacity() directly.
 @SuppressWarnings("unused")
 public class FluidTankInfo {
 	public final FluidStack fluid;

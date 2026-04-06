@@ -42,19 +42,19 @@ import net.minecraft.world.level.block.Block;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.EnumAction;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.damagesource.DamageSource;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -67,6 +67,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
+import gregapi.stubs.IIconRegister; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -248,9 +250,9 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 			if (aEntity.hitByEntity(aPlayer)) {
 				if (tIgnitesFire) aEntity.extinguish();
 			} else {
-				float tMagicDamage = tStats.getMagicDamageAgainstEntity(aEntity instanceof LivingEntity?EnchantmentHelper.getEnchantmentModifierLiving(aPlayer, (LivingEntity)aEntity):0, aEntity, aStack, aPlayer), tDamage = tStats.getNormalDamageAgainstEntity((float)aPlayer.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue() + getToolCombatDamage(aStack), aEntity, aStack, aPlayer);
+				float tMagicDamage = tStats.getMagicDamageAgainstEntity(aEntity instanceof LivingEntity?EnchantmentHelper.getEnchantmentModifierLiving(aPlayer, (LivingEntity)aEntity):0, aEntity, aStack, aPlayer), tDamage = tStats.getNormalDamageAgainstEntity((float)aPlayer.getEntityAttribute(Attributes.ATTACK_DAMAGE).getAttributeValue() + getToolCombatDamage(aStack), aEntity, aStack, aPlayer);
 				// Also work on Ghasts and such. But no double dipping on Anti Creeper Damage!
-				if (tImplosion > 0 && UT.Entities.isExplosiveCreature(aEntity) && !EntityCreeper.class.isInstance(aEntity)) tMagicDamage += 1.5F * tImplosion;
+				if (tImplosion > 0 && UT.Entities.isExplosiveCreature(aEntity) && !Creeper.class.isInstance(aEntity)) tMagicDamage += 1.5F * tImplosion;
 				
 				if (tDamage + tMagicDamage > 0) {
 					boolean tRealHit = (!aEntity.worldObj.isRemote || aEntity.hurtResistantTime <= 0);
@@ -291,10 +293,10 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	}
 	
 	@Override
-	public EnumAction getItemUseAction(ItemStack aStack) {
+	public UseAnim getItemUseAction(ItemStack aStack) {
 		IToolStats tStats = getToolStats(aStack);
-		if (tStats != null && tStats.canBlock()) return EnumAction.block;
-		return EnumAction.none;
+		if (tStats != null && tStats.canBlock()) return UseAnim.block;
+		return UseAnim.none;
 	}
 	@Override
 	public int getMaxItemUseDuration(ItemStack aStack) {

@@ -45,7 +45,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE7: import OreDictionary removed — replaced by Tags
 // PHASE7: import ShapedOreRecipe removed — use datapack recipes
 
 public class Compat_Recipes_GalactiCraft extends CompatMods {

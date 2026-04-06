@@ -28,9 +28,9 @@ import gregapi.render.IIconContainer;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import mods.railcraft.common.carts.EntityTunnelBore;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 

@@ -29,8 +29,8 @@ import gregapi.util.ST;
 import gregtech.items.behaviors.Behavior_Place_Dynamite;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.monster.EntityCaveSpider;
-import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.CaveSpider;
+import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -41,7 +41,7 @@ import static gregapi.data.CS.*;
 
 public class GT_Tool_Drill_LV extends ToolStats {
 	public static final List<String> mEffectiveList = Arrays.asList(
-		EntityCaveSpider.class.getName(),
+		CaveSpider.class.getName(),
 		EntitySpider.class.getName(),
 		"EntityTFHedgeSpider",
 		"EntityTFKingSpider",

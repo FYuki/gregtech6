@@ -40,13 +40,13 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import mods.railcraft.common.carts.EntityTunnelBore;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -55,6 +55,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.PlantType;
 import net.neoforged.neoforge.common.IPlantable;
+import gregapi.stubs.IIcon; // stub
 
 public class BlockBaseLilyPad extends BlockBaseMeta implements IPlantable, IRenderedBlock {
 	public BlockBaseLilyPad(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {

@@ -47,14 +47,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction; // was Direction
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import FluidTankInfo removed
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.FluidTankInfo; // stub
 
 /**
  * @author Gregorius Techneticies

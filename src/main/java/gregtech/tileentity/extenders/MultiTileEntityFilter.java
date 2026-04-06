@@ -39,7 +39,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
 import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.inventory.Slot;
@@ -48,7 +48,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraft.core.Direction; // was Direction
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.lwjgl.opengl.GL11;
@@ -235,12 +235,12 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	}
 	
 	public class MultiTileEntityGUICommonFilter extends ContainerCommon {
-		public MultiTileEntityGUICommonFilter(InventoryPlayer aInventoryPlayer, MultiTileEntityFilter aTileEntity, int aGUIID) {
+		public MultiTileEntityGUICommonFilter(Inventory aInventoryPlayer, MultiTileEntityFilter aTileEntity, int aGUIID) {
 			super(aInventoryPlayer, aTileEntity, aGUIID);
 		}
 		
 		@Override
-		public int addSlots(InventoryPlayer aInventoryPlayer) {
+		public int addSlots(Inventory aInventoryPlayer) {
 			int tSize = mTileEntity.getSizeInventoryGUI(), tRows = tSize/9 + (tSize%9==0?0:1);
 			for (int y = 0, i = 0; y < tRows; y++) for (int x = 0; x < 9 && i < tSize; x++) addSlotToContainer(new Slot_Holo(mTileEntity, i++, 8 + x * 18, 18 + y * 18, T, F, 1));
 			return 103+(tRows-4)*18;
@@ -333,7 +333,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	public class MultiTileEntityGUIClientFilter extends ContainerClient {
 		private int mRows;
 		
-		public MultiTileEntityGUIClientFilter(InventoryPlayer aInventoryPlayer, MultiTileEntityFilter aTileEntity, int aGUIID) {
+		public MultiTileEntityGUIClientFilter(Inventory aInventoryPlayer, MultiTileEntityFilter aTileEntity, int aGUIID) {
 			super(new MultiTileEntityGUICommonFilter(aInventoryPlayer, aTileEntity, aGUIID), RES_PATH_GUI + "machines/Filter.png");
 			mRows = mContainer.mTileEntity.getSizeInventoryGUI() / 9 + (mContainer.mTileEntity.getSizeInventoryGUI() % 9 == 0 ? 0 : 1);
 			ySize = 114 + mRows * 18;

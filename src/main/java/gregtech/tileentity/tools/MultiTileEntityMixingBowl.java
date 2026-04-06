@@ -41,7 +41,7 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
@@ -51,13 +51,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.AABB;
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidTank;
-import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTank;
+import gregapi.stubs.IFluidTank;
 import net.minecraft.world.level.material.Fluid;
 
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 
 /**
  * @author Gregorius Techneticies
@@ -149,7 +150,7 @@ public class MultiTileEntityMixingBowl extends TileEntityBase07Paintable impleme
 				Biome tBiome = getBiome();
 				if (tBiome.rainfall > 0 && tBiome.temperature >= 0.2) {
 					Block tInFront = getBlockAtSide(SIDE_TOP);
-					if (!(tInFront instanceof BlockLiquid) && !(tInFront instanceof IFluidBlock) && !tInFront.isSideSolid(worldObj, xCoord, yCoord+1, zCoord, FORGE_DIR_OPPOSITES[SIDE_TOP]) && !tInFront.isSideSolid(worldObj, xCoord, yCoord+1, zCoord, FORGE_DIR[SIDE_TOP])) {
+					if (!(tInFront instanceof LiquidBlock) && !(tInFront instanceof IFluidBlock) && !tInFront.isSideSolid(worldObj, xCoord, yCoord+1, zCoord, FORGE_DIR_OPPOSITES[SIDE_TOP]) && !tInFront.isSideSolid(worldObj, xCoord, yCoord+1, zCoord, FORGE_DIR[SIDE_TOP])) {
 						FluidStack tWater = FL.Water.make((long)Math.max(1, tBiome.rainfall*200) * (worldObj.isThundering()?2:1));
 						if (tWater != null) {
 							IFluidTank tTank = getFluidTankFillable2(SIDE_TOP, tWater);

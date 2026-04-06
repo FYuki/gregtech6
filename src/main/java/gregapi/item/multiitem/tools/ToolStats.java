@@ -33,15 +33,15 @@ import gregapi.util.UT;
 import gregapi.util.UT.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.stats.AchievementList;
-import net.minecraft.stats.StatList;
+import net.minecraft.world.effect.MobEffect;
+import gregapi.stubs.AchievementList;
+import gregapi.stubs.StatList;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.network.chat.Component;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
@@ -52,6 +52,7 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.IIcon; // stub
 
 /**
  * @author Gregorius Techneticies

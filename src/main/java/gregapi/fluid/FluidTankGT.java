@@ -23,16 +23,17 @@ import gregapi.data.FL;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.util.UT;
 import net.minecraft.nbt.CompoundTag;
-import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-// PHASE3: import FluidTankInfo removed
-// PHASE3: import IFluidTank removed — use IFluidHandler capability
+import gregapi.stubs.FluidTankInfo; // PHASE3: FluidTankInfo removed from NeoForge
+import gregapi.stubs.IFluidTank;    // PHASE3: IFluidTank removed — use IFluidHandler
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.T;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 
 public class FluidTankGT implements IFluidTank {
 	public final FluidTankGT[] AS_ARRAY = new FluidTankGT[] {this};

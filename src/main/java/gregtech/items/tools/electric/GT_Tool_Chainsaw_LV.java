@@ -32,13 +32,13 @@ import gregapi.render.IIconContainer;
 import gregapi.util.ST;
 import gregtech.items.tools.early.GT_Tool_Axe;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.stats.AchievementList;
+import gregapi.stubs.AchievementList;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.IShearable;
@@ -60,13 +60,13 @@ public class GT_Tool_Chainsaw_LV extends GT_Tool_Axe {
 	
 	@Override
 	public int getHurtResistanceTime(int aOriginalHurtResistance, Entity aEntity) {
-		if (aEntity instanceof EntityCreeper) return aOriginalHurtResistance / 3;
+		if (aEntity instanceof Creeper) return aOriginalHurtResistance / 3;
 		return aOriginalHurtResistance;
 	}
 	
 	@Override
 	public DamageSource getDamageSource(LivingEntity aPlayer, Entity aEntity) {
-		if (MD.IC2.mLoaded && aPlayer instanceof Player && aEntity instanceof EntityCreeper) try {
+		if (MD.IC2.mLoaded && aPlayer instanceof Player && aEntity instanceof Creeper) try {
 		ST.achieve(aPlayer, AchievementList.acquireIron);
 		ic2.core.IC2.achievements.issueAchievement((Player)aPlayer, "buildCable");
 		ic2.core.IC2.achievements.issueAchievement((Player)aPlayer, "buildGenerator");

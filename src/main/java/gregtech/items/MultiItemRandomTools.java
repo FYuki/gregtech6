@@ -52,6 +52,7 @@ import java.util.Random;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.chunkGt;
+import gregapi.stubs.IIcon; // stub
 
 public class MultiItemRandomTools extends MultiItemRandomWithCompat implements IItemRottable {
 	public MultiItemRandomTools(String aModID, String aUnlocalized) {

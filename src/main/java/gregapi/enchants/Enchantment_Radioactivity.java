@@ -24,7 +24,7 @@ import gregapi.config.ConfigCategories;
 import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.util.UT;
-import net.minecraft.enchantment.EnchantmentDamage;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;

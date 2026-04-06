@@ -33,7 +33,7 @@ import gregapi.tileentity.base.TileEntityBase07Paintable;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.Container;
@@ -88,7 +88,7 @@ public class MultiTileEntityBumbleHive extends TileEntityBase07Paintable impleme
 	@Override public boolean isSideSolid2       (byte aSide) {return T;}
 	@Override public boolean allowCovers        (byte aSide) {return F;}
 	
-	@Override public boolean canEntityDestroy(Entity aEntity) {return !(aEntity instanceof EntityDragon);}
+	@Override public boolean canEntityDestroy(Entity aEntity) {return !(aEntity instanceof EnderDragon);}
 	
 	@Override public int[] getAccessibleSlotsFromSide2(byte aSide) {return ZL_INTEGER;}
 	@Override public boolean canInsertItem2(int aSlot, ItemStack aStack, byte aSide) {return F;}

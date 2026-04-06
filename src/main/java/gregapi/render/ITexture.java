@@ -30,6 +30,7 @@ import gregapi.stubs.RenderBlocks;
 import gregapi.stubs.Tessellator;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.level.BlockGetter;
+import gregapi.stubs.IIcon; // stub
 
 /**
  * @author Gregorius Techneticies

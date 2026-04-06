@@ -34,6 +34,7 @@ import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
+import gregapi.stubs.Configuration; // stub
 
 public class Loader_CraftingRecipes implements Runnable {
 	@Override
