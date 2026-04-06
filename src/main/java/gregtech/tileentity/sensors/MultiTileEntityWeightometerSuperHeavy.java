@@ -31,7 +31,7 @@ import gregapi.tileentity.machines.MultiTileEntitySensorTE;
 import gregapi.util.OM;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies

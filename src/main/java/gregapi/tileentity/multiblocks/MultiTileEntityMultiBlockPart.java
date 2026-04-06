@@ -48,19 +48,19 @@ import gregapi.tileentity.machines.*;
 import gregapi.tileentity.notick.TileEntityBase05Paintable;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos; // was BlockPos
+import net.minecraft.core.Direction; // was Direction
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
+// PHASE3: import FluidTankInfo removed
 import net.minecraftforge.fluids.IFluidHandler;
 
 import java.util.Collection;
@@ -73,7 +73,7 @@ import static gregapi.data.CS.*;
  * @author Gregorius Techneticies
  */
 public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable implements ITileEntityEnergy, ITileEntityCrucible, ITileEntityLogistics, IMTE_OnWalkOver, ITileEntityTemperature, ITileEntityGibbl, ITileEntityProgress, ITileEntityWeight, ITileEntityTapAccessible, ITileEntityFunnelAccessible, ITileEntityEnergyDataCapacitor, ITileEntityAdjacentInventoryUpdatable, IFluidHandler, IMTE_OnBlockAdded, IMTE_BreakBlock, IMTE_AddToolTips, ITileEntityRunningSuccessfully, ITileEntitySwitchableMode, ITileEntitySwitchableOnOff {
-	public ChunkCoordinates mTargetPos = null;
+	public BlockPos mTargetPos = null;
 	
 	public ITileEntityMultiBlockController mTarget = null;
 	
@@ -126,9 +126,9 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
-		if (aNBT.hasKey(NBT_TARGET)) {mTargetPos = new ChunkCoordinates(UT.Code.bindInt(aNBT.getLong(NBT_TARGET_X)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Y)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Z)));}
+		if (aNBT.hasKey(NBT_TARGET)) {mTargetPos = new BlockPos(UT.Code.bindInt(aNBT.getLong(NBT_TARGET_X)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Y)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Z)));}
 		if (aNBT.hasKey(NBT_DESIGN)) mDesign = UT.Code.unsignB(aNBT.getByte(NBT_DESIGN));
 		if (aNBT.hasKey(NBT_MODE)) mMode = aNBT.getInteger(NBT_MODE);
 		
@@ -154,7 +154,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		if (mDesign != 0) aNBT.setByte(NBT_DESIGN, (byte)mDesign);
 		if (mMode   != 0) aNBT.setInteger(NBT_MODE, mMode);
@@ -346,7 +346,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	// Relay Tanks
 	
 	@Override
-	public int fill(ForgeDirection aDirection, FluidStack aFluid, boolean aDoFill) {
+	public int fill(Direction aDirection, FluidStack aFluid, boolean aDoFill) {
 		if ((mMode & NO_FLUID_IN) != 0) return 0;
 		byte aSide = UT.Code.side(aDirection);
 		if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidFill(aSide, mCovers, aSide, aFluid)) return 0;
@@ -355,7 +355,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 		return 0;
 	}
 	@Override
-	public FluidStack drain(ForgeDirection aDirection, FluidStack aFluid, boolean aDoDrain) {
+	public FluidStack drain(Direction aDirection, FluidStack aFluid, boolean aDoDrain) {
 		if ((mMode & NO_FLUID_OUT) != 0) return NF;
 		byte aSide = UT.Code.side(aDirection);
 		if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, aFluid)) return null;
@@ -364,7 +364,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 		return NF;
 	}
 	@Override
-	public FluidStack drain(ForgeDirection aDirection, int aMaxDrain, boolean aDoDrain) {
+	public FluidStack drain(Direction aDirection, int aMaxDrain, boolean aDoDrain) {
 		if ((mMode & NO_FLUID_OUT) != 0) return NF;
 		byte aSide = UT.Code.side(aDirection);
 		if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, null)) return null;
@@ -373,7 +373,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 		return NF;
 	}
 	@Override
-	public boolean canFill(ForgeDirection aDirection, Fluid aFluid) {
+	public boolean canFill(Direction aDirection, Fluid aFluid) {
 		if ((mMode & NO_FLUID_IN) != 0) return F;
 		byte aSide = UT.Code.side(aDirection);
 		if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidFill(aSide, mCovers, aSide, FL.make(aFluid, 1))) return F;
@@ -382,7 +382,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 		return F;
 	}
 	@Override
-	public boolean canDrain(ForgeDirection aDirection, Fluid aFluid) {
+	public boolean canDrain(Direction aDirection, Fluid aFluid) {
 		if ((mMode & NO_FLUID_OUT) != 0) return F;
 		byte aSide = UT.Code.side(aDirection);
 		if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, FL.make(aFluid, 1))) return F;
@@ -391,7 +391,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 		return F;
 	}
 	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection aDirection) {
+	public FluidTankInfo[] getTankInfo(Direction aDirection) {
 		ITileEntityMultiBlockController tTileEntity = getTarget(T);
 		if (tTileEntity instanceof IMultiBlockFluidHandler) return ((IMultiBlockFluidHandler)tTileEntity).getTankInfo(this, UT.Code.side(aDirection));
 		return ZL_FLUIDTANKINFO;
@@ -670,7 +670,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	}
 	
 	@Override
-	public void onWalkOver(EntityLivingBase aEntity) {
+	public void onWalkOver(LivingEntity aEntity) {
 		ITileEntityMultiBlockController tTileEntity = getTarget(F);
 		if (tTileEntity instanceof IMTE_OnWalkOver) ((IMTE_OnWalkOver)tTileEntity).onWalkOver(aEntity);
 	}
@@ -692,7 +692,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	}
 	
 	// Useless Garbage :P
-	@Override public boolean isUseableByPlayer(EntityPlayer aPlayer) {return aPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;}
+	@Override public boolean isUseableByPlayer(Player aPlayer) {return aPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;}
 	@Override public void openInventory() {/**/}
 	@Override public void closeInventory() {/**/}
 }

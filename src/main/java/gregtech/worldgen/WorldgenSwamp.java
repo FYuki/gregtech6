@@ -30,11 +30,11 @@ import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregtech.blocks.fluids.BlockSwamp;
 import gregtech.blocks.fluids.BlockWaterlike;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 /**

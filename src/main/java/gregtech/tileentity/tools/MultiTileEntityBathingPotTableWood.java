@@ -23,8 +23,8 @@ import static gregapi.data.CS.*;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 
 /**

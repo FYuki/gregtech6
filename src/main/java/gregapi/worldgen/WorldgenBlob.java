@@ -20,12 +20,12 @@
 package gregapi.worldgen;
 
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +47,7 @@ public abstract class WorldgenBlob extends WorldgenObject {
 	@SafeVarargs
 	public WorldgenBlob(String aName, boolean aDefault, Block aBlock, int aBlockMeta, int aAmount, int aSize, int aProbability, int aMinY, int aMaxY, Collection<String> aBiomeList, boolean aAllowToGenerateinVoid, List<WorldgenObject>... aLists) {
 		super(aName, aDefault, aLists);
-		mBlock          = aBlock==null?Blocks.cobblestone:aBlock;
+		mBlock          = aBlock==null?Blocks.COBBLESTONE:aBlock;
 		mBlockMeta      = UT.Code.bind4(aBlockMeta);
 		mProbability    = Math.max(1,               getConfigFile().get(mCategory, "Probability"   , aProbability));
 		mAmount         = (int)UT.Code.bind(1,  16, getConfigFile().get(mCategory, "Amount"        , aAmount));

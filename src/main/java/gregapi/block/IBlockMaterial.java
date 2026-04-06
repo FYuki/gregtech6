@@ -21,7 +21,7 @@ package gregapi.block;
 
 import gregapi.oredict.OreDictMaterialStack;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies

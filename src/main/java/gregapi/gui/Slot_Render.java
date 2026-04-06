@@ -22,8 +22,8 @@ package gregapi.gui;
 import static gregapi.data.CS.*;
 
 import gregapi.tileentity.ITileEntityInventoryGUI;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies

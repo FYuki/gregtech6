@@ -34,11 +34,11 @@ import gregapi.recipes.AdvancedCraftingXToY;
 import gregapi.render.TextureSet;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import thaumcraft.api.aspects.IEssentiaContainerItem;
 
 import java.util.*;
@@ -227,37 +227,37 @@ public final class OreDictPrefix implements IOreDictListenerEvent, ITagDataConta
 		Item.getItemFromBlock(Blocks.packed_ice             ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.ice                    ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.soul_sand              ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.glowstone              ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.GLOWSTONE              ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.snow_layer             ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.snow                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.clay                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.redstone_lamp          ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.dirt                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.grass                  ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.CLAY                   ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.REDSTONE_LAMP          ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.DIRT                   ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.GRASS_BLOCK                  ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.mycelium               ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.gravel                 ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.sand                   ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.GRAVEL                 ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.SAND                   ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.wool                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.melon_block            ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.pumpkin                ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.MELON            ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.PUMPKIN                ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.lit_pumpkin            ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.dispenser              ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.piston                 ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.sticky_piston          ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.DISPENSER              ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.PISTON                 ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.STICKY_PISTON          ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.crafting_table         ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.jukebox                ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.anvil                  ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.chest                  ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.trapped_chest          ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.noteblock              ).setMaxStackSize(OP.block.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.NOTE_BLOCK              ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.mob_spawner            ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.bookshelf              ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.furnace                ).setMaxStackSize(OP.block.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.lit_furnace            ).setMaxStackSize(OP.block.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.sandstone              ).setMaxStackSize(OP.stone.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.obsidian               ).setMaxStackSize(OP.stone.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.stone                  ).setMaxStackSize(OP.stone.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.SANDSTONE              ).setMaxStackSize(OP.stone.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.OBSIDIAN               ).setMaxStackSize(OP.stone.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.STONE                  ).setMaxStackSize(OP.stone.mDefaultStackSize);
 		
 		Item.getItemFromBlock(Blocks.stone_slab             ).setMaxStackSize(OP.slab.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.double_stone_slab      ).setMaxStackSize(OP.slab.mDefaultStackSize);
@@ -282,31 +282,31 @@ public final class OreDictPrefix implements IOreDictListenerEvent, ITagDataConta
 		Item.getItemFromBlock(Blocks.glass_pane             ).setMaxStackSize(OP.paneGlass.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.stained_glass_pane     ).setMaxStackSize(OP.paneGlass.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.hardened_clay          ).setMaxStackSize(OP.stainedClay.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.stained_hardened_clay  ).setMaxStackSize(OP.stainedClay.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.TERRACOTTA          ).setMaxStackSize(OP.stainedClay.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.WHITE_TERRACOTTA  ).setMaxStackSize(OP.stainedClay.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.cobblestone            ).setMaxStackSize(OP.stoneCobble.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.COBBLESTONE            ).setMaxStackSize(OP.stoneCobble.mDefaultStackSize);
 		
 		Item.getItemFromBlock(Blocks.fence                  ).setMaxStackSize(OP.fence.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.fence_gate             ).setMaxStackSize(OP.fence.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.cobblestone_wall       ).setMaxStackSize(OP.fence.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.nether_brick_fence     ).setMaxStackSize(OP.fence.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.mossy_cobblestone      ).setMaxStackSize(OP.stoneMossy.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.MOSSY_COBBLESTONE      ).setMaxStackSize(OP.stoneMossy.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.stonebrick             ).setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.STONE_BRICKS             ).setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.brick_block            ).setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.nether_brick           ).setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.NETHER_BRICKS           ).setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
 		
 		Item.getItemFromBlock(Blocks.sapling                ).setMaxStackSize(OP.treeSapling.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.leaves                 ).setMaxStackSize(OP.treeLeaves.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.OAK_LEAVES                 ).setMaxStackSize(OP.treeLeaves.mDefaultStackSize);
 		Item.getItemFromBlock(Blocks.leaves2                ).setMaxStackSize(OP.treeLeaves.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.log                    ).setMaxStackSize(OP.log.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.log2                   ).setMaxStackSize(OP.log.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.OAK_LOG                    ).setMaxStackSize(OP.log.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.DARK_OAK_LOG                   ).setMaxStackSize(OP.log.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.planks                 ).setMaxStackSize(OP.plank.mDefaultStackSize);
+		Item.getItemFromBlock(Blocks.OAK_PLANKS                 ).setMaxStackSize(OP.plank.mDefaultStackSize);
 		
 		ST.forceProperMaxStacksizes();
 		

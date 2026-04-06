@@ -90,10 +90,10 @@ public class DungeonChunkDoorPiston implements IDungeonChunk {
 			
 			aData.set    (11, 2,  9, SIDE_UNKNOWN, 32111, UT.NBT.make(NBT_FACING, SIDE_X_POS, NBT_COLOR, DYES_INT[aData.mColor], NBT_PAINTED, T));
 			aData.set    (15, 2,  6, SIDE_UNKNOWN, 32111, UT.NBT.make(NBT_FACING, SIDE_X_NEG, NBT_COLOR, DYES_INT[aData.mColor], NBT_PAINTED, T));
-			aData.set    (13, 1,  5, Blocks.sticky_piston, 3, 2);
-			aData.set    (13, 1, 10, Blocks.sticky_piston, 2, 2);
-			aData.set    (13, 2,  5, Blocks.sticky_piston, 3, 2);
-			aData.set    (13, 2, 10, Blocks.sticky_piston, 2, 2);
+			aData.set    (13, 1,  5, Blocks.STICKY_PISTON, 3, 2);
+			aData.set    (13, 1, 10, Blocks.STICKY_PISTON, 2, 2);
+			aData.set    (13, 2,  5, Blocks.STICKY_PISTON, 3, 2);
+			aData.set    (13, 2, 10, Blocks.STICKY_PISTON, 2, 2);
 			aData.set    (12, 3,  6, Blocks.redstone_wire, 0, 2);
 			aData.set    (12, 3,  9, Blocks.redstone_wire, 0, 2);
 			aData.set    (14, 3,  6, Blocks.redstone_wire, 0, 2);
@@ -168,10 +168,10 @@ public class DungeonChunkDoorPiston implements IDungeonChunk {
 			
 			aData.set    ( 0, 2,  9, SIDE_UNKNOWN, 32111, UT.NBT.make(NBT_FACING, SIDE_X_POS, NBT_COLOR, DYES_INT[aData.mColor], NBT_PAINTED, T));
 			aData.set    ( 4, 2,  6, SIDE_UNKNOWN, 32111, UT.NBT.make(NBT_FACING, SIDE_X_NEG, NBT_COLOR, DYES_INT[aData.mColor], NBT_PAINTED, T));
-			aData.set    ( 2, 1,  5, Blocks.sticky_piston, 3, 2);
-			aData.set    ( 2, 1, 10, Blocks.sticky_piston, 2, 2);
-			aData.set    ( 2, 2,  5, Blocks.sticky_piston, 3, 2);
-			aData.set    ( 2, 2, 10, Blocks.sticky_piston, 2, 2);
+			aData.set    ( 2, 1,  5, Blocks.STICKY_PISTON, 3, 2);
+			aData.set    ( 2, 1, 10, Blocks.STICKY_PISTON, 2, 2);
+			aData.set    ( 2, 2,  5, Blocks.STICKY_PISTON, 3, 2);
+			aData.set    ( 2, 2, 10, Blocks.STICKY_PISTON, 2, 2);
 			aData.set    ( 3, 3,  6, Blocks.redstone_wire, 0, 2);
 			aData.set    ( 3, 3,  9, Blocks.redstone_wire, 0, 2);
 			aData.set    ( 1, 3,  6, Blocks.redstone_wire, 0, 2);
@@ -246,10 +246,10 @@ public class DungeonChunkDoorPiston implements IDungeonChunk {
 			
 			aData.set    ( 6, 2, 11, SIDE_UNKNOWN, 32111, UT.NBT.make(NBT_FACING, SIDE_Z_POS, NBT_COLOR, DYES_INT[aData.mColor], NBT_PAINTED, T));
 			aData.set    ( 9, 2, 15, SIDE_UNKNOWN, 32111, UT.NBT.make(NBT_FACING, SIDE_Z_NEG, NBT_COLOR, DYES_INT[aData.mColor], NBT_PAINTED, T));
-			aData.set    ( 5, 1, 13, Blocks.sticky_piston, 5, 2);
-			aData.set    (10, 1, 13, Blocks.sticky_piston, 4, 2);
-			aData.set    ( 5, 2, 13, Blocks.sticky_piston, 5, 2);
-			aData.set    (10, 2, 13, Blocks.sticky_piston, 4, 2);
+			aData.set    ( 5, 1, 13, Blocks.STICKY_PISTON, 5, 2);
+			aData.set    (10, 1, 13, Blocks.STICKY_PISTON, 4, 2);
+			aData.set    ( 5, 2, 13, Blocks.STICKY_PISTON, 5, 2);
+			aData.set    (10, 2, 13, Blocks.STICKY_PISTON, 4, 2);
 			aData.set    ( 6, 3, 12, Blocks.redstone_wire, 0, 2);
 			aData.set    ( 9, 3, 12, Blocks.redstone_wire, 0, 2);
 			aData.set    ( 6, 3, 14, Blocks.redstone_wire, 0, 2);
@@ -324,10 +324,10 @@ public class DungeonChunkDoorPiston implements IDungeonChunk {
 			
 			aData.set    ( 6, 2,  0, SIDE_UNKNOWN, 32111, UT.NBT.make(NBT_FACING, SIDE_Z_POS, NBT_COLOR, DYES_INT[aData.mColor], NBT_PAINTED, T));
 			aData.set    ( 9, 2,  4, SIDE_UNKNOWN, 32111, UT.NBT.make(NBT_FACING, SIDE_Z_NEG, NBT_COLOR, DYES_INT[aData.mColor], NBT_PAINTED, T));
-			aData.set    ( 5, 1,  2, Blocks.sticky_piston, 5, 2);
-			aData.set    (10, 1,  2, Blocks.sticky_piston, 4, 2);
-			aData.set    ( 5, 2,  2, Blocks.sticky_piston, 5, 2);
-			aData.set    (10, 2,  2, Blocks.sticky_piston, 4, 2);
+			aData.set    ( 5, 1,  2, Blocks.STICKY_PISTON, 5, 2);
+			aData.set    (10, 1,  2, Blocks.STICKY_PISTON, 4, 2);
+			aData.set    ( 5, 2,  2, Blocks.STICKY_PISTON, 5, 2);
+			aData.set    (10, 2,  2, Blocks.STICKY_PISTON, 4, 2);
 			aData.set    ( 6, 3,  3, Blocks.redstone_wire, 0, 2);
 			aData.set    ( 9, 3,  3, Blocks.redstone_wire, 0, 2);
 			aData.set    ( 6, 3,  1, Blocks.redstone_wire, 0, 2);

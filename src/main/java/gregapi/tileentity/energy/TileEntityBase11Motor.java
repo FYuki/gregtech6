@@ -24,10 +24,10 @@ import gregapi.data.LH.Chat;
 import gregapi.tileentity.behavior.TE_Behavior_Energy_Converter;
 import gregapi.tileentity.machines.ITileEntityAdjacentOnOff;
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.List;
 
@@ -39,20 +39,20 @@ public abstract class TileEntityBase11Motor extends TileEntityBase10EnergyConver
 	public TE_Behavior_Energy_Converter mConRevert = null;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_VISUAL)) mConverter.mFast = aNBT.getBoolean(NBT_VISUAL);
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setBoolean(aNBT, NBT_REVERSED, mCounterClockwise);
 		UT.NBT.setBoolean(aNBT, NBT_VISUAL, mConverter.mFast);
 	}
 	
 	@Override
-	public void readEnergyConverter(NBTTagCompound aNBT) {
+	public void readEnergyConverter(CompoundTag aNBT) {
 		if (aNBT.hasKey(NBT_REVERSED)) mCounterClockwise = aNBT.getBoolean(NBT_REVERSED);
 		long tMultiplier = (aNBT.hasKey(NBT_MULTIPLIER) ? aNBT.getLong(NBT_MULTIPLIER) : 1);
 		if (mCounterClockwise) {

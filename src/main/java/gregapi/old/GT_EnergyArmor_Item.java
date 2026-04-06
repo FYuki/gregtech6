@@ -27,14 +27,14 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.data.LH;
 import gregapi.util.UT;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
@@ -65,7 +65,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
+	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer) {
 		ItemStack tStack = aPlayer.inventory.armorInventory[3-armorType];
 		if (tStack != null) {
 			for (int i = 0; i < 9; i++) {
@@ -87,7 +87,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, @SuppressWarnings("rawtypes") List aList, boolean aF3_H) {
+	public void addInformation(ItemStack aStack, Player aPlayer, @SuppressWarnings("rawtypes") List aList, boolean aF3_H) {
 		aList.add("Tier: " + mTier);
 		if ((mSpecials &    1) != 0) aList.add("Rebreather");
 		if ((mSpecials &    2) != 0) aList.add("Inertia Damper");
@@ -103,14 +103,14 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	}
 	
 	private static void setCharge(ItemStack aStack) {
-		NBTTagCompound tNBT = aStack.getTagCompound();
+		CompoundTag tNBT = aStack.getTagCompound();
 		if (tNBT == null) tNBT = UT.NBT.make();
 		tNBT.setInteger("charge", 1000000000);
 		aStack.setTagCompound(tNBT);
 	}
 	
 	@Override
-	public void onArmorTick(World aWorld, EntityPlayer aPlayer, ItemStack aStack) {/*
+	public void onArmorTick(World aWorld, Player aPlayer, ItemStack aStack) {/*
 		if (mSpecials == 0) return;
 		
 		if (!aPlayer.worldObj.isRemote && (mSpecials & 1) != 0) {
@@ -220,7 +220,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 					}
 				} else {
 					if ((mSpecials & 16) != 0 && tTargetDechargeItem != null && GT_ModHandler.canUseElectricItem(tTargetDechargeItem, 10)) {
-						if (aPlayer.worldObj.getBlock   ((int)aPlayer.posX, (int)aPlayer.posY+1, (int)aPlayer.posZ) == Blocks.air)
+						if (aPlayer.worldObj.getBlock   ((int)aPlayer.posX, (int)aPlayer.posY+1, (int)aPlayer.posZ) == Blocks.AIR)
 							aPlayer.worldObj.setBlock   ((int)aPlayer.posX, (int)aPlayer.posY+1, (int)aPlayer.posZ, GregTech_API.sBlockList[3]);
 						GT_ModHandler.useElectricItem(tTargetDechargeItem, 10, aPlayer);
 					}
@@ -291,8 +291,8 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	
 	// @ForgeSubscribe
 	public void onEntityLivingFallEvent(LivingFallEvent var1) {/*
-		if (!var1.entity.worldObj.isRemote && var1.entity instanceof EntityPlayer) {
-			EntityPlayer var2 = (EntityPlayer)var1.entity;
+		if (!var1.entity.worldObj.isRemote && var1.entity instanceof Player) {
+			Player var2 = (Player)var1.entity;
 			for (int i = 0; i < 4; i++) {
 				ItemStack var3 = var2.inventory.armorInventory[i];
 				if (var3 != null && var3.getItem() == this && (mSpecials & 2) != 0) {
@@ -309,17 +309,17 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	*/}
 	/*
 	@Override
-	public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase var1, ItemStack var2, DamageSource var3, double var4, int var6) {
+	public ISpecialArmor.ArmorProperties getProperties(LivingEntity var1, ItemStack var2, DamageSource var3, double var4, int var6) {
 		return new ISpecialArmor.ArmorProperties((var3 == DamageSource.fall && (mSpecials & 2) != 0)?10:0, getBaseAbsorptionRatio() * mArmorAbsorbtionPercentage, mDamageEnergyCost > 0 ? 25 * GT_ModHandler.dischargeElectricItem(var2, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true) / mDamageEnergyCost : 0);
 	}
 	
 	@Override
-	public int getArmorDisplay(EntityPlayer var1, ItemStack var2, int var3) {
+	public int getArmorDisplay(Player var1, ItemStack var2, int var3) {
 		return (int)Math.round(20.0D * getBaseAbsorptionRatio() * mArmorAbsorbtionPercentage);
 	}
 	
 	@Override
-	public void damageArmor(EntityLivingBase var1, ItemStack var2, DamageSource var3, int var4, int var5) {
+	public void damageArmor(LivingEntity var1, ItemStack var2, DamageSource var3, int var4, int var5) {
 		//GT_ModHandler.dischargeElectricItem(var2, var4 * mDamageEnergyCost, Integer.MAX_VALUE, true, false, true);
 	}
 	

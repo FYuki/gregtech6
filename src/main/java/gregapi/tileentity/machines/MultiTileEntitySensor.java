@@ -39,12 +39,12 @@ import gregapi.render.ITexture;
 import gregapi.tileentity.ITileEntityQuickObstructionCheck;
 import gregapi.tileentity.base.TileEntityBase10FacingDouble;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
 
 /**
@@ -56,7 +56,7 @@ public abstract class MultiTileEntitySensor extends TileEntityBase10FacingDouble
 	protected byte mRedstone = 0;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_MODE)) mMode = aNBT.getByte(NBT_MODE);
 		if (aNBT.hasKey(NBT_VISUAL)) mDisplayedNumber = UT.Code.unsignS(aNBT.getShort(NBT_VISUAL));
@@ -66,7 +66,7 @@ public abstract class MultiTileEntitySensor extends TileEntityBase10FacingDouble
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		aNBT.setShort(NBT_VISUAL, (short)mDisplayedNumber);
 		aNBT.setShort(NBT_VALUE, (short)mSetNumber);
@@ -75,7 +75,7 @@ public abstract class MultiTileEntitySensor extends TileEntityBase10FacingDouble
 	}
 	
 	@Override
-	public NBTTagCompound writeItemNBT2(NBTTagCompound aNBT) {
+	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
 		aNBT.setShort(NBT_VALUE, (short)mSetNumber);
 		aNBT.setByte(NBT_MODE, mMode);
 		return aNBT;
@@ -258,7 +258,7 @@ public abstract class MultiTileEntitySensor extends TileEntityBase10FacingDouble
 	@Override public boolean isSideSolid2           (byte aSide) {return aSide==OPOS[mFacing];}
 	@Override public boolean allowCovers            (byte aSide) {return F;}
 	@Override public boolean isObstructingBlockAt   (byte aSide) {return aSide==OPOS[mFacing];}
-	@Override public boolean checkObstruction(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return aSide==OPOS[mFacing];}
+	@Override public boolean checkObstruction(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return aSide==OPOS[mFacing];}
 	@Override public boolean[] getValidSecondSides() {return SIDES_ANY_BUT[mFacing];}
 	@Override public boolean ignorePlayerCollisionWhenPlacing() {return T;}
 }

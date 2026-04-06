@@ -38,7 +38,7 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class Compat_Recipes_ArsMagica extends CompatMods {
 	public Compat_Recipes_ArsMagica(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

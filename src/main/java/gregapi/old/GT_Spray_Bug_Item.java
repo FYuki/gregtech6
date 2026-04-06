@@ -39,9 +39,9 @@ public class GT_Spray_Bug_Item extends GT_Tool_Item {
 	/*
 	@Override
 	public void onHitEntity(Entity aEntity) {
-		if (aEntity instanceof EntityLiving) {
-			((EntityLiving)aEntity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 60, 1, false));
-			((EntityLiving)aEntity).addPotionEffect(new PotionEffect(Potion.confusion.getId(), 600, 1, false));
+		if (aEntity instanceof Mob) {
+			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 60, 1, false));
+			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.confusion.getId(), 600, 1, false));
 		}
 	}
 	
@@ -51,7 +51,7 @@ public class GT_Spray_Bug_Item extends GT_Tool_Item {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
 		super.onItemUseFirst(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, hitX, hitY, hitZ);
 		if (aWorld.isRemote) {
 			return false;

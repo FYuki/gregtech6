@@ -25,11 +25,11 @@ import gregapi.render.IIconContainer;
 import gregapi.render.ITexture;
 import gregapi.render.IconContainerCopied;
 import gregapi.util.UT;
-import net.minecraft.client.renderer.texture.IIconRegister;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
+import net.minecraft.resources.ResourceLocation;
 
 import static gregapi.data.CS.*;
 
@@ -564,7 +564,7 @@ public class Textures {
 			GRASSBLOCK_SIDE_DARK,
 		},
 		DIRTS = {
-			new IconContainerCopied(Blocks.dirt, 0, SIDE_BOTTOM),
+			new IconContainerCopied(Blocks.DIRT, 0, SIDE_BOTTOM),
 			PATH_TOP,
 			PATH_TOP,
 			PATH_TOP,

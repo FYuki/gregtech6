@@ -47,8 +47,8 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +71,13 @@ public class Loader_OreProcessing implements Runnable {
 		new OreDictListenerEvent_Names() {@Override public void addAllListeners() {
 		
 		final ITexture[] tStoneTextures = new ITexture[] {
-		  BlockTextureCopied.get(Blocks.stone, 0)
-		, BlockTextureCopied.get(Blocks.cobblestone, 0)
-		, BlockTextureCopied.get(Blocks.mossy_cobblestone, 0)
-		, BlockTextureCopied.get(Blocks.stonebrick, 0)
-		, BlockTextureCopied.get(Blocks.stonebrick, 1)
-		, BlockTextureCopied.get(Blocks.stonebrick, 2)
-		, BlockTextureCopied.get(Blocks.stonebrick, 3)
+		  BlockTextureCopied.get(Blocks.STONE, 0)
+		, BlockTextureCopied.get(Blocks.COBBLESTONE, 0)
+		, BlockTextureCopied.get(Blocks.MOSSY_COBBLESTONE, 0)
+		, BlockTextureCopied.get(Blocks.STONE_BRICKS, 0)
+		, BlockTextureCopied.get(Blocks.STONE_BRICKS, 1)
+		, BlockTextureCopied.get(Blocks.STONE_BRICKS, 2)
+		, BlockTextureCopied.get(Blocks.STONE_BRICKS, 3)
 		, BlockTextureCopied.get(Blocks.double_stone_slab, SIDE_TOP, 0)
 		, BlockTextureCopied.get(Blocks.double_stone_slab, SIDE_FRONT, 0)
 		};

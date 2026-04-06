@@ -28,7 +28,7 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.*;
 
@@ -110,10 +110,10 @@ public class Loader_MachineRecipes implements Runnable {
 		RA.addAssemblerRecipe(OM.get(OP.plate, MT.WroughtIron, 3), OM.get(OP.minecartWheels, MT.WroughtIron, 2), ST.make(Items.minecart, 1, 0), 400, 2);
 		RA.addAssemblerRecipe(OM.get(OP.plate, MT.Steel      , 3), OM.get(OP.minecartWheels, MT.Steel      , 2), ST.make(Items.minecart, 1, 0), 300, 2);
 		RA.addAssemblerRecipe(ST.make(Blocks.tripwire_hook, 1, 0), ST.make(Blocks.chest, 1, W), ST.make(Blocks.trapped_chest, 1, 0), 200, 4);
-		RA.addAssemblerRecipe(ST.make(Blocks.stone    , 1, 0), ST.tag(4), ST.make(Blocks.stonebrick, 1, 0),  50, 4);
-		RA.addAssemblerRecipe(ST.make(Blocks.sandstone, 1, 0), ST.tag(1), ST.make(Blocks.sandstone , 1, 2),  50, 4);
-		RA.addAssemblerRecipe(ST.make(Blocks.sandstone, 1, 1), ST.tag(1), ST.make(Blocks.sandstone , 1, 0),  50, 4);
-		RA.addAssemblerRecipe(ST.make(Blocks.sandstone, 1, 2), ST.tag(1), ST.make(Blocks.sandstone , 1, 0),  50, 4);
+		RA.addAssemblerRecipe(ST.make(Blocks.STONE    , 1, 0), ST.tag(4), ST.make(Blocks.STONE_BRICKS, 1, 0),  50, 4);
+		RA.addAssemblerRecipe(ST.make(Blocks.SANDSTONE, 1, 0), ST.tag(1), ST.make(Blocks.SANDSTONE , 1, 2),  50, 4);
+		RA.addAssemblerRecipe(ST.make(Blocks.SANDSTONE, 1, 1), ST.tag(1), ST.make(Blocks.SANDSTONE , 1, 0),  50, 4);
+		RA.addAssemblerRecipe(ST.make(Blocks.SANDSTONE, 1, 2), ST.tag(1), ST.make(Blocks.SANDSTONE , 1, 0),  50, 4);
 		RA.addAssemblerRecipe(ST.mkic("batPack", 1, W), ST.tag(1), IL.IC2_ReBattery.get(6), 800, 4);
 		RA.addAssemblerRecipe(ST.make(Blocks.stone_slab, 3, 0), IL.RC_Rebar.get(1), IL.RC_Tie_Stone.get(1), 128, 8);
 		RA.addAssemblerRecipe(ST.make(Blocks.stone_slab, 3, 7), IL.RC_Rebar.get(1), IL.RC_Tie_Stone.get(1), 128, 8);

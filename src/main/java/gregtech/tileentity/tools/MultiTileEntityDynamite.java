@@ -36,19 +36,19 @@ import gregapi.tileentity.base.TileEntityBase09FacingSingle;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.StoneLayer;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import java.util.Iterator;
 import java.util.List;
@@ -64,7 +64,7 @@ public class MultiTileEntityDynamite extends TileEntityBase09FacingSingle implem
 	public long mMaxExplosionResistance = 10;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_STATE)) mCountDown = aNBT.getByte(NBT_STATE);
 		if (aNBT.hasKey(NBT_MODE)) mSunk = aNBT.getBoolean(NBT_MODE);
@@ -73,7 +73,7 @@ public class MultiTileEntityDynamite extends TileEntityBase09FacingSingle implem
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		aNBT.setByte(NBT_STATE, mCountDown);
 		UT.NBT.setBoolean(aNBT, NBT_MODE, mSunk);

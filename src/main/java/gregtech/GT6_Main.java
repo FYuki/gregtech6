@@ -69,18 +69,18 @@ import gregtech.loaders.a.*;
 import gregtech.loaders.b.*;
 import gregtech.loaders.c.*;
 import ic2.core.Ic2Items;
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
+// PHASE3: import FluidRegistry removed — use NeoForge fluid registry
+// PHASE7: import OreDictionary removed — replaced by Tags
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -166,14 +166,14 @@ public class GT6_Main extends Abstract_Mod {
 		OP.crushedCentrifuged    .disableItemGeneration(MT.Ad, MT.Fe, MT.Si, MT.Al, MT.Ti, MT.W, MT.F, MT.Ta, MT.Nb, MT.Dilithium);
 		OP.crushedCentrifugedTiny.disableItemGeneration(MT.Ad, MT.Fe, MT.Si, MT.Al, MT.Ti, MT.W, MT.F, MT.Ta, MT.Nb, MT.Dilithium);
 		
-		RM.pulverizing(ST.make(Blocks.cobblestone, 1, W), ST.make(Blocks.sand, 1, 0), null, 0, F);
-		RM.pulverizing(ST.make(Blocks.stone      , 1, W), ST.make(Blocks.cobblestone, 1, 0), null, 0, F);
-		RM.pulverizing(ST.make(Blocks.gravel     , 1, W), ST.make(Items.flint, 2, 0), OP.dust.mat(MT.Flint, 1), 10, F);
-		RM.pulverizing(ST.make(Blocks.furnace    , 1, W), ST.make(Blocks.sand, 6, 0), null, 0, F);
-		RM.pulverizing(ST.make(Blocks.lit_furnace, 1, W), ST.make(Blocks.sand, 6, 0), null, 0, F);
+		RM.pulverizing(ST.make(Blocks.COBBLESTONE, 1, W), ST.make(Blocks.SAND, 1, 0), null, 0, F);
+		RM.pulverizing(ST.make(Blocks.STONE      , 1, W), ST.make(Blocks.COBBLESTONE, 1, 0), null, 0, F);
+		RM.pulverizing(ST.make(Blocks.GRAVEL     , 1, W), ST.make(Items.flint, 2, 0), OP.dust.mat(MT.Flint, 1), 10, F);
+		RM.pulverizing(ST.make(Blocks.furnace    , 1, W), ST.make(Blocks.SAND, 6, 0), null, 0, F);
+		RM.pulverizing(ST.make(Blocks.lit_furnace, 1, W), ST.make(Blocks.SAND, 6, 0), null, 0, F);
 		RM.pulverizing(ST.make(Items.bone        , 1, W), IL.Dye_Bonemeal.get(2), IL.Dye_Bonemeal.get(1), 50, T);
 		RM.pulverizing(ST.make(Items.blaze_rod   , 1, W), ST.make(Items.blaze_powder, 3, 0), ST.make(Items.blaze_powder, 1, 0), 50, T);
-		RM.pulverizing(ST.make(Blocks.pumpkin    , 1, W), ST.make(Items.pumpkin_seeds, 4, 0), null, 0, F);
+		RM.pulverizing(ST.make(Blocks.PUMPKIN    , 1, W), ST.make(Items.pumpkin_seeds, 4, 0), null, 0, F);
 		RM.pulverizing(ST.make(Items.melon       , 1, W), ST.make(Items.melon_seeds, 1, 0), null, 0, F);
 		RM.pulverizing(ST.make(Blocks.wool       , 1, W), ST.make(Items.string, 2, 0), ST.make(Items.string, 1, 0), 50, F);
 		
@@ -396,7 +396,7 @@ public class GT6_Main extends Abstract_Mod {
 											RM.Bath.addFakeRecipe(F, ST.array(IL.Plank_Slab              .get(1)), ST.array(IL.IE_Treated_Slab  .get(1, IL.Treated_Planks_Slab.get(1))), null, null, FL.array(FL.Oil_Creosote.make( 50)), ZL_FS,  72, 0, 0);
 		if (IL.ERE_White_Planks.exists())   RM.Bath.addFakeRecipe(F, ST.array(IL.Plank                   .get(1)), ST.array(IL.ERE_White_Planks .get(1                               )), null, null, FL.array(       DYE_FLUIDS_WATER[DYE_INDEX_White]          ), ZL_FS, 144, 0, 0);
 		if (IL.ERE_White_Slab.exists())     RM.Bath.addFakeRecipe(F, ST.array(IL.Plank_Slab              .get(1)), ST.array(IL.ERE_White_Slab   .get(1                               )), null, null, FL.array(FL.mul(DYE_FLUIDS_WATER[DYE_INDEX_White], 1, 2, T)), ZL_FS,  72, 0, 0);
-		if (IL.ERE_White_Planks.exists())   RM.Bath.addFakeRecipe(F, ST.array(ST.make(Blocks.planks      , 1, W)), ST.array(IL.ERE_White_Planks .get(1                               )), null, null, FL.array(       DYE_FLUIDS_WATER[DYE_INDEX_White]          ), ZL_FS, 144, 0, 0);
+		if (IL.ERE_White_Planks.exists())   RM.Bath.addFakeRecipe(F, ST.array(ST.make(Blocks.OAK_PLANKS      , 1, W)), ST.array(IL.ERE_White_Planks .get(1                               )), null, null, FL.array(       DYE_FLUIDS_WATER[DYE_INDEX_White]          ), ZL_FS, 144, 0, 0);
 		if (IL.ERE_White_Stairs.exists())   RM.Bath.addFakeRecipe(F, ST.array(ST.make(Blocks.oak_stairs  , 1, W)), ST.array(IL.ERE_White_Stairs .get(1                               )), null, null, FL.array(FL.mul(DYE_FLUIDS_WATER[DYE_INDEX_White], 3, 4, T)), ZL_FS, 102, 0, 0);
 		if (IL.ERE_White_Slab.exists())     RM.Bath.addFakeRecipe(F, ST.array(ST.make(Blocks.wooden_slab , 1, W)), ST.array(IL.ERE_White_Slab   .get(1                               )), null, null, FL.array(FL.mul(DYE_FLUIDS_WATER[DYE_INDEX_White], 1, 2, T)), ZL_FS,  72, 0, 0);
 		
@@ -419,8 +419,8 @@ public class GT6_Main extends Abstract_Mod {
 		if (IL.LOOTBAGS_Bag_3.exists())     RM.Unboxinator.addFakeRecipe(F, ST.array(IL.LOOTBAGS_Bag_3   .get(1)), ST.array(IL.LOOTBAGS_Bag_3.getWithName(1, "Drops depending on Config")), null, ZL_LONG, ZL_FS, ZL_FS, 16, 16, 0);
 		if (IL.LOOTBAGS_Bag_4.exists())     RM.Unboxinator.addFakeRecipe(F, ST.array(IL.LOOTBAGS_Bag_4   .get(1)), ST.array(IL.LOOTBAGS_Bag_4.getWithName(1, "Drops depending on Config")), null, ZL_LONG, ZL_FS, ZL_FS, 16, 16, 0);
 		
-											RM.BedrockOreList.addFakeRecipe(F, ST.array(ST.make(Blocks.bedrock, 1, W)), ST.array(ST.make(Blocks.cobblestone, 1, 0, "Various Cobblestone Types"), OP.dust.mat(MT.Bedrock, 1)), null, new long[] {9990, 10}, FL.array(FL.lube(100)), null, 0, 0, 0);
-		if (IL.BTL_Bedrock.exists())        RM.BedrockOreList.addFakeRecipe(F, ST.array(IL.BTL_Bedrock        .get(1)), ST.array(ST.make(Blocks.cobblestone, 1, 0, "Various Cobblestone Types"), OP.dust.mat(MT.Bedrock, 1)), null, new long[] {9990, 10}, FL.array(FL.lube(100)), null, 0, 0, 0);
+											RM.BedrockOreList.addFakeRecipe(F, ST.array(ST.make(Blocks.BEDROCK, 1, W)), ST.array(ST.make(Blocks.COBBLESTONE, 1, 0, "Various Cobblestone Types"), OP.dust.mat(MT.Bedrock, 1)), null, new long[] {9990, 10}, FL.array(FL.lube(100)), null, 0, 0, 0);
+		if (IL.BTL_Bedrock.exists())        RM.BedrockOreList.addFakeRecipe(F, ST.array(IL.BTL_Bedrock        .get(1)), ST.array(ST.make(Blocks.COBBLESTONE, 1, 0, "Various Cobblestone Types"), OP.dust.mat(MT.Bedrock, 1)), null, new long[] {9990, 10}, FL.array(FL.lube(100)), null, 0, 0, 0);
 		
 		RM.ByProductList.mRecipeMachineList.add(ST.make(Items .cauldron, 1, 0));
 		RM.ByProductList.mRecipeMachineList.add(ST.make(Blocks.cauldron, 1, 0));
@@ -549,7 +549,7 @@ public class GT6_Main extends Abstract_Mod {
 			@Override public boolean canCommandSenderUseCommand(ICommandSender aSender) {return T;}
 			@Override public void processCommand(ICommandSender aSender, String[] aParameters) {
 				if (aParameters.length >= 3) {
-					EntityPlayerMP aPlayer = getCommandSenderAsPlayer(aSender);
+					ServerPlayer aPlayer = getCommandSenderAsPlayer(aSender);
 					if (aPlayer != null && (aPlayer.username.equals("GregoriusT") || aPlayer.username.equals("Player"))) {
 						try {
 							if (aPlayer.ridingEntity != null) aPlayer.mountEntity(null);

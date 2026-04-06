@@ -25,9 +25,9 @@ import gregapi.block.MaterialMachines;
 import gregapi.block.misc.BlockBaseMachineUpdate;
 import gregapi.data.LH;
 import gregapi.render.IIconContainer;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class BlockLongDistPipe extends BlockBaseMachineUpdate {
 	public final long[] mTemperatures;

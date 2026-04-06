@@ -23,9 +23,9 @@ import static gregapi.data.CS.*;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.renderer.entity.RenderArrow;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class GT_Renderer_Entity_Arrow extends RenderArrow {
 	private final ResourceLocation mTexture;

@@ -19,12 +19,12 @@
 
 package gregtech.api.interfaces.tileentity;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
 import net.minecraftforge.fluids.IFluidHandler;
 
 @Deprecated
@@ -87,6 +87,6 @@ public interface IHasWorldObjectAndCoords {
 	public long getTimer();
 	public void setLightValue(byte aLightValue);
 	public boolean isInvalidTileEntity();
-	public boolean openGUI(EntityPlayer aPlayer, int aID);
-	public boolean openGUI(EntityPlayer aPlayer);
+	public boolean openGUI(Player aPlayer, int aID);
+	public boolean openGUI(Player aPlayer);
 }

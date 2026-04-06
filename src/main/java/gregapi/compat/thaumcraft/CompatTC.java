@@ -35,12 +35,12 @@ import gregapi.oredict.OreDictManager;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.wooddict.WoodDictionary;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
@@ -226,7 +226,7 @@ public class CompatTC extends CompatBase implements ICompatTC {
 	}
 	
 	@Override
-	public boolean scan(EntityPlayer aPlayer, ItemStack aStack) {
+	public boolean scan(Player aPlayer, ItemStack aStack) {
 		if (aPlayer == null || ST.invalid(aStack)) return F;
 		boolean rReturn = F;
 		ScanResult tScan;

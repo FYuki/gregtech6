@@ -41,14 +41,14 @@ import gregapi.tileentity.notick.TileEntityBase03MultiTileEntities;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import squeek.applecore.api.food.FoodValues;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	public boolean mRedstone = F;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_REDSTONE)) mRedstone = aNBT.getBoolean(NBT_REDSTONE);
 		
@@ -90,14 +90,14 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setBoolean(aNBT, NBT_REDSTONE, mRedstone);
 		for (int i = 0; i < mStacks.length; i++) ST.save(aNBT, "sandwich."+i, mStacks[i]);
 	}
 	
 	@Override
-	public final NBTTagCompound writeItemNBT(NBTTagCompound aNBT) {
+	public final CompoundTag writeItemNBT(CompoundTag aNBT) {
 		aNBT = super.writeItemNBT(aNBT);
 		UT.NBT.setBoolean(aNBT, NBT_REDSTONE, mRedstone);
 		for (int i = 0; i < mStacks.length; i++) ST.save(aNBT, "sandwich."+i, ST.amount(1, mStacks[i]));
@@ -128,7 +128,7 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	}
 	
 	@Override
-	public boolean onBlockActivated2(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return T;
 		ItemStack aStack = aPlayer.getCurrentEquippedItem();
 		int tStackSize = addIngredient(aStack);
@@ -239,12 +239,12 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	@Override public int isProvidingWeakPower      (byte aOppositeSide) {return mRedstone ? UT.Code.bind4(mSize-1) : 0;}
 	
 	@Override
-	public boolean canPlace(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean canPlace(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		return WD.block(aWorld, aX, aY-1, aZ).isSideSolid(aWorld, aX, aY-1, aZ, FORGE_DIR[SIDE_TOP]);
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiTileEntityItemInternal aItem, ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
+	public ItemStack onItemRightClick(MultiTileEntityItemInternal aItem, ItemStack aStack, World aWorld, Player aPlayer) {
 		if (UT.Entities.isCreative(aPlayer) || aPlayer.getFoodStats().needFood()) {
 			aPlayer.setItemInUse(aStack, Math.max(FoodStatFluid.INSTANCE.getFoodLevel(aStack.getItem(), aStack, null) * 8, 32));
 			return aStack;
@@ -263,7 +263,7 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	}
 	
 	@Override
-	public ItemStack onEaten(MultiTileEntityItemInternal aItem, ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
+	public ItemStack onEaten(MultiTileEntityItemInternal aItem, ItemStack aStack, World aWorld, Player aPlayer) {
 		if (MD.APC.mLoaded) {
 			aPlayer.getFoodStats().func_151686_a((ItemFood)UT.Reflection.callConstructor("squeek.applecore.api.food.ItemFoodProxy", 0, null, T, aStack.getItem()), aStack);
 		} else {
@@ -380,7 +380,7 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	@Override public boolean isObstructingBlockAt   (byte aSide) {return F;}
 	@Override public boolean onlyPlaceableWhenSneaking()         {return T;}
 	@Override public byte getMaxStackSize(ItemStack aStack, byte aDefault) {return 16;}
-	@Override public boolean checkObstruction(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
+	@Override public boolean checkObstruction(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
 	
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_NONE;}
 	@Override public float getExplosionResistance2() {return 0;}

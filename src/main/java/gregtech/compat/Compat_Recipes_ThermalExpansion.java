@@ -33,9 +33,9 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
 
@@ -127,11 +127,11 @@ public class Compat_Recipes_ThermalExpansion extends CompatMods {
 			
 			for (FluidStack tWater : FL.waters(1000, 800)) {
 			if (IL.FZ_Sludge.exists())
-			RM.Mixer            .addRecipe2(T, 16,   16, IL.FZ_Sludge   .get(2), ST.make(Blocks.dirt, 1, W), tWater, NF, ST.make(Items.clay_ball, 4, 0));
+			RM.Mixer            .addRecipe2(T, 16,   16, IL.FZ_Sludge   .get(2), ST.make(Blocks.DIRT, 1, W), tWater, NF, ST.make(Items.clay_ball, 4, 0));
 			if (IL.IE_Slag.exists())
-			RM.Mixer            .addRecipe2(T, 16,   16, IL.IE_Slag     .get(2), ST.make(Blocks.dirt, 1, W), tWater, NF, ST.make(Items.clay_ball, 4, 0));
-			RM.Mixer            .addRecipe2(T, 16,   16, IL.TE_Slag     .get(2), ST.make(Blocks.dirt, 1, W), tWater, NF, ST.make(Items.clay_ball, 4, 0));
-			RM.Mixer            .addRecipe2(T, 16,   16, IL.TE_Slag_Rich.get(1), ST.make(Blocks.dirt, 1, W), tWater, NF, ST.make(Items.clay_ball, 4, 0));
+			RM.Mixer            .addRecipe2(T, 16,   16, IL.IE_Slag     .get(2), ST.make(Blocks.DIRT, 1, W), tWater, NF, ST.make(Items.clay_ball, 4, 0));
+			RM.Mixer            .addRecipe2(T, 16,   16, IL.TE_Slag     .get(2), ST.make(Blocks.DIRT, 1, W), tWater, NF, ST.make(Items.clay_ball, 4, 0));
+			RM.Mixer            .addRecipe2(T, 16,   16, IL.TE_Slag_Rich.get(1), ST.make(Blocks.DIRT, 1, W), tWater, NF, ST.make(Items.clay_ball, 4, 0));
 			}
 			
 			for (OreDictMaterial tMat : new OreDictMaterial[] {MT.KNO3, MT.NaNO3, MT.Niter}) {

@@ -22,7 +22,7 @@ package gregapi.tileentity;
 import java.util.Collection;
 
 import gregapi.code.TagData;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies

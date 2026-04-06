@@ -21,7 +21,7 @@ package gregapi.damage;
 
 import static gregapi.data.CS.*;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
@@ -36,7 +36,7 @@ public class DamageSourceSpike extends DamageSource {
 	}
 	
 	@Override
-	public IChatComponent func_151519_b(EntityLivingBase aTarget) {
+	public IChatComponent func_151519_b(LivingEntity aTarget) {
 		return new ChatComponentText(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + (APRIL_FOOLS ? " stepped on a LEGO!" : " was impaled by a Spike!"));
 	}
 }

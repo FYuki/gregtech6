@@ -29,8 +29,8 @@ import net.minecraft.world.level.Level;
  * @author Gregorius Techneticies
  *
  * PHASE2: Updated to NeoForge 1.21.4 types.
- *   EntityPlayerMP → ServerPlayer
- *   ChunkCoordinates → BlockPos
+ *   ServerPlayer → ServerPlayer
+ *   BlockPos → BlockPos
  *   World → Level
  *   TargetPoint moved to inner record
  *   FMLEmbeddedChannel removed

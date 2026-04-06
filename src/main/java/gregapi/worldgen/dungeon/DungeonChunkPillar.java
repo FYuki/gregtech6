@@ -23,7 +23,7 @@ import static gregapi.data.CS.*;
 
 import gregapi.data.CS.BlocksGT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockFalling;
 
 /**

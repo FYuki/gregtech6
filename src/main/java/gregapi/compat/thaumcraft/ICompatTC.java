@@ -21,9 +21,9 @@ package gregapi.compat.thaumcraft;
 
 import gregapi.compat.ICompat;
 import gregapi.data.TC.TC_AspectStack;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public interface ICompatTC extends ICompat {
 	/** Just dont use this anymore, it does not work properly. */ @Deprecated public boolean registerThaumcraftAspectsToItem(ItemStack aExampleStack, String aOreDict, TC_AspectStack... aAspects);
 	
 	public ItemStack[] lootbag(long aMeta);
-	public boolean scan(EntityPlayer aPlayer, ItemStack aStack);
+	public boolean scan(Player aPlayer, ItemStack aStack);
 	public boolean validate();
 	
 	public Object addCrucibleRecipe(String aResearch, Object aInput, ItemStack aOutput, List<TC_AspectStack> aAspects);

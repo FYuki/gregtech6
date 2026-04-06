@@ -39,12 +39,12 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregtech.tileentity.placeables.MultiTileEntityCoin;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class MultiTileEntityMoldCoinage extends TileEntityBase07Paintable implem
 	protected boolean[][][] mShape = new boolean[2][16][16];
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		for (int i = 0; i < mShape[0].length; i++) mShape[0][i] = UT.Code.getBitsS(aNBT.getShort("gt.coin.shape.0."+i));
 		for (int i = 0; i < mShape[1].length; i++) mShape[1][i] = UT.Code.getBitsS(aNBT.getShort("gt.coin.shape.1."+i));
@@ -68,7 +68,7 @@ public class MultiTileEntityMoldCoinage extends TileEntityBase07Paintable implem
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setBoolean(aNBT, "gt.coin.unique", mIsUnique);
 		for (int i = 0; i < mShape[0].length; i++) aNBT.setShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
@@ -76,7 +76,7 @@ public class MultiTileEntityMoldCoinage extends TileEntityBase07Paintable implem
 	}
 	
 	@Override
-	public NBTTagCompound writeItemNBT2(NBTTagCompound aNBT) {
+	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
 		UT.NBT.setBoolean(aNBT, "gt.coin.unique", mIsUnique);
 		for (int i = 0; i < mShape[0].length; i++) aNBT.setShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
 		for (int i = 0; i < mShape[1].length; i++) aNBT.setShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
@@ -107,7 +107,7 @@ public class MultiTileEntityMoldCoinage extends TileEntityBase07Paintable implem
 	@Override public boolean attachCoversFirst(byte aSide) {return F;}
 	
 	@Override
-	public boolean onBlockActivated3(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide() && SIDES_TOP_HORIZONTAL[aSide]) {
 			ItemStack tOutputStack = slot(0);
 			ItemStack aStack = aPlayer.getCurrentEquippedItem();
@@ -248,7 +248,7 @@ public class MultiTileEntityMoldCoinage extends TileEntityBase07Paintable implem
 	@Override public boolean allowCovers            (byte aSide) {return F;}
 	
 	// Inventory Stuff
-	@Override public ItemStack[] getDefaultInventory(NBTTagCompound aNBT) {return new ItemStack[1];}
+	@Override public ItemStack[] getDefaultInventory(CompoundTag aNBT) {return new ItemStack[1];}
 	@Override public boolean canDrop(int aInventorySlot) {return T;}
 	@Override public int getInventoryStackLimit() {return 1;}
 	

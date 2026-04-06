@@ -22,10 +22,10 @@ package gregapi.cover;
 import gregapi.code.ItemStackContainer;
 import gregapi.code.ItemStackMap;
 import gregapi.util.ST;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 
 /**
  * @author Gregorius Techneticies
@@ -53,7 +53,7 @@ public class CoverRegistry {
 		if (aBlock != null) COVERS.put(aBlock, aMetaData, aCover);
 	}
 	
-	public static CoverData coverdata(ITileEntityCoverable aTileEntity, NBTTagCompound aNBT) {
+	public static CoverData coverdata(ITileEntityCoverable aTileEntity, CompoundTag aNBT) {
 		return aNBT == null ? new CoverData(aTileEntity) : new CoverData(aTileEntity, aNBT);
 	}
 	

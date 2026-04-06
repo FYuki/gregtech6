@@ -27,17 +27,17 @@ import gregapi.old.Textures;
 import gregapi.render.*;
 import gregapi.util.ST;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +83,7 @@ public class BlockPath extends BlockBaseMeta implements IBlockOnWalkOver, IRende
 		case  9: return ST.arraylist(IL.EB_Dirt_Inceptisol.get(1));
 		case 10: return ST.arraylist(IL.EB_Dirt_Mollisol.get(1));
 		case 11: return ST.arraylist(IL.EB_Dirt_Oxisol.get(1));
-		default: return ST.arraylist(ST.make(Blocks.dirt, 1, 0));
+		default: return ST.arraylist(ST.make(Blocks.DIRT, 1, 0));
 		}
 	}
 	
@@ -115,7 +115,7 @@ public class BlockPath extends BlockBaseMeta implements IBlockOnWalkOver, IRende
 	}
 	
 	@Override
-	public void onWalkOver(EntityLivingBase aEntity, World aWorld, int aX, int aY, int aZ) {
+	public void onWalkOver(LivingEntity aEntity, World aWorld, int aX, int aY, int aZ) {
 		if ((aEntity.motionX != 0 || aEntity.motionZ != 0) && !aEntity.isInWater() && !aEntity.isSneaking()) {
 			double tSpeed = (aWorld.getBlock(aX, aY-1, aZ).slipperiness >= 0.8 && isHalfBlock(aWorld, aX, aY, aZ) ? 1.05 : 1.1);
 			aEntity.motionX *= tSpeed; aEntity.motionZ *= tSpeed;
@@ -158,8 +158,8 @@ public class BlockPath extends BlockBaseMeta implements IBlockOnWalkOver, IRende
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_WATER;}
 	@Override public String getHarvestTool(int aMeta) {return TOOL_shovel;}
 	@Override public int getHarvestLevel(int aMeta) {return 0;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.grass.getBlockHardness(aWorld, aX, aY, aZ) * 2;}
-	@Override public float getExplosionResistance(byte aMeta) {return Blocks.grass.getExplosionResistance(null) * 1.5F;}
+	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.GRASS_BLOCK.getBlockHardness(aWorld, aX, aY, aZ) * 2;}
+	@Override public float getExplosionResistance(byte aMeta) {return Blocks.GRASS_BLOCK.getExplosionResistance(null) * 1.5F;}
 	@Override public boolean isSideSolid(int aMeta, byte aSide) {return SIDES_BOTTOM_HORIZONTAL[aSide];}
 	@Override public boolean isNormalCube(IBlockAccess aWorld, int aX, int aY, int aZ)  {return F;}
 	@Override public boolean isNormalCube() {return F;}

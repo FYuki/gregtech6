@@ -33,9 +33,9 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
@@ -111,7 +111,7 @@ public class MultiTileEntityMiniPortalEnviromine extends MultiTileEntityMiniPort
 	}
 	
 	@Override
-	public boolean onBlockActivated2(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
 			ItemStack aStack = aPlayer.inventory.getCurrentItem();
 			if (ST.valid(aStack) && aStack.stackSize > 0 && OM.is_("gemExquisiteAnyDiamond", aStack)) {
@@ -123,10 +123,10 @@ public class MultiTileEntityMiniPortalEnviromine extends MultiTileEntityMiniPort
 		return T;
 	}
 	
-	@Override public float getBlockHardness() {return Blocks.stone.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
-	@Override public float getExplosionResistance2() {return Blocks.stone.getExplosionResistance(null);}
+	@Override public float getBlockHardness() {return Blocks.STONE.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
+	@Override public float getExplosionResistance2() {return Blocks.STONE.getExplosionResistance(null);}
 	
-	public ITexture sEnvirominePortal = BlockTextureCopied.get(Blocks.portal, SIDE_ANY, 0, 0x00ff0000, F, T, T), sEnvirominePortalFrame = BlockTextureCopied.get(Blocks.bedrock, SIDE_ANY, 0, UNCOLOURED, F, F, F);
+	public ITexture sEnvirominePortal = BlockTextureCopied.get(Blocks.portal, SIDE_ANY, 0, 0x00ff0000, F, T, T), sEnvirominePortalFrame = BlockTextureCopied.get(Blocks.BEDROCK, SIDE_ANY, 0, UNCOLOURED, F, F, F);
 	@Override public ITexture getPortalTexture() {return sEnvirominePortal;}
 	@Override public ITexture getFrameTexture() {return sEnvirominePortalFrame;}
 	

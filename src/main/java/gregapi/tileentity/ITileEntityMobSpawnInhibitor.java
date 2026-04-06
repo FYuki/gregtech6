@@ -20,7 +20,7 @@
 package gregapi.tileentity;
 
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 
 /**

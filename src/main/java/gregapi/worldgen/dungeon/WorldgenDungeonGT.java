@@ -31,18 +31,18 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregtech.tileentity.placeables.MultiTileEntityCoin;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityFlowerPot;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
 import java.util.Random;
@@ -153,7 +153,7 @@ public class WorldgenDungeonGT extends WorldgenObject {
 		tPrimaryBlock   = (BlockStones)BlocksGT.stones[aRandom.nextInt(BlocksGT.stones.length)],
 		tSecondaryBlock = (BlockStones)BlocksGT.stones[aRandom.nextInt(BlocksGT.stones.length)];
 		
-		HashSetNoNulls<ChunkCoordinates> tLightUpdateCoords = new HashSetNoNulls<>();
+		HashSetNoNulls<BlockPos> tLightUpdateCoords = new HashSetNoNulls<>();
 		HashSetNoNulls<TagData> tTags = new HashSetNoNulls<>(mTags);
 		
 		byte[][] tRoomLayout = new byte[2+mMinSize+aRandom.nextInt(1+mMaxSize-mMinSize)][2+mMinSize+aRandom.nextInt(1+mMaxSize-mMinSize)];
@@ -192,8 +192,8 @@ public class WorldgenDungeonGT extends WorldgenObject {
 			while (b != tRoomLayout[a].length/2) {b+=(b>(tRoomLayout[a].length/2)?-1:+1); if (tRoomLayout[a][b] == 0) tRoomLayout[a][b] = -128; else break;}
 		}
 		
-		NBTTagCompound tCoin = (NBTTagCompound)MultiTileEntityCoin.COIN_MAP.get(UT.Code.select(MT.NULL, MT.Cu, MT.Cu, MT.Cu, MT.Ag, MT.Ag, MT.Au, MT.Au, MT.Pt)).getTagCompound();
-		if (tCoin == null) tCoin = UT.NBT.make(); else tCoin = (NBTTagCompound)tCoin.copy();
+		CompoundTag tCoin = (CompoundTag)MultiTileEntityCoin.COIN_MAP.get(UT.Code.select(MT.NULL, MT.Cu, MT.Cu, MT.Cu, MT.Ag, MT.Ag, MT.Au, MT.Au, MT.Pt)).getTagCompound();
+		if (tCoin == null) tCoin = UT.NBT.make(); else tCoin = (CompoundTag)tCoin.copy();
 		
 		boolean
 		temp = T;
@@ -293,7 +293,7 @@ public class WorldgenDungeonGT extends WorldgenObject {
 			
 			aWorld.getChunkFromChunkCoords((aMinX >> 4) + i, (aMinZ >> 4) + j).setChunkModified();
 		}
-		for (ChunkCoordinates tCoords : tLightUpdateCoords) {
+		for (BlockPos tCoords : tLightUpdateCoords) {
 			aWorld.setLightValue(EnumSkyBlock.Block, tCoords.posX, tCoords.posY, tCoords.posZ, 15);
 			for (byte tSide : ALL_SIDES_MIDDLE) {
 				aWorld.func_147451_t(tCoords.posX+OFFX[tSide], tCoords.posY+OFFY[tSide], tCoords.posZ+OFFZ[tSide]);
@@ -332,16 +332,16 @@ public class WorldgenDungeonGT extends WorldgenObject {
 	public static boolean setColored        (World aWorld, int aX, int aY, int aZ, DungeonData aData, Random aRandom) {return aWorld.setBlock(aX, aY, aZ, BlocksGT.Concrete, aData.mColor, 2);}
 	
 	public static boolean setLampBlock(World aWorld, int aX, int aY, int aZ, DungeonData aData, Block aPrimary, Block aSecondary, Random aRandom, int aGenerateRedstoneBrick) {
-		aData.mLightUpdateCoords.add(new ChunkCoordinates(aX, aY, aZ));
+		aData.mLightUpdateCoords.add(new BlockPos(aX, aY, aZ));
 		if (aGenerateRedstoneBrick != 0) setRedstoneBrick(aWorld, aX, aY+aGenerateRedstoneBrick, aZ, aData, aRandom);
-		aWorld.setBlock(aX, aY, aZ, aGenerateRedstoneBrick == 0 ? Blocks.redstone_lamp : Blocks.lit_redstone_lamp, 0, 2);
+		aWorld.setBlock(aX, aY, aZ, aGenerateRedstoneBrick == 0 ? Blocks.REDSTONE_LAMP : Blocks.REDSTONE_LAMP, 0, 2);
 		return T;
 	}
 	
 	public static boolean setLampBlock(World aWorld, int aX, int aY, int aZ, DungeonData aData, Random aRandom, int aGenerateRedstoneBrick) {
-		aData.mLightUpdateCoords.add(new ChunkCoordinates(aX, aY, aZ));
+		aData.mLightUpdateCoords.add(new BlockPos(aX, aY, aZ));
 		if (aGenerateRedstoneBrick != 0) setRedstoneBrick(aWorld, aX, aY+aGenerateRedstoneBrick, aZ, aData, aRandom);
-		aWorld.setBlock(aX, aY, aZ, aGenerateRedstoneBrick == 0 ? Blocks.redstone_lamp : Blocks.lit_redstone_lamp, 0, 2);
+		aWorld.setBlock(aX, aY, aZ, aGenerateRedstoneBrick == 0 ? Blocks.REDSTONE_LAMP : Blocks.REDSTONE_LAMP, 0, 2);
 		return T;
 	}
 	

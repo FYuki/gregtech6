@@ -27,12 +27,12 @@ import gregapi.old.Textures;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.*;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+// PHASE3: import FluidRegistry removed — use NeoForge fluid registry
+import net.neoforged.neoforge.fluids.FluidStack;
+// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import static gregapi.data.CS.*;
 

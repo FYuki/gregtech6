@@ -21,8 +21,8 @@ package gregapi.data;
 
 import gregapi.oredict.OreDictManager;
 import gregapi.util.ST;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.world.item.ItemStack;
+// PHASE7: import OreDictionary removed — replaced by Tags
 
 import java.util.List;
 

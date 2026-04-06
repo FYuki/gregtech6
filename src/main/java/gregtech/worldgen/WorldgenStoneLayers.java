@@ -30,12 +30,12 @@ import gregapi.util.WD;
 import gregapi.worldgen.StoneLayer;
 import gregapi.worldgen.StoneLayerOres;
 import gregapi.worldgen.WorldgenObject;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public class WorldgenStoneLayers extends WorldgenObject {
 		final byte tScanMinusOne = (byte)(tScan.length-1);
 		
 		MultiTileEntityRegistry tRegistry = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
-		Block tLastReplaced = Blocks.stone;
+		Block tLastReplaced = Blocks.STONE;
 		
 		for (int i = 0; i < 16; i++) for (int j = 0; j < 16; j++) {
 			final int tX = aMinX+i, tZ = aMinZ+j;
@@ -85,7 +85,7 @@ public class WorldgenStoneLayers extends WorldgenObject {
 				final Block aBlock = (aStorage == null ? NB : aStorage.getBlockByExtId(i, tY & 15, j));
 				assert aStorage != null;
 				// Just mark as Opaque Ground.
-				if (aBlock == Blocks.bedrock) {
+				if (aBlock == Blocks.BEDROCK) {
 					tCanPlaceRocks = T;
 				// Place Rock if on Opaque Surface.
 				} else if (aBlock == NB) {
@@ -93,7 +93,7 @@ public class WorldgenStoneLayers extends WorldgenObject {
 					tLastOre = null;
 					tCanPlaceRocks = F;
 				// Stone and Ore Generation in vanilla Stone.
-				} else if (aBlock == Blocks.stone || (aBlock == Blocks.monster_egg && aStorage.getExtBlockMetadata(i, tY & 15, j) == 0)) {
+				} else if (aBlock == Blocks.STONE || (aBlock == Blocks.monster_egg && aStorage.getExtBlockMetadata(i, tY & 15, j) == 0)) {
 					tCanPlaceRocks = T;
 					boolean temp = T;
 					if (tScan[5] == tScan[1]) {
@@ -122,7 +122,7 @@ public class WorldgenStoneLayers extends WorldgenObject {
 						}
 					}
 				// Cobblestone Generation.
-				} else if (aBlock == Blocks.cobblestone) {
+				} else if (aBlock == Blocks.COBBLESTONE) {
 					tCanPlaceRocks = T;
 					if (tScan[3].mCobble != null) {
 						tLastRock = tScan[3].mMaterialSurface;
@@ -132,7 +132,7 @@ public class WorldgenStoneLayers extends WorldgenObject {
 						}
 					}
 				// Mossy Cobblestone Generation.
-				} else if (aBlock == Blocks.mossy_cobblestone) {
+				} else if (aBlock == Blocks.MOSSY_COBBLESTONE) {
 					tCanPlaceRocks = T;
 					if (tScan[3].mMossy != null) {
 						tLastRock = tScan[3].mMaterialSurface;

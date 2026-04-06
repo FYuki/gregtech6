@@ -40,19 +40,19 @@ import gregapi.tileentity.data.ITileEntityGibbl;
 import gregapi.tileentity.energy.ITileEntityEnergy;
 import gregapi.tileentity.energy.ITileEntityEnergyDataCapacitor;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.level.Level;
+// PHASE3: import FluidRegistry removed — use NeoForge fluid registry
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.IFluidTank;
+// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.Collection;
 import java.util.List;
@@ -70,7 +70,7 @@ public class MultiTileEntityBoilerTank extends TileEntityBase09FacingSingle impl
 	protected FluidTankGT[] mTanks = new FluidTankGT[] {new FluidTankGT(4000), new FluidTankGT(64000)};
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		mEnergy = aNBT.getLong(NBT_ENERGY);
 		if (aNBT.hasKey(NBT_VISUAL)) mBarometer = aNBT.getByte(NBT_VISUAL);
@@ -84,7 +84,7 @@ public class MultiTileEntityBoilerTank extends TileEntityBase09FacingSingle impl
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
 		if (mEfficiency != 10000) aNBT.setShort(NBT_EFFICIENCY, mEfficiency);
@@ -199,7 +199,7 @@ public class MultiTileEntityBoilerTank extends TileEntityBase09FacingSingle impl
 	}
 	
 	@Override
-	public boolean removedByPlayer(World aWorld, EntityPlayer aPlayer, boolean aWillHarvest) {
+	public boolean removedByPlayer(World aWorld, Player aPlayer, boolean aWillHarvest) {
 		if (mBarometer > 4 && isServerSide() && !UT.Entities.isCreative(aPlayer)) explode(T);
 		return worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 	}

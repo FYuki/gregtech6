@@ -22,10 +22,10 @@ package gregapi.cover;
 import java.util.List;
 
 import gregapi.tileentity.ITileEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
@@ -34,7 +34,7 @@ public interface ITileEntityCoverable extends ITileEntity {
 	public boolean setCoverItem(byte aSide, ItemStack aStack, Entity aPlayer, boolean aForce, boolean aBlockUpdate);
 	public ItemStack getCoverItem(byte aSide);
 	public CoverData getCoverData();
-	public void openCoverGUI(byte aSide, EntityPlayer aPlayer);
+	public void openCoverGUI(byte aSide, Player aPlayer);
 	public void receiveBlockUpdateFromCover();
 	public void sendBlockUpdateFromCover();
 	public void updateCoverVisuals();

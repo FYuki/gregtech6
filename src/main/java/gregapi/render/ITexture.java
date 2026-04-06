@@ -25,10 +25,10 @@ import org.lwjgl.opengl.GL11;
 
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.IBlockAccess;
 
 /**

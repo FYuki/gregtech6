@@ -88,9 +88,9 @@ import gregapi.util.CR;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.worldgen.GT6WorldGenerator;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 // PHASE3: import net.minecraft.item.ItemAxe removed — use net.minecraft.world.item.AxeItem
@@ -195,23 +195,23 @@ public class GT_API extends Abstract_Mod {
 		OP.foil             .addTextureSet(MD.GT, F);
 		
 		// It is VERY important that those are registered first. Otherwise GregTech would output its own Storage Blocks.
-		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.Stone     , ST.make(Blocks.gravel           , 1, 0), T, F, T);
+		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.Stone     , ST.make(Blocks.GRAVEL           , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.SoulSand  , ST.make(Blocks.soul_sand        , 1, 0), T, F, T);
-		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.Sand      , ST.make(Blocks.sand             , 1, 0), T, F, T);
-		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.RedSand   , ST.make(Blocks.sand             , 1, 1), T, F, T);
-		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Sand      , ST.make(Blocks.sandstone        , 1, 0), T, F, T);
+		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.Sand      , ST.make(Blocks.SAND             , 1, 0), T, F, T);
+		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.RedSand   , ST.make(Blocks.SAND             , 1, 1), T, F, T);
+		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Sand      , ST.make(Blocks.SANDSTONE        , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Glass     , ST.make(Blocks.glass            , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Stone     , ST.make(Blocks.double_stone_slab, 1, 8), T, F, T);
-		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Netherrack, ST.make(Blocks.netherrack       , 1, 0), T, F, T);
-		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Endstone  , ST.make(Blocks.end_stone        , 1, 0), T, F, T);
-		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Obsidian  , ST.make(Blocks.obsidian         , 1, 0), T, F, T);
+		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Netherrack, ST.make(Blocks.NETHERRACK       , 1, 0), T, F, T);
+		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Endstone  , ST.make(Blocks.END_STONE        , 1, 0), T, F, T);
+		OreDictManager.INSTANCE.setTarget_(OP.blockSolid, MT.Obsidian  , ST.make(Blocks.OBSIDIAN         , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockIngot, MT.Fe        , ST.make(Blocks.iron_block       , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockIngot, MT.Au        , ST.make(Blocks.gold_block       , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockGem  , MT.Diamond   , ST.make(Blocks.diamond_block    , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockGem  , MT.Emerald   , ST.make(Blocks.emerald_block    , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockGem  , MT.Lapis     , ST.make(Blocks.lapis_block      , 1, 0), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.blockGem  , MT.Coal      , ST.make(Blocks.coal_block       , 1, 0), T, F, T);
-		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.Redstone  , ST.make(Blocks.redstone_block   , 1, 0), T, F, T);
+		OreDictManager.INSTANCE.setTarget_(OP.blockDust , MT.Redstone  , ST.make(Blocks.REDSTONE_BLOCK   , 1, 0), T, F, T);
 		
 		// Fixing missing Container Items.
 		Items.mushroom_stew.setContainerItem(Items.bowl);
@@ -225,9 +225,9 @@ public class GT_API extends Abstract_Mod {
 		Blocks.bed.setHarvestLevel("axe", 0);
 		Blocks.sponge.setHarvestLevel("axe", 0);
 		Blocks.hay_block.setHarvestLevel("axe", 0);
-		Blocks.tnt.setHarvestLevel("pickaxe", 0);
+		Blocks.TNT.setHarvestLevel("pickaxe", 0);
 		Blocks.monster_egg.setHarvestLevel("pickaxe", 0);
-		Blocks.obsidian.setHarvestLevel("pickaxe", 3);
+		Blocks.OBSIDIAN.setHarvestLevel("pickaxe", 3);
 		
 		try {
 			// The Access Transformer should make this work
@@ -245,7 +245,7 @@ public class GT_API extends Abstract_Mod {
 		
 		tSet = (Set<Block>)UT.Reflection.getFieldContent(ItemPickaxe.class, "field_150915_c", T, T); assert tSet != null;
 		tSet.add(Blocks.monster_egg);
-		tSet.add(Blocks.tnt);
+		tSet.add(Blocks.TNT);
 	}
 	
 	// Mod-bus bridge methods (replaces @Mod.EventHandler)
@@ -756,8 +756,8 @@ public class GT_API extends Abstract_Mod {
 		// PHASE3: GUI Handler registration → MenuType + IContainerFactory (DeferredRegister<MenuType>)
 		// NetworkRegistry.INSTANCE.registerGuiHandler removed in NeoForge 1.14+.
 		// Fixing vanilla Oak Plank Slab Recipe.
-		CR.remove(ST.make(Blocks.planks, 1, 0), ST.make(Blocks.planks, 1, 1), ST.make(Blocks.planks, 1, 2));
-		CR.shaped(ST.make(Blocks.wooden_slab, 6, 0), CR.NONE, "WWW", 'W', ST.make(Blocks.planks, 1, 0));
+		CR.remove(ST.make(Blocks.OAK_PLANKS, 1, 0), ST.make(Blocks.OAK_PLANKS, 1, 1), ST.make(Blocks.OAK_PLANKS, 1, 2));
+		CR.shaped(ST.make(Blocks.wooden_slab, 6, 0), CR.NONE, "WWW", 'W', ST.make(Blocks.OAK_PLANKS, 1, 0));
 		// Preventing a Water Dupe by registering this Recipe early so it won't be overridden
 		RM.Canner.addRecipe1(T, 16, 16, ST.make(Items.glass_bottle, 1, 0), FL.Water.make(250), NF, ST.make(Items.potionitem, 1, 0));
 		RM.Canner.addRecipe1(T, 16, 16, ST.make(Items.potionitem, 1, 0), ST.make(Items.glass_bottle, 1, 0));

@@ -39,18 +39,18 @@ import gregapi.tileentity.data.ITileEntitySurface;
 import gregapi.tileentity.render.ITileEntityOnDrawBlockHighlight;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
+// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.List;
 
@@ -63,22 +63,22 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	public CoverData mCovers = null;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_COVERS)) mCovers = CoverRegistry.coverdata(this, aNBT.getCompoundTag(NBT_COVERS));
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		if (hasCovers()) aNBT.setTag(NBT_COVERS, mCovers.writeToNBT(UT.NBT.make(), T));
 	}
 	
 	/** Writes eventual Item Data to the NBT. */
-	public NBTTagCompound writeItemNBT2(NBTTagCompound aNBT) {return aNBT;}
+	public CompoundTag writeItemNBT2(CompoundTag aNBT) {return aNBT;}
 	
 	@Override
-	public final NBTTagCompound writeItemNBT(NBTTagCompound aNBT) {
+	public final CompoundTag writeItemNBT(CompoundTag aNBT) {
 		aNBT = super.writeItemNBT(writeItemNBT2(aNBT));
 		if (hasCovers()) aNBT.setTag(NBT_COVERS, mCovers.writeToNBT(UT.NBT.make(), F));
 		return aNBT;
@@ -103,7 +103,7 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	}
 	
 	@Override
-	public final boolean onBlockActivated2(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public final boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (SIDES_INVALID[aSide] || aPlayer == null || !allowInteraction(aPlayer)) return onBlockActivated3(aPlayer, aSide, aHitX, aHitY, aHitZ);
 		byte tSide = usePipePlacementMode(aSide)?UT.Code.getSideWrenching(aSide, aHitX, aHitY, aHitZ):aSide;
 		if (hasCovers()) {
@@ -132,14 +132,14 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 		return F;
 	}
 	
-	public boolean onBlockActivated3(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		return F;
 	}
 	
 	@Override
 	public final long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (!allowInteraction(aPlayer)) return 0;
-		if (checkObstruction(aPlayer instanceof EntityPlayer ? (EntityPlayer)aPlayer : null, aSide, aHitX, aHitY, aHitZ)) return 0;
+		if (checkObstruction(aPlayer instanceof Player ? (Player)aPlayer : null, aSide, aHitX, aHitY, aHitZ)) return 0;
 		if (SIDES_VALID[aSide] && hasCovers()) {
 			byte tSide = usePipePlacementMode(aSide) && mCovers.mIDs[aSide] == 0 ? UT.Code.getSideWrenching(aSide, aHitX, aHitY, aHitZ) : aSide;
 			if (aTool.equals(TOOL_crowbar) && isServerSide()) {
@@ -266,7 +266,7 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	}
 	
 	@Override
-	public void openCoverGUI(byte aSide, EntityPlayer aPlayer) {
+	public void openCoverGUI(byte aSide, Player aPlayer) {
 		openGUI(aPlayer, -aSide-1);
 	}
 	
@@ -425,8 +425,8 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	public boolean isSideSolid2     (byte aSide) {return isSurfaceSolid(aSide);}
 	public boolean isSurfaceOpaque2 (byte aSide) {return T;}
 	
-	@Override public final void onWalkOver(EntityLivingBase aEntity) {if (!hasCovers() || mCovers.mBehaviours[SIDE_TOP] == null || !mCovers.mBehaviours[SIDE_TOP].onWalkOver(SIDE_TOP, mCovers, aEntity)) onWalkOver2(aEntity);}
-	public void onWalkOver2(EntityLivingBase aEntity) {/**/}
+	@Override public final void onWalkOver(LivingEntity aEntity) {if (!hasCovers() || mCovers.mBehaviours[SIDE_TOP] == null || !mCovers.mBehaviours[SIDE_TOP].onWalkOver(SIDE_TOP, mCovers, aEntity)) onWalkOver2(aEntity);}
+	public void onWalkOver2(LivingEntity aEntity) {/**/}
 	
 	private int mInternalRenderPasses = 0;
 	
@@ -479,11 +479,11 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	
 	// GUI Stuff
 	@OnlyIn(Dist.CLIENT)
-	@Override public final Object getGUIClient(int aGUIID, EntityPlayer aPlayer) {return aGUIID <= -1 && aGUIID >= -6 ? hasCovers() && mCovers.mBehaviours[-aGUIID-1] != null ? mCovers.mBehaviours[-aGUIID-1].getGUIServer((byte)(-aGUIID-1), mCovers, aPlayer) : null : getGUIClient2(aGUIID, aPlayer);}
-	@Override public final Object getGUIServer(int aGUIID, EntityPlayer aPlayer) {return aGUIID <= -1 && aGUIID >= -6 ? hasCovers() && mCovers.mBehaviours[-aGUIID-1] != null ? mCovers.mBehaviours[-aGUIID-1].getGUIClient((byte)(-aGUIID-1), mCovers, aPlayer) : null : getGUIServer2(aGUIID, aPlayer);}
+	@Override public final Object getGUIClient(int aGUIID, Player aPlayer) {return aGUIID <= -1 && aGUIID >= -6 ? hasCovers() && mCovers.mBehaviours[-aGUIID-1] != null ? mCovers.mBehaviours[-aGUIID-1].getGUIServer((byte)(-aGUIID-1), mCovers, aPlayer) : null : getGUIClient2(aGUIID, aPlayer);}
+	@Override public final Object getGUIServer(int aGUIID, Player aPlayer) {return aGUIID <= -1 && aGUIID >= -6 ? hasCovers() && mCovers.mBehaviours[-aGUIID-1] != null ? mCovers.mBehaviours[-aGUIID-1].getGUIClient((byte)(-aGUIID-1), mCovers, aPlayer) : null : getGUIServer2(aGUIID, aPlayer);}
 	@OnlyIn(Dist.CLIENT)
-	public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return null;}
-	public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return null;}
+	public Object getGUIClient2(int aGUIID, Player aPlayer) {return null;}
+	public Object getGUIServer2(int aGUIID, Player aPlayer) {return null;}
 	
 	@Override
 	public boolean isUsingWrenchingOverlay(ItemStack aStack, byte aSide) {

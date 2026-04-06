@@ -28,7 +28,7 @@ import gregapi.render.IIconContainer;
 import gregapi.tileentity.connectors.MultiTileEntityWireLaser;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.machines.MultiTileEntitySensorTE;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies

@@ -27,13 +27,13 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOnSurface;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
 import java.util.Random;
@@ -82,7 +82,7 @@ public class WorldgenBushes extends WorldgenOnSurface {
 	public boolean placeBushCore(World aWorld, int aX, int aY, int aZ, MultiTileEntityRegistry aRegistry, ItemStack aBerry, int aStage) {
 		Block tBlock = aWorld.getBlock(aX, aY, aZ);
 		if (!BlocksGT.plantableGreens.contains(tBlock) || !WD.easyRep(aWorld, aX, aY+1, aZ)) return F;
-		if (tBlock == Blocks.grass) WD.set(aWorld, aX, aY, aZ, Blocks.dirt, 0, 3);
+		if (tBlock == Blocks.GRASS_BLOCK) WD.set(aWorld, aX, aY, aZ, Blocks.DIRT, 0, 3);
 		return aRegistry.mBlock.placeBlock(aWorld, aX  , aY+1, aZ  , SIDE_UNKNOWN, (short)32759, ST.save(UT.NBT.make(NBT_FACING, SIDE_UNDEFINED, NBT_STATE, aStage), NBT_VALUE, aBerry), T, T);
 	}
 	

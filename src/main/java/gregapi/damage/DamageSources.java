@@ -20,10 +20,10 @@
 package gregapi.damage;
 
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.*;
 
 import static gregapi.data.CS.F;
@@ -50,8 +50,8 @@ public class DamageSources {
 		return new DamageSourceExploding();
 	}
 	
-	public static DamageSource getCombatDamage(String aType, EntityLivingBase aPlayer, IChatComponent aDeathMessage) {return getCombatDamage(aType, aPlayer, aDeathMessage, F);}
-	public static DamageSource getCombatDamage(String aType, EntityLivingBase aPlayer, IChatComponent aDeathMessage, boolean aBeheading) {
+	public static DamageSource getCombatDamage(String aType, LivingEntity aPlayer, IChatComponent aDeathMessage) {return getCombatDamage(aType, aPlayer, aDeathMessage, F);}
+	public static DamageSource getCombatDamage(String aType, LivingEntity aPlayer, IChatComponent aDeathMessage, boolean aBeheading) {
 		return new DamageSourceCombat(aType, aPlayer, aDeathMessage, aBeheading);
 	}
 	
@@ -103,11 +103,11 @@ public class DamageSources {
 		return new DamageSourceFat();
 	}
 	
-	public static IChatComponent getDeathMessage(EntityLivingBase aPlayer, Entity aEntity, String aMessage) {
+	public static IChatComponent getDeathMessage(LivingEntity aPlayer, Entity aEntity, String aMessage) {
 		return getDeathMessage(aPlayer, aEntity, UT.Code.stringValidate(aPlayer.getCommandSenderName(), "Someone"), UT.Code.stringValidate(aEntity.getCommandSenderName(), "Someone"), aMessage);
 	}
 	
-	public static IChatComponent getDeathMessage(EntityLivingBase aPlayer, Entity aEntity, String aNamePlayer, String aNameEntity, String aMessage) {
+	public static IChatComponent getDeathMessage(LivingEntity aPlayer, Entity aEntity, String aNamePlayer, String aNameEntity, String aMessage) {
 		if (UT.Code.stringInvalid(aNamePlayer) || UT.Code.stringInvalid(aEntity)) return new ChatComponentText("Death Message lacks names of involved People");
 		aNamePlayer = aNamePlayer.trim(); aNameEntity = aNameEntity.trim();
 		if (aNamePlayer.equalsIgnoreCase("CrazyJ84") || aNamePlayer.equalsIgnoreCase("CrazyJ1984")) {
@@ -120,10 +120,10 @@ public class DamageSources {
 		
 		if (UT.Code.stringValid(aMessage)) {
 			return new ChatComponentText(aMessage.replace("[KILLER]", EnumChatFormatting.GREEN+aNamePlayer+EnumChatFormatting.WHITE).replace("[VICTIM]", EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE));
-		} else if (aEntity instanceof EntityLivingBase) {
-			return new EntityDamageSource(aPlayer instanceof EntityPlayer ? "player" : "mob", aPlayer).func_151519_b((EntityLivingBase)aEntity);
+		} else if (aEntity instanceof LivingEntity) {
+			return new EntityDamageSource(aPlayer instanceof Player ? "player" : "mob", aPlayer).func_151519_b((LivingEntity)aEntity);
 		} else if (aEntity instanceof EntityDragonPart) {
-			return new EntityDamageSource(aPlayer instanceof EntityPlayer ? "player" : "mob", aPlayer).func_151519_b((EntityLivingBase)((EntityDragonPart)aEntity).entityDragonObj);
+			return new EntityDamageSource(aPlayer instanceof Player ? "player" : "mob", aPlayer).func_151519_b((LivingEntity)((EntityDragonPart)aEntity).entityDragonObj);
 		}
 		return new ChatComponentText(EnumChatFormatting.GREEN+aNamePlayer+EnumChatFormatting.WHITE+" has killed "+EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE);
 	}

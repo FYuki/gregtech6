@@ -22,8 +22,8 @@ package gregapi.oredict.event;
 import gregapi.data.MT;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
+import net.minecraft.world.item.ItemStack;
+// PHASE7: OreDictionary.OreRegisterEvent removed — use TagsUpdatedEvent
 
 /**
  * @author Gregorius Techneticies

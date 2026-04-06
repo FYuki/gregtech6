@@ -29,12 +29,12 @@ import gregapi.data.CS.BlocksGT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregtech.worldgen.NoiseGenerator;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
  * @author Gregorius Techneticies
@@ -52,7 +52,7 @@ public class WorldgenNetherCrystals extends WorldgenObject {
 		
 		while (WD.air(aWorld, aX, ++aY, aZ) && aY < aWorld.getHeight());
 		Block tBlock = WD.block(aWorld, aX, aY, aZ);
-		if (tBlock == Blocks.nether_brick || tBlock.getMaterial() != Material.rock) return F;
+		if (tBlock == Blocks.NETHER_BRICKS || tBlock.getMaterial() != Material.rock) return F;
 		if (--aY -10 < WD.waterLevel(aWorld)) return F;
 		
 		aWorld.setBlock(aX, aY, aZ, BlocksGT.CrystalOres, aMeta, 2);

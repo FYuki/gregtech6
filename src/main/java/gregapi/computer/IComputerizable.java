@@ -20,7 +20,7 @@
 package gregapi.computer;
 
 import gregapi.tileentity.delegate.DelegatorTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies

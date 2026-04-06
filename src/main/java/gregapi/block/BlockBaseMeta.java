@@ -25,10 +25,10 @@ import gregapi.render.IIconContainer;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
+import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 
 /**
  * @author Gregorius Techneticies

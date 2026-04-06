@@ -35,11 +35,11 @@ import gregapi.tileentity.base.TileEntityBase09FacingSingle;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
 
 import java.util.List;
@@ -55,20 +55,20 @@ public class MultiTileEntityGrindStone extends TileEntityBase09FacingSingle impl
 	protected Recipe mLastRecipe = null;
 
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_STATE)) mStone = aNBT.getByte(NBT_STATE);
 		if (aNBT.hasKey(NBT_RECIPEMAP)) mRecipes = RecipeMap.RECIPE_MAPS.get(aNBT.getString(NBT_RECIPEMAP));
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		aNBT.setByte(NBT_STATE, mStone);
 	}
 	
 	@Override
-	public NBTTagCompound writeItemNBT2(NBTTagCompound aNBT) {
+	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
 		aNBT.setByte(NBT_STATE, mStone);
 		return aNBT;
 	}
@@ -85,7 +85,7 @@ public class MultiTileEntityGrindStone extends TileEntityBase09FacingSingle impl
 	@Override public boolean attachCoversFirst(byte aSide) {return F;}
 	
 	@Override
-	public boolean onBlockActivated3(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aSide != mFacing && !SIDES_TOP[aSide]) return F;
 		if (isServerSide()) {
 			if (SIDES_TOP[aSide]) {

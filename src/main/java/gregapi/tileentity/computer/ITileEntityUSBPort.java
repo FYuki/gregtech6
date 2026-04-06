@@ -20,20 +20,20 @@
 package gregapi.tileentity.computer;
 
 import gregapi.tileentity.ITileEntityUnloadable;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundTag;
 
 /**
  * @author Gregorius Techneticies
  */
 public interface ITileEntityUSBPort extends ITileEntityUnloadable {
 	/**
-	 * @return the Data Tag that is contained inside the "gt.usb.data" Tag of an USB Sticks NBTTagCompound. So "tItemStackUSB.getTagCompound().getCompoundTag(NBT_USB_DATA)".
+	 * @return the Data Tag that is contained inside the "gt.usb.data" Tag of an USB Sticks CompoundTag. So "tItemStackUSB.getTagCompound().getCompoundTag(NBT_USB_DATA)".
 	 */
-	public NBTTagCompound getUSBData(byte aSide, int aUSBTier);
+	public CompoundTag getUSBData(byte aSide, int aUSBTier);
 	
 	/**
-	 * sets the Data Tag that is contained inside the "gt.usb.data" Tag of an USB Sticks NBTTagCompound.
+	 * sets the Data Tag that is contained inside the "gt.usb.data" Tag of an USB Sticks CompoundTag.
 	 * @return true if successful.
 	 */
-	public boolean setUSBData(byte aSide, int aUSBTier, NBTTagCompound aData);
+	public boolean setUSBData(byte aSide, int aUSBTier, CompoundTag aData);
 }

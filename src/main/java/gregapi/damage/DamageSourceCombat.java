@@ -19,7 +19,7 @@
 
 package gregapi.damage;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.IChatComponent;
 
@@ -32,15 +32,15 @@ public class DamageSourceCombat extends EntityDamageSource {
 	private IChatComponent mDeathMessage;
 	public boolean mBeheadingDamage = F;
 	
-	public DamageSourceCombat(String aType, EntityLivingBase aPlayer, IChatComponent aDeathMessage) {this(aType, aPlayer, aDeathMessage, F);}
-	public DamageSourceCombat(String aType, EntityLivingBase aPlayer, IChatComponent aDeathMessage, boolean aBeheadingDamage) {
+	public DamageSourceCombat(String aType, LivingEntity aPlayer, IChatComponent aDeathMessage) {this(aType, aPlayer, aDeathMessage, F);}
+	public DamageSourceCombat(String aType, LivingEntity aPlayer, IChatComponent aDeathMessage, boolean aBeheadingDamage) {
 		super(aType, aPlayer);
 		mBeheadingDamage = aBeheadingDamage;
 		mDeathMessage = aDeathMessage;
 	}
 	
 	@Override
-	public IChatComponent func_151519_b(EntityLivingBase aTarget) {
+	public IChatComponent func_151519_b(LivingEntity aTarget) {
 		return mDeathMessage == null ? super.func_151519_b(aTarget) : mDeathMessage;
 	}
 }

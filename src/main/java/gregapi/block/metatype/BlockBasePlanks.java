@@ -31,8 +31,8 @@ import mods.railcraft.common.carts.EntityTunnelBore;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
@@ -51,8 +51,8 @@ public abstract class BlockBasePlanks extends BlockMetaType {
 	}
 	
 	@Override public String getHarvestTool(int aMeta) {return TOOL_axe;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.planks.getBlockHardness(aWorld, aX, aY, aZ) * mHardnessMultiplier;}
-	@Override public float getExplosionResistance(byte aMeta) {return Blocks.planks.getExplosionResistance(null) * mResistanceMultiplier;}
+	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.OAK_PLANKS.getBlockHardness(aWorld, aX, aY, aZ) * mHardnessMultiplier;}
+	@Override public float getExplosionResistance(byte aMeta) {return Blocks.OAK_PLANKS.getExplosionResistance(null) * mResistanceMultiplier;}
 	@Override public int getItemStackLimit(ItemStack aStack) {return UT.Code.bindStack(OP.plank.mDefaultStackSize * (mBlock.mBlock == mBlock ? 1 : 2));}
 	@Override public boolean canCreatureSpawn(byte aMeta) {return F;}
 	@Override public boolean isSealable(byte aMeta, byte aSide) {return F;}

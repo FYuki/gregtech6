@@ -21,14 +21,14 @@ package gregtech.blocks.fluids;
 
 import gregapi.code.ArrayListNoNulls;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IIcon;
+import net.minecraft.core.BlockPos; // was BlockPos
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 
 import java.util.Random;
 
@@ -56,7 +56,7 @@ public class BlockOcean extends BlockWaterlike {
 	
 	@Override
 	public void onNeighborBlockChange(World aWorld, int aX, int aY, int aZ, Block aBlock) {
-		if (aBlock == Blocks.dirt && aWorld.getBlock(aX, aY-1, aZ) == Blocks.grass) aWorld.setBlock(aX, aY-1, aZ, Blocks.dirt, 1, 2);
+		if (aBlock == Blocks.DIRT && aWorld.getBlock(aX, aY-1, aZ) == Blocks.GRASS_BLOCK) aWorld.setBlock(aX, aY-1, aZ, Blocks.DIRT, 1, 2);
 		super.onNeighborBlockChange(aWorld, aX, aY, aZ, aBlock);
 	}
 	
@@ -93,20 +93,20 @@ public class BlockOcean extends BlockWaterlike {
 		
 		boolean tHasNoOceanAround = T, tHasOceanBiome = BIOMES_OCEAN_BEACH.contains(tBiome.biomeName);
 		byte tOceanCounter = 0;
-		ArrayListNoNulls<ChunkCoordinates> tList = new ArrayListNoNulls<>();
+		ArrayListNoNulls<BlockPos> tList = new ArrayListNoNulls<>();
 		for (byte tSide : ALL_SIDES_HORIZONTAL) {
 			tBlock = WD.block(aWorld, aX, aY, aZ, tSide);
 			if (tBlock == this) {
 				tHasNoOceanAround = F;
 				if (tHasOceanBiome || WD.meta(aWorld, aX, aY, aZ, tSide) == 0) tOceanCounter++;
 			} else if (tBlock == BlocksGT.River) {
-				tList.add(new ChunkCoordinates(aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide]));
+				tList.add(new BlockPos(aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide]));
 				tOceanCounter++;
 			} else if (WD.water(tBlock)) {
-				tList.add(new ChunkCoordinates(aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide]));
+				tList.add(new BlockPos(aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide]));
 				if (tHasOceanBiome || WD.meta(aWorld, aX, aY, aZ, tSide) == 0) tOceanCounter++;
 			} else if (tHasOceanBiome && tBlock instanceof BlockWaterlike) {
-				tList.add(new ChunkCoordinates(aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide]));
+				tList.add(new BlockPos(aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide]));
 				tOceanCounter++;
 			}
 		}
@@ -146,7 +146,7 @@ public class BlockOcean extends BlockWaterlike {
 			}
 		}
 		
-		for (ChunkCoordinates tCoords : tList) {
+		for (BlockPos tCoords : tList) {
 			if (aWorld.setBlock(tCoords.posX, tCoords.posY, tCoords.posZ, this, 0, WATER_UPDATE_FLAGS)) for (int i = -1; i < 2; i++) for (int j = -1; j < 2; j++) {
 				if (aWorld.blockExists(tCoords.posX+i, tCoords.posY, tCoords.posZ+j)) {
 					tBlock = aWorld.getBlock(tCoords.posX+i, tCoords.posY, tCoords.posZ+j);

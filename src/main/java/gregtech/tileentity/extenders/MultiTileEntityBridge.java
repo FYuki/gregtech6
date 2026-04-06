@@ -39,17 +39,17 @@ import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.delegate.ITileEntityDelegating;
 import gregapi.tileentity.machines.*;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction; // was Direction
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
+// PHASE3: import FluidTankInfo removed
 import net.minecraftforge.fluids.IFluidHandler;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class MultiTileEntityBridge extends TileEntityBase07Paintable implements 
 	protected IIconContainer[] mTextures = L6_IICONCONTAINER;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_MODE)) mModes = aNBT.getByte(NBT_MODE);
 		
@@ -255,7 +255,7 @@ public class MultiTileEntityBridge extends TileEntityBase07Paintable implements 
 	// Relay Tanks
 	
 	@Override
-	public int fill(ForgeDirection aDirection, FluidStack aFluid, boolean doFill) {
+	public int fill(Direction aDirection, FluidStack aFluid, boolean doFill) {
 		if ((mModes & EXTENDER_TANK) != 0) {
 			byte aSide = UT.Code.side(aDirection);
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidFill(aSide, mCovers, aSide, aFluid)) return 0;
@@ -265,7 +265,7 @@ public class MultiTileEntityBridge extends TileEntityBase07Paintable implements 
 		return 0;
 	}
 	@Override
-	public FluidStack drain(ForgeDirection aDirection, FluidStack aFluid, boolean doDrain) {
+	public FluidStack drain(Direction aDirection, FluidStack aFluid, boolean doDrain) {
 		if ((mModes & EXTENDER_TANK) != 0) {
 			byte aSide = UT.Code.side(aDirection);
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, aFluid)) return null;
@@ -275,7 +275,7 @@ public class MultiTileEntityBridge extends TileEntityBase07Paintable implements 
 		return null;
 	}
 	@Override
-	public FluidStack drain(ForgeDirection aDirection, int maxDrain, boolean doDrain) {
+	public FluidStack drain(Direction aDirection, int maxDrain, boolean doDrain) {
 		if ((mModes & EXTENDER_TANK) != 0) {
 			byte aSide = UT.Code.side(aDirection);
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, null)) return null;
@@ -285,7 +285,7 @@ public class MultiTileEntityBridge extends TileEntityBase07Paintable implements 
 		return null;
 	}
 	@Override
-	public boolean canFill(ForgeDirection aDirection, Fluid aFluid) {
+	public boolean canFill(Direction aDirection, Fluid aFluid) {
 		if ((mModes & EXTENDER_TANK) != 0) {
 			byte aSide = UT.Code.side(aDirection);
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidFill(aSide, mCovers, aSide, FL.make(aFluid, 1))) return F;
@@ -295,7 +295,7 @@ public class MultiTileEntityBridge extends TileEntityBase07Paintable implements 
 		return F;
 	}
 	@Override
-	public boolean canDrain(ForgeDirection aDirection, Fluid aFluid) {
+	public boolean canDrain(Direction aDirection, Fluid aFluid) {
 		if ((mModes & EXTENDER_TANK) != 0) {
 			byte aSide = UT.Code.side(aDirection);
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, FL.make(aFluid, 1))) return F;
@@ -305,7 +305,7 @@ public class MultiTileEntityBridge extends TileEntityBase07Paintable implements 
 		return F;
 	}
 	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection aDirection) {
+	public FluidTankInfo[] getTankInfo(Direction aDirection) {
 		if ((mModes & EXTENDER_TANK) != 0) {
 			DelegatorTileEntity<IFluidHandler> tTileEntity = getAdjacentTank(getExtenderTargetSide(UT.Code.side(aDirection)), F, T);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.getTankInfo(tTileEntity.getForgeSideOfTileEntity());
@@ -398,7 +398,7 @@ public class MultiTileEntityBridge extends TileEntityBase07Paintable implements 
 	
 	public byte getExtenderTargetSide(byte aSide) {return OPOS[aSide];}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer aPlayer) {return aPlayer.getDistanceSq(xCoord+0.5, yCoord+0.5, zCoord+0.5) <= 64;}
+	@Override public boolean isUseableByPlayer(Player aPlayer) {return aPlayer.getDistanceSq(xCoord+0.5, yCoord+0.5, zCoord+0.5) <= 64;}
 	@Override public void openInventory() {/**/}
 	@Override public void closeInventory() {/**/}
 	@Override public boolean canDrop(int aInventorySlot) {return F;}

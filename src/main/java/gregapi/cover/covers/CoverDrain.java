@@ -29,11 +29,11 @@ import gregapi.render.BlockTextureDefault;
 import gregapi.render.ITexture;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityGolem;
@@ -41,13 +41,13 @@ import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.IAnimals;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.fluids.FluidStack;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.IFluidHandler;
 import openblocks.common.LiquidXpUtils;
@@ -161,14 +161,14 @@ public class CoverDrain extends AbstractCoverAttachment {
 	@Override
 	public boolean onWalkOver(byte aCoverSide, CoverData aData, Entity aEntity) {
 		if (SIDES_TOP[aCoverSide] && !aData.mStopped && aData.mTileEntity instanceof IFluidHandler && aData.mTileEntity.isServerSide()) {
-			if (aEntity instanceof EntityPlayer) {
-				if (MD.OB.mLoaded && SERVER_TIME % 5 == 0 && ((EntityPlayer)aEntity).isSneaking() && FL.XP.exists()) try {
-					FluidStack tFluid = FL.XP.make(Math.min(1000, LiquidXpUtils.xpToLiquidRatio(EnchantmentUtils.getPlayerXP(((EntityPlayer)aEntity)))));
+			if (aEntity instanceof Player) {
+				if (MD.OB.mLoaded && SERVER_TIME % 5 == 0 && ((Player)aEntity).isSneaking() && FL.XP.exists()) try {
+					FluidStack tFluid = FL.XP.make(Math.min(1000, LiquidXpUtils.xpToLiquidRatio(EnchantmentUtils.getPlayerXP(((Player)aEntity)))));
 					if (tFluid.amount > 0) {
 						int tDrainedXP = LiquidXpUtils.liquidToXpRatio((int)FL.fill_((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], tFluid, F));
 						tFluid.amount = LiquidXpUtils.xpToLiquidRatio(tDrainedXP);
 						if (tFluid.amount > 0 && FL.fillAll((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], tFluid, T)) {
-							EnchantmentUtils.addPlayerXP(((EntityPlayer)aEntity), -tDrainedXP);
+							EnchantmentUtils.addPlayerXP(((Player)aEntity), -tDrainedXP);
 							UT.Sounds.send(SFX.MC_XP, 0.1F, (RNGSUS.nextFloat()-RNGSUS.nextFloat()) * 0.35F + 0.9F, aEntity);
 						}
 					}

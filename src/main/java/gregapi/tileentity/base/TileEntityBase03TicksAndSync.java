@@ -23,8 +23,8 @@ import gregapi.network.INetworkHandler;
 import gregapi.network.IPacket;
 import gregapi.tileentity.ITileEntitySynchronising;
 import gregapi.util.WD;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.UUID;
 
@@ -52,7 +52,7 @@ public abstract class TileEntityBase03TicksAndSync extends TileEntityBase02Adjac
 	public abstract IPacket getClientDataPacket(boolean aSendAll);
 	
 	/** Sends all Data to the Clients in Range */
-	public void sendClientData(boolean aSendAll, EntityPlayerMP aPlayer) {
+	public void sendClientData(boolean aSendAll, ServerPlayer aPlayer) {
 		if (aPlayer == null) {
 			IPacket tPacket = getClientDataPacket(aSendAll);
 			if (mOwner == null) {
@@ -98,7 +98,7 @@ public abstract class TileEntityBase03TicksAndSync extends TileEntityBase02Adjac
 	}
 	
 	@Override
-	public final void sendUpdateToPlayer(EntityPlayerMP aPlayer) {
+	public final void sendUpdateToPlayer(ServerPlayer aPlayer) {
 		sendClientData(T, aPlayer);
 	}
 	

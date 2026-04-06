@@ -25,17 +25,17 @@ import gregapi.block.IBlockPlacable;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockFalling;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
@@ -99,18 +99,18 @@ public class PrefixBlockFallingEntity extends EntityFallingBlock {
 	protected void fall(float p_70069_1_) {
 		int i = MathHelper.ceiling_float_int(p_70069_1_ - 1.0F);
 		if (i > 0) for (Entity tEntity : new ArrayListNoNulls<Entity>(worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox))) {
-			if (tEntity instanceof EntityLivingBase) tEntity.attackEntityFrom(DamageSource.fallingBlock, TFC_DAMAGE_MULTIPLIER * Math.min(MathHelper.floor_float((float)i * 2), 40));
+			if (tEntity instanceof LivingEntity) tEntity.attackEntityFrom(DamageSource.fallingBlock, TFC_DAMAGE_MULTIPLIER * Math.min(MathHelper.floor_float((float)i * 2), 40));
 		}
 	}
 	
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound aNBT) {
+	protected void writeEntityToNBT(CompoundTag aNBT) {
 		super.writeEntityToNBT(aNBT);
 		aNBT.setShort("MetaData", ST.meta_(mStack));
 	}
 	
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound aNBT) {
+	protected void readEntityFromNBT(CompoundTag aNBT) {
 		super.readEntityFromNBT(aNBT);
 		mBlock = (IBlockPlacable)super.func_145805_f();
 		mStack = ST.make(super.func_145805_f(), 1, aNBT.getShort("MetaData"));
@@ -119,6 +119,6 @@ public class PrefixBlockFallingEntity extends EntityFallingBlock {
 	
 	@Override
 	public Block func_145805_f() {
-		return Blocks.gravel;
+		return Blocks.GRAVEL;
 	}
 }

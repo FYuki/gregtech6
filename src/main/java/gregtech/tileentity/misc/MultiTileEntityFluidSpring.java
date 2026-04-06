@@ -34,12 +34,12 @@ import gregapi.tileentity.data.ITileEntitySurface;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.BlockFluidFinite;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
 
@@ -51,21 +51,21 @@ public class MultiTileEntityFluidSpring extends TileEntityBase04MultiTileEntitie
 	public boolean mActive = F;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey("gt.spring")) mFluid = FL.load(aNBT, "gt.spring");
 		if (aNBT.hasKey(NBT_ACTIVE)) mActive = aNBT.getBoolean(NBT_ACTIVE);
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		FL.save(aNBT, "gt.spring", mFluid);
 		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
 	}
 	
 	@Override
-	public final NBTTagCompound writeItemNBT(NBTTagCompound aNBT) {
+	public final CompoundTag writeItemNBT(CompoundTag aNBT) {
 		aNBT = super.writeItemNBT(aNBT);
 		FL.save(aNBT, "gt.spring", mFluid);
 		return aNBT;
@@ -151,7 +151,7 @@ public class MultiTileEntityFluidSpring extends TileEntityBase04MultiTileEntitie
 	
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_MAX;}
 	
-	@Override public float getExplosionResistance2() {return Blocks.bedrock.getExplosionResistance(null);}
+	@Override public float getExplosionResistance2() {return Blocks.BEDROCK.getExplosionResistance(null);}
 	@Override public float getBlockHardness() {return -1;}
 	
 	@Override public boolean isSurfaceSolid         (byte aSide) {return T;}

@@ -49,9 +49,9 @@ import gregtech.entities.Override_Drops;
 import gregtech.entities.ai.EntityAIBetterAttackOnCollide;
 import gregtech.entities.projectiles.EntityArrow_Material;
 import gregtech.tileentity.misc.MultiTileEntityCertificate;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITempt;
@@ -60,11 +60,11 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
 import net.neoforged.neoforge.common.NeoForge;
@@ -300,11 +300,11 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEntitySpawningEvent(EntityJoinLevelEvent aEvent) {
 		if (aEvent.getEntity() == null) return;
-		// PHASE3: EntityLiving → LivingEntity; EntityVillager → Villager; EntityAITasks → GoalSelector;
+		// PHASE3: Mob → LivingEntity; EntityVillager → Villager; EntityAITasks → GoalSelector;
 		//         EntityAITempt → TemptGoal; Items.emerald → Items.EMERALD; worldObj → level(); etc.
-		if (aEvent.getEntity() instanceof EntityLiving) {
+		if (aEvent.getEntity() instanceof Mob) {
 			// AI Tasks for Entities
-			EntityAITasks tTasks = ((EntityLiving)aEvent.entity).tasks;
+			EntityAITasks tTasks = ((Mob)aEvent.entity).tasks;
 			if (tTasks != null) {
 				if (aEvent.entity instanceof EntityVillager) {
 					tTasks.addTask(3, new EntityAITempt((EntityCreature)aEvent.entity, 0.6D, Items.emerald, F));
@@ -326,7 +326,7 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 			if (!aEvent.entity.worldObj.isRemote && !aEvent.entity.getEntityData().hasKey("gt.spawned")) {
 				if (aEvent.entity instanceof EntityZombie && !((EntityZombie)aEvent.entity).isChild() && ST.invalid(((EntityZombie)aEvent.entity).getEquipmentInSlot(0))) {
 					if (ZOMBIES_HOLD_TNT && RNGSUS.nextInt(250) == 0) {
-						((EntityZombie)aEvent.entity).setCurrentItemOrArmor(0, ST.make(Blocks.tnt, 1+RNGSUS.nextInt(2), 0));
+						((EntityZombie)aEvent.entity).setCurrentItemOrArmor(0, ST.make(Blocks.TNT, 1+RNGSUS.nextInt(2), 0));
 					} else if (ZOMBIES_HOLD_PICKAXES && RNGSUS.nextInt(100) == 0) {
 						((EntityZombie)aEvent.entity).setCurrentItemOrArmor(0, ST.make(Items.iron_pickaxe, 1, Items.iron_pickaxe.getMaxDamage() < 5 ? 0 : 1+RNGSUS.nextInt(Items.iron_pickaxe.getMaxDamage()-2)));
 					}
@@ -375,10 +375,10 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEntityLivingFallEvent(LivingFallEvent aEvent) {
-		// PHASE3: entity → getEntity(); worldObj.isRemote → level().isClientSide(); EntityPlayer → Player;
+		// PHASE3: entity → getEntity(); worldObj.isRemote → level().isClientSide(); Player → Player;
 		//         getCurrentEquippedItem → getMainHandItem()
-		if (!aEvent.getEntity().level().isClientSide() && aEvent.getEntity() instanceof EntityPlayer) {
-			if (ST.equal(((EntityPlayer)aEvent.getEntity()).getCurrentEquippedItem(), ToolsGT.sMetaTool, ToolsGT.SCISSORS) || ST.equal(((EntityPlayer)aEvent.getEntity()).getCurrentEquippedItem(), ToolsGT.sMetaTool, ToolsGT.POCKET_SCISSORS)) aEvent.setDistance(aEvent.getDistance() * 2);
+		if (!aEvent.getEntity().level().isClientSide() && aEvent.getEntity() instanceof Player) {
+			if (ST.equal(((Player)aEvent.getEntity()).getCurrentEquippedItem(), ToolsGT.sMetaTool, ToolsGT.SCISSORS) || ST.equal(((Player)aEvent.getEntity()).getCurrentEquippedItem(), ToolsGT.sMetaTool, ToolsGT.POCKET_SCISSORS)) aEvent.setDistance(aEvent.getDistance() * 2);
 		}
 	}
 	

@@ -39,14 +39,14 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregtech.items.behaviors.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos; // was BlockPos
+// PHASE4: import IIcon removed — use TextureAtlasSprite
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Random;
 
@@ -245,7 +245,7 @@ public class MultiItemRandomTools extends MultiItemRandomWithCompat implements I
 		addItemBehavior(new Behavior_Spray_Color(IL.Spray_Empty.get(1), IL.SPRAY_CAN_DYES_USED[i].get(1), IL.SPRAY_CAN_DYES[i].get(1), 512, i), mLastID, mLastID-1);
 		RM.Canner.addRecipe1(T, 16, 256, IL.Spray_Empty.get(1), FL.mul(DYE_FLUIDS_CHEMICAL[i], 16), NF, IL.SPRAY_CAN_DYES[i].get(1));
 		ItemsGT.addNEIRedirects(IL.SPRAY_CAN_DYES_USED[i].get(1), IL.SPRAY_CAN_DYES[i].get(1));
-		RM.DidYouKnow.addFakeRecipe(F, ST.array(IL.SPRAY_CAN_DYES[i].get(1), IL.SPRAY_CAN_DYES_USED[i].get(1), ST.make(Blocks.wool, 1, 0), ST.make(Blocks.glass_pane, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.hardened_clay, 1, 0)), ST.array(NI, NI, ST.make(Blocks.wool, 1, 15-i), ST.make(Blocks.stained_glass_pane, 1, 15-i), ST.make(Blocks.stained_glass, 1, 15-i), ST.make(Blocks.stained_hardened_clay, 1, 15-i)), null, ZL_LONG, ZL_FS, ZL_FS, 0, 0, 0);
+		RM.DidYouKnow.addFakeRecipe(F, ST.array(IL.SPRAY_CAN_DYES[i].get(1), IL.SPRAY_CAN_DYES_USED[i].get(1), ST.make(Blocks.wool, 1, 0), ST.make(Blocks.glass_pane, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.TERRACOTTA, 1, 0)), ST.array(NI, NI, ST.make(Blocks.wool, 1, 15-i), ST.make(Blocks.stained_glass_pane, 1, 15-i), ST.make(Blocks.stained_glass, 1, 15-i), ST.make(Blocks.WHITE_TERRACOTTA, 1, 15-i)), null, ZL_LONG, ZL_FS, ZL_FS, 0, 0, 0);
 		
 		
 		IL.SPRAY_CAN_FOAM[i]               .set(addItem( 1100+2*i, "C-Foam Spray ("+DYE_NAMES[i]+")", "Full", TC.stack(TC.TERRA, 2), TC.stack(TC.FABRICO, 2)));
@@ -286,7 +286,7 @@ public class MultiItemRandomTools extends MultiItemRandomWithCompat implements I
 		IL.Spray_Foam_Hardener             .set(addItem(1198, "Hardening Spray", "Full", TC.stack(TC.TERRA, 2), TC.stack(TC.TUTAMEN, 2)));
 		IL.Spray_Foam_Hardener_Used        .set(addItem(1199, "Hardening Spray", "Used", TC.stack(TC.TERRA, 1), TC.stack(TC.TUTAMEN, 1), TD.Creative.HIDDEN));
 		addItemBehavior(new Behavior_Spray_Foam_Hardener(IL.Spray_Empty.get(1), IL.Spray_Foam_Hardener_Used.get(1), IL.Spray_Foam_Hardener.get(1), 256), mLastID, mLastID-1);
-		RM.Canner.addRecipe2(T, 16, 256, ST.make(Blocks.sand, 7, W), IL.Spray_Empty.get(1), IL.Spray_Foam_Hardener.get(1));
+		RM.Canner.addRecipe2(T, 16, 256, ST.make(Blocks.SAND, 7, W), IL.Spray_Empty.get(1), IL.Spray_Foam_Hardener.get(1));
 		for (OreDictMaterial tMat : ANY.SiO2.mToThis) for (ItemStack tDust : ST.array(OP.dust.mat(tMat, 63), OP.blockDust.mat(tMat, 7))) if (ST.valid(tDust))
 		RM.Canner.addRecipe2(T, 16, 256, tDust, IL.Spray_Empty.get(1), IL.Spray_Foam_Hardener.get(1));
 		ItemsGT.addNEIRedirects(IL.Spray_Foam_Hardener_Used.get(1), IL.Spray_Foam_Hardener.get(1));
@@ -607,9 +607,9 @@ public class MultiItemRandomTools extends MultiItemRandomWithCompat implements I
 	@Override
 	public IIcon getIcon(ItemStack aStack, int aRenderPass) {
 		if (aRenderPass == 0) return getIconIndex(aStack);
-		EntityPlayer aPlayer = GT_API.api_proxy.getThePlayer();
+		Player aPlayer = GT_API.api_proxy.getThePlayer();
 		if (aPlayer == null) return getIconIndex(aStack);
-		ChunkCoordinates aTarget;
+		BlockPos aTarget;
 		switch(ST.meta_(aStack)) {
 		case 11000: return Textures.ItemIcons.COMPASS[UT.Code.roundDown(0.5+Textures.ItemIcons.COMPASS.length*(361260+aPlayer.rotationYaw)/360)%Textures.ItemIcons.COMPASS.length].getIcon(0);
 		case 11001: return Textures.ItemIcons.COMPASS[UT.Code.roundDown(0.5+Textures.ItemIcons.COMPASS.length*(361260-aPlayer.rotationYaw)/360)%Textures.ItemIcons.COMPASS.length].getIcon(0);
@@ -638,9 +638,9 @@ public class MultiItemRandomTools extends MultiItemRandomWithCompat implements I
 	@Override
 	public IIcon getIconFromDamageForRenderPass(int aMetaData, int aRenderPass) {
 		if (aRenderPass == 0) return getIconFromDamage(aMetaData);
-		EntityPlayer aPlayer = GT_API.api_proxy.getThePlayer();
+		Player aPlayer = GT_API.api_proxy.getThePlayer();
 		if (aPlayer == null) return getIconFromDamage(aMetaData);
-		ChunkCoordinates aTarget;
+		BlockPos aTarget;
 		switch(aMetaData) {
 		case 11000: return Textures.ItemIcons.COMPASS[UT.Code.roundDown(0.5+Textures.ItemIcons.COMPASS.length*(361260+aPlayer.rotationYaw)/360)%Textures.ItemIcons.COMPASS.length].getIcon(0);
 		case 11001: return Textures.ItemIcons.COMPASS[UT.Code.roundDown(0.5+Textures.ItemIcons.COMPASS.length*(361260-aPlayer.rotationYaw)/360)%Textures.ItemIcons.COMPASS.length].getIcon(0);

@@ -30,9 +30,9 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+// PHASE7: import ShapelessOreRecipe removed — use datapack recipes
 
 import static gregapi.data.CS.*;
 

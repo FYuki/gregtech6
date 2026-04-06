@@ -29,8 +29,8 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Map.Entry;
 
@@ -320,11 +320,11 @@ public class Loader_Recipes_Temporary implements Runnable {
 			CR.shaped(IL.NeLi_Lamp_Green           .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteGreen  ), 'G', OD.glowstone);
 			CR.shaped(IL.NeLi_Lamp_Yellow          .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteYellow ), 'G', OD.glowstone);
 			CR.shaped(IL.NeLi_Lamp_Magenta         .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteMagenta), 'G', OD.glowstone);
-			CR.shaped(IL.NeLi_Redstone_Lamp_White  .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteWhite  ), 'G', Blocks.redstone_lamp);
-			CR.shaped(IL.NeLi_Redstone_Lamp_Blue   .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteBlue   ), 'G', Blocks.redstone_lamp);
-			CR.shaped(IL.NeLi_Redstone_Lamp_Green  .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteGreen  ), 'G', Blocks.redstone_lamp);
-			CR.shaped(IL.NeLi_Redstone_Lamp_Yellow .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteYellow ), 'G', Blocks.redstone_lamp);
-			CR.shaped(IL.NeLi_Redstone_Lamp_Magenta.get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteMagenta), 'G', Blocks.redstone_lamp);
+			CR.shaped(IL.NeLi_Redstone_Lamp_White  .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteWhite  ), 'G', Blocks.REDSTONE_LAMP);
+			CR.shaped(IL.NeLi_Redstone_Lamp_Blue   .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteBlue   ), 'G', Blocks.REDSTONE_LAMP);
+			CR.shaped(IL.NeLi_Redstone_Lamp_Green  .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteGreen  ), 'G', Blocks.REDSTONE_LAMP);
+			CR.shaped(IL.NeLi_Redstone_Lamp_Yellow .get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteYellow ), 'G', Blocks.REDSTONE_LAMP);
+			CR.shaped(IL.NeLi_Redstone_Lamp_Magenta.get(1), DEF_NCC, " F ", "FGF", " F ", 'F', OP.gem.dat(MT.FluoriteMagenta), 'G', Blocks.REDSTONE_LAMP);
 			CR.shaped(IL.NeLi_Redstone_Lamp_White  .get(1), DEF_NCC, " R ", "RGR", " R ", 'R', OD.itemRedstone, 'G', IL.NeLi_Lamp_White  );
 			CR.shaped(IL.NeLi_Redstone_Lamp_Blue   .get(1), DEF_NCC, " R ", "RGR", " R ", 'R', OD.itemRedstone, 'G', IL.NeLi_Lamp_Blue   );
 			CR.shaped(IL.NeLi_Redstone_Lamp_Green  .get(1), DEF_NCC, " R ", "RGR", " R ", 'R', OD.itemRedstone, 'G', IL.NeLi_Lamp_Green  );
@@ -604,7 +604,7 @@ public class Loader_Recipes_Temporary implements Runnable {
 			if (MD.TROPIC.mLoaded) {
 				RM.Sifting      .addRecipe1(T, 16, 200, new long[] {9900, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 200, 100, 50}, IL.RH_Sand_Coral.get(1), IL.TROPIC_Sand_Pure.get(1), ST.make(MD.TROPIC, "shell", 1, 0), ST.make(MD.TROPIC, "shell", 1, 1), ST.make(MD.TROPIC, "shell", 1, 2), ST.make(MD.TROPIC, "shell", 1, 3), ST.make(MD.TROPIC, "shell", 1, 4), ST.make(MD.TROPIC, "shell", 1, 5), ST.make(MD.TROPIC, "pearl", 1, 0), ST.make(MD.TROPIC, "pearl", 1, 1), OP.gem.mat(MT.Azurite, 1), OP.gem.mat(MT.Eudialyte, 1), OP.gem.mat(MT.Zr, 1));
 			} else {
-				RM.Sifting      .addRecipe1(T, 16, 200, new long[] {9900, 200, 100, 50}, IL.RH_Sand_Coral.get(1), ST.make(Blocks.sand, 1, 0), OP.gem.mat(MT.Azurite, 1), OP.gem.mat(MT.Eudialyte, 1), OP.gem.mat(MT.Zr, 1));
+				RM.Sifting      .addRecipe1(T, 16, 200, new long[] {9900, 200, 100, 50}, IL.RH_Sand_Coral.get(1), ST.make(Blocks.SAND, 1, 0), OP.gem.mat(MT.Azurite, 1), OP.gem.mat(MT.Eudialyte, 1), OP.gem.mat(MT.Zr, 1));
 			}
 		}
 		

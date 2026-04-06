@@ -23,10 +23,10 @@ import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ChestGenHooks;
 
 import java.lang.reflect.Field;

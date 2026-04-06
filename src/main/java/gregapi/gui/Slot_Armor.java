@@ -20,17 +20,17 @@
 package gregapi.gui;
 
 import gregapi.tileentity.ITileEntityInventoryGUI;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
  */
 public class Slot_Armor extends Slot_Base {
 	final int mArmorType;
-	final EntityPlayer mPlayer;
+	final Player mPlayer;
 	
-	public Slot_Armor(ITileEntityInventoryGUI aInventory, int aIndex, int aX, int aY, int aArmor, EntityPlayer aPlayer) {
+	public Slot_Armor(ITileEntityInventoryGUI aInventory, int aIndex, int aX, int aY, int aArmor, Player aPlayer) {
 		super(aInventory, aIndex, aX, aY);
 		mArmorType = aArmor;
 		mPlayer = aPlayer;

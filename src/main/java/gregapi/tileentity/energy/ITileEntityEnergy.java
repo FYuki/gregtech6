@@ -27,7 +27,7 @@ import gregapi.code.TagData;
 import gregapi.random.IHasWorldAndCoords;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.util.WD;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies

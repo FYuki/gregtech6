@@ -36,10 +36,10 @@ import gregtech.render.PlayerModelRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import org.lwjgl.opengl.GL11;
@@ -130,7 +130,7 @@ public class GT_Client extends GT_Proxy {
 	@SubscribeEvent
 	public void receiveRenderEvent(RenderBlockOverlayEvent aEvent) {
 		if (aEvent.blockForOverlay == BlocksGT.Swamp) {
-			EntityPlayer aPlayer = GT_API.api_proxy.getThePlayer();
+			Player aPlayer = GT_API.api_proxy.getThePlayer();
 			Minecraft.getMinecraft().getTextureManager().bindTexture(WATER_OVERLAY);
 			Tessellator tessellator = Tessellator.instance;
 			GL11.glColor4f(0, aPlayer.getBrightness(aEvent.renderPartialTicks)/2, 0, 0.75F);

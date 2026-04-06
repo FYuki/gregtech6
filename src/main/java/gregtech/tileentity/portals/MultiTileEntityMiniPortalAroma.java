@@ -31,10 +31,10 @@ import gregapi.render.BlockTextureCopied;
 import gregapi.render.ITexture;
 import gregapi.util.ST;
 import gregapi.util.WD;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
@@ -123,10 +123,10 @@ public class MultiTileEntityMiniPortalAroma extends MultiTileEntityMiniPortal {
 		return super.onToolClick(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 	}
 	
-	@Override public float getBlockHardness() {return Blocks.stonebrick.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
-	@Override public float getExplosionResistance2() {return Blocks.stonebrick.getExplosionResistance(null);}
+	@Override public float getBlockHardness() {return Blocks.STONE_BRICKS.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
+	@Override public float getExplosionResistance2() {return Blocks.STONE_BRICKS.getExplosionResistance(null);}
 	
-	public ITexture sAromaPortal = BlockTextureCopied.get(ST.block(MD.A97_MINING, "aromicPortal", Blocks.portal), SIDE_ANY, 0, UNCOLOURED, F, T, T), sAromaPortalFrame = BlockTextureCopied.get(ST.block(MD.A97_MINING, "portalFrame", Blocks.stonebrick), SIDE_ANY, 0);
+	public ITexture sAromaPortal = BlockTextureCopied.get(ST.block(MD.A97_MINING, "aromicPortal", Blocks.portal), SIDE_ANY, 0, UNCOLOURED, F, T, T), sAromaPortalFrame = BlockTextureCopied.get(ST.block(MD.A97_MINING, "portalFrame", Blocks.STONE_BRICKS), SIDE_ANY, 0);
 	@Override public ITexture getPortalTexture() {return sAromaPortal;}
 	@Override public ITexture getFrameTexture() {return sAromaPortalFrame;}
 	

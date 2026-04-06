@@ -25,13 +25,13 @@ import gregapi.random.WorldAndCoords;
 import gregapi.tileentity.ITileEntityUnloadable;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.core.BlockPos; // was BlockPos
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.core.Direction; // was Direction
 
 /**
  * @author Gregorius Techneticies
@@ -66,7 +66,7 @@ public final class DelegatorTileEntity<T> extends WorldAndCoords {
 		mSideOfTileEntity = aSideOfTileEntity;
 	}
 	
-	public DelegatorTileEntity(T aTileEntity, World aWorld, ChunkCoordinates aCoords, byte aSideOfTileEntity) {
+	public DelegatorTileEntity(T aTileEntity, World aWorld, BlockPos aCoords, byte aSideOfTileEntity) {
 		super(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ);
 		mTileEntity = aTileEntity;
 		mSideOfTileEntity = aSideOfTileEntity;
@@ -77,7 +77,7 @@ public final class DelegatorTileEntity<T> extends WorldAndCoords {
 	public AxisAlignedBB box(float[] aBox) {return AxisAlignedBB.getBoundingBox(mX+aBox[0], mY+aBox[1], mZ+aBox[2], mX+aBox[3], mY+aBox[4], mZ+aBox[5]);}
 	public AxisAlignedBB box() {return AxisAlignedBB.getBoundingBox(mX, mY, mZ, mX+1, mY+1, mZ+1);}
 	
-	public ForgeDirection getForgeSideOfTileEntity() {return FORGE_DIR[mSideOfTileEntity];}
+	public Direction getForgeSideOfTileEntity() {return FORGE_DIR[mSideOfTileEntity];}
 	public Block getBlock() {return mWorld.getBlock(mX, mY, mZ);}
 	public byte getMetaData() {return UT.Code.bind4(mWorld.getBlockMetadata(mX, mY, mZ));}
 	public boolean setBlock(Block aBlock) {return mWorld.setBlock(mX, mY, mZ, aBlock, 0, 3);}
@@ -111,9 +111,9 @@ public final class DelegatorTileEntity<T> extends WorldAndCoords {
 	@Override public int getOffsetXN(byte aSide, int aMultiplier) {return mX - OFFX[aSide] * aMultiplier;}
 	@Override public int getOffsetYN(byte aSide, int aMultiplier) {return mY - OFFY[aSide] * aMultiplier;}
 	@Override public int getOffsetZN(byte aSide, int aMultiplier) {return mZ - OFFZ[aSide] * aMultiplier;}
-	@Override public ChunkCoordinates getCoords() {return new ChunkCoordinates(mX, mY, mZ);}
-	@Override public ChunkCoordinates getOffset (byte aSide, int aMultiplier) {return new ChunkCoordinates(getOffsetX (aSide, aMultiplier), getOffsetY (aSide, aMultiplier), getOffsetZ (aSide, aMultiplier));}
-	@Override public ChunkCoordinates getOffsetN(byte aSide, int aMultiplier) {return new ChunkCoordinates(getOffsetXN(aSide, aMultiplier), getOffsetYN(aSide, aMultiplier), getOffsetZN(aSide, aMultiplier));}
+	@Override public BlockPos getCoords() {return new BlockPos(mX, mY, mZ);}
+	@Override public BlockPos getOffset (byte aSide, int aMultiplier) {return new BlockPos(getOffsetX (aSide, aMultiplier), getOffsetY (aSide, aMultiplier), getOffsetZ (aSide, aMultiplier));}
+	@Override public BlockPos getOffsetN(byte aSide, int aMultiplier) {return new BlockPos(getOffsetXN(aSide, aMultiplier), getOffsetYN(aSide, aMultiplier), getOffsetZN(aSide, aMultiplier));}
 	@Override public boolean isServerSide() {return mWorld == null ? cpw.mods.fml.common.FMLCommonHandler.instance().getEffectiveSide().isServer() : !mWorld.isRemote;}
 	@Override public boolean isClientSide() {return mWorld == null ? cpw.mods.fml.common.FMLCommonHandler.instance().getEffectiveSide().isClient() :  mWorld.isRemote;}
 	@Override public int rng(int aRange) {return RNGSUS.nextInt(aRange);}
@@ -127,13 +127,13 @@ public final class DelegatorTileEntity<T> extends WorldAndCoords {
 	@Override public boolean getRain            (int aX, int aY, int aZ) {return mWorld==null||mWorld.getPrecipitationHeight(aX, aZ) <= aY;}
 	@Override public boolean getAir             (int aX, int aY, int aZ) {return mWorld==null||mWorld.getBlock(aX, aY, aZ).isAir(mWorld, aX, aY, aZ);}
 	@Override public BiomeGenBase getBiome      (int aX, int aZ) {return mWorld==null?null:mWorld.getBiomeGenForCoords(aX, aZ);}
-	@Override public TileEntity getTileEntity   (ChunkCoordinates aCoords) {return mWorld==null?null:mWorld.getTileEntity(aCoords.posX, aCoords.posY, aCoords.posZ);}
-	@Override public Block getBlock             (ChunkCoordinates aCoords) {return mWorld==null?NB:mWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ);}
-	@Override public byte getMetaData           (ChunkCoordinates aCoords) {return mWorld==null?0:UT.Code.bind4(mWorld.getBlockMetadata(aCoords.posX, aCoords.posY, aCoords.posZ));}
-	@Override public byte getLightLevel         (ChunkCoordinates aCoords) {return mWorld==null?0:UT.Code.bind4((long)mWorld.getLightBrightness(aCoords.posX, aCoords.posY, aCoords.posZ)*15);}
-	@Override public boolean getOpacity         (ChunkCoordinates aCoords) {return mWorld!=null&&mWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ).isOpaqueCube();}
-	@Override public boolean getSky             (ChunkCoordinates aCoords) {return mWorld==null||mWorld.canBlockSeeTheSky(aCoords.posX, aCoords.posY, aCoords.posZ);}
-	@Override public boolean getRain            (ChunkCoordinates aCoords) {return mWorld==null||mWorld.getPrecipitationHeight(aCoords.posX, aCoords.posZ) <= aCoords.posY;}
-	@Override public boolean getAir             (ChunkCoordinates aCoords) {return mWorld==null||mWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ).isAir(mWorld, aCoords.posX, aCoords.posY, aCoords.posZ);}
-	@Override public BiomeGenBase getBiome      (ChunkCoordinates aCoords) {return mWorld==null?null:mWorld.getBiomeGenForCoords(aCoords.posX, aCoords.posZ);}
+	@Override public TileEntity getTileEntity   (BlockPos aCoords) {return mWorld==null?null:mWorld.getTileEntity(aCoords.posX, aCoords.posY, aCoords.posZ);}
+	@Override public Block getBlock             (BlockPos aCoords) {return mWorld==null?NB:mWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ);}
+	@Override public byte getMetaData           (BlockPos aCoords) {return mWorld==null?0:UT.Code.bind4(mWorld.getBlockMetadata(aCoords.posX, aCoords.posY, aCoords.posZ));}
+	@Override public byte getLightLevel         (BlockPos aCoords) {return mWorld==null?0:UT.Code.bind4((long)mWorld.getLightBrightness(aCoords.posX, aCoords.posY, aCoords.posZ)*15);}
+	@Override public boolean getOpacity         (BlockPos aCoords) {return mWorld!=null&&mWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ).isOpaqueCube();}
+	@Override public boolean getSky             (BlockPos aCoords) {return mWorld==null||mWorld.canBlockSeeTheSky(aCoords.posX, aCoords.posY, aCoords.posZ);}
+	@Override public boolean getRain            (BlockPos aCoords) {return mWorld==null||mWorld.getPrecipitationHeight(aCoords.posX, aCoords.posZ) <= aCoords.posY;}
+	@Override public boolean getAir             (BlockPos aCoords) {return mWorld==null||mWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ).isAir(mWorld, aCoords.posX, aCoords.posY, aCoords.posZ);}
+	@Override public BiomeGenBase getBiome      (BlockPos aCoords) {return mWorld==null?null:mWorld.getBiomeGenForCoords(aCoords.posX, aCoords.posZ);}
 }

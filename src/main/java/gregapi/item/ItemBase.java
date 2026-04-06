@@ -27,20 +27,20 @@ import gregapi.lang.LanguageHandler;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.client.renderer.texture.IIconRegister;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, @SuppressWarnings("rawtypes") List aList, boolean aF3_H) {
+	public void addInformation(ItemStack aStack, Player aPlayer, @SuppressWarnings("rawtypes") List aList, boolean aF3_H) {
 		try {
 			if (getMaxDamage() > 0 && !getHasSubtypes()) aList.add((aStack.getMaxDamage() - getDamage(aStack)) + " / " + aStack.getMaxDamage());
 			if (mTooltip != null) aList.add(LanguageHandler.translate(mTooltip, mTooltip));
@@ -107,7 +107,7 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 	
 	@Override public boolean hasProjectile(TagData aProjectileType, ItemStack aStack) {return F;}
 	@Override public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {return null;}
-	@Override public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, EntityLivingBase aEntity, float aSpeed) {return null;}
+	@Override public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed) {return null;}
 	@Override public final Item setUnlocalizedName(String aName) {return this;}
 	@Override public String toString() {return mName;}
 	@Override public final String getUnlocalizedName() {return mName;}
@@ -116,13 +116,13 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 	@Override public final boolean getShareTag() {return T;} // just to be sure.
 	@Override @OnlyIn(Dist.CLIENT) public void registerIcons(IIconRegister aIconRegister) {mIcon = aIconRegister.registerIcon(mModID + ":" + mName);}
 	@Override public IIcon getIconFromDamage(int aMeta) {return mIcon;}
-	@Override public void onCreated(ItemStack aStack, World aWorld, EntityPlayer aPlayer) {isItemStackUsable(aStack);}
+	@Override public void onCreated(ItemStack aStack, World aWorld, Player aPlayer) {isItemStackUsable(aStack);}
 	@Override public ItemStack getContainerItem(ItemStack aStack) {return null;}
 	@Override public boolean hasContainerItem(ItemStack aStack) {return getContainerItem(aStack) != null;}
 	@Override public boolean doesContainerItemLeaveCraftingGrid(ItemStack aStack) {return F;}
 	@Override public void updateItemStack(ItemStack aStack) {isItemStackUsable(aStack);}
 	@Override public void updateItemStack(ItemStack aStack, World aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
-	@Override public boolean doesSneakBypassUse(World aWorld, int aX, int aY, int aZ, EntityPlayer aPlayer) {return T;}
+	@Override public boolean doesSneakBypassUse(World aWorld, int aX, int aY, int aZ, Player aPlayer) {return T;}
 	public boolean isItemStackUsable(ItemStack aStack) {return T;}
 	public ItemStack make(long aMetaData) {return ST.make(this, 1, aMetaData);}
 	public ItemStack make(long aAmount, long aMetaData) {return ST.make(this, aAmount, aMetaData);}

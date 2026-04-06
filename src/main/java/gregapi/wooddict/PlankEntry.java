@@ -33,7 +33,7 @@ import gregapi.render.IconContainerCopied;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Set;
 

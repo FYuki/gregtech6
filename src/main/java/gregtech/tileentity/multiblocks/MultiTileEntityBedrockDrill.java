@@ -34,16 +34,16 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.StoneLayer;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos; // was BlockPos
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.IFluidTank;
+// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +61,7 @@ public class MultiTileEntityBedrockDrill extends TileEntityBase10MultiBlockBase 
 	public final List<OreDictMaterial> mList = new ArrayListNoNulls<>();
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		mEnergy = aNBT.getLong(NBT_ENERGY);
 		mType = aNBT.getInteger(NBT_VALUE);
@@ -70,7 +70,7 @@ public class MultiTileEntityBedrockDrill extends TileEntityBase10MultiBlockBase 
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
 		UT.NBT.setNumber(aNBT, NBT_VALUE, mType);
@@ -78,7 +78,7 @@ public class MultiTileEntityBedrockDrill extends TileEntityBase10MultiBlockBase 
 	}
 	
 	@Override
-	public boolean checkStructure2(ChunkCoordinates aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
 		if (yCoord < 5) return F;
 		mList.clear();
 		boolean tSuccess = T, tBedrock = T, tOverride = F;
@@ -206,11 +206,11 @@ public class MultiTileEntityBedrockDrill extends TileEntityBase10MultiBlockBase 
 						slot(0, OP.dust.mat(MT.Bedrock, 1));
 					} else if (worldObj.provider.dimensionId == DIM_NETHER) {
 						// Netherrack.
-						slot(0, ST.make(Blocks.netherrack, 1, 0));
+						slot(0, ST.make(Blocks.NETHERRACK, 1, 0));
 					} else if (WD.dimTF(worldObj)) {
 						// Twilight Stones sometimes, otherwise default to vanilla.
 						switch (mType) {
-						case  0: slot(0, ST.make(Blocks.obsidian, 1, 0)); break;
+						case  0: slot(0, ST.make(Blocks.OBSIDIAN, 1, 0)); break;
 						case  1: slot(0, OP.blockDust.mat(MT.STONES.Mazestone, 1)); break;
 						case  2: slot(0, IL.TF_Trollsteinn.get(1)); break;
 						case  3: slot(0, OP.blockDust.mat(MT.STONES.Castlerock, 1)); break;
@@ -242,7 +242,7 @@ public class MultiTileEntityBedrockDrill extends TileEntityBase10MultiBlockBase 
 					}
 					if (ST.invalid(slot(0))) {
 						// Make Cobble, if nothing else applies.
-						slot(0, ST.make(Blocks.cobblestone, 1, 0));
+						slot(0, ST.make(Blocks.COBBLESTONE, 1, 0));
 					}
 				}
 			}
@@ -299,7 +299,7 @@ public class MultiTileEntityBedrockDrill extends TileEntityBase10MultiBlockBase 
 	@Override protected IFluidTank[] getFluidTanks2(byte aSide) {return mTank.AS_ARRAY;}
 	
 	// Inventory Stuff
-	@Override public ItemStack[] getDefaultInventory(NBTTagCompound aNBT) {return new ItemStack[1];}
+	@Override public ItemStack[] getDefaultInventory(CompoundTag aNBT) {return new ItemStack[1];}
 	@Override public boolean canDrop(int aInventorySlot) {return T;}
 	private static final int[] ACCESSIBLE_SLOTS = new int[] {0};
 	@Override public int[] getAccessibleSlotsFromSide2(byte aSide) {return ACCESSIBLE_SLOTS;}

@@ -35,9 +35,9 @@ import gregapi.render.IIconContainer;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockTreePlanks2 extends BlockBasePlanksFlammable {
 	public BlockTreePlanks2(String aName) {
@@ -91,7 +91,7 @@ public class BlockTreePlanks2 extends BlockBasePlanksFlammable {
 	}
 	
 	@Override
-	public void addInformation(ItemStack aStack, byte aMeta, EntityPlayer aPlayer, List<String> aList, boolean aF3_H) {
+	public void addInformation(ItemStack aStack, byte aMeta, Player aPlayer, List<String> aList, boolean aF3_H) {
 		super.addInformation(aStack, aMeta, aPlayer, aList, aF3_H);
 		if (XMAS_IN_JULY && aMeta == 0) {
 			aList.add(LH.Chat.RAINBOW_SLOW + "Save on everything at Christmas in July!");

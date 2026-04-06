@@ -28,15 +28,15 @@ import gregapi.util.CR;
 import gregapi.util.ST;
 import gregapi.util.WD;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.world.item.ItemStack;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.core.Direction; // was Direction
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,15 +69,15 @@ public class BlockGrass extends BlockBaseMeta {
 		BlocksGT.plantableTrees.add(this);
 		BlocksGT.plantableGrass.add(this);
 		
-		RM.generify(ST.make(this, 1, W), ST.make(Blocks.grass, 1, 0));
-		CR.shapeless(ST.make(Blocks.grass, 1, 0), new Object[] {this});
+		RM.generify(ST.make(this, 1, W), ST.make(Blocks.GRASS_BLOCK, 1, 0));
+		CR.shapeless(ST.make(Blocks.GRASS_BLOCK, 1, 0), new Object[] {this});
 		
-		CR.shapeless(ST.make(this, 8, 0), new Object[] {Blocks.grass, Blocks.grass, Blocks.grass, DYE_OREDICTS[DYE_INDEX_Green    ], Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass});
-		CR.shapeless(ST.make(this, 8, 1), new Object[] {Blocks.grass, Blocks.grass, Blocks.grass, DYE_OREDICTS[DYE_INDEX_Lime     ], Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass});
-		CR.shapeless(ST.make(this, 8, 2), new Object[] {Blocks.grass, Blocks.grass, Blocks.grass, DYE_OREDICTS[DYE_INDEX_Black    ], Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass});
-		CR.shapeless(ST.make(this, 8, 3), new Object[] {Blocks.grass, Blocks.grass, Blocks.grass, DYE_OREDICTS[DYE_INDEX_LightGray], Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass});
-		CR.shapeless(ST.make(this, 8, 4), new Object[] {Blocks.grass, Blocks.grass, Blocks.grass, DYE_OREDICTS[DYE_INDEX_Yellow   ], Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass});
-		CR.shapeless(ST.make(this, 8, 5), new Object[] {Blocks.grass, Blocks.grass, Blocks.grass, DYE_OREDICTS[DYE_INDEX_Brown    ], Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass, Blocks.grass});
+		CR.shapeless(ST.make(this, 8, 0), new Object[] {Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, DYE_OREDICTS[DYE_INDEX_Green    ], Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK});
+		CR.shapeless(ST.make(this, 8, 1), new Object[] {Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, DYE_OREDICTS[DYE_INDEX_Lime     ], Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK});
+		CR.shapeless(ST.make(this, 8, 2), new Object[] {Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, DYE_OREDICTS[DYE_INDEX_Black    ], Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK});
+		CR.shapeless(ST.make(this, 8, 3), new Object[] {Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, DYE_OREDICTS[DYE_INDEX_LightGray], Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK});
+		CR.shapeless(ST.make(this, 8, 4), new Object[] {Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, DYE_OREDICTS[DYE_INDEX_Yellow   ], Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK});
+		CR.shapeless(ST.make(this, 8, 5), new Object[] {Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, DYE_OREDICTS[DYE_INDEX_Brown    ], Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK, Blocks.GRASS_BLOCK});
 		
 		if (COMPAT_FR  != null) COMPAT_FR.addToBackpacks("digger", ST.make(this, 1, W));
 	}
@@ -88,26 +88,26 @@ public class BlockGrass extends BlockBaseMeta {
 	}
 	
 	@Override
-	public void addInformation(ItemStack aStack, byte aMeta, EntityPlayer aPlayer, List<String> aList, boolean aF3_H) {
+	public void addInformation(ItemStack aStack, byte aMeta, Player aPlayer, List<String> aList, boolean aF3_H) {
 		aList.add(LH.Chat.CYAN + LH.get("gt.grass.tooltip"));
 		aList.add(LH.Chat.GRAY + LH.get("gt.grass.tooltip.spray"));
 	}
 	
 	@Override
-	public boolean canSustainPlant(IBlockAccess aWorld, int aX, int aY, int aZ, ForgeDirection aSide, IPlantable aPlant) {
+	public boolean canSustainPlant(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
 		EnumPlantType tType = aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ);
 		return tType == EnumPlantType.Plains || (tType == EnumPlantType.Beach && (WD.anywater(aWorld, aX+1, aY, aZ) || WD.anywater(aWorld, aX-1, aY, aZ) || WD.anywater(aWorld, aX, aY, aZ+1) || WD.anywater(aWorld, aX, aY, aZ-1)));
 	}
 	
-	public static final IconContainerCopied DIRT = new IconContainerCopied(Blocks.dirt, 0, SIDE_BOTTOM);
+	public static final IconContainerCopied DIRT = new IconContainerCopied(Blocks.DIRT, 0, SIDE_BOTTOM);
 	
 	@Override public IIcon getIcon(int aSide, int aMeta) {return (SIDES_BOTTOM[aSide]?DIRT:(SIDES_TOP[aSide]?Textures.BlockIcons.GRASSES_TOP:Textures.BlockIcons.GRASSES_SIDE)[aMeta % 16]).getIcon(0);}
-	@Override public ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {return ST.arraylist(ST.make(Blocks.dirt, 1, 0));}
+	@Override public ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {return ST.arraylist(ST.make(Blocks.DIRT, 1, 0));}
 	@Override public boolean doesPistonPush  (byte aMeta) {return T;}
 	@Override public boolean canCreatureSpawn(byte aMeta) {return F;}
 	@Override public boolean isSealable      (byte aMeta, byte aSide) {return F;}
 	@Override public String getHarvestTool   (int  aMeta) {return TOOL_shovel;}
 	@Override public int getHarvestLevel     (int  aMeta) {return 0;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.grass.getBlockHardness(aWorld, aX, aY, aZ);}
-	@Override public float getExplosionResistance(byte aMeta) {return Blocks.grass.getExplosionResistance(null);}
+	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.GRASS_BLOCK.getBlockHardness(aWorld, aX, aY, aZ);}
+	@Override public float getExplosionResistance(byte aMeta) {return Blocks.GRASS_BLOCK.getExplosionResistance(null);}
 }

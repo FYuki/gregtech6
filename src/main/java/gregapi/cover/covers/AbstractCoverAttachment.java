@@ -24,9 +24,9 @@ import static gregapi.data.CS.*;
 import java.util.List;
 
 import gregapi.cover.CoverData;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies

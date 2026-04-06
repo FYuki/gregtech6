@@ -33,7 +33,7 @@ import gregapi.util.CR;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class Loader_CraftingRecipes implements Runnable {
 	@Override

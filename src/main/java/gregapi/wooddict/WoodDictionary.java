@@ -26,7 +26,7 @@ import gregapi.code.ArrayListNoNulls;
 import gregapi.code.HashSetNoNulls;
 import gregapi.code.ItemStackContainer;
 import gregapi.code.ItemStackMap;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 /**
  * @author Gregorius Techneticies

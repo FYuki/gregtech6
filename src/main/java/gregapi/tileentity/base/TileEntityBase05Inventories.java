@@ -26,11 +26,11 @@ import gregapi.tileentity.ITileEntityInventoryGUI;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.Explosion;
 
 import static gregapi.data.CS.*;
@@ -44,13 +44,13 @@ public abstract class TileEntityBase05Inventories extends TileEntityBase04MultiT
 	public boolean mInventoryChanged = F;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		// Standard readFromNBT process to load Inventory.
 		mInventory = getDefaultInventory(aNBT);
 		if (mInventory != null && mInventory.length > 0) {
-			NBTTagList tList = aNBT.getTagList(NBT_INV_LIST, 10);
+			ListTag tList = aNBT.getTagList(NBT_INV_LIST, 10);
 			for (int i = 0; i < tList.tagCount(); i++) {
-				NBTTagCompound tNBT = tList.getCompoundTagAt(i);
+				CompoundTag tNBT = tList.getCompoundTagAt(i);
 				int tSlot = tNBT.getShort("s");
 				if (tSlot >= 0 && tSlot < mInventory.length) mInventory[tSlot] = ST.load(tNBT, getDefaultStack(tSlot));
 			}
@@ -58,26 +58,26 @@ public abstract class TileEntityBase05Inventories extends TileEntityBase04MultiT
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		if (mInventory != null && mInventory.length > 0) {
-			NBTTagList tList = new NBTTagList();
+			ListTag tList = new ListTag();
 			for (short tSlot = 0; tSlot < mInventory.length; tSlot++) if (ST.valid(mInventory[tSlot]) && canSave (tSlot)) tList.appendTag(UT.NBT.makeShort(ST.save(mInventory[tSlot]), "s", tSlot));
 			if (tList.tagCount() > 0) aNBT.setTag(NBT_INV_LIST, tList);
 		}
 	}
 	
 	@Override
-	public NBTTagCompound writeItemNBT(NBTTagCompound aNBT) {
+	public CompoundTag writeItemNBT(CompoundTag aNBT) {
 		aNBT = super.writeItemNBT(aNBT);
 		if (mInventory != null && mInventory.length > 0) {
-			NBTTagList tList = new NBTTagList();
+			ListTag tList = new ListTag();
 			for (short tSlot = 0; tSlot < mInventory.length; tSlot++) if (ST.valid(mInventory[tSlot]) && keepSlot(tSlot)) tList.appendTag(UT.NBT.makeShort(ST.save(mInventory[tSlot]), "s", tSlot));
 			if (tList.tagCount() > 0) aNBT.setTag(NBT_INV_LIST, tList);
 		}
 		return aNBT;
 	}
 	
-	public ItemStack[] getDefaultInventory(NBTTagCompound aNBT) {
+	public ItemStack[] getDefaultInventory(CompoundTag aNBT) {
 		int tSize = Math.max(getMinimumInventorySize(), aNBT.getShort(NBT_INV_SIZE));
 		return tSize > 0 ? new ItemStack[tSize] : ZL_IS;
 	}
@@ -97,11 +97,11 @@ public abstract class TileEntityBase05Inventories extends TileEntityBase04MultiT
 	@Override public final boolean slotHas(int aIndex) {return mInventory[aIndex] != null;}
 	@Override public final boolean invempty() {for (int i = 0; i < mInventory.length; i++) if (mInventory[i] != null) return F; return T;}
 	@Override public final int invsize() {return mInventory.length;}
-	@Override public final NBTTagCompound slotNBT(int aIndex) {return mInventory[aIndex] != null ? mInventory[aIndex].getTagCompound() : null;}
+	@Override public final CompoundTag slotNBT(int aIndex) {return mInventory[aIndex] != null ? mInventory[aIndex].getTagCompound() : null;}
 	
 	@Override public void updateTanks() {mInventoryChanged = T;}
 	@Override public void updateInventory() {mInventoryChanged = T;}
-	@Override public boolean isUseableByPlayer(EntityPlayer aPlayer) {return !isDead() && allowInteraction(aPlayer) && aPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;}
+	@Override public boolean isUseableByPlayer(Player aPlayer) {return !isDead() && allowInteraction(aPlayer) && aPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;}
 	@Override public void openInventory () {/**/}
 	@Override public void closeInventory() {/**/}
 	@Override public int getInventoryStackLimit() {return 64;}
@@ -137,7 +137,7 @@ public abstract class TileEntityBase05Inventories extends TileEntityBase04MultiT
 	@Override public boolean hasCustomInventoryNameGUI() {return getCustomName() != null;}
 	@Override public int getInventoryStackLimitGUI(int aSlot) {return getInventoryStackLimit();}
 	@Override public void markDirtyGUI() {markDirty();}
-	@Override public boolean isUseableByPlayerGUI(EntityPlayer aPlayer) {return !isDead() && allowInteraction(aPlayer) && aPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;}
+	@Override public boolean isUseableByPlayerGUI(Player aPlayer) {return !isDead() && allowInteraction(aPlayer) && aPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64D;}
 	@Override public void openInventoryGUI() {openInventory();}
 	@Override public void closeInventoryGUI() {closeInventory();}
 	@Override public boolean isItemValidForSlotGUI(int aSlot, ItemStack aStack) {return isItemValidForSlot(aSlot, aStack);}

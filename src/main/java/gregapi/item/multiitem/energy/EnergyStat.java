@@ -29,12 +29,12 @@ import gregapi.data.TD;
 import gregapi.item.IItemEnergy;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 public class EnergyStat implements IItemEnergy {
 	public long mSize, mAmountIN, mAmountOUT, mCapacity;
@@ -88,7 +88,7 @@ public class EnergyStat implements IItemEnergy {
 		return rAmount;
 	}
 	
-	public ItemStack rechargeFromPlayer(TagData aEnergyType, ItemStack aStack, EntityLivingBase aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ) {
+	public ItemStack rechargeFromPlayer(TagData aEnergyType, ItemStack aStack, LivingEntity aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ) {
 		if (COMPAT_EU_ITEM == null || !mCanCharge || aPlayer == null || aPlayer.worldObj.isRemote || aEnergyType != mType || aEnergyType != TD.Energy.EU) return aStack;
 		long tMinInput = getEnergySizeInputMin(aEnergyType, aStack), tCapacity = getEnergyCapacity(aEnergyType, aStack);
 		boolean temp = F;
@@ -105,8 +105,8 @@ public class EnergyStat implements IItemEnergy {
 	}
 	
 	@Override
-	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, EntityLivingBase aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoUse) {
-		if (aPlayer instanceof EntityPlayer && ((EntityPlayer)aPlayer).capabilities.isCreativeMode) return T;
+	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoUse) {
+		if (aPlayer instanceof Player && ((Player)aPlayer).capabilities.isCreativeMode) return T;
 		if (aEnergyType != mType && aEnergyType != null) return F;
 		rechargeFromPlayer(mType, aStack, aPlayer, aInventory, aWorld, aX, aY, aZ);
 		long tStored = getEnergyStored(mType, aStack);
@@ -128,7 +128,7 @@ public class EnergyStat implements IItemEnergy {
 	public ItemStack setEnergyStored(TagData aEnergyType, ItemStack aStack, long aAmount) {
 		if ((aEnergyType != mType && aEnergyType != null) || ST.size(aStack) <= 0) return aStack;
 		
-		NBTTagCompound tNBT = aStack.getTagCompound();
+		CompoundTag tNBT = aStack.getTagCompound();
 		if (tNBT == null) tNBT = UT.NBT.make(); else tNBT.removeTag(NBT_ENERGY);
 		
 		if (aAmount > 0) {
@@ -152,7 +152,7 @@ public class EnergyStat implements IItemEnergy {
 	@Override
 	public long getEnergyStored(TagData aEnergyType, ItemStack aStack) {
 		if (aEnergyType != mType && aEnergyType != null) return 0;
-		NBTTagCompound tNBT = aStack.getTagCompound();
+		CompoundTag tNBT = aStack.getTagCompound();
 		return tNBT==null?0:tNBT.getLong(NBT_ENERGY);
 	}
 	

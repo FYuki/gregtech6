@@ -22,11 +22,11 @@ package gregapi.random;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.delegate.ITileEntityCanDelegate;
 import gregapi.tileentity.delegate.ITileEntityDelegating;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.level.block.entity.BlockEntity;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
 import net.minecraftforge.fluids.IFluidHandler;
 
 /**

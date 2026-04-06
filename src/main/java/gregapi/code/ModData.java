@@ -21,9 +21,9 @@ package gregapi.code;
 
 import cpw.mods.fml.common.Loader;
 import gregapi.util.ST;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 
 import java.util.HashMap;

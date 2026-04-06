@@ -19,7 +19,7 @@
 
 package gregapi.tileentity;
 
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 /**
  * @author Gregorius Techneticies

@@ -27,12 +27,12 @@ import gregapi.old.Textures;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Random;
@@ -94,7 +94,7 @@ public class BlockTreeSaplingCD extends BlockBaseSapling {
 				if (i*i + j*j <= 30) for (int k = 0; k <= 3; k++) {
 					Block tBlock = WD.block(aWorld, aX+i, aY-k, aZ+j, T);
 					if (WD.air(aWorld, aX+i, aY-k, aZ+j, tBlock)) continue;
-					if (tBlock == Blocks.dirt || tBlock == Blocks.grass) WD.set(aWorld, aX+i, aY-k, aZ+j, Blocks.dirt, 2, 3, F);
+					if (tBlock == Blocks.DIRT || tBlock == Blocks.GRASS_BLOCK) WD.set(aWorld, aX+i, aY-k, aZ+j, Blocks.DIRT, 2, 3, F);
 					break;
 				}
 			}
@@ -105,7 +105,7 @@ public class BlockTreeSaplingCD extends BlockBaseSapling {
 	}
 	
 	@Override
-	public void addInformation(ItemStack aStack, byte aMeta, EntityPlayer aPlayer, List<String> aList, boolean aF3_H) {
+	public void addInformation(ItemStack aStack, byte aMeta, Player aPlayer, List<String> aList, boolean aF3_H) {
 		super.addInformation(aStack, aMeta, aPlayer, aList, aF3_H);
 		if (XMAS_IN_JULY && (aMeta & 7) == 0) {
 			aList.add(LH.Chat.RAINBOW_SLOW + "Save on everything at Christmas in July!");

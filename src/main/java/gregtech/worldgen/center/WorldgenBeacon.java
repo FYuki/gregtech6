@@ -29,13 +29,13 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.Potion;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
  * @author Gregorius Techneticies
@@ -69,7 +69,7 @@ public class WorldgenBeacon extends WorldgenObject {
 			WD.set(aWorld, -1, mHeight+5, -1, Blocks.beacon, 0, 3);
 			tTileEntity = WD.te(aWorld, -1, mHeight+5, -1, T);
 			if (tTileEntity instanceof TileEntityBeacon) {
-				NBTTagCompound tNBT = UT.NBT.make();
+				CompoundTag tNBT = UT.NBT.make();
 				tTileEntity.writeToNBT(tNBT);
 				tNBT.setInteger("Primary", Potion.moveSpeed.id);
 				tNBT.setInteger("Secondary", Potion.moveSpeed.id);
@@ -80,7 +80,7 @@ public class WorldgenBeacon extends WorldgenObject {
 			WD.set(aWorld, -1, mHeight+5, 0, Blocks.beacon, 0, 3);
 			tTileEntity = WD.te(aWorld, -1, mHeight+5, 0, T);
 			if (tTileEntity instanceof TileEntityBeacon) {
-				NBTTagCompound tNBT = UT.NBT.make();
+				CompoundTag tNBT = UT.NBT.make();
 				tTileEntity.writeToNBT(tNBT);
 				tNBT.setInteger("Primary", Potion.digSpeed.id);
 				tNBT.setInteger("Secondary", Potion.digSpeed.id);
@@ -91,7 +91,7 @@ public class WorldgenBeacon extends WorldgenObject {
 			WD.set(aWorld, 0, mHeight+5, -1, Blocks.beacon, 0, 3);
 			tTileEntity = WD.te(aWorld, 0, mHeight+5, -1, T);
 			if (tTileEntity instanceof TileEntityBeacon) {
-				NBTTagCompound tNBT = UT.NBT.make();
+				CompoundTag tNBT = UT.NBT.make();
 				tTileEntity.writeToNBT(tNBT);
 				tNBT.setInteger("Primary", Potion.damageBoost.id);
 				tNBT.setInteger("Secondary", Potion.damageBoost.id);
@@ -102,7 +102,7 @@ public class WorldgenBeacon extends WorldgenObject {
 			WD.set(aWorld, 0, mHeight+5, 0, Blocks.beacon, 0, 3);
 			tTileEntity = WD.te(aWorld, 0, mHeight+5, 0, T);
 			if (tTileEntity instanceof TileEntityBeacon) {
-				NBTTagCompound tNBT = UT.NBT.make();
+				CompoundTag tNBT = UT.NBT.make();
 				tTileEntity.writeToNBT(tNBT);
 				tNBT.setInteger("Primary", Potion.resistance.id);
 				tNBT.setInteger("Secondary", Potion.regeneration.id);

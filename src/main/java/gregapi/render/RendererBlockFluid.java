@@ -22,15 +22,15 @@ package gregapi.render;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import gregapi.data.FL;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.BlockFluidBase;
-import net.minecraftforge.fluids.FluidRegistry;
+// PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 import net.minecraftforge.fluids.IFluidBlock;
 
 import static gregapi.data.CS.F;

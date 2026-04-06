@@ -26,11 +26,11 @@ import gregapi.player.EntityFoodTracker;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
@@ -111,38 +111,38 @@ public class FoodStat implements IFoodStat {
 	}
 	
 	@Override
-	public int getFoodLevel(Item aItem, ItemStack aStack, EntityPlayer aPlayer) {
+	public int getFoodLevel(Item aItem, ItemStack aStack, Player aPlayer) {
 		return mFoodLevel;
 	}
 	
 	@Override
-	public float getSaturation(Item aItem, ItemStack aStack, EntityPlayer aPlayer) {
+	public float getSaturation(Item aItem, ItemStack aStack, Player aPlayer) {
 		return mSaturation;
 	}
 	
 	@Override
-	public float getHydration(Item aItem, ItemStack aStack, EntityPlayer aPlayer) {
+	public float getHydration(Item aItem, ItemStack aStack, Player aPlayer) {
 		return mHydration;
 	}
 	
 	@Override
-	public float getTemperature(Item aItem, ItemStack aStack, EntityPlayer aPlayer) {
+	public float getTemperature(Item aItem, ItemStack aStack, Player aPlayer) {
 		return mTemperature;
 	}
 	
 	@Override
-	public float getTemperatureEffect(Item aItem, ItemStack aStack, EntityPlayer aPlayer) {
+	public float getTemperatureEffect(Item aItem, ItemStack aStack, Player aPlayer) {
 		return mTemperatureEffect;
 	}
 	
 	@Override
 	@SuppressWarnings("deprecation")
-	public void onEaten(Item aItem, ItemStack aStack, EntityPlayer aPlayer, boolean aConsumeItem) {
+	public void onEaten(Item aItem, ItemStack aStack, Player aPlayer, boolean aConsumeItem) {
 		onEaten(aItem, aStack, aPlayer, aConsumeItem, T);
 	}
 	
 	@Override
-	public void onEaten(Item aItem, ItemStack aStack, EntityPlayer aPlayer, boolean aConsumeItem, boolean aMakeSound) {
+	public void onEaten(Item aItem, ItemStack aStack, Player aPlayer, boolean aConsumeItem, boolean aMakeSound) {
 		if (aConsumeItem && !UT.Entities.hasInfiniteItems(aPlayer)) {
 			aStack.stackSize--;
 			ItemStack tStack = OM.get(ST.copy(mEmptyContainer));
@@ -179,17 +179,17 @@ public class FoodStat implements IFoodStat {
 	}
 	
 	@Override
-	public boolean alwaysEdible(Item aItem, ItemStack aStack, EntityPlayer aPlayer) {
+	public boolean alwaysEdible(Item aItem, ItemStack aStack, Player aPlayer) {
 		return mAlwaysEdible;
 	}
 	
 	@Override
-	public boolean isRotten(Item aItem, ItemStack aStack, EntityPlayer aPlayer) {
+	public boolean isRotten(Item aItem, ItemStack aStack, Player aPlayer) {
 		return mIsRotten;
 	}
 	
 	@Override
-	public boolean useAppleCoreFunctionality(Item aItem, ItemStack aStack, EntityPlayer aPlayer) {
+	public boolean useAppleCoreFunctionality(Item aItem, ItemStack aStack, Player aPlayer) {
 		return MD.APC.mLoaded && mUseAPC;
 	}
 	

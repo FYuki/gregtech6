@@ -25,10 +25,10 @@ import gregapi.data.LH;
 import gregapi.old.Textures;
 import gregapi.render.IIconContainer;
 import gregapi.util.UT;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class FluidGT extends Fluid implements Runnable {
 	private final short[] mRGBa;

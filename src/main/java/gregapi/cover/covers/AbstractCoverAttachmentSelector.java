@@ -21,7 +21,7 @@ package gregapi.cover.covers;
 
 import gregapi.cover.CoverData;
 import gregapi.tileentity.machines.ITileEntitySwitchableMode;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * @author Gregorius Techneticies

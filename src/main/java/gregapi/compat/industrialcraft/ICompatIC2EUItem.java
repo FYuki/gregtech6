@@ -20,7 +20,7 @@
 package gregapi.compat.industrialcraft;
 
 import gregapi.compat.ICompat;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface ICompatIC2EUItem extends ICompat {
 	public long charge(ItemStack aStack, long aAmount, boolean aDoCharge);

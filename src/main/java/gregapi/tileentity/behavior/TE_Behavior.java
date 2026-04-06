@@ -19,22 +19,22 @@
 
 package gregapi.tileentity.behavior;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class TE_Behavior {
 	public final TileEntity mTileEntity;
 	
-	public TE_Behavior(TileEntity aTileEntity, NBTTagCompound aNBT) {
+	public TE_Behavior(TileEntity aTileEntity, CompoundTag aNBT) {
 		mTileEntity = aTileEntity;
 		if (aNBT != null) load(aNBT);
 	}
 	
-	public void load(NBTTagCompound aNBT) {
+	public void load(CompoundTag aNBT) {
 		//
 	}
 	
-	public void save(NBTTagCompound aNBT) {
+	public void save(CompoundTag aNBT) {
 		//
 	}
 }

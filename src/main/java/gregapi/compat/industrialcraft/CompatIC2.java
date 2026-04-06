@@ -42,11 +42,11 @@ import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.RecipeInputOreDict;
 import ic2.api.recipe.RecipeOutput;
 import ic2.core.Ic2Items;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.NeoForge;
 
 import static gregapi.data.CS.*;
@@ -54,7 +54,7 @@ import static gregapi.data.CS.*;
 public class CompatIC2 extends CompatBase implements ICompatIC2 {
 	public CompatIC2() {
 		// Checking if everything is available.
-		valuable(Blocks.glowstone, 0, 1);
+		valuable(Blocks.GLOWSTONE, 0, 1);
 		valuable(Blocks.soul_sand, 0, 1);
 		if (ic2.api.recipe.Recipes.scrapboxDrops == null) {/**/}
 		if (ic2.api.recipe.Recipes.recyclerBlacklist == null) {/**/}
@@ -154,7 +154,7 @@ public class CompatIC2 extends CompatBase implements ICompatIC2 {
 	
 	@Override public Object makeInput(ItemStack aStack) {return new RecipeInputItemStack(ST.copy(aStack), aStack.stackSize);}
 	@Override public Object makeInput(String aOreDict, long aAmount) {return new RecipeInputOreDict(aOreDict, UT.Code.bindStack(aAmount));}
-	@Override public Object makeOutput(NBTTagCompound aNBT, ItemStack... aStacks) {return new RecipeOutput(aNBT, aStacks);}
+	@Override public Object makeOutput(CompoundTag aNBT, ItemStack... aStacks) {return new RecipeOutput(aNBT, aStacks);}
 	@Override public boolean isReactorItem(ItemStack aStack) {try {return ST.valid(aStack) && aStack.getItem() instanceof ic2.api.reactor.IReactorComponent;} catch (Throwable e) {/*Do nothing*/} return F;}
 }
 

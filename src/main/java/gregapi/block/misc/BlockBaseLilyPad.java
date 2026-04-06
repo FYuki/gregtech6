@@ -39,20 +39,20 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import mods.railcraft.common.carts.EntityTunnelBore;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
@@ -95,7 +95,7 @@ public class BlockBaseLilyPad extends BlockBaseMeta implements IPlantable, IRend
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
+	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer) {
 		MovingObjectPosition tPos = WD.getMOP(aWorld, aPlayer, T);
 		if (tPos == null || tPos.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return aStack;
 		int aX = tPos.blockX, aY = tPos.blockY, aZ = tPos.blockZ;

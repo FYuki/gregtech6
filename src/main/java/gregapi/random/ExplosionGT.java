@@ -29,17 +29,17 @@ import java.util.Map;
 
 import gregapi.data.CS.SFX;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.network.play.server.S27PacketExplosion;
 import net.minecraft.util.AxisAlignedBB;
@@ -48,7 +48,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.WorldServer;
 
 /**
@@ -67,9 +67,9 @@ public class ExplosionGT extends Explosion {
 			@SuppressWarnings("rawtypes")
 			Iterator tIterator = aWorld.playerEntities.iterator();
 			while (tIterator.hasNext()) {
-				EntityPlayer tPlayer = (EntityPlayer)tIterator.next();
+				Player tPlayer = (Player)tIterator.next();
 				if (tPlayer.getDistanceSq(aX, aY, aZ) < 4096) {
-					((EntityPlayerMP)tPlayer).playerNetServerHandler.sendPacket(new S27PacketExplosion(aX, aY, aZ, aPower, tExplosion.affectedBlockPositions, (Vec3)tExplosion.func_77277_b().get(tPlayer)));
+					((ServerPlayer)tPlayer).playerNetServerHandler.sendPacket(new S27PacketExplosion(aX, aY, aZ, aPower, tExplosion.affectedBlockPositions, (Vec3)tExplosion.func_77277_b().get(tPlayer)));
 				}
 			}
 		} else {
@@ -136,7 +136,7 @@ public class ExplosionGT extends Explosion {
 					tEntity.motionY += tKnockY * tBlastProtection;
 					tEntity.motionZ += tKnockZ * tBlastProtection;
 					
-					if (tEntity instanceof EntityPlayer) field_77288_k.put(tEntity, Vec3.createVectorHelper(tKnockX * tKnockback, tKnockY * tKnockback, tKnockZ * tKnockback));
+					if (tEntity instanceof Player) field_77288_k.put(tEntity, Vec3.createVectorHelper(tKnockX * tKnockback, tKnockY * tKnockback, tKnockZ * tKnockback));
 				}
 			}
 		}
@@ -192,5 +192,5 @@ public class ExplosionGT extends Explosion {
 	
 	@SuppressWarnings("rawtypes")
 	@Override public Map func_77277_b() {return field_77288_k;}
-	@Override public EntityLivingBase getExplosivePlacedBy() {return exploder == null ? null : (exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed)exploder).getTntPlacedBy() : (exploder instanceof EntityLivingBase ? (EntityLivingBase)exploder : null));}
+	@Override public LivingEntity getExplosivePlacedBy() {return exploder == null ? null : (exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed)exploder).getTntPlacedBy() : (exploder instanceof LivingEntity ? (LivingEntity)exploder : null));}
 }

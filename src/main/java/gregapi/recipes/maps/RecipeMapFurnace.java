@@ -27,13 +27,13 @@ import gregapi.recipes.Recipe;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Collection;
 
@@ -81,13 +81,13 @@ public class RecipeMapFurnace extends RecipeMapNonGTRecipes {
 					rXP = FL.XP.make(tOutput.stackSize);
 				} else {
 					Block tBlock = ST.block(tOutput);
-					if (tBlock == Blocks.cobblestone || tBlock == Blocks.stone || tBlock == Blocks.stonebrick || tBlock instanceof BlockStones) {
+					if (tBlock == Blocks.COBBLESTONE || tBlock == Blocks.STONE || tBlock == Blocks.STONE_BRICKS || tBlock instanceof BlockStones) {
 						// Stone should not give XP, especially not because of the Cobble Generator Upgrades.
 						// GT6 Stone is also not allowed due to easily recycleable Recipes.
-					} else if (tBlock == Blocks.hardened_clay || tBlock == Blocks.stained_hardened_clay) {
+					} else if (tBlock == Blocks.TERRACOTTA || tBlock == Blocks.WHITE_TERRACOTTA) {
 						// Hardened Clay is 0.10 XP
 						rXP = FL.XP.make(tOutput.stackSize * 2L);
-					} else if (tBlock == Blocks.brick_block || tBlock == Blocks.nether_brick) {
+					} else if (tBlock == Blocks.brick_block || tBlock == Blocks.NETHER_BRICKS) {
 						// Brick Blocks are 0.15 XP, yes only three instead of four Bricks worth of XP
 						rXP = FL.XP.make(tOutput.stackSize * 3L);
 					} else if (ST.food(tOutput) > 0) {

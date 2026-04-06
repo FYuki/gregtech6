@@ -28,13 +28,13 @@ import gregapi.render.BlockTextureDefault;
 import gregapi.render.ITexture;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.List;
 
@@ -79,8 +79,8 @@ public abstract class AbstractCoverDefault implements ICover {
 	@Override public byte getRedstoneOutWeak(byte aCoverSide, CoverData aData, byte aDefaultRedstone) {return aDefaultRedstone;}
 	@Override public byte getRedstoneOutStrong(byte aCoverSide, CoverData aData, byte aDefaultRedstone) {return aDefaultRedstone;}
 	
-	@Override public Object getGUIServer(byte aCoverSide, CoverData aData, EntityPlayer aPlayer) {return null;}
-	@Override public Object getGUIClient(byte aCoverSide, CoverData aData, EntityPlayer aPlayer) {return null;}
+	@Override public Object getGUIServer(byte aCoverSide, CoverData aData, Player aPlayer) {return null;}
+	@Override public Object getGUIClient(byte aCoverSide, CoverData aData, Player aPlayer) {return null;}
 	
 	@Override public float[] getCoverBounds(byte aCoverSide, CoverData aData) {return BOXES_COVERS[aCoverSide];}
 	@Override public float[] getHolderBounds(byte aCoverSide, CoverData aData) {return BOXES_HOLDERS[aCoverSide];}

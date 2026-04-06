@@ -22,11 +22,11 @@ package gregapi.fluid;
 import gregapi.data.FL;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.util.UT;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidTank;
+import net.minecraft.nbt.CompoundTag;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
+// PHASE3: import FluidTankInfo removed
+// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,10 +53,10 @@ public class FluidTankGT implements IFluidTank {
 	public FluidTankGT(FluidStack aFluid, long aAmount, long aCapacity) {mFluid = aFluid; mCapacity = aCapacity; mAmount = (aFluid == null ? 0 : aAmount);}
 	public FluidTankGT(Fluid aFluid, long aAmount) {this(FL.make(aFluid, aAmount)); mAmount = aAmount;}
 	public FluidTankGT(Fluid aFluid, long aAmount, long aCapacity) {this(FL.make(aFluid, aAmount), aCapacity); mAmount = aAmount;}
-	public FluidTankGT(NBTTagCompound aNBT, long aCapacity) {mCapacity = aCapacity; if (aNBT != null && !aNBT.hasNoTags()) {mFluid = FL.load_(aNBT); mAmount = (isEmpty() ? 0 : aNBT.hasKey("LAmount") ? aNBT.getLong("LAmount") : mFluid.amount);}}
-	public FluidTankGT(NBTTagCompound aNBT, String aKey, long aCapacity) {this(aNBT.hasKey(aKey) ? aNBT.getCompoundTag(aKey) : null, aCapacity);}
+	public FluidTankGT(CompoundTag aNBT, long aCapacity) {mCapacity = aCapacity; if (aNBT != null && !aNBT.hasNoTags()) {mFluid = FL.load_(aNBT); mAmount = (isEmpty() ? 0 : aNBT.hasKey("LAmount") ? aNBT.getLong("LAmount") : mFluid.amount);}}
+	public FluidTankGT(CompoundTag aNBT, String aKey, long aCapacity) {this(aNBT.hasKey(aKey) ? aNBT.getCompoundTag(aKey) : null, aCapacity);}
 	
-	public FluidTankGT readFromNBT(NBTTagCompound aNBT, String aKey) {
+	public FluidTankGT readFromNBT(CompoundTag aNBT, String aKey) {
 		if (aNBT.hasKey(aKey)) {
 			aNBT = aNBT.getCompoundTag(aKey);
 			if (aNBT != null && !aNBT.hasNoTags()) {
@@ -67,9 +67,9 @@ public class FluidTankGT implements IFluidTank {
 		return this;
 	}
 	
-	public NBTTagCompound writeToNBT(NBTTagCompound aNBT, String aKey) {
+	public CompoundTag writeToNBT(CompoundTag aNBT, String aKey) {
 		if (mFluid != null && (mPreventDraining || mAmount > 0)) {
-			NBTTagCompound tNBT = UT.NBT.make();
+			CompoundTag tNBT = UT.NBT.make();
 			mFluid.amount = UT.Code.bindInt(mAmount);
 			aNBT.setTag(aKey, mFluid.writeToNBT(tNBT));
 			if (mAmount > Integer.MAX_VALUE) tNBT.setLong("LAmount", mAmount);
@@ -79,10 +79,10 @@ public class FluidTankGT implements IFluidTank {
 		return aNBT;
 	}
 	
-	public NBTTagCompound writeToNBT(String aKey) {
-		NBTTagCompound aNBT = UT.NBT.make();
+	public CompoundTag writeToNBT(String aKey) {
+		CompoundTag aNBT = UT.NBT.make();
 		if (mFluid != null && (mPreventDraining || mAmount > 0)) {
-			NBTTagCompound tNBT = UT.NBT.make();
+			CompoundTag tNBT = UT.NBT.make();
 			mFluid.amount = UT.Code.bindInt(mAmount);
 			aNBT.setTag(aKey, mFluid.writeToNBT(tNBT));
 			if (mAmount > Integer.MAX_VALUE) tNBT.setLong("LAmount", mAmount);
@@ -92,15 +92,15 @@ public class FluidTankGT implements IFluidTank {
 		return aNBT;
 	}
 	
-	public static NBTTagCompound writeToNBT(String aKey, FluidStack aFluid) {
-		NBTTagCompound rNBT = UT.NBT.make();
+	public static CompoundTag writeToNBT(String aKey, FluidStack aFluid) {
+		CompoundTag rNBT = UT.NBT.make();
 		if (aFluid != null && aFluid.amount > 0) {
 			rNBT.setTag(aKey, aFluid.writeToNBT(UT.NBT.make()));
 		}
 		return rNBT;
 	}
 	
-	public static NBTTagCompound writeToNBT(NBTTagCompound aNBT, String aKey, FluidStack aFluid) {
+	public static CompoundTag writeToNBT(CompoundTag aNBT, String aKey, FluidStack aFluid) {
 		if (aFluid != null && aFluid.amount > 0) {
 			aNBT.setTag(aKey, aFluid.writeToNBT(UT.NBT.make()));
 		} else {

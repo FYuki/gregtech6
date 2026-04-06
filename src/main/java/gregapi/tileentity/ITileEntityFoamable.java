@@ -19,7 +19,7 @@
 
 package gregapi.tileentity;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * @author Gregorius Techneticies

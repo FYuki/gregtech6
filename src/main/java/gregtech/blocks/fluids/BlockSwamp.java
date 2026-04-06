@@ -23,16 +23,16 @@ import gregapi.block.IBlockExtendedMetaData;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.data.IL;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IIcon;
+import net.minecraft.core.BlockPos; // was BlockPos
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 
 import java.util.Random;
 
@@ -92,7 +92,7 @@ public class BlockSwamp extends BlockWaterlike {
 		boolean tDirt = F;
 		
 		byte tSwampCounter = 0;
-		ArrayListNoNulls<ChunkCoordinates> tList = new ArrayListNoNulls<>();
+		ArrayListNoNulls<BlockPos> tList = new ArrayListNoNulls<>();
 		for (byte tSide : ALL_SIDES_BUT_TOP) {
 			tBlock = WD.block(aWorld, aX, aY, aZ, tSide);
 			if (tBlock != NB) {
@@ -102,9 +102,9 @@ public class BlockSwamp extends BlockWaterlike {
 				} else if (tBlock instanceof BlockWaterlike) {
 					if (tMeta == 0 || tBlock instanceof BlockOcean) tSwampCounter++;
 				} else if (tBlock == Blocks.water || tBlock == Blocks.flowing_water) {
-					tList.add(new ChunkCoordinates(aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide]));
+					tList.add(new BlockPos(aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide]));
 					if (tMeta == 0) tSwampCounter++;
-				} else if (tBlock == Blocks.sand || tBlock == Blocks.dirt || tBlock == Blocks.grass || tBlock == Blocks.mycelium || tBlock == BlocksGT.Grass || tBlock == BlocksGT.Diggables || tBlock == BlocksGT.Sands || tBlock == BlocksGT.oreSand || tBlock == BlocksGT.oreRedSand || tBlock == BlocksGT.oreMud || tBlock == BlocksGT.oreSmallSand || tBlock == BlocksGT.oreSmallRedSand || tBlock == BlocksGT.oreSmallMud || IL.EtFu_Dirt.equal(tBlock)) {
+				} else if (tBlock == Blocks.SAND || tBlock == Blocks.DIRT || tBlock == Blocks.GRASS_BLOCK || tBlock == Blocks.mycelium || tBlock == BlocksGT.Grass || tBlock == BlocksGT.Diggables || tBlock == BlocksGT.Sands || tBlock == BlocksGT.oreSand || tBlock == BlocksGT.oreRedSand || tBlock == BlocksGT.oreMud || tBlock == BlocksGT.oreSmallSand || tBlock == BlocksGT.oreSmallRedSand || tBlock == BlocksGT.oreSmallMud || IL.EtFu_Dirt.equal(tBlock)) {
 					tDirt = T;
 				} else if (IL.TF_Mazestone.equal(tBlock)) {
 					// prevent flooding the Twilight Mazes.
@@ -144,7 +144,7 @@ public class BlockSwamp extends BlockWaterlike {
 		
 		if (tDirt) for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) for (int k = -1; k <= 1; k++) {
 			tBlock = aWorld.getBlock(aX+i, aY+j, aZ+k);
-			if (tBlock == Blocks.sand || tBlock == Blocks.dirt || tBlock == Blocks.grass || tBlock == Blocks.mycelium || IL.EtFu_Dirt.equal(tBlock)) {aWorld.setBlock(aX+i, aY+j, aZ+k, BlocksGT.Diggables, 0, 2); continue;}
+			if (tBlock == Blocks.SAND || tBlock == Blocks.DIRT || tBlock == Blocks.GRASS_BLOCK || tBlock == Blocks.mycelium || IL.EtFu_Dirt.equal(tBlock)) {aWorld.setBlock(aX+i, aY+j, aZ+k, BlocksGT.Diggables, 0, 2); continue;}
 			if (tBlock == BlocksGT.oreSand || tBlock == BlocksGT.oreRedSand) {BlocksGT.oreMud.placeBlock(aWorld, aX+i, aY+j, aZ+k, SIDE_UNKNOWN, ((IBlockExtendedMetaData)tBlock).getExtendedMetaData(aWorld, aX+i, aY+j, aZ+k), null, T, T); continue;}
 			if (tBlock == BlocksGT.oreSmallSand || tBlock == BlocksGT.oreSmallRedSand) {BlocksGT.oreSmallMud.placeBlock(aWorld, aX+i, aY+j, aZ+k, SIDE_UNKNOWN, ((IBlockExtendedMetaData)tBlock).getExtendedMetaData(aWorld, aX+i, aY+j, aZ+k), null, T, T); continue;}
 		}
@@ -175,7 +175,7 @@ public class BlockSwamp extends BlockWaterlike {
 			}
 		}
 		
-		for (ChunkCoordinates tCoords : tList) {
+		for (BlockPos tCoords : tList) {
 			if (aWorld.setBlock(tCoords.posX, tCoords.posY, tCoords.posZ, this, 0, WATER_UPDATE_FLAGS)) for (int i = -1; i < 2; i++) for (int j = -1; j < 2; j++) {
 				if (aWorld.blockExists(tCoords.posX+i, tCoords.posY, tCoords.posZ+j)) {
 					tBlock = aWorld.getBlock(tCoords.posX+i, tCoords.posY, tCoords.posZ+j);
@@ -190,7 +190,7 @@ public class BlockSwamp extends BlockWaterlike {
 	}
 	
 	@Override
-	public void onHeadInside(EntityLivingBase aEntity, World aWorld, int aX, int aY, int aZ) {
+	public void onHeadInside(LivingEntity aEntity, World aWorld, int aX, int aY, int aZ) {
 		if (aEntity instanceof EntitySlime) return;
 		super.onHeadInside(aEntity, aWorld, aX, aY, aZ);
 	}

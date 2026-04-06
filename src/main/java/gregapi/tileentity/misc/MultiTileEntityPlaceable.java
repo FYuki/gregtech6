@@ -32,13 +32,13 @@ import gregapi.tileentity.notick.TileEntityBase03MultiTileEntities;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import static gregapi.data.CS.*;
 
@@ -52,7 +52,7 @@ public abstract class MultiTileEntityPlaceable extends TileEntityBase03MultiTile
 	public byte mSize = 1;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		mStack = ST.load(aNBT, NBT_VALUE);
 		if (ST.valid(mStack)) {
 			mSize = UT.Code.bindStack(ST.size(mStack));
@@ -63,7 +63,7 @@ public abstract class MultiTileEntityPlaceable extends TileEntityBase03MultiTile
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		ST.save(aNBT, NBT_VALUE, mStack);
 	}
@@ -74,7 +74,7 @@ public abstract class MultiTileEntityPlaceable extends TileEntityBase03MultiTile
 	}
 	
 	@Override
-	public boolean onBlockActivated2(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return T;
 		ItemStack aStack = aPlayer.getCurrentEquippedItem();
 		if (ST.invalid(mStack) || mStack.stackSize <= 0) return setToAir();
@@ -130,7 +130,7 @@ public abstract class MultiTileEntityPlaceable extends TileEntityBase03MultiTile
 	@Override public boolean isSurfaceOpaque        (byte aSide) {return F;}
 	@Override public boolean isSideSolid            (byte aSide) {return F;}
 	@Override public boolean isObstructingBlockAt   (byte aSide) {return F;}
-	@Override public boolean checkObstruction(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
+	@Override public boolean checkObstruction(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
 	@Override public boolean canEntityDestroy(Entity aEntity) {return !(aEntity instanceof EntityDragon);}
 	
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_LEAVES;}

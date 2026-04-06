@@ -38,7 +38,7 @@ import gregapi.util.CR;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public class Compat_Recipes_Tropicraft extends CompatMods {
 	public Compat_Recipes_Tropicraft(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

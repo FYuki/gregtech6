@@ -19,8 +19,8 @@
 
 package gregapi.old;
 
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * Implemented by the MetaTileEntity of the Redstone Circuit Block

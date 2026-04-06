@@ -41,9 +41,9 @@ import gregapi.tileentity.energy.ITileEntityEnergyElectricityAcceptor;
 import gregapi.tileentity.energy.TileEntityBase10EnergyConverter;
 import gregapi.tileentity.machines.ITileEntityAdjacentOnOff;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.AxisAlignedBB;
 
 public class MultiTileEntityLaserBuildcraft extends TileEntityBase10EnergyConverter implements ITileEntityAdjacentOnOff, ITileEntityEnergyElectricityAcceptor, IMTE_SetBlockBoundsBasedOnState, IMTE_GetCollisionBoundingBoxFromPool, IMTE_GetSelectedBoundingBoxFromPool {

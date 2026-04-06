@@ -30,13 +30,13 @@ import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -55,14 +55,14 @@ public class Behavior_Spray_Color_Remover extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote || aStack.stackSize != 1) return F;
 		
 		boolean rOutput = F;
 		
 		if (!aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		
-		NBTTagCompound tNBT = aStack.getTagCompound();
+		CompoundTag tNBT = aStack.getTagCompound();
 		if (tNBT == null) tNBT = UT.NBT.make();
 		long tUses = tNBT.getLong("gt.remaining");
 		
@@ -98,10 +98,10 @@ public class Behavior_Spray_Color_Remover extends AbstractBehaviorDefault {
 		if (aDelegator.mTileEntity instanceof ITileEntityDecolorable) return ((ITileEntityDecolorable)aDelegator.mTileEntity).removePaint(aDelegator.mSideOfTileEntity);
 		Block aBlock = aDelegator.getBlock();
 		if (aBlock instanceof IBlockDecolorable) return ((IBlockDecolorable)aBlock).removePaint(aWorld, aDelegator.mX, aDelegator.mY, aDelegator.mZ, aDelegator.mSideOfTileEntity);
-		if (aBlock == Blocks.stained_hardened_clay) return aDelegator.setBlock(Blocks.hardened_clay);
+		if (aBlock == Blocks.WHITE_TERRACOTTA) return aDelegator.setBlock(Blocks.TERRACOTTA);
 		if (aBlock == Blocks.stained_glass_pane) return aDelegator.setBlock(Blocks.glass_pane);
 		if (aBlock == Blocks.stained_glass) return aDelegator.setBlock(Blocks.glass);
-		if (aBlock == BlocksGT.Grass) return aDelegator.setBlock(Blocks.grass);
+		if (aBlock == BlocksGT.Grass) return aDelegator.setBlock(Blocks.GRASS_BLOCK);
 		return F;
 	}
 	
@@ -114,7 +114,7 @@ public class Behavior_Spray_Color_Remover extends AbstractBehaviorDefault {
 	@Override
 	public List<String> getAdditionalToolTips(MultiItem aItem, List<String> aList, ItemStack aStack) {
 		aList.add(LH.get("gt.behaviour.paintremoverspray.tooltip"));
-		NBTTagCompound tNBT = aStack.getTagCompound();
+		CompoundTag tNBT = aStack.getTagCompound();
 		long tRemaining = (ST.equal(aStack, mFull, T)?mUses:tNBT==null?0:tNBT.getLong("gt.remaining"));
 		aList.add(LH.get("gt.behaviour.paintremoverspray.uses") + " " + (tRemaining / 10) + "." + (tRemaining % 10));
 		aList.add(LH.get("gt.behaviour.unstackable"));

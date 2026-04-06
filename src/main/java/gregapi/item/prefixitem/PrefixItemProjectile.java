@@ -35,15 +35,15 @@ import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -75,7 +75,7 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
+	public void addInformation(ItemStack aStack, Player aPlayer, List aList, boolean aF3_H) {
 		if (mIsBullet) {
 			OreDictMaterial tMat = getMaterial(ST.meta(aStack));
 			int tDamage = (int)((tMat == null ? 1.0 : tMat.getWeight(getPrefix(ST.meta(aStack)).mAmount) / 50.0) * 2.0F * TFC_DAMAGE_MULTIPLIER)+1;
@@ -101,10 +101,10 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, EntityLivingBase aEntity, float aSpeed) {
+	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed) {
 		if (!hasProjectile(aProjectileType, aStack)) return null;
 		try {
-			EntityProjectile tProjectile = mEntityClass.getConstructor(World.class, EntityLivingBase.class, Float.TYPE).newInstance(aWorld, aEntity, mSpeedMultiplier * aSpeed);
+			EntityProjectile tProjectile = mEntityClass.getConstructor(World.class, LivingEntity.class, Float.TYPE).newInstance(aWorld, aEntity, mSpeedMultiplier * aSpeed);
 			tProjectile.setProjectileStack(ST.amount(1, aStack));
 			return tProjectile;
 		} catch (Throwable e) {FMLLog.severe("Problems with '%s'", mEntityClass.getName()); FMLLog.severe(e.toString());}
@@ -112,11 +112,11 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	}
 	
 	@Override
-	public boolean onLeftClickEntity(ItemStack aStack, EntityPlayer aPlayer, Entity aEntity) {
+	public boolean onLeftClickEntity(ItemStack aStack, Player aPlayer, Entity aEntity) {
 		super.onLeftClickEntity(aStack, aPlayer, aEntity);
-		if (aEntity instanceof EntityLivingBase) {
+		if (aEntity instanceof LivingEntity) {
 			if (mStabbing) {
-				UT.Enchantments.applyBullshitA((EntityLivingBase)aEntity, aPlayer, aStack);
+				UT.Enchantments.applyBullshitA((LivingEntity)aEntity, aPlayer, aStack);
 				UT.Enchantments.applyBullshitB(aPlayer, aEntity, aStack);
 			}
 			ST.use(aPlayer, aStack);
@@ -137,7 +137,7 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 		super.updateItemStack(aStack);
 		short aMetaData = ST.meta_(aStack);
 		if (UT.Code.exists(aMetaData, mMaterialList) && !mMaterialList[aMetaData].mEnchantmentAmmo.isEmpty()) {
-			NBTTagCompound tNBT = UT.NBT.getOrCreate(aStack);
+			CompoundTag tNBT = UT.NBT.getOrCreate(aStack);
 			if (!tNBT.getBoolean("gt.u")) {
 				tNBT.setBoolean("gt.u", T);
 				for (ObjectStack<Enchantment> tEnchantment : mMaterialList[aMetaData].mEnchantmentAmmo) {

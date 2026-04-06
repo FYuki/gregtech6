@@ -21,7 +21,7 @@ package gregapi.tileentity;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * @author Gregorius Techneticies
@@ -29,12 +29,12 @@ import net.minecraft.entity.player.EntityPlayer;
 public interface ITileEntityGUI extends ITileEntityUnloadable {
 	/** Gets the GUI Elements. Negative GUIIDs are internal Usage. For example -1, -2, -3, -4, -5 and -6 are the Covers on the Side -GUIID-1 */
 	@OnlyIn(Dist.CLIENT)
-	public Object getGUIClient(int aGUIID, EntityPlayer aPlayer);
+	public Object getGUIClient(int aGUIID, Player aPlayer);
 	/** Gets the GUI Elements. Negative GUIIDs are internal Usage. For example -1, -2, -3, -4, -5 and -6 are the Covers on the Side -GUIID-1 */
-	public Object getGUIServer(int aGUIID, EntityPlayer aPlayer);
+	public Object getGUIServer(int aGUIID, Player aPlayer);
 	
 	/** Opens the GUI with this ID of this TileEntity */
-	public boolean openGUI(EntityPlayer aPlayer, int aID);
+	public boolean openGUI(Player aPlayer, int aID);
 	/** Opens the GUI with the ID = 0 of this TileEntity */
-	public boolean openGUI(EntityPlayer aPlayer);
+	public boolean openGUI(Player aPlayer);
 }

@@ -29,9 +29,9 @@ import gregapi.item.multiitem.food.FoodStat;
 import gregapi.util.CR;
 import gregapi.util.ST;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import static gregapi.data.CS.*;
 

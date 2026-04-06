@@ -25,7 +25,7 @@ import gregapi.data.TD;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.energy.ITileEntityEnergy;
 import gregapi.util.WD;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 @Deprecated
 @SuppressWarnings("deprecation")

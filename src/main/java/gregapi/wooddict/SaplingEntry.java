@@ -23,7 +23,7 @@ import gregapi.data.MT;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.F;
 

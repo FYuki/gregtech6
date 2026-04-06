@@ -41,29 +41,29 @@ import gregapi.tileentity.machines.ITileEntitySwitchableOnOff;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import gregtech.blocks.tool.BlockLongDistPipe;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos; // was BlockPos
 
 public class MultiTileEntityLongDistancePipelineItem extends TileEntityBase09FacingSingle implements IMTE_HasMultiBlockMachineRelevantData, ITileEntityCanDelegate, ITileEntityMachineBlockUpdateable, ITileEntitySwitchableOnOff {
 	protected boolean mStopped = F;
 	protected MultiTileEntityLongDistancePipelineItem mTarget = null, mSender = null;
-	protected ChunkCoordinates mTargetPos = null;
+	protected BlockPos mTargetPos = null;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_STOPPED)) mStopped = aNBT.getBoolean(NBT_STOPPED);
-		if (aNBT.hasKey(NBT_TARGET)) {mTargetPos = new ChunkCoordinates(UT.Code.bindInt(aNBT.getLong(NBT_TARGET_X)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Y)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Z)));}
+		if (aNBT.hasKey(NBT_TARGET)) {mTargetPos = new BlockPos(UT.Code.bindInt(aNBT.getLong(NBT_TARGET_X)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Y)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Z)));}
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		if (mTargetPos != null && mTarget != this) {
 		UT.NBT.setBoolean(aNBT, NBT_TARGET, T);
@@ -139,23 +139,23 @@ public class MultiTileEntityLongDistancePipelineItem extends TileEntityBase09Fac
 		if (aBlock instanceof BlockLongDistPipe) {
 			
 			if (((BlockLongDistPipe)aBlock).mTemperatures[aMetaData] >= 0) return;
-			HashSetNoNulls<ChunkCoordinates>
+			HashSetNoNulls<BlockPos>
 			tNewChecks  = new HashSetNoNulls<>(),
 			tOldChecks  = new HashSetNoNulls<>(F, getCoords()),
 			tToCheck    = new HashSetNoNulls<>(F, getOffsetN(mFacing, 1)),
 			tWires      = new HashSetNoNulls<>();
 			
 			while (!tToCheck.isEmpty()) {
-				for (ChunkCoordinates aCoords : tToCheck) {
+				for (BlockPos aCoords : tToCheck) {
 					if (getBlock(aCoords) == aBlock && getMetaData(aCoords) == aMetaData) {
 						tWires.add(aCoords);
-						ChunkCoordinates tCoords;
-						if (tOldChecks.add(tCoords = new ChunkCoordinates(aCoords.posX + 1, aCoords.posY, aCoords.posZ))) tNewChecks.add(tCoords);
-						if (tOldChecks.add(tCoords = new ChunkCoordinates(aCoords.posX - 1, aCoords.posY, aCoords.posZ))) tNewChecks.add(tCoords);
-						if (tOldChecks.add(tCoords = new ChunkCoordinates(aCoords.posX, aCoords.posY + 1, aCoords.posZ))) tNewChecks.add(tCoords);
-						if (tOldChecks.add(tCoords = new ChunkCoordinates(aCoords.posX, aCoords.posY - 1, aCoords.posZ))) tNewChecks.add(tCoords);
-						if (tOldChecks.add(tCoords = new ChunkCoordinates(aCoords.posX, aCoords.posY, aCoords.posZ + 1))) tNewChecks.add(tCoords);
-						if (tOldChecks.add(tCoords = new ChunkCoordinates(aCoords.posX, aCoords.posY, aCoords.posZ - 1))) tNewChecks.add(tCoords);
+						BlockPos tCoords;
+						if (tOldChecks.add(tCoords = new BlockPos(aCoords.posX + 1, aCoords.posY, aCoords.posZ))) tNewChecks.add(tCoords);
+						if (tOldChecks.add(tCoords = new BlockPos(aCoords.posX - 1, aCoords.posY, aCoords.posZ))) tNewChecks.add(tCoords);
+						if (tOldChecks.add(tCoords = new BlockPos(aCoords.posX, aCoords.posY + 1, aCoords.posZ))) tNewChecks.add(tCoords);
+						if (tOldChecks.add(tCoords = new BlockPos(aCoords.posX, aCoords.posY - 1, aCoords.posZ))) tNewChecks.add(tCoords);
+						if (tOldChecks.add(tCoords = new BlockPos(aCoords.posX, aCoords.posY, aCoords.posZ + 1))) tNewChecks.add(tCoords);
+						if (tOldChecks.add(tCoords = new BlockPos(aCoords.posX, aCoords.posY, aCoords.posZ - 1))) tNewChecks.add(tCoords);
 					} else {
 						TileEntity tTileEntity = getTileEntity(aCoords);
 						if (tTileEntity != this && tTileEntity instanceof MultiTileEntityLongDistancePipelineItem) {
@@ -181,7 +181,7 @@ public class MultiTileEntityLongDistancePipelineItem extends TileEntityBase09Fac
 	@Override public boolean getStateOnOff() {return !mStopped;}
 	
 	@Override public void onCoordinateChange() {super.onCoordinateChange(); mTargetPos = null; mSender = null;}
-	@Override public void onMachineBlockUpdate(ChunkCoordinates aCoords, Block aBlock, byte aMeta, boolean aRemoved) {if (aBlock instanceof BlockLongDistPipe) {mTargetPos = null; mSender = null;}}
+	@Override public void onMachineBlockUpdate(BlockPos aCoords, Block aBlock, byte aMeta, boolean aRemoved) {if (aBlock instanceof BlockLongDistPipe) {mTargetPos = null; mSender = null;}}
 	@Override public boolean hasMultiBlockMachineRelevantData() {return T;}
 	
 	@Override public boolean canDrop(int aInventorySlot) {return F;}

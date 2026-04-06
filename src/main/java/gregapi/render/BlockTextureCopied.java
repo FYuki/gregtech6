@@ -23,10 +23,10 @@ import static gregapi.data.CS.*;
 
 import gregapi.old.Textures;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 
 /** 
  * @author Gregorius Techneticies
@@ -97,7 +97,7 @@ public class BlockTextureCopied implements ITexture {
 	}
 	
 	public BlockTextureCopied(Block aBlock, int aSide, int aMeta) {
-		this(aBlock, aSide, aMeta, aBlock.getRenderColor(aMeta), F, aBlock == Blocks.fire || aBlock == Blocks.lava || aBlock == Blocks.flowing_lava || aBlock == Blocks.glowstone || aBlock == Blocks.lit_redstone_lamp);
+		this(aBlock, aSide, aMeta, aBlock.getRenderColor(aMeta), F, aBlock == Blocks.fire || aBlock == Blocks.lava || aBlock == Blocks.flowing_lava || aBlock == Blocks.GLOWSTONE || aBlock == Blocks.REDSTONE_LAMP);
 	}
 	
 	private IIcon getIcon(int aSide) {

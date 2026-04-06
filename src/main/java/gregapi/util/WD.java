@@ -54,28 +54,28 @@ import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
+import net.minecraft.world.level.Level;
+// PHASE3: import WorldProvider removed — use DimensionType
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.common.DimensionManager;
 import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.fluids.*;
@@ -147,7 +147,7 @@ public class WD {
 		return F;
 	}
 	
-	public static MovingObjectPosition getMOP(World aWorld, EntityPlayer aPlayer, boolean aFlag) {
+	public static MovingObjectPosition getMOP(World aWorld, Player aPlayer, boolean aFlag) {
 		Vec3 vec3 = Vec3.createVectorHelper(
 		  aPlayer.prevPosX + (aPlayer.posX - aPlayer.prevPosX)
 		, aPlayer.prevPosY + (aPlayer.posY - aPlayer.prevPosY) + (aWorld.isRemote ? aPlayer.getEyeHeight() - aPlayer.getDefaultEyeHeight() : aPlayer.getEyeHeight()) // isRemote check to revert changes to ray trace position due to adding the eye height clientside and player yOffset differences
@@ -159,7 +159,7 @@ public class WD {
 		float  tX     =  MathHelper.sin(-tYaw   * 0.017453292F - (float)Math.PI);
 		float  tW     = -MathHelper.cos(-tPitch * 0.017453292F);
 		float  tY     =  MathHelper.sin(-tPitch * 0.017453292F);
-		double tReach = (aPlayer instanceof EntityPlayerMP ? ((EntityPlayerMP)aPlayer).theItemInWorldManager.getBlockReachDistance() : 5);
+		double tReach = (aPlayer instanceof ServerPlayer ? ((ServerPlayer)aPlayer).theItemInWorldManager.getBlockReachDistance() : 5);
 		return aWorld.func_147447_a(vec3, vec3.addVector(tX * tW * tReach, tY * tReach, tZ * tW * tReach), aFlag, !aFlag, F);
 	}
 	
@@ -257,8 +257,8 @@ public class WD {
 			if (aEntity.ridingEntity != null) aEntity.mountEntity(null);
 			if (aEntity.riddenByEntity != null) aEntity.riddenByEntity.mountEntity(null);
 			
-			if (aEntity instanceof EntityPlayerMP) {
-				EntityPlayerMP aPlayer = (EntityPlayerMP)aEntity;
+			if (aEntity instanceof ServerPlayer) {
+				ServerPlayer aPlayer = (ServerPlayer)aEntity;
 				aPlayer.dimension = aDimension;
 				aPlayer.playerNetServerHandler.sendPacket(new S07PacketRespawn(aPlayer.dimension, aPlayer.worldObj.difficultySetting, aPlayer.worldObj.getWorldInfo().getTerrainType(), aPlayer.theItemInWorldManager.getGameType()));
 				tOriginalWorld.removePlayerEntityDangerously(aPlayer);
@@ -296,8 +296,8 @@ public class WD {
 				}
 			}
 			
-			if (aEntity instanceof EntityLivingBase) {
-				((EntityLivingBase)aEntity).setPositionAndUpdate(aX, aY, aZ);
+			if (aEntity instanceof LivingEntity) {
+				((LivingEntity)aEntity).setPositionAndUpdate(aX, aY, aZ);
 			} else {
 				aEntity.setPosition(aX, aY, aZ);
 			}
@@ -332,7 +332,7 @@ public class WD {
 	
 	
 	/** to get a TileEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
-	public static DelegatorTileEntity<TileEntity> te(World aWorld, ChunkCoordinates aCoords, byte aSide, boolean aLoadUnloadedChunks) {
+	public static DelegatorTileEntity<TileEntity> te(World aWorld, BlockPos aCoords, byte aSide, boolean aLoadUnloadedChunks) {
 		return te(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ, aSide, aLoadUnloadedChunks);
 	}
 	/** to get a TileEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
@@ -341,7 +341,7 @@ public class WD {
 		return aTileEntity instanceof ITileEntityDelegating ? ((ITileEntityDelegating)aTileEntity).getDelegateTileEntity(aSide) : new DelegatorTileEntity<>(aTileEntity, aWorld, aX, aY, aZ, aSide);
 	}
 	/** to get a TileEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
-	public static TileEntity te(World aWorld, ChunkCoordinates aCoords, boolean aLoadUnloadedChunks) {
+	public static TileEntity te(World aWorld, BlockPos aCoords, boolean aLoadUnloadedChunks) {
 		return te(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ, aLoadUnloadedChunks);
 	}
 	/** to get a TileEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
@@ -442,7 +442,7 @@ public class WD {
 	public static long temperature(World aWorld, int aX, int aY, int aZ) {
 		long rTemperature = envTemp(aWorld, aX, aY, aZ);
 		if (burning(aWorld, aX, aY, aZ)) rTemperature = Math.max(rTemperature, C + 200);
-		for (ChunkCoordinates tCoords : new ChunkCoordinates[] {new ChunkCoordinates(aX, aY, aZ), new ChunkCoordinates(aX+1, aY, aZ), new ChunkCoordinates(aX-1, aY, aZ), new ChunkCoordinates(aX, aY+1, aZ), new ChunkCoordinates(aX, aY-1, aZ), new ChunkCoordinates(aX, aY, aZ+1), new ChunkCoordinates(aX, aY, aZ-1)}) {
+		for (BlockPos tCoords : new BlockPos[] {new BlockPos(aX, aY, aZ), new BlockPos(aX+1, aY, aZ), new BlockPos(aX-1, aY, aZ), new BlockPos(aX, aY+1, aZ), new BlockPos(aX, aY-1, aZ), new BlockPos(aX, aY, aZ+1), new BlockPos(aX, aY, aZ-1)}) {
 			Block tBlock = block(aWorld, tCoords.posX, tCoords.posY, tCoords.posZ, F);
 			if (tBlock == Blocks.lava || tBlock == Blocks.flowing_lava) rTemperature = Math.max(rTemperature, C + 500);
 			else if (tBlock instanceof BlockFire) rTemperature = Math.max(rTemperature, C + 200);
@@ -458,7 +458,7 @@ public class WD {
 	public static void update(IBlockAccess aWorld, int aX, int aY, int aZ) {
 		((World)aWorld).markBlockForUpdate(aX, aY, aZ);
 		if (CLIENT_BLOCKUPDATE_SOUNDS && CODE_CLIENT && CLIENT_TIME > 100) {
-			EntityPlayer tPlayer = GT_API.api_proxy.getThePlayer();
+			Player tPlayer = GT_API.api_proxy.getThePlayer();
 			if (tPlayer != null && Math.abs(tPlayer.posX - aX) < 16 && Math.abs(tPlayer.posY - aY) < 16 && Math.abs(tPlayer.posZ - aZ) < 16) {
 				UT.Sounds.play(SFX.MC_FIREWORK_LAUNCH, 1, 1.0F, 1.0F, aX, aY, aZ);
 			}
@@ -485,7 +485,7 @@ public class WD {
 	public static boolean set(World aWorld, int aX, int aY, int aZ, Block aBlock, long aMeta, long aFlags, boolean aRemoveGrassBelow) {
 		if (aRemoveGrassBelow) {
 			Block tBlock = aWorld.getBlock(aX, aY-1, aZ);
-			if (tBlock == Blocks.grass || tBlock == Blocks.mycelium) aWorld.setBlock(aX, aY-1, aZ, Blocks.dirt, 0, (byte)aFlags);
+			if (tBlock == Blocks.GRASS_BLOCK || tBlock == Blocks.mycelium) aWorld.setBlock(aX, aY-1, aZ, Blocks.DIRT, 0, (byte)aFlags);
 		}
 		return aWorld.setBlock(aX, aY, aZ, aBlock, aBlock==NB?0:Code.bind4(aMeta), (byte)aFlags);
 	}
@@ -496,7 +496,7 @@ public class WD {
 	public static boolean set(Chunk aChunk, int aX, int aY, int aZ, Block aBlock, long aMeta, boolean aRemoveGrassBelow) {
 		if (aRemoveGrassBelow) {
 			Block tBlock = aChunk.getBlock(aX, aY-1, aZ);
-			if (tBlock == Blocks.grass || tBlock == Blocks.mycelium) aChunk.func_150807_a(aX, aY-1, aZ, Blocks.dirt, 0);
+			if (tBlock == Blocks.GRASS_BLOCK || tBlock == Blocks.mycelium) aChunk.func_150807_a(aX, aY-1, aZ, Blocks.DIRT, 0);
 		}
 		return aChunk.func_150807_a(aX, aY, aZ, aBlock, aBlock==NB?0:Code.bind4(aMeta));
 	}
@@ -507,24 +507,24 @@ public class WD {
 		if (aReplaceMeta != W && aReplaceMeta != meta(aWorld, aX, aY, aZ)) return F;
 		return aWorld.setBlock(aX, aY, aZ, aTargetBlock, Code.bind4(aTargetMeta), 2);
 	}
-	public static boolean replace(World aWorld, ChunkCoordinates aCoords, Block aReplaceBlock, long aReplaceMeta, Block aTargetBlock, long aTargetMeta) {
+	public static boolean replace(World aWorld, BlockPos aCoords, Block aReplaceBlock, long aReplaceMeta, Block aTargetBlock, long aTargetMeta) {
 		return replace(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ, aReplaceBlock, aReplaceMeta, aTargetBlock, aTargetMeta);
 	}
 	public static boolean replaceAll(World aWorld, int aX, int aY, int aZ, Block aReplaceBlock, long aReplaceMeta, Block aTargetBlock, long aTargetMeta) {
-		return replaceAll(aWorld, new ChunkCoordinates(aX, aY, aZ), aReplaceBlock, aReplaceMeta, aTargetBlock, aTargetMeta);
+		return replaceAll(aWorld, new BlockPos(aX, aY, aZ), aReplaceBlock, aReplaceMeta, aTargetBlock, aTargetMeta);
 	}
-	public static boolean replaceAll(World aWorld, ChunkCoordinates aCoords, Block aReplaceBlock, long aReplaceMeta, Block aTargetBlock, long aTargetMeta) {
+	public static boolean replaceAll(World aWorld, BlockPos aCoords, Block aReplaceBlock, long aReplaceMeta, Block aTargetBlock, long aTargetMeta) {
 		if (!replace(aWorld, aCoords, aReplaceBlock, aReplaceMeta, aTargetBlock, aTargetMeta)) return F;
-		HashSetNoNulls<ChunkCoordinates> tSwap,
+		HashSetNoNulls<BlockPos> tSwap,
 		tDone  = new HashSetNoNulls<>(F, aCoords),
 		tCheck = new HashSetNoNulls<>(F, aCoords),
 		tNext  = new HashSetNoNulls<>();
 		
 		while (!tCheck.isEmpty() && tDone.size() < 32768) {
 			tNext.clear();
-			for (ChunkCoordinates tChecking : tCheck) {
+			for (BlockPos tChecking : tCheck) {
 				if (Math.abs(tChecking.posX - aCoords.posX) < 128 && Math.abs(tChecking.posZ - aCoords.posZ) < 128) for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) for (int k = -1; k <= 1; k++) {
-					ChunkCoordinates tCoords = new ChunkCoordinates(tChecking.posX+i, tChecking.posY+j, tChecking.posZ+k);
+					BlockPos tCoords = new BlockPos(tChecking.posX+i, tChecking.posY+j, tChecking.posZ+k);
 					if (tDone.add(tCoords) && replace(aWorld, tCoords, aReplaceBlock, aReplaceMeta, aTargetBlock, aTargetMeta)) tNext.add(tCoords);
 				}
 			}
@@ -576,11 +576,11 @@ public class WD {
 	public static boolean border(int aFromX, int aFromZ, int aToX, int aToZ) {return aFromX >> 4 != aToX >> 4 || aFromZ >> 4 != aToZ >> 4;}
 	
 	public static boolean even(TileEntity aTileEntity) {return even(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord);}
-	public static boolean even(ChunkCoordinates aCoords) {return even(aCoords.posX, aCoords.posY, aCoords.posZ);}
+	public static boolean even(BlockPos aCoords) {return even(aCoords.posX, aCoords.posY, aCoords.posZ);}
 	public static boolean even(int... aCoords) {int i = 0; for (int tCoord : aCoords) if (tCoord % 2 == 0) i++; return i % 2 == 0;}
 	
 	public static int evenness(TileEntity aTileEntity) {return evenness(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord);}
-	public static int evenness(ChunkCoordinates aCoords) {return evenness(aCoords.posX, aCoords.posY, aCoords.posZ);}
+	public static int evenness(BlockPos aCoords) {return evenness(aCoords.posX, aCoords.posY, aCoords.posZ);}
 	public static int evenness(int... aCoords) {int i = 0; for (int tCoord : aCoords) {i <<= 1; if (tCoord % 2 != 0) i++;} return i;}
 	
 	public static boolean setIfDiff(World aWorld, int aX, int aY, int aZ, Block aBlock, int aMeta, int aFlags) {return (aWorld.getBlock(aX, aY, aZ) != aBlock || aWorld.getBlockMetadata(aX, aY, aZ) != aMeta) && aWorld.setBlock(aX, aY, aZ, aBlock, aMeta, aFlags);}
@@ -628,7 +628,7 @@ public class WD {
 	
 	public static boolean stone(Block aBlock, short aMeta) {
 		if (aBlock == NB) return F;
-		if (aBlock == Blocks.obsidian) return T;
+		if (aBlock == Blocks.OBSIDIAN) return T;
 		ItemStackContainer tStack = new ItemStackContainer(aBlock, 1, aMeta);
 		return BlocksGT.stoneToNormalOres.containsKey(tStack) || BlocksGT.stoneToBrokenOres.containsKey(tStack) || BlocksGT.stoneToSmallOres.containsKey(tStack);
 	}
@@ -669,7 +669,7 @@ public class WD {
 	
 	public static boolean bedrock(World aWorld, int aX, int aY, int aZ) {return bedrock(aWorld, aX, aY, aZ, aWorld.getBlock(aX, aY, aZ));}
 	public static boolean bedrock(World aWorld, int aX, int aY, int aZ, Block aBlock) {return bedrock(aBlock);}
-	public static boolean bedrock(Block aBlock) {return aBlock == Blocks.bedrock || IL.BTL_Bedrock.equal(aBlock);}
+	public static boolean bedrock(Block aBlock) {return aBlock == Blocks.BEDROCK || IL.BTL_Bedrock.equal(aBlock);}
 	
 	public static boolean grass(World aWorld, int aX, int aY, int aZ, boolean aLoadUnloadedChunks) {return grass(block(aWorld, aX, aY, aZ, aLoadUnloadedChunks), meta(aWorld, aX, aY, aZ, aLoadUnloadedChunks));}
 	public static boolean grass(World aWorld, int aX, int aY, int aZ) {return grass(block(aWorld, aX, aY, aZ), meta(aWorld, aX, aY, aZ));}
@@ -693,16 +693,16 @@ public class WD {
 	public static boolean hasCollide(World aWorld, int aX, int aY, int aZ) {return hasCollide(aWorld, aX, aY, aZ, aWorld.getBlock(aX, aY, aZ));}
 	public static boolean hasCollide(World aWorld, int aX, int aY, int aZ, Block aBlock) {return aBlock.isOpaqueCube() || aBlock.getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ) != null;}
 	
-	public static boolean hasCollide(World aWorld, ChunkCoordinates aCoords) {return hasCollide(aWorld, aCoords, aWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ));}
-	public static boolean hasCollide(World aWorld, ChunkCoordinates aCoords, Block aBlock) {return aBlock.isOpaqueCube() || aBlock.getCollisionBoundingBoxFromPool(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ) != null;}
+	public static boolean hasCollide(World aWorld, BlockPos aCoords) {return hasCollide(aWorld, aCoords, aWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ));}
+	public static boolean hasCollide(World aWorld, BlockPos aCoords, Block aBlock) {return aBlock.isOpaqueCube() || aBlock.getCollisionBoundingBoxFromPool(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ) != null;}
 	
 	public static boolean flaming(World aWorld, int aX, int aY, int aZ) {return block(aWorld, aX, aY, aZ, F) instanceof BlockFire;}
 	public static boolean burning(World aWorld, int aX, int aY, int aZ) {return flaming(aWorld, aX, aY, aZ) || flaming(aWorld, aX+1, aY, aZ) || flaming(aWorld, aX-1, aY, aZ) || flaming(aWorld, aX, aY+1, aZ) || flaming(aWorld, aX, aY-1, aZ) || flaming(aWorld, aX, aY, aZ+1) || flaming(aWorld, aX, aY, aZ-1);}
 	
-	public static void burn(World aWorld, ChunkCoordinates aCoords, boolean aReplaceCenter, boolean aCheckFlammability) {for (byte tSide : aReplaceCenter?ALL_SIDES_MIDDLE_UP:ALL_SIDES_VALID) fire(aWorld, aCoords.posX+OFFX[tSide], aCoords.posY+OFFY[tSide], aCoords.posZ+OFFZ[tSide], aCheckFlammability);}
+	public static void burn(World aWorld, BlockPos aCoords, boolean aReplaceCenter, boolean aCheckFlammability) {for (byte tSide : aReplaceCenter?ALL_SIDES_MIDDLE_UP:ALL_SIDES_VALID) fire(aWorld, aCoords.posX+OFFX[tSide], aCoords.posY+OFFY[tSide], aCoords.posZ+OFFZ[tSide], aCheckFlammability);}
 	public static void burn(World aWorld, int aX, int aY, int aZ  , boolean aReplaceCenter, boolean aCheckFlammability) {for (byte tSide : aReplaceCenter?ALL_SIDES_MIDDLE_UP:ALL_SIDES_VALID) fire(aWorld, aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide], aCheckFlammability);}
 	
-	public static boolean fire(World aWorld, ChunkCoordinates aCoords, boolean aCheckFlammability) {return fire(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ, aCheckFlammability);}
+	public static boolean fire(World aWorld, BlockPos aCoords, boolean aCheckFlammability) {return fire(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ, aCheckFlammability);}
 	public static boolean fire(World aWorld, int aX, int aY, int aZ, boolean aCheckFlammability) {
 		Block tBlock = aWorld.getBlock(aX, aY, aZ);
 		if (tBlock.getMaterial() == Material.lava || tBlock.getMaterial() == Material.fire) return F;
@@ -729,11 +729,11 @@ public class WD {
 		byte aMeta = (byte)aWorld.getBlockMetadata(aX, aY, aZ);
 		if (BlocksGT.sDontGenerateOresIn.contains(new ItemStackContainer(aBlock, 1, aMeta))) return F;
 		if (BlocksGT.stoneToNormalOres.containsKey(new ItemStackContainer(aBlock, 1, aMeta))) return T;
-		if (Blocks.stone      != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone     )) return T;
-		if (Blocks.gravel     != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.gravel    )) return T;
-		if (Blocks.sand       != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.sand      )) return T;
-		if (Blocks.netherrack != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) return T;
-		if (Blocks.end_stone  != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone )) return T;
+		if (Blocks.STONE      != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.STONE     )) return T;
+		if (Blocks.GRAVEL     != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.GRAVEL    )) return T;
+		if (Blocks.SAND       != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.SAND      )) return T;
+		if (Blocks.NETHERRACK != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.NETHERRACK)) return T;
+		if (Blocks.END_STONE  != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.END_STONE )) return T;
 		return F;
 	}
 	
@@ -749,11 +749,11 @@ public class WD {
 		if (BlocksGT.sDontGenerateOresIn.contains(new ItemStackContainer(aBlock, 1, aMeta))) return F;
 		IBlockPlacable tBlock = BlocksGT.stoneToNormalOres.get(new ItemStackContainer(aBlock, 1, aMeta));
 		if (tBlock == null) {
-		if (Blocks.stone      != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone     )) tBlock = BlocksGT.ore; else
-		if (Blocks.gravel     != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.gravel    )) tBlock = BlocksGT.oreGravel; else
-		if (Blocks.sand       != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.sand      )) tBlock = BlocksGT.oreSand; else
-		if (Blocks.netherrack != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) tBlock = BlocksGT.oreNetherrack; else
-		if (Blocks.end_stone  != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone )) tBlock = BlocksGT.oreEndstone;
+		if (Blocks.STONE      != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.STONE     )) tBlock = BlocksGT.ore; else
+		if (Blocks.GRAVEL     != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.GRAVEL    )) tBlock = BlocksGT.oreGravel; else
+		if (Blocks.SAND       != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.SAND      )) tBlock = BlocksGT.oreSand; else
+		if (Blocks.NETHERRACK != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.NETHERRACK)) tBlock = BlocksGT.oreNetherrack; else
+		if (Blocks.END_STONE  != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.END_STONE )) tBlock = BlocksGT.oreEndstone;
 		}
 		return tBlock != null && tBlock.placeBlock(aWorld, aX, aY, aZ, (byte)6, aID, null, F, T);
 	}
@@ -770,18 +770,18 @@ public class WD {
 		if (BlocksGT.sDontGenerateOresIn.contains(new ItemStackContainer(aBlock, 1, aMeta))) return F;
 		IBlockPlacable tBlock = BlocksGT.stoneToSmallOres.get(new ItemStackContainer(aBlock, 1, aMeta));
 		if (tBlock == null) {
-		if (Blocks.stone      != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone     )) tBlock = BlocksGT.oreSmall; else
-		if (Blocks.gravel     != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.gravel    )) tBlock = BlocksGT.oreSmallGravel; else
-		if (Blocks.sand       != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.sand      )) tBlock = BlocksGT.oreSmallSand; else
-		if (Blocks.netherrack != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) tBlock = BlocksGT.oreSmallNetherrack; else
-		if (Blocks.end_stone  != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone )) tBlock = BlocksGT.oreSmallEndstone;
+		if (Blocks.STONE      != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.STONE     )) tBlock = BlocksGT.oreSmall; else
+		if (Blocks.GRAVEL     != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.GRAVEL    )) tBlock = BlocksGT.oreSmallGravel; else
+		if (Blocks.SAND       != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.SAND      )) tBlock = BlocksGT.oreSmallSand; else
+		if (Blocks.NETHERRACK != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.NETHERRACK)) tBlock = BlocksGT.oreSmallNetherrack; else
+		if (Blocks.END_STONE  != aBlock && aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.END_STONE )) tBlock = BlocksGT.oreSmallEndstone;
 		}
 		return tBlock != null && tBlock.placeBlock(aWorld, aX, aY, aZ, (byte)6, aID, null, F, T);
 	}
 	
 	/** Removes Bedrock from that Position and replaces it with regular Stone of the region. */
 	public static boolean removeBedrock(World aWorld, int aX, int aY, int aZ) {
-		Block tBlock = aWorld.getBlock(aX, aY, aZ), tStone = (aWorld.provider.dimensionId == DIM_NETHER ? Blocks.netherrack : Blocks.stone);
+		Block tBlock = aWorld.getBlock(aX, aY, aZ), tStone = (aWorld.provider.dimensionId == DIM_NETHER ? Blocks.NETHERRACK : Blocks.STONE);
 		
 		if (tBlock == NB || bedrock(tBlock)) {
 			for (byte tSide : ALL_SIDES_BUT_BOTTOM) for (int i = 1; i < 7; i++) {
@@ -798,8 +798,8 @@ public class WD {
 		return F;
 	}
 	
-	public static List<ChunkCoordinates> line(final Vec3 aStart, final Vec3 aEnd) {
-		List<ChunkCoordinates> rList = new ArrayListNoNulls<>();
+	public static List<BlockPos> line(final Vec3 aStart, final Vec3 aEnd) {
+		List<BlockPos> rList = new ArrayListNoNulls<>();
 		if (Double.isNaN(aStart.xCoord) || Double.isNaN(aStart.yCoord) || Double.isNaN(aStart.zCoord) || Double.isNaN(aEnd.xCoord) || Double.isNaN(aEnd.yCoord) || Double.isNaN(aEnd.zCoord)) return rList;
 		Vec3 tPoint = Vec3.createVectorHelper(aStart.xCoord, aStart.yCoord, aStart.zCoord);
 		
@@ -810,7 +810,7 @@ public class WD {
 		int ey = UT.Code.roundDown(aEnd.yCoord);
 		int ez = UT.Code.roundDown(aEnd.zCoord);
 		
-		rList.add(new ChunkCoordinates(sx, sy, sz));
+		rList.add(new BlockPos(sx, sy, sz));
 		
 		int maxAttempts = 2000; // Just to prevent accidental infinite loops
 		
@@ -903,12 +903,12 @@ public class WD {
 			if (whereTo == 1) --sy;
 			if (whereTo == 3) --sz;
 			
-			rList.add(new ChunkCoordinates(sx, sy, sz));
+			rList.add(new BlockPos(sx, sy, sz));
 		}
 		return rList;
 	}
 	
-	public static long scan(ArrayList<String> aList, EntityPlayer aPlayer, World aWorld, int aScanLevel, int aX, int aY, int aZ, byte aSide, float aClickX, float aClickY, float aClickZ) {
+	public static long scan(ArrayList<String> aList, Player aPlayer, World aWorld, int aScanLevel, int aX, int aY, int aZ, byte aSide, float aClickX, float aClickY, float aClickZ) {
 		if (aList == null) return 0;
 		
 		ArrayList<String> rList = new ArrayListNoNulls<>();

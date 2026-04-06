@@ -41,27 +41,27 @@ import gregapi.util.WD;
 import gregtech.tileentity.misc.MultiTileEntityGregOLantern;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import twilightforest.entity.boss.EntityTFLich;
@@ -88,7 +88,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		mAmmoPerMag = UT.Code.bindStack(aAmmoPerMag);
 	}
 	
-	public boolean shoot(ItemStack aGun, ItemStack aBullet, EntityPlayer aPlayer) {
+	public boolean shoot(ItemStack aGun, ItemStack aBullet, Player aPlayer) {
 		// Making sure all Data is correct.
 		aGun    = ST.update(aGun   , aPlayer);
 		aBullet = ST.update(aBullet, aPlayer);
@@ -98,9 +98,9 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		tPos = Vec3.createVectorHelper(aPlayer.posX, aPlayer.posY + aPlayer.getEyeHeight(), aPlayer.posZ),
 		tAim = tPos.addVector(tDir.xCoord * 200, tDir.yCoord * 200, tDir.zCoord * 200);
 		// List all the Blocks that are on the way.
-		List<ChunkCoordinates> aCoords = WD.line(tPos, tAim);
+		List<BlockPos> aCoords = WD.line(tPos, tAim);
 		// Gather random Information about the first Block.
-		ChunkCoordinates oCoord = aCoords.get(0), aCoord = oCoord, nCoord = oCoord;
+		BlockPos oCoord = aCoords.get(0), aCoord = oCoord, nCoord = oCoord;
 		Block oBlock = NB, aBlock = oBlock = WD.block(aPlayer.worldObj, aCoord.posX, aCoord.posY, aCoord.posZ);
 		byte  oMeta  =  0, aMeta  = oMeta  = WD.meta (aPlayer.worldObj, aCoord.posX, aCoord.posY, aCoord.posZ);
 		// Are we shooting from under Water?
@@ -164,7 +164,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 			
 			if (aBlock instanceof BlockPumpkin || WD.te(aPlayer.worldObj, aCoord, T) instanceof MultiTileEntityGregOLantern) {
 				if (RNGSUS.nextInt(3) == 0) {
-					ST.drop(aPlayer.worldObj, aCoord.posX+0.2+RNGSUS.nextFloat()*0.6, aCoord.posY+0.1+RNGSUS.nextFloat()*0.5, aCoord.posZ+0.2+RNGSUS.nextFloat()*0.6, ST.make(Blocks.pumpkin, 1, 0));
+					ST.drop(aPlayer.worldObj, aCoord.posX+0.2+RNGSUS.nextFloat()*0.6, aCoord.posY+0.1+RNGSUS.nextFloat()*0.5, aCoord.posZ+0.2+RNGSUS.nextFloat()*0.6, ST.make(Blocks.PUMPKIN, 1, 0));
 				} else {
 					ST.drop(aPlayer.worldObj, aCoord.posX+0.2+RNGSUS.nextFloat()*0.6, aCoord.posY+0.1+RNGSUS.nextFloat()*0.5, aCoord.posZ+0.2+RNGSUS.nextFloat()*0.6, ST.make(Items.pumpkin_seeds, 1+RNGSUS.nextInt(3), 0));
 				}
@@ -174,7 +174,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 				tPower-=3000;
 				continue;
 			}
-			if (aBlock == Blocks.melon_block) {
+			if (aBlock == Blocks.MELON) {
 				ST.drop(aPlayer.worldObj, aCoord.posX+0.2+RNGSUS.nextFloat()*0.6, aCoord.posY+0.1+RNGSUS.nextFloat()*0.5, aCoord.posZ+0.2+RNGSUS.nextFloat()*0.6, ST.make(Items.melon      , 1+RNGSUS.nextInt(6), 0));
 				ST.drop(aPlayer.worldObj, aCoord.posX+0.2+RNGSUS.nextFloat()*0.6, aCoord.posY+0.1+RNGSUS.nextFloat()*0.5, aCoord.posZ+0.2+RNGSUS.nextFloat()*0.6, ST.make(Items.melon_seeds, 1+RNGSUS.nextInt(3), 0));
 				WD.set(aPlayer.worldObj, aCoord.posX, aCoord.posY, aCoord.posZ, NB, 0, 3);
@@ -208,7 +208,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 				tPower-=4000;
 				continue;
 			}
-			if (aBlock.getMaterial() == Material.glass || aBlock == Blocks.ice || aBlock == Blocks.redstone_lamp || aBlock == Blocks.lit_redstone_lamp) {
+			if (aBlock.getMaterial() == Material.glass || aBlock == Blocks.ice || aBlock == Blocks.REDSTONE_LAMP || aBlock == Blocks.REDSTONE_LAMP) {
 				OreDictItemData tData = OM.anydata(ST.make(aBlock, 1, aMeta));
 				for (OreDictMaterialStack tMaterial : tData.getAllMaterialStacks()) {
 					long tAmount = tMaterial.mAmount / OP.scrapGt.mAmount;
@@ -245,16 +245,16 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		return F;
 	}
 	
-	public boolean hit(ItemStack aGun, ItemStack aBullet, EntityPlayer aPlayer, Entity aTarget, long aPower, Vec3 aDir) {
+	public boolean hit(ItemStack aGun, ItemStack aBullet, Player aPlayer, Entity aTarget, long aPower, Vec3 aDir) {
 		try {
 		// In case the Entity is Invulnerable.
 		if (aTarget.isEntityInvulnerable()) return F;
 		// Player specific immunities, and I guess friendly fire prevention too.
-		if (aTarget instanceof EntityPlayer && (((EntityPlayer)aTarget).capabilities.disableDamage || !aPlayer.canAttackPlayer((EntityPlayer)aTarget))) return F;
+		if (aTarget instanceof Player && (((Player)aTarget).capabilities.disableDamage || !aPlayer.canAttackPlayer((Player)aTarget))) return F;
 		// Endermen require Disjunction Enchantment on the Bullet, or having a Weakness Potion Effect on them.
 		if (aTarget instanceof EntityEnderman && ((EntityEnderman)aTarget).getActivePotionEffect(Potion.weakness) == null && UT.NBT.getEnchantmentLevel(Enchantment_EnderDamage.INSTANCE, aBullet) <= 0) for (int i = 0; i < 64; ++i) if (((EntityEnderman)aTarget).teleportRandomly()) return F;
-		// EntityLivingBase, Ender Dragon and End Crystals only.
-		if (!(aTarget instanceof EntityLivingBase || aTarget instanceof EntityDragonPart || aTarget instanceof EntityEnderCrystal)) return F;
+		// LivingEntity, Ender Dragon and End Crystals only.
+		if (!(aTarget instanceof LivingEntity || aTarget instanceof EntityDragonPart || aTarget instanceof EntityEnderCrystal)) return F;
 	//  // To make Railcrafts Damage Enchantments work... // I later figured I'd just hardcode it in.
 	//  NeoForge.EVENT_BUS.post(new AttackEntityEvent(aPlayer, aTarget));
 		
@@ -264,7 +264,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		float
 		tMassFactor = (tData!=null&&tData.nonemptyMaterial() ? (float)tData.mMaterial.weight() / 50.0F : 1),
 		tSpeedFactor = Math.min(2.0F, aPower/5000.0F),
-		tMagicDamage = (aTarget instanceof EntityLivingBase ? EnchantmentHelper.func_152377_a(aBullet, ((EntityLivingBase)aTarget).getCreatureAttribute()) : aTarget instanceof EntityDragonPart ? UT.NBT.getEnchantmentLevel(Enchantment_EnderDamage.INSTANCE, aBullet) : 0),
+		tMagicDamage = (aTarget instanceof LivingEntity ? EnchantmentHelper.func_152377_a(aBullet, ((LivingEntity)aTarget).getCreatureAttribute()) : aTarget instanceof EntityDragonPart ? UT.NBT.getEnchantmentLevel(Enchantment_EnderDamage.INSTANCE, aBullet) : 0),
 		tDamage = tSpeedFactor * Math.max(0, tGunMat.mToolQuality*0.5F + tMassFactor);
 		int
 		tImplosion  =      UT.NBT.getEnchantmentLevelImplosion(aBullet),
@@ -274,9 +274,9 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		if (tImplosion  > 0 && UT.Entities.isExplosiveCreature(aTarget)) tMagicDamage += 1.5F*tImplosion;
 		if (tFireDamage > 0) aTarget.setFire(tFireDamage);
 		
-		EntityPlayer tPlayer = aPlayer;
+		Player tPlayer = aPlayer;
 		
-		if (aTarget instanceof EntityPlayer) {
+		if (aTarget instanceof Player) {
 			// Guns are quite overkill against Players otherwise.
 			tDamage /= 2; tMagicDamage /= 2;
 		} else {
@@ -286,7 +286,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 			
 			if (aPlayer.worldObj instanceof WorldServer) {
 				if (UT.NBT.getEnchantmentLevel(Enchantment.looting, aBullet) > 0) {
-					tPlayer = FakePlayerFactory.get((WorldServer)aPlayer.worldObj, new GameProfile(new UUID(0, 0), ((EntityLivingBase)aPlayer).getCommandSenderName()));
+					tPlayer = FakePlayerFactory.get((WorldServer)aPlayer.worldObj, new GameProfile(new UUID(0, 0), ((LivingEntity)aPlayer).getCommandSenderName()));
 					tPlayer.inventory.currentItem = 0;
 					tPlayer.inventory.setInventorySlotContents(0, aBullet);
 					tPlayer.setPositionAndRotation(aPlayer.posX, aPlayer.posY, aPlayer.posZ, aPlayer.rotationYaw, aPlayer.rotationPitch);
@@ -305,13 +305,13 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		if (MD.TF.mLoaded && aTarget instanceof EntityTFLich && UT.NBT.getEnchantmentLevel(Enchantment.smite, aBullet) > 0) tDamageSource.setDamageBypassesArmor();
 		
 		if (aTarget.attackEntityFrom(tDamageSource, (tDamage + tMagicDamage) * TFC_DAMAGE_MULTIPLIER)) {
-			aTarget.hurtResistantTime = (aTarget instanceof EntityLivingBase ? ((EntityLivingBase)aTarget).maxHurtResistantTime : 20);
+			aTarget.hurtResistantTime = (aTarget instanceof LivingEntity ? ((LivingEntity)aTarget).maxHurtResistantTime : 20);
 			if (aTarget instanceof EntityCreeper && tFireDamage > 0 && tImplosion <= 0) ((EntityCreeper)aTarget).func_146079_cb();
 			if (tKnockback > 0) aTarget.addVelocity(aDir.xCoord * tKnockback * aPower / 50000.0, 0.05, aDir.zCoord * tKnockback * aPower / 50000.0);
-			if (aTarget instanceof EntityLivingBase)
-			UT.Enchantments.applyBullshitA((EntityLivingBase)aTarget, aPlayer, aBullet);
+			if (aTarget instanceof LivingEntity)
+			UT.Enchantments.applyBullshitA((LivingEntity)aTarget, aPlayer, aBullet);
 			UT.Enchantments.applyBullshitB(                  aPlayer, aTarget, aBullet);
-			if (aTarget instanceof EntityPlayer && aPlayer instanceof EntityPlayerMP) ((EntityPlayerMP)aPlayer).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
+			if (aTarget instanceof Player && aPlayer instanceof ServerPlayer) ((ServerPlayer)aPlayer).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
 			if (tMagicDamage > 0.0F) aPlayer.onEnchantmentCritical(aTarget);
 			return T;
 		}
@@ -323,16 +323,16 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		return T;
 	}
 	
-//  @Override public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, Entity aEntity) {onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
-	@Override public boolean onItemUse         (MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
-	@Override public boolean onItemUseFirst    (MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {if (aWorld.isRemote) return F; onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
+//  @Override public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
+	@Override public boolean onItemUse         (MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
+	@Override public boolean onItemUseFirst    (MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {if (aWorld.isRemote) return F; onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aGun, World aWorld, EntityPlayer aPlayer) {
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aGun, World aWorld, Player aPlayer) {
 		// TODO Particles!
-		if (!(aPlayer instanceof EntityPlayerMP)) return aGun;
+		if (!(aPlayer instanceof ServerPlayer)) return aGun;
 		
-		NBTTagCompound aNBT = UT.NBT.getOrCreate(aGun);
+		CompoundTag aNBT = UT.NBT.getOrCreate(aGun);
 		ItemStack aBullet = ST.load(aNBT, NBT_AMMO);
 		if (aPlayer.isSneaking()) {
 			if (ST.invalid(aBullet) || aBullet.stackSize <= 0) {
@@ -373,8 +373,8 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		return ST.item(aStack) instanceof IItemProjectile && ((IItemProjectile)ST.item(aStack)).hasProjectile(mBulletType, aStack);
 	}
 	
-	public boolean reloadGun(ItemStack aGun, EntityPlayer aPlayer, boolean aOnlyCheckHeld) {
-		NBTTagCompound aNBT = UT.NBT.getOrCreate(aGun);
+	public boolean reloadGun(ItemStack aGun, Player aPlayer, boolean aOnlyCheckHeld) {
+		CompoundTag aNBT = UT.NBT.getOrCreate(aGun);
 		ItemStack aBullet = ST.load(aNBT, NBT_AMMO);
 		if (ST.valid(aBullet) && aBullet.stackSize > 0) return F;
 		if (isProjectile(aPlayer.inventory.mainInventory[aPlayer.inventory.currentItem])) {

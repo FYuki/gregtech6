@@ -25,8 +25,8 @@ import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.util.UT;
 import net.minecraft.enchantment.EnchantmentDamage;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
@@ -79,7 +79,7 @@ public class Enchantment_EnderDamage extends EnchantmentDamage {
 	}
 	
 	@Override
-	public void func_151367_b(EntityLivingBase aHurtEntity, Entity aDamagingEntity, int aLevel) {
+	public void func_151367_b(LivingEntity aHurtEntity, Entity aDamagingEntity, int aLevel) {
 		if (UT.Entities.isEnderCreature(aHurtEntity)) {
 			// Weakness causes Endermen to not be able to teleport with GT being installed.
 			aHurtEntity.addPotionEffect(new PotionEffect(Potion.weakness.id , aLevel * 200, (int)UT.Code.bind(1, 5, (5*aLevel) / 7)));

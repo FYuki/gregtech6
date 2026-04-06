@@ -30,7 +30,7 @@ import gregapi.data.CS.Sandwiches;
 import gregapi.data.MD;
 import gregapi.render.BlockTextureDefault;
 import gregapi.render.IconContainerCopied;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
 
@@ -56,7 +56,7 @@ public class Loader_Others implements Runnable {
 		
 		
 		
-		BooksGT.BOOK_TEXTURES_BACK[255] = BooksGT.BOOK_TEXTURES_SIDE[255] = BlockTextureDefault.get(new IconContainerCopied(Blocks.cobblestone, 0, 0));
+		BooksGT.BOOK_TEXTURES_BACK[255] = BooksGT.BOOK_TEXTURES_SIDE[255] = BlockTextureDefault.get(new IconContainerCopied(Blocks.COBBLESTONE, 0, 0));
 		
 		BooksGT.BOOK_TEXTURES_BACK[  1] = BlockTextureDefault.get("books/BOOK_VANILLA_BACK");
 		BooksGT.BOOK_TEXTURES_BACK[  2] = BlockTextureDefault.get("books/BOOK_ENCHANTED_BACK");

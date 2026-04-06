@@ -28,10 +28,10 @@ import gregapi.data.IL;
 import gregapi.data.TD;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
@@ -92,7 +92,7 @@ public interface IItemEnergy {
 	 * @param aDoUse if this is supposed to decrease the internal Energy. true = Yes, this is a normal Operation. false = No, this is just a simulation.
 	 * @return true if this can use that much Energy.
 	 */
-	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, EntityLivingBase aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoUse);
+	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoUse);
 	
 	/**
 	 * @param aEnergyType The Type of Energy.

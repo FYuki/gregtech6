@@ -32,15 +32,15 @@ import gregapi.tileentity.base.TileEntityBase09FacingSingle;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregtech.GT6_Main;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import java.io.File;
 import java.util.List;
@@ -57,7 +57,7 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 	public void onServerSave(File aSaveLocation) {
 		File aTargetFile = new File(new File(aSaveLocation, "gregtech"), "certificates.support.dat");
 		if (!aTargetFile.exists()) {try {aTargetFile.createNewFile();} catch (Throwable e) {e.printStackTrace(ERR);}}
-		NBTTagCompound aNBT = UT.NBT.make();
+		CompoundTag aNBT = UT.NBT.make();
 		for (int i = 0; i < ALREADY_RECEIVED.size(); i++) aNBT.setString(""+i, ALREADY_RECEIVED.get(i));
 		try {CompressedStreamTools.write(aNBT, aTargetFile);} catch (Throwable e) {e.printStackTrace(ERR);}
 	}
@@ -67,7 +67,7 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 		ALREADY_RECEIVED.clear();
 		File aTargetFile = new File(new File(aSaveLocation, "gregtech"), "certificates.support.dat");
 		if (aTargetFile.exists()) {
-			NBTTagCompound aNBT = null;
+			CompoundTag aNBT = null;
 			try {aNBT = CompressedStreamTools.read(aTargetFile);} catch (Throwable e) {e.printStackTrace(ERR);}
 			if (aNBT != null) for (int i = 0; i < Integer.MAX_VALUE; i++) {
 				if (!aNBT.hasKey(""+i)) break;
@@ -86,7 +86,7 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 	}
 	
 	public static ItemStack getCertificate(int aAmount, String aName) {
-		NBTTagCompound tNBT = UT.NBT.make();
+		CompoundTag tNBT = UT.NBT.make();
 		if (UT.Code.stringValid(aName)) tNBT.setTag("display", UT.NBT.makeString(tNBT.getCompoundTag("display"), "Name", aName));
 		return MTE_REGISTRY.getItem(INSTANCE.getMultiTileEntityID(), aAmount, tNBT);
 	}
@@ -94,7 +94,7 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 	public boolean mSilver = F, mGold = F;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		String tName = getCustomName();
 		if (UT.Code.stringValid(tName)) {
@@ -123,7 +123,7 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 	}
 	
 	@Override
-	public boolean onBlockActivated3(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
 			// This is simply a helper Function for quickly getting Registry Names of Items.
 			if (D1) for (ItemStack tStack : aPlayer.inventory.mainInventory) if (ST.valid(tStack)) {
@@ -151,7 +151,7 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 	}
 	
 	@Override
-	public boolean checkObstruction(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean checkObstruction(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		return F;
 	}
 	

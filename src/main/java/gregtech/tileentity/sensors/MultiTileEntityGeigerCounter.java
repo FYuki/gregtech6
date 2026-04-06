@@ -32,7 +32,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregtech.tileentity.energy.reactors.MultiTileEntityReactorCore;
 import gregtech.tileentity.energy.reactors.MultiTileEntityReactorCore2x2;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies, Erik3003

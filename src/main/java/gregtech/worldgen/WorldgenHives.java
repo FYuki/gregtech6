@@ -28,13 +28,13 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregtech.blocks.fluids.BlockWaterlike;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
 import java.util.Random;
@@ -87,7 +87,7 @@ public class WorldgenHives extends WorldgenObject {
 			return (tCount == 5 && placeHive(tRegistry, aDimType, aWorld, tX, tY, tZ, DYE_INT_Yellow      ,   900, aRandom)) || rResult;
 		case DIM_ENVM: case DIM_CW2_Caveland:
 			tY = 16+aRandom.nextInt(96);
-			if (WD.block(aWorld, tX, tY, tZ) != Blocks.netherrack) return rResult;
+			if (WD.block(aWorld, tX, tY, tZ) != Blocks.NETHERRACK) return rResult;
 			for (byte tSide : ALL_SIDES_VALID) {
 				if (WD.liquid(aWorld, tX+OFFX[tSide], tY+OFFY[tSide], tZ+OFFZ[tSide])) return rResult;
 				if (WD.opq   (aWorld, tX+OFFX[tSide], tY+OFFY[tSide], tZ+OFFZ[tSide], F, T)) tCount++;
@@ -103,7 +103,7 @@ public class WorldgenHives extends WorldgenObject {
 			return (tCount == 5 && placeHive(tRegistry, aDimType, aWorld, tX, tY, tZ, DYE_INT_Cyan        ,     0, aRandom)) || rResult;
 		case DIM_NETHER:
 			tY = 16+aRandom.nextInt(WD.bedrock(aWorld, tX, 255, tZ) ? 224 : 96);
-			if (WD.block(aWorld, tX, tY, tZ) != Blocks.netherrack) return rResult;
+			if (WD.block(aWorld, tX, tY, tZ) != Blocks.NETHERRACK) return rResult;
 			for (byte tSide : ALL_SIDES_VALID) {
 				if (WD.liquid(aWorld, tX+OFFX[tSide], tY+OFFY[tSide], tZ+OFFZ[tSide])) return rResult;
 				if (WD.opq   (aWorld, tX+OFFX[tSide], tY+OFFY[tSide], tZ+OFFZ[tSide], F, T)) tCount++;
@@ -111,7 +111,7 @@ public class WorldgenHives extends WorldgenObject {
 			return (tCount == 5 && placeHive(tRegistry, aDimType, aWorld, tX, tY, tZ, 0xaa0000            ,   300, aRandom)) || rResult;
 		case DIM_END:
 			if (aRandom.nextInt(3) > 0) return F;
-			for (tY = 16; tY < 128; tY++) if (WD.block(aWorld, tX, tY, tZ) == Blocks.end_stone) {
+			for (tY = 16; tY < 128; tY++) if (WD.block(aWorld, tX, tY, tZ) == Blocks.END_STONE) {
 				for (byte tSide : ALL_SIDES_VALID) {
 					if (WD.liquid(aWorld, tX+OFFX[tSide], tY+OFFY[tSide], tZ+OFFZ[tSide])) return rResult;
 					if (WD.opq   (aWorld, tX+OFFX[tSide], tY+OFFY[tSide], tZ+OFFZ[tSide], F, T)) tCount++;
@@ -172,15 +172,15 @@ public class WorldgenHives extends WorldgenObject {
 					return placeHive(tRegistry, aDimType, aWorld, tX, tY-1, tZ, DYE_INT_White     ,   700, aRandom) || rResult;
 					if (tContact == Blocks.mycelium)
 					return placeHive(tRegistry, aDimType, aWorld, tX, tY-1, tZ, DYE_INT_Pink      ,   800, aRandom) || rResult;
-					if (tContact == Blocks.sand && aWorld.getBlockMetadata(tX, tY, tZ) == 1)
+					if (tContact == Blocks.SAND && aWorld.getBlockMetadata(tX, tY, tZ) == 1)
 					return placeHive(tRegistry, aDimType, aWorld, tX, tY-1, tZ, DYE_INT_Red       ,   900, aRandom) || rResult;
-					if (tContact == Blocks.sandstone || tContact.getMaterial() == Material.sand)
+					if (tContact == Blocks.SANDSTONE || tContact.getMaterial() == Material.sand)
 					return placeHive(tRegistry, aDimType, aWorld, tX, tY-1, tZ, DYE_INT_Yellow    ,   900, aRandom) || rResult;
-					if (tContact == Blocks.gravel || tContact.getMaterial() == Material.rock)
+					if (tContact == Blocks.GRAVEL || tContact.getMaterial() == Material.rock)
 					return placeHive(tRegistry, aDimType, aWorld, tX, tY-1, tZ, DYE_INT_LightGray ,   500, aRandom) || rResult;
-					if (tContact == Blocks.grass || tContact.getMaterial() == Material.grass)
+					if (tContact == Blocks.GRASS_BLOCK || tContact.getMaterial() == Material.grass)
 					return placeHive(tRegistry, aDimType, aWorld, tX, tY-1, tZ, 0xffdd99          ,     0, aRandom) || rResult;
-					if (tContact == Blocks.dirt || tContact.getMaterial() == Material.ground)
+					if (tContact == Blocks.DIRT || tContact.getMaterial() == Material.ground)
 					return placeHive(tRegistry, aDimType, aWorld, tX, tY-1, tZ, DYE_INT_Brown     ,     0, aRandom) || rResult;
 					// Lets make the magical Bumbles the Default if all else fails, so technically they are obtainable, even though I literally just made sure they can't spawn under the big Mushrooms. XD
 					return placeHive(tRegistry, aDimType, aWorld, tX, tY-1, tZ, DYE_INT_Purple    ,   200, aRandom) || rResult;
@@ -193,7 +193,7 @@ public class WorldgenHives extends WorldgenObject {
 	}
 	
 	public boolean placeHive(MultiTileEntityRegistry aRegistry, int aDimType, World aWorld, int aX, int aY, int aZ, int aColor, int aSpeciesID, Random aRandom) {
-		NBTTagCompound aBumbleTag;
+		CompoundTag aBumbleTag;
 		if (aDimType == DIM_OVERWORLD) {
 			aBumbleTag = IItemBumbleBee.Util.getBumbleGenes(WD.envTemp(aWorld, aX, aY, aZ), aWorld.getBiomeGenForCoords(aX, aZ), !aWorld.provider.hasNoSky && aWorld.getPrecipitationHeight(aX, aZ) <= aY + 5, aRandom);
 		} else {

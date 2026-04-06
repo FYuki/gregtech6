@@ -25,7 +25,7 @@ import java.util.AbstractSet;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import net.minecraft.world.biome.BiomeGenBase;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
 
 /**
  * @author Gregorius Techneticies

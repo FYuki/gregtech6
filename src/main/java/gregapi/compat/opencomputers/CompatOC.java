@@ -32,9 +32,9 @@ import gregapi.util.WD;
 import li.cil.oc.api.Driver;
 import li.cil.oc.api.driver.SidedBlock;
 import li.cil.oc.api.network.ManagedEnvironment;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.core.Direction; // was Direction
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.SIDES_VALID;
@@ -48,16 +48,16 @@ public class CompatOC extends CompatBase implements ICompatOC, SidedBlock {
 	}
 	
 	@Override
-	public boolean worksWith(World aWorld, int aX, int aY, int aZ, ForgeDirection aSide) {
+	public boolean worksWith(World aWorld, int aX, int aY, int aZ, Direction aSide) {
 		return findPeripheral(aWorld, aX, aY, aZ, aSide) != null;
 	}
 	
 	@Override
-	public ManagedEnvironment createEnvironment(World aWorld, int aX, int aY, int aZ, ForgeDirection aSide) {
+	public ManagedEnvironment createEnvironment(World aWorld, int aX, int aY, int aZ, Direction aSide) {
 		return new EnvironmentOC(findPeripheral(aWorld, aX, aY, aZ, aSide), WD.te(aWorld, aX, aY, aZ, UT.Code.side(aSide), F));
 	}
 	
-	public IComputerizable findPeripheral(World aWorld, int aX, int aY, int aZ, ForgeDirection side) {
+	public IComputerizable findPeripheral(World aWorld, int aX, int aY, int aZ, Direction side) {
 		DelegatorTileEntity<TileEntity> tDelegator = WD.te(aWorld, aX, aY, aZ, UT.Code.side(side), F);
 		if (SIDES_VALID[tDelegator.mSideOfTileEntity] && tDelegator.mTileEntity instanceof ITileEntityCoverable) {
 			CoverData tData = ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData();

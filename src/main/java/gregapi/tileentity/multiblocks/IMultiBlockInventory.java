@@ -19,8 +19,8 @@
 
 package gregapi.tileentity.multiblocks;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
@@ -38,7 +38,7 @@ public interface IMultiBlockInventory extends ITileEntityMultiBlockController {
 	public boolean hasCustomInventoryName       (MultiTileEntityMultiBlockPart aPart);
 	public int getInventoryStackLimit           (MultiTileEntityMultiBlockPart aPart);
 	public void markDirty                       (MultiTileEntityMultiBlockPart aPart);
-	public boolean isUseableByPlayer            (MultiTileEntityMultiBlockPart aPart, EntityPlayer aPlayer);
+	public boolean isUseableByPlayer            (MultiTileEntityMultiBlockPart aPart, Player aPlayer);
 	public void openInventory                   (MultiTileEntityMultiBlockPart aPart);
 	public void closeInventory                  (MultiTileEntityMultiBlockPart aPart);
 	public boolean isItemValidForSlot           (MultiTileEntityMultiBlockPart aPart, int aSlot, ItemStack aStack);

@@ -25,11 +25,11 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import gregapi.util.ST;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -39,7 +39,7 @@ import net.minecraftforge.client.IItemRenderer;
 public class RendererBlockTextured implements ISimpleBlockRenderingHandler, IItemRenderer {
 	public final int mRenderID;
 	public static RendererBlockTextured INSTANCE;
-	public static NBTTagCompound mUsedNBT = null;
+	public static CompoundTag mUsedNBT = null;
 	
 	public RendererBlockTextured(int aRenderID) {
 		INSTANCE = this;

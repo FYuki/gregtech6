@@ -20,9 +20,9 @@
 package gregapi.block;
 
 import gregapi.item.IItemGT;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -41,12 +41,12 @@ public interface IBlockBase extends IBlock, IItemGT {
 	public boolean isSealable(byte aMeta, byte aSide);
 	public boolean isFlammable(byte aMeta);
 	public boolean isFireSource(byte aMeta);
-	public void addInformation(ItemStack aStack, byte aMeta, EntityPlayer aPlayer, List<String> aList, boolean aF3_H);
+	public void addInformation(ItemStack aStack, byte aMeta, Player aPlayer, List<String> aList, boolean aF3_H);
 	public float getExplosionResistance(byte aMeta);
 	public int getFlammability(byte aMeta);
 	public int getFireSpreadSpeed(byte aMeta);
 	public int getItemStackLimit(ItemStack aStack);
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, EntityPlayer aPlayer);
-	public boolean onItemUse(ItemBlockBase aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ);
-	public boolean onItemUseFirst(ItemBlockBase aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ);
+	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer);
+	public boolean onItemUse(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ);
+	public boolean onItemUseFirst(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ);
 }

@@ -27,7 +27,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.configurations.OreDictConfigurationComponent;
 import gregapi.render.TextureSet;
 import gregapi.util.OM;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.Atomic.*;

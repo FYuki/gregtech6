@@ -46,8 +46,8 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.wooddict.*;
 import gregapi.worldgen.StoneLayer;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.Item;
 import twilightforest.TFTreasure;
 import twilightforest.TFTreasureTable;
 

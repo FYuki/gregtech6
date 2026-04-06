@@ -26,7 +26,7 @@ import gregapi.data.OP;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.OM;
 import gregapi.util.UT;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
 
@@ -219,7 +219,7 @@ public class Loader_Fuels implements Runnable {
 //      FM.Magic        .addRecipe0(T, - 64, 64, FL.make("mercury", 1));
 		
 		
-//      new Recipe(new ItemStack(Items.lava_bucket), new ItemStack(Blocks.obsidian), OM.get(OP.ingot, MT.Copper, 1), OM.get(OP.ingot, MT.Tin, 1), OM.get(OP.ingot, MT.Electrum, 1), 30, 2);
+//      new Recipe(new ItemStack(Items.lava_bucket), new ItemStack(Blocks.OBSIDIAN), OM.get(OP.ingot, MT.Copper, 1), OM.get(OP.ingot, MT.Tin, 1), OM.get(OP.ingot, MT.Electrum, 1), 30, 2);
 		
 //      RecipeMap.sSmallNaquadahReactorFuels.addRecipe(T, ST.array(OM.get(OP.bolt , MT.Nq_528, 1)}, ST.array(OM.get(OP.bolt , MT.Nq     , 1)}, null, null, null, null, 0, 0,  25000);
 //      RecipeMap.sLargeNaquadahReactorFuels.addRecipe(T, ST.array(OM.get(OP.ingot, MT.Nq_528, 1)}, ST.array(OM.get(OP.ingot, MT.Nq     , 1)}, null, null, null, null, 0, 0, 200000);

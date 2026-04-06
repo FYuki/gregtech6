@@ -31,13 +31,13 @@ import gregapi.tileentity.base.TileEntityBase08Directional;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -50,13 +50,13 @@ public abstract class TileEntityBase09Connector extends TileEntityBase08Directio
 	protected byte mConnections = 0;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_CONNECTION)) mConnections = (byte)(aNBT.getByte(NBT_CONNECTION) & 63);
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_CONNECTION, mConnections);
 	}
@@ -79,7 +79,7 @@ public abstract class TileEntityBase09Connector extends TileEntityBase08Directio
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, EntityPlayer aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
 			aSide = OPOS[aSide];
 			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide);
@@ -99,7 +99,7 @@ public abstract class TileEntityBase09Connector extends TileEntityBase08Directio
 	@Override public void setDirectionData(byte aData) {mConnections = (byte)(aData & 63);}
 	@Override public short getFacing() {return 0;}
 	@Override public void setFacing(short aSide) {/**/}
-	@Override public boolean wrenchCanSetFacing(EntityPlayer aPlayer, int aSide) {return F;}
+	@Override public boolean wrenchCanSetFacing(Player aPlayer, int aSide) {return F;}
 	@Override public boolean isConnectedWrenchingOverlay(ItemStack aStack, byte aSide) {return connected(aSide);}
 	
 	@Override

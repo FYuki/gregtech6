@@ -19,7 +19,7 @@
 
 package gregtech.worldgen;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class NoiseGenerator {
 	public int mSeed = 42, mOffsetY = 0;

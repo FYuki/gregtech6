@@ -40,13 +40,13 @@ import gregapi.tileentity.ITileEntityConnectedInventory;
 import gregapi.tileentity.base.TileEntityBase09FacingSingle;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies
@@ -55,13 +55,13 @@ public class MultiTileEntityDrawerQuad extends TileEntityBase09FacingSingle impl
 	public boolean mSidedAccess = F;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_MODE)) mSidedAccess = aNBT.getBoolean(NBT_MODE);
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setBoolean(aNBT, NBT_MODE, mSidedAccess);
 	}
@@ -82,7 +82,7 @@ public class MultiTileEntityDrawerQuad extends TileEntityBase09FacingSingle impl
 	}
 	
 	@Override
-	public boolean onBlockActivated3(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aSide != mFacing) return F;
 		float[] tCoords = UT.Code.getFacingCoordsClicked(aSide, aHitX, aHitY, aHitZ);
 		return isClientSide() || openGUI(aPlayer, (tCoords[0] > 0.5 ? 1 : 0) | (tCoords[1] > 0.5 ? 2 : 0));
@@ -100,8 +100,8 @@ public class MultiTileEntityDrawerQuad extends TileEntityBase09FacingSingle impl
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	@Override public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return new ContainerClientDefault(new ContainerCommonDefault(aPlayer.inventory, this, aGUIID, (aGUIID % 4) * 36, 36));}
-	@Override public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return                            new ContainerCommonDefault(aPlayer.inventory, this, aGUIID, (aGUIID % 4) * 36, 36);}
+	@Override public Object getGUIClient2(int aGUIID, Player aPlayer) {return new ContainerClientDefault(new ContainerCommonDefault(aPlayer.inventory, this, aGUIID, (aGUIID % 4) * 36, 36));}
+	@Override public Object getGUIServer2(int aGUIID, Player aPlayer) {return                            new ContainerCommonDefault(aPlayer.inventory, this, aGUIID, (aGUIID % 4) * 36, 36);}
 	
 	public static final int[][] SLOTS = {
 	  { 72,  73,  74,  75,  76,  77,  78,  79,  80,  81,  82,  83,  84,  85,  86,  87,  88,  89,  90,  91,  92,  93,  94,  95,  96,  97,  98,  99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143}
@@ -114,7 +114,7 @@ public class MultiTileEntityDrawerQuad extends TileEntityBase09FacingSingle impl
 	};
 	
 	@Override public boolean canDrop(int aSlot) {return T;}
-	@Override public ItemStack[] getDefaultInventory(NBTTagCompound aNBT) {return new ItemStack[144];}
+	@Override public ItemStack[] getDefaultInventory(CompoundTag aNBT) {return new ItemStack[144];}
 	@Override public int[] getAccessibleSlotsFromSide2(byte aSide) {return SLOTS[mSidedAccess ? FACING_ROTATIONS[mFacing][aSide] : SIDE_ANY];}
 	@Override public boolean allowCovers(byte aSide) {return aSide != mFacing;}
 	@Override public boolean canInsertItem2 (int aSlot, ItemStack aStack, byte aSide) {return T;}

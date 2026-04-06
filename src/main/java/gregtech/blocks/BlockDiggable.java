@@ -30,14 +30,14 @@ import gregapi.util.WD;
 import mods.railcraft.common.carts.EntityTunnelBore;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.core.Direction; // was Direction
 
 import java.util.ArrayList;
 
@@ -64,24 +64,24 @@ public class BlockDiggable extends BlockBaseMeta implements IBlockOnWalkOver {
 		MT.Palygorskite.mTextureSolid = BlockTextureCopied.get(this, SIDE_TOP, 5);
 		MT.Kaolinite   .mTextureSolid = BlockTextureCopied.get(this, SIDE_TOP, 6);
 		
-		RM.generify(ST.make(this, 1, 1), ST.make(Blocks.clay, 1, 0));
-		RM.generify(ST.make(this, 1, 3), ST.make(Blocks.clay, 1, 0));
-		RM.generify(ST.make(this, 1, 4), ST.make(Blocks.clay, 1, 0));
-		RM.generify(ST.make(this, 1, 5), ST.make(Blocks.clay, 1, 0));
-		RM.generify(ST.make(this, 1, 6), ST.make(Blocks.clay, 1, 0));
-		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 0), NF, NF, ST.make(Blocks.dirt, 1, 1));
-		RM.Drying.addRecipe1(T, 16, 64, ST.make(Blocks.clay, 1, 0), NF, NF, ST.make(Blocks.hardened_clay, 1, 0));
-		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 1), NF, NF, ST.make(Blocks.hardened_clay, 1, 0));
-		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 3), NF, NF, ST.make(Blocks.hardened_clay, 1, 0));
-		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 4), NF, NF, ST.make(Blocks.hardened_clay, 1, 0));
-		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 5), NF, NF, ST.make(Blocks.hardened_clay, 1, 0));
-		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 6), NF, NF, ST.make(Blocks.hardened_clay, 1, 0));
-		RM.add_smelting(ST.make(this, 1, 0), ST.make(Blocks.dirt         , 1, 1), F, F, F);
-		RM.add_smelting(ST.make(this, 1, 1), ST.make(Blocks.hardened_clay, 1, 0), F, F, T);
-		RM.add_smelting(ST.make(this, 1, 3), ST.make(Blocks.hardened_clay, 1, 0), F, F, T);
-		RM.add_smelting(ST.make(this, 1, 4), ST.make(Blocks.hardened_clay, 1, 0), F, F, T);
-		RM.add_smelting(ST.make(this, 1, 5), ST.make(Blocks.hardened_clay, 1, 0), F, F, T);
-		RM.add_smelting(ST.make(this, 1, 6), ST.make(Blocks.hardened_clay, 1, 0), F, F, T);
+		RM.generify(ST.make(this, 1, 1), ST.make(Blocks.CLAY, 1, 0));
+		RM.generify(ST.make(this, 1, 3), ST.make(Blocks.CLAY, 1, 0));
+		RM.generify(ST.make(this, 1, 4), ST.make(Blocks.CLAY, 1, 0));
+		RM.generify(ST.make(this, 1, 5), ST.make(Blocks.CLAY, 1, 0));
+		RM.generify(ST.make(this, 1, 6), ST.make(Blocks.CLAY, 1, 0));
+		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 0), NF, NF, ST.make(Blocks.DIRT, 1, 1));
+		RM.Drying.addRecipe1(T, 16, 64, ST.make(Blocks.CLAY, 1, 0), NF, NF, ST.make(Blocks.TERRACOTTA, 1, 0));
+		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 1), NF, NF, ST.make(Blocks.TERRACOTTA, 1, 0));
+		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 3), NF, NF, ST.make(Blocks.TERRACOTTA, 1, 0));
+		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 4), NF, NF, ST.make(Blocks.TERRACOTTA, 1, 0));
+		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 5), NF, NF, ST.make(Blocks.TERRACOTTA, 1, 0));
+		RM.Drying.addRecipe1(T, 16, 64, ST.make(this       , 1, 6), NF, NF, ST.make(Blocks.TERRACOTTA, 1, 0));
+		RM.add_smelting(ST.make(this, 1, 0), ST.make(Blocks.DIRT         , 1, 1), F, F, F);
+		RM.add_smelting(ST.make(this, 1, 1), ST.make(Blocks.TERRACOTTA, 1, 0), F, F, T);
+		RM.add_smelting(ST.make(this, 1, 3), ST.make(Blocks.TERRACOTTA, 1, 0), F, F, T);
+		RM.add_smelting(ST.make(this, 1, 4), ST.make(Blocks.TERRACOTTA, 1, 0), F, F, T);
+		RM.add_smelting(ST.make(this, 1, 5), ST.make(Blocks.TERRACOTTA, 1, 0), F, F, T);
+		RM.add_smelting(ST.make(this, 1, 6), ST.make(Blocks.TERRACOTTA, 1, 0), F, F, T);
 		OM.data(ST.make(this, 1, 1), MT.ClayBrown, U*4);
 		OM.data(ST.make(this, 1, 2), MT.Peat, U*4);
 		OM.data(ST.make(this, 1, 3), MT.ClayRed, U*4);
@@ -103,7 +103,7 @@ public class BlockDiggable extends BlockBaseMeta implements IBlockOnWalkOver {
 	}
 	
 	@Override
-	public boolean canSustainPlant(IBlockAccess aWorld, int aX, int aY, int aZ, ForgeDirection aSide, IPlantable aPlant) {
+	public boolean canSustainPlant(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
 		if (IS_CLAY[WD.meta(aWorld, aX, aY, aZ)]) return F;
 		if (aPlant == Blocks.reeds || aPlant instanceof BlockBush) return T;
 		EnumPlantType tType = aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ);
@@ -125,7 +125,7 @@ public class BlockDiggable extends BlockBaseMeta implements IBlockOnWalkOver {
 	}
 	
 	@Override
-	public void onWalkOver(EntityLivingBase aEntity, World aWorld, int aX, int aY, int aZ) {
+	public void onWalkOver(LivingEntity aEntity, World aWorld, int aX, int aY, int aZ) {
 		if (doesWalkSpeed(WD.meta(aWorld, aX, aY, aZ))) {aEntity.motionX *= 0.5; aEntity.motionZ *= 0.5;}
 	}
 	
@@ -136,6 +136,6 @@ public class BlockDiggable extends BlockBaseMeta implements IBlockOnWalkOver {
 	@Override public boolean isSealable      (byte aMeta, byte aSide) {return F;}
 	@Override public String getHarvestTool   (int  aMeta) {return TOOL_shovel;}
 	@Override public int getHarvestLevel     (int  aMeta) {return 0;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.dirt.getBlockHardness(aWorld, aX, aY, aZ);}
-	@Override public float getExplosionResistance(byte aMeta) {return Blocks.dirt.getExplosionResistance(null);}
+	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.DIRT.getBlockHardness(aWorld, aX, aY, aZ);}
+	@Override public float getExplosionResistance(byte aMeta) {return Blocks.DIRT.getExplosionResistance(null);}
 }

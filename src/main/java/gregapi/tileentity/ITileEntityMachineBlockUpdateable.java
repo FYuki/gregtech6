@@ -27,18 +27,18 @@ import java.util.Map;
 import gregapi.code.HashSetNoNulls;
 import gregapi.random.IHasWorldAndCoords;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos; // was BlockPos
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
  */
 public interface ITileEntityMachineBlockUpdateable {
 	/** Called whenever a Machine Block adjacent to this Block got updated. The Coords are the Coords of the Block that changed. */
-	public void onMachineBlockUpdate(ChunkCoordinates aCoords, Block aBlock, byte aMeta, boolean aRemoved);
+	public void onMachineBlockUpdate(BlockPos aCoords, Block aBlock, byte aMeta, boolean aRemoved);
 	
 	/** Utility for the Multi-Block-Updates */
 	public static class Util {
@@ -60,7 +60,7 @@ public interface ITileEntityMachineBlockUpdateable {
 		 * You should call this Function in @Block.breakBlock and in @Block.onBlockAdded of your Machine.
 		 */
 		public static boolean causeMachineUpdate(World aWorld, int aX, int aY, int aZ, Block aBlock, byte aMeta, boolean aRemoved) {
-			if (!aWorld.isRemote) new Thread(new MachineBlockUpdateRunnable(aWorld, new ChunkCoordinates(aX, aY, aZ), aBlock, aMeta, aRemoved), "Machine Block Updating").start();
+			if (!aWorld.isRemote) new Thread(new MachineBlockUpdateRunnable(aWorld, new BlockPos(aX, aY, aZ), aBlock, aMeta, aRemoved), "Machine Block Updating").start();
 			return T;
 		}
 		/**
@@ -68,7 +68,7 @@ public interface ITileEntityMachineBlockUpdateable {
 		 * This update will cause surrounding MultiBlock Machines to update their Configuration.
 		 * You should call this Function in @Block.breakBlock and in @Block.onBlockAdded of your Machine.
 		 */
-		public static boolean causeMachineUpdate(World aWorld, ChunkCoordinates aCoords, Block aBlock, byte aMeta, boolean aRemoved) {
+		public static boolean causeMachineUpdate(World aWorld, BlockPos aCoords, Block aBlock, byte aMeta, boolean aRemoved) {
 			if (!aWorld.isRemote) new Thread(new MachineBlockUpdateRunnable(aWorld, aCoords, aBlock, aMeta, aRemoved), "Machine Block Updating").start();
 			return T;
 		}
@@ -102,19 +102,19 @@ public interface ITileEntityMachineBlockUpdateable {
 		 * if this Block is a Machine Update Conducting Block
 		 */
 		public static boolean isMachineBlock(Block aBlock, int aMeta) {
-			if (aBlock == Blocks.air) return F;
+			if (aBlock == Blocks.AIR) return F;
 			Integer tNumber = MACHINE_BLOCKS.get(aBlock);
 			return tNumber != null && (tNumber & B[aMeta]) != 0;
 		}
 		
 		private static class MachineBlockUpdateRunnable implements Runnable {
-			private final ChunkCoordinates mCoords;
+			private final BlockPos mCoords;
 			private final World mWorld;
 			private final Block mBlock;
 			private final byte mMeta;
 			private final boolean mRemoved;
 			
-			public MachineBlockUpdateRunnable(World aWorld, ChunkCoordinates aCoords, Block aBlock, byte aMeta, boolean aRemoved) {
+			public MachineBlockUpdateRunnable(World aWorld, BlockPos aCoords, Block aBlock, byte aMeta, boolean aRemoved) {
 				mWorld = aWorld; mCoords = aCoords; mBlock = aBlock; mMeta = aMeta; mRemoved = aRemoved;
 			}
 			
@@ -123,20 +123,20 @@ public interface ITileEntityMachineBlockUpdateable {
 				try {stepToUpdateMachine(mWorld, mCoords, new HashSetNoNulls<>(F, mCoords));} catch(Throwable e) {/**/} finally {if (TICK_LOCK.isHeldByCurrentThread()) TICK_LOCK.unlock();}
 			}
 			
-			private void stepToUpdateMachine(World aWorld, ChunkCoordinates aCoords, HashSetNoNulls<ChunkCoordinates> aSet) {
+			private void stepToUpdateMachine(World aWorld, BlockPos aCoords, HashSetNoNulls<BlockPos> aSet) {
 				// Wait for the updateEntities Thread to be done because fucking Mojang and race conditions in loading Chunks.
 				TICK_LOCK.lock();
 				TileEntity tTileEntity = WD.te(aWorld, aCoords, T);
 				if (tTileEntity instanceof ITileEntityMachineBlockUpdateable) ((ITileEntityMachineBlockUpdateable)tTileEntity).onMachineBlockUpdate(mCoords, mBlock, mMeta, mRemoved);
 				if (aSet.size() < 5 || tTileEntity instanceof ITileEntityMachineBlockUpdateable || isMachineBlock(aWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ), aWorld.getBlockMetadata(aCoords.posX, aCoords.posY, aCoords.posZ))) {
 					TICK_LOCK.unlock();
-					ChunkCoordinates tCoords;
-					if (aSet.add(tCoords = new ChunkCoordinates(aCoords.posX+1, aCoords.posY  , aCoords.posZ  ))) stepToUpdateMachine(aWorld, tCoords, aSet);
-					if (aSet.add(tCoords = new ChunkCoordinates(aCoords.posX-1, aCoords.posY  , aCoords.posZ  ))) stepToUpdateMachine(aWorld, tCoords, aSet);
-					if (aSet.add(tCoords = new ChunkCoordinates(aCoords.posX  , aCoords.posY+1, aCoords.posZ  ))) stepToUpdateMachine(aWorld, tCoords, aSet);
-					if (aSet.add(tCoords = new ChunkCoordinates(aCoords.posX  , aCoords.posY-1, aCoords.posZ  ))) stepToUpdateMachine(aWorld, tCoords, aSet);
-					if (aSet.add(tCoords = new ChunkCoordinates(aCoords.posX  , aCoords.posY  , aCoords.posZ+1))) stepToUpdateMachine(aWorld, tCoords, aSet);
-					if (aSet.add(tCoords = new ChunkCoordinates(aCoords.posX  , aCoords.posY  , aCoords.posZ-1))) stepToUpdateMachine(aWorld, tCoords, aSet);
+					BlockPos tCoords;
+					if (aSet.add(tCoords = new BlockPos(aCoords.posX+1, aCoords.posY  , aCoords.posZ  ))) stepToUpdateMachine(aWorld, tCoords, aSet);
+					if (aSet.add(tCoords = new BlockPos(aCoords.posX-1, aCoords.posY  , aCoords.posZ  ))) stepToUpdateMachine(aWorld, tCoords, aSet);
+					if (aSet.add(tCoords = new BlockPos(aCoords.posX  , aCoords.posY+1, aCoords.posZ  ))) stepToUpdateMachine(aWorld, tCoords, aSet);
+					if (aSet.add(tCoords = new BlockPos(aCoords.posX  , aCoords.posY-1, aCoords.posZ  ))) stepToUpdateMachine(aWorld, tCoords, aSet);
+					if (aSet.add(tCoords = new BlockPos(aCoords.posX  , aCoords.posY  , aCoords.posZ+1))) stepToUpdateMachine(aWorld, tCoords, aSet);
+					if (aSet.add(tCoords = new BlockPos(aCoords.posX  , aCoords.posY  , aCoords.posZ-1))) stepToUpdateMachine(aWorld, tCoords, aSet);
 				} else {
 					TICK_LOCK.unlock();
 				}

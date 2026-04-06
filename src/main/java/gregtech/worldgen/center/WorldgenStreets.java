@@ -24,19 +24,19 @@ import gregapi.code.HashSetNoNulls;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.Potion;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
 import java.util.Random;
@@ -313,7 +313,7 @@ public class WorldgenStreets extends WorldgenObject {
 					WD.set(aWorld, -1, mHeight+1, -1, Blocks.beacon, 0, 3);
 					tTileEntity = WD.te(aWorld, -1, mHeight+1, -1, T);
 					if (tTileEntity instanceof TileEntityBeacon) {
-						NBTTagCompound tNBT = UT.NBT.make();
+						CompoundTag tNBT = UT.NBT.make();
 						tTileEntity.writeToNBT(tNBT);
 						tNBT.setInteger("Primary", Potion.moveSpeed.id);
 						tNBT.setInteger("Secondary", Potion.moveSpeed.id);
@@ -324,7 +324,7 @@ public class WorldgenStreets extends WorldgenObject {
 					WD.set(aWorld, -1, mHeight+1, 0, Blocks.beacon, 0, 3);
 					tTileEntity = WD.te(aWorld, -1, mHeight+1, 0, T);
 					if (tTileEntity instanceof TileEntityBeacon) {
-						NBTTagCompound tNBT = UT.NBT.make();
+						CompoundTag tNBT = UT.NBT.make();
 						tTileEntity.writeToNBT(tNBT);
 						tNBT.setInteger("Primary", Potion.digSpeed.id);
 						tNBT.setInteger("Secondary", Potion.digSpeed.id);
@@ -335,7 +335,7 @@ public class WorldgenStreets extends WorldgenObject {
 					WD.set(aWorld, 0, mHeight+1, -1, Blocks.beacon, 0, 3);
 					tTileEntity = WD.te(aWorld, 0, mHeight+1, -1, T);
 					if (tTileEntity instanceof TileEntityBeacon) {
-						NBTTagCompound tNBT = UT.NBT.make();
+						CompoundTag tNBT = UT.NBT.make();
 						tTileEntity.writeToNBT(tNBT);
 						tNBT.setInteger("Primary", Potion.damageBoost.id);
 						tNBT.setInteger("Secondary", Potion.damageBoost.id);
@@ -346,7 +346,7 @@ public class WorldgenStreets extends WorldgenObject {
 					WD.set(aWorld, 0, mHeight+1, 0, Blocks.beacon, 0, 3);
 					tTileEntity = WD.te(aWorld, 0, mHeight+1, 0, T);
 					if (tTileEntity instanceof TileEntityBeacon) {
-						NBTTagCompound tNBT = UT.NBT.make();
+						CompoundTag tNBT = UT.NBT.make();
 						tTileEntity.writeToNBT(tNBT);
 						tNBT.setInteger("Primary", Potion.resistance.id);
 						tNBT.setInteger("Secondary", Potion.regeneration.id);
@@ -418,14 +418,14 @@ public class WorldgenStreets extends WorldgenObject {
 	public final boolean generateRoadX(World aWorld, int aMinZ, boolean aLand, boolean aKillSky, boolean aTunnel, boolean aBridge, boolean aSideWalls) {
 		for (int i = 0; i < 16; i++) {
 			if (aLand) {
-				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld, -13, j, aMinZ+i, T, T)) WD.set(aWorld, -13, j, aMinZ+i, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld,  12, j, aMinZ+i, T, T)) WD.set(aWorld,  12, j, aMinZ+i, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight  ; j > 0; j--) if (!WD.opq(aWorld, -14, j, aMinZ+i, T, T)) WD.set(aWorld, -14, j, aMinZ+i, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight  ; j > 0; j--) if (!WD.opq(aWorld,  13, j, aMinZ+i, T, T)) WD.set(aWorld,  13, j, aMinZ+i, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight-1; j > 0; j--) if (!WD.opq(aWorld, -15, j, aMinZ+i, T, T)) WD.set(aWorld, -15, j, aMinZ+i, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight-1; j > 0; j--) if (!WD.opq(aWorld,  14, j, aMinZ+i, T, T)) WD.set(aWorld,  14, j, aMinZ+i, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, -16, j, aMinZ+i, T, T)) WD.set(aWorld, -16, j, aMinZ+i, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld,  15, j, aMinZ+i, T, T)) WD.set(aWorld,  15, j, aMinZ+i, Blocks.gravel, 1, 0, T); else break;
+				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld, -13, j, aMinZ+i, T, T)) WD.set(aWorld, -13, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld,  12, j, aMinZ+i, T, T)) WD.set(aWorld,  12, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight  ; j > 0; j--) if (!WD.opq(aWorld, -14, j, aMinZ+i, T, T)) WD.set(aWorld, -14, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight  ; j > 0; j--) if (!WD.opq(aWorld,  13, j, aMinZ+i, T, T)) WD.set(aWorld,  13, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight-1; j > 0; j--) if (!WD.opq(aWorld, -15, j, aMinZ+i, T, T)) WD.set(aWorld, -15, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight-1; j > 0; j--) if (!WD.opq(aWorld,  14, j, aMinZ+i, T, T)) WD.set(aWorld,  14, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, -16, j, aMinZ+i, T, T)) WD.set(aWorld, -16, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld,  15, j, aMinZ+i, T, T)) WD.set(aWorld,  15, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
 			}
 			if (aTunnel) {
 				for (int j = -12; j < 12; j++)
@@ -449,9 +449,9 @@ public class WorldgenStreets extends WorldgenObject {
 			for (int j = -12; j < 2; j++) {
 				aWorld.setBlock(j, mHeight+1, aMinZ+i, NB, 0, 0);
 				if (aLand) {
-				WD.set(aWorld, j, mHeight-2, aMinZ+i, Blocks.cobblestone, 0, 0, T);
-				aWorld.setBlock(j, mHeight-1, aMinZ+i, Blocks.gravel, 1, 0);
-				for (int k = mHeight-3; k > 0; k--) if (!WD.opq(aWorld, j, k, aMinZ+i, T, T)) WD.set(aWorld, j, k, aMinZ+i, Blocks.cobblestone, 0, 0, T); else break;
+				WD.set(aWorld, j, mHeight-2, aMinZ+i, Blocks.COBBLESTONE, 0, 0, T);
+				aWorld.setBlock(j, mHeight-1, aMinZ+i, Blocks.GRAVEL, 1, 0);
+				for (int k = mHeight-3; k > 0; k--) if (!WD.opq(aWorld, j, k, aMinZ+i, T, T)) WD.set(aWorld, j, k, aMinZ+i, Blocks.COBBLESTONE, 0, 0, T); else break;
 				} else {
 				WD.set(aWorld, j, mHeight-1, aMinZ+i, BlocksGT.Concrete, DYE_INDEX_Gray, 0, T);
 				}
@@ -459,9 +459,9 @@ public class WorldgenStreets extends WorldgenObject {
 			for (int j = 1; j < 12; j++) {
 				aWorld.setBlock(j, mHeight+1, aMinZ+i, NB, 0, 0);
 				if (aLand) {
-				WD.set(aWorld, j, mHeight-2, aMinZ+i, Blocks.cobblestone, 0, 0, T);
-				aWorld.setBlock(j, mHeight-1, aMinZ+i, Blocks.gravel, 1, 0);
-				for (int k = mHeight-3; k > 0; k--) if (!WD.opq(aWorld, j, k, aMinZ+i, T, T)) WD.set(aWorld, j, k, aMinZ+i, Blocks.cobblestone, 0, 0, T); else break;
+				WD.set(aWorld, j, mHeight-2, aMinZ+i, Blocks.COBBLESTONE, 0, 0, T);
+				aWorld.setBlock(j, mHeight-1, aMinZ+i, Blocks.GRAVEL, 1, 0);
+				for (int k = mHeight-3; k > 0; k--) if (!WD.opq(aWorld, j, k, aMinZ+i, T, T)) WD.set(aWorld, j, k, aMinZ+i, Blocks.COBBLESTONE, 0, 0, T); else break;
 				} else {
 				WD.set(aWorld, j, mHeight-1, aMinZ+i, BlocksGT.Concrete, DYE_INDEX_Gray, 0, T);
 				}
@@ -480,14 +480,14 @@ public class WorldgenStreets extends WorldgenObject {
 			aWorld.setBlock(- 2, mHeight  , aMinZ+i, BlocksGT.Asphalt, DYE_INDEX_Gray, 0); aWorld.setBlock(- 2, mHeight+1, aMinZ+i, ((BlockMetaType)BlocksGT.CFoam).mSlabs[SIDE_X_POS], DYE_INDEX_LightGray, 0);
 			
 			if (aLand) {
-			WD.set(aWorld, - 1, mHeight-1, aMinZ+i, Blocks.cobblestone, 0, 0, T);
-			WD.set(aWorld, - 1, mHeight  , aMinZ+i, Blocks.gravel, 1, 0, F);
-			WD.set(aWorld, - 1, mHeight+1, aMinZ+i, Blocks.gravel, 1, 0, F);
-			WD.set(aWorld,   0, mHeight-1, aMinZ+i, Blocks.cobblestone, 0, 0, T);
-			WD.set(aWorld,   0, mHeight  , aMinZ+i, Blocks.gravel, 1, 0, F);
-			WD.set(aWorld,   0, mHeight+1, aMinZ+i, Blocks.gravel, 1, 0, F);
-			for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, - 1, j, aMinZ+i, T, T)) WD.set(aWorld, - 1, j, aMinZ+i, Blocks.cobblestone, 0, 0, T); else break;
-			for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld,   0, j, aMinZ+i, T, T)) WD.set(aWorld,   0, j, aMinZ+i, Blocks.cobblestone, 0, 0, T); else break;
+			WD.set(aWorld, - 1, mHeight-1, aMinZ+i, Blocks.COBBLESTONE, 0, 0, T);
+			WD.set(aWorld, - 1, mHeight  , aMinZ+i, Blocks.GRAVEL, 1, 0, F);
+			WD.set(aWorld, - 1, mHeight+1, aMinZ+i, Blocks.GRAVEL, 1, 0, F);
+			WD.set(aWorld,   0, mHeight-1, aMinZ+i, Blocks.COBBLESTONE, 0, 0, T);
+			WD.set(aWorld,   0, mHeight  , aMinZ+i, Blocks.GRAVEL, 1, 0, F);
+			WD.set(aWorld,   0, mHeight+1, aMinZ+i, Blocks.GRAVEL, 1, 0, F);
+			for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, - 1, j, aMinZ+i, T, T)) WD.set(aWorld, - 1, j, aMinZ+i, Blocks.COBBLESTONE, 0, 0, T); else break;
+			for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld,   0, j, aMinZ+i, T, T)) WD.set(aWorld,   0, j, aMinZ+i, Blocks.COBBLESTONE, 0, 0, T); else break;
 			} else {
 			WD.set(aWorld, - 1, mHeight-1, aMinZ+i, BlocksGT.Concrete, DYE_INDEX_Gray, 0, T);
 			WD.set(aWorld, - 1, mHeight  , aMinZ+i, BlocksGT.Concrete, DYE_INDEX_Gray, 0, F);
@@ -511,14 +511,14 @@ public class WorldgenStreets extends WorldgenObject {
 		}
 		
 		if (aTunnel) {
-			aWorld.setBlock(-13, mHeight+3, aMinZ+ 1, Blocks.glowstone, 0, 0);
-			aWorld.setBlock( 12, mHeight+3, aMinZ+ 1, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(-13, mHeight+3, aMinZ+ 6, Blocks.glowstone, 0, 0);
-			aWorld.setBlock( 12, mHeight+3, aMinZ+ 6, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(-13, mHeight+3, aMinZ+ 9, Blocks.glowstone, 0, 0);
-			aWorld.setBlock( 12, mHeight+3, aMinZ+ 9, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(-13, mHeight+3, aMinZ+14, Blocks.glowstone, 0, 0);
-			aWorld.setBlock( 12, mHeight+3, aMinZ+14, Blocks.glowstone, 0, 0);
+			aWorld.setBlock(-13, mHeight+3, aMinZ+ 1, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock( 12, mHeight+3, aMinZ+ 1, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(-13, mHeight+3, aMinZ+ 6, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock( 12, mHeight+3, aMinZ+ 6, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(-13, mHeight+3, aMinZ+ 9, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock( 12, mHeight+3, aMinZ+ 9, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(-13, mHeight+3, aMinZ+14, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock( 12, mHeight+3, aMinZ+14, Blocks.GLOWSTONE, 0, 0);
 		}
 		if (aSideWalls) {
 			for (int i =  0; i <  8; i++) {Block tBlock = WD.block(aWorld,  13, mHeight+4, aMinZ+i, T); if (tBlock.getMaterial().isLiquid() || WD.opq(tBlock)) {for (int j = 0; j <  8; j++) for (int k = 2; k < 6; k++) WD.set(aWorld,  12, mHeight+k, aMinZ+j, WD.even(0, k, j)?BlocksGT.CFoam:BlocksGT.Concrete, DYE_INDEX_LightGray, 0, T); break;}}
@@ -537,14 +537,14 @@ public class WorldgenStreets extends WorldgenObject {
 			WD.sign(aWorld,  11, mHeight+3, aMinZ+7, SIDE_X_NEG, 0, "", "X: 0" , "Z: " + ((aMinZ-16) >> 9), "");
 			WD.sign(aWorld,  11, mHeight+3, aMinZ+8, SIDE_X_NEG, 0, "", "X: 0" , "Z: " + ( aMinZ     >> 9), "");
 			
-			aWorld.setBlock(-13, mHeight+1, aMinZ+ 5, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(-13, mHeight+1, aMinZ+10, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(-13, mHeight+5, aMinZ+ 5, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(-13, mHeight+5, aMinZ+10, Blocks.glowstone, 0, 0);
-			aWorld.setBlock( 12, mHeight+1, aMinZ+ 5, Blocks.glowstone, 0, 0);
-			aWorld.setBlock( 12, mHeight+1, aMinZ+10, Blocks.glowstone, 0, 0);
-			aWorld.setBlock( 12, mHeight+5, aMinZ+ 5, Blocks.glowstone, 0, 0);
-			aWorld.setBlock( 12, mHeight+5, aMinZ+10, Blocks.glowstone, 0, 0);
+			aWorld.setBlock(-13, mHeight+1, aMinZ+ 5, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(-13, mHeight+1, aMinZ+10, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(-13, mHeight+5, aMinZ+ 5, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(-13, mHeight+5, aMinZ+10, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock( 12, mHeight+1, aMinZ+ 5, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock( 12, mHeight+1, aMinZ+10, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock( 12, mHeight+5, aMinZ+ 5, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock( 12, mHeight+5, aMinZ+10, Blocks.GLOWSTONE, 0, 0);
 		}
 		if (aMinZ >> 9 != (aMinZ+16) >> 9) {
 			aWorld.setBlock(- 2, mHeight+1, aMinZ+0, ((BlockMetaType)BlocksGT.CFoam).mSlabs[SIDE_X_POS], DYE_INDEX_White, 0);
@@ -647,7 +647,7 @@ public class WorldgenStreets extends WorldgenObject {
 		}
 		
 		// Kill every living thing close by except Players.
-		for (EntityLivingBase tEntity : (List<EntityLivingBase>)aWorld.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(-16, mHeight, aMinZ, +16, mHeight+8, aMinZ+16))) if (!(tEntity instanceof EntityPlayer)) tEntity.setDead();
+		for (LivingEntity tEntity : (List<LivingEntity>)aWorld.getEntitiesWithinAABB(LivingEntity.class, AxisAlignedBB.getBoundingBox(-16, mHeight, aMinZ, +16, mHeight+8, aMinZ+16))) if (!(tEntity instanceof Player)) tEntity.setDead();
 		return T;
 	}
 	
@@ -655,14 +655,14 @@ public class WorldgenStreets extends WorldgenObject {
 	public final boolean generateRoadZ(World aWorld, int aMinX, boolean aLand, boolean aKillSky, boolean aTunnel, boolean aBridge, boolean aSideWalls) {
 		for (int i = 0; i < 16; i++) {
 			if (aLand) {
-				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -13, T, T)) WD.set(aWorld, aMinX+i, j, -13, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,  12, T, T)) WD.set(aWorld, aMinX+i, j,  12, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight  ; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -14, T, T)) WD.set(aWorld, aMinX+i, j, -14, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight  ; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,  13, T, T)) WD.set(aWorld, aMinX+i, j,  13, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight-1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -15, T, T)) WD.set(aWorld, aMinX+i, j, -15, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight-1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,  14, T, T)) WD.set(aWorld, aMinX+i, j,  14, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -16, T, T)) WD.set(aWorld, aMinX+i, j, -16, Blocks.gravel, 1, 0, T); else break;
-				for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,  15, T, T)) WD.set(aWorld, aMinX+i, j,  15, Blocks.gravel, 1, 0, T); else break;
+				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -13, T, T)) WD.set(aWorld, aMinX+i, j, -13, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,  12, T, T)) WD.set(aWorld, aMinX+i, j,  12, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight  ; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -14, T, T)) WD.set(aWorld, aMinX+i, j, -14, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight  ; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,  13, T, T)) WD.set(aWorld, aMinX+i, j,  13, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight-1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -15, T, T)) WD.set(aWorld, aMinX+i, j, -15, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight-1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,  14, T, T)) WD.set(aWorld, aMinX+i, j,  14, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -16, T, T)) WD.set(aWorld, aMinX+i, j, -16, Blocks.GRAVEL, 1, 0, T); else break;
+				for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,  15, T, T)) WD.set(aWorld, aMinX+i, j,  15, Blocks.GRAVEL, 1, 0, T); else break;
 			}
 			if (aTunnel) {
 				for (int j = -12; j < 12; j++)
@@ -686,9 +686,9 @@ public class WorldgenStreets extends WorldgenObject {
 			for (int j = -12; j < 2; j++) {
 				aWorld.setBlock(aMinX+i, mHeight+1, j, NB, 0, 0);
 				if (aLand) {
-				WD.set(aWorld, aMinX+i, mHeight-2, j, Blocks.cobblestone, 0, 0, T);
-				aWorld.setBlock(aMinX+i, mHeight-1, j, Blocks.gravel, 1, 0);
-				for (int k = mHeight-3; k > 0; k--) if (!WD.opq(aWorld, aMinX+i, k, j, T, T)) WD.set(aWorld, aMinX+i, k, j, Blocks.cobblestone, 0, 0, T); else break;
+				WD.set(aWorld, aMinX+i, mHeight-2, j, Blocks.COBBLESTONE, 0, 0, T);
+				aWorld.setBlock(aMinX+i, mHeight-1, j, Blocks.GRAVEL, 1, 0);
+				for (int k = mHeight-3; k > 0; k--) if (!WD.opq(aWorld, aMinX+i, k, j, T, T)) WD.set(aWorld, aMinX+i, k, j, Blocks.COBBLESTONE, 0, 0, T); else break;
 				} else {
 				WD.set(aWorld, aMinX+i, mHeight-1, j, BlocksGT.Concrete, DYE_INDEX_Gray, 0, T);
 				}
@@ -696,9 +696,9 @@ public class WorldgenStreets extends WorldgenObject {
 			for (int j = 1; j < 12; j++) {
 				aWorld.setBlock(aMinX+i, mHeight+1, j, NB, 0, 0);
 				if (aLand) {
-				WD.set(aWorld, aMinX+i, mHeight-2, j, Blocks.cobblestone, 0, 0, T);
-				aWorld.setBlock(aMinX+i, mHeight-1, j, Blocks.gravel, 1, 0);
-				for (int k = mHeight-3; k > 0; k--) if (!WD.opq(aWorld, aMinX+i, k, j, T, T)) WD.set(aWorld, aMinX+i, k, j, Blocks.cobblestone, 0, 0, T); else break;
+				WD.set(aWorld, aMinX+i, mHeight-2, j, Blocks.COBBLESTONE, 0, 0, T);
+				aWorld.setBlock(aMinX+i, mHeight-1, j, Blocks.GRAVEL, 1, 0);
+				for (int k = mHeight-3; k > 0; k--) if (!WD.opq(aWorld, aMinX+i, k, j, T, T)) WD.set(aWorld, aMinX+i, k, j, Blocks.COBBLESTONE, 0, 0, T); else break;
 				} else {
 				WD.set(aWorld, aMinX+i, mHeight-1, j, BlocksGT.Concrete, DYE_INDEX_Gray, 0, T);
 				}
@@ -717,14 +717,14 @@ public class WorldgenStreets extends WorldgenObject {
 			aWorld.setBlock(aMinX+i, mHeight  , - 2, BlocksGT.Asphalt, DYE_INDEX_Gray, 0); aWorld.setBlock(aMinX+i, mHeight+1, - 2, ((BlockMetaType)BlocksGT.CFoam).mSlabs[SIDE_Z_POS], DYE_INDEX_LightGray, 0);
 			
 			if (aLand) {
-			WD.set(aWorld, aMinX+i, mHeight-1, - 1, Blocks.cobblestone, 0, 0, T);
-			WD.set(aWorld, aMinX+i, mHeight  , - 1, Blocks.gravel, 1, 0, F);
-			WD.set(aWorld, aMinX+i, mHeight+1, - 1, Blocks.gravel, 1, 0, F);
-			WD.set(aWorld, aMinX+i, mHeight-1,   0, Blocks.cobblestone, 0, 0, T);
-			WD.set(aWorld, aMinX+i, mHeight  ,   0, Blocks.gravel, 1, 0, F);
-			WD.set(aWorld, aMinX+i, mHeight+1,   0, Blocks.gravel, 1, 0, F);
-			for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, - 1, T, T)) WD.set(aWorld, aMinX+i, j, - 1, Blocks.cobblestone, 0, 0, T); else break;
-			for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,   0, T, T)) WD.set(aWorld, aMinX+i, j,   0, Blocks.cobblestone, 0, 0, T); else break;
+			WD.set(aWorld, aMinX+i, mHeight-1, - 1, Blocks.COBBLESTONE, 0, 0, T);
+			WD.set(aWorld, aMinX+i, mHeight  , - 1, Blocks.GRAVEL, 1, 0, F);
+			WD.set(aWorld, aMinX+i, mHeight+1, - 1, Blocks.GRAVEL, 1, 0, F);
+			WD.set(aWorld, aMinX+i, mHeight-1,   0, Blocks.COBBLESTONE, 0, 0, T);
+			WD.set(aWorld, aMinX+i, mHeight  ,   0, Blocks.GRAVEL, 1, 0, F);
+			WD.set(aWorld, aMinX+i, mHeight+1,   0, Blocks.GRAVEL, 1, 0, F);
+			for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, - 1, T, T)) WD.set(aWorld, aMinX+i, j, - 1, Blocks.COBBLESTONE, 0, 0, T); else break;
+			for (int j = mHeight-2; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j,   0, T, T)) WD.set(aWorld, aMinX+i, j,   0, Blocks.COBBLESTONE, 0, 0, T); else break;
 			} else {
 			WD.set(aWorld, aMinX+i, mHeight-1, - 1, BlocksGT.Concrete, DYE_INDEX_Gray, 0, T);
 			WD.set(aWorld, aMinX+i, mHeight  , - 1, BlocksGT.Concrete, DYE_INDEX_Gray, 0, F);
@@ -748,14 +748,14 @@ public class WorldgenStreets extends WorldgenObject {
 		}
 		
 		if (aTunnel) {
-			aWorld.setBlock(aMinX+ 1, mHeight+3, -13, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+ 1, mHeight+3,  12, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+ 6, mHeight+3, -13, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+ 6, mHeight+3,  12, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+ 9, mHeight+3, -13, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+ 9, mHeight+3,  12, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+14, mHeight+3, -13, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+14, mHeight+3,  12, Blocks.glowstone, 0, 0);
+			aWorld.setBlock(aMinX+ 1, mHeight+3, -13, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+ 1, mHeight+3,  12, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+ 6, mHeight+3, -13, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+ 6, mHeight+3,  12, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+ 9, mHeight+3, -13, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+ 9, mHeight+3,  12, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+14, mHeight+3, -13, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+14, mHeight+3,  12, Blocks.GLOWSTONE, 0, 0);
 		}
 		if (aSideWalls) {
 			for (int i =  0; i <  8; i++) {Block tBlock = WD.block(aWorld, aMinX+i, mHeight+4,  13, T); if (tBlock.getMaterial().isLiquid() || WD.opq(tBlock)) {for (int j = 0; j <  8; j++) for (int k = 2; k < 6; k++) WD.set(aWorld, aMinX+j, mHeight+k,  12, WD.even(0, k, j)?BlocksGT.CFoam:BlocksGT.Concrete, DYE_INDEX_LightGray, 0, T); break;}}
@@ -774,14 +774,14 @@ public class WorldgenStreets extends WorldgenObject {
 			WD.sign(aWorld, aMinX+7, mHeight+3,  11, SIDE_Z_NEG, 0, "", "X: " + ((aMinX-16) >> 9), "Z: 0" , "");
 			WD.sign(aWorld, aMinX+8, mHeight+3,  11, SIDE_Z_NEG, 0, "", "X: " + ( aMinX     >> 9), "Z: 0" , "");
 			
-			aWorld.setBlock(aMinX+ 5, mHeight+1, -13, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+10, mHeight+1, -13, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+ 5, mHeight+5, -13, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+10, mHeight+5, -13, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+ 5, mHeight+1,  12, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+10, mHeight+1,  12, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+ 5, mHeight+5,  12, Blocks.glowstone, 0, 0);
-			aWorld.setBlock(aMinX+10, mHeight+5,  12, Blocks.glowstone, 0, 0);
+			aWorld.setBlock(aMinX+ 5, mHeight+1, -13, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+10, mHeight+1, -13, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+ 5, mHeight+5, -13, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+10, mHeight+5, -13, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+ 5, mHeight+1,  12, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+10, mHeight+1,  12, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+ 5, mHeight+5,  12, Blocks.GLOWSTONE, 0, 0);
+			aWorld.setBlock(aMinX+10, mHeight+5,  12, Blocks.GLOWSTONE, 0, 0);
 		}
 		if (aMinX >> 9 != (aMinX+16) >> 9) {
 			aWorld.setBlock(aMinX+0, mHeight+1, - 2, ((BlockMetaType)BlocksGT.CFoam).mSlabs[SIDE_Z_POS], DYE_INDEX_White, 0);
@@ -884,7 +884,7 @@ public class WorldgenStreets extends WorldgenObject {
 		}
 		
 		// Kill every living thing close by except Players.
-		for (EntityLivingBase tEntity : (List<EntityLivingBase>)aWorld.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(aMinX, mHeight, -16, aMinX+16, mHeight+8, +16))) if (!(tEntity instanceof EntityPlayer)) tEntity.setDead();
+		for (LivingEntity tEntity : (List<LivingEntity>)aWorld.getEntitiesWithinAABB(LivingEntity.class, AxisAlignedBB.getBoundingBox(aMinX, mHeight, -16, aMinX+16, mHeight+8, +16))) if (!(tEntity instanceof Player)) tEntity.setDead();
 		return T;
 	}
 }

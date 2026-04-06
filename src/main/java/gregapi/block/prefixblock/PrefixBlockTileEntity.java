@@ -30,11 +30,11 @@ import gregapi.tileentity.ITileEntitySpecificPlacementBehavior;
 import gregapi.tileentity.ITileEntitySynchronising;
 import gregapi.tileentity.base.TileEntityBase01Root;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.IBlockAccess;
 
 import static gregapi.data.CS.*;
@@ -45,7 +45,7 @@ import static gregapi.data.CS.*;
 public class PrefixBlockTileEntity extends TileEntityBase01Root implements IRenderedBlockObject, IRenderedBlockObjectSideCheck, ITileEntityScheduledUpdate, ITileEntitySynchronising, ITileEntitySpecificPlacementBehavior {
 	public short mMetaData = W;
 	public boolean mBlocked = T;
-	public NBTTagCompound mItemNBT = null;
+	public CompoundTag mItemNBT = null;
 	
 	public PrefixBlockTileEntity() {super(F);}
 	
@@ -78,7 +78,7 @@ public class PrefixBlockTileEntity extends TileEntityBase01Root implements IRend
 	}
 	
 	@Override
-	public void sendUpdateToPlayer(EntityPlayerMP aPlayer) {
+	public void sendUpdateToPlayer(ServerPlayer aPlayer) {
 		if (!(mBlocked = WD.visOcc(worldObj, xCoord, yCoord, zCoord, T, T))) {
 			NW_API.sendToPlayer(new PacketSyncDataShort(getCoords(), mMetaData), aPlayer);
 			if (mItemNBT != null && mItemNBT.hasKey("display")) NW_API.sendToPlayer(new PacketSyncDataName(getCoords(), mItemNBT.getCompoundTag("display").getString("Name")), aPlayer);
@@ -98,9 +98,9 @@ public class PrefixBlockTileEntity extends TileEntityBase01Root implements IRend
 	@Override public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ) {return F;}
 	@Override public boolean setBlockBounds(Block aBlock, int aRenderPass, boolean[] aShouldSideBeRendered) {return F;}
 	@Override public int getRenderPasses(Block aBlock, boolean[] aShouldSideBeRendered) {return 1;}
-	@Override public void readFromNBT(NBTTagCompound aNBT) {super.readFromNBT(aNBT); mMetaData = aNBT.getShort("m"); if (aNBT.hasKey("gt.nbt.drop")) mItemNBT = aNBT.getCompoundTag("gt.nbt.drop");}
-	@Override public void writeToNBT(NBTTagCompound aNBT) {super.writeToNBT(aNBT); aNBT.setShort("m", mMetaData); if (mItemNBT != null && !mItemNBT.hasNoTags()) aNBT.setTag("gt.nbt.drop", mItemNBT);}
+	@Override public void readFromNBT(CompoundTag aNBT) {super.readFromNBT(aNBT); mMetaData = aNBT.getShort("m"); if (aNBT.hasKey("gt.nbt.drop")) mItemNBT = aNBT.getCompoundTag("gt.nbt.drop");}
+	@Override public void writeToNBT(CompoundTag aNBT) {super.writeToNBT(aNBT); aNBT.setShort("m", mMetaData); if (mItemNBT != null && !mItemNBT.hasNoTags()) aNBT.setTag("gt.nbt.drop", mItemNBT);}
 	@Override public void processPacket(INetworkHandler aNetworkHandler) {/**/}
-	@Override public Object getGUIClient(int aGUIID, EntityPlayer aPlayer) {return null;}
-	@Override public Object getGUIServer(int aGUIID, EntityPlayer aPlayer) {return null;}
+	@Override public Object getGUIClient(int aGUIID, Player aPlayer) {return null;}
+	@Override public Object getGUIServer(int aGUIID, Player aPlayer) {return null;}
 }

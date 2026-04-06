@@ -36,18 +36,18 @@ import gregapi.recipes.Recipe;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.level.block.Block;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+// PHASE3: import FluidRegistry removed — use NeoForge fluid registry
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
 import java.util.Collection;
@@ -74,15 +74,15 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	}
 	
 	@Override
-	public boolean onItemUseFirst(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
 		if (!aWorld.isRemote && UT.Entities.hasInfiniteItems(aPlayer)) for (byte tSide : ALL_SIDES_VALID) if (FL.fill(WD.te(aWorld, aX, aY, aZ, tSide, T), FL.make(FL.fluid(ST.meta_(aStack)), Integer.MAX_VALUE), T) > 0) return T;
 		return !aWorld.isRemote;
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void addInformation(ItemStack aStack, EntityPlayer aPlayer, @SuppressWarnings("rawtypes") List aList, boolean aF3_H) {
-		NBTTagCompound aNBT = aStack.getTagCompound();
+	public void addInformation(ItemStack aStack, Player aPlayer, @SuppressWarnings("rawtypes") List aList, boolean aF3_H) {
+		CompoundTag aNBT = aStack.getTagCompound();
 		Fluid aFluid = FL.fluid(ST.meta_(aStack));
 		if (aFluid == null) {
 			aList.add(LH.Chat.BLINKING_RED + "CLIENTSIDE FLUID IS NULL!!!");
@@ -290,7 +290,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	@Override public final String getUnlocalizedName() {return mName;}
 	
 	@Override
-	public boolean doesSneakBypassUse(World aWorld, int aX, int aY, int aZ, EntityPlayer aPlayer) {
+	public boolean doesSneakBypassUse(World aWorld, int aX, int aY, int aZ, Player aPlayer) {
 		return T;
 	}
 	
@@ -306,7 +306,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	
 	@Override
 	public void updateItemStack(ItemStack aStack) {
-		NBTTagCompound aNBT = aStack.getTagCompound();
+		CompoundTag aNBT = aStack.getTagCompound();
 		if (aNBT != null && aNBT.hasKey("f")) {
 			String aName = aNBT.getString("f");
 			if (UT.Code.stringInvalid(aName)) return;
@@ -329,7 +329,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 		Fluid tFluid = FL.fluid(ST.meta_(aStack));
 		if (tFluid == null) return null;
 		FluidStack rFluid = null;
-		NBTTagCompound aNBT = aStack.getTagCompound();
+		CompoundTag aNBT = aStack.getTagCompound();
 		if (aNBT != null) {
 			long tAmount = aNBT.getLong("a");
 			if (tAmount > 0) rFluid = FL.make(tFluid, tAmount);

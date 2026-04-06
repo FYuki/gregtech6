@@ -19,7 +19,7 @@
 
 package gregapi.oredict;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies

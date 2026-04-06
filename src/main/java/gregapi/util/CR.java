@@ -28,21 +28,21 @@ import gregapi.recipes.AdvancedCraftingShaped;
 import gregapi.recipes.AdvancedCraftingShapeless;
 import gregapi.recipes.AdvancedCraftingTool;
 import gregapi.recipes.ICraftingRecipeGT;
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraft.world.level.Level;
+// PHASE7: import OreDictionary removed — replaced by Tags
+// PHASE7: import ShapedOreRecipe removed — use datapack recipes
+// PHASE7: import ShapelessOreRecipe removed — use datapack recipes
 
 import java.util.*;
 
@@ -575,7 +575,7 @@ public class CR {
 	}
 	
 	public static InventoryCrafting crafting(ItemStack... aRecipe) {
-		InventoryCrafting rCrafting = new InventoryCrafting(new Container() {@Override public boolean canInteractWith(EntityPlayer var1) {return F;}}, 3, 3);
+		InventoryCrafting rCrafting = new InventoryCrafting(new Container() {@Override public boolean canInteractWith(Player var1) {return F;}}, 3, 3);
 		for (int i = 0; i < 9 && i < aRecipe.length; i++) rCrafting.setInventorySlotContents(i, aRecipe[i]);
 		return rCrafting;
 	}

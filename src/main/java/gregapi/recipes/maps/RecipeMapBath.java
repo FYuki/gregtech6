@@ -30,15 +30,15 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.wooddict.PlankEntry;
 import gregapi.wooddict.WoodDictionary;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.Potion;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Collection;
 
@@ -140,7 +140,7 @@ public class RecipeMapBath extends RecipeMap {
 			}
 			if (ST.edible(aInput) && FL.getFluid(aInput, T) == null) {
 				ItemStack tOutput = ST.amount(1, aInput);
-				NBTTagCompound tNBT = UT.NBT.getNBT(tOutput);
+				CompoundTag tNBT = UT.NBT.getNBT(tOutput);
 				tOutput.setTagCompound(tNBT);
 				if (!tNBT.hasKey(NBT_EFFECTS)) {
 					if (FL.Med_Heal                .is(aFluids[0])) {tNBT.setTag(NBT_EFFECTS, UT.NBT.make("id", Potion.regeneration  .id, "time",  120, "lvl", 4, "chance", 90)); return new Recipe(F, F, F, ST.array(ST.amount(1, aInput)), ST.array(tOutput), null, null, FL.array(FL.amount(aFluids[0], 250)), ZL_FS, 512, 0, 0);}

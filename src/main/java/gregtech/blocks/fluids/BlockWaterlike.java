@@ -31,22 +31,22 @@ import gregapi.tileentity.data.ITileEntitySurface;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.world.level.Level;
+import net.minecraft.core.Direction; // was Direction
 import net.minecraftforge.fluids.BlockFluidClassic;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Random;
@@ -201,8 +201,8 @@ public abstract class BlockWaterlike extends BlockFluidClassic implements IBlock
 	@Override public int getRenderColor(int aMeta) {return 0x00ffffff;}
 	@Override public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {return 0x00ffffff;}
 	
-	@Override public int getFireSpreadSpeed(IBlockAccess aWorld, int aX, int aY, int aZ, ForgeDirection aDirection) {return 0;}
-	@Override public int getFlammability(IBlockAccess aWorld, int aX, int aY, int aZ, ForgeDirection aDirection) {return 0;}
+	@Override public int getFireSpreadSpeed(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aDirection) {return 0;}
+	@Override public int getFlammability(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aDirection) {return 0;}
 	@Override public boolean canDisplace(IBlockAccess aWorld, int aX, int aY, int aZ) {return !aWorld.getBlock(aX, aY, aZ).getMaterial().isLiquid() && super.canDisplace(aWorld, aX, aY, aZ);}
 	@Override public boolean displaceIfPossible(World aWorld, int aX, int aY, int aZ) {return !aWorld.getBlock(aX, aY, aZ).getMaterial().isLiquid() && super.displaceIfPossible(aWorld, aX, aY, aZ);}
 	@Override public boolean canCollideCheck(int aMeta, boolean aFullHit) {return aFullHit && aMeta == 0;}
@@ -213,7 +213,7 @@ public abstract class BlockWaterlike extends BlockFluidClassic implements IBlock
 	@Override public boolean getTickRandomly() {return F;}
 	@Override public boolean renderAsNormalBlock() {return F;}
 	@Override public boolean isAir(IBlockAccess aWorld, int aX, int aY, int aZ) {return F;}
-	@Override public boolean isSideSolid(IBlockAccess aWorld, int aX, int aY, int aZ, ForgeDirection aSide) {return F;}
+	@Override public boolean isSideSolid(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide) {return F;}
 	
 	public BlockWaterlike addEffect(int aEffectID, int aEffectDuration, int aEffectLevel) {
 		mEffects.add(new int[] {aEffectID, aEffectDuration, aEffectLevel});
@@ -223,7 +223,7 @@ public abstract class BlockWaterlike extends BlockFluidClassic implements IBlock
 	public List<int[]> mEffects = new ArrayListNoNulls<>();
 	
 	@Override
-	public void onHeadInside(EntityLivingBase aEntity, World aWorld, int aX, int aY, int aZ) {
+	public void onHeadInside(LivingEntity aEntity, World aWorld, int aX, int aY, int aZ) {
 		if (!aWorld.isRemote && !mEffects.isEmpty() && (FL.gas(mFluid) ? !UT.Entities.isImmuneToBreathingGases(aEntity) : !UT.Entities.isWearingFullChemHazmat(aEntity))) {
 			for (int[] tEffects : mEffects) UT.Entities.applyPotion(aEntity, tEffects[0], tEffects[1], tEffects[2], F);
 			if (getMaterial() != Material.water && SERVER_TIME % 20 == 0) aEntity.attackEntityFrom(DamageSource.drown, 2.0F);

@@ -29,9 +29,9 @@ import gregapi.block.IBlockExtendedMetaData;
 import gregapi.block.IBlockPlacable;
 import gregapi.code.ItemStackContainer;
 import gregapi.data.CS.BlocksGT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
@@ -47,7 +47,7 @@ public class WorldgenStone extends WorldgenBlob {
 		Block tTargetedBlock = aWorld.getBlock(aX, aY, aZ);
 		if (tTargetedBlock == NB || tTargetedBlock.isAir(aWorld, aX, aY, aZ)) return mAllowToGenerateinVoid && aWorld.setBlock(aX, aY, aZ, mBlock, mBlockMeta, 0);
 		if (tTargetedBlock instanceof IBlockExtendedMetaData) return overrideBlock((IBlockExtendedMetaData)tTargetedBlock, aWorld, aX, aY, aZ);
-		return (tTargetedBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone) || tTargetedBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone) || tTargetedBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) && aWorld.setBlock(aX, aY, aZ, mBlock, mBlockMeta, 0);
+		return (tTargetedBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.STONE) || tTargetedBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.END_STONE) || tTargetedBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.NETHERRACK)) && aWorld.setBlock(aX, aY, aZ, mBlock, mBlockMeta, 0);
 	}
 	
 	@SuppressWarnings("unlikely-arg-type")

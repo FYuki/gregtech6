@@ -19,7 +19,7 @@
 
 package gregapi.block.multitileentity;
 
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies

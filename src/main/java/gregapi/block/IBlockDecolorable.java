@@ -19,7 +19,7 @@
 
 package gregapi.block;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies

@@ -19,8 +19,8 @@
 
 package gregapi.item;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies

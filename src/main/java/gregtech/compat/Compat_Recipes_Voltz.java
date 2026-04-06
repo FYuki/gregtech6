@@ -32,7 +32,7 @@ import gregapi.data.OD;
 import gregapi.data.RM;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public class Compat_Recipes_Voltz extends CompatMods {
 	public Compat_Recipes_Voltz(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

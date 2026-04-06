@@ -23,8 +23,8 @@ import gregapi.code.TagData;
 import gregapi.data.MD;
 import gregapi.data.TD;
 import gregapi.util.UT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 
 import static gregapi.data.CS.*;
 

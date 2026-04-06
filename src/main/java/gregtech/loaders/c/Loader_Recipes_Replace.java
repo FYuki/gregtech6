@@ -33,18 +33,18 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+// PHASE7: import OreDictionary removed — replaced by Tags
+// PHASE7: import ShapedOreRecipe removed — use datapack recipes
+// PHASE7: import ShapelessOreRecipe removed — use datapack recipes
 
 import java.util.List;
 import java.util.Set;
@@ -266,7 +266,7 @@ public class Loader_Recipes_Replace implements Runnable {
 	public static ItemStack getRecipeOutput(IRecipe aRecipe, ItemStack... aStacks) {
 		if (aRecipe == null || aStacks == null) return null;
 		for (byte i = 0; i < aStacks.length; i++) if (aStacks[i] != null) {
-			InventoryCrafting aCrafting = new InventoryCrafting(new Container() {@Override public boolean canInteractWith(EntityPlayer aPlayer) {return F;}}, 3, 3);
+			InventoryCrafting aCrafting = new InventoryCrafting(new Container() {@Override public boolean canInteractWith(Player aPlayer) {return F;}}, 3, 3);
 			for (int j = 0; j < 9 && j < aStacks.length; j++) aCrafting.setInventorySlotContents(j, aStacks[j]);
 			if (!aRecipe.matches(aCrafting, DW)) return null;
 			ItemStack rOutput = aRecipe.getCraftingResult(aCrafting);
@@ -292,7 +292,7 @@ public class Loader_Recipes_Replace implements Runnable {
 		public RecipeReplacer(ItemStack[] aRecipe) {mRecipe = aRecipe; mName = "null"; mShape = ZL_STRING;}
 	}
 	
-	private static final ItemStack INGT = ST.make(Blocks.dirt, 1, 0), STCK = ST.make(Blocks.dirt, 1, 0);
+	private static final ItemStack INGT = ST.make(Blocks.DIRT, 1, 0), STCK = ST.make(Blocks.DIRT, 1, 0);
 	private static final String HAM = "h", FIL = "f", NGT = "I", PLT = "P", CRV = "C", ROD = "R", ___ = " ";
 	
 	public static final RecipeReplacer[] sRecipesMat = {

@@ -30,9 +30,9 @@ import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregtech.worldgen.NoiseGenerator;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
  * @author Gregorius Techneticies
@@ -50,7 +50,7 @@ public class WorldgenNetherClay extends WorldgenObject {
 		
 		for (int i = 0; i < 16; i++) for (int j = 0; j < 16; j++) {
 			if (tNoise.get(aMinX+i, 42, aMinZ+j, 8) == 0) for (int tY = tUpperBound; tY >= tLowerBound; tY--) {
-				if (aChunk.getBlock(i, tY, j) == Blocks.netherrack) WD.set(aChunk, i, tY, j, BlocksGT.Diggables, 3);
+				if (aChunk.getBlock(i, tY, j) == Blocks.NETHERRACK) WD.set(aChunk, i, tY, j, BlocksGT.Diggables, 3);
 			}
 		}
 		return T;

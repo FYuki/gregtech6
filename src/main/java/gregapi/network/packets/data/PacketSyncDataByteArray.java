@@ -26,8 +26,8 @@ import gregapi.block.IBlockSyncData;
 import gregapi.network.INetworkHandler;
 import gregapi.network.packets.PacketCoordinates;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -48,7 +48,7 @@ public class PacketSyncDataByteArray extends PacketCoordinates {
 		mData = aData;
 	}
 	/** aData is limited to length = 256 */
-	public PacketSyncDataByteArray(ChunkCoordinates aCoords, byte... aData) {
+	public PacketSyncDataByteArray(BlockPos aCoords, byte... aData) {
 		super(aCoords);
 		mData = aData;
 	}

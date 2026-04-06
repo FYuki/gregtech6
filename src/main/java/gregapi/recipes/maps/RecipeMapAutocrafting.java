@@ -37,14 +37,14 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Collection;
 import java.util.List;
@@ -81,7 +81,7 @@ public class RecipeMapAutocrafting extends RecipeMap {
 			}
 		}
 		
-		InventoryCrafting tCraftInv = new InventoryCrafting(new Container() {@Override public boolean canInteractWith(EntityPlayer var1) {return F;}}, 3, 3);
+		InventoryCrafting tCraftInv = new InventoryCrafting(new Container() {@Override public boolean canInteractWith(Player var1) {return F;}}, 3, 3);
 		for (int i = 0; i < 9; i++) tCraftInv.setInventorySlotContents(i, tBlueprint[i]);
 		
 		IRecipe tIRecipe = null;
@@ -136,7 +136,7 @@ public class RecipeMapAutocrafting extends RecipeMap {
 			rBlueprint = UT.NBT.getBlueprintCrafting(aSpecialSlot);
 		} else if (OM.is_(OD_USB_STICKS[1], aSpecialSlot)) {
 			if (!aSpecialSlot.hasTagCompound()) return rBlueprint;
-			NBTTagCompound tData = aSpecialSlot.getTagCompound().getCompoundTag(NBT_USB_DATA);
+			CompoundTag tData = aSpecialSlot.getTagCompound().getCompoundTag(NBT_USB_DATA);
 			if (tData == null) return rBlueprint;
 			rBlueprint = UT.NBT.getBlueprintCrafting(tData);
 		} else if (OM.is_(OD_USB_CABLES[1], aSpecialSlot)) {
@@ -144,7 +144,7 @@ public class RecipeMapAutocrafting extends RecipeMap {
 			for (byte tSide : ALL_SIDES_VALID_ONLY[aSpecialSlot.hasTagCompound() && aSpecialSlot.getTagCompound().hasKey(NBT_USB_DIRECTION) ? aSpecialSlot.getTagCompound().getByte(NBT_USB_DIRECTION) : SIDE_ANY]) {
 				DelegatorTileEntity<TileEntity> tDelegator = aTileEntity.getAdjacentTileEntity(tSide);
 				if (tDelegator.mTileEntity instanceof ITileEntityUSBPort) {
-					NBTTagCompound tData = ((ITileEntityUSBPort)tDelegator.mTileEntity).getUSBData(tDelegator.mSideOfTileEntity, 1);
+					CompoundTag tData = ((ITileEntityUSBPort)tDelegator.mTileEntity).getUSBData(tDelegator.mSideOfTileEntity, 1);
 					if (tData == null) continue;
 					rBlueprint = UT.NBT.getBlueprintCrafting(tData);
 					if (rBlueprint.length > 0) return rBlueprint;

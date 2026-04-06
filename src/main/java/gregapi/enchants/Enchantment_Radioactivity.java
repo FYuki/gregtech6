@@ -25,9 +25,9 @@ import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.util.UT;
 import net.minecraft.enchantment.EnchantmentDamage;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
@@ -81,7 +81,7 @@ public class Enchantment_Radioactivity extends EnchantmentDamage {
 	}
 	
 	@Override
-	public void func_151367_b(EntityLivingBase aHurtEntity, Entity aDamagingEntity, int aLevel) {
+	public void func_151367_b(LivingEntity aHurtEntity, Entity aDamagingEntity, int aLevel) {
 		UT.Entities.applyRadioactivity(aHurtEntity, aLevel, 1);
 	}
 	

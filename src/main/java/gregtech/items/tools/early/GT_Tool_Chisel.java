@@ -29,11 +29,11 @@ import gregapi.item.multiitem.tools.ToolStats;
 import gregapi.old.Textures;
 import gregapi.render.IIconContainer;
 import gregapi.util.ST;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockSilverfish;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.List;
@@ -54,18 +54,18 @@ public class GT_Tool_Chisel extends ToolStats {
 	@Override public boolean canCollect()                                                   {return T;}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, EntityPlayer aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
-		if (aBlock == Blocks.stone) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+		if (aBlock == Blocks.STONE) {
 			aDrops.clear();
-			aDrops.add(ST.make(Blocks.stonebrick, 1, 3));
+			aDrops.add(ST.make(Blocks.STONE_BRICKS, 1, 3));
 			return 0;
 		}
-		if (aBlock == Blocks.stonebrick) {
+		if (aBlock == Blocks.STONE_BRICKS) {
 			aDrops.clear();
 			switch(aMetaData) {
-			case  0: aDrops.add(ST.make(Blocks.stonebrick, 1, 2)); break;
-			case  1: aDrops.add(ST.make(Blocks.mossy_cobblestone, 1, 0)); break;
-			case  2: aDrops.add(ST.make(Blocks.cobblestone, 1, 0)); break;
+			case  0: aDrops.add(ST.make(Blocks.STONE_BRICKS, 1, 2)); break;
+			case  1: aDrops.add(ST.make(Blocks.MOSSY_COBBLESTONE, 1, 0)); break;
+			case  2: aDrops.add(ST.make(Blocks.COBBLESTONE, 1, 0)); break;
 			default: aDrops.add(ST.make(aBlock, 1, aMetaData)); break;
 			}
 			return 0;
@@ -80,7 +80,7 @@ public class GT_Tool_Chisel extends ToolStats {
 	
 	@Override
 	public boolean isMinableBlock(Block aBlock, byte aMetaData) {
-		return TOOL_chisel.equalsIgnoreCase(aBlock.getHarvestTool(aMetaData)) || aBlock instanceof BlockSilverfish || aBlock == Blocks.stone || aBlock == Blocks.stonebrick || aBlock instanceof BlockStones;
+		return TOOL_chisel.equalsIgnoreCase(aBlock.getHarvestTool(aMetaData)) || aBlock instanceof BlockSilverfish || aBlock == Blocks.STONE || aBlock == Blocks.STONE_BRICKS || aBlock instanceof BlockStones;
 	}
 	
 	@Override

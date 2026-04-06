@@ -32,10 +32,10 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.UT.Code;
 import gregapi.util.UT.NBT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 
@@ -677,7 +677,7 @@ public enum FL {
 		if (aID < 0) return null;
 		ItemStack rStack = IL.Display_Fluid.getWithMeta(Math.max(1, aUseStackSize ? aUseBucketSize ? aLimitStackSize ? UT.Code.bind7(aAmount / 1000) : aAmount / 1000 : aLimitStackSize ? UT.Code.bind7(aAmount) : aAmount : 1), aID);
 		if (rStack == null) return null;
-		NBTTagCompound tNBT = NBT.makeString("f", aFluid.getFluid().getName());
+		CompoundTag tNBT = NBT.makeString("f", aFluid.getFluid().getName());
 		if (aAmount != 0) NBT.setNumber(tNBT, "a", aAmount);
 		NBT.setNumber(tNBT, "h", temperature(aFluid));
 		NBT.setBoolean(tNBT, "s", gas(aFluid));
@@ -1028,11 +1028,11 @@ public enum FL {
 	
 	
 	/** Loads a FluidStack properly. */
-	public static FluidStack load (NBTTagCompound aNBT, String aTagName) {return aNBT == null ? null : load(aNBT.getCompoundTag(aTagName));}
+	public static FluidStack load (CompoundTag aNBT, String aTagName) {return aNBT == null ? null : load(aNBT.getCompoundTag(aTagName));}
 	/** Loads a FluidStack properly. */
-	public static FluidStack load (NBTTagCompound aNBT) {return aNBT == null || aNBT.hasNoTags() ? null : load_(aNBT);}
+	public static FluidStack load (CompoundTag aNBT) {return aNBT == null || aNBT.hasNoTags() ? null : load_(aNBT);}
 	/** Loads a FluidStack properly. */
-	public static FluidStack load_(NBTTagCompound aNBT) {
+	public static FluidStack load_(CompoundTag aNBT) {
 		if (aNBT == null) return null;
 		String aName = aNBT.getString("FluidName");
 		if (Code.stringInvalid(aName)) return null;
@@ -1056,16 +1056,16 @@ public enum FL {
 	}
 	
 	/** Saves a FluidStack properly. */
-	public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, FluidStack aFluid) {
+	public static CompoundTag save(CompoundTag aNBT, String aTagName, FluidStack aFluid) {
 		if (aNBT == null) aNBT = NBT.make();
-		NBTTagCompound tNBT = save(aFluid);
+		CompoundTag tNBT = save(aFluid);
 		if (tNBT != null) aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves a FluidStack properly. */
-	public static NBTTagCompound save (FluidStack aFluid) {return aFluid == null || aFluid.getFluid() == null ? null : save_(aFluid);}
+	public static CompoundTag save (FluidStack aFluid) {return aFluid == null || aFluid.getFluid() == null ? null : save_(aFluid);}
 	/** Saves a FluidStack properly. */
-	public static NBTTagCompound save_(FluidStack aFluid) {return aFluid.writeToNBT(NBT.make());}
+	public static CompoundTag save_(FluidStack aFluid) {return aFluid.writeToNBT(NBT.make());}
 	
 	
 	@SafeVarargs public static Fluid createLiquid(OreDictMaterial aMaterial, Set<String>... aFluidList) {return createLiquid(aMaterial, aMaterial.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN), aFluidList);}

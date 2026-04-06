@@ -21,15 +21,15 @@ package gregapi.event;
 
 import java.util.ArrayList;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 
 @cpw.mods.fml.common.eventhandler.Cancelable
 public class BlockScanningEvent extends net.minecraftforge.event.world.WorldEvent {
 	
-	public final EntityPlayer mPlayer;
+	public final Player mPlayer;
 	public final int mX, mY, mZ, mScanLevel;
 	public final ArrayList<String> mList;
 	public final byte mSide;
@@ -42,7 +42,7 @@ public class BlockScanningEvent extends net.minecraftforge.event.world.WorldEven
 	 */
 	public long mEUCost = 0;
 	
-	public BlockScanningEvent(World aWorld, EntityPlayer aPlayer, int aX, int aY, int aZ, byte aSide, int aScanLevel, Block aBlock, TileEntity aTileEntity, ArrayList<String> aList, float aClickX, float aClickY, float aClickZ) {
+	public BlockScanningEvent(World aWorld, Player aPlayer, int aX, int aY, int aZ, byte aSide, int aScanLevel, Block aBlock, TileEntity aTileEntity, ArrayList<String> aList, float aClickX, float aClickY, float aClickZ) {
 		super(aWorld);
 		mPlayer = aPlayer;
 		mScanLevel = aScanLevel;

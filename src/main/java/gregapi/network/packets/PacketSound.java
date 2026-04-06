@@ -23,7 +23,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import gregapi.network.INetworkHandler;
 import gregapi.util.UT;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -37,7 +37,7 @@ public class PacketSound extends PacketCoordinates {
 		super(aDecoderType);
 	}
 	
-	public PacketSound(String aSound, float aVolume, float aPitch, ChunkCoordinates aCoords) {
+	public PacketSound(String aSound, float aVolume, float aPitch, BlockPos aCoords) {
 		super(aCoords);
 		mSound = aSound;
 		mVolume = aVolume;

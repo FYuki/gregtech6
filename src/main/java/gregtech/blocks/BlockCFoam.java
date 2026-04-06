@@ -32,7 +32,7 @@ import gregapi.render.BlockTextureCopied;
 import gregapi.render.IIconContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class BlockCFoam extends BlockColored implements IBlockFoamable {
 	public BlockCFoam(String aUnlocalised) {

@@ -38,26 +38,26 @@ import gregtech.worldgen.TwilightTreasureReplacer;
 import ic2.api.item.IC2Items;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.*;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.potion.Potion;
-import net.minecraft.stats.Achievement;
+// PHASE3: import Achievement removed — use Advancement
 import net.minecraft.stats.AchievementList;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.IFluidContainerItem;
@@ -177,10 +177,10 @@ public class ST {
 	public static ItemStack name (ItemStack aStack, String aName) {return aStack == null || aName == null ? aStack : name_(aStack, aName);}
 	public static ItemStack name_(ItemStack aStack, String aName) {aStack.setStackDisplayName(aName); return aStack;}
 	
-	public static NBTTagCompound nbt (ItemStack aStack) {return aStack == null ? null : nbt_(aStack);}
-	public static NBTTagCompound nbt_(ItemStack aStack) {return aStack.getTagCompound();}
-	public static ItemStack      nbt (ItemStack aStack, NBTTagCompound aNBT) {return aStack == null ? null : nbt_(aStack, aNBT);}
-	public static ItemStack      nbt_(ItemStack aStack, NBTTagCompound aNBT) {return UT.NBT.set(aStack, aNBT);}
+	public static CompoundTag nbt (ItemStack aStack) {return aStack == null ? null : nbt_(aStack);}
+	public static CompoundTag nbt_(ItemStack aStack) {return aStack.getTagCompound();}
+	public static ItemStack      nbt (ItemStack aStack, CompoundTag aNBT) {return aStack == null ? null : nbt_(aStack, aNBT);}
+	public static ItemStack      nbt_(ItemStack aStack, CompoundTag aNBT) {return UT.NBT.set(aStack, aNBT);}
 	
 	public static ItemStack amount (long aSize, ItemStack aStack) {return aStack == null || item_(aStack) == null ? null : amount_(aSize, aStack);}
 	public static ItemStack amount_(long aSize, ItemStack aStack) {return size_(aSize, copy_(aStack));}
@@ -275,7 +275,7 @@ public class ST {
 	}
 	
 	public static boolean update(Entity aPlayer) {
-		if (aPlayer instanceof EntityPlayer && !aPlayer.worldObj.isRemote && ((EntityPlayer)aPlayer).openContainer != null) ((EntityPlayer)aPlayer).openContainer.detectAndSendChanges();
+		if (aPlayer instanceof Player && !aPlayer.worldObj.isRemote && ((Player)aPlayer).openContainer != null) ((Player)aPlayer).openContainer.detectAndSendChanges();
 		return T;
 	}
 	
@@ -299,12 +299,12 @@ public class ST {
 		if (invalid(aStack)) return F;
 		if (aStack.stackSize < aAmount) return F;
 		aStack.stackSize -= aAmount;
-		if (!(aPlayer instanceof EntityPlayer)) return T;
+		if (!(aPlayer instanceof Player)) return T;
 		if (aStack.stackSize <= 0) {
-			if (aTriggerEvent) ForgeEventFactory.onPlayerDestroyItem((EntityPlayer)aPlayer, aStack);
-			if (aRemove) for (int i = 0; i < ((EntityPlayer)aPlayer).inventory.mainInventory.length; i++) {
-				if (((EntityPlayer)aPlayer).inventory.mainInventory[i] == aStack) {
-					((EntityPlayer)aPlayer).inventory.mainInventory[i] = null;
+			if (aTriggerEvent) ForgeEventFactory.onPlayerDestroyItem((Player)aPlayer, aStack);
+			if (aRemove) for (int i = 0; i < ((Player)aPlayer).inventory.mainInventory.length; i++) {
+				if (((Player)aPlayer).inventory.mainInventory[i] == aStack) {
+					((Player)aPlayer).inventory.mainInventory[i] = null;
 					break;
 				}
 			}
@@ -378,27 +378,27 @@ public class ST {
 	public static ItemStack make(ModData aModID, String aItem, long aSize, long aMeta                                   ) {return     meta(make(aModID, aItem, aSize), aMeta);}
 	public static ItemStack make(ModData aModID, String aItem, long aSize, long aMeta, Object    aReplacement           ) {return get(meta(make(aModID, aItem, aSize), aMeta), aReplacement);}
 	public static ItemStack make(long   aItemID              , long aSize, long aMeta                                   ) {return make(item(aItemID), aSize, aMeta);}
-	public static ItemStack make(long   aItemID              , long aSize, long aMeta              , NBTTagCompound aNBT) {return make(item(aItemID), aSize, aMeta, aNBT);}
+	public static ItemStack make(long   aItemID              , long aSize, long aMeta              , CompoundTag aNBT) {return make(item(aItemID), aSize, aMeta, aNBT);}
 	public static ItemStack make(long   aItemID              , long aSize, long aMeta, String aName                     ) {return make(item(aItemID), aSize, aMeta, aName);}
-	public static ItemStack make(long   aItemID              , long aSize, long aMeta, String aName, NBTTagCompound aNBT) {return make(item(aItemID), aSize, aMeta, aName, aNBT);}
+	public static ItemStack make(long   aItemID              , long aSize, long aMeta, String aName, CompoundTag aNBT) {return make(item(aItemID), aSize, aMeta, aName, aNBT);}
 	public static ItemStack make(Item   aItem                , long aSize, long aMeta                                   ) {return aItem   == null                 ? null :          make_(aItem            , aSize, aMeta);}
 	public static ItemStack make(Block  aBlock               , long aSize, long aMeta                                   ) {return aBlock  == null || aBlock == NB ? null :          make_(aBlock           , aSize, aMeta);}
 //  public static ItemStack make(IBlock aBlock               , long aSize, long aMeta                                   ) {return aBlock  == null                 ? null :          make_(aBlock.getBlock(), aSize, aMeta);}
-	public static ItemStack make(Item   aItem                , long aSize, long aMeta              , NBTTagCompound aNBT) {return aItem   == null                 ? null :      nbt(make_(aItem            , aSize, aMeta), aNBT);}
-	public static ItemStack make(Block  aBlock               , long aSize, long aMeta              , NBTTagCompound aNBT) {return aBlock  == null || aBlock == NB ? null :      nbt(make_(aBlock           , aSize, aMeta), aNBT);}
-//  public static ItemStack make(IBlock aBlock               , long aSize, long aMeta              , NBTTagCompound aNBT) {return aBlock  == null                 ? null :      nbt(make_(aBlock.getBlock(), aSize, aMeta), aNBT);}
+	public static ItemStack make(Item   aItem                , long aSize, long aMeta              , CompoundTag aNBT) {return aItem   == null                 ? null :      nbt(make_(aItem            , aSize, aMeta), aNBT);}
+	public static ItemStack make(Block  aBlock               , long aSize, long aMeta              , CompoundTag aNBT) {return aBlock  == null || aBlock == NB ? null :      nbt(make_(aBlock           , aSize, aMeta), aNBT);}
+//  public static ItemStack make(IBlock aBlock               , long aSize, long aMeta              , CompoundTag aNBT) {return aBlock  == null                 ? null :      nbt(make_(aBlock.getBlock(), aSize, aMeta), aNBT);}
 	public static ItemStack make(Item   aItem                , long aSize, long aMeta, String aName                     ) {return aItem   == null                 ? null : name(    make_(aItem            , aSize, aMeta)       , aName);}
 	public static ItemStack make(Block  aBlock               , long aSize, long aMeta, String aName                     ) {return aBlock  == null || aBlock == NB ? null : name(    make_(aBlock           , aSize, aMeta)       , aName);}
 //  public static ItemStack make(IBlock aBlock               , long aSize, long aMeta, String aName                     ) {return aBlock  == null                 ? null : name(    make_(aBlock.getBlock(), aSize, aMeta)       , aName);}
-	public static ItemStack make(Item   aItem                , long aSize, long aMeta, String aName, NBTTagCompound aNBT) {return aItem   == null                 ? null : name(nbt(make_(aItem            , aSize, aMeta), aNBT), aName);}
-	public static ItemStack make(Block  aBlock               , long aSize, long aMeta, String aName, NBTTagCompound aNBT) {return aBlock  == null || aBlock == NB ? null : name(nbt(make_(aBlock           , aSize, aMeta), aNBT), aName);}
-//  public static ItemStack make(IBlock aBlock               , long aSize, long aMeta, String aName, NBTTagCompound aNBT) {return aBlock  == null                 ? null : name(nbt(make_(aBlock.getBlock(), aSize, aMeta), aNBT), aName);}
-	public static ItemStack make(ItemStack          aStack                                         , NBTTagCompound aNBT) {return aStack == null ? null :      nbt_(aStack.copy(), aNBT);}
+	public static ItemStack make(Item   aItem                , long aSize, long aMeta, String aName, CompoundTag aNBT) {return aItem   == null                 ? null : name(nbt(make_(aItem            , aSize, aMeta), aNBT), aName);}
+	public static ItemStack make(Block  aBlock               , long aSize, long aMeta, String aName, CompoundTag aNBT) {return aBlock  == null || aBlock == NB ? null : name(nbt(make_(aBlock           , aSize, aMeta), aNBT), aName);}
+//  public static ItemStack make(IBlock aBlock               , long aSize, long aMeta, String aName, CompoundTag aNBT) {return aBlock  == null                 ? null : name(nbt(make_(aBlock.getBlock(), aSize, aMeta), aNBT), aName);}
+	public static ItemStack make(ItemStack          aStack                                         , CompoundTag aNBT) {return aStack == null ? null :      nbt_(aStack.copy(), aNBT);}
 	public static ItemStack make(ItemStack          aStack                           , String aName                     ) {return aStack == null ? null : name(     aStack.copy()       , aName);}
-	public static ItemStack make(ItemStack          aStack                           , String aName, NBTTagCompound aNBT) {return aStack == null ? null : name(nbt_(aStack.copy(), aNBT), aName);}
-	public static ItemStack make(ItemStackContainer aStack                                         , NBTTagCompound aNBT) {return      nbt(aStack.toStack(), aNBT);}
+	public static ItemStack make(ItemStack          aStack                           , String aName, CompoundTag aNBT) {return aStack == null ? null : name(nbt_(aStack.copy(), aNBT), aName);}
+	public static ItemStack make(ItemStackContainer aStack                                         , CompoundTag aNBT) {return      nbt(aStack.toStack(), aNBT);}
 	public static ItemStack make(ItemStackContainer aStack                           , String aName                     ) {return name(    aStack.toStack()       , aName);}
-	public static ItemStack make(ItemStackContainer aStack                           , String aName, NBTTagCompound aNBT) {return name(nbt(aStack.toStack(), aNBT), aName);}
+	public static ItemStack make(ItemStackContainer aStack                           , String aName, CompoundTag aNBT) {return name(nbt(aStack.toStack(), aNBT), aName);}
 	
 	public static EntityItem place  (World aWorld, double aX, double aY, double aZ, ModData aModID, String aItem, long aSize, long aMeta) {ItemStack rStack = make(aModID, aItem, aSize, aMeta); if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aX, aY, aZ, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
 	public static EntityItem place  (World aWorld, double aX, double aY, double aZ, Item aItem, long aSize, long aMeta                  ) {ItemStack rStack = make(aItem, aSize, aMeta)        ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aX, aY, aZ, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
@@ -434,22 +434,22 @@ public class ST {
 	public static EntityItem entity (Entity aEntity, ItemStack aStack                                    ) {ItemStack rStack = aStack                           ; if (invalid(rStack)) return null; return               entity_(aEntity, rStack);}
 	public static EntityItem entity_(Entity aEntity, ItemStack aStack                                    ) {return new EntityItem(aEntity.worldObj, aEntity.posX, aEntity.posY, aEntity.posZ, update_(aStack, aEntity));}
 	
-	public static EntityItem place  (World aWorld, ChunkCoordinates aCoords, ModData aModID, String aItem, long aSize, long aMeta) {ItemStack rStack = make(aModID, aItem, aSize, aMeta); if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem place  (World aWorld, ChunkCoordinates aCoords, Item aItem, long aSize, long aMeta                  ) {ItemStack rStack = make(aItem, aSize, aMeta)        ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem place  (World aWorld, ChunkCoordinates aCoords, Block aBlock, long aSize, long aMeta                ) {ItemStack rStack = make(aBlock, aSize, aMeta)       ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem place  (World aWorld, ChunkCoordinates aCoords, ItemStackContainer aStack                           ) {ItemStack rStack = aStack.toStack()                 ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem place  (World aWorld, ChunkCoordinates aCoords, ItemStack aStack                                    ) {ItemStack rStack = aStack                           ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem drop   (World aWorld, ChunkCoordinates aCoords, ModData aModID, String aItem, long aSize, long aMeta) {ItemStack rStack = make(aModID, aItem, aSize, aMeta); if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem drop   (World aWorld, ChunkCoordinates aCoords, Item aItem, long aSize, long aMeta                  ) {ItemStack rStack = make(aItem, aSize, aMeta)        ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem drop   (World aWorld, ChunkCoordinates aCoords, Block aBlock, long aSize, long aMeta                ) {ItemStack rStack = make(aBlock, aSize, aMeta)       ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem drop   (World aWorld, ChunkCoordinates aCoords, ItemStackContainer aStack                           ) {ItemStack rStack = aStack.toStack()                 ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem drop   (World aWorld, ChunkCoordinates aCoords, ItemStack aStack                                    ) {ItemStack rStack = aStack                           ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
-	public static EntityItem entity (World aWorld, ChunkCoordinates aCoords, ModData aModID, String aItem, long aSize, long aMeta) {ItemStack rStack = make(aModID, aItem, aSize, aMeta); if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
-	public static EntityItem entity (World aWorld, ChunkCoordinates aCoords, Item aItem, long aSize, long aMeta                  ) {ItemStack rStack = make(aItem, aSize, aMeta)        ; if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
-	public static EntityItem entity (World aWorld, ChunkCoordinates aCoords, Block aBlock, long aSize, long aMeta                ) {ItemStack rStack = make(aBlock, aSize, aMeta)       ; if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
-	public static EntityItem entity (World aWorld, ChunkCoordinates aCoords, ItemStackContainer aStack                           ) {ItemStack rStack = aStack.toStack()                 ; if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
-	public static EntityItem entity (World aWorld, ChunkCoordinates aCoords, ItemStack aStack                                    ) {ItemStack rStack = aStack                           ; if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
-	public static EntityItem entity_(World aWorld, ChunkCoordinates aCoords, ItemStack aStack                                    ) {return new EntityItem(aWorld, aCoords.posX+0.5, aCoords.posY+0.5, aCoords.posZ+0.5, update_(aStack, aWorld, aCoords.posX, aCoords.posY, aCoords.posZ));}
+	public static EntityItem place  (World aWorld, BlockPos aCoords, ModData aModID, String aItem, long aSize, long aMeta) {ItemStack rStack = make(aModID, aItem, aSize, aMeta); if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem place  (World aWorld, BlockPos aCoords, Item aItem, long aSize, long aMeta                  ) {ItemStack rStack = make(aItem, aSize, aMeta)        ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem place  (World aWorld, BlockPos aCoords, Block aBlock, long aSize, long aMeta                ) {ItemStack rStack = make(aBlock, aSize, aMeta)       ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem place  (World aWorld, BlockPos aCoords, ItemStackContainer aStack                           ) {ItemStack rStack = aStack.toStack()                 ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem place  (World aWorld, BlockPos aCoords, ItemStack aStack                                    ) {ItemStack rStack = aStack                           ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); rEntity.motionX = rEntity.motionY = rEntity.motionZ = 0; return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem drop   (World aWorld, BlockPos aCoords, ModData aModID, String aItem, long aSize, long aMeta) {ItemStack rStack = make(aModID, aItem, aSize, aMeta); if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem drop   (World aWorld, BlockPos aCoords, Item aItem, long aSize, long aMeta                  ) {ItemStack rStack = make(aItem, aSize, aMeta)        ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem drop   (World aWorld, BlockPos aCoords, Block aBlock, long aSize, long aMeta                ) {ItemStack rStack = make(aBlock, aSize, aMeta)       ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem drop   (World aWorld, BlockPos aCoords, ItemStackContainer aStack                           ) {ItemStack rStack = aStack.toStack()                 ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem drop   (World aWorld, BlockPos aCoords, ItemStack aStack                                    ) {ItemStack rStack = aStack                           ; if (invalid(rStack)) return null; EntityItem rEntity = entity_(aWorld, aCoords, rStack); return aWorld.spawnEntityInWorld(rEntity) ? rEntity : null;}
+	public static EntityItem entity (World aWorld, BlockPos aCoords, ModData aModID, String aItem, long aSize, long aMeta) {ItemStack rStack = make(aModID, aItem, aSize, aMeta); if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
+	public static EntityItem entity (World aWorld, BlockPos aCoords, Item aItem, long aSize, long aMeta                  ) {ItemStack rStack = make(aItem, aSize, aMeta)        ; if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
+	public static EntityItem entity (World aWorld, BlockPos aCoords, Block aBlock, long aSize, long aMeta                ) {ItemStack rStack = make(aBlock, aSize, aMeta)       ; if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
+	public static EntityItem entity (World aWorld, BlockPos aCoords, ItemStackContainer aStack                           ) {ItemStack rStack = aStack.toStack()                 ; if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
+	public static EntityItem entity (World aWorld, BlockPos aCoords, ItemStack aStack                                    ) {ItemStack rStack = aStack                           ; if (invalid(rStack)) return null; return               entity_(aWorld, aCoords, rStack);}
+	public static EntityItem entity_(World aWorld, BlockPos aCoords, ItemStack aStack                                    ) {return new EntityItem(aWorld, aCoords.posX+0.5, aCoords.posY+0.5, aCoords.posZ+0.5, update_(aStack, aWorld, aCoords.posX, aCoords.posY, aCoords.posZ));}
 	
 	@SuppressWarnings("rawtypes")
 	public static int move(DelegatorTileEntity aFrom, DelegatorTileEntity aTo) {return move(aFrom, aTo, null, F, F, F, T, 64, 1, 64, 1);}
@@ -1043,7 +1043,7 @@ public class ST {
 					}
 				}
 				if (IL.EtFu_Sus_Stew.exists() && item_(tStack) == Items.mushroom_stew) {
-					NBTTagList tList = new NBTTagList();
+					ListTag tList = new ListTag();
 					switch(RNGSUS.nextInt(9)) {
 					case  1: tList.appendTag(UT.NBT.make("EffectId", Potion.field_76443_y .id, "EffectDuration",   7)); break;
 					case  2: tList.appendTag(UT.NBT.make("EffectId", Potion.fireResistance.id, "EffectDuration",  80)); break;
@@ -1068,7 +1068,7 @@ public class ST {
 		return add(aPlayer, aStack, F);
 	}
 	public static boolean add(Entity aPlayer, ItemStack aStack, boolean aCurrentSlotFirst) {
-		return aPlayer instanceof EntityPlayer && add(aPlayer, ((EntityPlayer)aPlayer).inventory, aStack, aCurrentSlotFirst);
+		return aPlayer instanceof Player && add(aPlayer, ((Player)aPlayer).inventory, aStack, aCurrentSlotFirst);
 	}
 	public static boolean add(Entity aPlayer, IInventory aInv, ItemStack aStack, boolean aCurrentSlotFirst) {
 		if (aInv != null && valid(aStack)) {
@@ -1082,7 +1082,7 @@ public class ST {
 			//aStack.stackSize -= 64;
 			//}
 			
-			for (int i = 0; i < 36; i++) if (!(aPlayer instanceof EntityPlayer) || i != ((EntityPlayer)aPlayer).inventory.currentItem) {
+			for (int i = 0; i < 36; i++) if (!(aPlayer instanceof Player) || i != ((Player)aPlayer).inventory.currentItem) {
 				ItemStack tStack = aInv.getStackInSlot(i);
 				if (equal(tStack, aStack) && aStack.stackSize + tStack.stackSize <= tStack.getMaxStackSize()) {
 					tStack.stackSize += aStack.stackSize;
@@ -1090,10 +1090,10 @@ public class ST {
 					return T;
 				}
 			}
-			if (aCurrentSlotFirst && aPlayer instanceof EntityPlayer) {
-				ItemStack tStack = aInv.getStackInSlot(((EntityPlayer)aPlayer).inventory.currentItem);
+			if (aCurrentSlotFirst && aPlayer instanceof Player) {
+				ItemStack tStack = aInv.getStackInSlot(((Player)aPlayer).inventory.currentItem);
 				if (tStack == null || tStack.stackSize == 0) {
-					aInv.setInventorySlotContents(((EntityPlayer)aPlayer).inventory.currentItem, aStack);
+					aInv.setInventorySlotContents(((Player)aPlayer).inventory.currentItem, aStack);
 					update(aPlayer);
 					return T;
 				} else if (equal(tStack, aStack) && aStack.stackSize + tStack.stackSize <= tStack.getMaxStackSize()) {
@@ -1102,7 +1102,7 @@ public class ST {
 					return T;
 				}
 			}
-			for (int i = 0; i < 36; i++) if (!(aPlayer instanceof EntityPlayer) || i != ((EntityPlayer)aPlayer).inventory.currentItem) {
+			for (int i = 0; i < 36; i++) if (!(aPlayer instanceof Player) || i != ((Player)aPlayer).inventory.currentItem) {
 				ItemStack tStack = aInv.getStackInSlot(i);
 				if (tStack == null || tStack.stackSize <= 0) {
 					aInv.setInventorySlotContents(i, aStack);
@@ -1110,10 +1110,10 @@ public class ST {
 					return T;
 				}
 			}
-			if (!aCurrentSlotFirst && aPlayer instanceof EntityPlayer) {
-				ItemStack tStack = aInv.getStackInSlot(((EntityPlayer)aPlayer).inventory.currentItem);
+			if (!aCurrentSlotFirst && aPlayer instanceof Player) {
+				ItemStack tStack = aInv.getStackInSlot(((Player)aPlayer).inventory.currentItem);
 				if (tStack == null || tStack.stackSize == 0) {
-					aInv.setInventorySlotContents(((EntityPlayer)aPlayer).inventory.currentItem, aStack);
+					aInv.setInventorySlotContents(((Player)aPlayer).inventory.currentItem, aStack);
 					update(aPlayer);
 					return T;
 				} else if (equal(tStack, aStack) && aStack.stackSize + tStack.stackSize <= tStack.getMaxStackSize()) {
@@ -1144,14 +1144,14 @@ public class ST {
 	}
 	
 	public static boolean achieve(Entity aPlayer, Achievement aAchievement) {
-		if (aAchievement == null|| !(aPlayer instanceof EntityPlayer) || aPlayer.worldObj == null || aPlayer.worldObj.isRemote) return F;
+		if (aAchievement == null|| !(aPlayer instanceof Player) || aPlayer.worldObj == null || aPlayer.worldObj.isRemote) return F;
 		achieve(aPlayer, aAchievement.parentAchievement);
-		((EntityPlayer)aPlayer).triggerAchievement(aAchievement);
+		((Player)aPlayer).triggerAchievement(aAchievement);
 		return T;
 	}
 	
 	public static boolean check(Entity aPlayer, ItemStack aStack) {
-		if (!(aPlayer instanceof EntityPlayer) || aPlayer.worldObj == null || aPlayer.worldObj.isRemote) return F;
+		if (!(aPlayer instanceof Player) || aPlayer.worldObj == null || aPlayer.worldObj.isRemote) return F;
 		
 		if (aPlayer.worldObj.provider.dimensionId == DIM_NETHER) {
 			achieve(aPlayer, AchievementList.portal);
@@ -1240,7 +1240,7 @@ public class ST {
 		return T;
 	}
 	
-	public static void denull(Entity  aPlayer) {if (aPlayer instanceof EntityPlayer) denull(((EntityPlayer)aPlayer).inventory);}
+	public static void denull(Entity  aPlayer) {if (aPlayer instanceof Player) denull(((Player)aPlayer).inventory);}
 	public static void denull(IInventory aInv) {
 		if (aInv != null) for (int i = 0, j = aInv.getSizeInventory(); i < j; i++) {
 			ItemStack tStack = aInv.getStackInSlot(i);
@@ -1248,7 +1248,7 @@ public class ST {
 		}
 	}
 	
-	public static ItemStack projectile(Entity  aPlayer, TagData aType) {if (aPlayer instanceof EntityPlayer) return projectile(((EntityPlayer)aPlayer).inventory, aType); return null;}
+	public static ItemStack projectile(Entity  aPlayer, TagData aType) {if (aPlayer instanceof Player) return projectile(((Player)aPlayer).inventory, aType); return null;}
 	public static ItemStack projectile(IInventory aInv, TagData aType) {
 		if (aInv != null) for (int i = 0, j = aInv.getSizeInventory(); i < j; i++) {
 			ItemStack rStack = aInv.getStackInSlot(i);
@@ -1258,20 +1258,20 @@ public class ST {
 	}
 	
 	/** Loads an ItemStack properly. */
-	public static ItemStack load(NBTTagCompound aNBT, String aTagName) {
+	public static ItemStack load(CompoundTag aNBT, String aTagName) {
 		return aNBT == null ? null : load(aNBT.getCompoundTag(aTagName), NI);
 	}
 	/** Loads an ItemStack properly. */
-	public static ItemStack load(NBTTagCompound aNBT, String aTagName, ItemStack aDefault) {
+	public static ItemStack load(CompoundTag aNBT, String aTagName, ItemStack aDefault) {
 		return aNBT == null ? null : load(aNBT.getCompoundTag(aTagName), aDefault);
 	}
 	
 	/** Loads an ItemStack properly. */
-	public static ItemStack load(NBTTagCompound aNBT) {
+	public static ItemStack load(CompoundTag aNBT) {
 		return load(aNBT, NI);
 	}
 	/** Loads an ItemStack properly. */
-	public static ItemStack load(NBTTagCompound aNBT, ItemStack aDefault) {
+	public static ItemStack load(CompoundTag aNBT, ItemStack aDefault) {
 		if (aNBT == null || aNBT.hasNoTags()) return null;
 		ItemStack rStack = make(Item.getItemById(aNBT.getShort("id")), aNBT.getInteger("Count"), aNBT.getShort("Damage"));
 		if (rStack == null) if (aNBT.hasKey("od")) {
@@ -1288,107 +1288,107 @@ public class ST {
 	}
 
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(String aTagName, Block aBlock) {
-		NBTTagCompound aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aBlock, 1, 0));
+	public static CompoundTag save(String aTagName, Block aBlock) {
+		CompoundTag aNBT = UT.NBT.make();
+		CompoundTag tNBT = save(make(aBlock, 1, 0));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(String aTagName, Block aBlock, long aStackSize) {
-		NBTTagCompound aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aBlock, aStackSize, 0));
+	public static CompoundTag save(String aTagName, Block aBlock, long aStackSize) {
+		CompoundTag aNBT = UT.NBT.make();
+		CompoundTag tNBT = save(make(aBlock, aStackSize, 0));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(String aTagName, Block aBlock, long aStackSize, long aMeta) {
-		NBTTagCompound aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aBlock, aStackSize, aMeta));
+	public static CompoundTag save(String aTagName, Block aBlock, long aStackSize, long aMeta) {
+		CompoundTag aNBT = UT.NBT.make();
+		CompoundTag tNBT = save(make(aBlock, aStackSize, aMeta));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(String aTagName, Item aItem) {
-		NBTTagCompound aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aItem, 1, 0));
+	public static CompoundTag save(String aTagName, Item aItem) {
+		CompoundTag aNBT = UT.NBT.make();
+		CompoundTag tNBT = save(make(aItem, 1, 0));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(String aTagName, Item aItem, long aStackSize) {
-		NBTTagCompound aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aItem, aStackSize, 0));
+	public static CompoundTag save(String aTagName, Item aItem, long aStackSize) {
+		CompoundTag aNBT = UT.NBT.make();
+		CompoundTag tNBT = save(make(aItem, aStackSize, 0));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(String aTagName, Item aItem, long aStackSize, long aMeta) {
-		NBTTagCompound aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aItem, aStackSize, aMeta));
+	public static CompoundTag save(String aTagName, Item aItem, long aStackSize, long aMeta) {
+		CompoundTag aNBT = UT.NBT.make();
+		CompoundTag tNBT = save(make(aItem, aStackSize, aMeta));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(String aTagName, ItemStack aStack) {
-		NBTTagCompound aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(aStack);
+	public static CompoundTag save(String aTagName, ItemStack aStack) {
+		CompoundTag aNBT = UT.NBT.make();
+		CompoundTag tNBT = save(aStack);
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, Block aBlock) {
+	public static CompoundTag save(CompoundTag aNBT, String aTagName, Block aBlock) {
 		if (aNBT == null) aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aBlock, 1, 0));
+		CompoundTag tNBT = save(make(aBlock, 1, 0));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, Block aBlock, long aStackSize) {
+	public static CompoundTag save(CompoundTag aNBT, String aTagName, Block aBlock, long aStackSize) {
 		if (aNBT == null) aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aBlock, aStackSize, 0));
+		CompoundTag tNBT = save(make(aBlock, aStackSize, 0));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, Block aBlock, long aStackSize, long aMeta) {
+	public static CompoundTag save(CompoundTag aNBT, String aTagName, Block aBlock, long aStackSize, long aMeta) {
 		if (aNBT == null) aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aBlock, aStackSize, aMeta));
+		CompoundTag tNBT = save(make(aBlock, aStackSize, aMeta));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, Item aItem) {
+	public static CompoundTag save(CompoundTag aNBT, String aTagName, Item aItem) {
 		if (aNBT == null) aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aItem, 1, 0));
+		CompoundTag tNBT = save(make(aItem, 1, 0));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, Item aItem, long aStackSize) {
+	public static CompoundTag save(CompoundTag aNBT, String aTagName, Item aItem, long aStackSize) {
 		if (aNBT == null) aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aItem, aStackSize, 0));
+		CompoundTag tNBT = save(make(aItem, aStackSize, 0));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, Item aItem, long aStackSize, long aMeta) {
+	public static CompoundTag save(CompoundTag aNBT, String aTagName, Item aItem, long aStackSize, long aMeta) {
 		if (aNBT == null) aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(make(aItem, aStackSize, aMeta));
+		CompoundTag tNBT = save(make(aItem, aStackSize, aMeta));
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, ItemStack aStack) {
+	public static CompoundTag save(CompoundTag aNBT, String aTagName, ItemStack aStack) {
 		if (aNBT == null) aNBT = UT.NBT.make();
-		NBTTagCompound tNBT = save(aStack);
+		CompoundTag tNBT = save(aStack);
 		if (tNBT == null) aNBT.removeTag(aTagName); else aNBT.setTag(aTagName, tNBT);
 		return aNBT;
 	}
 	/** Saves an ItemStack properly. */
-	public static NBTTagCompound save(ItemStack aStack) {
+	public static CompoundTag save(ItemStack aStack) {
 		if (aStack == null || item_(aStack) == null || aStack.stackSize < 0) return null;
-		NBTTagCompound rNBT = UT.NBT.make();
+		CompoundTag rNBT = UT.NBT.make();
 		aStack = OM.get_(aStack);
 		rNBT.setShort("id", id(aStack));
 		UT.NBT.setNumber(rNBT, "Count", aStack.stackSize);

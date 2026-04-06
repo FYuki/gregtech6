@@ -26,7 +26,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import thaumcraft.common.container.ContainerArcaneWorkbench;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;

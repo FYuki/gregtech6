@@ -28,8 +28,8 @@ import gregapi.block.IBlockSyncData.IBlockSyncDataAndCoversAndIDs;
 import gregapi.cover.CoverData;
 import gregapi.network.INetworkHandler;
 import gregapi.network.packets.PacketCoordinates;
-import net.minecraft.block.Block;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -50,7 +50,7 @@ public class PacketSyncDataCoverVisuals extends PacketCoordinates {
 		mVisualsToSync = aCoverData.mVisualsToSync;
 		mCoverVisuals = aCoverData.mVisuals;
 	}
-	public PacketSyncDataCoverVisuals(ChunkCoordinates aCoords, CoverData aCoverData) {
+	public PacketSyncDataCoverVisuals(BlockPos aCoords, CoverData aCoverData) {
 		super(aCoords);
 		mVisualsToSync = aCoverData.mVisualsToSync;
 		mCoverVisuals = aCoverData.mVisuals;

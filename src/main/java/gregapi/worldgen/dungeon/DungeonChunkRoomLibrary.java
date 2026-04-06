@@ -25,9 +25,9 @@ import gregapi.data.FL;
 import gregapi.data.MD;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListTag;
 import net.minecraftforge.common.ChestGenHooks;
 
 /**
@@ -48,10 +48,10 @@ public class DungeonChunkRoomLibrary extends DungeonChunkRoomEmpty {
 		}
 		
 		for (int tX = 1; tX <= 14; tX++) for (int tZ = 1; tZ <= 14; tZ++) {
-			aData.set(tX, 7, tZ, Blocks.planks, tPlank);
+			aData.set(tX, 7, tZ, Blocks.OAK_PLANKS, tPlank);
 			aData.set(tX, 8, tZ, Blocks.wooden_slab, tPlank);
 			if (tX == 1 || tX == 14 || tZ == 1 || tZ == 14) {
-				aData.set(tX, 6, tZ, Blocks.planks, tPlank);
+				aData.set(tX, 6, tZ, Blocks.OAK_PLANKS, tPlank);
 				aData.set(tX, 5, tZ, Blocks.wooden_slab, tSlab);
 			} else if ((tX == 3 || tX == 6 || tX == 9 || tX == 12) && (tZ == 3 || tZ == 6 || tZ == 9 || tZ == 12)) {
 				aData.lamp(tX, 6, tZ, +1);
@@ -62,68 +62,68 @@ public class DungeonChunkRoomLibrary extends DungeonChunkRoomEmpty {
 		
 		aData.set( 2, 3,  4, Blocks.wooden_slab, tSlab);
 		aData.set( 2, 3,  3, Blocks.wooden_slab, tSlab);
-		aData.set( 2, 3,  2, Blocks.planks, tPlank);
+		aData.set( 2, 3,  2, Blocks.OAK_PLANKS, tPlank);
 		aData.set( 3, 3,  2, Blocks.wooden_slab, tSlab);
 		aData.set( 4, 3,  2, Blocks.wooden_slab, tSlab);
 		
 		aData.set(13, 3,  4, Blocks.wooden_slab, tSlab);
 		aData.set(13, 3,  3, Blocks.wooden_slab, tSlab);
-		aData.set(13, 3,  2, Blocks.planks, tPlank);
+		aData.set(13, 3,  2, Blocks.OAK_PLANKS, tPlank);
 		aData.set(12, 3,  2, Blocks.wooden_slab, tSlab);
 		aData.set(11, 3,  2, Blocks.wooden_slab, tSlab);
 		
 		aData.set( 2, 3, 11, Blocks.wooden_slab, tSlab);
 		aData.set( 2, 3, 12, Blocks.wooden_slab, tSlab);
-		aData.set( 2, 3, 13, Blocks.planks, tPlank);
+		aData.set( 2, 3, 13, Blocks.OAK_PLANKS, tPlank);
 		aData.set( 3, 3, 13, Blocks.wooden_slab, tSlab);
 		aData.set( 4, 3, 13, Blocks.wooden_slab, tSlab);
 		
 		aData.set(13, 3, 11, Blocks.wooden_slab, tSlab);
 		aData.set(13, 3, 12, Blocks.wooden_slab, tSlab);
-		aData.set(13, 3, 13, Blocks.planks, tPlank);
+		aData.set(13, 3, 13, Blocks.OAK_PLANKS, tPlank);
 		aData.set(12, 3, 13, Blocks.wooden_slab, tSlab);
 		aData.set(11, 3, 13, Blocks.wooden_slab, tSlab);
 		
 		for (int tY = 1; tY <= 5; tY++) {
-			aData.set( 1, tY,  1, Blocks.planks, tPlank);
-			aData.set(14, tY,  1, Blocks.planks, tPlank);
-			aData.set( 1, tY, 14, Blocks.planks, tPlank);
-			aData.set(14, tY, 14, Blocks.planks, tPlank);
+			aData.set( 1, tY,  1, Blocks.OAK_PLANKS, tPlank);
+			aData.set(14, tY,  1, Blocks.OAK_PLANKS, tPlank);
+			aData.set( 1, tY, 14, Blocks.OAK_PLANKS, tPlank);
+			aData.set(14, tY, 14, Blocks.OAK_PLANKS, tPlank);
 			
 			if (tY == 3) {
-				aData.set( 2, tY,  1, Blocks.planks, tPlank);
-				aData.set( 3, tY,  1, Blocks.planks, tPlank);
-				aData.set( 4, tY,  1, Blocks.planks, tPlank);
-				aData.set(11, tY,  1, Blocks.planks, tPlank);
-				aData.set(12, tY,  1, Blocks.planks, tPlank);
-				aData.set(13, tY,  1, Blocks.planks, tPlank);
+				aData.set( 2, tY,  1, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 3, tY,  1, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 4, tY,  1, Blocks.OAK_PLANKS, tPlank);
+				aData.set(11, tY,  1, Blocks.OAK_PLANKS, tPlank);
+				aData.set(12, tY,  1, Blocks.OAK_PLANKS, tPlank);
+				aData.set(13, tY,  1, Blocks.OAK_PLANKS, tPlank);
 				
-				aData.set(14, tY,  2, Blocks.planks, tPlank);
-				aData.set(14, tY,  3, Blocks.planks, tPlank);
-				aData.set(14, tY,  4, Blocks.planks, tPlank);
-				aData.set(14, tY, 11, Blocks.planks, tPlank);
-				aData.set(14, tY, 12, Blocks.planks, tPlank);
-				aData.set(14, tY, 13, Blocks.planks, tPlank);
+				aData.set(14, tY,  2, Blocks.OAK_PLANKS, tPlank);
+				aData.set(14, tY,  3, Blocks.OAK_PLANKS, tPlank);
+				aData.set(14, tY,  4, Blocks.OAK_PLANKS, tPlank);
+				aData.set(14, tY, 11, Blocks.OAK_PLANKS, tPlank);
+				aData.set(14, tY, 12, Blocks.OAK_PLANKS, tPlank);
+				aData.set(14, tY, 13, Blocks.OAK_PLANKS, tPlank);
 				
-				aData.set( 2, tY, 14, Blocks.planks, tPlank);
-				aData.set( 3, tY, 14, Blocks.planks, tPlank);
-				aData.set( 4, tY, 14, Blocks.planks, tPlank);
-				aData.set(11, tY, 14, Blocks.planks, tPlank);
-				aData.set(12, tY, 14, Blocks.planks, tPlank);
-				aData.set(13, tY, 14, Blocks.planks, tPlank);
+				aData.set( 2, tY, 14, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 3, tY, 14, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 4, tY, 14, Blocks.OAK_PLANKS, tPlank);
+				aData.set(11, tY, 14, Blocks.OAK_PLANKS, tPlank);
+				aData.set(12, tY, 14, Blocks.OAK_PLANKS, tPlank);
+				aData.set(13, tY, 14, Blocks.OAK_PLANKS, tPlank);
 				
-				aData.set( 1, tY,  2, Blocks.planks, tPlank);
-				aData.set( 1, tY,  3, Blocks.planks, tPlank);
-				aData.set( 1, tY,  4, Blocks.planks, tPlank);
-				aData.set( 1, tY, 11, Blocks.planks, tPlank);
-				aData.set( 1, tY, 12, Blocks.planks, tPlank);
-				aData.set( 1, tY, 13, Blocks.planks, tPlank);
+				aData.set( 1, tY,  2, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 1, tY,  3, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 1, tY,  4, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 1, tY, 11, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 1, tY, 12, Blocks.OAK_PLANKS, tPlank);
+				aData.set( 1, tY, 13, Blocks.OAK_PLANKS, tPlank);
 			} else {
 				int tIndex = aData.next(24), tKeyIndex = aData.next(3)+aData.next(3);
-				NBTTagList tList = null;
+				ListTag tList = null;
 				if (tKeyIndex < aData.mGeneratedKeys.length) {
 					aData.mGeneratedKeys[tKeyIndex] = T;
-					tList = new NBTTagList();
+					tList = new ListTag();
 					tList.appendTag(UT.NBT.makeShort(ST.save(aData.mKeyStacks[tKeyIndex]), "s", (short)aData.next(14)));
 				}
 				

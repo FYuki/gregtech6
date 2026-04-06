@@ -31,11 +31,11 @@ import gregapi.util.ST;
 import ic2.api.crops.CropCard;
 import ic2.api.crops.Crops;
 import ic2.api.crops.ICropTile;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 
 public class GT_BaseCrop extends CropCard {
 	private String mName = "", mDiscoveredBy = "Gregorius Techneticies", mAttributes[];
@@ -145,9 +145,9 @@ public class GT_BaseCrop extends CropCard {
 	}
 	
 	@Override
-	public boolean rightclick(ICropTile aCrop, EntityPlayer aPlayer) {
+	public boolean rightclick(ICropTile aCrop, Player aPlayer) {
 		if (!canBeHarvested(aCrop)) return false;
-		return aCrop.harvest(aPlayer==null?false:aPlayer instanceof EntityPlayerMP);
+		return aCrop.harvest(aPlayer==null?false:aPlayer instanceof ServerPlayer);
 	}
 	
 	@Override

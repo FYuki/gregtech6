@@ -21,7 +21,7 @@ package gregapi.item;
 
 import gregapi.render.ITexture;
 import gregtech.tileentity.energy.reactors.MultiTileEntityReactorCore;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies

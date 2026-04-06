@@ -29,11 +29,11 @@ import gregapi.data.CS.BlocksGT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOnSurface;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
  * @author Gregorius Techneticies
@@ -53,7 +53,7 @@ public class WorldgenLogDry extends WorldgenOnSurface {
 	
 	@Override
 	public boolean tryPlaceStuff(World aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact) {
-		if (!BlocksGT.plantableGreens.contains(aContact) && aContact != Blocks.sand) return F;
+		if (!BlocksGT.plantableGreens.contains(aContact) && aContact != Blocks.SAND) return F;
 		if (!WD.air(aWorld, aX, aY+1, aZ)) return F;
 		switch(aRandom.nextInt(3)) {
 		case 0:

@@ -37,16 +37,16 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.NeoForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerRegisterEvent;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
+// PHASE7: import OreDictionary removed — replaced by Tags
+// PHASE7: OreDictionary.OreRegisterEvent removed — use TagsUpdatedEvent
 
 import java.util.*;
 
@@ -686,7 +686,7 @@ public final class OreDictManager {
 		OreDictItemData rData = null;
 		if (aAllowOverride) {
 			OreDictItemData tData = null;
-			NBTTagCompound tNBT = aStack.getTagCompound();
+			CompoundTag tNBT = aStack.getTagCompound();
 			if (tNBT != null && tNBT.hasKey(NBT_RECYCLING_MATS)) {
 				List<OreDictMaterialStack> tList = OreDictMaterialStack.loadList(NBT_RECYCLING_MATS, tNBT);
 				if (!tList.isEmpty()) rData = new OreDictItemData(tList.remove(0), tList.toArray(ZL_MS));

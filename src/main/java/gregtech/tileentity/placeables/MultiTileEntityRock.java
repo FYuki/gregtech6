@@ -31,17 +31,17 @@ import gregapi.tileentity.notick.TileEntityBase03MultiTileEntities;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Random;
@@ -52,13 +52,13 @@ import static gregapi.data.CS.*;
  * @author Gregorius Techneticies
  */
 public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities implements IMTE_CanPlaceSnowLayerOnRemoval, IMTE_CanEntityDestroy, IMTE_IgnorePlayerCollisionWhenPlacing, IMTE_OnToolClick, IMTE_OnNeighborBlockChange, IMTE_GetBlockHardness, IMTE_IsSideSolid, IMTE_GetLightOpacity, IMTE_GetExplosionResistance, ITileEntityQuickObstructionCheck, IMTE_GetCollisionBoundingBoxFromPool, IMTE_GetSelectedBoundingBoxFromPool, IMTE_SetBlockBoundsBasedOnState {
-	public static final ITexture sStoneTexture = BlockTextureCopied.get(Blocks.stone);
+	public static final ITexture sStoneTexture = BlockTextureCopied.get(Blocks.STONE);
 	public ITexture mTexture = sStoneTexture;
 	public ItemStack mRock;
 	public float mMinX = PX_P[5], mMinZ = PX_P[5], mMaxX = PX_N[5], mMaxY = PX_P[2], mMaxZ = PX_N[5];
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		Random tRandom = WD.random(this);
 		mMinX = PX_P[4 + tRandom.nextInt(4)];
 		mMinZ = PX_P[4 + tRandom.nextInt(4)];
@@ -71,7 +71,7 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		ST.save(aNBT, NBT_VALUE, mRock);
 	}
@@ -84,7 +84,7 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 	@Override
 	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide() && aTool.equals(TOOL_magnifyingglass)) {
-			if (aPlayer instanceof EntityPlayer && aSneaking) {
+			if (aPlayer instanceof Player && aSneaking) {
 				ST.give(aPlayer, getRock(1), T, worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5);
 				playCollect();
 				setToAir();
@@ -140,7 +140,7 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 	}
 	
 	@Override
-	public boolean onBlockActivated2(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return T;
 		ST.give(aPlayer, getRock(1), T, worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5);
 		playCollect();
@@ -197,28 +197,28 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 		if (tBlock == BlocksGT.Diggables) {
 			mTexture = BlockTextureCopied.get(BlocksGT.Kimberlite, SIDE_ANY, 0); return 1;
 		}
-		if (tBlock instanceof BlockStones || tBlock == Blocks.snow || tBlock == Blocks.stone || tBlock == Blocks.end_stone || tBlock == Blocks.obsidian) {
+		if (tBlock instanceof BlockStones || tBlock == Blocks.snow || tBlock == Blocks.STONE || tBlock == Blocks.END_STONE || tBlock == Blocks.OBSIDIAN) {
 			mTexture = BlockTextureCopied.get(tBlock, SIDE_ANY, 0); return 1;
 		}
-		if (tBlock == Blocks.netherrack || tBlock == Blocks.nether_brick || tBlock == Blocks.soul_sand) {
-			mTexture = BlockTextureCopied.get(Blocks.netherrack, SIDE_ANY, 0); return 1;
+		if (tBlock == Blocks.NETHERRACK || tBlock == Blocks.NETHER_BRICKS || tBlock == Blocks.soul_sand) {
+			mTexture = BlockTextureCopied.get(Blocks.NETHERRACK, SIDE_ANY, 0); return 1;
 		}
-		if (tBlock == Blocks.sandstone || tBlock == Blocks.sand || IL.AETHER_Sand.equal(tBlock)) {
-			mTexture = BlockTextureCopied.get(Blocks.sandstone, SIDE_FRONT, 0); return 1;
+		if (tBlock == Blocks.SANDSTONE || tBlock == Blocks.SAND || IL.AETHER_Sand.equal(tBlock)) {
+			mTexture = BlockTextureCopied.get(Blocks.SANDSTONE, SIDE_FRONT, 0); return 1;
 		}
-		if (tBlock == Blocks.cobblestone || tBlock == Blocks.gravel) {
-			mTexture = BlockTextureCopied.get(Blocks.cobblestone, SIDE_ANY, 0); return 1;
+		if (tBlock == Blocks.COBBLESTONE || tBlock == Blocks.GRAVEL) {
+			mTexture = BlockTextureCopied.get(Blocks.COBBLESTONE, SIDE_ANY, 0); return 1;
 		}
 		if (IL.NeLi_Gravel.equal(tBlock)) {
 			mTexture = BlockTextureCopied.get(BlocksGT.GraniteBlack, SIDE_ANY, 0); return 1;
 		}
 		
-		if (worldObj.provider.dimensionId == -1) {mTexture = BlockTextureCopied.get(Blocks.netherrack); return 1;}
-		if (worldObj.provider.dimensionId ==  0) {mTexture = BlockTextureCopied.get(Blocks.stone); return 1;}
-		if (worldObj.provider.dimensionId == +1) {mTexture = BlockTextureCopied.get(Blocks.end_stone); return 1;}
-		if (WD.dimTF(worldObj))                  {mTexture = BlockTextureCopied.get(Blocks.stone); return 1;}
-		if (WD.dimERE(worldObj))                 {mTexture = BlockTextureCopied.get(Blocks.stone, SIDE_ANY, 0, 0x907050, F, F, F); return 1;}
-		if (WD.dimBTL(worldObj))                 {mTexture = BlockTextureCopied.get(Blocks.stone, SIDE_ANY, 0, 0x308030, F, F, F); return 1;}
+		if (worldObj.provider.dimensionId == -1) {mTexture = BlockTextureCopied.get(Blocks.NETHERRACK); return 1;}
+		if (worldObj.provider.dimensionId ==  0) {mTexture = BlockTextureCopied.get(Blocks.STONE); return 1;}
+		if (worldObj.provider.dimensionId == +1) {mTexture = BlockTextureCopied.get(Blocks.END_STONE); return 1;}
+		if (WD.dimTF(worldObj))                  {mTexture = BlockTextureCopied.get(Blocks.STONE); return 1;}
+		if (WD.dimERE(worldObj))                 {mTexture = BlockTextureCopied.get(Blocks.STONE, SIDE_ANY, 0, 0x907050, F, F, F); return 1;}
+		if (WD.dimBTL(worldObj))                 {mTexture = BlockTextureCopied.get(Blocks.STONE, SIDE_ANY, 0, 0x308030, F, F, F); return 1;}
 		if (WD.dimALF(worldObj))                 {mTexture = BlockTextureCopied.get(BlocksGT.Marble); return 1;}
 		if (WD.dimATUM(worldObj))                {mTexture = BlockTextureCopied.get(BlocksGT.Limestone); return 1;}
 		if (WD.dimAETHER(worldObj))              {mTexture = BlockTextureCopied.get(BlocksGT.Andesite); return 1;}
@@ -226,9 +226,9 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 		
 		if (BIOMES_SPACE.contains(getBiome().biomeName)) {
 			if (tBlock.getMaterial() == Material.rock) {mTexture = BlockTextureCopied.get(tBlock, getMetaDataAtSide(SIDE_BOTTOM)); return 1;}
-			mTexture = BlockTextureCopied.get(Blocks.obsidian); return 1;
+			mTexture = BlockTextureCopied.get(Blocks.OBSIDIAN); return 1;
 		}
-		mTexture = BlockTextureCopied.get(Blocks.stone);
+		mTexture = BlockTextureCopied.get(Blocks.STONE);
 		return 1;
 	}
 	
@@ -241,7 +241,7 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 	@Override public boolean isSurfaceOpaque        (byte aSide) {return F;}
 	@Override public boolean isSideSolid            (byte aSide) {return F;}
 	@Override public boolean isObstructingBlockAt   (byte aSide) {return F;}
-	@Override public boolean checkObstruction(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
+	@Override public boolean checkObstruction(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
 	@Override public boolean canEntityDestroy(Entity aEntity) {return !(aEntity instanceof EntityDragon);}
 	@Override public boolean ignorePlayerCollisionWhenPlacing() {return T;}
 	

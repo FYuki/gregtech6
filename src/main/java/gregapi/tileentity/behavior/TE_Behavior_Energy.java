@@ -20,13 +20,13 @@
 package gregapi.tileentity.behavior;
 
 import gregapi.code.TagData;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class TE_Behavior_Energy extends TE_Behavior {
 	public final TagData mType;
 	
-	public TE_Behavior_Energy(TileEntity aTileEntity, NBTTagCompound aNBT, TagData aEnergyType) {
+	public TE_Behavior_Energy(TileEntity aTileEntity, CompoundTag aNBT, TagData aEnergyType) {
 		super(aTileEntity, aNBT);
 		mType = aEnergyType;
 	}

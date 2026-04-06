@@ -23,7 +23,7 @@ import gregapi.code.ItemStackContainer;
 import gregapi.code.ItemStackSet;
 import gregapi.tileentity.ITileEntityInventoryGUI;
 import gregapi.util.ST;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.T;
 

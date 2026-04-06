@@ -24,7 +24,7 @@ import buildcraft.api.statements.IStatementParameter;
 import gregapi.code.TagData;
 import gregapi.data.MD;
 import gregapi.tileentity.energy.ITileEntityEnergyDataCapacitor;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class TriggerBC_Energy_Capacity_Partial extends TriggerBC {
 	public final TagData mEnergyType;

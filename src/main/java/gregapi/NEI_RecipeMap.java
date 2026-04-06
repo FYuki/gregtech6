@@ -41,15 +41,15 @@ import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -75,7 +75,7 @@ public class NEI_RecipeMap extends TemplateRecipeHandler {
 			API.registerRecipeHandler(this);
 			API.registerUsageHandler(this);
 			
-			NBTTagCompound tNBT = UT.NBT.make();
+			CompoundTag tNBT = UT.NBT.make();
 			tNBT.setString ("modId"            , MD.GT.mID);
 			tNBT.setString ("modName"          , MD.GT.mName);
 			tNBT.setString ("handler"          , mRecipeMap.mNameNEI);

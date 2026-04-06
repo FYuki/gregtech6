@@ -37,12 +37,12 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.nbt.CompoundTag;
+import net.neoforged.neoforge.fluids.FluidStack;
 import team.chisel.carving.Carving;
 
 import java.util.Iterator;
@@ -290,7 +290,7 @@ public class RM {
 		RM.compact     (OP.gem .mat(aMaterial, 4), aBlock);
 		RM.sawing      (16, 64, F, 25, aBlock, OP.plateGem.mat(aMaterial, 4));
 		RM.lathing     (16, 64, aBlock, OP.stickLong.mat(aMaterial, 2), OP.dust.mat(aMaterial, 2));
-		RM.generify    (aBlock, ST.make(Blocks.glowstone, 1, 0));
+		RM.generify    (aBlock, ST.make(Blocks.GLOWSTONE, 1, 0));
 		return T;
 	}
 	
@@ -449,7 +449,7 @@ public class RM {
 		}
 		
 		if (ST.valid(aStone)) {
-			RM.generify(aStone, ST.make(Blocks.stone, 1, 0));
+			RM.generify(aStone, ST.make(Blocks.STONE, 1, 0));
 			
 			if (aIsMatTarget && ST.valid(aDustBlock)) {
 				RM.add_smelting(aDustBlock, aStone, F, F, F);
@@ -479,7 +479,7 @@ public class RM {
 		}
 		
 		if (ST.valid(aCobble)) {
-			RM.generify(aCobble, ST.make(Blocks.cobblestone, 1, 0));
+			RM.generify(aCobble, ST.make(Blocks.COBBLESTONE, 1, 0));
 			if (ST.valid(aFourRocks)) {
 				RM.Hammer       .addRecipe1(T, 16, 16,  8000, aCobble, aFourRocks);
 				RM.Crusher      .addRecipe1(T, 16, 16       , aCobble, aFourRocks);
@@ -497,7 +497,7 @@ public class RM {
 		
 		if (ST.valid(aBricks)) {
 			CR.remout(aBricks);
-			RM.generify(aBricks, ST.make(Blocks.stonebrick, 1, 0));
+			RM.generify(aBricks, ST.make(Blocks.STONE_BRICKS, 1, 0));
 			
 			if (ST.valid(aStone)) {
 				RM.add_smelting(aBricks, aStone, T, F, F);
@@ -529,7 +529,7 @@ public class RM {
 		
 		if (ST.valid(aCracked)) {
 			CR.remout(aCracked);
-			RM.generify(aCracked, ST.make(Blocks.stonebrick, 1, 2));
+			RM.generify(aCracked, ST.make(Blocks.STONE_BRICKS, 1, 2));
 			
 			if (ST.valid(aFourRocks)) {
 				RM.Hammer       .addRecipe1(T, 16, 16,  7000, aCracked, aFourRocks);
@@ -548,7 +548,7 @@ public class RM {
 		
 		if (ST.valid(aChiseled)) {
 			CR.remout(aChiseled);
-			RM.generify(aChiseled, ST.make(Blocks.stonebrick, 1, 3));
+			RM.generify(aChiseled, ST.make(Blocks.STONE_BRICKS, 1, 3));
 			
 			if (ST.valid(aStone)) {
 				RM.add_smelting(aChiseled, aStone, T, F, F);
@@ -596,7 +596,7 @@ public class RM {
 		
 		if (ST.valid(aTiles)) {
 			CR.remout(aTiles);
-			RM.generify(aTiles, ST.make(Blocks.stonebrick, 1, 0));
+			RM.generify(aTiles, ST.make(Blocks.STONE_BRICKS, 1, 0));
 			
 			if (ST.valid(aStone)) {
 				RM.add_smelting(aTiles, aStone, T, F, F);
@@ -617,7 +617,7 @@ public class RM {
 		
 		if (ST.valid(aBricks2)) {
 			CR.remout(aBricks2);
-			RM.generify(aBricks2, ST.make(Blocks.stonebrick, 1, 0));
+			RM.generify(aBricks2, ST.make(Blocks.STONE_BRICKS, 1, 0));
 			
 			if (ST.valid(aStone)) {
 				RM.add_smelting(aBricks2, aStone, T, F, F);
@@ -998,7 +998,7 @@ public class RM {
 			} else {
 				if (!OP.log.contains(aInput) && ConfigsGT.RECIPES.get(ConfigCategories.Machines.rockcrushing, aInput, ST.block(aInput) != NB)) {
 					try {
-						if (ST.block(aInput) != Blocks.obsidian && ST.block(aInput) != Blocks.gravel) {
+						if (ST.block(aInput) != Blocks.OBSIDIAN && ST.block(aInput) != Blocks.GRAVEL) {
 							mods.railcraft.api.crafting.IRockCrusherRecipe tRecipe = mods.railcraft.api.crafting.RailcraftCraftingManager.rockCrusher.createNewRecipe(ST.amount(1, aInput), ST.meta_(aInput) != W, F);
 							tRecipe.addOutput(ST.copy(aOutput1), 1.0F/aInput.stackSize);
 							if (aOutput2 != null) tRecipe.addOutput(ST.copy(aOutput2), (0.01F*(aChance2<=0?10:aChance2))/aInput.stackSize);
@@ -1066,7 +1066,7 @@ public class RM {
 	}
 	
 	public static void te_furnace(int energy, ItemStack input, ItemStack output) {
-		NBTTagCompound toSend = UT.NBT.make();
+		CompoundTag toSend = UT.NBT.make();
 		toSend.setInteger("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("output", UT.NBT.make());
@@ -1082,7 +1082,7 @@ public class RM {
 	}
 	public static void te_pulverizer(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
 		if (input == null || primaryOutput == null) return;
-		NBTTagCompound toSend = UT.NBT.make();
+		CompoundTag toSend = UT.NBT.make();
 		toSend.setInteger("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("primaryOutput", UT.NBT.make());
@@ -1101,7 +1101,7 @@ public class RM {
 	}
 	public static void te_sawmill(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
 		if (input == null || primaryOutput == null) return;
-		NBTTagCompound toSend = UT.NBT.make();
+		CompoundTag toSend = UT.NBT.make();
 		toSend.setInteger("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("primaryOutput", UT.NBT.make());
@@ -1120,7 +1120,7 @@ public class RM {
 	}
 	public static void te_smelter(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
 		if (primaryInput == null || secondaryInput == null || primaryOutput == null) return;
-		NBTTagCompound toSend = UT.NBT.make();
+		CompoundTag toSend = UT.NBT.make();
 		toSend.setInteger("energy", energy);
 		toSend.setTag("primaryInput", UT.NBT.make());
 		toSend.setTag("secondaryInput", UT.NBT.make());
@@ -1134,13 +1134,13 @@ public class RM {
 		FMLInterModComms.sendMessage("ThermalExpansion", "SmelterRecipe", toSend);
 	}
 	public static void te_smelter_ore(OreDictMaterial aMaterial) {
-		NBTTagCompound toSend = UT.NBT.make();
+		CompoundTag toSend = UT.NBT.make();
 		toSend.setString("oreType", aMaterial.toString());
 		FMLInterModComms.sendMessage("ThermalExpansion", "SmelterBlastOreType", toSend);
 	}
 	public static void te_crucible(int energy, ItemStack input, FluidStack output) {
 		if (input == null || output == null) return;
-		NBTTagCompound toSend = UT.NBT.make();
+		CompoundTag toSend = UT.NBT.make();
 		toSend.setInteger("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("output", UT.NBT.make());
@@ -1150,7 +1150,7 @@ public class RM {
 	}
 	public static void te_fill(int energy, ItemStack input, ItemStack output, FluidStack fluid, boolean reversible) {
 		if (input == null || output == null || fluid == null) return;
-		NBTTagCompound toSend = UT.NBT.make();
+		CompoundTag toSend = UT.NBT.make();
 		toSend.setInteger("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("output", UT.NBT.make());
@@ -1163,7 +1163,7 @@ public class RM {
 	}
 	public static void te_extract(int energy, ItemStack input, ItemStack output, FluidStack fluid, int chance, boolean reversible) {
 		if (input == null || output == null || fluid == null) return;
-		NBTTagCompound toSend = UT.NBT.make();
+		CompoundTag toSend = UT.NBT.make();
 		toSend.setInteger("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("output", UT.NBT.make());

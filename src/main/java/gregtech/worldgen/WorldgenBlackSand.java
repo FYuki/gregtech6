@@ -21,12 +21,12 @@ package gregtech.worldgen;
 
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
 import java.util.Random;
@@ -59,7 +59,7 @@ public class WorldgenBlackSand extends WorldgenObject {
 				byte tMeta = WD.meta(aWorld, tX+i, tY, tZ+j);
 				if (tBlock == BlocksGT.Sands && tMeta == aMeta) {tGenerated++; continue;}
 				if (!tBlock.isOpaqueCube()) {if (tGenerated > 0) break; continue;}
-				if ((tBlock == Blocks.dirt && tMeta < 2) || tBlock == Blocks.gravel || tBlock == Blocks.sand || tBlock == Blocks.clay || tBlock == BlocksGT.oreSmallGravel || tBlock == BlocksGT.oreGravel || tBlock == BlocksGT.oreSmallSand || tBlock == BlocksGT.oreSand || tBlock == BlocksGT.oreSmallRedSand || tBlock == BlocksGT.oreRedSand) {
+				if ((tBlock == Blocks.DIRT && tMeta < 2) || tBlock == Blocks.GRAVEL || tBlock == Blocks.SAND || tBlock == Blocks.CLAY || tBlock == BlocksGT.oreSmallGravel || tBlock == BlocksGT.oreGravel || tBlock == BlocksGT.oreSmallSand || tBlock == BlocksGT.oreSand || tBlock == BlocksGT.oreSmallRedSand || tBlock == BlocksGT.oreRedSand) {
 					// Don't take away the Dirt Block below Trees, Bushes and other Plants.
 					if (tGenerated <= 0 && (tLastBlock.getMaterial() == Material.wood || tLastBlock.getMaterial() == Material.gourd)) continue;
 				} else {

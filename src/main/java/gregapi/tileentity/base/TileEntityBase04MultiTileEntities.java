@@ -32,15 +32,15 @@ import gregapi.render.IRenderedBlockObjectSideCheck;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
 
 import static gregapi.data.CS.*;
@@ -70,7 +70,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	public IPacket getClientDataPacketByteArray(boolean aSendAll, byte... aByteArray)   {return aSendAll ? new PacketSyncDataByteArrayAndIDs    (getCoords(), getMultiTileEntityRegistryID(), getMultiTileEntityID(), aByteArray    ) : new PacketSyncDataByteArray (getCoords(), aByteArray    );}
 	
 	@Override
-	public final void initFromNBT(NBTTagCompound aNBT, short aMTEID, short aMTERegistry) {
+	public final void initFromNBT(CompoundTag aNBT, short aMTEID, short aMTERegistry) {
 		// Set ID and Registry ID.
 		mMTEID = aMTEID;
 		mMTERegistry = aMTERegistry;
@@ -79,7 +79,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	}
 	
 	@Override
-	public final void readFromNBT(NBTTagCompound aNBT) {
+	public final void readFromNBT(CompoundTag aNBT) {
 		// Check if this is a World/Chunk Loading Process calling readFromNBT.
 		if (mMTEID == W || mMTERegistry == W) {
 			// Yes it is, so read the ID Tags first.
@@ -107,10 +107,10 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 		try {readFromNBT2(aNBT);} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
 	
-	public void readFromNBT2(NBTTagCompound aNBT) {/**/}
+	public void readFromNBT2(CompoundTag aNBT) {/**/}
 	
 	@Override
-	public final void writeToNBT(NBTTagCompound aNBT) {
+	public final void writeToNBT(CompoundTag aNBT) {
 		super.writeToNBT(aNBT);
 		// write the IDs
 		aNBT.setShort(NBT_MTE_ID, mMTEID);
@@ -122,10 +122,10 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 		try {writeToNBT2(aNBT);} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
 	
-	public void writeToNBT2(NBTTagCompound aNBT) {/**/}
+	public void writeToNBT2(CompoundTag aNBT) {/**/}
 	
 	@Override
-	public NBTTagCompound writeItemNBT(NBTTagCompound aNBT) {
+	public CompoundTag writeItemNBT(CompoundTag aNBT) {
 		if (UT.Code.stringValid(mCustomName)) aNBT.setTag("display", UT.NBT.makeString(aNBT.getCompoundTag("display"), "Name", mCustomName));
 		if (UT.Code.stringValid(ERROR_MESSAGE) && isClientSide()) aNBT.setTag("display", UT.NBT.makeString(aNBT.getCompoundTag("display"), "Name", ERROR_MESSAGE));
 		if (isPainted()) {aNBT.setInteger(NBT_COLOR, getPaint()); aNBT.setBoolean(NBT_PAINTED, T);}
@@ -133,7 +133,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	}
 	
 	@Override
-	public void sendClientData(boolean aSendAll, EntityPlayerMP aPlayer) {
+	public void sendClientData(boolean aSendAll, ServerPlayer aPlayer) {
 		super.sendClientData(aSendAll, aPlayer);
 		if (aSendAll && UT.Code.stringValid(mCustomName)) {
 			if (aPlayer == null) {
@@ -145,7 +145,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	}
 	
 	@Override
-	public final boolean onBlockActivated(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public final boolean onBlockActivated(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		try {
 			return allowRightclick(aPlayer) && (checkObstruction(aPlayer, aSide, aHitX, aHitY, aHitZ) || onBlockActivated2(aPlayer, aSide, aHitX, aHitY, aHitZ));
 		} catch(Throwable e) {
@@ -154,11 +154,11 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 		}
 	}
 	
-	public boolean onBlockActivated2(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		return F;
 	}
 	
-	public boolean checkObstruction(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean checkObstruction(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		return !(aPlayer == null || aPlayer instanceof FakePlayer || SIDES_INVALID[aSide] || !WD.obstructed(worldObj, xCoord, yCoord, zCoord, aSide));
 	}
 	
@@ -185,7 +185,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aWorld, aX, aY, aZ, tStack);
 		setToAir();
 	}
-	public void popOff(World aWorld, ChunkCoordinates aCoords) {
+	public void popOff(World aWorld, BlockPos aCoords) {
 		if (isDead()) return;
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aWorld, aCoords, tStack);
 		setToAir();
@@ -206,7 +206,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aWorld, aX, aY, aZ, tStack);
 		setToFire();
 	}
-	public void burnOff(World aWorld, ChunkCoordinates aCoords) {
+	public void burnOff(World aWorld, BlockPos aCoords) {
 		if (isDead()) return;
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aWorld, aCoords, tStack);
 		setToFire();

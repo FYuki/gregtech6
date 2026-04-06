@@ -35,10 +35,10 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
 
@@ -149,21 +149,21 @@ public class MultiItemFood extends MultiItemRandomWithCompat implements IItemRot
 		CR.shaped    (ST.make(BlocksGT.Diggables, 1, 4), CR.DEF_NCC, "XX", "XX", 'X', IL.Clay_Ball_Yellow);
 		CR.shaped    (ST.make(BlocksGT.Diggables, 1, 5), CR.DEF_NCC, "XX", "XX", 'X', IL.Clay_Ball_Blue);
 		CR.shaped    (ST.make(BlocksGT.Diggables, 1, 6), CR.DEF_NCC, "XX", "XX", 'X', IL.Clay_Ball_White);
-		CR.shaped    (ST.make(Blocks.clay       , 1, 0), CR.DEF_NCC, "XX", "XX", 'X', Items.clay_ball);
+		CR.shaped    (ST.make(Blocks.CLAY       , 1, 0), CR.DEF_NCC, "XX", "XX", 'X', Items.clay_ball);
 		CR.shapeless (IL.Mud_Ball               .get(4), CR.DEF_NCC, new Object[] {ST.make(BlocksGT.Diggables, 1, 0)});
 		CR.shapeless (IL.Clay_Ball_Brown        .get(4), CR.DEF_NCC, new Object[] {ST.make(BlocksGT.Diggables, 1, 1)});
 		CR.shapeless (IL.Clay_Ball_Red          .get(4), CR.DEF_NCC, new Object[] {ST.make(BlocksGT.Diggables, 1, 3)});
 		CR.shapeless (IL.Clay_Ball_Yellow       .get(4), CR.DEF_NCC, new Object[] {ST.make(BlocksGT.Diggables, 1, 4)});
 		CR.shapeless (IL.Clay_Ball_Blue         .get(4), CR.DEF_NCC, new Object[] {ST.make(BlocksGT.Diggables, 1, 5)});
 		CR.shapeless (IL.Clay_Ball_White        .get(4), CR.DEF_NCC, new Object[] {ST.make(BlocksGT.Diggables, 1, 6)});
-		CR.shapeless (ST.make(Items.clay_ball   , 4, 0), CR.DEF_NCC, new Object[] {Blocks.clay});
+		CR.shapeless (ST.make(Items.clay_ball   , 4, 0), CR.DEF_NCC, new Object[] {Blocks.CLAY});
 		RM.compactunpack(IL.Mud_Ball            .get(4), ST.make(BlocksGT.Diggables, 1, 0));
 		RM.compactunpack(IL.Clay_Ball_Brown     .get(4), ST.make(BlocksGT.Diggables, 1, 1));
 		RM.compactunpack(IL.Clay_Ball_Red       .get(4), ST.make(BlocksGT.Diggables, 1, 3));
 		RM.compactunpack(IL.Clay_Ball_Yellow    .get(4), ST.make(BlocksGT.Diggables, 1, 4));
 		RM.compactunpack(IL.Clay_Ball_Blue      .get(4), ST.make(BlocksGT.Diggables, 1, 5));
 		RM.compactunpack(IL.Clay_Ball_White     .get(4), ST.make(BlocksGT.Diggables, 1, 6));
-		RM.compactunpack(ST.make(Items.clay_ball, 4, 0), ST.make(Blocks.clay       , 1, 0));
+		RM.compactunpack(ST.make(Items.clay_ball, 4, 0), ST.make(Blocks.CLAY       , 1, 0));
 		RM.RollingMill.addRecipe1(T, 16, 32, ST.make(Items.clay_ball, 1, 0), OP.plate.mat(MT.Clay        , 1));
 		RM.RollingMill.addRecipe1(T, 16, 32, IL.Clay_Ball_Brown     .get(1), OP.plate.mat(MT.ClayBrown   , 1));
 		RM.RollingMill.addRecipe1(T, 16, 32, IL.Clay_Ball_Red       .get(1), OP.plate.mat(MT.ClayRed     , 1));
@@ -182,7 +182,7 @@ public class MultiItemFood extends MultiItemRandomWithCompat implements IItemRot
 		RM.mortarize(1, IL.Clay_Ball_Yellow       .get(1), OM.dust(MT.Bentonite));
 		RM.mortarize(1, IL.Clay_Ball_Blue         .get(1), OM.dust(MT.Palygorskite));
 		RM.mortarize(1, IL.Clay_Ball_White        .get(1), OM.dust(MT.Kaolinite));
-		RM.mortarize(4, ST.make(Blocks.clay       , 1, W), OM.dust(MT.Clay, U*4));
+		RM.mortarize(4, ST.make(Blocks.CLAY       , 1, W), OM.dust(MT.Clay, U*4));
 		RM.mortarize(4, ST.make(BlocksGT.Diggables, 1, 1), OM.dust(MT.ClayBrown, U*4));
 		RM.mortarize(4, ST.make(BlocksGT.Diggables, 1, 3), OM.dust(MT.ClayRed, U*4));
 		RM.mortarize(4, ST.make(BlocksGT.Diggables, 1, 4), OM.dust(MT.Bentonite, U*4));
@@ -257,7 +257,7 @@ public class MultiItemFood extends MultiItemRandomWithCompat implements IItemRot
 		RM.Centrifuge.addRecipe1(T, 16, 64, new long[] {10000,  1000}                  , IL.Comb_Jungle  .get(1), NF   , MT.Chocolate                          .liquid(U, T), OM.dust(MT.Cocoa)                 , IL.FR_Propolis_Silky.get(1, ST.make(Items.string, 1, 0)));
 		RM.Centrifuge.addRecipe1(T, 16, 64, new long[] {10000,  1000}                  , IL.Comb_Frozen  .get(1), NF   , FL.Ice                                  .make(1000), OM.dust(MT.Ice)                   );
 		RM.Centrifuge.addRecipe1(T, 16, 64, new long[] { 6000,  6000}                  , IL.Comb_Shroom  .get(1), NF   , FL.Soup_Mushroom                        .make(1000), ST.make(Blocks.red_mushroom_block, 1, 0), ST.make(Blocks.brown_mushroom_block, 1, 0));
-		RM.Centrifuge.addRecipe1(T, 16, 64, new long[] {10000,  1000}                  , IL.Comb_Sandy   .get(1), NF   , FL.Juice_Cactus                         .make( 100), ST.make(Blocks.sand, 1, 0)        );
+		RM.Centrifuge.addRecipe1(T, 16, 64, new long[] {10000,  1000}                  , IL.Comb_Sandy   .get(1), NF   , FL.Juice_Cactus                         .make( 100), ST.make(Blocks.SAND, 1, 0)        );
 		RM.Centrifuge.addRecipe1(T, 16, 64, new long[] { 2000,2000,2000,2000,2000,2000}, IL.Comb_Clay    .get(1), NF   , FL.Concrete                             .make(   L), OM.dust(MT.Clay)                  , OM.dust(MT.ClayBrown), OM.dust(MT.ClayRed), OM.dust(MT.Bentonite), OM.dust(MT.Palygorskite), OM.dust(MT.Kaolinite));
 		RM.Centrifuge.addRecipe1(T, 16, 64, new long[] {10000,  3000}                  , IL.Comb_Sticky  .get(1), NF   , FL.Latex                                .make(   L), OM.dust(MT.WaxBee)                , IL.FR_Propolis_Sticky.get(1, IL.IC2_Resin.get(1, IL.Resin.get(1))));
 		RM.Centrifuge.addRecipe1(T, 16, 64, new long[] {10000}                         , IL.Comb_Royal   .get(1), ZL_FS, FL.array(FL.Honey.make(50), FL.RoyalJelly.make(10)), OM.dust(MT.WaxBee)                );
@@ -378,7 +378,7 @@ public class MultiItemFood extends MultiItemRandomWithCompat implements IItemRot
 		RM.Unboxinator.addRecipe1(T, 16, 16, IL.Food_ChiliChips_Packaged.get(1), IL.Food_ChiliChips.get(1), OP.scrapGt.mat(MT.Al, 2));
 		
 		
-		RM.replicateOrganic( 4, 12, ST.make(Blocks.pumpkin, 1, 0));
+		RM.replicateOrganic( 4, 12, ST.make(Blocks.PUMPKIN, 1, 0));
 		
 		
 		IL.Food_Banana                         .set(addItem(   90, "Banana"                                   , "For Scale"                   , "cropBanana"                  , new FoodStat( 1, 0.600F,   0, C+36,  0.30F,   0,   0,   0,   8,   0,4,EnumAction.eat, null                                , F, T, F, T, PotionsGT.ID_SLIPPERY, 300, 1, 70), TC.stack(TC.MESSIS, 1), TC.stack(TC.HERBA, 1), TC.stack(TC.FAMES, 1)));
@@ -461,7 +461,7 @@ public class MultiItemFood extends MultiItemRandomWithCompat implements IItemRot
 		CR.shaped(IL.Food_Apple_DarkRed_Sliced  .get(4), CR.DEF_NCC, "kX", 'X', "cropAppleDarkRed");
 		
 		
-		RM.replicateOrganic( 3, 15, ST.make(Blocks.melon_block, 1, 0));
+		RM.replicateOrganic( 3, 15, ST.make(Blocks.MELON, 1, 0));
 		
 		
 		IL.Food_Peanut                         .set(addItem(  250, "Peanut"           , "Deez Nutz"                                           , "cropPeanut"                  , new FoodStat( 2, 0.300F,   0, C+37,  0.10F,   0,   0,   0,   0,  16, EnumAction.eat, null                                 , F, T, F, T), TC.stack(TC.MESSIS, 1), TC.stack(TC.GRANUM, 1), TC.stack(TC.COGNITIO, 1)));

@@ -31,10 +31,10 @@ import gregapi.render.BlockTextureCopied;
 import gregapi.render.ITexture;
 import gregapi.util.ST;
 import gregapi.util.WD;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
@@ -123,10 +123,10 @@ public class MultiTileEntityMiniPortalCW2Cavenia extends MultiTileEntityMiniPort
 		return super.onToolClick(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 	}
 	
-	@Override public float getBlockHardness() {return Blocks.mossy_cobblestone.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
-	@Override public float getExplosionResistance2() {return Blocks.mossy_cobblestone.getExplosionResistance(null);}
+	@Override public float getBlockHardness() {return Blocks.MOSSY_COBBLESTONE.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
+	@Override public float getExplosionResistance2() {return Blocks.MOSSY_COBBLESTONE.getExplosionResistance(null);}
 	
-	public ITexture sCW2Portal = BlockTextureCopied.get(ST.block(MD.CW2, "cavenia_portal", Blocks.portal), SIDE_ANY, 0, UNCOLOURED, F, T, T), sCW2PortalFrame = BlockTextureCopied.get(Blocks.mossy_cobblestone, SIDE_ANY, 0);
+	public ITexture sCW2Portal = BlockTextureCopied.get(ST.block(MD.CW2, "cavenia_portal", Blocks.portal), SIDE_ANY, 0, UNCOLOURED, F, T, T), sCW2PortalFrame = BlockTextureCopied.get(Blocks.MOSSY_COBBLESTONE, SIDE_ANY, 0);
 	@Override public ITexture getPortalTexture() {return sCW2Portal;}
 	@Override public ITexture getFrameTexture() {return sCW2PortalFrame;}
 	

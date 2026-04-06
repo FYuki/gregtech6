@@ -34,18 +34,18 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.StoneLayer;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 public class Behavior_Place_Dynamite extends AbstractBehaviorDefault {
 	public static final Behavior_Place_Dynamite INSTANCE = new Behavior_Place_Dynamite();
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aWorld.isRemote || aPlayer == null || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		Block tBlock = aWorld.getBlock(aX, aY, aZ);
 		if (tBlock.getBlockHardness(aWorld, aX, aY, aZ) < 0 && !BlocksGT.drillableDynamite.contains(tBlock)) return F;
@@ -56,9 +56,9 @@ public class Behavior_Place_Dynamite extends AbstractBehaviorDefault {
 		for (int i = 0; i < aPlayer.inventory.mainInventory.length; i++) {
 			ItemStack tStack = aPlayer.inventory.mainInventory[aPlayer.inventory.mainInventory.length-i-1];
 			if (IL.Boomstick.equal(tStack, F, T) || IL.Dynamite.equal(tStack, F, T) || IL.Dynamite_Strong.equal(tStack, F, T)) {
-				NBTTagCompound tOldTag = tStack.getTagCompound();
+				CompoundTag tOldTag = tStack.getTagCompound();
 				if (tStack.hasTagCompound()) {
-					tStack.setTagCompound((NBTTagCompound)tStack.getTagCompound().copy());
+					tStack.setTagCompound((CompoundTag)tStack.getTagCompound().copy());
 				} else {
 					tStack.setTagCompound(UT.NBT.make());
 				}

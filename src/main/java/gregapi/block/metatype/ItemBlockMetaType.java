@@ -25,10 +25,10 @@ import gregapi.block.ItemBlockBase;
 import gregapi.item.IItemUpdatable;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
@@ -39,7 +39,7 @@ public class ItemBlockMetaType extends ItemBlockBase implements IItemUpdatable {
 	}
 	
 	@Override
-	public boolean placeBlockAt(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ, int aMetaData) {
+	public boolean placeBlockAt(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ, int aMetaData) {
 		if (((BlockMetaType)mPlaceable).mBlock == mPlaceable) return aWorld.setBlock(aX, aY, aZ, field_150939_a, aMetaData, 3);
 		byte tSide = UT.Code.getSideWrenching((byte)aSide, aHitX, aHitY, aHitZ);
 		if (tSide == aSide || tSide == OPOS[aSide]) tSide = OPOS[tSide];
@@ -62,7 +62,7 @@ public class ItemBlockMetaType extends ItemBlockBase implements IItemUpdatable {
 	private boolean mInterrupt = false;
 	
 	@Override
-	public boolean onItemUseFirst(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aStack.stackSize > 0 && SIDES_VALID[mBlock.mSide]) {
 			switch(aSide) {
 			case 0: if (aHitY <= 0.01) aY--; break;
@@ -94,7 +94,7 @@ public class ItemBlockMetaType extends ItemBlockBase implements IItemUpdatable {
 	}
 	
 	@Override
-	public boolean onItemUse(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUse(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {
 		if (mInterrupt) {
 			mInterrupt = false;
 			return false;

@@ -37,10 +37,10 @@ import gregapi.util.UT;
 import ic2.api.crops.Crops;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
 
@@ -74,7 +74,7 @@ public class Compat_Recipes_IndustrialCraft extends CompatMods {
 		CR.remove(ST.make(Items.lava_bucket , 1, 0), IL.Cell_Empty.get(1));
 		CR.remove(ST.make(Items.water_bucket, 1, 0), IL.Cell_Empty.get(1));
 		
-		if (COMPAT_IC2 != null) COMPAT_IC2.addToExplosionWhitelist(Blocks.bedrock);
+		if (COMPAT_IC2 != null) COMPAT_IC2.addToExplosionWhitelist(Blocks.BEDROCK);
 		
 		for (OreDictMaterial tMat : ANY.Iron.mToThis) {
 			ItemStack tStack = OP.casingMachine.mat(tMat, 1);
@@ -141,7 +141,7 @@ public class Compat_Recipes_IndustrialCraft extends CompatMods {
 		RM.Massfab      .addRecipe1(T, 1, 32768, IL.IC2_Scrapbox                     .get( 4), ST.make(MD.IC2, "item.itemMatter", 1, 0));
 		RM.Massfab      .addRecipe1(T, 1, 32768, ST.make(MD.IC2, "item.itemScrapMetal", 2, 0), ST.make(MD.IC2, "item.itemMatter", 1, 0));
 		
-		RM.Shredder     .addRecipe1(T, 16,   16, IL.IC2_Plantball.get(1)        , ST.make(Blocks.dirt, 1, 0));
+		RM.Shredder     .addRecipe1(T, 16,   16, IL.IC2_Plantball.get(1)        , ST.make(Blocks.DIRT, 1, 0));
 		RM.Shredder     .addRecipe1(T, 16,   16, 300, ST.mkic("weed", 1)        , IL.IC2_Plantball.get(1));
 		RM.Shredder     .addRecipe1(T, 16,   16, 600, ST.make(Blocks.vine, 1, W), IL.IC2_Plantball.get(1));
 		
@@ -337,7 +337,7 @@ public class Compat_Recipes_IndustrialCraft extends CompatMods {
 		RM.Compressor   .addRecipe1(T, 16,  256, OP.plateGem.mat(MT.Sodalite, 9)                    , OP.plateDense.mat(MT.Sodalite, 1));
 		RM.Compressor   .addRecipe1(T, 16,  768, OP.plate.mat(MT.Obsidian, 9)                       , OP.plateDense.mat(MT.Obsidian, 1));
 		
-		RM.Shredder     .addRecipe1(T, 16,   16, IL.IC2_Biochaff.get(1)                             , ST.make(Blocks.dirt, 1, 0));
+		RM.Shredder     .addRecipe1(T, 16,   16, IL.IC2_Biochaff.get(1)                             , ST.make(Blocks.DIRT, 1, 0));
 		RM.Shredder     .addRecipe1(T, 16,   16, IL.IC2_Plantball.get(1)                            , IL.IC2_Biochaff.get(1));
 		RM.Shredder     .addRecipe1(T, 16,   16, 300, ST.mkic("weed", 1)                            , IL.IC2_Biochaff.get(1));
 		RM.Shredder     .addRecipe1(T, 16,   16, 600, ST.make(Blocks.vine, 1, W)                    , IL.IC2_Biochaff.get(1));
@@ -391,7 +391,7 @@ public class Compat_Recipes_IndustrialCraft extends CompatMods {
 		//====================================================================================================
 		
 		RM.pulverizing(ST.make(Items.clay_ball, 1, W), OM.dust(MT.Clay, U));
-		RM.pulverizing(ST.make(Blocks.clay, 1, W), OM.dust(MT.Clay, U*4));
+		RM.pulverizing(ST.make(Blocks.CLAY, 1, W), OM.dust(MT.Clay, U*4));
 		RM.pulverizing(IL.Clay_Ball_Brown .get(1), OM.dust(MT.ClayBrown, U));
 		RM.pulverizing(IL.Clay_Ball_Red   .get(1), OM.dust(MT.ClayRed, U));
 		RM.pulverizing(IL.Clay_Ball_Yellow.get(1), OM.dust(MT.Bentonite, U));
@@ -495,7 +495,7 @@ public class Compat_Recipes_IndustrialCraft extends CompatMods {
 		for (FluidStack tWater : FL.waters(1000))
 		RM.Injector         .addRecipe1(T, 16,   16, IL.Cell_Empty.get(1), tWater                       , NF, ST.mkic("hydratingCell", 1));
 		
-		RM.Mixer            .addRecipe2(T, 16,   32, ST.make(Blocks.tnt, 1, W)                          , OM.dust(MT.Na2SO3, U*1), IL.IC2_ITNT.get(1));
+		RM.Mixer            .addRecipe2(T, 16,   32, ST.make(Blocks.TNT, 1, W)                          , OM.dust(MT.Na2SO3, U*1), IL.IC2_ITNT.get(1));
 		RM.Mixer            .addRecipe2(T, 16,   32, ST.make(Items.flint, 1, W)                         , OM.dust(MT.Coal, U*8), IL.IC2_Coal_Ball.get(1));
 		
 		for (FluidStack tWater : FL.waters(250))

@@ -27,10 +27,10 @@ import gregapi.render.ITexture;
 import gregapi.tileentity.connectors.ITileEntityItemPipe;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
@@ -87,8 +87,8 @@ public class CoverFilterItem extends AbstractCoverAttachment {
 	
 	@Override
 	public boolean onCoverClickedRight(byte aCoverSide, CoverData aData, Entity aPlayer, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
-		if (aPlayer instanceof EntityPlayer && aData.mTileEntity.isServerSide()) {
-			ItemStack tStack = ST.make(((EntityPlayer)aPlayer).getCurrentEquippedItem(), null, null);
+		if (aPlayer instanceof Player && aData.mTileEntity.isServerSide()) {
+			ItemStack tStack = ST.make(((Player)aPlayer).getCurrentEquippedItem(), null, null);
 			if (ST.valid(tStack)) {
 				ItemStack tFilter = ST.load(aData.mNBTs[aCoverSide], "gt.filter.item");
 				if (ST.invalid(tFilter)) {

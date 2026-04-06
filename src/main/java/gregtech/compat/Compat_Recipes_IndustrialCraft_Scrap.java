@@ -29,7 +29,7 @@ import gregapi.util.CR;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.*;
 
@@ -45,12 +45,12 @@ public class Compat_Recipes_IndustrialCraft_Scrap extends CompatMods {
 			COMPAT_IC2.scrapbox(2.00F, ST.make(Items.wooden_pickaxe, 1, 0));
 			COMPAT_IC2.scrapbox(2.00F, ST.make(Items.sign, 1, 0));
 			COMPAT_IC2.scrapbox(9.50F, IL.Stick.get(1));
-			COMPAT_IC2.scrapbox(5.00F, ST.make(Blocks.dirt, 1, 0));
-			COMPAT_IC2.scrapbox(3.00F, ST.make(Blocks.grass, 1, 0));
-			COMPAT_IC2.scrapbox(3.00F, ST.make(Blocks.gravel, 1, 0));
-			COMPAT_IC2.scrapbox(0.50F, ST.make(Blocks.pumpkin, 1, 0));
+			COMPAT_IC2.scrapbox(5.00F, ST.make(Blocks.DIRT, 1, 0));
+			COMPAT_IC2.scrapbox(3.00F, ST.make(Blocks.GRASS_BLOCK, 1, 0));
+			COMPAT_IC2.scrapbox(3.00F, ST.make(Blocks.GRAVEL, 1, 0));
+			COMPAT_IC2.scrapbox(0.50F, ST.make(Blocks.PUMPKIN, 1, 0));
 			COMPAT_IC2.scrapbox(1.00F, ST.make(Blocks.soul_sand, 1, 0));
-			COMPAT_IC2.scrapbox(2.00F, ST.make(Blocks.netherrack, 1, 0));
+			COMPAT_IC2.scrapbox(2.00F, ST.make(Blocks.NETHERRACK, 1, 0));
 			COMPAT_IC2.scrapbox(1.00F, ST.make(Items.bone, 1, 0));
 			COMPAT_IC2.scrapbox(9.00F, ST.make(Items.rotten_flesh, 1, 0));
 			COMPAT_IC2.scrapbox(0.40F, ST.make(Items.cooked_porkchop, 1, 0));
@@ -156,7 +156,7 @@ public class Compat_Recipes_IndustrialCraft_Scrap extends CompatMods {
 			COMPAT_IC2.blacklist(ST.make(Items.egg, 1, 0));
 		}
 		if (ConfigsGT.RECIPES.get(ConfigCategories.Recipes.disabledrecipes, "easystonerecycling", T)) {
-			ItemStack tStack = ST.make(Blocks.cobblestone, 1, 0);
+			ItemStack tStack = ST.make(Blocks.COBBLESTONE, 1, 0);
 			while (tStack != null) {
 				COMPAT_IC2.blacklist(tStack);
 				tStack = CR.get(tStack, tStack, tStack, tStack, tStack, tStack, tStack, tStack, tStack);
@@ -165,16 +165,16 @@ public class Compat_Recipes_IndustrialCraft_Scrap extends CompatMods {
 			COMPAT_IC2.blacklist(ST.make(Blocks.sandstone_stairs  , 1, W));
 			COMPAT_IC2.blacklist(ST.make(Blocks.stone_stairs      , 1, W));
 			COMPAT_IC2.blacklist(ST.make(Blocks.stone_brick_stairs, 1, W));
-			COMPAT_IC2.blacklist(RM.get_smelting(ST.make(Blocks.stone, 1, 0)));
+			COMPAT_IC2.blacklist(RM.get_smelting(ST.make(Blocks.STONE, 1, 0)));
 			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.glass, 1, 0), null, null, ST.make(Blocks.glass, 1, 0)));
-			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.stone, 1, 0), null, null, ST.make(Blocks.stone, 1, 0)));
-			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.cobblestone, 1, 0), null, null, ST.make(Blocks.cobblestone, 1, 0)));
-			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.stone, 1, 0), null, ST.make(Blocks.stone, 1, 0), null, ST.make(Blocks.stone, 1, 0)));
-			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.stone, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.stone, 1, 0)));
-			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.cobblestone, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.cobblestone, 1, 0)));
-			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.sandstone, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.sandstone, 1, 0)));
-			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.sand, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.sand, 1, 0)));
-			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.sandstone, 1, 0), ST.make(Blocks.sandstone, 1, 0), ST.make(Blocks.sandstone, 1, 0), ST.make(Blocks.sandstone, 1, 0), ST.make(Blocks.sandstone, 1, 0), ST.make(Blocks.sandstone, 1, 0)));
+			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.STONE, 1, 0), null, null, ST.make(Blocks.STONE, 1, 0)));
+			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.COBBLESTONE, 1, 0), null, null, ST.make(Blocks.COBBLESTONE, 1, 0)));
+			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.STONE, 1, 0), null, ST.make(Blocks.STONE, 1, 0), null, ST.make(Blocks.STONE, 1, 0)));
+			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.STONE, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.STONE, 1, 0)));
+			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.COBBLESTONE, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.COBBLESTONE, 1, 0)));
+			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.SANDSTONE, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.SANDSTONE, 1, 0)));
+			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.SAND, 1, 0), ST.make(Blocks.glass, 1, 0), ST.make(Blocks.SAND, 1, 0)));
+			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.SANDSTONE, 1, 0), ST.make(Blocks.SANDSTONE, 1, 0), ST.make(Blocks.SANDSTONE, 1, 0), ST.make(Blocks.SANDSTONE, 1, 0), ST.make(Blocks.SANDSTONE, 1, 0), ST.make(Blocks.SANDSTONE, 1, 0)));
 			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.glass, 1, 0)));
 			COMPAT_IC2.blacklist(CR.get(ST.make(Blocks.glass, 1, 0), ST.make(Blocks.glass, 1, 0)));
 		}

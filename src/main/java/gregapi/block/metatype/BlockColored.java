@@ -31,11 +31,11 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.world.level.Level;
+import net.minecraft.core.Direction; // was Direction
 
 /**
  * @author Gregorius Techneticies
@@ -73,7 +73,7 @@ public class BlockColored extends BlockMetaType {
 	}
 	
 	@Override
-	public boolean recolourBlock(World aWorld, int aX, int aY, int aZ, ForgeDirection aDirection, int aColor) {
+	public boolean recolourBlock(World aWorld, int aX, int aY, int aZ, Direction aDirection, int aColor) {
 		aColor = ~aColor & 15;
 		return aWorld.getBlockMetadata(aX, aY, aZ) != aColor && aWorld.setBlockMetadataWithNotify(aX, aY, aZ, UT.Code.bind4(aColor), 3);
 	}

@@ -32,11 +32,11 @@ import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
 import java.util.Random;
@@ -258,7 +258,7 @@ public class WorldgenTesting extends WorldgenObject {
 			, ST.make(Blocks.redstone_torch, 1, 0)
 			, ST.make(Items.repeater, 1, 0)
 			, ST.make(Items.comparator, 1, 0)
-			, ST.make(Blocks.redstone_lamp, 1, 0)
+			, ST.make(Blocks.REDSTONE_LAMP, 1, 0)
 			, OP.cableGt01.mat(MT.Signalum, 1)
 			, OP.wireGt01.mat(MT.Lumium, 1)
 			

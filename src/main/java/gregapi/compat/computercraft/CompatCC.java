@@ -35,8 +35,8 @@ import gregapi.cover.CoverData;
 import gregapi.cover.ITileEntityCoverable;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.util.WD;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 
 public class CompatCC extends CompatBase implements ICompatCC, IPeripheralProvider {
 	public CompatCC() {

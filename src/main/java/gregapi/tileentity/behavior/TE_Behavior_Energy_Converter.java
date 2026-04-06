@@ -22,8 +22,8 @@ package gregapi.tileentity.behavior;
 import gregapi.data.TD;
 import gregapi.tileentity.energy.ITileEntityEnergy;
 import gregapi.util.UT;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import static gregapi.data.CS.*;
 
@@ -34,7 +34,7 @@ public class TE_Behavior_Energy_Converter extends TE_Behavior {
 	public long mMultiplier = 1;
 	public byte mFactor = 1;
 	
-	public TE_Behavior_Energy_Converter(TileEntity aTileEntity, NBTTagCompound aNBT, TE_Behavior_Energy_Capacitor aStorage, TE_Behavior_Energy_Stats aEnergyIN, TE_Behavior_Energy_Stats aEnergyOUT, long aMultiplier, boolean aWasteEnergy, boolean aNegativeOutput, boolean aLimitConsumption) {
+	public TE_Behavior_Energy_Converter(TileEntity aTileEntity, CompoundTag aNBT, TE_Behavior_Energy_Capacitor aStorage, TE_Behavior_Energy_Stats aEnergyIN, TE_Behavior_Energy_Stats aEnergyOUT, long aMultiplier, boolean aWasteEnergy, boolean aNegativeOutput, boolean aLimitConsumption) {
 		super(aTileEntity, aNBT);
 		mStorage = aStorage;
 		mEnergyIN = aEnergyIN;
@@ -47,13 +47,13 @@ public class TE_Behavior_Energy_Converter extends TE_Behavior {
 	}
 	
 	@Override
-	public void load(NBTTagCompound aNBT) {
+	public void load(CompoundTag aNBT) {
 		mEmitsEnergy = aNBT.getBoolean(NBT_ACTIVE_ENERGY);
 		mCanEmitEnergy = aNBT.getBoolean(NBT_CAN_ENERGY);
 	}
 	
 	@Override
-	public void save(NBTTagCompound aNBT) {
+	public void save(CompoundTag aNBT) {
 		UT.NBT.setBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
 		UT.NBT.setBoolean(aNBT, NBT_CAN_ENERGY, mCanEmitEnergy);
 	}

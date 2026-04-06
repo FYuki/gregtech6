@@ -28,11 +28,11 @@ import gregapi.item.multiitem.MultiItemTool;
 import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -47,14 +47,14 @@ public class Behavior_Place_Path extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUse(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aWorld.isRemote || aPlayer == null || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack) || WD.block(aWorld, aX, aY+1, aZ).isOpaqueCube()) return F;
 		Block aBlock = WD.block(aWorld, aX, aY, aZ);
 		
 		if (aBlock == BlocksGT.Paths || IL.EtFu_Path.equal(aBlock)) {
 			return T;
 		}
-		if (aBlock == Blocks.grass || aBlock == Blocks.dirt || aBlock == Blocks.mycelium || aBlock == BlocksGT.Grass || IL.BoP_Grass_Long.equal(aBlock) || IL.BoP_Grass_Origin.equal(aBlock) || IL.AETHER_Grass_Enchanted_Vanilla.equal(aBlock)) {
+		if (aBlock == Blocks.GRASS_BLOCK || aBlock == Blocks.DIRT || aBlock == Blocks.mycelium || aBlock == BlocksGT.Grass || IL.BoP_Grass_Long.equal(aBlock) || IL.BoP_Grass_Origin.equal(aBlock) || IL.AETHER_Grass_Enchanted_Vanilla.equal(aBlock)) {
 			if (BlocksGT.Paths != null) {
 				if (((MultiItemTool)aItem).doDamage(aStack, mCosts, aPlayer, F)) {
 					UT.Sounds.send(SFX.MC_DIG_GRAVEL, aWorld, aX, aY, aZ);

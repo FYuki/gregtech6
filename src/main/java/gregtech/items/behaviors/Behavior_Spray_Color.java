@@ -25,16 +25,16 @@ import gregapi.item.multiitem.MultiItem;
 import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,14 +57,14 @@ public class Behavior_Spray_Color extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote || aStack.stackSize != 1) return F;
 		
 		boolean rOutput = F;
 		
 		if (!aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		
-		NBTTagCompound tNBT = UT.NBT.getNBT(aStack);
+		CompoundTag tNBT = UT.NBT.getNBT(aStack);
 		long tUses = tNBT.getLong("gt.remaining");
 		
 		if (ST.equal(aStack, mFull, T)) {
@@ -94,7 +94,7 @@ public class Behavior_Spray_Color extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, Entity aEntity) {
+	public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {
 		if (aStack.stackSize != 1) return F;
 		
 		boolean rUsed = F;
@@ -115,7 +115,7 @@ public class Behavior_Spray_Color extends AbstractBehaviorDefault {
 		}
 		
 		if (rUsed) {
-			NBTTagCompound tNBT = UT.NBT.getNBT(aStack);
+			CompoundTag tNBT = UT.NBT.getNBT(aStack);
 			long tUses = tNBT.getLong("gt.remaining");
 			
 			if (ST.equal(aStack, mFull, T)) {
@@ -141,16 +141,16 @@ public class Behavior_Spray_Color extends AbstractBehaviorDefault {
 		return F;
 	}
 	
-	private final Collection<Block> mAllowedVanillaBlocks = Arrays.asList(Blocks.grass, Blocks.glass, Blocks.glass_pane, Blocks.stained_glass, Blocks.stained_glass_pane, Blocks.carpet, Blocks.hardened_clay, Blocks.stained_hardened_clay);
+	private final Collection<Block> mAllowedVanillaBlocks = Arrays.asList(Blocks.GRASS_BLOCK, Blocks.glass, Blocks.glass_pane, Blocks.stained_glass, Blocks.stained_glass_pane, Blocks.carpet, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA);
 	
 	private boolean colorize(World aWorld, int aX, int aY, int aZ, byte aSide) {
 		Block aBlock = aWorld.getBlock(aX, aY, aZ);
 		if (aBlock != NB && (mAllowedVanillaBlocks.contains(aBlock) || aBlock instanceof BlockColored || IL.TE_Rockwool.block() == aBlock || aBlock == BlocksGT.Grass)) {
-			if (aBlock == Blocks.hardened_clay  ) return aWorld.setBlock(aX, aY, aZ, Blocks.stained_hardened_clay, ~mColor & 15, 3);
+			if (aBlock == Blocks.TERRACOTTA  ) return aWorld.setBlock(aX, aY, aZ, Blocks.WHITE_TERRACOTTA, ~mColor & 15, 3);
 			if (aBlock == Blocks.glass_pane     ) return aWorld.setBlock(aX, aY, aZ, Blocks.stained_glass_pane   , ~mColor & 15, 3);
 			if (aBlock == Blocks.glass          ) return aWorld.setBlock(aX, aY, aZ, Blocks.stained_glass        , ~mColor & 15, 3);
 			
-			if (aBlock == Blocks.grass || aBlock == BlocksGT.Grass) {
+			if (aBlock == Blocks.GRASS_BLOCK || aBlock == BlocksGT.Grass) {
 				switch(mColor) {
 				case DYE_INDEX_Green    : return aWorld.setBlock(aX, aY, aZ, BlocksGT.Grass, 0, 3);
 				case DYE_INDEX_Lime     : return aWorld.setBlock(aX, aY, aZ, BlocksGT.Grass, 1, 3);
@@ -174,7 +174,7 @@ public class Behavior_Spray_Color extends AbstractBehaviorDefault {
 	@Override
 	public List<String> getAdditionalToolTips(MultiItem aItem, List<String> aList, ItemStack aStack) {
 		aList.add(LH.get("gt.behaviour.paintspray."+mColor+".tooltip"));
-		NBTTagCompound tNBT = aStack.getTagCompound();
+		CompoundTag tNBT = aStack.getTagCompound();
 		long tRemaining = (ST.equal(aStack, mFull, T)?mUses:tNBT==null?0:tNBT.getLong("gt.remaining"));
 		aList.add(LH.get("gt.behaviour.paintspray.uses") + " " + (tRemaining / 10) + "." + (tRemaining % 10));
 		aList.add(LH.get("gt.behaviour.unstackable"));

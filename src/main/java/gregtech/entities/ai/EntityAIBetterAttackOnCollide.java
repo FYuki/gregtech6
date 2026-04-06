@@ -23,16 +23,16 @@ import static gregapi.data.CS.*;
 
 import gregapi.util.ST;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 // Started off as a refactored copy of `EntityAIAttackOnCollide`
 public class EntityAIBetterAttackOnCollide extends EntityAIBase {
@@ -55,7 +55,7 @@ public class EntityAIBetterAttackOnCollide extends EntityAIBase {
 	
 	@Override
 	public boolean shouldExecute() {
-		EntityLivingBase entitylivingbase = mCreature.getAttackTarget();
+		LivingEntity entitylivingbase = mCreature.getAttackTarget();
 		if (entitylivingbase == null) return F;
 		if (!entitylivingbase.isEntityAlive()) return F;
 		if (mTargetClass != null && !mTargetClass.isAssignableFrom(entitylivingbase.getClass())) return F;
@@ -70,7 +70,7 @@ public class EntityAIBetterAttackOnCollide extends EntityAIBase {
 	
 	@Override
 	public boolean continueExecuting() {
-		EntityLivingBase tTarget = mCreature.getAttackTarget();
+		LivingEntity tTarget = mCreature.getAttackTarget();
 		return tTarget != null && tTarget.isEntityAlive() && (!mLastingMemory ? !mCreature.getNavigator().noPath() : mCreature.isWithinHomeDistance(MathHelper.floor_double(tTarget.posX), MathHelper.floor_double(tTarget.posY), MathHelper.floor_double(tTarget.posZ)));
 	}
 	
@@ -87,7 +87,7 @@ public class EntityAIBetterAttackOnCollide extends EntityAIBase {
 	
 	@Override
 	public void updateTask() {
-		EntityLivingBase tTarget = mCreature.getAttackTarget();
+		LivingEntity tTarget = mCreature.getAttackTarget();
 		mCreature.getLookHelper().setLookPositionWithEntity(tTarget, 30, 30);
 		double tTargetDistance = mCreature.getDistanceSq(tTarget.posX, tTarget.boundingBox.minY, tTarget.posZ);
 		double tLookRadius = mCreature.width * mCreature.width * 4 + tTarget.width;
@@ -127,7 +127,7 @@ public class EntityAIBetterAttackOnCollide extends EntityAIBase {
 			
 			if (tHeld != null) {
 				mCreature.swingItem();
-				if (ZOMBIES_IGNITE_HELD_TNT && ST.equal_(tHeld, Blocks.tnt)) {
+				if (ZOMBIES_IGNITE_HELD_TNT && ST.equal_(tHeld, Blocks.TNT)) {
 					mAttackCoolDown = 20;
 					tAttacking = F;
 					

@@ -26,11 +26,11 @@ import gregapi.render.IIconContainer;
 import gregapi.tileentity.ITileEntityMachineBlockUpdateable;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.item.ItemBlock;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies

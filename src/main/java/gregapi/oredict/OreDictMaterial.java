@@ -33,10 +33,10 @@ import gregapi.render.TextureSet;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.ItemStack;
+// PHASE3: import Achievement removed — use Advancement
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.*;
 

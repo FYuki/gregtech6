@@ -30,8 +30,8 @@ import gregapi.util.CR;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
 
@@ -54,9 +54,9 @@ public class Compat_Recipes_Ganys extends CompatMods {
 			RM.ic2_extractor(                       ST.make(MD.EtFu, "slime", 1, 0), ST.make(Items.slime_ball, 9, 0));
 			RM.Squeezer.addRecipe1(T, 16, 16,       ST.make(MD.EtFu, "sponge", 1, 1), NF, FL.Water.make(125), ST.make(MD.EtFu, "sponge", 1, 0));
 			RM.Drying.addRecipe1(T, 16, 16,         ST.make(MD.EtFu, "sponge", 1, 1), NF, FL.DistW.make(125), ST.make(MD.EtFu, "sponge", 1, 0));
-			RM.smash(                               ST.make(MD.EtFu, "red_sandstone", 1, W), ST.make(Blocks.sand, 1, 1));
+			RM.smash(                               ST.make(MD.EtFu, "red_sandstone", 1, W), ST.make(Blocks.SAND, 1, 1));
 			RM.sawing(16, 16, F, 100,               ST.make(MD.EtFu, "red_sandstone", 1, W), ST.make(MD.EtFu, "red_sandstone_slab", 2, 0));
-			RM.Compressor.addRecipe1(T, 16, 32,     ST.make(Blocks.sand, 4, 1), ST.make(MD.EtFu, "red_sandstone", 1, 0));
+			RM.Compressor.addRecipe1(T, 16, 32,     ST.make(Blocks.SAND, 4, 1), ST.make(MD.EtFu, "red_sandstone", 1, 0));
 			RM.smash(                               IL.EtFu_Quartz_Bricks.get(1), OP.gem.mat(MT.NetherQuartz, 4));
 			RM.compactsmash(                        OP.gem.mat(MT.Amethyst, 4), IL.EtFu_Amethyst.get(1));
 			RM.generify(                            ST.make(Blocks.sponge, 1, W), ST.make(MD.EtFu, "sponge", 1, 0));
@@ -319,7 +319,7 @@ public class Compat_Recipes_Ganys extends CompatMods {
 			
 			CR.remove(OP.nugget.mat(MT.Blaze, 1), NI, NI, OP.nugget.mat(MT.Blaze, 1), NI, NI, OP.nugget.mat(MT.Blaze, 1));
 			
-			RM.Mixer.addRecipe2(T, 16, 32, ST.make(MD.GaNe, "spookyFlour", 2, 0), ST.make(Blocks.sand, 1, W), ST.make(Blocks.soul_sand, 2, 0));
+			RM.Mixer.addRecipe2(T, 16, 32, ST.make(MD.GaNe, "spookyFlour", 2, 0), ST.make(Blocks.SAND, 1, W), ST.make(Blocks.soul_sand, 2, 0));
 		}
 		if (MD.GaEn.mLoaded) {OUT.println("GT_Mod: Doing Recipes for Ganys End.");
 			//

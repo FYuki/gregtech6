@@ -21,9 +21,9 @@ package gregapi.code;
 
 import gregapi.GT_API;
 import gregapi.util.ST;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.HashMap;
 

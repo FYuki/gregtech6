@@ -29,9 +29,9 @@ import gregapi.tileentity.machines.ITileEntityRunningPassively;
 import gregapi.tileentity.machines.ITileEntityRunningPossible;
 import gregapi.tileentity.machines.ITileEntitySwitchableOnOff;
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 

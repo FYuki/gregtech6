@@ -56,20 +56,20 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.wooddict.PlankEntry;
 import gregapi.worldgen.WorldgenObject;
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos; // was BlockPos
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.core.Direction; // was Direction
 import net.minecraftforge.fluids.*;
-import net.minecraftforge.oredict.OreDictionary;
+// PHASE7: import OreDictionary removed — replaced by Tags
 
 import java.io.File;
 import java.io.PrintStream;
@@ -305,7 +305,7 @@ public class CS {
 	// "Wasteland City", "Fens", "Carr", "Kakadu", "Scree", "Scrub", "Basin", "Badlands", "Outback", "Windy Island", "Cold Plains", "Cold Forest", "Hot Plains", "Hot Forest"
 	
 	/** Stores the Coordinates that any given Player last interacted with. */
-	public static final Map<EntityPlayer, ChunkCoordinates> PLAYER_LAST_CLICKED = new IdentityHashMap<>();
+	public static final Map<Player, BlockPos> PLAYER_LAST_CLICKED = new IdentityHashMap<>();
 	
 	/** a Random generator so I don't need to instantiate a new one all the time. */
 	public static final Random RNGSUS = new Random(), RANDOM = RNGSUS;
@@ -630,10 +630,10 @@ public class CS {
 											CUBE_3_Z = {0, 0, 0,-1,+1, 0, 0,-1,+1, 0, 0,-1,+1, 0, 0,-1,+1,-1,+1,-1,+1,-1,+1,-1,+1,-1,+1},
 											CUBE_3[] = {{ 0, 0, 0}, { 0,-1, 0}, { 0,+1, 0}, { 0, 0,-1}, { 0, 0,+1}, {-1, 0, 0}, {+1, 0, 0}, { 0,-1,-1}, { 0,-1,+1}, {-1,-1, 0}, {+1,-1, 0}, { 0,+1,-1}, { 0,+1,+1}, {-1,+1, 0}, {+1,+1, 0}, {-1, 0,-1}, {+1, 0,+1}, {+1, 0,-1}, {-1, 0,+1}, {-1,-1,-1}, {+1,-1,+1}, {+1,-1,-1}, {-1,-1,+1}, {-1,+1,-1}, {+1,+1,+1}, {+1,+1,-1}, {-1,+1,+1}};
 	
-	/** Side->ForgeDirection Mappings. */
-	public static final ForgeDirection[]    FORGE_DIR = {ForgeDirection.DOWN, ForgeDirection.UP, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST, ForgeDirection.UNKNOWN};
-	/** Side->Opposite Mappings with ForgeDirection. */
-	public static final ForgeDirection[]    FORGE_DIR_OPPOSITES = {ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.SOUTH, ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.UNKNOWN};
+	/** Side->Direction Mappings. */
+	public static final Direction[]    FORGE_DIR = {Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST, Direction.UNKNOWN};
+	/** Side->Opposite Mappings with Direction. */
+	public static final Direction[]    FORGE_DIR_OPPOSITES = {Direction.UP, Direction.DOWN, Direction.SOUTH, Direction.NORTH, Direction.EAST, Direction.WEST, Direction.UNKNOWN};
 	
 	/** Compass alike Array for the proper ordering of North, East, South and West. */
 	public static final byte[]              COMPASS_DIRECTIONS      = {SIDE_NORTH, SIDE_EAST, SIDE_SOUTH, SIDE_WEST};
@@ -835,8 +835,8 @@ public class CS {
 	/** Zero-Length Array to save on Memory. */ public static final OreDictItemData         [] ZL_OREDICTITEMDATA   = new OreDictItemData[0];
 	/** Zero-Length Array to save on Memory. */ public static final OreDictPrefix           [] ZL_OREDICTPREFIX     = new OreDictPrefix[0];
 	/** Zero-Length Array to save on Memory. */ public static final ObjectStack<?>          [] ZL_OBJECTSTACK       = new ObjectStack[0];
-	/** Zero-Length Array to save on Memory. */ public static final ForgeDirection          [] ZL_FORGEDIRECTION    = new ForgeDirection[0];
-	/** Zero-Length Array to save on Memory. */ public static final ChunkCoordinates        [] ZL_COORDS            = new ChunkCoordinates[0];
+	/** Zero-Length Array to save on Memory. */ public static final Direction          [] ZL_FORGEDIRECTION    = new Direction[0];
+	/** Zero-Length Array to save on Memory. */ public static final BlockPos        [] ZL_COORDS            = new BlockPos[0];
 	/** Zero-Length Array to save on Memory. */ public static final Recipe                  [] ZL_RECIPE            = new Recipe[0];
 	/** Zero-Length Array to save on Memory. */ public static final IIconContainer          [] ZL_IICONCONTAINER    = new IIconContainer[0], L6_IICONCONTAINER  = new IIconContainer[6], L1L6_IICONCONTAINER[] = new IIconContainer[][] {L6_IICONCONTAINER};
 
@@ -847,7 +847,7 @@ public class CS {
 	public static final FluidStack NF = null;
 
 	/** This way it is possible to have a Call Hierarchy of NullPointers in Block based Functions, and also because most of the time I don't know what kind of Data Type the "null" stands for, when there are shitloads of Parameters for a Function */
-	public static final Block NB = Blocks.air;
+	public static final Block NB = Blocks.AIR;
 	
 	/** The Logs: Debug, Output, Error, OreDict and Material List. */
 	public static PrintStream DEB = new LogBuffer(), OUT = new LogBuffer(), ERR = new LogBuffer(), ORD = new LogBuffer(), MAT_LOG = null;
@@ -888,7 +888,7 @@ public class CS {
 	public static int ITEM_DESPAWN_TIME = 6000;
 	
 	/** Gets set when the Player dies. Only works Client Side and gets lost when the Client restarts, but not when the Client just relogs. */
-	public static ChunkCoordinates LAST_DEATH_OF_THE_PLAYER = null;
+	public static BlockPos LAST_DEATH_OF_THE_PLAYER = null;
 	
 	/** Gets set when a TileEntity gets broken, in order to be able to access it for Drops, even though it just got deleted. */
 	public static ThreadLocal<TileEntity> LAST_BROKEN_TILEENTITY = new ThreadLocal<>();
@@ -1361,9 +1361,9 @@ public class CS {
 	;
 	
 	/** List of Visually Full Opaque Blocks. For minor Render optimisations. */
-	public static final HashSetNoNulls<Block> VISUALLY_OPAQUE_BLOCKS = new HashSetNoNulls<>(F, Blocks.bedrock, Blocks.command_block, Blocks.hardened_clay, Blocks.stained_hardened_clay, Blocks.gravel, Blocks.sand, Blocks.sandstone, Blocks.end_stone, Blocks.nether_brick, Blocks.netherrack, Blocks.obsidian, Blocks.planks, Blocks.log, Blocks.log2, Blocks.stone, Blocks.cobblestone, Blocks.mossy_cobblestone, Blocks.grass, Blocks.dirt, Blocks.clay, Blocks.stonebrick, Blocks.redstone_block, Blocks.glowstone, Blocks.redstone_lamp, Blocks.lit_redstone_lamp, Blocks.lit_redstone_ore, Blocks.pumpkin, Blocks.melon_block, Blocks.dispenser, Blocks.dropper);
+	public static final HashSetNoNulls<Block> VISUALLY_OPAQUE_BLOCKS = new HashSetNoNulls<>(F, Blocks.BEDROCK, Blocks.COMMAND_BLOCK, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.GRAVEL, Blocks.SAND, Blocks.SANDSTONE, Blocks.END_STONE, Blocks.NETHER_BRICKS, Blocks.NETHERRACK, Blocks.OBSIDIAN, Blocks.OAK_PLANKS, Blocks.OAK_LOG, Blocks.DARK_OAK_LOG, Blocks.STONE, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE, Blocks.GRASS_BLOCK, Blocks.DIRT, Blocks.CLAY, Blocks.STONE_BRICKS, Blocks.REDSTONE_BLOCK, Blocks.GLOWSTONE, Blocks.REDSTONE_LAMP, Blocks.REDSTONE_LAMP, Blocks.DEEPSLATE_REDSTONE_ORE, Blocks.PUMPKIN, Blocks.MELON, Blocks.DISPENSER, Blocks.DROPPER);
 	/** List of Visually Full Opaque Blocks. For minor Render optimisations. */
-	public static final HashSetNoNulls<Block> REDSTONE_SINKS = new HashSetNoNulls<>(F, Blocks.tnt, Blocks.golden_rail, Blocks.noteblock, Blocks.trapdoor, Blocks.wooden_door, Blocks.iron_door, Blocks.piston, Blocks.sticky_piston, Blocks.dispenser, Blocks.dropper, Blocks.redstone_lamp, Blocks.lit_redstone_lamp);
+	public static final HashSetNoNulls<Block> REDSTONE_SINKS = new HashSetNoNulls<>(F, Blocks.TNT, Blocks.POWERED_RAIL, Blocks.NOTE_BLOCK, Blocks.OAK_TRAPDOOR, Blocks.OAK_DOOR, Blocks.IRON_DOOR, Blocks.PISTON, Blocks.STICKY_PISTON, Blocks.DISPENSER, Blocks.DROPPER, Blocks.REDSTONE_LAMP, Blocks.REDSTONE_LAMP);
 	
 	public static class GarbageGT {
 		public static ItemStackSet<ItemStackContainer> BLACKLIST = ST.hashset();
@@ -1460,7 +1460,7 @@ public class CS {
 		public static void onServerSave(File aSaveLocation) {
 			File aTargetFile = new File(new File(aSaveLocation, "gregtech"), "endergarbage.items.dat");
 			if (!aTargetFile.exists()) {try {aTargetFile.createNewFile();} catch (Throwable e) {e.printStackTrace(ERR);}}
-			NBTTagCompound aNBT = UT.NBT.make();
+			CompoundTag aNBT = UT.NBT.make();
 			for (int i = 0; i < GARBAGE_ITEMS.size(); i++) ST.save(aNBT, ""+i, GARBAGE_ITEMS.get(i));
 			try {CompressedStreamTools.write(aNBT, aTargetFile);} catch (Throwable e) {e.printStackTrace(ERR);}
 			
@@ -1475,7 +1475,7 @@ public class CS {
 			GARBAGE_ITEMS.clear();
 			File aTargetFile = new File(new File(aSaveLocation, "gregtech"), "endergarbage.items.dat");
 			if (aTargetFile.exists()) {
-				NBTTagCompound aNBT = UT.NBT.make();
+				CompoundTag aNBT = UT.NBT.make();
 				try {aNBT = CompressedStreamTools.read(aTargetFile);} catch (Throwable e) {e.printStackTrace(ERR);}
 				for (int i = 0; i < Integer.MAX_VALUE; i++) {
 					if (!aNBT.hasKey(""+i)) break;
@@ -1488,7 +1488,7 @@ public class CS {
 			GARBAGE_FLUIDS.clear();
 			aTargetFile = new File(new File(aSaveLocation, "gregtech"), "endergarbage.fluids.dat");
 			if (aTargetFile.exists()) {
-				NBTTagCompound aNBT = UT.NBT.make();
+				CompoundTag aNBT = UT.NBT.make();
 				try {aNBT = CompressedStreamTools.read(aTargetFile);} catch (Throwable e) {e.printStackTrace(ERR);}
 				for (int i = 0; i < Integer.MAX_VALUE; i++) {
 					if (!aNBT.hasKey(""+i)) break;
@@ -1684,13 +1684,13 @@ public class CS {
 		public static final Set<Object> stoneOverridable      = new HashSetNoNulls<>(F);
 		public static final Set<Object> instaharvest          = new HashSetNoNulls<>(F, Blocks.torch, Blocks.redstone_torch, Blocks.unlit_redstone_torch, Blocks.redstone_wire, Blocks.powered_comparator, Blocks.unpowered_comparator, Blocks.powered_repeater, Blocks.unpowered_repeater, Blocks.skull, Blocks.monster_egg);
 		public static final Set<Object> breakableGlass        = new HashSetNoNulls<>(F, Blocks.glass, Blocks.glass_pane, Blocks.stained_glass, Blocks.stained_glass_pane);
-		public static final Set<Object> openableCrowbar       = new HashSetNoNulls<>(F, Blocks.iron_block, Blocks.gold_block, Blocks.lapis_block, Blocks.diamond_block, Blocks.emerald_block, Blocks.redstone_block, Blocks.coal_block);
-		public static final Set<Object> drillableDynamite     = new HashSetNoNulls<>(F, Blocks.grass, Blocks.dirt, Blocks.mycelium, Blocks.clay, Blocks.snow, Blocks.gravel, Blocks.sandstone, Blocks.cobblestone, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.end_stone, Blocks.hardened_clay, Blocks.stained_hardened_clay, Blocks.iron_ore, Blocks.gold_ore, Blocks.lapis_ore, Blocks.diamond_ore, Blocks.emerald_ore, Blocks.redstone_ore, Blocks.lit_redstone_ore, Blocks.coal_ore, Blocks.quartz_ore, Blocks.monster_egg);
-		public static final Set<Object> harvestableJackhammer = new HashSetNoNulls<>(F, Blocks.stone, Blocks.sandstone, Blocks.cobblestone, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.end_stone, Blocks.hardened_clay, Blocks.stained_hardened_clay, Blocks.monster_egg);
-		public static final Set<Object> harvestableSpade      = new HashSetNoNulls<>(F, Blocks.grass, Blocks.dirt, Blocks.mycelium, Blocks.clay, Blocks.snow, Blocks.gravel);
-		public static final Set<Object> plantableGreens       = new HashSetNoNulls<>(F, Blocks.grass, Blocks.dirt, Blocks.farmland);
-		public static final Set<Object> plantableTrees        = new HashSetNoNulls<>(F, Blocks.grass, Blocks.dirt);
-		public static final Set<Object> plantableGrass        = new HashSetNoNulls<>(F, Blocks.grass);
+		public static final Set<Object> openableCrowbar       = new HashSetNoNulls<>(F, Blocks.iron_block, Blocks.gold_block, Blocks.lapis_block, Blocks.diamond_block, Blocks.emerald_block, Blocks.REDSTONE_BLOCK, Blocks.coal_block);
+		public static final Set<Object> drillableDynamite     = new HashSetNoNulls<>(F, Blocks.GRASS_BLOCK, Blocks.DIRT, Blocks.mycelium, Blocks.CLAY, Blocks.snow, Blocks.GRAVEL, Blocks.SANDSTONE, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.END_STONE, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.iron_ore, Blocks.gold_ore, Blocks.lapis_ore, Blocks.diamond_ore, Blocks.emerald_ore, Blocks.redstone_ore, Blocks.DEEPSLATE_REDSTONE_ORE, Blocks.coal_ore, Blocks.quartz_ore, Blocks.monster_egg);
+		public static final Set<Object> harvestableJackhammer = new HashSetNoNulls<>(F, Blocks.STONE, Blocks.SANDSTONE, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.END_STONE, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA, Blocks.monster_egg);
+		public static final Set<Object> harvestableSpade      = new HashSetNoNulls<>(F, Blocks.GRASS_BLOCK, Blocks.DIRT, Blocks.mycelium, Blocks.CLAY, Blocks.snow, Blocks.GRAVEL);
+		public static final Set<Object> plantableGreens       = new HashSetNoNulls<>(F, Blocks.GRASS_BLOCK, Blocks.DIRT, Blocks.farmland);
+		public static final Set<Object> plantableTrees        = new HashSetNoNulls<>(F, Blocks.GRASS_BLOCK, Blocks.DIRT);
+		public static final Set<Object> plantableGrass        = new HashSetNoNulls<>(F, Blocks.GRASS_BLOCK);
 		
 		/** Blocks to not generate Ores in. */
 		public static ItemStackSet<ItemStackContainer> sDontGenerateOresIn = ST.hashset();
@@ -1759,8 +1759,8 @@ public class CS {
 		public static PlankEntry     PLANK_ENTRIES[] = new PlankEntry    [300];
 		
 		static {
-			PLANKS[0] = ST.make(Blocks.planks, 1, 0);
-			Arrays.fill(PLANK_ICONS, new IconContainerCopied(Blocks.planks, 0, 0));
+			PLANKS[0] = ST.make(Blocks.OAK_PLANKS, 1, 0);
+			Arrays.fill(PLANK_ICONS, new IconContainerCopied(Blocks.OAK_PLANKS, 0, 0));
 		}
 	}
 	

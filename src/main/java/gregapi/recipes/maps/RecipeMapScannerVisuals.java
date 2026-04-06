@@ -29,12 +29,12 @@ import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Collection;
 
@@ -63,8 +63,8 @@ public class RecipeMapScannerVisuals extends RecipeMap {
 		mMappings.put(Items.comparator      , W, ST.make(Blocks.powered_comparator, 1, 0));
 		mMappings.put(Items.repeater        , W, ST.make(Blocks.powered_repeater, 1, 0));
 		mMappings.put(Items.bed             , W, ST.make(Blocks.bed, 1, 0));
-		mMappings.put(Items.iron_door       , W, ST.make(Blocks.iron_door, 1, 0));
-		mMappings.put(Items.wooden_door     , W, ST.make(Blocks.wooden_door, 1, 0));
+		mMappings.put(Items.iron_door       , W, ST.make(Blocks.IRON_DOOR, 1, 0));
+		mMappings.put(Items.wooden_door     , W, ST.make(Blocks.OAK_DOOR, 1, 0));
 		mMappings.put(Items.ender_pearl     , W, ST.make(Blocks.portal, 1, 0));
 		mMappings.put(Items.ender_eye       , W, ST.make(Blocks.end_portal_frame, 1, 0));
 		mMappings.put(Items.water_bucket    , W, ST.make(Blocks.water, 1, 0));
@@ -101,7 +101,7 @@ public class RecipeMapScannerVisuals extends RecipeMap {
 						if (tScanned.hasTagCompound() && tScanned.getTagCompound().hasKey(NBT_CANVAS_BLOCK)) {
 							rRecipe = new Recipe(F, F, F, ST.array(ST.amount(1, tScanned), ST.amount(1, tUSB)), ST.array(ST.amount(1, tUSB), ST.amount(1, tScanned)), null, null, null, null, 64, 16, 0);
 							if (!rRecipe.mOutputs[0].hasTagCompound()) rRecipe.mOutputs[0].setTagCompound(UT.NBT.make());
-							NBTTagCompound tNBT = UT.NBT.make();
+							CompoundTag tNBT = UT.NBT.make();
 							tNBT.setInteger(NBT_CANVAS_BLOCK, tScanned.getTagCompound().getInteger(NBT_CANVAS_BLOCK));
 							tNBT.setInteger(NBT_CANVAS_META, tScanned.getTagCompound().getInteger(NBT_CANVAS_META));
 							rRecipe.mOutputs[0].getTagCompound().setTag(NBT_USB_DATA, tNBT);
@@ -180,7 +180,7 @@ public class RecipeMapScannerVisuals extends RecipeMap {
 					if (tBlock != null && tBlock != NB) {
 						rRecipe = new Recipe(F, F, F, ST.array(ST.amount(1, tScanned), ST.amount(1, tUSB)), ST.array(ST.amount(1, tUSB), ST.amount(1, tScanned)), null, null, null, null, 512, 16, 0);
 						if (!rRecipe.mOutputs[0].hasTagCompound()) rRecipe.mOutputs[0].setTagCompound(UT.NBT.make());
-						NBTTagCompound tNBT = UT.NBT.make();
+						CompoundTag tNBT = UT.NBT.make();
 						tNBT.setInteger(NBT_CANVAS_BLOCK, Block.getIdFromBlock(tBlock));
 						tNBT.setInteger(NBT_CANVAS_META, ST.meta_(tScanned));
 						rRecipe.mOutputs[0].getTagCompound().setTag(NBT_USB_DATA, tNBT);

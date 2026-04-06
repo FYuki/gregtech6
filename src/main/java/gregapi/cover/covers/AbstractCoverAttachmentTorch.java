@@ -23,8 +23,8 @@ import gregapi.cover.CoverData;
 import gregapi.cover.ITileEntityCoverable;
 import gregapi.tileentity.connectors.MultiTileEntityWireRedstoneInsulated;
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.*;
 

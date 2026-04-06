@@ -20,8 +20,8 @@
 package gregapi.item;
 
 import gregapi.data.LH;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
+import net.minecraft.world.item.Item;
 
 /**
  * @author Gregorius Techneticies

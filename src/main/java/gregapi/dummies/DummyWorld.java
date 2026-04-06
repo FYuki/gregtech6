@@ -26,21 +26,21 @@ import java.util.Random;
 
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.profiler.Profiler;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldSettings;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.chunk.storage.IChunkLoader;
-import net.minecraft.world.storage.IPlayerFileData;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.WorldInfo;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+// PHASE3: import Profiler removed
+import net.minecraft.world.level.Level;
+// PHASE3: import WorldProvider removed — use DimensionType
+// PHASE3: import WorldSettings removed
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE3: import IChunkProvider removed
+// PHASE3: import IChunkLoader removed
+// PHASE3: import IPlayerFileData removed
+// PHASE3: import ISaveHandler removed
+// PHASE3: import WorldInfo removed
 
 public class DummyWorld extends World {
 	public class GT_IteratorRandom extends Random {
@@ -67,7 +67,7 @@ public class DummyWorld extends World {
 	public DummyWorld() {
 		this(
 		new ISaveHandler() {
-			@Override public void saveWorldInfoWithPlayer(WorldInfo var1, NBTTagCompound var2) {/*Do nothing*/}
+			@Override public void saveWorldInfoWithPlayer(WorldInfo var1, CompoundTag var2) {/*Do nothing*/}
 			@Override public void saveWorldInfo(WorldInfo var1) {/*Do nothing*/}
 			@Override public WorldInfo loadWorldInfo() {return null;}
 			@Override public IPlayerFileData getSaveHandler() {return null;}
@@ -121,7 +121,7 @@ public class DummyWorld extends World {
 	
 	@Override
 	public Block getBlock(int aX, int aY, int aZ) {
-		if (aX >= 16 && aZ >= 16 && aX < 32 && aZ < 32) return aY == 64?Blocks.grass:NB;
+		if (aX >= 16 && aZ >= 16 && aX < 32 && aZ < 32) return aY == 64?Blocks.GRASS_BLOCK:NB;
 		return NB;
 	}
 	

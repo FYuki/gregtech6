@@ -31,11 +31,11 @@ import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Collection;
 
@@ -57,7 +57,7 @@ public class RecipeMapReplicator extends RecipeMap {
 		if (rRecipe != null || aInputs == null || aFluids == null || GAPI_POST.mFinishedServerStarted <= 0) return rRecipe;
 		
 		ItemStack tUSB = null;
-		NBTTagCompound tData = null;
+		CompoundTag tData = null;
 		for (ItemStack aInput : aInputs) if (aInput != null) {
 			if (tData == null) {
 				if (OM.is_(OD_USB_STICKS[3], aInput)) {

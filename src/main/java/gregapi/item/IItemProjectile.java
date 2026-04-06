@@ -20,10 +20,10 @@
 package gregapi.item;
 
 import gregapi.code.TagData;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
@@ -34,7 +34,7 @@ public interface IItemProjectile {
 	/** @return an Arrow Entity to be spawned. If null then this is not an Arrow. Note: Other Projectiles still extend EntityArrow */
 	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ);
 	/** @return an Arrow Entity to be spawned. If null then this is not an Arrow. Note: Other Projectiles still extend EntityArrow */
-	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, EntityLivingBase aEntity, float aSpeed);
+	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed);
 	
 	/** Class for being able to set the ItemStack when launching the Projectile. And for de-obfuscation of Parameters. */
 	public static abstract class EntityProjectile extends EntityArrow {
@@ -44,10 +44,10 @@ public interface IItemProjectile {
 		public EntityProjectile(World aWorld, double aX, double aY, double aZ) {
 			super(aWorld, aX, aY, aZ);
 		}
-		public EntityProjectile(World aWorld, EntityLivingBase aShootingEntity, EntityLivingBase aWhateverThatIs, float aSpeed, float aPrecision) {
+		public EntityProjectile(World aWorld, LivingEntity aShootingEntity, LivingEntity aWhateverThatIs, float aSpeed, float aPrecision) {
 			super(aWorld, aShootingEntity, aWhateverThatIs, aSpeed, aPrecision);
 		}
-		public EntityProjectile(World aWorld, EntityLivingBase aShootingEntity, float aSpeed) {
+		public EntityProjectile(World aWorld, LivingEntity aShootingEntity, float aSpeed) {
 			super(aWorld, aShootingEntity, aSpeed);
 		}
 		

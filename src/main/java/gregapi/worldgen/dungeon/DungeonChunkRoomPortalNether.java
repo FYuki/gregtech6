@@ -24,10 +24,10 @@ import static gregapi.data.CS.*;
 import gregapi.data.IL;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListTag;
 
 /**
  * @author Gregorius Techneticies
@@ -38,10 +38,10 @@ public class DungeonChunkRoomPortalNether extends DungeonChunkRoomPortal {
 		if (aData.mTags.contains(WorldgenDungeonGT.TAG_PORTAL_NETHER) || !super.generate(aData)) return F;
 		aData.mTags.add(WorldgenDungeonGT.TAG_PORTAL_NETHER);
 		
-		NBTTagList tInventory = new NBTTagList();
-		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.make(Blocks.obsidian  , 16, 0)), "s", (short) 4));
-		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.make(Blocks.netherrack, 16, 0)), "s", (short)11));
-		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.make(Blocks.glowstone , 16, 0)), "s", (short)15));
+		ListTag tInventory = new ListTag();
+		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.make(Blocks.OBSIDIAN  , 16, 0)), "s", (short) 4));
+		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.make(Blocks.NETHERRACK, 16, 0)), "s", (short)11));
+		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.make(Blocks.GLOWSTONE , 16, 0)), "s", (short)15));
 		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.book("Manual_Hunting_Blaze"  )), "s", (short)22));
 		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.make(Items.ghast_tear ,  4, 0)), "s", (short)29));
 		tInventory.appendTag(UT.NBT.makeShort(ST.save(ST.make(Items.blaze_rod  ,  4, 0)), "s", (short)33));
@@ -49,9 +49,9 @@ public class DungeonChunkRoomPortalNether extends DungeonChunkRoomPortal {
 		
 		for (int tX = 1; tX < 15; tX++) for (int tZ = 1; tZ < 15; tZ++) {
 			if ((tX == 3 || tX == 6 || tX == 9 || tX == 12) && (tZ == 3 || tZ == 6 || tZ == 9 || tZ == 12)) {
-				aData.set(tX, 0, tZ, Blocks.glowstone, 0);
+				aData.set(tX, 0, tZ, Blocks.GLOWSTONE, 0);
 			} else {
-				aData.set(tX, 0, tZ, Blocks.netherrack, 0);
+				aData.set(tX, 0, tZ, Blocks.NETHERRACK, 0);
 			}
 		}
 		

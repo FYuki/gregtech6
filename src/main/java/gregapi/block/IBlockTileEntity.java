@@ -19,7 +19,7 @@
 
 package gregapi.block;
 
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.IBlockAccess;
 
 /**

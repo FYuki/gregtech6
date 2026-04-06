@@ -24,12 +24,12 @@ import gregapi.data.*;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ChestGenHooks;
 import twilightforest.TFTreasure;
 import twilightforest.TFTreasureTable;
@@ -144,7 +144,7 @@ public class TwilightTreasureReplacer extends TFTreasure {
 			useless  .add(Items.nether_wart, 12);
 			useless  .add(Items.quartz, 48);
 			useless  .add(Blocks.soul_sand, 24);
-			useless  .add(Blocks.netherrack, 36);
+			useless  .add(Blocks.NETHERRACK, 36);
 			if (IL.EtFu_Magmatic_Netherrack.exists())
 			useless  .add(IL.EtFu_Magmatic_Netherrack.get(24));
 		}
@@ -192,7 +192,7 @@ public class TwilightTreasureReplacer extends TFTreasure {
 			useless  .clear();
 			// Dimension Stuff that is nowhere else to be found.
 			useless  .add(Items.quartz, 48);
-			useless  .add(Blocks.end_stone, 36);
+			useless  .add(Blocks.END_STONE, 36);
 			if (IL.EtFu_Magmatic_Netherrack.exists())
 			useless  .add(IL.EtFu_Magmatic_Netherrack.get(24));
 		}
@@ -266,7 +266,7 @@ public class TwilightTreasureReplacer extends TFTreasure {
 			// Enderpearls are a bitch to get in Twilight Forest.
 			useless  .add(Items.ender_pearl, 16);
 			// Dimension Stuff that is nowhere else to be found.
-			useless  .add(Blocks.end_stone, 64);
+			useless  .add(Blocks.END_STONE, 64);
 			if (IL.EtFu_Chorus_Fruit.exists())
 			useless  .add(IL.EtFu_Chorus_Fruit.get(24));
 			if (IL.EtFu_Chorus_Flower.exists())

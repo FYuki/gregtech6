@@ -55,27 +55,27 @@ import gregapi.util.WD;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyTile;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.core.Direction; // was Direction
 import net.minecraftforge.fluids.*;
 
 import java.util.Collection;
@@ -114,7 +114,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	/** If this TileEntity is ticking at all */
 	public final boolean mIsTicking;
 	
-	private final ChunkCoordinates mReturnedCoordinates = new ChunkCoordinates();
+	private final BlockPos mReturnedCoordinates = new BlockPos();
 	
 	public TileEntityBase01Root(boolean aIsTicking) {
 		mIsTicking = aIsTicking;
@@ -131,7 +131,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound aNBT) {
+	public void readFromNBT(CompoundTag aNBT) {
 		// load ID and Coords
 		if (aNBT.hasKey("x")) xCoord = aNBT.getInteger("x");
 		if (aNBT.hasKey("y")) yCoord = aNBT.getInteger("y");
@@ -141,7 +141,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound aNBT) {
+	public void writeToNBT(CompoundTag aNBT) {
 		// make sure Y is not negative because this causes crashes.
 		if (yCoord < 0) WD.invalidateTileEntityWithNegativeYCoord(xCoord, yCoord, zCoord, this);
 		// save ID and Coords
@@ -171,17 +171,17 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	@Override public int getOffsetXN(byte aSide, int aMultiplier) {return xCoord - OFFX[aSide] * aMultiplier;}
 	@Override public int getOffsetYN(byte aSide, int aMultiplier) {return yCoord - OFFY[aSide] * aMultiplier;}
 	@Override public int getOffsetZN(byte aSide, int aMultiplier) {return zCoord - OFFZ[aSide] * aMultiplier;}
-	@Override public ChunkCoordinates getCoords() {mReturnedCoordinates.posX = xCoord; mReturnedCoordinates.posY = yCoord; mReturnedCoordinates.posZ = zCoord; return mReturnedCoordinates;}
-	@Override public ChunkCoordinates getOffset (byte aSide, int aMultiplier) {return new ChunkCoordinates(getOffsetX (aSide, aMultiplier), getOffsetY (aSide, aMultiplier), getOffsetZ (aSide, aMultiplier));}
-	@Override public ChunkCoordinates getOffsetN(byte aSide, int aMultiplier) {return new ChunkCoordinates(getOffsetXN(aSide, aMultiplier), getOffsetYN(aSide, aMultiplier), getOffsetZN(aSide, aMultiplier));}
+	@Override public BlockPos getCoords() {mReturnedCoordinates.posX = xCoord; mReturnedCoordinates.posY = yCoord; mReturnedCoordinates.posZ = zCoord; return mReturnedCoordinates;}
+	@Override public BlockPos getOffset (byte aSide, int aMultiplier) {return new BlockPos(getOffsetX (aSide, aMultiplier), getOffsetY (aSide, aMultiplier), getOffsetZ (aSide, aMultiplier));}
+	@Override public BlockPos getOffsetN(byte aSide, int aMultiplier) {return new BlockPos(getOffsetXN(aSide, aMultiplier), getOffsetYN(aSide, aMultiplier), getOffsetZN(aSide, aMultiplier));}
 	@Override public boolean isServerSide() {return worldObj == null ? cpw.mods.fml.common.FMLCommonHandler.instance().getEffectiveSide().isServer() : !worldObj.isRemote;}
 	@Override public boolean isClientSide() {return worldObj == null ? cpw.mods.fml.common.FMLCommonHandler.instance().getEffectiveSide().isClient() :  worldObj.isRemote;}
-	@Override public boolean openGUI(EntityPlayer aPlayer) {return openGUI(aPlayer, 0);}
-	@Override public boolean openGUI(EntityPlayer aPlayer, int aID) {if (aPlayer == null) return F; aPlayer.openGui(GAPI, aID, worldObj, xCoord, yCoord, zCoord); return T;}
+	@Override public boolean openGUI(Player aPlayer) {return openGUI(aPlayer, 0);}
+	@Override public boolean openGUI(Player aPlayer, int aID) {if (aPlayer == null) return F; aPlayer.openGui(GAPI, aID, worldObj, xCoord, yCoord, zCoord); return T;}
 	@Override public int getRandomNumber(int aRange) {return RNGSUS.nextInt(aRange);}
 	@Override public int rng(int aRange) {return RNGSUS.nextInt(aRange);}
 	public boolean rng() {return RNGSUS.nextBoolean();}
-	@Override public BiomeGenBase getBiome(ChunkCoordinates aCoords) {return worldObj==null?BiomeGenBase.plains:worldObj.getBiomeGenForCoords(aCoords.posX, aCoords.posZ);}
+	@Override public BiomeGenBase getBiome(BlockPos aCoords) {return worldObj==null?BiomeGenBase.plains:worldObj.getBiomeGenForCoords(aCoords.posX, aCoords.posZ);}
 	@Override public BiomeGenBase getBiome(int aX, int aZ) {return worldObj==null?BiomeGenBase.plains:worldObj.getBiomeGenForCoords(aX, aZ);}
 	@Override public BiomeGenBase getBiome() {return getBiome(xCoord, zCoord);}
 	@Override public Block getBlockOffset(int aX, int aY, int aZ) {return getBlock(xCoord+aX, yCoord+aY, zCoord+aZ);}
@@ -292,56 +292,56 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	}
 	
 	@Override
-	public Block getBlock(ChunkCoordinates aCoords) {
+	public Block getBlock(BlockPos aCoords) {
 		if (worldObj == null) return NB;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return NB;
 		return worldObj.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ);
 	}
 	
 	@Override
-	public byte getMetaData(ChunkCoordinates aCoords) {
+	public byte getMetaData(BlockPos aCoords) {
 		if (worldObj == null) return 0;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return 0;
 		return (byte)worldObj.getBlockMetadata(aCoords.posX, aCoords.posY, aCoords.posZ);
 	}
 	
 	@Override
-	public byte getLightLevel(ChunkCoordinates aCoords) {
+	public byte getLightLevel(BlockPos aCoords) {
 		if (worldObj == null) return 14;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return 0;
 		return UT.Code.bind4((long)worldObj.getLightBrightness(aCoords.posX, aCoords.posY, aCoords.posZ)*15);
 	}
 	
 	@Override
-	public boolean getSky(ChunkCoordinates aCoords) {
+	public boolean getSky(BlockPos aCoords) {
 		if (worldObj == null) return T;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return T;
 		return worldObj.canBlockSeeTheSky(aCoords.posX, aCoords.posY, aCoords.posZ);
 	}
 	
 	@Override
-	public boolean getRain(ChunkCoordinates aCoords) {
+	public boolean getRain(BlockPos aCoords) {
 		if (worldObj == null) return T;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return T;
 		return worldObj.getPrecipitationHeight(aCoords.posX, aCoords.posZ) <= aCoords.posY;
 	}
 	
 	@Override
-	public boolean getOpacity(ChunkCoordinates aCoords) {
+	public boolean getOpacity(BlockPos aCoords) {
 		if (worldObj == null) return F;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return F;
 		return worldObj.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ).isOpaqueCube();
 	}
 	
 	@Override
-	public boolean getAir(ChunkCoordinates aCoords) {
+	public boolean getAir(BlockPos aCoords) {
 		if (worldObj == null) return T;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return T;
 		return worldObj.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ).isAir(worldObj, aCoords.posX, aCoords.posY, aCoords.posZ);
 	}
 	
 	@Override
-	public TileEntity getTileEntity(ChunkCoordinates aCoords) {
+	public TileEntity getTileEntity(BlockPos aCoords) {
 		if (worldObj == null) return null;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return null;
 		return WD.te(worldObj, aCoords, T);
@@ -466,7 +466,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 		return aX >> 4 != xCoord >> 4 || aZ >> 4 != zCoord >> 4;
 	}
 	
-	public final boolean crossedChunkBorder(ChunkCoordinates aCoords) {
+	public final boolean crossedChunkBorder(BlockPos aCoords) {
 		return aCoords.posX >> 4 != xCoord >> 4 || aCoords.posZ >> 4 != zCoord >> 4;
 	}
 	
@@ -515,14 +515,14 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public float getExplosionResistance2() {return 0;}
 	
 	@OnlyIn(Dist.CLIENT)
-	@Override public Object getGUIClient(int aGUIID, EntityPlayer aPlayer) {return null;}
-	@Override public Object getGUIServer(int aGUIID, EntityPlayer aPlayer) {return null;}
+	@Override public Object getGUIClient(int aGUIID, Player aPlayer) {return null;}
+	@Override public Object getGUIServer(int aGUIID, Player aPlayer) {return null;}
 	
-	public boolean interceptClick(int aGUIID, Slot_Base aSlot, int aSlotIndex, int aInvSlot, EntityPlayer aPlayer, boolean aShiftclick, boolean aRightclick, int aMouse, int aShift) {return F;}
-	public ItemStack slotClick(int aGUIID, Slot_Base aSlot, int aSlotIndex, int aInvSlot, EntityPlayer aPlayer, boolean aShiftclick, boolean aRightclick, int aMouse, int aShift) {return null;}
-	public void killGUIs() {for (Object tPlayer : worldObj.playerEntities) if (tPlayer instanceof EntityPlayer && ((EntityPlayer)tPlayer).openContainer instanceof ContainerCommon && ((ContainerCommon)((EntityPlayer)tPlayer).openContainer).mTileEntity == this) ((EntityPlayer)tPlayer).closeScreen();}
-	public void rebootGUIs(int aGUIID) {for (Object tPlayer : worldObj.playerEntities) if (tPlayer instanceof EntityPlayer && ((EntityPlayer)tPlayer).openContainer instanceof ContainerCommon && ((ContainerCommon)((EntityPlayer)tPlayer).openContainer).mTileEntity == this) {((EntityPlayer)tPlayer).closeScreen(); openGUI((EntityPlayer)tPlayer, aGUIID);}}
-	public long getOpenGUIs() {long rGUIs = 0; for (Object tPlayer : worldObj.playerEntities) if (tPlayer instanceof EntityPlayer && ((EntityPlayer)tPlayer).openContainer instanceof ContainerCommon && ((ContainerCommon)((EntityPlayer)tPlayer).openContainer).mTileEntity == this) rGUIs++; return rGUIs;}
+	public boolean interceptClick(int aGUIID, Slot_Base aSlot, int aSlotIndex, int aInvSlot, Player aPlayer, boolean aShiftclick, boolean aRightclick, int aMouse, int aShift) {return F;}
+	public ItemStack slotClick(int aGUIID, Slot_Base aSlot, int aSlotIndex, int aInvSlot, Player aPlayer, boolean aShiftclick, boolean aRightclick, int aMouse, int aShift) {return null;}
+	public void killGUIs() {for (Object tPlayer : worldObj.playerEntities) if (tPlayer instanceof Player && ((Player)tPlayer).openContainer instanceof ContainerCommon && ((ContainerCommon)((Player)tPlayer).openContainer).mTileEntity == this) ((Player)tPlayer).closeScreen();}
+	public void rebootGUIs(int aGUIID) {for (Object tPlayer : worldObj.playerEntities) if (tPlayer instanceof Player && ((Player)tPlayer).openContainer instanceof ContainerCommon && ((ContainerCommon)((Player)tPlayer).openContainer).mTileEntity == this) {((Player)tPlayer).closeScreen(); openGUI((Player)tPlayer, aGUIID);}}
+	public long getOpenGUIs() {long rGUIs = 0; for (Object tPlayer : worldObj.playerEntities) if (tPlayer instanceof Player && ((Player)tPlayer).openContainer instanceof ContainerCommon && ((ContainerCommon)((Player)tPlayer).openContainer).mTileEntity == this) rGUIs++; return rGUIs;}
 	public boolean needsToSyncEverything() {return F;}
 	
 	public boolean shouldSideBeRendered(byte aSide) {
@@ -600,7 +600,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	protected IFluidTank getFluidTankDrainable(byte aSide, FluidStack aFluidToDrain) {return null;}
 	protected IFluidTank[] getFluidTanks(byte aSide) {return ZL_FT;}
 	
-	public int fill(ForgeDirection aDirection, FluidStack aFluid, boolean aDoFill) {
+	public int fill(Direction aDirection, FluidStack aFluid, boolean aDoFill) {
 		if (aFluid == null || aFluid.amount <= 0) return 0;
 		IFluidTank tTank = getFluidTankFillable(UT.Code.side(aDirection), aFluid);
 		if (tTank == null) return 0;
@@ -609,7 +609,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 		return rFilledAmount;
 	}
 	
-	public FluidStack drain(ForgeDirection aDirection, FluidStack aFluid, boolean aDoDrain) {
+	public FluidStack drain(Direction aDirection, FluidStack aFluid, boolean aDoDrain) {
 		if (aFluid == null || aFluid.amount <= 0) return null;
 		IFluidTank tTank = getFluidTankDrainable(UT.Code.side(aDirection), aFluid);
 		if (tTank == null || tTank.getFluid() == null || tTank.getFluidAmount() == 0 || !tTank.getFluid().isFluidEqual(aFluid)) return null;
@@ -618,7 +618,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 		return rDrained;
 	}
 	
-	public FluidStack drain(ForgeDirection aDirection, int aAmountToDrain, boolean aDoDrain) {
+	public FluidStack drain(Direction aDirection, int aAmountToDrain, boolean aDoDrain) {
 		if (aAmountToDrain <= 0) return null;
 		IFluidTank tTank = getFluidTankDrainable(UT.Code.side(aDirection), null);
 		if (tTank == null || tTank.getFluid() == null || tTank.getFluidAmount() == 0) return null;
@@ -627,19 +627,19 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 		return rDrained;
 	}
 	
-	public boolean canFill(ForgeDirection aDirection, Fluid aFluid) {
+	public boolean canFill(Direction aDirection, Fluid aFluid) {
 		if (aFluid == null) return F;
 		IFluidTank tTank = getFluidTankFillable(UT.Code.side(aDirection), FL.make(aFluid, 0));
 		return tTank != null && (tTank.getFluid() == null || tTank.getFluid().getFluid() == aFluid);
 	}
 	
-	public boolean canDrain(ForgeDirection aDirection, Fluid aFluid) {
+	public boolean canDrain(Direction aDirection, Fluid aFluid) {
 		if (aFluid == null) return F;
 		IFluidTank tTank = getFluidTankDrainable(UT.Code.side(aDirection), FL.make(aFluid, 0));
 		return tTank != null && (tTank.getFluid() != null && tTank.getFluid().getFluid() == aFluid);
 	}
 	
-	public FluidTankInfo[] getTankInfo(ForgeDirection aDirection) {
+	public FluidTankInfo[] getTankInfo(Direction aDirection) {
 		IFluidTank[] tTanks = getFluidTanks(UT.Code.side(aDirection));
 		if (tTanks == null || tTanks.length <= 0) return ZL_FLUIDTANKINFO;
 		FluidTankInfo[] rInfo = new FluidTankInfo[tTanks.length];
@@ -748,21 +748,21 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	
 	// A Default implementation for RF Stuff, so I don't have to implement those Interfaces manually every time I make an RF Emitter or Acceptor.
 	
-	public boolean canConnectEnergy  (ForgeDirection aDirection) {for (TagData tTag : TD.Energy.ALL_RF) if (isEnergyEmittingTo(tTag, UT.Code.side(aDirection), T)) return T; return isEnergyAcceptingFrom(TD.Energy.RF, UT.Code.side(aDirection), T);}
-	public int     receiveEnergy     (ForgeDirection aDirection, int aSize, boolean aSimulate) {return (int)doEnergyInjection (TD.Energy.RF, UT.Code.side(aDirection), 1, aSize, !aSimulate);}
-	public int     extractEnergy     (ForgeDirection aDirection, int aSize, boolean aSimulate) {return (int)doEnergyExtraction(TD.Energy.RF, UT.Code.side(aDirection), 1, aSize, !aSimulate);}
-	public int     getEnergyStored   (ForgeDirection aDirection) {return UT.Code.bindInt(getEnergyCapacity(TD.Energy.RF, UT.Code.side(aDirection)));}
-	public int     getMaxEnergyStored(ForgeDirection aDirection) {return UT.Code.bindInt(getEnergyCapacity(TD.Energy.RF, UT.Code.side(aDirection)));}
+	public boolean canConnectEnergy  (Direction aDirection) {for (TagData tTag : TD.Energy.ALL_RF) if (isEnergyEmittingTo(tTag, UT.Code.side(aDirection), T)) return T; return isEnergyAcceptingFrom(TD.Energy.RF, UT.Code.side(aDirection), T);}
+	public int     receiveEnergy     (Direction aDirection, int aSize, boolean aSimulate) {return (int)doEnergyInjection (TD.Energy.RF, UT.Code.side(aDirection), 1, aSize, !aSimulate);}
+	public int     extractEnergy     (Direction aDirection, int aSize, boolean aSimulate) {return (int)doEnergyExtraction(TD.Energy.RF, UT.Code.side(aDirection), 1, aSize, !aSimulate);}
+	public int     getEnergyStored   (Direction aDirection) {return UT.Code.bindInt(getEnergyCapacity(TD.Energy.RF, UT.Code.side(aDirection)));}
+	public int     getMaxEnergyStored(Direction aDirection) {return UT.Code.bindInt(getEnergyCapacity(TD.Energy.RF, UT.Code.side(aDirection)));}
 	
 	// A Default implementation for EU Stuff, so I don't have to implement those Interfaces manually every time I make an EU Emitter or Acceptor.
 	
 	public int getSinkTier() {return UT.Code.tierMax(getEnergySizeInputRecommended(TD.Energy.EU, SIDE_ANY));}
 	public int getSourceTier() {return UT.Code.tierMax(getEnergySizeOutputRecommended(TD.Energy.EU, SIDE_ANY));}
-	public boolean acceptsEnergyFrom(TileEntity aEmitter, ForgeDirection aDirection) {return !(aEmitter instanceof ITileEntityEnergy) && isEnergyAcceptingFrom(TD.Energy.EU, UT.Code.side(aDirection), T);}
-	public boolean emitsEnergyTo(TileEntity aReceiver, ForgeDirection aDirection) {return !(aReceiver instanceof ITileEntityEnergy) && isEnergyEmittingTo(TD.Energy.EU, UT.Code.side(aDirection), T);}
+	public boolean acceptsEnergyFrom(TileEntity aEmitter, Direction aDirection) {return !(aEmitter instanceof ITileEntityEnergy) && isEnergyAcceptingFrom(TD.Energy.EU, UT.Code.side(aDirection), T);}
+	public boolean emitsEnergyTo(TileEntity aReceiver, Direction aDirection) {return !(aReceiver instanceof ITileEntityEnergy) && isEnergyEmittingTo(TD.Energy.EU, UT.Code.side(aDirection), T);}
 	public double getDemandedEnergy() {long tSize = getEnergySizeInputMax(TD.Energy.EU, SIDE_ANY); return tSize * doEnergyInjection(TD.Energy.EU, SIDE_ANY, tSize, 256, F);}
 	
-	public double injectEnergy(ForgeDirection aDirection, double aAmount, double aSize) {
+	public double injectEnergy(Direction aDirection, double aAmount, double aSize) {
 		aSize = Math.min(aSize, aAmount);
 		return aAmount - (aSize <= 0 ? aAmount * doEnergyInjection(TD.Energy.EU, UT.Code.side(aDirection), (long)aAmount, 1, T) : aSize * doEnergyInjection(TD.Energy.EU, UT.Code.side(aDirection), (long)aSize, (long)(aAmount / aSize), T));
 	}
@@ -833,7 +833,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box();}
 	public AxisAlignedBB getSelectedBoundingBoxFromPool () {if (FORCE_FULL_SELECTION_BOXES) return box(); return box(shrunkBox());}
 	public void setBlockBoundsBasedOnState(Block aBlock) {if (FORCE_FULL_SELECTION_BOXES) box(aBlock); else box(aBlock, shrunkBox());}
-	public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return ignorePlayerCollisionWhenPlacing();}
+	public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return ignorePlayerCollisionWhenPlacing();}
 	public boolean ignorePlayerCollisionWhenPlacing() {return F;}
 	
 	/** Old Coordinate containing Variant of onCoordinateChange, use only if you really need the Coordinates, as there is also a No-Parameter variant in use for some TileEntity Types! */
@@ -855,10 +855,10 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	// Removal and Snow Layer Stuff
 	
 	public static final ITexture SNOW_TEXTURE = BlockTextureCopied.get(Blocks.snow_layer); // very commonly used Texture.
-	public boolean removedByPlayer(World aWorld, EntityPlayer aPlayer, boolean aWillHarvest) {return setToAir();}
+	public boolean removedByPlayer(World aWorld, Player aPlayer, boolean aWillHarvest) {return setToAir();}
 	public boolean hasSnow() {for (int i : SCAN_NEG_1) for (int j : SCAN_NEG_1) if (getBlockOffset(i, 0, j) == Blocks.snow_layer) return T; return F;}
 	public boolean setToSnow() {return getOpacity(xCoord, yCoord-1, zCoord) && hasSnow() && worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.snow_layer, 0, 3);}
-	public boolean setToAir() {if (worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air, 0, 3)) {if (this instanceof IMultiTileEntity.IMTE_CanPlaceSnowLayerOnRemoval) setToSnow(); return T;} return F;}
+	public boolean setToAir() {if (worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.AIR, 0, 3)) {if (this instanceof IMultiTileEntity.IMTE_CanPlaceSnowLayerOnRemoval) setToSnow(); return T;} return F;}
 	
 	// Inventory Stuff
 	
@@ -871,7 +871,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public boolean slotHas(int aIndex) {return F;}
 	public boolean invempty() {return T;}
 	public int invsize() {return 0;}
-	public NBTTagCompound slotNBT(int aIndex) {return null;}
+	public CompoundTag slotNBT(int aIndex) {return null;}
 	
 	// Connectable Inventories
 	
@@ -940,7 +940,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	@Override
 	public boolean allowInteraction(Entity aEntity) {return T;}
 	public boolean allowRightclick(Entity aEntity) {return allowInteraction(aEntity);}
-	public float getPlayerRelativeBlockHardness(EntityPlayer aPlayer, float aOriginal) {return allowInteraction(aPlayer) ? Math.max(aOriginal, 0.0001F) : 0;}
+	public float getPlayerRelativeBlockHardness(Player aPlayer, float aOriginal) {return allowInteraction(aPlayer) ? Math.max(aOriginal, 0.0001F) : 0;}
 	
 	// Regarding Multiblocks. If true it will always send a machineblock update whenever something relevant changes, such as facing or connectivity.
 	

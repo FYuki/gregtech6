@@ -29,13 +29,13 @@ import gregapi.tileentity.multiblocks.ITileEntityMultiBlockController;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.tileentity.multiblocks.TileEntityBase10MultiBlockMachine;
 import gregapi.util.WD;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos; // was BlockPos
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.minecraftforge.fluids.IFluidHandler;
 
 import java.util.List;
@@ -47,7 +47,7 @@ import static gregapi.data.CS.*;
  */
 public class MultiTileEntityShredder extends TileEntityBase10MultiBlockMachine {
 	@Override
-	public boolean checkStructure2(ChunkCoordinates aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
 		int tX = getOffsetXN(mFacing, 2)-2, tY = yCoord, tZ = getOffsetZN(mFacing, 2)-2, tD = (SIDES_AXIS_Z[mFacing]?mRunning?1:0:mRunning?3:2);
 		if (worldObj.blockExists(tX, tY, tZ) && worldObj.blockExists(tX+4, tY, tZ) && worldObj.blockExists(tX, tY, tZ+4) && worldObj.blockExists(tX+4, tY, tZ+4)) {
 			boolean tSuccess = T;
@@ -175,7 +175,7 @@ public class MultiTileEntityShredder extends TileEntityBase10MultiBlockMachine {
 	}
 	
 	@Override
-	public void onWalkOver2(EntityLivingBase aEntity) {
+	public void onWalkOver2(LivingEntity aEntity) {
 		super.onWalkOver2(aEntity);
 		if (mRunning && aEntity.posX >= getOffsetXN(mFacing, 2) - 1 && aEntity.posZ >= getOffsetZN(mFacing, 2) - 1 && aEntity.posX <= getOffsetXN(mFacing, 2) + 2 && aEntity.posZ <= getOffsetZN(mFacing, 2) + 2) {
 			aEntity.attackEntityFrom(DamageSources.getShredderDamage(), 5.0F);

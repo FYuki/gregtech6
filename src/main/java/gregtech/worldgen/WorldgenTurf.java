@@ -28,12 +28,12 @@ import java.util.Set;
 import gregapi.data.CS.BlocksGT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
  * @author Gregorius Techneticies
@@ -58,7 +58,7 @@ public class WorldgenTurf extends WorldgenObject {
 				tBlock = aWorld.getBlock(tX+i, tY, tZ+j);
 				if (tBlock == BlocksGT.Diggables && 2 == aWorld.getBlockMetadata(tX+i, tY, tZ+j)) {tGenerated++; continue;}
 				if (!tBlock.isOpaqueCube()) {if (tGenerated > 0) break; continue;}
-				if (tBlock == Blocks.dirt) {
+				if (tBlock == Blocks.DIRT) {
 					if (tGenerated <= 0 && (tLastBlock.getMaterial() == Material.wood || tLastBlock.getMaterial() == Material.gourd)) continue;
 				} else {
 					if (tGenerated > 0) {

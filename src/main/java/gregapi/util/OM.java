@@ -24,7 +24,7 @@ import gregapi.code.TagData;
 import gregapi.data.MT;
 import gregapi.data.OP;
 import gregapi.oredict.*;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.*;
 

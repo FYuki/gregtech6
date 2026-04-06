@@ -20,7 +20,7 @@
 package gregapi.old;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
 
 public class GT_RenderUtil {
 	public static void renderItemIcon(IIcon icon, double size, double z, float nx, float ny, float nz) {

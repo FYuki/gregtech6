@@ -48,36 +48,36 @@ import ic2.api.recipe.IMachineRecipeManagerExt;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.RecipeOutput;
 import mods.railcraft.common.items.enchantment.RailcraftEnchantments;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.*;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTBase.NBTPrimitive;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.Tag.NBTPrimitive;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.stats.Achievement;
-import net.minecraft.tileentity.TileEntity;
+// PHASE3: import Achievement removed — use Advancement
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.*;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.level.Level;
+// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.core.Direction; // was Direction
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 
@@ -123,7 +123,7 @@ public class UT {
 			if (aFluid == null || aFluid.getFluid() == null) return null;
 			ItemStack rStack = IL.Display_Fluid.getWithMeta(aUseStackSize ? aLimitStackSize ? UT.Code.bind7(aAmount / 1000) : aAmount / 1000 : 1, id_(aFluid));
 			if (rStack == null) return null;
-			NBTTagCompound tNBT = NBT.makeString("f", aFluid.getFluid().getName());
+			CompoundTag tNBT = NBT.makeString("f", aFluid.getFluid().getName());
 			if (aAmount != 0) NBT.setNumber(tNBT, "a", aAmount);
 			NBT.setNumber(tNBT, "h", temperature(aFluid));
 			NBT.setBoolean(tNBT, "s", gas(aFluid));
@@ -481,13 +481,13 @@ public class UT {
 			return NI;
 		}
 		
-		@Deprecated public static FluidStack load (NBTTagCompound aNBT, String aTagName) {return FL.load(aNBT, aTagName);}
-		@Deprecated public static FluidStack load (NBTTagCompound aNBT) {return FL.load (aNBT);}
-		@Deprecated public static FluidStack load_(NBTTagCompound aNBT) {return FL.load_(aNBT);}
+		@Deprecated public static FluidStack load (CompoundTag aNBT, String aTagName) {return FL.load(aNBT, aTagName);}
+		@Deprecated public static FluidStack load (CompoundTag aNBT) {return FL.load (aNBT);}
+		@Deprecated public static FluidStack load_(CompoundTag aNBT) {return FL.load_(aNBT);}
 		
-		@Deprecated public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, FluidStack aFluid) {return FL.save(aNBT, aTagName, aFluid);}
-		@Deprecated public static NBTTagCompound save (FluidStack aFluid) {return FL.save (aFluid);}
-		@Deprecated public static NBTTagCompound save_(FluidStack aFluid) {return FL.save_(aFluid);}
+		@Deprecated public static CompoundTag save(CompoundTag aNBT, String aTagName, FluidStack aFluid) {return FL.save(aNBT, aTagName, aFluid);}
+		@Deprecated public static CompoundTag save (FluidStack aFluid) {return FL.save (aFluid);}
+		@Deprecated public static CompoundTag save_(FluidStack aFluid) {return FL.save_(aFluid);}
 		
 		@Deprecated @SafeVarargs public static Fluid createLiquid(OreDictMaterial aMaterial, Set<String>... aFluidList) {return createLiquid(aMaterial, aMaterial.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN), aFluidList);}
 		@Deprecated @SafeVarargs public static Fluid createLiquid(OreDictMaterial aMaterial, IIconContainer aTexture, Set<String>... aFluidList) {return create(aMaterial.mNameInternal.toLowerCase(), aTexture, aMaterial.mNameLocal, aMaterial, aMaterial.mRGBaLiquid, STATE_LIQUID, 1000, aMaterial.mMeltingPoint <= 0 ? 1000 : aMaterial.mMeltingPoint < 300 ? Math.min(300, aMaterial.mBoilingPoint - 1) : aMaterial.mMeltingPoint, null, null, 0, aFluidList);}
@@ -565,18 +565,18 @@ public class UT {
 		public static final List<String> BOOK_LIST = new ArrayListNoNulls<>();
 		public static final List<String> MATERIAL_DICTIONARIES = new ArrayListNoNulls<>();
 		
-		public static void display(EntityPlayer aPlayer, ItemStack aStack) {
+		public static void display(Player aPlayer, ItemStack aStack) {
 			String aMapping = NBT.getBookMapping(aStack);
 			if (Code.stringValid(aMapping)) display(aPlayer, aMapping); else display(aPlayer, F, aStack);
 		}
-		public static void display(EntityPlayer aPlayer, String aMapping) {
+		public static void display(Player aPlayer, String aMapping) {
 			aPlayer.displayGUIBook(getWrittenBook(aMapping, T, ST.make(Items.written_book, 1, 0)));
 		}
-		public static void display(EntityPlayer aPlayer, boolean aWritable, ItemStack aStack) {
+		public static void display(Player aPlayer, boolean aWritable, ItemStack aStack) {
 			if (ST.invalid(aStack)) return;
 			display(aPlayer, aWritable, aStack.getTagCompound());
 		}
-		public static void display(EntityPlayer aPlayer, boolean aWritable, NBTTagCompound aNBT) {
+		public static void display(Player aPlayer, boolean aWritable, CompoundTag aNBT) {
 			if (aNBT == null || UT.Code.stringInvalid(UT.NBT.getBookTitle(aNBT))) return;
 			aPlayer.displayGUIBook(ST.make(aWritable?Items.writable_book:Items.written_book, 1, 0, aNBT));
 		}
@@ -593,7 +593,7 @@ public class UT {
 			ItemStack tStack = BOOK_MAP.get(aMapping);
 			if (tStack == null) return aStackToPutNBT==null?ST.make(Items.written_book, 1, 0):aStackToPutNBT;
 			if (aStackToPutNBT == null) aStackToPutNBT = ST.copy(tStack);
-			return NBT.set(aStackToPutNBT, (NBTTagCompound)tStack.getTagCompound().copy());
+			return NBT.set(aStackToPutNBT, (CompoundTag)tStack.getTagCompound().copy());
 		}
 		
 		public static ItemStack getBookWithTitle(String aMapping) {
@@ -615,10 +615,10 @@ public class UT {
 			ItemStack rStack = BOOK_MAP.get(aMapping);
 			if (rStack == null) rStack = aDefaultBook==null?ST.make(Items.written_book, 1, 0):ST.amount(1, aDefaultBook);
 			if (Code.stringInvalid(aTitle) || Code.stringInvalid(aAuthor) || aPages.length <= 0) return null;
-			NBTTagCompound rNBT = NBT.make();
+			CompoundTag rNBT = NBT.make();
 			rNBT.setString("title", aTitle);
 			rNBT.setString("author", aAuthor);
-			NBTTagList tNBTList = new NBTTagList();
+			ListTag tNBTList = new ListTag();
 			for (short i = 0; i < aPages.length; i++) {
 				if (aPages[i].length() < 256) {
 					tNBTList.appendTag(new NBTTagString(aPages[i].replaceAll("¶", "\n")));
@@ -1517,7 +1517,7 @@ public class UT {
 			return aString == null || aString.toString().isEmpty();
 		}
 		
-		public static byte side(ForgeDirection aDirection) {
+		public static byte side(Direction aDirection) {
 			return (byte)(aDirection==null?SIDE_INVALID:aDirection.ordinal());
 		}
 		
@@ -1799,13 +1799,13 @@ public class UT {
 	}
 	
 	public static class NBT {
-		public static NBTTagCompound make() {
-			return new NBTTagCompound();
+		public static CompoundTag make() {
+			return new CompoundTag();
 		}
 		
 		/** Turns each Object -> Object Pair into a Part of the passed NBT as Object-toString()-Key -> Value Pair */
-		public static NBTTagCompound make(String aFirstKey, Object aFirstValue, Object... aTags) {
-			NBTTagCompound rNBT = make();
+		public static CompoundTag make(String aFirstKey, Object aFirstValue, Object... aTags) {
+			CompoundTag rNBT = make();
 			
 			if (aFirstValue == null) {/* Nothing */}
 			else if (aFirstValue instanceof Boolean)           rNBT.setBoolean(aFirstKey, (Boolean)                aFirstValue);
@@ -1816,7 +1816,7 @@ public class UT {
 			else if (aFirstValue instanceof Float)             rNBT.setFloat(  aFirstKey, (Float)                  aFirstValue);
 			else if (aFirstValue instanceof Double)            rNBT.setDouble( aFirstKey, (Double)                 aFirstValue);
 			else if (aFirstValue instanceof String)            rNBT.setString( aFirstKey, (String)                 aFirstValue);
-			else if (aFirstValue instanceof NBTBase)           rNBT.setTag(    aFirstKey, (NBTBase)                aFirstValue);
+			else if (aFirstValue instanceof Tag)           rNBT.setTag(    aFirstKey, (Tag)                aFirstValue);
 			else if (aFirstValue instanceof FluidStack)        rNBT.setTag(    aFirstKey, FL.save((FluidStack)     aFirstValue));
 			else if (aFirstValue instanceof OreDictMaterial)   rNBT.setString( aFirstKey, ((OreDictMaterial)       aFirstValue).mNameInternal);
 			else if (aFirstValue instanceof RecipeMap)         rNBT.setString( aFirstKey, ((RecipeMap)             aFirstValue).mNameInternal);
@@ -1832,7 +1832,7 @@ public class UT {
 				else if (aTags[i] instanceof Float)            rNBT.setFloat(  aTags[i-1].toString(), (Float)                  aTags[i]);
 				else if (aTags[i] instanceof Double)           rNBT.setDouble( aTags[i-1].toString(), (Double)                 aTags[i]);
 				else if (aTags[i] instanceof String)           rNBT.setString( aTags[i-1].toString(), (String)                 aTags[i]);
-				else if (aTags[i] instanceof NBTBase)          rNBT.setTag(    aTags[i-1].toString(), (NBTBase)                aTags[i]);
+				else if (aTags[i] instanceof Tag)          rNBT.setTag(    aTags[i-1].toString(), (Tag)                aTags[i]);
 				else if (aTags[i] instanceof FluidStack)       rNBT.setTag(    aTags[i-1].toString(), FL.save((FluidStack)     aTags[i]));
 				else if (aTags[i] instanceof OreDictMaterial)  rNBT.setString( aTags[i-1].toString(), ((OreDictMaterial)       aTags[i]).mNameInternal);
 				else if (aTags[i] instanceof RecipeMap)        rNBT.setString( aTags[i-1].toString(), ((RecipeMap)             aTags[i]).mNameInternal);
@@ -1842,7 +1842,7 @@ public class UT {
 		}
 		
 		/** Turns each Object -> Object Pair into a Part of the passed NBT as Object-toString()-Key -> Value Pair */
-		public static NBTTagCompound make(NBTTagCompound aNBT, Object... aTags) {
+		public static CompoundTag make(CompoundTag aNBT, Object... aTags) {
 			if (aNBT == null) aNBT = make();
 			for (int i = 1; i < aTags.length; i+=2) {
 				if (aTags[i] == null) {/* Nothing */}
@@ -1854,7 +1854,7 @@ public class UT {
 				else if (aTags[i] instanceof Float)            aNBT.setFloat(      aTags[i-1].toString(), (Float)                  aTags[i]);
 				else if (aTags[i] instanceof Double)           aNBT.setDouble(     aTags[i-1].toString(), (Double)                 aTags[i]);
 				else if (aTags[i] instanceof String)           aNBT.setString(     aTags[i-1].toString(), (String)                 aTags[i]);
-				else if (aTags[i] instanceof NBTBase)          aNBT.setTag(        aTags[i-1].toString(), (NBTBase)                aTags[i]);
+				else if (aTags[i] instanceof Tag)          aNBT.setTag(        aTags[i-1].toString(), (Tag)                aTags[i]);
 				else if (aTags[i] instanceof FluidStack)       aNBT.setTag(        aTags[i-1].toString(), FL.save((FluidStack)     aTags[i]));
 				else if (aTags[i] instanceof OreDictMaterial)  aNBT.setString(     aTags[i-1].toString(), ((OreDictMaterial)       aTags[i]).mNameInternal);
 				else if (aTags[i] instanceof RecipeMap)        aNBT.setString(     aTags[i-1].toString(), ((RecipeMap)             aTags[i]).mNameInternal);
@@ -1864,122 +1864,122 @@ public class UT {
 		}
 		
 		/** Fuses two NBT Compounds together with the Priority lying on the content of the first NBT */
-		public static NBTTagCompound fuse(NBTTagCompound aNBT1, NBTTagCompound aNBT2) {
-			if (aNBT1 == null) return aNBT2==null?make():(NBTTagCompound)aNBT2.copy();
-			NBTTagCompound rNBT = (NBTTagCompound)aNBT1.copy();
+		public static CompoundTag fuse(CompoundTag aNBT1, CompoundTag aNBT2) {
+			if (aNBT1 == null) return aNBT2==null?make():(CompoundTag)aNBT2.copy();
+			CompoundTag rNBT = (CompoundTag)aNBT1.copy();
 			if (aNBT2 == null) return rNBT;
 			for (Object tKey : aNBT2.func_150296_c()) if (!rNBT.hasKey(tKey.toString())) rNBT.setTag(tKey.toString(), aNBT2.getTag(tKey.toString()));
 			return rNBT;
 		}
 		
-		public static NBTTagList makeInv(ItemStack... aStacks) {
-			NBTTagList rInventory = new NBTTagList();
+		public static ListTag makeInv(ItemStack... aStacks) {
+			ListTag rInventory = new ListTag();
 			for (int i = 0; i < aStacks.length; i++) if (ST.valid(aStacks[i])) rInventory.appendTag(makeShort(ST.save(aStacks[i]), "s", (short)i));
 			return rInventory;
 		}
 		
-		public static NBTTagCompound makeBool(Object aTag, boolean aValue) {
-			NBTTagCompound aNBT = make();
+		public static CompoundTag makeBool(Object aTag, boolean aValue) {
+			CompoundTag aNBT = make();
 			aNBT.setBoolean(aTag.toString(), aValue);
 			return aNBT;
 		}
-		public static NBTTagCompound makeBool(NBTTagCompound aNBT, Object aTag, boolean aValue) {
+		public static CompoundTag makeBool(CompoundTag aNBT, Object aTag, boolean aValue) {
 			if (aNBT == null) aNBT = make();
 			aNBT.setBoolean(aTag.toString(), aValue);
 			return aNBT;
 		}
 		
-		public static NBTTagCompound makeByte(Object aTag, byte aValue) {
-			NBTTagCompound aNBT = make();
+		public static CompoundTag makeByte(Object aTag, byte aValue) {
+			CompoundTag aNBT = make();
 			aNBT.setByte(aTag.toString(), aValue);
 			return aNBT;
 		}
-		public static NBTTagCompound makeByte(NBTTagCompound aNBT, Object aTag, byte aValue) {
+		public static CompoundTag makeByte(CompoundTag aNBT, Object aTag, byte aValue) {
 			if (aNBT == null) aNBT = make();
 			aNBT.setByte(aTag.toString(), aValue);
 			return aNBT;
 		}
 		
-		public static NBTTagCompound makeShort(Object aTag, short aValue) {
-			NBTTagCompound aNBT = make();
+		public static CompoundTag makeShort(Object aTag, short aValue) {
+			CompoundTag aNBT = make();
 			aNBT.setShort(aTag.toString(), aValue);
 			return aNBT;
 		}
-		public static NBTTagCompound makeShort(NBTTagCompound aNBT, Object aTag, short aValue) {
+		public static CompoundTag makeShort(CompoundTag aNBT, Object aTag, short aValue) {
 			if (aNBT == null) aNBT = make();
 			aNBT.setShort(aTag.toString(), aValue);
 			return aNBT;
 		}
 		
-		public static NBTTagCompound makeInt(Object aTag, int aValue) {
-			NBTTagCompound aNBT = make();
+		public static CompoundTag makeInt(Object aTag, int aValue) {
+			CompoundTag aNBT = make();
 			aNBT.setInteger(aTag.toString(), aValue);
 			return aNBT;
 		}
-		public static NBTTagCompound makeInt(NBTTagCompound aNBT, Object aTag, int aValue) {
+		public static CompoundTag makeInt(CompoundTag aNBT, Object aTag, int aValue) {
 			if (aNBT == null) aNBT = make();
 			aNBT.setInteger(aTag.toString(), aValue);
 			return aNBT;
 		}
 		
-		public static NBTTagCompound makeLong(Object aTag, long aValue) {
-			NBTTagCompound aNBT = make();
+		public static CompoundTag makeLong(Object aTag, long aValue) {
+			CompoundTag aNBT = make();
 			setNumber(aNBT, aTag.toString(), aValue);
 			return aNBT;
 		}
-		public static NBTTagCompound makeLong(NBTTagCompound aNBT, Object aTag, long aValue) {
+		public static CompoundTag makeLong(CompoundTag aNBT, Object aTag, long aValue) {
 			if (aNBT == null) aNBT = make();
 			setNumber(aNBT, aTag.toString(), aValue);
 			return aNBT;
 		}
 		
-		public static NBTTagCompound makeFloat(Object aTag, float aValue) {
-			NBTTagCompound aNBT = make();
+		public static CompoundTag makeFloat(Object aTag, float aValue) {
+			CompoundTag aNBT = make();
 			aNBT.setFloat(aTag.toString(), aValue);
 			return aNBT;
 		}
-		public static NBTTagCompound makeFloat(NBTTagCompound aNBT, Object aTag, float aValue) {
+		public static CompoundTag makeFloat(CompoundTag aNBT, Object aTag, float aValue) {
 			if (aNBT == null) aNBT = make();
 			aNBT.setFloat(aTag.toString(), aValue);
 			return aNBT;
 		}
 		
-		public static NBTTagCompound makeDouble(Object aTag, double aValue) {
-			NBTTagCompound aNBT = make();
+		public static CompoundTag makeDouble(Object aTag, double aValue) {
+			CompoundTag aNBT = make();
 			aNBT.setDouble(aTag.toString(), aValue);
 			return aNBT;
 		}
-		public static NBTTagCompound makeDouble(NBTTagCompound aNBT, Object aTag, double aValue) {
+		public static CompoundTag makeDouble(CompoundTag aNBT, Object aTag, double aValue) {
 			if (aNBT == null) aNBT = make();
 			aNBT.setDouble(aTag.toString(), aValue);
 			return aNBT;
 		}
 		
-		public static NBTTagCompound makeString(Object aTag, Object aValue) {
-			NBTTagCompound aNBT = make();
+		public static CompoundTag makeString(Object aTag, Object aValue) {
+			CompoundTag aNBT = make();
 			if (aValue == null) return aNBT;
 			aNBT.setString(aTag.toString(), aValue.toString());
 			return aNBT;
 		}
-		public static NBTTagCompound makeString(NBTTagCompound aNBT, Object aTag, Object aValue) {
+		public static CompoundTag makeString(CompoundTag aNBT, Object aTag, Object aValue) {
 			if (aNBT == null) aNBT = make();
 			if (aValue == null) return aNBT;
 			aNBT.setString(aTag.toString(), aValue.toString());
 			return aNBT;
 		}
 		
-		@Deprecated public static NBTTagCompound getNBTs(NBTTagCompound aNBT, Object... aTags) {return make(aNBT, aTags);}
-		@Deprecated public static NBTTagCompound getNBTBoolean(NBTTagCompound aNBT, Object aTag, boolean aValue) {return makeBool(aNBT, aTag, aValue);}
-		@Deprecated public static NBTTagCompound getNBTByte(NBTTagCompound aNBT, Object aTag, byte aValue) {return makeByte(aNBT, aTag, aValue);}
-		@Deprecated public static NBTTagCompound getNBTShort(NBTTagCompound aNBT, Object aTag, short aValue) {return makeShort(aNBT, aTag, aValue);}
-		@Deprecated public static NBTTagCompound getNBTInteger(NBTTagCompound aNBT, Object aTag, int aValue) {return makeInt(aNBT, aTag, aValue);}
-		@Deprecated public static NBTTagCompound getNBTLong(NBTTagCompound aNBT, Object aTag, long aValue) {return makeLong(aNBT, aTag, aValue);}
-		@Deprecated public static NBTTagCompound getNBTFloat(NBTTagCompound aNBT, Object aTag, float aValue) {return makeFloat(aNBT, aTag, aValue);}
-		@Deprecated public static NBTTagCompound getNBTDouble(NBTTagCompound aNBT, Object aTag, double aValue) {return makeDouble(aNBT, aTag, aValue);}
-		@Deprecated public static NBTTagCompound getNBTString(NBTTagCompound aNBT, Object aTag, Object aValue) {return makeString(aNBT, aTag, aValue);}
+		@Deprecated public static CompoundTag getNBTs(CompoundTag aNBT, Object... aTags) {return make(aNBT, aTags);}
+		@Deprecated public static CompoundTag getNBTBoolean(CompoundTag aNBT, Object aTag, boolean aValue) {return makeBool(aNBT, aTag, aValue);}
+		@Deprecated public static CompoundTag getNBTByte(CompoundTag aNBT, Object aTag, byte aValue) {return makeByte(aNBT, aTag, aValue);}
+		@Deprecated public static CompoundTag getNBTShort(CompoundTag aNBT, Object aTag, short aValue) {return makeShort(aNBT, aTag, aValue);}
+		@Deprecated public static CompoundTag getNBTInteger(CompoundTag aNBT, Object aTag, int aValue) {return makeInt(aNBT, aTag, aValue);}
+		@Deprecated public static CompoundTag getNBTLong(CompoundTag aNBT, Object aTag, long aValue) {return makeLong(aNBT, aTag, aValue);}
+		@Deprecated public static CompoundTag getNBTFloat(CompoundTag aNBT, Object aTag, float aValue) {return makeFloat(aNBT, aTag, aValue);}
+		@Deprecated public static CompoundTag getNBTDouble(CompoundTag aNBT, Object aTag, double aValue) {return makeDouble(aNBT, aTag, aValue);}
+		@Deprecated public static CompoundTag getNBTString(CompoundTag aNBT, Object aTag, Object aValue) {return makeString(aNBT, aTag, aValue);}
 		
 		/** Saves on Data Size by simply not adding "false" Booleans. */
-		public static NBTTagCompound setBoolean(NBTTagCompound aNBT, Object aTag, boolean aValue) {
+		public static CompoundTag setBoolean(CompoundTag aNBT, Object aTag, boolean aValue) {
 			if (aValue) {
 				aNBT.setBoolean(aTag.toString(), aValue);
 			} else {
@@ -1989,7 +1989,7 @@ public class UT {
 		}
 		
 		/** Saves on Data Size by choosing the smallest possible Data Type, and by also not adding zeros. The regular getLong() Function can also get the other Number Types. */
-		public static NBTTagCompound setNumber(NBTTagCompound aNBT, Object aTag, long aValue) {
+		public static CompoundTag setNumber(CompoundTag aNBT, Object aTag, long aValue) {
 			if (aValue == 0) {aNBT.removeTag(aTag.toString()); return aNBT;}
 			if (aValue > Integer.MAX_VALUE || aValue < Integer.MIN_VALUE) {aNBT.setLong(aTag.toString(), aValue); return aNBT;}
 			if (aValue > Short.MAX_VALUE || aValue < Short.MIN_VALUE) {aNBT.setInteger(aTag.toString(), (int)aValue); return aNBT;}
@@ -1999,7 +1999,7 @@ public class UT {
 		}
 		
 		/** Saves on Data Size by choosing the smallest possible Data Type, and by also not adding zeros or negative Numbers. The regular getLong() Function can also get the other Number Types. */
-		public static NBTTagCompound setPosNum(NBTTagCompound aNBT, Object aTag, long aValue) {
+		public static CompoundTag setPosNum(CompoundTag aNBT, Object aTag, long aValue) {
 			if (aValue <= 0) {aNBT.removeTag(aTag.toString()); return aNBT;}
 			if (aValue > Integer.MAX_VALUE) {aNBT.setLong(aTag.toString(), aValue); return aNBT;}
 			if (aValue > Short.MAX_VALUE) {aNBT.setInteger(aTag.toString(), (int)aValue); return aNBT;}
@@ -2012,49 +2012,49 @@ public class UT {
 			return set(aStack, aStack.getTagCompound());
 		}
 		
-		public static ItemStack set(ItemStack aStack, NBTTagCompound aNBT) {
+		public static ItemStack set(ItemStack aStack, CompoundTag aNBT) {
 			if (aNBT == null || aNBT.hasNoTags()) {aStack.setTagCompound(null); return aStack;}
 			ArrayList<String> tTagsToRemove = new ArrayListNoNulls<>();
 			for (Object tKey : aNBT.func_150296_c()) {
-				NBTBase tValue = aNBT.getTag((String)tKey);
-				if (tValue == null || (tValue instanceof NBTTagCompound && ((NBTTagCompound)tValue).hasNoTags()) || (tValue instanceof NBTPrimitive && ((NBTPrimitive)tValue).func_150291_c() == 0) || (tValue instanceof NBTTagString && Code.stringInvalid(((NBTTagString)tValue).func_150285_a_()))) tTagsToRemove.add((String)tKey);
+				Tag tValue = aNBT.getTag((String)tKey);
+				if (tValue == null || (tValue instanceof CompoundTag && ((CompoundTag)tValue).hasNoTags()) || (tValue instanceof NBTPrimitive && ((NBTPrimitive)tValue).func_150291_c() == 0) || (tValue instanceof NBTTagString && Code.stringInvalid(((NBTTagString)tValue).func_150285_a_()))) tTagsToRemove.add((String)tKey);
 			}
 			for (Object tKey : tTagsToRemove) aNBT.removeTag((String)tKey);
 			aStack.setTagCompound(aNBT.hasNoTags()?null:aNBT);
 			return aStack;
 		}
 		
-		public static NBTTagCompound getNBT(ItemStack aStack) {
-			NBTTagCompound rNBT = aStack.getTagCompound();
+		public static CompoundTag getNBT(ItemStack aStack) {
+			CompoundTag rNBT = aStack.getTagCompound();
 			return rNBT==null?make():rNBT;
 		}
 		
-		public static NBTTagCompound getOrCreate(ItemStack aStack) {
-			NBTTagCompound rNBT = aStack.getTagCompound();
+		public static CompoundTag getOrCreate(ItemStack aStack) {
+			CompoundTag rNBT = aStack.getTagCompound();
 			if (rNBT == null) aStack.setTagCompound(rNBT = make());
 			return rNBT;
 		}
 		
-		public static NBTTagCompound setPunchCardData(ItemStack aStack, String aPunchCardData) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setPunchCardData(ItemStack aStack, String aPunchCardData) {
+			CompoundTag tNBT = getNBT(aStack);
 			tNBT.setString("gt.punchcard", aPunchCardData);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static String getPunchCardData(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			return tNBT.getString("gt.punchcard");
 		}
-		public static NBTTagCompound setPunchCardData(NBTTagCompound aNBT, String aPunchCardData) {
+		public static CompoundTag setPunchCardData(CompoundTag aNBT, String aPunchCardData) {
 			aNBT.setString("gt.punchcard", aPunchCardData);
 			return aNBT;
 		}
-		public static String getPunchCardData(NBTTagCompound aNBT) {
+		public static String getPunchCardData(CompoundTag aNBT) {
 			return aNBT.getString("gt.punchcard");
 		}
 		
-		public static NBTTagCompound setBlueprintCrafting(ItemStack aStack, ItemStack... aBlueprint) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setBlueprintCrafting(ItemStack aStack, ItemStack... aBlueprint) {
+			CompoundTag tNBT = getNBT(aStack);
 			setBlueprintCrafting(tNBT, aBlueprint);
 			set(aStack, tNBT);
 			return tNBT;
@@ -2062,8 +2062,8 @@ public class UT {
 		public static ItemStack[] getBlueprintCrafting(ItemStack aStack) {
 			return getBlueprintCrafting(getNBT(aStack));
 		}
-		public static NBTTagCompound setBlueprintCrafting(NBTTagCompound aNBT, ItemStack... aBlueprint) {
-			NBTTagCompound tList = make();
+		public static CompoundTag setBlueprintCrafting(CompoundTag aNBT, ItemStack... aBlueprint) {
+			CompoundTag tList = make();
 			boolean temp = F;
 			for (int i = 0; i < aBlueprint.length; i++) if (ST.valid(aBlueprint[i])) {
 				ST.save(tList, ""+i, ST.amount(1, aBlueprint[i]));
@@ -2072,8 +2072,8 @@ public class UT {
 			if (temp) aNBT.setTag("gt.blueprint.craft", tList);
 			return aNBT;
 		}
-		public static ItemStack[] getBlueprintCrafting(NBTTagCompound aNBT) {
-			NBTTagCompound tList = aNBT.hasKey("gt.blueprint.craft")?aNBT.getCompoundTag("gt.blueprint.craft"):null;
+		public static ItemStack[] getBlueprintCrafting(CompoundTag aNBT) {
+			CompoundTag tList = aNBT.hasKey("gt.blueprint.craft")?aNBT.getCompoundTag("gt.blueprint.craft"):null;
 			if (tList != null) {
 				ItemStack[] rRecipe = new ItemStack[9];
 				for (int i = 0; i < rRecipe.length; i++) rRecipe[i] = ST.amount(1, ST.load(tList, ""+i));
@@ -2082,159 +2082,159 @@ public class UT {
 			return ZL_IS;
 		}
 		
-		public static NBTTagCompound setLighterFuel(ItemStack aStack, long aFuel) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setLighterFuel(ItemStack aStack, long aFuel) {
+			CompoundTag tNBT = getNBT(aStack);
 			setNumber(tNBT, "gt.lighter", aFuel);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static long getLighterFuel(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			return tNBT.getLong("gt.lighter");
 		}
-		public static NBTTagCompound setLighterFuel(NBTTagCompound aNBT, long aFuel) {
+		public static CompoundTag setLighterFuel(CompoundTag aNBT, long aFuel) {
 			setNumber(aNBT, "gt.lighter", aFuel);
 			return aNBT;
 		}
-		public static long getLighterFuel(NBTTagCompound aNBT) {
+		public static long getLighterFuel(CompoundTag aNBT) {
 			return aNBT.getLong("gt.lighter");
 		}
 		
-		public static NBTTagCompound setMapID(ItemStack aStack, short aMapID) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setMapID(ItemStack aStack, short aMapID) {
+			CompoundTag tNBT = getNBT(aStack);
 			tNBT.setShort("map_id", aMapID);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static short getMapID(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			if (!tNBT.hasKey("map_id")) return -1;
 			return tNBT.getShort("map_id");
 		}
-		public static NBTTagCompound setMapID(NBTTagCompound aNBT, short aMapID) {
+		public static CompoundTag setMapID(CompoundTag aNBT, short aMapID) {
 			aNBT.setShort("map_id", aMapID);
 			return aNBT;
 		}
-		public static short getMapID(NBTTagCompound aNBT) {
+		public static short getMapID(CompoundTag aNBT) {
 			if (!aNBT.hasKey("map_id")) return -1;
 			return aNBT.getShort("map_id");
 		}
 		
-		public static NBTTagCompound setMagicMapID(ItemStack aStack, short aMapID) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setMagicMapID(ItemStack aStack, short aMapID) {
+			CompoundTag tNBT = getNBT(aStack);
 			tNBT.setShort("magic_map_id", aMapID);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static short getMagicMapID(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			if (!tNBT.hasKey("magic_map_id")) return -1;
 			return tNBT.getShort("magic_map_id");
 		}
-		public static NBTTagCompound setMagicMapID(NBTTagCompound aNBT, short aMapID) {
+		public static CompoundTag setMagicMapID(CompoundTag aNBT, short aMapID) {
 			aNBT.setShort("magic_map_id", aMapID);
 			return aNBT;
 		}
-		public static short getMagicMapID(NBTTagCompound aNBT) {
+		public static short getMagicMapID(CompoundTag aNBT) {
 			if (!aNBT.hasKey("magic_map_id")) return -1;
 			return aNBT.getShort("magic_map_id");
 		}
 		
-		public static NBTTagCompound setMazeMapID(ItemStack aStack, short aMapID) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setMazeMapID(ItemStack aStack, short aMapID) {
+			CompoundTag tNBT = getNBT(aStack);
 			tNBT.setShort("maze_map_id", aMapID);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static short getMazeMapID(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			if (!tNBT.hasKey("maze_map_id")) return -1;
 			return tNBT.getShort("maze_map_id");
 		}
-		public static NBTTagCompound setMazeMapID(NBTTagCompound aNBT, short aMapID) {
+		public static CompoundTag setMazeMapID(CompoundTag aNBT, short aMapID) {
 			aNBT.setShort("maze_map_id", aMapID);
 			return aNBT;
 		}
-		public static short getMazeMapID(NBTTagCompound aNBT) {
+		public static short getMazeMapID(CompoundTag aNBT) {
 			if (!aNBT.hasKey("maze_map_id")) return -1;
 			return aNBT.getShort("maze_map_id");
 		}
 		
-		public static NBTTagCompound setOreMapID(ItemStack aStack, short aMapID) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setOreMapID(ItemStack aStack, short aMapID) {
+			CompoundTag tNBT = getNBT(aStack);
 			tNBT.setShort("ore_map_id", aMapID);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static short getOreMapID(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			if (!tNBT.hasKey("ore_map_id")) return -1;
 			return tNBT.getShort("ore_map_id");
 		}
-		public static NBTTagCompound setOreMapID(NBTTagCompound aNBT, short aMapID) {
+		public static CompoundTag setOreMapID(CompoundTag aNBT, short aMapID) {
 			aNBT.setShort("ore_map_id", aMapID);
 			return aNBT;
 		}
-		public static short getOreMapID(NBTTagCompound aNBT) {
+		public static short getOreMapID(CompoundTag aNBT) {
 			if (!aNBT.hasKey("ore_map_id")) return -1;
 			return aNBT.getShort("ore_map_id");
 		}
 		
-		public static NBTTagCompound setBookMapping(ItemStack aStack, String aTitle) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setBookMapping(ItemStack aStack, String aTitle) {
+			CompoundTag tNBT = getNBT(aStack);
 			tNBT.setString("book", aTitle);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static String getBookMapping(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			return tNBT.getString("book");
 		}
-		public static NBTTagCompound setBookMapping(NBTTagCompound aNBT, String aTitle) {
+		public static CompoundTag setBookMapping(CompoundTag aNBT, String aTitle) {
 			aNBT.setString("book", aTitle);
 			return aNBT;
 		}
-		public static String getBookMapping(NBTTagCompound aNBT) {
+		public static String getBookMapping(CompoundTag aNBT) {
 			return aNBT.getString("book");
 		}
 		
-		public static NBTTagCompound setBookTitle(ItemStack aStack, String aTitle) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setBookTitle(ItemStack aStack, String aTitle) {
+			CompoundTag tNBT = getNBT(aStack);
 			tNBT.setString("title", aTitle);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static String getBookTitle(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			return tNBT.getString("title");
 		}
-		public static NBTTagCompound setBookTitle(NBTTagCompound aNBT, String aTitle) {
+		public static CompoundTag setBookTitle(CompoundTag aNBT, String aTitle) {
 			aNBT.setString("title", aTitle);
 			return aNBT;
 		}
-		public static String getBookTitle(NBTTagCompound aNBT) {
+		public static String getBookTitle(CompoundTag aNBT) {
 			return aNBT.getString("title");
 		}
 		
-		public static NBTTagCompound setBookAuthor(ItemStack aStack, String aAuthor) {
-			NBTTagCompound tNBT = getNBT(aStack);
+		public static CompoundTag setBookAuthor(ItemStack aStack, String aAuthor) {
+			CompoundTag tNBT = getNBT(aStack);
 			tNBT.setString("author", aAuthor);
 			set(aStack, tNBT);
 			return tNBT;
 		}
 		public static String getBookAuthor(ItemStack aStack) {
-			NBTTagCompound tNBT = getNBT(aStack);
+			CompoundTag tNBT = getNBT(aStack);
 			return tNBT.getString("author");
 		}
-		public static NBTTagCompound setBookAuthor(NBTTagCompound aNBT, String aAuthor) {
+		public static CompoundTag setBookAuthor(CompoundTag aNBT, String aAuthor) {
 			aNBT.setString("author", aAuthor);
 			return aNBT;
 		}
-		public static String getBookAuthor(NBTTagCompound aNBT) {
+		public static String getBookAuthor(CompoundTag aNBT) {
 			return aNBT.getString("author");
 		}
 		
-		public static List<String> getDataToolTip(NBTTagCompound aData, List<String> aList, boolean aAllDetails) {
+		public static List<String> getDataToolTip(CompoundTag aData, List<String> aList, boolean aAllDetails) {
 			if (aData.hasKey(NBT_REACTOR_SETUP)) {
 				aList.add(LH.Chat.CYAN + "Reactor Setup: " + aData.getString(NBT_REACTOR_SETUP_NAME));
 				return aList;
@@ -2357,12 +2357,12 @@ public class UT {
 			if (ST.invalid(aStack) || !aStack.hasTagCompound() || ST.isGT_(aStack) || (COMPAT_EU_ITEM != null && COMPAT_EU_ITEM.is(aStack))) return 0;
 			return getEnchantmentXP(getNBT(aStack));
 		}
-		public static int getEnchantmentXP(NBTTagCompound aNBT) {
+		public static int getEnchantmentXP(CompoundTag aNBT) {
 			if (!aNBT.hasKey("ench", 9)) return 0;
 			int rXP = 0;
-			NBTTagList aList = aNBT.getTagList("ench", 10);
+			ListTag aList = aNBT.getTagList("ench", 10);
 			for (int i = 0; i < aList.tagCount(); i++) {
-				NBTTagCompound tEnchantmentTag = aList.getCompoundTagAt(i);
+				CompoundTag tEnchantmentTag = aList.getCompoundTagAt(i);
 				Enchantment tEnchantment = Enchantment.enchantmentsList[tEnchantmentTag.getShort("id")];
 				if (UT.Reflection.getLowercaseClass(tEnchantment).contains("curse")) return 0;
 				rXP += tEnchantment.getMinEnchantability(tEnchantmentTag.getShort("lvl"));
@@ -2373,13 +2373,13 @@ public class UT {
 			removeEnchantments(getOrCreate(aStack));
 			return check(aStack);
 		}
-		public static void removeEnchantments(NBTTagCompound aNBT) {
+		public static void removeEnchantments(CompoundTag aNBT) {
 			aNBT.removeTag("ench");
 		}
 		public static ItemStack addEnchantment(ItemStack aStack, Enchantment aEnchantment, long aLevel) {
-			NBTTagCompound tNBT = getNBT(aStack), tEnchantmentTag;
-			if (!tNBT.hasKey("ench", 9)) tNBT.setTag("ench", new NBTTagList());
-			NBTTagList tList = tNBT.getTagList("ench", 10);
+			CompoundTag tNBT = getNBT(aStack), tEnchantmentTag;
+			if (!tNBT.hasKey("ench", 9)) tNBT.setTag("ench", new ListTag());
+			ListTag tList = tNBT.getTagList("ench", 10);
 			
 			boolean temp = T;
 			
@@ -2413,7 +2413,7 @@ public class UT {
 		
 		private static void applyBullshit(IBullshit aBullshitModifier, ItemStack aStack) {
 			if (aStack != null) {
-				NBTTagList nbttaglist = aStack.getEnchantmentTagList();
+				ListTag nbttaglist = aStack.getEnchantmentTagList();
 				if (nbttaglist != null) {
 					for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 						try {
@@ -2432,14 +2432,14 @@ public class UT {
 			for (int i = 0; i < aStacks.length; i++) applyBullshit(aBullshitModifier, aStacks[i]);
 		}
 		
-		public static void applyBullshitA(EntityLivingBase aPlayer, Entity aEntity, ItemStack aStack) {
+		public static void applyBullshitA(LivingEntity aPlayer, Entity aEntity, ItemStack aStack) {
 			mBullshitIteratorA.mPlayer = aPlayer;
 			mBullshitIteratorA.mEntity = aEntity;
 			if (aPlayer != null) applyArrayOfBullshit(mBullshitIteratorA, aPlayer.getLastActiveItems());
 			if (aStack != null) applyBullshit(mBullshitIteratorA, aStack);
 		}
 		
-		public static void applyBullshitB(EntityLivingBase aPlayer, Entity aEntity, ItemStack aStack) {
+		public static void applyBullshitB(LivingEntity aPlayer, Entity aEntity, ItemStack aStack) {
 			mBullshitIteratorB.mPlayer = aPlayer;
 			mBullshitIteratorB.mEntity = aEntity;
 			if (aPlayer != null) applyArrayOfBullshit(mBullshitIteratorB, aPlayer.getLastActiveItems());
@@ -2447,7 +2447,7 @@ public class UT {
 		}
 		
 		static final class BullshitIteratorA implements IBullshit {
-			public EntityLivingBase mPlayer;
+			public LivingEntity mPlayer;
 			public Entity mEntity;
 			BullshitIteratorA() {}
 			
@@ -2458,7 +2458,7 @@ public class UT {
 		}
 		
 		static final class BullshitIteratorB implements IBullshit {
-			public EntityLivingBase mPlayer;
+			public LivingEntity mPlayer;
 			public Entity mEntity;
 			BullshitIteratorB() {}
 			
@@ -2676,16 +2676,16 @@ public class UT {
 		@Deprecated public static byte moveOneItemStackIntoSlot(Object aTileEntity1, Object aTarget, byte aGrabFrom, int aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
 		@Deprecated public static byte moveFromSlotToSlot(IInventory aTileEntity1, IInventory aTileEntity2, int aGrabFrom, int aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
 		@Deprecated public static void removeNullStacksFromInventory(IInventory aInventory) {ST.denull(aInventory);}
-		@Deprecated public static boolean unlockAchievement(EntityPlayer aPlayer, Achievement aAchievement) {return ST.achieve(aPlayer, aAchievement);}
-		@Deprecated public static boolean checkAchievements(EntityPlayer aPlayer, ItemStack aStack) {return ST.check(aPlayer, aStack);}
-		@Deprecated public static boolean addStackToPlayerInventory(EntityPlayer aPlayer, ItemStack aStack) {return ST.add(aPlayer, aStack);}
-		@Deprecated public static boolean addStackToPlayerInventory(EntityPlayer aPlayer, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.add(aPlayer, aStack, aCurrentSlotFirst);}
-		@Deprecated public static boolean addStackToPlayerInventory(EntityPlayer aPlayer, IInventory aInventory, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.add(aPlayer, aInventory, aStack, aCurrentSlotFirst);}
-		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(EntityPlayer aPlayer, ItemStack aStack) {return ST.give(aPlayer, aStack);}
-		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(EntityPlayer aPlayer, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.give(aPlayer, aStack, aCurrentSlotFirst);}
-		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(EntityPlayer aPlayer, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aStack, aWorld, aX, aY, aZ);}
-		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(EntityPlayer aPlayer, ItemStack aStack, boolean aCurrentSlotFirst, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aStack, aCurrentSlotFirst, aWorld, aX, aY, aZ);}
-		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(EntityPlayer aPlayer, IInventory aInventory, ItemStack aStack, boolean aCurrentSlotFirst, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aInventory, aStack, aCurrentSlotFirst, aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean unlockAchievement(Player aPlayer, Achievement aAchievement) {return ST.achieve(aPlayer, aAchievement);}
+		@Deprecated public static boolean checkAchievements(Player aPlayer, ItemStack aStack) {return ST.check(aPlayer, aStack);}
+		@Deprecated public static boolean addStackToPlayerInventory(Player aPlayer, ItemStack aStack) {return ST.add(aPlayer, aStack);}
+		@Deprecated public static boolean addStackToPlayerInventory(Player aPlayer, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.add(aPlayer, aStack, aCurrentSlotFirst);}
+		@Deprecated public static boolean addStackToPlayerInventory(Player aPlayer, IInventory aInventory, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.add(aPlayer, aInventory, aStack, aCurrentSlotFirst);}
+		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack) {return ST.give(aPlayer, aStack);}
+		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.give(aPlayer, aStack, aCurrentSlotFirst);}
+		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aStack, aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack, boolean aCurrentSlotFirst, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aStack, aCurrentSlotFirst, aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, IInventory aInventory, ItemStack aStack, boolean aCurrentSlotFirst, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aInventory, aStack, aCurrentSlotFirst, aWorld, aX, aY, aZ);}
 		@Deprecated public static ItemStack getProjectile(TagData aProjectileType, IInventory aInventory) {return ST.projectile(aInventory, aProjectileType);}
 	}
 	
@@ -2704,22 +2704,22 @@ public class UT {
 		}
 		
 		public static boolean play(String aSound, int aTimeUntilNextSound, float aVolume, int aX, int aY, int aZ) {
-			return play(aSound, aTimeUntilNextSound, aVolume, new ChunkCoordinates(aX, aY, aZ));
+			return play(aSound, aTimeUntilNextSound, aVolume, new BlockPos(aX, aY, aZ));
 		}
 		
-		public static boolean play(String aSound, int aTimeUntilNextSound, float aVolume, ChunkCoordinates aCoords) {
+		public static boolean play(String aSound, int aTimeUntilNextSound, float aVolume, BlockPos aCoords) {
 			if (aCoords == null) return play(aSound, aTimeUntilNextSound, aVolume);
 			if (!CODE_CLIENT || cpw.mods.fml.common.FMLCommonHandler.instance().getEffectiveSide().isServer()) return F;
 			return play(aSound, aTimeUntilNextSound, aVolume, 0.9F + RNGSUS.nextFloat() * 0.2F, aCoords.posX, aCoords.posY, aCoords.posZ);
 		}
 		
 		public static boolean play(String aSound, int aTimeUntilNextSound, float aVolume, float aPitch, int aX, int aY, int aZ) {
-			return play(aSound, aTimeUntilNextSound, aVolume, aPitch, new ChunkCoordinates(aX, aY, aZ));
+			return play(aSound, aTimeUntilNextSound, aVolume, aPitch, new BlockPos(aX, aY, aZ));
 		}
 		
-		public static boolean play(String aSound, int aTimeUntilNextSound, float aVolume, float aPitch, ChunkCoordinates aCoords) {
+		public static boolean play(String aSound, int aTimeUntilNextSound, float aVolume, float aPitch, BlockPos aCoords) {
 			if (!CODE_CLIENT || cpw.mods.fml.common.FMLCommonHandler.instance().getEffectiveSide().isServer()) return F;
-			EntityPlayer aPlayer = GT_API.api_proxy.getThePlayer();
+			Player aPlayer = GT_API.api_proxy.getThePlayer();
 			if (aPlayer == null || !aPlayer.worldObj.isRemote || Code.stringInvalid(aSound)) return F;
 			sSoundsToPlay.add(new SoundWithLocation(aPlayer.worldObj, UT.Code.roundDown(aCoords.posX), UT.Code.roundDown(aCoords.posY), UT.Code.roundDown(aCoords.posZ), aTimeUntilNextSound, aSound, aVolume, Float.isNaN(aPitch) || aPitch == SFX.RANDOM_PITCH ? SFX._7_GRAND_DAD_[SFX.PITCH_INDEX=((SFX.PITCH_INDEX+1)%SFX._7_GRAND_DAD_.length)] : aPitch));
 			return T;
@@ -2732,15 +2732,15 @@ public class UT {
 			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aTileEntity.getWorld(), aTileEntity.getCoords());
 		}
 		public static boolean send(String aSound, TileEntity aTileEntity) {
-			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aTileEntity.getWorldObj(), new ChunkCoordinates(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord));
+			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aTileEntity.getWorldObj(), new BlockPos(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord));
 		}
 		public static boolean send(String aSound, Entity aEntity) {
-			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aEntity.worldObj, new ChunkCoordinates(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
+			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aEntity.worldObj, new BlockPos(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
 		}
 		public static boolean send(String aSound, World aWorld, int aX, int aY, int aZ) {
-			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aWorld, new ChunkCoordinates(aX, aY, aZ));
+			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aWorld, new BlockPos(aX, aY, aZ));
 		}
-		public static boolean send(String aSound, World aWorld, ChunkCoordinates aCoords) {
+		public static boolean send(String aSound, World aWorld, BlockPos aCoords) {
 			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aWorld, aCoords);
 		}
 		public static boolean send(String aSound, float aVolume, IHasWorldAndCoords aTileEntity) {
@@ -2750,15 +2750,15 @@ public class UT {
 			return send(aSound, aVolume, SFX.RANDOM_PITCH, aTileEntity.getWorld(), aTileEntity.getCoords());
 		}
 		public static boolean send(String aSound, float aVolume, TileEntity aTileEntity) {
-			return send(aSound, aVolume, SFX.RANDOM_PITCH, aTileEntity.getWorldObj(), new ChunkCoordinates(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord));
+			return send(aSound, aVolume, SFX.RANDOM_PITCH, aTileEntity.getWorldObj(), new BlockPos(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord));
 		}
 		public static boolean send(String aSound, float aVolume, Entity aEntity) {
-			return send(aSound, aVolume, SFX.RANDOM_PITCH, aEntity.worldObj, new ChunkCoordinates(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
+			return send(aSound, aVolume, SFX.RANDOM_PITCH, aEntity.worldObj, new BlockPos(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
 		}
 		public static boolean send(String aSound, float aVolume, World aWorld, int aX, int aY, int aZ) {
-			return send(aSound, aVolume, SFX.RANDOM_PITCH, aWorld, new ChunkCoordinates(aX, aY, aZ));
+			return send(aSound, aVolume, SFX.RANDOM_PITCH, aWorld, new BlockPos(aX, aY, aZ));
 		}
-		public static boolean send(String aSound, float aVolume, World aWorld, ChunkCoordinates aCoords) {
+		public static boolean send(String aSound, float aVolume, World aWorld, BlockPos aCoords) {
 			return send(aSound, aVolume, SFX.RANDOM_PITCH, aWorld, aCoords);
 		}
 		public static boolean send(String aSound, float aVolume, float aPitch, IHasWorldAndCoords aTileEntity) {
@@ -2768,15 +2768,15 @@ public class UT {
 			return send(aSound, aVolume, aPitch, aTileEntity.getWorld(), aTileEntity.getCoords());
 		}
 		public static boolean send(String aSound, float aVolume, float aPitch, TileEntity aTileEntity) {
-			return send(aSound, aVolume, aPitch, aTileEntity.getWorldObj(), new ChunkCoordinates(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord));
+			return send(aSound, aVolume, aPitch, aTileEntity.getWorldObj(), new BlockPos(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord));
 		}
 		public static boolean send(String aSound, float aVolume, float aPitch, Entity aEntity) {
-			return send(aSound, aVolume, aPitch, aEntity.worldObj, new ChunkCoordinates(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
+			return send(aSound, aVolume, aPitch, aEntity.worldObj, new BlockPos(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
 		}
 		public static boolean send(String aSound, float aVolume, float aPitch, World aWorld, int aX, int aY, int aZ) {
-			return send(aSound, aVolume, aPitch, aWorld, new ChunkCoordinates(aX, aY, aZ));
+			return send(aSound, aVolume, aPitch, aWorld, new BlockPos(aX, aY, aZ));
 		}
-		public static boolean send(String aSound, float aVolume, float aPitch, World aWorld, ChunkCoordinates aCoords) {
+		public static boolean send(String aSound, float aVolume, float aPitch, World aWorld, BlockPos aCoords) {
 			if (Code.stringInvalid(aSound) || aWorld == null || aWorld.isRemote) return F;
 			NW_API.sendToAllPlayersInRange(new PacketSound(aSound, aVolume, aPitch, aCoords), aWorld, aCoords);
 			return T;
@@ -2785,7 +2785,7 @@ public class UT {
 		@Deprecated public static boolean send(World aWorld, String aSound, int aX, int aY, int aZ) {return send(aSound, 1.0F, SFX.RANDOM_PITCH, aWorld, aX, aY, aZ);}
 		@Deprecated public static boolean send(World aWorld, String aSound, float aVolume, float aPitch, int aX, int aY, int aZ) {return send(aSound, aVolume, aPitch, aWorld, aX, aY, aZ);}
 		@Deprecated public static boolean send(World aWorld, String aSound, float aVolume, float aPitch, Entity aEntity) {return send(aSound, aVolume, aPitch, aEntity);}
-		@Deprecated public static boolean send(World aWorld, String aSound, float aVolume, float aPitch, ChunkCoordinates aCoords) {return send(aSound, aVolume, aPitch, aWorld, aCoords);}
+		@Deprecated public static boolean send(World aWorld, String aSound, float aVolume, float aPitch, BlockPos aCoords) {return send(aSound, aVolume, aPitch, aWorld, aCoords);}
 		
 		public static class PlayedSound {
 			public final String mSoundName;
@@ -2835,79 +2835,79 @@ public class UT {
 	public static class Entities {
 		/** Sends Messages to a Player */
 		public static void sendchat(Object aPlayer, String... aChatMessages) {
-			if (aPlayer instanceof EntityPlayerMP) for (String aMessage : aChatMessages) ((EntityPlayerMP)aPlayer).addChatComponentMessage(new ChatComponentText(aMessage));
+			if (aPlayer instanceof ServerPlayer) for (String aMessage : aChatMessages) ((ServerPlayer)aPlayer).addChatComponentMessage(new ChatComponentText(aMessage));
 		}
 		
 		/** Sends Messages to a Player */
 		public static void sendchat(Object aPlayer, IChatComponent... aChatMessages) {
-			if (aPlayer instanceof EntityPlayerMP) for (IChatComponent aMessage : aChatMessages) ((EntityPlayerMP)aPlayer).addChatComponentMessage(aMessage);
+			if (aPlayer instanceof ServerPlayer) for (IChatComponent aMessage : aChatMessages) ((ServerPlayer)aPlayer).addChatComponentMessage(aMessage);
 		}
 		
 		/** Sends Messages to a Player */
 		public static void sendchat(Object aPlayer, @SuppressWarnings("rawtypes") List aChatMessages, boolean aSkipFirst) {
-			if (aChatMessages != null && aPlayer instanceof EntityPlayerMP) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((EntityPlayerMP)aPlayer).addChatComponentMessage(aMessage instanceof IChatComponent ? (IChatComponent)aMessage : new ChatComponentText(aMessage.toString()));
+			if (aChatMessages != null && aPlayer instanceof ServerPlayer) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((ServerPlayer)aPlayer).addChatComponentMessage(aMessage instanceof IChatComponent ? (IChatComponent)aMessage : new ChatComponentText(aMessage.toString()));
 		}
 		
 		public static void chat(Object aPlayer, String... aChatMessages) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aPlayer instanceof EntityPlayer) for (String aMessage : aChatMessages) ((EntityPlayer)aPlayer).addChatComponentMessage(new ChatComponentText(aMessage));
+			if (aPlayer instanceof Player) for (String aMessage : aChatMessages) ((Player)aPlayer).addChatComponentMessage(new ChatComponentText(aMessage));
 		}
 		
 		public static void chat(Object aPlayer, IChatComponent... aChatMessages) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aPlayer instanceof EntityPlayer) for (IChatComponent aMessage : aChatMessages) ((EntityPlayer)aPlayer).addChatComponentMessage(aMessage);
+			if (aPlayer instanceof Player) for (IChatComponent aMessage : aChatMessages) ((Player)aPlayer).addChatComponentMessage(aMessage);
 		}
 		
 		public static void chat(Object aPlayer, @SuppressWarnings("rawtypes") List aChatMessages, boolean aSkipFirst) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aChatMessages != null && aPlayer instanceof EntityPlayer) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((EntityPlayer)aPlayer).addChatComponentMessage(aMessage instanceof IChatComponent ? (IChatComponent)aMessage : new ChatComponentText(aMessage.toString()));
+			if (aChatMessages != null && aPlayer instanceof Player) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((Player)aPlayer).addChatComponentMessage(aMessage instanceof IChatComponent ? (IChatComponent)aMessage : new ChatComponentText(aMessage.toString()));
 		}
 		
 		
 		
-		public static boolean isWearingFullFrostHazmat(EntityLivingBase aEntity) {
+		public static boolean isWearingFullFrostHazmat(LivingEntity aEntity) {
 			if (isCreative(aEntity)) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_FROST.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
-		public static boolean isWearingFullHeatHazmat(EntityLivingBase aEntity) {
+		public static boolean isWearingFullHeatHazmat(LivingEntity aEntity) {
 			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityBlaze.class || aEntity.getClass() == EntityPigZombie.class || aEntity.getClass() == EntityMagmaCube.class || aEntity.getClass() == EntityGhast.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_HEAT.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
-		public static boolean isWearingFullBioHazmat(EntityLivingBase aEntity) {
+		public static boolean isWearingFullBioHazmat(LivingEntity aEntity) {
 			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityIronGolem.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_BIO.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
-		public static boolean isWearingFullChemHazmat(EntityLivingBase aEntity) {
+		public static boolean isWearingFullChemHazmat(LivingEntity aEntity) {
 			if (isCreative(aEntity)) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_CHEM.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
-		public static boolean isWearingFullInsectHazmat(EntityLivingBase aEntity) {
+		public static boolean isWearingFullInsectHazmat(LivingEntity aEntity) {
 			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityIronGolem.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_INSECTS.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
-		public static boolean isWearingFullRadioHazmat(EntityLivingBase aEntity) {
+		public static boolean isWearingFullRadioHazmat(LivingEntity aEntity) {
 			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityIronGolem.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_RADIOACTIVE.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
-		public static boolean isWearingFullElectroHazmat(EntityLivingBase aEntity) {
+		public static boolean isWearingFullElectroHazmat(LivingEntity aEntity) {
 			if (isCreative(aEntity)) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_LIGHTNING.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
 		}
 		
-		public static boolean isWearingFullGasHazmat(EntityLivingBase aEntity) {
+		public static boolean isWearingFullGasHazmat(LivingEntity aEntity) {
 			if (isCreative(aEntity) || aEntity.getClass() == EntityWither.class || aEntity.getClass() == EntityIronGolem.class) return T;
 			for (byte i = 1; i < 5; i++) if (!ArmorsGT.HAZMATS_GAS.contains(aEntity.getEquipmentInSlot(i), T)) return F;
 			return T;
@@ -2933,8 +2933,8 @@ public class UT {
 		public static boolean isExplosiveCreature(Entity aEntity) {
 			return isGhastCreature(aEntity) || isCreeperCreature(aEntity) || UT.Reflection.getLowercaseClass(aEntity).contains("firebeetle");
 		}
-		public static boolean isWereCreature(EntityLivingBase aEntity) {
-			if (aEntity instanceof EntityPlayer) {
+		public static boolean isWereCreature(LivingEntity aEntity) {
+			if (aEntity instanceof Player) {
 				if ("Bear989Sr".equalsIgnoreCase(aEntity.getCommandSenderName())) return T;
 				IExtendedEntityProperties tWerewolfProperty = aEntity.getExtendedProperties("WerewolfPlayer");
 				if (tWerewolfProperty == null) return F;
@@ -2968,7 +2968,7 @@ public class UT {
 			return Code.bindInt(rLevel);
 		}
 		
-		public static boolean isImmuneToBreathingGases(EntityLivingBase aEntity) {
+		public static boolean isImmuneToBreathingGases(LivingEntity aEntity) {
 			return isWearingFullGasHazmat(aEntity);
 		}
 		
@@ -2987,17 +2987,17 @@ public class UT {
 		}
 		
 		public static boolean applyChemDamage(Entity aEntity, float aDamage) {
-			if (aDamage > 0 && aEntity instanceof EntityLivingBase && aEntity.isEntityAlive() && aEntity.getClass() != EntitySkeleton.class && !isWearingFullChemHazmat(((EntityLivingBase)aEntity))) {
+			if (aDamage > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && aEntity.getClass() != EntitySkeleton.class && !isWearingFullChemHazmat(((LivingEntity)aEntity))) {
 				aEntity.attackEntityFrom(DamageSources.getChemDamage(), TFC_DAMAGE_MULTIPLIER * aDamage);
 				PotionEffect tEffect;
-				((EntityLivingBase)aEntity).addPotionEffect(new PotionEffect(Potion.poison.id, Math.max(20, (int)(aDamage * 100 + Math.max(0, ((tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.poison))==null?0:tEffect.getDuration())))), 1));
+				((LivingEntity)aEntity).addPotionEffect(new PotionEffect(Potion.poison.id, Math.max(20, (int)(aDamage * 100 + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.poison))==null?0:tEffect.getDuration())))), 1));
 				return T;
 			}
 			return F;
 		}
 		
 		public static boolean applyHeatDamage(Entity aEntity, float aDamage) {
-			if (aDamage > 0 && aEntity instanceof EntityLivingBase && aEntity.isEntityAlive() && aEntity.getClass() != EntityBlaze.class && ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.fireResistance) == null && !isWearingFullHeatHazmat(((EntityLivingBase)aEntity))) {
+			if (aDamage > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && aEntity.getClass() != EntityBlaze.class && ((LivingEntity)aEntity).getActivePotionEffect(Potion.fireResistance) == null && !isWearingFullHeatHazmat(((LivingEntity)aEntity))) {
 				aEntity.attackEntityFrom(DamageSources.getHeatDamage(), TFC_DAMAGE_MULTIPLIER * aDamage);
 				return T;
 			}
@@ -3005,7 +3005,7 @@ public class UT {
 		}
 		
 		public static boolean applyFrostDamage(Entity aEntity, float aDamage) {
-			if (aDamage > 0 && aEntity instanceof EntityLivingBase && aEntity.isEntityAlive() && !isWearingFullFrostHazmat(((EntityLivingBase)aEntity))) {
+			if (aDamage > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && !isWearingFullFrostHazmat(((LivingEntity)aEntity))) {
 				aEntity.attackEntityFrom(DamageSources.getFrostDamage(), TFC_DAMAGE_MULTIPLIER * aDamage);
 				return T;
 			}
@@ -3014,7 +3014,7 @@ public class UT {
 		
 		public static boolean applyElectricityDamage(Entity aEntity, long aVoltage, long aAmperage) {
 			long aDamage = Code.tierMax(aVoltage) * aAmperage * 4;
-			if (aDamage > 0 && aEntity instanceof EntityLivingBase && aEntity.isEntityAlive() && !isWearingFullElectroHazmat(((EntityLivingBase)aEntity))) {
+			if (aDamage > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && !isWearingFullElectroHazmat(((LivingEntity)aEntity))) {
 				aEntity.attackEntityFrom(DamageSources.getElectricDamage(), TFC_DAMAGE_MULTIPLIER * aDamage);
 				return T;
 			}
@@ -3023,7 +3023,7 @@ public class UT {
 		
 		public static boolean applyElectricityDamage(Entity aEntity, long aWattage) {
 			long aDamage = Code.tierMax(aWattage) * 4;
-			if (aDamage > 0 && aEntity instanceof EntityLivingBase && aEntity.isEntityAlive() && !isWearingFullElectroHazmat(((EntityLivingBase)aEntity))) {
+			if (aDamage > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && !isWearingFullElectroHazmat(((LivingEntity)aEntity))) {
 				aEntity.attackEntityFrom(DamageSources.getElectricDamage(), TFC_DAMAGE_MULTIPLIER * aDamage);
 				return T;
 			}
@@ -3031,21 +3031,21 @@ public class UT {
 		}
 		
 		public static boolean applyRadioactivity(Entity aEntity, int aLevel, int aAmountOfItems) {
-			if (aLevel > 0 && aEntity instanceof EntityLivingBase && aEntity.isEntityAlive() && ((EntityLivingBase)aEntity).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && ((EntityLivingBase)aEntity).getCreatureAttribute() != EnumCreatureAttribute.ARTHROPOD && !isWearingFullRadioHazmat(((EntityLivingBase)aEntity))) {
+			if (aLevel > 0 && aEntity instanceof LivingEntity && aEntity.isEntityAlive() && ((LivingEntity)aEntity).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && ((LivingEntity)aEntity).getCreatureAttribute() != EnumCreatureAttribute.ARTHROPOD && !isWearingFullRadioHazmat(((LivingEntity)aEntity))) {
 				
 				EntityFoodTracker tTracker = EntityFoodTracker.get(aEntity);
 				if (tTracker != null) {tTracker.changeRadiation(aLevel * aAmountOfItems); return T;}
 				
 				PotionEffect tEffect;
-				applyPotion(aEntity, Potion.moveSlowdown    , aLevel * 140 * aAmountOfItems + Math.max(0, ((tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.moveSlowdown                       ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
-				applyPotion(aEntity, Potion.digSlowdown     , aLevel * 150 * aAmountOfItems + Math.max(0, ((tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.digSlowdown                        ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
-				applyPotion(aEntity, Potion.confusion       , aLevel * 130 * aAmountOfItems + Math.max(0, ((tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.confusion                          ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
-				applyPotion(aEntity, Potion.weakness        , aLevel * 150 * aAmountOfItems + Math.max(0, ((tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.weakness                           ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
-				applyPotion(aEntity, Potion.hunger          , aLevel * 130 * aAmountOfItems + Math.max(0, ((tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.hunger                             ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
+				applyPotion(aEntity, Potion.moveSlowdown    , aLevel * 140 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.moveSlowdown                       ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
+				applyPotion(aEntity, Potion.digSlowdown     , aLevel * 150 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.digSlowdown                        ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
+				applyPotion(aEntity, Potion.confusion       , aLevel * 130 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.confusion                          ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
+				applyPotion(aEntity, Potion.weakness        , aLevel * 150 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.weakness                           ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
+				applyPotion(aEntity, Potion.hunger          , aLevel * 130 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.hunger                             ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
 				if (PotionsGT.ID_RADIATION >= 0) {
-				applyPotion(aEntity, PotionsGT.ID_RADIATION , aLevel * 180 * aAmountOfItems + Math.max(0, ((tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.potionTypes[PotionsGT.ID_RADIATION]))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 4, (5L*aLevel) / 7), F); // can only be between 0 and 4, or else IC2 WILL crash!!!
+				applyPotion(aEntity, PotionsGT.ID_RADIATION , aLevel * 180 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.potionTypes[PotionsGT.ID_RADIATION]))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 4, (5L*aLevel) / 7), F); // can only be between 0 and 4, or else IC2 WILL crash!!!
 				} else {
-				applyPotion(aEntity, Potion.wither          , aLevel * 130 * aAmountOfItems + Math.max(0, ((tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(Potion.wither                             ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
+				applyPotion(aEntity, Potion.wither          , aLevel * 130 * aAmountOfItems + Math.max(0, ((tEffect = ((LivingEntity)aEntity).getActivePotionEffect(Potion.wither                             ))==null?0:tEffect.getDuration())), (int)UT.Code.bind(0, 5, (5L*aLevel) / 7), F);
 				}
 				return T;
 			}
@@ -3054,7 +3054,7 @@ public class UT {
 		
 		public static boolean applyPotion(Entity aEntity, Potion aPotion, int aDuration, int aLevel, boolean aInvisibleParticles) {return aPotion != null && applyPotion(aEntity, aPotion.id, aDuration, aLevel, aInvisibleParticles);}
 		public static boolean applyPotion(Entity aEntity, int aID, int aDuration, int aLevel, boolean aInvisibleParticles) {
-			if (aDuration <= 0 || !(aEntity instanceof EntityLivingBase)) return F;
+			if (aDuration <= 0 || !(aEntity instanceof LivingEntity)) return F;
 			if (aID < -1) switch(aID) {
 				case - 2: aID = PotionsGT.ID_RADIATION  ; break;
 				case - 3: aID = PotionsGT.ID_HYPOTHERMIA; break;
@@ -3069,16 +3069,16 @@ public class UT {
 			}
 			if (aID < 0) return F;
 			if (aLevel >= 0) {
-				((EntityLivingBase)aEntity).addPotionEffect(new PotionEffect(aID, aDuration, aLevel, aInvisibleParticles));
+				((LivingEntity)aEntity).addPotionEffect(new PotionEffect(aID, aDuration, aLevel, aInvisibleParticles));
 				return T;
 			}
-			((EntityLivingBase)aEntity).removePotionEffect(aID);
+			((LivingEntity)aEntity).removePotionEffect(aID);
 			return T;
 		}
 		
 		public static byte pot (Object aEntity, Potion aPotion) {
-			if (aPotion != null && aEntity instanceof EntityLivingBase) {
-				PotionEffect tEffect = ((EntityLivingBase)aEntity).getActivePotionEffect(aPotion);
+			if (aPotion != null && aEntity instanceof LivingEntity) {
+				PotionEffect tEffect = ((LivingEntity)aEntity).getActivePotionEffect(aPotion);
 				// Limit the output value to six bit, which should be more than enough for Potions, and prevent Byte Math Issues.
 				return tEffect == null ? -1 : UT.Code.bind6(tEffect.getAmplifier());
 			}
@@ -3131,22 +3131,22 @@ public class UT {
 		
 		public static boolean exhaust(Object aPlayer) {return exhaust(aPlayer, 0.1);}
 		public static boolean exhaust(Object aPlayer, double aExhaustion) {
-			if (aPlayer instanceof EntityPlayer) {
+			if (aPlayer instanceof Player) {
 				if (isInvincible(aPlayer)) return T;
-				((EntityPlayer)aPlayer).addExhaustion((float)aExhaustion * pot1Fatique(aPlayer));
+				((Player)aPlayer).addExhaustion((float)aExhaustion * pot1Fatique(aPlayer));
 				return T;
 			}
 			return F;
 		}
 		
-		public static Collection<EntityPlayer> getPlayersWithLastTarget(IHasWorldAndCoords aTarget) {return getPlayersWithLastTarget(6, aTarget);}
-		public static Collection<EntityPlayer> getPlayersWithLastTarget(World aWorld, int aX, int aY, int aZ) {return getPlayersWithLastTarget(6, aWorld, aX, aY, aZ);}
-		public static Collection<EntityPlayer> getPlayersWithLastTarget(World aWorld, ChunkCoordinates aCoords) {return getPlayersWithLastTarget(6, aWorld, aCoords);}
-		public static Collection<EntityPlayer> getPlayersWithLastTarget(long aRange, IHasWorldAndCoords aTarget) {return getPlayersWithLastTarget(aRange, aTarget.getWorld(), aTarget.getCoords());}
-		public static Collection<EntityPlayer> getPlayersWithLastTarget(long aRange, World aWorld, int aX, int aY, int aZ) {return getPlayersWithLastTarget(aRange, aWorld, new ChunkCoordinates(aX, aY, aZ));}
-		public static Collection<EntityPlayer> getPlayersWithLastTarget(long aRange, World aWorld, ChunkCoordinates aCoords) {
-			ArrayListNoNulls<EntityPlayer> rList = new ArrayListNoNulls<>();
-			for (Entry<EntityPlayer, ChunkCoordinates> tEntry : PLAYER_LAST_CLICKED.entrySet()) {
+		public static Collection<Player> getPlayersWithLastTarget(IHasWorldAndCoords aTarget) {return getPlayersWithLastTarget(6, aTarget);}
+		public static Collection<Player> getPlayersWithLastTarget(World aWorld, int aX, int aY, int aZ) {return getPlayersWithLastTarget(6, aWorld, aX, aY, aZ);}
+		public static Collection<Player> getPlayersWithLastTarget(World aWorld, BlockPos aCoords) {return getPlayersWithLastTarget(6, aWorld, aCoords);}
+		public static Collection<Player> getPlayersWithLastTarget(long aRange, IHasWorldAndCoords aTarget) {return getPlayersWithLastTarget(aRange, aTarget.getWorld(), aTarget.getCoords());}
+		public static Collection<Player> getPlayersWithLastTarget(long aRange, World aWorld, int aX, int aY, int aZ) {return getPlayersWithLastTarget(aRange, aWorld, new BlockPos(aX, aY, aZ));}
+		public static Collection<Player> getPlayersWithLastTarget(long aRange, World aWorld, BlockPos aCoords) {
+			ArrayListNoNulls<Player> rList = new ArrayListNoNulls<>();
+			for (Entry<Player, BlockPos> tEntry : PLAYER_LAST_CLICKED.entrySet()) {
 				if (!tEntry.getKey().isDead && aWorld == tEntry.getKey().worldObj && aCoords.equals(tEntry.getValue())) {
 					if (isCreative(tEntry.getKey()) || tEntry.getKey().getDistanceSq(aCoords.posX+0.5, aCoords.posY+0.5, aCoords.posZ+0.5) <= aRange * aRange) {
 						rList.add(tEntry.getKey());
@@ -3157,38 +3157,38 @@ public class UT {
 		}
 		
 		public static boolean canEdit(Object aPlayer, int aX, int aY, int aZ) {
-			return !(aPlayer instanceof EntityPlayer) || ((EntityPlayer)aPlayer).canPlayerEdit(aX, aY, aZ, SIDE_TOP, NI);
+			return !(aPlayer instanceof Player) || ((Player)aPlayer).canPlayerEdit(aX, aY, aZ, SIDE_TOP, NI);
 		}
 		public static boolean canEdit(Object aPlayer, int aX, int aY, int aZ, ItemStack aStack) {
-			return !(aPlayer instanceof EntityPlayer) || ((EntityPlayer)aPlayer).canPlayerEdit(aX, aY, aZ, SIDE_TOP, aStack);
+			return !(aPlayer instanceof Player) || ((Player)aPlayer).canPlayerEdit(aX, aY, aZ, SIDE_TOP, aStack);
 		}
 		public static boolean canEdit(Object aPlayer, int aX, int aY, int aZ, int aSide, ItemStack aStack) {
-			return !(aPlayer instanceof EntityPlayer) || ((EntityPlayer)aPlayer).canPlayerEdit(aX, aY, aZ, aSide, aStack);
+			return !(aPlayer instanceof Player) || ((Player)aPlayer).canPlayerEdit(aX, aY, aZ, aSide, aStack);
 		}
 		
 		/** checks if a Player is actually a Player and not a FakePlayer or something. */
 		public static boolean isPlayer(Object aPlayer) {
-			return aPlayer instanceof EntityPlayerMP && !(aPlayer instanceof FakePlayer);
+			return aPlayer instanceof ServerPlayer && !(aPlayer instanceof FakePlayer);
 		}
 		
 		/** only works serverside for now */
 		public static boolean isSpectator(Object aPlayer) {
-			return aPlayer instanceof EntityPlayerMP && ((EntityPlayerMP)aPlayer).theItemInWorldManager.getGameType().getName().equalsIgnoreCase("spectator");
+			return aPlayer instanceof ServerPlayer && ((ServerPlayer)aPlayer).theItemInWorldManager.getGameType().getName().equalsIgnoreCase("spectator");
 		}
 		
 		public static boolean isCreative(Object aPlayer) {
-			return aPlayer instanceof EntityPlayer && ((EntityPlayer)aPlayer).capabilities.isCreativeMode;
+			return aPlayer instanceof Player && ((Player)aPlayer).capabilities.isCreativeMode;
 		}
 		
 		public static boolean isInvincible(Object aPlayer) {
-			return aPlayer instanceof EntityPlayer && ((EntityPlayer)aPlayer).capabilities.isCreativeMode;
+			return aPlayer instanceof Player && ((Player)aPlayer).capabilities.isCreativeMode;
 		}
 		
 		public static boolean hasInfiniteItems(Object aPlayer) {
-			return aPlayer instanceof EntityPlayer && ((EntityPlayer)aPlayer).capabilities.isCreativeMode;
+			return aPlayer instanceof Player && ((Player)aPlayer).capabilities.isCreativeMode;
 		}
 		
-		public static boolean consumeCurrentItem(EntityPlayer aPlayer) {
+		public static boolean consumeCurrentItem(Player aPlayer) {
 			if (aPlayer == null) return F;
 			if (hasInfiniteItems(aPlayer)) return T;
 			ItemStack aStack = aPlayer.inventory.getStackInSlot(aPlayer.inventory.currentItem);
@@ -3202,12 +3202,12 @@ public class UT {
 	@Deprecated public static class Worlds {
 		@Deprecated public static ItemStack suckOneItemStackAt(World aWorld, double aX, double aY, double aZ, double aL, double aH, double aW) {return WD.suck(aWorld, aX, aY, aZ, aL, aH, aW);}
 		@Deprecated public static boolean isSideObstructed(World aWorld, int aX, int aY, int aZ, byte aSide) {return WD.obstructed(aWorld, aX, aY, aZ, aSide);}
-		@Deprecated public static MovingObjectPosition getMovingObjectPositionFromPlayer(World aWorld, EntityPlayer aPlayer, boolean aFlag) {return WD.getMOP(aWorld, aPlayer, aFlag);}
+		@Deprecated public static MovingObjectPosition getMovingObjectPositionFromPlayer(World aWorld, Player aPlayer, boolean aFlag) {return WD.getMOP(aWorld, aPlayer, aFlag);}
 		@Deprecated public static boolean isRealDimension(int aDimensionID) {return T;}
 		@Deprecated public static boolean moveEntityToDimensionAtCoords(Entity aEntity, int aDimension, double aX, double aY, double aZ) {return WD.move(aEntity, aDimension, aX, aY, aZ);}
-		@Deprecated public static DelegatorTileEntity<TileEntity> getTileEntity(World aWorld, ChunkCoordinates aCoords, byte aSide, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aCoords, aSide, aLoadUnloadedChunks);}
+		@Deprecated public static DelegatorTileEntity<TileEntity> getTileEntity(World aWorld, BlockPos aCoords, byte aSide, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aCoords, aSide, aLoadUnloadedChunks);}
 		@Deprecated public static DelegatorTileEntity<TileEntity> getTileEntity(World aWorld, int aX, int aY, int aZ, byte aSide, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aX, aY, aZ, aSide, aLoadUnloadedChunks);}
-		@Deprecated public static TileEntity getTileEntity(World aWorld, ChunkCoordinates aCoords, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aCoords, aLoadUnloadedChunks);}
+		@Deprecated public static TileEntity getTileEntity(World aWorld, BlockPos aCoords, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aCoords, aLoadUnloadedChunks);}
 		@Deprecated public static TileEntity getTileEntity(World aWorld, int aX, int aY, int aZ, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aX, aY, aZ, aLoadUnloadedChunks);}
 		@Deprecated public static TileEntity setTileEntity(World aWorld, int aX, int aY, int aZ, TileEntity aTileEntity, boolean aCauseTileEntityUpdates) {return WD.te(aWorld, aX, aY, aZ, aTileEntity, aCauseTileEntityUpdates);}
 		@Deprecated public static long getEnvironmentalTemperature(World aWorld, int aX, int aY, int aZ) {return WD.envTemp(aWorld, aX, aY, aZ);}
@@ -3217,7 +3217,7 @@ public class UT {
 		@Deprecated public static boolean setBlock(World aWorld, int aX, int aY, int aZ, Block aBlock, long aMeta, long aFlags) {return WD.set(aWorld, aX, aY, aZ, aBlock, aMeta, aFlags);}
 		@Deprecated public static boolean crossedChunkBorder(int aFromX, int aFromZ, int aToX, int aToZ) {return WD.border(aFromX, aFromZ, aToX, aToZ);}
 		@Deprecated public static boolean areCoordsEven(TileEntity aTileEntity) {return WD.even(aTileEntity);}
-		@Deprecated public static boolean areCoordsEven(ChunkCoordinates aCoords) {return WD.even(aCoords);}
+		@Deprecated public static boolean areCoordsEven(BlockPos aCoords) {return WD.even(aCoords);}
 		@Deprecated public static boolean areCoordsEven(int... aCoords) {return WD.even(aCoords);}
 		@Deprecated public static boolean setBlockIfDifferent(World aWorld, int aX, int aY, int aZ, Block aBlock, int aMetaData, int aFlags) {return WD.setIfDiff(aWorld, aX, aY, aZ, aBlock, aMetaData, aFlags);}
 		@Deprecated public static boolean setBlock(World aWorld, int aX, int aY, int aZ, ItemStack aStack) {return WD.set(aWorld, aX, aY, aZ, aStack);}
@@ -3233,11 +3233,11 @@ public class UT {
 		@Deprecated public static boolean isEasilyReplaceable(World aWorld, int aX, int aY, int aZ) {return WD.easyRep(aWorld, aX, aY, aZ);}
 		@Deprecated public static boolean hasCollisionBox(World aWorld, int aX, int aY, int aZ) {return aWorld.getBlock(aX, aY, aZ).getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ) != null;}
 		@Deprecated public static void setOnFire(World aWorld, int aX, int aY, int aZ, boolean aReplaceCenter, boolean aCheckFlammability) {WD.burn(aWorld, aX, aY, aZ, aReplaceCenter, aCheckFlammability);}
-		@Deprecated public static void setOnFire(World aWorld, ChunkCoordinates aCoords, boolean aReplaceCenter, boolean aCheckFlammability) {WD.burn(aWorld, aCoords, aReplaceCenter, aCheckFlammability);}
+		@Deprecated public static void setOnFire(World aWorld, BlockPos aCoords, boolean aReplaceCenter, boolean aCheckFlammability) {WD.burn(aWorld, aCoords, aReplaceCenter, aCheckFlammability);}
 		@Deprecated public static boolean setToFire(World aWorld, int aX, int aY, int aZ, boolean aCheckFlammability) {return WD.fire(aWorld, aX, aY, aZ, aCheckFlammability);}
-		@Deprecated public static boolean setToFire(World aWorld, ChunkCoordinates aCoords, boolean aCheckFlammability) {return WD.fire(aWorld, aCoords, aCheckFlammability);}
+		@Deprecated public static boolean setToFire(World aWorld, BlockPos aCoords, boolean aCheckFlammability) {return WD.fire(aWorld, aCoords, aCheckFlammability);}
 		@Deprecated public static boolean getCoordsOnFire(World aWorld, int aX, int aY, int aZ) {return WD.burning(aWorld, aX, aY, aZ);}
-		@Deprecated public static long getCoordinateScan(ArrayList<String> aList, EntityPlayer aPlayer, World aWorld, int aScanLevel, int aX, int aY, int aZ, byte aSide, float aClickX, float aClickY, float aClickZ) {return WD.scan(aList, aPlayer, aWorld, aScanLevel, aX, aY, aZ, aSide, aClickX, aClickY, aClickZ);}
+		@Deprecated public static long getCoordinateScan(ArrayList<String> aList, Player aPlayer, World aWorld, int aScanLevel, int aX, int aY, int aZ, byte aSide, float aClickX, float aClickY, float aClickZ) {return WD.scan(aList, aPlayer, aWorld, aScanLevel, aX, aY, aZ, aSide, aClickX, aClickY, aClickZ);}
 	}
 	
 	@Deprecated public static class Stacks {
@@ -3287,19 +3287,19 @@ public class UT {
 		@Deprecated public static ItemStack make(long aItemID, long aStacksize, long aMetaData) {return aItemID==0?null:make(Item.getItemById((int)aItemID), aStacksize, aMetaData);}
 		@Deprecated public static ItemStack make(Item aItem, long aStacksize, long aMetaData) {return aItem == null ? null : make(new ItemStack(aItem, Code.bindInt(aStacksize), (int)aMetaData), null);}
 		@Deprecated public static ItemStack make(Block aBlock, long aStacksize, long aMetaData) {return aBlock == null || aBlock == NB ? null : make(new ItemStack(aBlock, Code.bindInt(aStacksize), (int)aMetaData), null);}
-		@Deprecated public static ItemStack make(long aItemID, long aStacksize, long aMetaData, NBTTagCompound aNBT) {return aItemID==0?null:make(Item.getItemById((int)aItemID), aStacksize, aMetaData, aNBT);}
-		@Deprecated public static ItemStack make(Item aItem, long aStacksize, long aMetaData, NBTTagCompound aNBT) {return aItem == null ? null : make(new ItemStack(aItem, Code.bindInt(aStacksize), (int)aMetaData), aNBT);}
-		@Deprecated public static ItemStack make(Block aBlock, long aStacksize, long aMetaData, NBTTagCompound aNBT) {return aBlock == null || aBlock == NB ? null : make(new ItemStack(aBlock, Code.bindInt(aStacksize), (int)aMetaData), aNBT);}
-		@Deprecated public static ItemStack make(ItemStack aStack, NBTTagCompound aNBT) {return make(aStack, null, aNBT);}
-		@Deprecated public static ItemStack make(ItemStackContainer aStack, NBTTagCompound aNBT) {return make(aStack, null, aNBT);}
+		@Deprecated public static ItemStack make(long aItemID, long aStacksize, long aMetaData, CompoundTag aNBT) {return aItemID==0?null:make(Item.getItemById((int)aItemID), aStacksize, aMetaData, aNBT);}
+		@Deprecated public static ItemStack make(Item aItem, long aStacksize, long aMetaData, CompoundTag aNBT) {return aItem == null ? null : make(new ItemStack(aItem, Code.bindInt(aStacksize), (int)aMetaData), aNBT);}
+		@Deprecated public static ItemStack make(Block aBlock, long aStacksize, long aMetaData, CompoundTag aNBT) {return aBlock == null || aBlock == NB ? null : make(new ItemStack(aBlock, Code.bindInt(aStacksize), (int)aMetaData), aNBT);}
+		@Deprecated public static ItemStack make(ItemStack aStack, CompoundTag aNBT) {return make(aStack, null, aNBT);}
+		@Deprecated public static ItemStack make(ItemStackContainer aStack, CompoundTag aNBT) {return make(aStack, null, aNBT);}
 		@Deprecated public static ItemStack make(long aItemID, long aStacksize, long aMetaData, String aName) {return aItemID==0?null:make(Item.getItemById((int)aItemID), aStacksize, aMetaData, aName);}
 		@Deprecated public static ItemStack make(Item aItem, long aStacksize, long aMetaData, String aName) {return aItem == null ? null : make(new ItemStack(aItem, Code.bindInt(aStacksize), (int)aMetaData), aName, null);}
 		@Deprecated public static ItemStack make(Block aBlock, long aStacksize, long aMetaData, String aName) {return aBlock == null || aBlock == NB ? null : make(new ItemStack(aBlock, Code.bindInt(aStacksize), (int)aMetaData), aName, null);}
-		@Deprecated public static ItemStack make(long aItemID, long aStacksize, long aMetaData, String aName, NBTTagCompound aNBT) {return aItemID==0?null:make(Item.getItemById((int)aItemID), aStacksize, aMetaData, aName, aNBT);}
-		@Deprecated public static ItemStack make(Item aItem, long aStacksize, long aMetaData, String aName, NBTTagCompound aNBT) {return aItem == null ? null : make(new ItemStack(aItem, Code.bindInt(aStacksize), (int)aMetaData), aName, aNBT);}
-		@Deprecated public static ItemStack make(Block aBlock, long aStacksize, long aMetaData, String aName, NBTTagCompound aNBT) {return aBlock == null || aBlock == NB ? null : make(new ItemStack(aBlock, Code.bindInt(aStacksize), (int)aMetaData), aName, aNBT);}
-		@Deprecated public static ItemStack make(ItemStack aStack, String aName, NBTTagCompound aNBT) {if (aStack == null) return null; aStack = aStack.copy(); NBT.set(aStack, aNBT); if (aName != null) aStack.setStackDisplayName(aName); return aStack;}
-		@Deprecated public static ItemStack make(ItemStackContainer aStack, String aName, NBTTagCompound aNBT) {if (aStack == null) return null; ItemStack rStack = aStack.toStack(); if (rStack == null) return null; NBT.set(rStack, aNBT); if (aName != null) rStack.setStackDisplayName(aName); return rStack;}
+		@Deprecated public static ItemStack make(long aItemID, long aStacksize, long aMetaData, String aName, CompoundTag aNBT) {return aItemID==0?null:make(Item.getItemById((int)aItemID), aStacksize, aMetaData, aName, aNBT);}
+		@Deprecated public static ItemStack make(Item aItem, long aStacksize, long aMetaData, String aName, CompoundTag aNBT) {return aItem == null ? null : make(new ItemStack(aItem, Code.bindInt(aStacksize), (int)aMetaData), aName, aNBT);}
+		@Deprecated public static ItemStack make(Block aBlock, long aStacksize, long aMetaData, String aName, CompoundTag aNBT) {return aBlock == null || aBlock == NB ? null : make(new ItemStack(aBlock, Code.bindInt(aStacksize), (int)aMetaData), aName, aNBT);}
+		@Deprecated public static ItemStack make(ItemStack aStack, String aName, CompoundTag aNBT) {if (aStack == null) return null; aStack = aStack.copy(); NBT.set(aStack, aNBT); if (aName != null) aStack.setStackDisplayName(aName); return aStack;}
+		@Deprecated public static ItemStack make(ItemStackContainer aStack, String aName, CompoundTag aNBT) {if (aStack == null) return null; ItemStack rStack = aStack.toStack(); if (rStack == null) return null; NBT.set(rStack, aNBT); if (aName != null) rStack.setStackDisplayName(aName); return rStack;}
 		@Deprecated public static ItemStack[] copyArray(Object... aStacks) {return ST.copyArray((ItemStack[])aStacks);}
 		@Deprecated public static ItemStack copy(Object... aStacks) {return ST.copyFirst(aStacks);}
 		@Deprecated public static ItemStack amount(long aAmount, Object... aStacks) {return ST.amount(aAmount, (ItemStack)aStacks[0]);}
@@ -3327,10 +3327,10 @@ public class UT {
 		@Deprecated public static void hide(Block aBlock) {ST.hide(aBlock);}
 		@Deprecated public static void hide(Block aBlock, long aMetaData) {ST.hide(aBlock, aMetaData);}
 		@Deprecated public static void hide(ItemStack aStack) {ST.hide(aStack);}
-		@Deprecated public static ItemStack load(NBTTagCompound aNBT, String aTagName) {return ST.load(aNBT, aTagName);}
-		@Deprecated public static ItemStack load(NBTTagCompound aNBT) {return ST.load(aNBT);}
-		@Deprecated public static NBTTagCompound save(NBTTagCompound aNBT, String aTagName, ItemStack aStack) {return ST.save(aNBT, aTagName, aStack);}
-		@Deprecated public static NBTTagCompound save(ItemStack aStack) {return ST.save(aStack);}
+		@Deprecated public static ItemStack load(CompoundTag aNBT, String aTagName) {return ST.load(aNBT, aTagName);}
+		@Deprecated public static ItemStack load(CompoundTag aNBT) {return ST.load(aNBT);}
+		@Deprecated public static CompoundTag save(CompoundTag aNBT, String aTagName, ItemStack aStack) {return ST.save(aNBT, aTagName, aStack);}
+		@Deprecated public static CompoundTag save(ItemStack aStack) {return ST.save(aStack);}
 	}
 	
 	@Deprecated public static class Crafting {
@@ -3372,7 +3372,7 @@ public class UT {
 		return rReturn;
 	}
 	
-	public static boolean addSimpleIC2MachineRecipe(IMachineRecipeManager aRecipeManager, ItemStack aInput, NBTTagCompound aNBT, Object... aOutput) {
+	public static boolean addSimpleIC2MachineRecipe(IMachineRecipeManager aRecipeManager, ItemStack aInput, CompoundTag aNBT, Object... aOutput) {
 		if (!MD.IC2.mLoaded || ST.invalid(aInput) || aOutput == null || aRecipeManager == null) return F;
 		try {
 			aOutput = Code.getWithoutNulls(aOutput).toArray(ZL);
@@ -3396,7 +3396,7 @@ public class UT {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static boolean addSimpleIC2MachineRecipe(ItemStack aInput, @SuppressWarnings("rawtypes") Map aRecipeList, NBTTagCompound aNBT, Object... aOutput) {
+	public static boolean addSimpleIC2MachineRecipe(ItemStack aInput, @SuppressWarnings("rawtypes") Map aRecipeList, CompoundTag aNBT, Object... aOutput) {
 		if (!MD.IC2.mLoaded || ST.invalid(aInput) || aOutput.length == 0 || aRecipeList == null) return F;
 		OreDictItemData tOreName = OM.association_(aInput);
 		if (tOreName != null) {

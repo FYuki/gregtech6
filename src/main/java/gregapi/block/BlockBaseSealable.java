@@ -24,8 +24,8 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.world.level.Level;
+import net.minecraft.core.Direction; // was Direction
 
 /**
  * @author Gregorius Techneticies
@@ -35,5 +35,5 @@ public abstract class BlockBaseSealable extends BlockBase implements IBlockSeala
 		super(aItemClass, aNameInternal, aMaterial, aSoundType);
 	}
 	
-	@Override public boolean isSealed(World aWorld, int aX, int aY, int aZ, ForgeDirection aDirection) {return isSealable(WD.meta(aWorld, aX, aY, aZ), (byte)(UT.Code.side(aDirection) ^ 1));}
+	@Override public boolean isSealed(World aWorld, int aX, int aY, int aZ, Direction aDirection) {return isSealable(WD.meta(aWorld, aX, aY, aZ), (byte)(UT.Code.side(aDirection) ^ 1));}
 }

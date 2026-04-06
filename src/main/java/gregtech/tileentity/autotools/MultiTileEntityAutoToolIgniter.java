@@ -41,10 +41,10 @@ import gregapi.tileentity.energy.ITileEntityEnergyElectricityAcceptor;
 import gregapi.tileentity.machines.ITileEntitySwitchableOnOff;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class MultiTileEntityAutoToolIgniter extends TileEntityBase09FacingSingle implements ITileEntityEnergyElectricityAcceptor, ITileEntitySwitchableOnOff {
 	public boolean mStopped = F;
@@ -53,7 +53,7 @@ public class MultiTileEntityAutoToolIgniter extends TileEntityBase09FacingSingle
 	public TagData mEnergyTypeAccepted = TD.Energy.EU;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		mEnergy = aNBT.getLong(NBT_ENERGY);
 		if (aNBT.hasKey(NBT_INPUT)) mInput = aNBT.getLong(NBT_INPUT);
@@ -63,7 +63,7 @@ public class MultiTileEntityAutoToolIgniter extends TileEntityBase09FacingSingle
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
 		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);

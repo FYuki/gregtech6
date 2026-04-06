@@ -30,7 +30,7 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 
 import java.util.Map;
@@ -128,10 +128,10 @@ public class Loader_Recipes_Foreign implements Runnable {
 				// Ores don't always crush into what they are supposed to result in, also somehow Ingots get crushed into multiple Gems sometimes, such as Coal.
 				CrusherRecipe.recipeList.clear();
 				// Adding some Recipes to it, so it is not completely useless.
-				CrusherRecipe.addRecipe(ST.make(Blocks.gravel     , 1, 0), ST.make(Blocks.stone              , 1, 0), 1600);
-				CrusherRecipe.addRecipe(ST.make(Blocks.sand       , 1, 0), ST.make(Blocks.cobblestone        , 1, 0), 1600);
-				CrusherRecipe.addRecipe(ST.make(Items.flint       , 2, 0), ST.make(Blocks.gravel             , 1, 0), 1600);
-				CrusherRecipe.addRecipe(OP.dust     .mat(MT.Glowstone, 4), ST.make(Blocks.glowstone          , 1, 0), 3200);
+				CrusherRecipe.addRecipe(ST.make(Blocks.GRAVEL     , 1, 0), ST.make(Blocks.STONE              , 1, 0), 1600);
+				CrusherRecipe.addRecipe(ST.make(Blocks.SAND       , 1, 0), ST.make(Blocks.COBBLESTONE        , 1, 0), 1600);
+				CrusherRecipe.addRecipe(ST.make(Items.flint       , 2, 0), ST.make(Blocks.GRAVEL             , 1, 0), 1600);
+				CrusherRecipe.addRecipe(OP.dust     .mat(MT.Glowstone, 4), ST.make(Blocks.GLOWSTONE          , 1, 0), 3200);
 				CrusherRecipe.addRecipe(IL.Dye_Bonemeal           .get(4), ST.make(Items.bone                , 1, 0), 3200);
 				CrusherRecipe.addRecipe(OP.blockDust.mat(MT.Glass    , 1), OD.blockGlass                 .toString(), 6400);
 				CrusherRecipe.addRecipe(OP.dust     .mat(MT.Glass    , 1), OD.paneGlass                  .toString(), 1600);

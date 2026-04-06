@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Random;
 
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
@@ -51,7 +51,7 @@ public class WorldgenFluid extends WorldgenBlob {
 		if (tTargetedBlock == NB || tTargetedBlock.isAir(aWorld, aX, aY, aZ)) {
 			return mAllowToGenerateinVoid && aWorld.setBlock(aX, aY, aZ, mBlock, mBlockMeta, 0);
 		}
-		if (tTargetedBlock == Blocks.dirt || tTargetedBlock == Blocks.soul_sand || WD.ore_stone(tTargetedBlock, (byte)aWorld.getBlockMetadata(aX, aY, aZ))) {
+		if (tTargetedBlock == Blocks.DIRT || tTargetedBlock == Blocks.soul_sand || WD.ore_stone(tTargetedBlock, (byte)aWorld.getBlockMetadata(aX, aY, aZ))) {
 			return aWorld.setBlock(aX, aY, aZ, mBlock, mBlockMeta, 0);
 		}
 		return F;

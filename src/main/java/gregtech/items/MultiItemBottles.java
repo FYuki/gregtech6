@@ -29,8 +29,8 @@ import gregapi.item.multiitem.food.FoodStatFluid;
 import gregapi.oredict.OreDictItemData;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import static gregapi.data.CS.*;
 

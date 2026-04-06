@@ -25,8 +25,8 @@ import gregapi.network.IPacket;
 import gregapi.tileentity.ITileEntityScheduledUpdate;
 import gregapi.tileentity.ITileEntitySynchronising;
 import gregapi.tileentity.base.TileEntityBase01Root;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.UUID;
 
@@ -54,7 +54,7 @@ public abstract class TileEntityBase02Sync extends TileEntityBase01Root implemen
 	}
 	
 	/** sends all Data to the Clients in Range */
-	public void sendClientData(boolean aSendAll, EntityPlayerMP aPlayer) {
+	public void sendClientData(boolean aSendAll, ServerPlayer aPlayer) {
 		IPacket tPacket = getClientDataPacket(aSendAll);
 		if (aPlayer == null) {
 			if (mOwner == null) {
@@ -96,7 +96,7 @@ public abstract class TileEntityBase02Sync extends TileEntityBase01Root implemen
 	@Override public final net.minecraft.network.Packet getDescriptionPacket() {updateClientData(); return null;}
 	
 	@Override
-	public final void sendUpdateToPlayer(EntityPlayerMP aPlayer) {
+	public final void sendUpdateToPlayer(ServerPlayer aPlayer) {
 		sendClientData(T, aPlayer);
 	}
 	

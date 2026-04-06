@@ -23,7 +23,7 @@ import static gregapi.data.CS.*;
 
 import gregapi.data.MD;
 import gregapi.util.ST;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 /**
@@ -37,9 +37,9 @@ public class DungeonChunkRoomPortalEnd extends DungeonChunkRoomVault {
 		
 		for (int tX = 1; tX < 15; tX++) for (int tZ = 1; tZ < 15; tZ++) {
 			if ((tX == 3 || tX == 6 || tX == 9 || tX == 12) && (tZ == 3 || tZ == 6 || tZ == 9 || tZ == 12)) {
-				aData.set(tX, 0, tZ, Blocks.glowstone, 0);
+				aData.set(tX, 0, tZ, Blocks.GLOWSTONE, 0);
 			} else {
-				aData.set(tX, 0, tZ, Blocks.end_stone, 0);
+				aData.set(tX, 0, tZ, Blocks.END_STONE, 0);
 			}
 		}
 		
@@ -58,7 +58,7 @@ public class DungeonChunkRoomPortalEnd extends DungeonChunkRoomVault {
 					aData.set  (tX, 7, tZ, tPurpurPillar, 0);
 				} else if ((tX == 3 || tX == 6 || tX == 9 || tX == 12) && (tZ == 3 || tZ == 6 || tZ == 9 || tZ == 12)) {
 					aData.set  (tX, 0, tZ, tPurpurPillar, 0);
-					aData.set  (tX, 7, tZ, Blocks.glowstone);
+					aData.set  (tX, 7, tZ, Blocks.GLOWSTONE);
 					aData.tiles(tX, 8, tZ);
 				} else {
 					aData.set  (tX, 0, tZ, tPurpurBlock, 0);
@@ -77,7 +77,7 @@ public class DungeonChunkRoomPortalEnd extends DungeonChunkRoomVault {
 				if (ST.valid(tHexorium)) {
 					aData.set(tX, 2, tZ, tHexorium, 9, 3);
 				} else {
-					aData.set(tX, 2, tZ, Blocks.glowstone, 0, 3);
+					aData.set(tX, 2, tZ, Blocks.GLOWSTONE, 0, 3);
 				}
 			}
 		}

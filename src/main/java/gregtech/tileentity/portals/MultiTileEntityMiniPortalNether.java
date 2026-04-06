@@ -30,10 +30,10 @@ import gregapi.data.LH;
 import gregapi.data.LH.Chat;
 import gregapi.render.BlockTextureCopied;
 import gregapi.render.ITexture;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
@@ -127,10 +127,10 @@ public class MultiTileEntityMiniPortalNether extends MultiTileEntityMiniPortal i
 		return super.onToolClick(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 	}
 	
-	@Override public float getBlockHardness() {return Blocks.obsidian.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
-	@Override public float getExplosionResistance2() {return Blocks.obsidian.getExplosionResistance(null);}
+	@Override public float getBlockHardness() {return Blocks.OBSIDIAN.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
+	@Override public float getExplosionResistance2() {return Blocks.OBSIDIAN.getExplosionResistance(null);}
 	
-	public ITexture sNetherPortal = BlockTextureCopied.get(Blocks.portal, SIDE_ANY, 0, UNCOLOURED, F, T, T), sNetherPortalFrame = BlockTextureCopied.get(Blocks.obsidian, SIDE_ANY, 0);
+	public ITexture sNetherPortal = BlockTextureCopied.get(Blocks.portal, SIDE_ANY, 0, UNCOLOURED, F, T, T), sNetherPortalFrame = BlockTextureCopied.get(Blocks.OBSIDIAN, SIDE_ANY, 0);
 	@Override public ITexture getPortalTexture() {return sNetherPortal;}
 	@Override public ITexture getFrameTexture() {return sNetherPortalFrame;}
 	

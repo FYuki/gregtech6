@@ -30,16 +30,16 @@ import gregapi.render.IIconContainer;
 import gregapi.render.ITexture;
 import gregapi.tileentity.base.TileEntityBase09FacingSingle;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos; // was BlockPos
+import net.neoforged.neoforge.fluids.FluidStack;
+// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	public IIconContainer[] mTextures = L6_IICONCONTAINER, mTexturesFront = L6_IICONCONTAINER;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_STATE+".str")) mStructureOkay = aNBT.getBoolean(NBT_STATE+".str");
 		
@@ -90,7 +90,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setBoolean(aNBT, NBT_STATE+".str", mStructureOkay);
 	}
@@ -126,7 +126,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	}
 	
 	@Override
-	public long onToolClickMultiBlock(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ, ChunkCoordinates aFrom) {
+	public long onToolClickMultiBlock(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ, BlockPos aFrom) {
 		if (aTool.equals(TOOL_builderwand)) {
 			if (isClientSide()) return 0;
 			checkStructure2(aFrom, aPlayer, aPlayerInventory);
@@ -199,7 +199,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	@Override public void onStructureChange() {mStructureChanged = T;}
 	
 	/** New Version of the MultiBlock Structure Check, which can't be made abstract for backwards compat reasons. */
-	public boolean checkStructure2(ChunkCoordinates aCoordinates, Entity aPlayer, IInventory aInventory) {return checkStructure2();}
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {return checkStructure2();}
 	/** Previous Version of the MultiBlock Structure Check without Builder Wand Support. Overriding this formerly abstract function will still work for regular checks but is not recommended. */
 	@Deprecated public boolean checkStructure2() {return T;}
 	
@@ -219,7 +219,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	public boolean hasCustomInventoryName                   (MultiTileEntityMultiBlockPart aPart) {return hasCustomInventoryName();}
 	public int getInventoryStackLimit                       (MultiTileEntityMultiBlockPart aPart) {return getInventoryStackLimit();}
 	public void markDirty                                   (MultiTileEntityMultiBlockPart aPart) {markDirty();}
-	public boolean isUseableByPlayer                        (MultiTileEntityMultiBlockPart aPart, EntityPlayer aPlayer) {return isUseableByPlayer(aPlayer);}
+	public boolean isUseableByPlayer                        (MultiTileEntityMultiBlockPart aPart, Player aPlayer) {return isUseableByPlayer(aPlayer);}
 	public void openInventory                               (MultiTileEntityMultiBlockPart aPart) {openInventory();}
 	public void closeInventory                              (MultiTileEntityMultiBlockPart aPart) {closeInventory();}
 	public boolean isItemValidForSlot                       (MultiTileEntityMultiBlockPart aPart, int aSlot, ItemStack aStack) {return isItemValidForSlot(aSlot, aStack);}

@@ -37,8 +37,8 @@ import gregapi.oredict.event.OreDictListenerEvent_Names;
 import gregapi.oredict.event.OreDictListenerEvent_TwoNames;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraft.world.item.ItemStack;
+// PHASE7: import ShapelessOreRecipe removed — use datapack recipes
 
 public class Compat_Recipes_ImmersiveEngineering extends CompatMods {
 	public Compat_Recipes_ImmersiveEngineering(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

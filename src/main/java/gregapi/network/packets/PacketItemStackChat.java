@@ -33,10 +33,10 @@ import gregapi.network.INetworkHandler;
 import gregapi.network.IPacket;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NBTSizeTracker;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.IBlockAccess;
 
 /**
@@ -62,7 +62,7 @@ public class PacketItemStackChat implements IPacket {
 		aData.writeShort(ST.id(mStack));
 		aData.writeByte(mStack.stackSize);
 		aData.writeShort(ST.meta_(mStack));
-		NBTTagCompound tNBT = mStack.getTagCompound();
+		CompoundTag tNBT = mStack.getTagCompound();
 		if (tNBT == null) aData.writeShort(-1); else {
 			try {
 				byte[] tData = CompressedStreamTools.compress(tNBT);
@@ -78,7 +78,7 @@ public class PacketItemStackChat implements IPacket {
 		return new PacketItemStackChat(ST.make(aData.readShort(), aData.readByte(), aData.readShort(), readNBTTagCompoundFromBuffer(aData)));
 	}
 	
-	public NBTTagCompound readNBTTagCompoundFromBuffer(ByteArrayDataInput aData) {
+	public CompoundTag readNBTTagCompoundFromBuffer(ByteArrayDataInput aData) {
 		short tLength = aData.readShort();
 		if (tLength <= 0) return null;
 		byte[] tData = new byte[tLength];

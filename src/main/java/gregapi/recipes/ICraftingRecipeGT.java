@@ -21,7 +21,7 @@ package gregapi.recipes;
 
 import gregapi.util.ST;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 
 /**

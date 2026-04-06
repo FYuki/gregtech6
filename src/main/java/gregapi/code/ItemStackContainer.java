@@ -22,9 +22,9 @@ package gregapi.code;
 import static gregapi.data.CS.*;
 
 import gregapi.util.ST;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies

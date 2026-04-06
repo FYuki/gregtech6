@@ -22,10 +22,10 @@ package gregapi.old;
 import java.util.List;
 
 import gregapi.lang.LanguageHandler;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class GT_Spray_Pepper_Item extends GT_Tool_Item {
 	public GT_Spray_Pepper_Item(String aUnlocalized, String aEnglish, int aMaxDamage, int aEntityDamage) {
@@ -45,17 +45,17 @@ public class GT_Spray_Pepper_Item extends GT_Tool_Item {
 	/*
 	@Override
 	public void onHitEntity(Entity aEntity) {
-		if (aEntity instanceof EntityLiving) {
-			((EntityLiving)aEntity).addPotionEffect(new PotionEffect(Potion.blindness.getId(), 1200, 2, false));
-			((EntityLiving)aEntity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 120, 2, false));
-			((EntityLiving)aEntity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 200, 2, false));
-			((EntityLiving)aEntity).addPotionEffect(new PotionEffect(Potion.confusion.getId(), 600, 2, false));
+		if (aEntity instanceof Mob) {
+			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.blindness.getId(), 1200, 2, false));
+			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 120, 2, false));
+			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 200, 2, false));
+			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.confusion.getId(), 600, 2, false));
 		}
 	}
 	*/
 	
 	@Override
-	public boolean onItemUseFirst(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
 		super.onItemUseFirst(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, hitX, hitY, hitZ);
 		if (aWorld.isRemote) {
 			return false;

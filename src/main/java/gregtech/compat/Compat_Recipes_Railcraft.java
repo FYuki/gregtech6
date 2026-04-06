@@ -33,10 +33,10 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import mods.railcraft.common.carts.EntityTunnelBore;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
 import static gregapi.util.CR.*;
@@ -62,8 +62,8 @@ public class Compat_Recipes_Railcraft extends CompatMods {
 		CR.shaped(ST.make(MD.RC, "part.circuit", 1,  1), tBits, "dCW", "GAR", "WRL", 'W', ST.make(Blocks.wool, 1, 13), 'L', OP.gem.dat(MT.Lapis), 'A', tIngot.dat(MT.Au), 'C', Items.repeater, 'R', OD.itemRedstone, 'G', OD.itemGlue);
 		CR.shaped(ST.make(MD.RC, "part.circuit", 1,  2), tBits, "dCW", "GAR", "WRL", 'W', ST.make(Blocks.wool, 1,  4), 'L', OP.gem.dat(MT.Lapis), 'A', tIngot.dat(MT.Au), 'C', Items.repeater, 'R', OD.itemRedstone, 'G', OD.itemGlue);
 		
-		CR.shapeless(ST.make(Blocks.tnt, 1, 0), DEF, new Object[] {ST.make(MD.RC, "cart.tnt.wood", 1, 0)});
-		RM.unbox(IL.Plank_Slab.get(5), ST.make(MD.RC, "cart.tnt.wood", 1, 0), ST.make(Blocks.tnt, 1, 0));
+		CR.shapeless(ST.make(Blocks.TNT, 1, 0), DEF, new Object[] {ST.make(MD.RC, "cart.tnt.wood", 1, 0)});
+		RM.unbox(IL.Plank_Slab.get(5), ST.make(MD.RC, "cart.tnt.wood", 1, 0), ST.make(Blocks.TNT, 1, 0));
 		
 		CR.shapeless(ST.make(MD.RC, "tool.notepad", 1, 0), tBits, new Object[] {OD.itemFeather, DYE_OREDICTS[DYE_INDEX_Black], OD.paperEmpty, ST.make(MD.RC, "tool.magnifying.glass", 1, 0)});
 		
@@ -106,10 +106,10 @@ public class Compat_Recipes_Railcraft extends CompatMods {
 		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1,  2), tBits                                                 , "IOI"          , "GEG"              , "IOI"              , 'I', tIngot.dat(MT.Au)                        , 'G', OP.gem.dat(ANY.Emerald), 'E', OP.gem.dat(MT.EnderPearl), 'O', OP.blockSolid.dat(MT.Obsidian));
 		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 4,  3), tBits                                                 , "PPP"          , "PFP"              , "PPP"              , 'P', OP.plate.dat(ANY.Steel)                  , 'F', OD.craftingFurnace);
 		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1,  5), tBits                                                 , " N "          , "RCR"                                   , 'R', OD.itemRedstone                          , 'N', OP.stone.dat(MT.Netherrack), 'C', Items.cauldron);
-		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1,  6), tBits                                                 , "PGP"          , "EDE"              , "PGP"              , 'E', OP.gem.dat(ANY.Emerald)                  , 'P', OP.plate.dat(ANY.Steel), 'G', OD.paneGlassColorless, 'D', Blocks.dispenser);
+		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1,  6), tBits                                                 , "PGP"          , "EDE"              , "PGP"              , 'E', OP.gem.dat(ANY.Emerald)                  , 'P', OP.plate.dat(ANY.Steel), 'G', OD.paneGlassColorless, 'D', Blocks.DISPENSER);
 		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1,  8), tBits                                                 , "IPI"          , "PCP"              , "IPI"              , 'P', OD.craftingPiston                        , 'I', tIngot.dat(ANY.Fe), 'C', OD.craftingWorkBench);
-		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1,  9), tBits                                                 , " I "          , " T "              , " D "              , 'I', Blocks.iron_bars                         , 'T', ST.make(MD.RC, "machine.beta", 1, 4), 'D', Blocks.dispenser);
-		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1, 10), tBits                                                 , " I "          , "RTR"              , " D "              , 'I', Blocks.iron_bars                         , 'T', ST.make(MD.RC, "machine.beta", 1, 4), 'D', Blocks.dispenser, 'R', OD.itemRedstone);
+		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1,  9), tBits                                                 , " I "          , " T "              , " D "              , 'I', Blocks.iron_bars                         , 'T', ST.make(MD.RC, "machine.beta", 1, 4), 'D', Blocks.DISPENSER);
+		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1, 10), tBits                                                 , " I "          , "RTR"              , " D "              , 'I', Blocks.iron_bars                         , 'T', ST.make(MD.RC, "machine.beta", 1, 4), 'D', Blocks.DISPENSER, 'R', OD.itemRedstone);
 		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1, 10), DEF                                                   , "RTR"                                                    , 'R', OD.itemRedstone                          , 'T', ST.make(MD.RC, "machine.alpha", 1, 9));
 		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1, 11), tBits                                                 , "PCP"          , "CSC"              , "PCP"              , 'P', OD.plankAnyWood                          , 'S', OP.plate.dat(ANY.Steel), 'C', Items.golden_carrot);
 		CR.shaped(ST.make(MD.RC, "machine.alpha"          , 1, 13), tBits                                                 , "IOI"          , "GEG"              , "IOI"              , 'I', tIngot.dat(MT.Au)                        , 'G', DYE_OREDICTS[DYE_INDEX_Cyan], 'E', OP.gem.dat(MT.EnderPearl), 'O', OP.blockSolid.dat(MT.Obsidian));
@@ -130,7 +130,7 @@ public class Compat_Recipes_Railcraft extends CompatMods {
 		CR.shaped(ST.make(MD.RC, "borehead.diamond"       , 1,  0), tBits                                                 , "SSS"          , "SBS"              , "SSS"              , 'B', OP.blockGem.dat(ANY.Diamond)             , 'S', tIngot.dat(ANY.Steel));
 		
 		CR.shaped(ST.make(MD.RC, "cart.loco.steam.solid"  , 1,  0), tBits | DEL_IF_NO_DYES | DEL_OTHER_RECIPES_IF_SAME_NBT, "TTF"          , "TTF"              , "BCC"              , 'C', Items.minecart                           , 'T', ST.make(MD.RC, "machine.beta", 1, 4), 'F', ST.make(MD.RC, "machine.beta", 1, 5), 'B', Blocks.iron_bars);
-		CR.shaped(ST.make(MD.RC, "cart.loco.electric"     , 1,  0), tBits | DEL_IF_NO_DYES | DEL_OTHER_RECIPES_IF_SAME_NBT, "LP"+tWrench   , "PEP"              , "GCG"              , 'C', Items.minecart                           , 'E', ST.make(MD.RC, "machine.epsilon", 1, 0), 'G', ST.make(MD.RC, "part.gear", 1, 2), 'L', Blocks.redstone_lamp, 'P', OP.plate.dat(ANY.Steel));
+		CR.shaped(ST.make(MD.RC, "cart.loco.electric"     , 1,  0), tBits | DEL_IF_NO_DYES | DEL_OTHER_RECIPES_IF_SAME_NBT, "LP"+tWrench   , "PEP"              , "GCG"              , 'C', Items.minecart                           , 'E', ST.make(MD.RC, "machine.epsilon", 1, 0), 'G', ST.make(MD.RC, "part.gear", 1, 2), 'L', Blocks.REDSTONE_LAMP, 'P', OP.plate.dat(ANY.Steel));
 		CR.shaped(ST.make(MD.RC, "cart.bore"              , 1,  0), tBits | DEL_IF_NO_DYES | DEL_OTHER_RECIPES_IF_SAME_NBT, "BCB"          , "FCF"              , tHammer+"A"+tWrench, 'C', Items.minecart                           , 'A', Items.chest_minecart, 'F', OD.craftingFurnace, 'B', OP.blockSolid.dat(ANY.Steel));
 		
 		if (ConfigsGT.RECIPES.get(ConfigCategories.Recipes.harderrecipes, "railcraft_admin_anchor_recipe", F)) {

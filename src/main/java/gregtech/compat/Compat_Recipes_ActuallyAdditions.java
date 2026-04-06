@@ -38,7 +38,7 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class Compat_Recipes_ActuallyAdditions extends CompatMods {
 	public Compat_Recipes_ActuallyAdditions(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

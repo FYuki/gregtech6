@@ -30,7 +30,7 @@ import gregapi.util.UT;
 import net.minecraft.world.item.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.potion.Potion;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
 

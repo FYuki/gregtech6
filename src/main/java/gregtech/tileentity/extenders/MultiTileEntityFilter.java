@@ -37,19 +37,19 @@ import gregapi.tileentity.logistics.ITileEntityLogisticsSemiFilteredItem;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.core.Direction; // was Direction
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 import org.lwjgl.opengl.GL11;
 
@@ -67,29 +67,29 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	public boolean mInverted = F;
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_INVERTED)) mInverted = aNBT.getBoolean(NBT_INVERTED);
 		for (int i = 0; i < mFilter.length; i++) mFilter[i] = ST.load(aNBT, NBT_INV_FILTER+"."+i);
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setBoolean(aNBT, NBT_INVERTED, mInverted);
 		for (int i = 0; i < mFilter.length; i++) ST.save(aNBT, NBT_INV_FILTER+"."+i, mFilter[i]);
 	}
 	
 	@Override
-	public NBTTagCompound writeItemNBT2(NBTTagCompound aNBT) {
+	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
 		UT.NBT.setBoolean(aNBT, NBT_INVERTED, mInverted);
 		for (int i = 0; i < mFilter.length; i++) ST.save(aNBT, NBT_INV_FILTER+"."+i, mFilter[i]);
 		return super.writeItemNBT2(aNBT);
 	}
 	
 	@Override public DelegatorTileEntity<TileEntity> getDelegateTileEntity(byte aSide) {return delegator(aSide);}
-	@Override public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return new MultiTileEntityGUIClientFilter(aPlayer.inventory, this, aGUIID);}
-	@Override public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return new MultiTileEntityGUICommonFilter(aPlayer.inventory, this, aGUIID);}
+	@Override public Object getGUIClient2(int aGUIID, Player aPlayer) {return new MultiTileEntityGUIClientFilter(aPlayer.inventory, this, aGUIID);}
+	@Override public Object getGUIServer2(int aGUIID, Player aPlayer) {return new MultiTileEntityGUICommonFilter(aPlayer.inventory, this, aGUIID);}
 	@Override public int getSizeInventoryGUI() {return mFilter==null?0:mFilter.length;}
 	@Override public ItemStack getStackInSlotGUI(int aSlot) {return mFilter[aSlot];}
 	@Override public ItemStack decrStackSizeGUI(int aSlot, int aDecrement) {mInventoryChanged = T; if (mFilter[aSlot] != null) {if (mFilter[aSlot].stackSize <= aDecrement) {ItemStack tStack = mFilter[aSlot]; mFilter[aSlot] = null; return tStack;} ItemStack rStack = mFilter[aSlot].splitStack(aDecrement); if (mFilter[aSlot].stackSize <= 0) mFilter[aSlot] = null; return rStack;} return null;}
@@ -146,7 +146,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	}
 	
 	@Override
-	public boolean onBlockActivated3(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide() && isUseableByPlayerGUI(aPlayer)) openGUI(aPlayer);
 		return T;
 	}
@@ -183,7 +183,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	}
 	
 	@Override
-	public int fill(ForgeDirection aDirection, FluidStack aFluid, boolean aDoFill) {
+	public int fill(Direction aDirection, FluidStack aFluid, boolean aDoFill) {
 		byte aSide = UT.Code.side(aDirection);
 		if ((mModes & EXTENDER_TANK) != 0 && (aSide == mFacing || allowInput(aFluid))) {
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidFill(aSide, mCovers, aSide, aFluid)) return 0;
@@ -193,7 +193,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 		return 0;
 	}
 	@Override
-	public FluidStack drain(ForgeDirection aDirection, FluidStack aFluid, boolean aDoDrain) {
+	public FluidStack drain(Direction aDirection, FluidStack aFluid, boolean aDoDrain) {
 		byte aSide = UT.Code.side(aDirection);
 		if ((mModes & EXTENDER_TANK) != 0 && (aSide == mFacing || allowInput(aFluid))) {
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, aFluid)) return null;
@@ -203,7 +203,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 		return null;
 	}
 	@Override
-	public FluidStack drain(ForgeDirection aDirection, int aToDrain, boolean aDoDrain) {
+	public FluidStack drain(Direction aDirection, int aToDrain, boolean aDoDrain) {
 		if ((mModes & EXTENDER_TANK) != 0) {
 			byte aSide = UT.Code.side(aDirection);
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, null)) return null;
@@ -214,7 +214,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	}
 	
 	@Override
-	public boolean canFill(ForgeDirection aDirection, Fluid aFluid) {
+	public boolean canFill(Direction aDirection, Fluid aFluid) {
 		byte aSide = UT.Code.side(aDirection);
 		if ((mModes & EXTENDER_TANK) != 0 && (aSide == mFacing || allowInput(aFluid))) {
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidFill(aSide, mCovers, aSide, FL.make(aFluid, 1))) return F;
@@ -224,7 +224,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 		return F;
 	}
 	@Override
-	public boolean canDrain(ForgeDirection aDirection, Fluid aFluid) {
+	public boolean canDrain(Direction aDirection, Fluid aFluid) {
 		byte aSide = UT.Code.side(aDirection);
 		if ((mModes & EXTENDER_TANK) != 0 && (aSide == mFacing || allowInput(aFluid))) {
 			if (hasCovers() && SIDES_VALID[aSide] && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptFluidDrain(aSide, mCovers, aSide, FL.make(aFluid, 1))) return F;
@@ -250,7 +250,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 		@Override public int getShiftClickSlotCount() {return 0;}
 		
 		@Override
-		public ItemStack slotClick(int aSlotIndex, int aMouseclick, int aShifthold, EntityPlayer aPlayer) {
+		public ItemStack slotClick(int aSlotIndex, int aMouseclick, int aShifthold, Player aPlayer) {
 			if (aSlotIndex < 0 || aSlotIndex >= inventorySlots.size()) return super.slotClick(aSlotIndex, aMouseclick, aShifthold, aPlayer);
 			if (aSlotIndex >= mTileEntity.getSizeInventoryGUI()) {
 				if (aShifthold != 1) return super.slotClick(aSlotIndex, aMouseclick, aShifthold, aPlayer);

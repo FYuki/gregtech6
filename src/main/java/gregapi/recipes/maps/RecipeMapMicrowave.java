@@ -30,8 +30,8 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Collection;
 
@@ -58,8 +58,8 @@ public class RecipeMapMicrowave extends RecipeMapNonGTRecipes {
 		
 		// Check Container Item of Input since it is around the Input, then the Input itself, then Container Item of Output and last check the Output itself
 		for (ItemStack tStack : ST.array(ST.container(aInputs[0], T), aInputs[0], ST.container(tOutput, T), tOutput)) if (ST.valid(tStack)) {
-			if (ST.equal(tStack, Blocks.netherrack)
-			 || ST.equal(tStack, Blocks.tnt)
+			if (ST.equal(tStack, Blocks.NETHERRACK)
+			 || ST.equal(tStack, Blocks.TNT)
 			 || ST.equal(tStack, Items.egg)
 			 || ST.equal(tStack, Items.firework_charge)
 			 || ST.equal(tStack, Items.fireworks)

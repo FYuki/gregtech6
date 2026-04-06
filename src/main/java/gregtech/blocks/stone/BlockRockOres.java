@@ -33,9 +33,9 @@ import gregapi.worldgen.StoneLayer;
 import mods.railcraft.common.carts.EntityTunnelBore;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 
@@ -118,6 +118,6 @@ public class BlockRockOres extends BlockBaseMeta {
 	@Override public int getHarvestLevel(int aMeta) {return HARVEST_LEVELS[aMeta];}
 	@Override public int getFlammability(byte aMeta) {return BURN_LEVELS[aMeta];}
 	@Override public int getFireSpreadSpeed(byte aMeta) {return 0;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.stone.getBlockHardness(aWorld, aX, aY, aZ) * HARDNESS_LEVELS[WD.meta(aWorld, aX, aY, aZ)];}
-	@Override public float getExplosionResistance(byte aMeta) {return Blocks.stone.getExplosionResistance(null);}
+	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.STONE.getBlockHardness(aWorld, aX, aY, aZ) * HARDNESS_LEVELS[WD.meta(aWorld, aX, aY, aZ)];}
+	@Override public float getExplosionResistance(byte aMeta) {return Blocks.STONE.getExplosionResistance(null);}
 }

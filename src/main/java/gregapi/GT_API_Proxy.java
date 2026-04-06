@@ -81,41 +81,41 @@ import gregapi.wooddict.WoodDictionary;
 import gregapi.wooddict.WoodEntry;
 import gregapi.worldgen.GT6WorldGenerator;
 import gregtech.items.behaviors.Behavior_Gun;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockHugeMushroom;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.level.Level;
+// PHASE3: import WorldSettings removed
+import net.minecraft.world.level.chunk.LevelChunk;
+// PHASE3: import IChunkProvider removed
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DimensionManager;
 import net.neoforged.neoforge.common.NeoForge;
@@ -129,10 +129,10 @@ import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+// PHASE7: import ShapedOreRecipe removed — use datapack recipes
+// PHASE7: import ShapelessOreRecipe removed — use datapack recipes
 import thaumcraft.common.entities.monster.EntityBrainyZombie;
 import twilightforest.entity.boss.EntityTFMinoshroom;
 
@@ -159,22 +159,22 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		return 0;
 	}
 	
-	public EntityPlayer getThePlayer() {
+	public Player getThePlayer() {
 		return null;
 	}
 	
-	public boolean sendUseItemPacket(EntityPlayer aPlayer, World aWorld, ItemStack aStack) {
+	public boolean sendUseItemPacket(Player aPlayer, World aWorld, ItemStack aStack) {
 		return F;
 	}
 	
 	@Override
-	public Object getServerGuiElement(int aGUIID, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ) {
+	public Object getServerGuiElement(int aGUIID, Player aPlayer, World aWorld, int aX, int aY, int aZ) {
 		TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		return tTileEntity instanceof ITileEntityGUI ? ((ITileEntityGUI)tTileEntity).getGUIServer(aGUIID, aPlayer) : null;
 	}
 	
 	@Override
-	public Object getClientGuiElement(int aGUIID, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ) {
+	public Object getClientGuiElement(int aGUIID, Player aPlayer, World aWorld, int aX, int aY, int aZ) {
 		TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		return tTileEntity instanceof ITileEntityGUI ? ((ITileEntityGUI)tTileEntity).getGUIClient(aGUIID, aPlayer) : null;
 	}
@@ -468,7 +468,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 					SCHEDULED_TILEENTITY_UPDATES = tList;
 					
 					while (!mNewPlayers.isEmpty()) {
-						EntityPlayerMP tPlayer = mNewPlayers.remove(0);
+						ServerPlayer tPlayer = mNewPlayers.remove(0);
 						NW_API.sendToPlayer(new PacketConfig(), tPlayer);
 						for (OreDictPrefix tPrefix : OreDictPrefix.VALUES) if (!tPrefix.contains(TD.Prefix.PREFIX_UNUSED)) NW_API.sendToPlayer(new PacketPrefix(tPrefix), tPlayer);
 					}
@@ -529,7 +529,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		
 		tY = UT.Code.roundDown(aEvent.entityLiving.boundingBox.minY-0.001F);
 		
-		if (aEvent.entityLiving instanceof EntityPlayer) {
+		if (aEvent.entityLiving instanceof Player) {
 			if (BlocksGT.Paths != null && !aEvent.entityLiving.worldObj.isRemote) {
 				Block tPath = IL.EtFu_Path.block();
 				if (ST.valid(tPath)) for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) for (int k = -1; k <= 1; k++) {
@@ -567,7 +567,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 			if (!aEvent.entityLiving.worldObj.isRemote) {
 				// Zombies trample Farmland.
 				if (tBlock == Blocks.farmland && aEvent.entityLiving instanceof EntityZombie) {
-					aEvent.entityLiving.worldObj.setBlock(tX, tY, tZ, Blocks.dirt, 0, 3);
+					aEvent.entityLiving.worldObj.setBlock(tX, tY, tZ, Blocks.DIRT, 0, 3);
 					UT.Sounds.send(SFX.MC_DIG_GRAVEL, aEvent.entityLiving.worldObj, tX, tY, tZ);
 				}
 				// Big Animals break regular tall Grass, but not super tall Grass.
@@ -651,8 +651,8 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 							aEntity.extinguish();
 						}
 					}
-				} else if (aEntity instanceof EntityLivingBase) {
-					if (ENTITY_CRAMMING > 0 && SERVER_TIME % 50 == 0 && !(aEntity instanceof EntityPlayer) && ((EntityLivingBase)aEntity).canBePushed() && ((EntityLivingBase)aEntity).getHealth() > 0) {
+				} else if (aEntity instanceof LivingEntity) {
+					if (ENTITY_CRAMMING > 0 && SERVER_TIME % 50 == 0 && !(aEntity instanceof Player) && ((LivingEntity)aEntity).canBePushed() && ((LivingEntity)aEntity).getHealth() > 0) {
 						List<?> tList = aEntity.worldObj.getEntitiesWithinAABBExcludingEntity(aEntity, aEntity.boundingBox.expand(0.2, 0.0, 0.2));
 						Class<? extends Entity> tClass = aEntity.getClass();
 						int aEntityCount = 1;
@@ -728,10 +728,10 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 					DEB.println("==========");
 					DEB.println("TEST START");
 					DEB.println("==========");
-					Iterator<EntityLiving>
+					Iterator<Mob>
 					tIterator = mMobsToFastDespawn.iterator();
 					while (tIterator.hasNext()) {
-						EntityLiving tEntity = tIterator.next();
+						Mob tEntity = tIterator.next();
 						if (tEntity.isDead) {
 							DEB.println(tEntity.getClass() + "     " + tEntity.getAge() + "     " + tEntity.ticksExisted + "     DEAD");
 							tIterator.remove();
@@ -750,7 +750,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 					DEB.println("====02====");
 					tIterator = mMobsToFastDespawn.iterator();
 					while (tIterator.hasNext()) {
-						EntityLiving tEntity = tIterator.next();
+						Mob tEntity = tIterator.next();
 						DEB.println(tEntity.getClass() + "     " + tEntity.getAge() + "     " + tEntity.ticksExisted);
 					}
 					DEB.println("==========");
@@ -770,7 +770,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 							ST.drop(aEvent.player, IL.Grass_Dry.get(9));
 							ST.drop(aEvent.player, IL.Stick.get(16));
 							ST.drop(aEvent.player, Items.flint, 12, 0);
-							ST.drop(aEvent.player, Blocks.dirt, 16, 0);
+							ST.drop(aEvent.player, Blocks.DIRT, 16, 0);
 							ST.drop(aEvent.player, Blocks.sapling, 4, 0);
 							switch (RNGSUS.nextInt(4)) {
 							case 0: ST.drop(aEvent.player, IL.Food_Large_Sandwich_Veggie.get(1)); break;
@@ -848,7 +848,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 							BEAR_INVENTORY_COOL_DOWN = 100;
 							UT.Sounds.send(SFX.MC_HMM, aEvent.player);
 							for (int i = 0; i < aEvent.player.worldObj.playerEntities.size(); i++) {
-								EntityPlayer tPlayer = (EntityPlayer)aEvent.player.worldObj.playerEntities.get(i);
+								Player tPlayer = (Player)aEvent.player.worldObj.playerEntities.get(i);
 								if (tPlayer == null) continue;
 								if ("Bear989Sr".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									if (tPlayer.posY < 30) {
@@ -1005,7 +1005,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 			}
 		}
 		
-		NBTTagCompound tNBT = aEvent.item.getTagCompound();
+		CompoundTag tNBT = aEvent.item.getTagCompound();
 		if (tNBT != null && tNBT.hasKey(NBT_EFFECTS)) {
 			tNBT = tNBT.getCompoundTag(NBT_EFFECTS);
 			if (RNGSUS.nextInt(100) < tNBT.getInteger("chance")) UT.Entities.applyPotion(aEvent.entityPlayer, tNBT.getInteger("id"), tNBT.getInteger("time"), tNBT.getInteger("lvl"), F);
@@ -1024,7 +1024,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	public void onPlayerInteraction(PlayerInteractEvent aEvent) {
 		if (aEvent.entityPlayer == null || aEvent.entityPlayer.worldObj == null || aEvent.action == null || aEvent.world.provider == null) return;
 		
-		PLAYER_LAST_CLICKED.put(aEvent.entityPlayer, new ChunkCoordinates(aEvent.x, aEvent.y, aEvent.z));
+		PLAYER_LAST_CLICKED.put(aEvent.entityPlayer, new BlockPos(aEvent.x, aEvent.y, aEvent.z));
 		
 		// If a Player rightclicks something, then that Chunk gotta be marked as modified, even if nothing happens.
 		// There has been plenty of Bugs in various Mods, because of forgetting to mark things.
@@ -1229,7 +1229,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
 	public void onUseHoeEvent(net.minecraftforge.event.entity.player.UseHoeEvent aEvent) {
-		if (aEvent.world.getBlock(aEvent.x, aEvent.y, aEvent.z) == Blocks.dirt && aEvent.world.getBlockMetadata(aEvent.x, aEvent.y, aEvent.z) != 0) aEvent.setCanceled(T);
+		if (aEvent.world.getBlock(aEvent.x, aEvent.y, aEvent.z) == Blocks.DIRT && aEvent.world.getBlockMetadata(aEvent.x, aEvent.y, aEvent.z) != 0) aEvent.setCanceled(T);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
@@ -1279,19 +1279,19 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
 	public void onBlockHarvestingEvent(BlockEvent.HarvestDropsEvent aEvent) {
 		Iterator<ItemStack> aDrops = aEvent.drops.iterator();
-		Block aBlock = (aEvent.block == Blocks.lit_redstone_ore ? Blocks.redstone_ore : aEvent.block == Blocks.lit_redstone_lamp ? Blocks.redstone_lamp : aEvent.block == BlocksGT.EtFu_Deepslate_Lit_Redstone_Ore ? BlocksGT.EtFu_Deepslate_Redstone_Ore : aEvent.block);
+		Block aBlock = (aEvent.block == Blocks.DEEPSLATE_REDSTONE_ORE ? Blocks.redstone_ore : aEvent.block == Blocks.REDSTONE_LAMP ? Blocks.REDSTONE_LAMP : aEvent.block == BlocksGT.EtFu_Deepslate_Lit_Redstone_Ore ? BlocksGT.EtFu_Deepslate_Redstone_Ore : aEvent.block);
 		
 		while (aDrops.hasNext()) {
 			ItemStack aDrop = aDrops.next();
 			if (ST.invalid(aDrop) || ItemsGT.ILLEGAL_DROPS.contains(aDrop, T)) {aDrops.remove(); continue;}
 			if (ST.item_(aDrop) == Items.gold_nugget) ST.meta_(aDrop, 0);
-			if (FORCE_GRAVEL_NO_FLINT && aBlock == Blocks.gravel && ST.item_(aDrop) == Items.flint) ST.set(aDrop, ST.make(Blocks.gravel, 1, 0), T, F);
+			if (FORCE_GRAVEL_NO_FLINT && aBlock == Blocks.GRAVEL && ST.item_(aDrop) == Items.flint) ST.set(aDrop, ST.make(Blocks.GRAVEL, 1, 0), T, F);
 		}
 		
 		if (aBlock == null) return;
 		
-		if (aBlock == Blocks.dirt && aEvent.blockMetadata == 1) for (int i = 0, j = aEvent.drops.size(); i < j; i++) if (ST.block(aEvent.drops.get(0)) == Blocks.dirt) {
-			aEvent.drops.set(i, ST.make(Blocks.dirt, aEvent.drops.get(i).stackSize, 1));
+		if (aBlock == Blocks.DIRT && aEvent.blockMetadata == 1) for (int i = 0, j = aEvent.drops.size(); i < j; i++) if (ST.block(aEvent.drops.get(0)) == Blocks.DIRT) {
+			aEvent.drops.set(i, ST.make(Blocks.DIRT, aEvent.drops.get(i).stackSize, 1));
 		}
 		
 		if (IL.TF_Mushgloom_Huge.equal(aBlock)) {
@@ -1406,11 +1406,11 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		}
 	}
 	
-	public static List<EntityPlayerMP> mNewPlayers = new ArrayListNoNulls<>();
+	public static List<ServerPlayer> mNewPlayers = new ArrayListNoNulls<>();
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingDeath(LivingDeathEvent aEvent) {
-		if (aEvent.entityLiving instanceof EntityPlayerMP) NW_API.sendToPlayer(new PacketDeathPoint(UT.Code.roundDown(aEvent.entityLiving.posX), UT.Code.roundDown(aEvent.entityLiving.posY), UT.Code.roundDown(aEvent.entityLiving.posZ)), (EntityPlayerMP)aEvent.entityLiving);
+		if (aEvent.entityLiving instanceof ServerPlayer) NW_API.sendToPlayer(new PacketDeathPoint(UT.Code.roundDown(aEvent.entityLiving.posX), UT.Code.roundDown(aEvent.entityLiving.posY), UT.Code.roundDown(aEvent.entityLiving.posZ)), (ServerPlayer)aEvent.entityLiving);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -1422,7 +1422,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		if (DISABLE_ALL_IC2_CENTRIFUGE_RECIPES) ic2.api.recipe.Recipes.centrifuge.getRecipes().clear();
 		
 		if (aEvent.player.worldObj.isRemote) return;
-		if (aEvent.player instanceof EntityPlayerMP) mNewPlayers.add((EntityPlayerMP)aEvent.player);
+		if (aEvent.player instanceof ServerPlayer) mNewPlayers.add((ServerPlayer)aEvent.player);
 	}
 	
 	@Override
@@ -1481,11 +1481,11 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onCheckSpawnEvent(LivingSpawnEvent.CheckSpawn aEvent) {
 		if (aEvent.getResult() == Result.DENY) return;
-		Class<? extends EntityLivingBase> aMobClass = aEvent.entityLiving.getClass();
+		Class<? extends LivingEntity> aMobClass = aEvent.entityLiving.getClass();
 		World aWorld = aEvent.world;
 		int aX = UT.Code.roundDown(aEvent.x), aY = (int)UT.Code.bind(0, aWorld.getHeight(), UT.Code.roundDown(aEvent.y)), aZ = UT.Code.roundDown(aEvent.z);
 		
-		if (SPAWN_NO_BATS && aMobClass == EntityBat.class && aWorld.getBlock(aX, aY-2, aZ) != Blocks.stone && aWorld.getBlock(aX, aY+2, aZ) != Blocks.stone) {aEvent.setResult(Result.DENY); return;}
+		if (SPAWN_NO_BATS && aMobClass == EntityBat.class && aWorld.getBlock(aX, aY-2, aZ) != Blocks.STONE && aWorld.getBlock(aX, aY+2, aZ) != Blocks.STONE) {aEvent.setResult(Result.DENY); return;}
 		
 		if (SPAWN_HOSTILES_ONLY_IN_DARKNESS && WD.dimOverworldLike(aWorld)) try {
 			Chunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
@@ -1509,7 +1509,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 			if (SPAWN_ZONE_MOB_PROTECTION && UT.Code.inside(-144, 144, aX-aWorld.getWorldInfo().getSpawnX()) && UT.Code.inside(-144, 144, aZ-aWorld.getWorldInfo().getSpawnZ()) && WD.opq(aWorld, aX, 0, aZ, F, F)) {aEvent.setResult(Result.DENY); return;}
 		}
 		
-		//if (aEvent.entity instanceof EntityMob && !(aEvent.entity instanceof IBossDisplayData) && ((EntityMob)aEvent.entity).getCanSpawnHere()) mMobsToFastDespawn.add((EntityLiving)aEvent.entityLiving);
+		//if (aEvent.entity instanceof EntityMob && !(aEvent.entity instanceof IBossDisplayData) && ((EntityMob)aEvent.entity).getCanSpawnHere()) mMobsToFastDespawn.add((Mob)aEvent.entityLiving);
 		
 		for (int i = 0; i < MOB_SPAWN_INHIBITORS.size(); i++) {
 			ITileEntityMobSpawnInhibitor tTileEntity = MOB_SPAWN_INHIBITORS.get(i);
@@ -1526,11 +1526,11 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		}
 	}
 	
-	//public static List<EntityLiving> mMobsToFastDespawn = new ArrayListNoNulls<>();
+	//public static List<Mob> mMobsToFastDespawn = new ArrayListNoNulls<>();
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityConstructingEvent(EntityConstructing aEvent) {
-		if (Abstract_Mod.sFinalized >= Abstract_Mod.sModCountUsingGTAPI && aEvent.entity instanceof EntityPlayer) EntityFoodTracker.add((EntityPlayer)aEvent.entity);
+		if (Abstract_Mod.sFinalized >= Abstract_Mod.sModCountUsingGTAPI && aEvent.entity instanceof Player) EntityFoodTracker.add((Player)aEvent.entity);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

@@ -50,7 +50,7 @@ import gregtech.items.tools.machine.*;
 import gregtech.items.tools.pocket.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.CS.ToolsGT.*;
@@ -459,7 +459,7 @@ public class Loader_Tools implements Runnable {
 								, 'B', plateCurved.dat(aEvent.mMaterial)
 								, 'C', plateGem.dat(aEvent.mMaterial)
 								, 'S', stick.dat(aEvent.mMaterial)
-								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.stone, 1, W):stone.dat(aEvent.mMaterial)
+								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.STONE, 1, W):stone.dat(aEvent.mMaterial)
 								, 'T', screw.dat(aEvent.mMaterial)
 								, 'O', ring.dat(aEvent.mMaterial)
 								, 'N', nugget.dat(aEvent.mMaterial)
@@ -478,7 +478,7 @@ public class Loader_Tools implements Runnable {
 								, 'B', plateCurved.dat(aEvent.mMaterial)
 								, 'C', plateGem.dat(aEvent.mMaterial)
 								, 'S', stick.dat(aEvent.mMaterial)
-								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.stone, 1, W):stone.dat(aEvent.mMaterial)
+								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.STONE, 1, W):stone.dat(aEvent.mMaterial)
 								, 'T', screw.dat(aEvent.mMaterial)
 								, 'O', ring.dat(aEvent.mMaterial)
 								, 'N', nugget.dat(aEvent.mMaterial)
@@ -497,7 +497,7 @@ public class Loader_Tools implements Runnable {
 								, 'B', plateCurved.dat(aEvent.mMaterial)
 								, 'C', plateGem.dat(aEvent.mMaterial)
 								, 'S', stick.dat(aEvent.mMaterial)
-								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.stone, 1, W):stone.dat(aEvent.mMaterial)
+								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.STONE, 1, W):stone.dat(aEvent.mMaterial)
 								, 'T', screw.dat(aEvent.mMaterial)
 								, 'O', ring.dat(aEvent.mMaterial)
 								, 'N', nugget.dat(aEvent.mMaterial)
@@ -520,7 +520,7 @@ public class Loader_Tools implements Runnable {
 								, 'B', plateCurved.dat(aEvent.mMaterial)
 								, 'C', plateGem.dat(aEvent.mMaterial)
 								, 'S', stick.dat(aEvent.mMaterial)
-								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.stone, 1, W):stone.dat(aEvent.mMaterial)
+								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.STONE, 1, W):stone.dat(aEvent.mMaterial)
 								, 'T', screw.dat(aEvent.mMaterial)
 								, 'O', ring.dat(aEvent.mMaterial)
 								, 'N', nugget.dat(aEvent.mMaterial)
@@ -539,7 +539,7 @@ public class Loader_Tools implements Runnable {
 								, 'B', plateCurved.dat(aEvent.mMaterial)
 								, 'C', plateGem.dat(aEvent.mMaterial)
 								, 'S', stick.dat(aEvent.mMaterial)
-								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.stone, 1, W):stone.dat(aEvent.mMaterial)
+								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.STONE, 1, W):stone.dat(aEvent.mMaterial)
 								, 'T', screw.dat(aEvent.mMaterial)
 								, 'O', ring.dat(aEvent.mMaterial)
 								, 'N', nugget.dat(aEvent.mMaterial)
@@ -558,7 +558,7 @@ public class Loader_Tools implements Runnable {
 								, 'B', plateCurved.dat(aEvent.mMaterial)
 								, 'C', plateGem.dat(aEvent.mMaterial)
 								, 'S', stick.dat(aEvent.mMaterial)
-								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.stone, 1, W):stone.dat(aEvent.mMaterial)
+								, 'R', aEvent.mMaterial==MT.Stone?ST.make(Blocks.STONE, 1, W):stone.dat(aEvent.mMaterial)
 								, 'T', screw.dat(aEvent.mMaterial)
 								, 'O', ring.dat(aEvent.mMaterial)
 								, 'N', nugget.dat(aEvent.mMaterial)

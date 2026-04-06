@@ -21,9 +21,9 @@ package gregapi.block.behaviors;
 
 import gregapi.block.prefixblock.PrefixBlock;
 import gregapi.util.ST;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 

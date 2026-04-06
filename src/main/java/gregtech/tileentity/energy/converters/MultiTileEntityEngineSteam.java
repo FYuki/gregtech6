@@ -37,14 +37,14 @@ import gregapi.tileentity.energy.ITileEntityEnergyFluxHandler;
 import gregapi.tileentity.machines.ITileEntityAdjacentOnOff;
 import gregapi.tileentity.machines.ITileEntityRunningActively;
 import gregapi.util.UT;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.IFluidTank;
+// PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.Collection;
 import java.util.List;
@@ -65,7 +65,7 @@ public class MultiTileEntityEngineSteam extends TileEntityBase09FacingSingle imp
 	protected FluidTankGT mTank = new FluidTankGT(640);
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		mEnergy = aNBT.getLong(NBT_ENERGY);
 		if (aNBT.hasKey(NBT_VISUAL)) mState = aNBT.getByte(NBT_VISUAL);
@@ -81,7 +81,7 @@ public class MultiTileEntityEngineSteam extends TileEntityBase09FacingSingle imp
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
 		aNBT.setByte(NBT_VISUAL, mState);
@@ -300,12 +300,12 @@ public class MultiTileEntityEngineSteam extends TileEntityBase09FacingSingle imp
 		private static final float[] angleMap = new float[6];
 
 		static {
-			angleMap[ForgeDirection.EAST.ordinal()] = (float) -Math.PI / 2;
-			angleMap[ForgeDirection.WEST.ordinal()] = (float) Math.PI / 2;
-			angleMap[ForgeDirection.UP.ordinal()] = 0;
-			angleMap[ForgeDirection.DOWN.ordinal()] = (float) Math.PI;
-			angleMap[ForgeDirection.SOUTH.ordinal()] = (float) Math.PI / 2;
-			angleMap[ForgeDirection.NORTH.ordinal()] = (float) -Math.PI / 2;
+			angleMap[Direction.EAST.ordinal()] = (float) -Math.PI / 2;
+			angleMap[Direction.WEST.ordinal()] = (float) Math.PI / 2;
+			angleMap[Direction.UP.ordinal()] = 0;
+			angleMap[Direction.DOWN.ordinal()] = (float) Math.PI;
+			angleMap[Direction.SOUTH.ordinal()] = (float) Math.PI / 2;
+			angleMap[Direction.NORTH.ordinal()] = (float) -Math.PI / 2;
 		}
 
 		private ModelBase model = new ModelBase() {
@@ -356,7 +356,7 @@ public class MultiTileEntityEngineSteam extends TileEntityBase09FacingSingle imp
 		}
 
 		public void inventoryRender(double x, double y, double z, float f, float f1) {
-			render(0.25F, ForgeDirection.UP, baseTexture, chamberTexture, trunkTexture, x, y, z);
+			render(0.25F, Direction.UP, baseTexture, chamberTexture, trunkTexture, x, y, z);
 		}
 
 		@Override
@@ -366,7 +366,7 @@ public class MultiTileEntityEngineSteam extends TileEntityBase09FacingSingle imp
 			}
 		}
 
-		private void render(float progress, ForgeDirection orientation, ResourceLocation baseTexture, ResourceLocation chamberTexture, ResourceLocation trunkTexture, double x, double y, double z) {
+		private void render(float progress, Direction orientation, ResourceLocation baseTexture, ResourceLocation chamberTexture, ResourceLocation trunkTexture, double x, double y, double z) {
 			GL11.glPushMatrix();
 			GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 			GL11.glEnable(GL11.GL_LIGHTING);

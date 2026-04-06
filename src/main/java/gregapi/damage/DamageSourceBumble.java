@@ -19,7 +19,7 @@
 
 package gregapi.damage;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
@@ -35,7 +35,7 @@ public class DamageSourceBumble extends DamageSource {
 	}
 	
 	@Override
-	public IChatComponent func_151519_b(EntityLivingBase aTarget) {
+	public IChatComponent func_151519_b(LivingEntity aTarget) {
 		return new ChatComponentText(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + " was allergic to Bumblebees");
 	}
 }

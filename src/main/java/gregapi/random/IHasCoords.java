@@ -19,7 +19,7 @@
 
 package gregapi.random;
 
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.core.BlockPos; // was BlockPos
 
 /**
  * @author Gregorius Techneticies
@@ -47,9 +47,9 @@ public interface IHasCoords {
 	public int getOffsetZN(byte aSide, int aMultiplier);
 	
 	/** Do not change the XYZ of the returned Coordinates Object! */
-	public ChunkCoordinates getCoords();
+	public BlockPos getCoords();
 	/** Do not change the XYZ of the returned Coordinates Object! */
-	public ChunkCoordinates getOffset (byte aSide, int aMultiplier);
+	public BlockPos getOffset (byte aSide, int aMultiplier);
 	/** Do not change the XYZ of the returned Coordinates Object! */
-	public ChunkCoordinates getOffsetN(byte aSide, int aMultiplier);
+	public BlockPos getOffsetN(byte aSide, int aMultiplier);
 }

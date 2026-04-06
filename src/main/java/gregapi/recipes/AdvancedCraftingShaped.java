@@ -25,12 +25,12 @@ import gregapi.item.IItemGTContainerTool;
 import gregapi.item.multiitem.MultiItemTool;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+// PHASE7: import ShapedOreRecipe removed — use datapack recipes
 
 import static gregapi.data.CS.*;
 
@@ -78,7 +78,7 @@ public class AdvancedCraftingShaped extends ShapedOreRecipe implements ICrafting
 			// Keeping NBT
 			if (mKeepingNBT) for (int i = 0; i < aGrid.getSizeInventory(); i++) {
 				if (aGrid.getStackInSlot(i) != null && aGrid.getStackInSlot(i).hasTagCompound()) {
-					UT.NBT.set(rStack, (NBTTagCompound)aGrid.getStackInSlot(i).getTagCompound().copy());
+					UT.NBT.set(rStack, (CompoundTag)aGrid.getStackInSlot(i).getTagCompound().copy());
 					break;
 				}
 			}
@@ -96,7 +96,7 @@ public class AdvancedCraftingShaped extends ShapedOreRecipe implements ICrafting
 			
 			// Saving Ingredients inside the Item.
 			if (mDismantleable) {
-				NBTTagCompound rNBT = rStack.getTagCompound(), tNBT = UT.NBT.make();
+				CompoundTag rNBT = rStack.getTagCompound(), tNBT = UT.NBT.make();
 				if (rNBT == null) rNBT = UT.NBT.make();
 				for (int i = 0; i < 9; i++) {
 					ItemStack tStack = aGrid.getStackInSlot(i);

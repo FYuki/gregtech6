@@ -19,7 +19,7 @@
 
 package gregapi.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 
 
 /**
@@ -27,5 +27,5 @@ import net.minecraft.entity.player.EntityPlayer;
  */
 public interface ITileEntityKeyCardInteractable extends ITileEntityUnloadable {
 	/** @return if it got opened successfully. aKeyCards is the List of IDs the Key has (if you have a Multi-Card of some sort, for example) */
-	public boolean useKeyCard(EntityPlayer aPlayer, byte aSide, float hitX, float hitY, float hitZ, long... aKeyCards);
+	public boolean useKeyCard(Player aPlayer, byte aSide, float hitX, float hitY, float hitZ, long... aKeyCards);
 }

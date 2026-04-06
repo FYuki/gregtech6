@@ -19,7 +19,7 @@
 
 package gregapi.block;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 
 /**

@@ -20,7 +20,7 @@
 package gregapi.tileentity;
 
 import gregapi.random.IHasWorldAndCoords;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * @author Gregorius Techneticies

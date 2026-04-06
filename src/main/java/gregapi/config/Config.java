@@ -24,7 +24,7 @@ import gregapi.data.MT;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 // PHASE3: Configuration removed — use NeoForge ModConfigSpec or file-based config
 import net.minecraftforge.common.config.Property;
 

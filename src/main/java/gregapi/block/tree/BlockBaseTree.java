@@ -26,10 +26,10 @@ import gregapi.data.MD;
 import gregapi.render.IIconContainer;
 import gregapi.util.ST;
 import mods.railcraft.common.carts.EntityTunnelBore;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies

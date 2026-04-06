@@ -30,8 +30,8 @@ import gregapi.data.MD;
 import gregapi.data.RM;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class Compat_Recipes_Mekanism extends CompatMods {
 	public Compat_Recipes_Mekanism(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

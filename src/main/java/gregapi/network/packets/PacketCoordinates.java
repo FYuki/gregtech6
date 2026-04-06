@@ -25,7 +25,7 @@ import com.google.common.io.ByteStreams;
 
 import gregapi.network.IPacket;
 import gregapi.util.UT;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.core.BlockPos; // was BlockPos
 
 /**
  * @author Gregorius Techneticies
@@ -54,7 +54,7 @@ public abstract class PacketCoordinates implements IPacket {
 	}
 	
 	/** The Super-Constructor for the Packet to be sent. */
-	public PacketCoordinates(ChunkCoordinates aCoords) {
+	public PacketCoordinates(BlockPos aCoords) {
 		mX = aCoords.posX;
 		mY = aCoords.posY;
 		mZ = aCoords.posZ;

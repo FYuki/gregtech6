@@ -22,13 +22,13 @@ package gregtech.experiments;
 import gregapi.data.FL;
 import gregapi.util.WD;
 import gregtech.blocks.fluids.BlockWaterlike;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Random;
 
@@ -61,7 +61,7 @@ public class BlockRiverAdvanced extends BlockWaterlike {
 			aBlocks[tSide] = WD.block(aWorld, aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide], T);
 			// Check if this River Block has a Source.
 			if (aBlocks[tSide] == this && aMetas[tSide]-1 == OPOS[tSide]) aSource = tSide;
-			if (aBlocks[tSide] == Blocks.bedrock) aSource = tSide; // TODO: Remove this if this River Block ever gets used!
+			if (aBlocks[tSide] == Blocks.BEDROCK) aSource = tSide; // TODO: Remove this if this River Block ever gets used!
 		}
 		// Make sure whatever this flows into is actually a River Block.
 		if (aBlocks[aFlow] != this) aFlow = SIDE_INVALID;
@@ -82,7 +82,7 @@ public class BlockRiverAdvanced extends BlockWaterlike {
 		// We are going down? Carve out Dirt, Gravel, Sand and the likes.
 		if (SIDES_BOTTOM[aFlow] && SIDES_HORIZONTAL[aSource]) {
 			Block tBlock = WD.block(aWorld, aX+OFFX[aSource], aY-1, aZ+OFFZ[aSource]);
-			if (tBlock == Blocks.dirt || tBlock == Blocks.grass || tBlock == Blocks.mycelium || tBlock == Blocks.sand || tBlock == Blocks.gravel || tBlock == Blocks.snow) {
+			if (tBlock == Blocks.DIRT || tBlock == Blocks.GRASS_BLOCK || tBlock == Blocks.mycelium || tBlock == Blocks.SAND || tBlock == Blocks.GRAVEL || tBlock == Blocks.snow) {
 				WD.set(aWorld, aX              , aY  , aZ              , NB  , 0, 3, T);
 				if (aBlocks[aSource] == this)
 				WD.set(aWorld, aX+OFFX[aSource], aY  , aZ+OFFZ[aSource], this, 1+aFlow        , 3, T);

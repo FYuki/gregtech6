@@ -20,9 +20,9 @@
 package gregapi.compat.industrialcraft;
 
 import gregapi.compat.ICompat;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 
 public interface ICompatIC2 extends ICompat {
 	/** adds a Block to the valuable ores, metadata sensitive */
@@ -41,7 +41,7 @@ public interface ICompatIC2 extends ICompat {
 	public void addToExplosionWhitelist(Block aBlock);
 	public Object makeInput(ItemStack aStack);
 	public Object makeInput(String aOreDict, long aAmount);
-	public Object makeOutput(NBTTagCompound aNBT, ItemStack... aStacks);
+	public Object makeOutput(CompoundTag aNBT, ItemStack... aStacks);
 	
 	public boolean isReactorItem(ItemStack aStack);
 }

@@ -28,8 +28,8 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StatCollector;
 // PHASE3: Configuration removed — use NeoForge ModConfigSpec or file-based config
 import net.minecraftforge.common.config.Property;
@@ -145,7 +145,7 @@ public class LanguageHandler {
 	
 	public static String getTranslateableItemStackName(ItemStack aStack) {
 		if (ST.invalid(aStack)) return "null";
-		NBTTagCompound tNBT = aStack.getTagCompound();
+		CompoundTag tNBT = aStack.getTagCompound();
 		if (tNBT != null && tNBT.hasKey("display")) {
 			String tName = tNBT.getCompoundTag("display").getString("Name");
 			if (UT.Code.stringValid(tName)) {

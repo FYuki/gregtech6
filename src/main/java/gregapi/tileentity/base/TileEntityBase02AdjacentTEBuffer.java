@@ -24,8 +24,8 @@ import static gregapi.data.CS.*;
 import gregapi.tileentity.ITileEntityNeedsSaving;
 import gregapi.tileentity.ITileEntityUnloadable;
 import gregapi.util.WD;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos; // was BlockPos
 
 /**
  * @author Gregorius Techneticies
@@ -89,7 +89,7 @@ public abstract class TileEntityBase02AdjacentTEBuffer extends TileEntityBase01R
 		if (worldObj == null) return null;
 		if (aDistance != 1) return super.getTileEntityAtSideAndDistance(aSide, aDistance);
 		if (SIDES_INVALID[aSide] || mBufferedTileEntities[aSide] == this) return null;
-		ChunkCoordinates tCoords = getOffset(aSide, 1);
+		BlockPos tCoords = getOffset(aSide, 1);
 		boolean tChunksCrossed = crossedChunkBorder(tCoords);
 		if (tChunksCrossed && (!(mBufferedTileEntities[aSide] instanceof ITileEntityUnloadable) || ((ITileEntityUnloadable)mBufferedTileEntities[aSide]).isDead())) {
 			mBufferedTileEntities[aSide] = null;

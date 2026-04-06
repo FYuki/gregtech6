@@ -19,12 +19,12 @@
 
 package gregapi.block;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
  */
 public interface IBlockOnWalkOver {
-	public void onWalkOver(EntityLivingBase aEntity, World aWorld, int aX, int aY, int aZ);
+	public void onWalkOver(LivingEntity aEntity, World aWorld, int aX, int aY, int aZ);
 }

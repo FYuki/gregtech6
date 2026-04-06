@@ -27,8 +27,8 @@ import gregapi.compat.CompatMods;
 import gregapi.data.*;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraft.world.item.ItemStack;
+// PHASE7: import ShapelessOreRecipe removed — use datapack recipes
 
 import static gregapi.data.CS.*;
 

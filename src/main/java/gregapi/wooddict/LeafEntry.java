@@ -23,7 +23,7 @@ import java.util.Set;
 
 import gregapi.code.HashSetNoNulls;
 import gregapi.util.ST;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies

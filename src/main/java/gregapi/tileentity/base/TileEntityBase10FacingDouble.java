@@ -25,12 +25,12 @@ import gregapi.data.LH;
 import gregapi.data.LH.Chat;
 import gregapi.tileentity.ITileEntityMachineBlockUpdateable;
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -43,13 +43,13 @@ public abstract class TileEntityBase10FacingDouble extends TileEntityBase09Facin
 	public byte mSecondFacing = getDefaultSecondSide();
 	
 	@Override
-	public void readFromNBT2(NBTTagCompound aNBT) {
+	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_FAC2NG)) mSecondFacing = aNBT.getByte(NBT_FAC2NG);
 	}
 	
 	@Override
-	public void writeToNBT2(NBTTagCompound aNBT) {
+	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		aNBT.setByte(NBT_FAC2NG, mSecondFacing);
 	}
@@ -103,7 +103,7 @@ public abstract class TileEntityBase10FacingDouble extends TileEntityBase09Facin
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, EntityPlayer aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		mFacing       = (useInversePlacementRotation(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ)?UT.Code.getOppositeSideForPlayerPlacing(aPlayer, mFacing      , getValidSides      ()):UT.Code.getSideForPlayerPlacing        (aPlayer, mFacing      , getValidSides      ()));
 		mSecondFacing = (useInversePlacementRotation(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ)?UT.Code.getSideForPlayerPlacing        (aPlayer, mSecondFacing, getValidSecondSides()):UT.Code.getOppositeSideForPlayerPlacing(aPlayer, mSecondFacing, getValidSecondSides()));
 		onFacingChange(SIDE_UNKNOWN, SIDE_UNKNOWN);

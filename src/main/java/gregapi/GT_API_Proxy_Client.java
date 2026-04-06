@@ -55,23 +55,23 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderFallingBlock;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
+// PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -110,12 +110,12 @@ public class GT_API_Proxy_Client extends GT_API_Proxy {
 	}
 	
 	@Override
-	public EntityPlayer getThePlayer() {
+	public Player getThePlayer() {
 		return Minecraft.getMinecraft().thePlayer;
 	}
 	
 	@Override
-	public boolean sendUseItemPacket(EntityPlayer aPlayer, World aWorld, ItemStack aStack) {
+	public boolean sendUseItemPacket(Player aPlayer, World aWorld, ItemStack aStack) {
 		Minecraft.getMinecraft().playerController.sendUseItem(aPlayer, aWorld, aStack);
 		return T;
 	}
@@ -238,7 +238,7 @@ public class GT_API_Proxy_Client extends GT_API_Proxy {
 			OreDictItemData tData = OM.anydata_(aEvent.itemStack);
 			
 			if (aEvent.itemStack.getTagCompound() == null) {
-				if (aBlock == Blocks.dirt && aBlockMeta == 1) {
+				if (aBlock == Blocks.DIRT && aBlockMeta == 1) {
 					aEvent.toolTip.set(0, aEvent.toolTip.get(0).replaceAll("Dirt", "Coarse Dirt"));
 				}
 				if (MD.RC.mLoaded && "Railcraft:part.plate".equalsIgnoreCase(aRegName)) {
@@ -635,5 +635,5 @@ public class GT_API_Proxy_Client extends GT_API_Proxy {
 		}
 	}
 	
-	private static List<Block> ROTATABLE_VANILLA_BLOCKS = Arrays.asList(Blocks.piston, Blocks.sticky_piston, Blocks.furnace, Blocks.lit_furnace, Blocks.dropper, Blocks.dispenser, Blocks.chest, Blocks.trapped_chest, Blocks.ender_chest, Blocks.hopper, Blocks.pumpkin, Blocks.lit_pumpkin);
+	private static List<Block> ROTATABLE_VANILLA_BLOCKS = Arrays.asList(Blocks.PISTON, Blocks.STICKY_PISTON, Blocks.furnace, Blocks.lit_furnace, Blocks.DROPPER, Blocks.DISPENSER, Blocks.chest, Blocks.trapped_chest, Blocks.ender_chest, Blocks.hopper, Blocks.PUMPKIN, Blocks.lit_pumpkin);
 }

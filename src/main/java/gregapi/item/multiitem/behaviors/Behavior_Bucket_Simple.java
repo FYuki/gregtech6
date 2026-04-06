@@ -30,24 +30,24 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import iguanaman.hungeroverhaul.config.IguanaConfig;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
 
 public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
@@ -120,7 +120,7 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, Player aPlayer) {
 		FluidStack mFluid = FL.getFluid(aStack, T);
 		MovingObjectPosition aTarget = WD.getMOP(aWorld, aPlayer, mFluid == null);
 		if (aTarget == null || aTarget.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return aStack;
@@ -165,12 +165,12 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, Entity aEntity) {
-		if (FL.getFluid(aStack, T) == null && aEntity instanceof EntityLivingBase && !((EntityLivingBase)aEntity).isChild()) {
+	public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {
+		if (FL.getFluid(aStack, T) == null && aEntity instanceof LivingEntity && !((LivingEntity)aEntity).isChild()) {
 			if (aPlayer.worldObj.isRemote) return T;
 			if (aEntity.getClass() == EntityCow.class || aEntity.getClass() == EntityMooshroom.class) {
 				if (MD.HO.mLoaded && IguanaConfig.milkedTimeout > 0 && !UT.Entities.hasInfiniteItems(aPlayer)) {
-					NBTTagCompound tNBT = aEntity.getEntityData();
+					CompoundTag tNBT = aEntity.getEntityData();
 					if (tNBT.hasKey("Milked")) return T;
 					tNBT.setInteger("Milked", IguanaConfig.milkedTimeout * 60);
 				}
@@ -182,7 +182,7 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aPlayer.worldObj.isRemote) return F;
 		FluidStack mFluid = FL.getFluid(aStack, T);
 		if (mFluid == null) return F;

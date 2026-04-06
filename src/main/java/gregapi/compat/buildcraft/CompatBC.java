@@ -29,7 +29,7 @@ import gregapi.data.OP;
 import gregapi.data.TD;
 import gregapi.util.ST;
 import gregapi.wooddict.WoodDictionary;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockHugeMushroom;
 import net.minecraft.world.IBlockAccess;
 

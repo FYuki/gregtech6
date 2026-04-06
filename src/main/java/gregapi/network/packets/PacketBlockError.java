@@ -24,10 +24,10 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import gregapi.block.IBlockErrorable;
 import gregapi.network.INetworkHandler;
-import net.minecraft.block.Block;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 /**
  * @author Gregorius Techneticies
@@ -44,7 +44,7 @@ public class PacketBlockError extends PacketCoordinates {
 		mError = aError;
 	}
 	
-	public PacketBlockError(ChunkCoordinates aCoords, String aError) {
+	public PacketBlockError(BlockPos aCoords, String aError) {
 		super(aCoords);
 		mError = aError;
 	}

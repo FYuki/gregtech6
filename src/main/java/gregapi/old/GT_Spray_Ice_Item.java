@@ -42,15 +42,15 @@ public class GT_Spray_Ice_Item extends GT_Tool_Item {
 	/*
 	@Override
 	public void onHitEntity(Entity aEntity) {
-		if (aEntity instanceof EntityLiving) {
-			((EntityLiving)aEntity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 400, 2, false));
-			((EntityLiving)aEntity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 400, 2, false));
+		if (aEntity instanceof Mob) {
+			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 400, 2, false));
+			((Mob)aEntity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 400, 2, false));
 		}
 	}
 	*/
 	/*
 	@Override
-	public boolean onItemUseFirst(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
 		super.onItemUseFirst(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, hitX, hitY, hitZ);
 		if (aWorld.isRemote) {
 			return false;
@@ -74,7 +74,7 @@ public class GT_Spray_Ice_Item extends GT_Tool_Item {
 		if (aBlock == Blocks.lava || aBlock == Blocks.flowing_lava) {
 			if (aMeta == 0 && GT_ModHandler.damageOrDechargeItem(aStack, 1, 1000, aPlayer)) {
 				UT.Sounds.send(aWorld, SFX.IC_SPRAY, 1.0F, -1, aX, aY, aZ);
-				aWorld.setBlock(aX, aY, aZ, Blocks.obsidian, 0, 3);
+				aWorld.setBlock(aX, aY, aZ, Blocks.OBSIDIAN, 0, 3);
 				return true;
 			}
 			return false;

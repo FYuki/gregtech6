@@ -22,11 +22,11 @@ package gregapi.player;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.damage.DamageSources;
 import gregapi.util.UT;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.Potion;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 import static gregapi.data.CS.*;
@@ -38,15 +38,15 @@ public class EntityFoodTracker implements IExtendedEntityProperties {
 	public static ArrayListNoNulls<EntityFoodTracker> TICK_LIST = new ArrayListNoNulls<>();
 	
 	public byte mAlcohol = 0, mCaffeine = 0, mDehydration = 0, mSugar = 0, mFat = 0, mRadiation = 0;
-	public final EntityLivingBase mEntity;
+	public final LivingEntity mEntity;
 	
-	public EntityFoodTracker(EntityLivingBase aEntity) {
+	public EntityFoodTracker(LivingEntity aEntity) {
 		mEntity = aEntity;
 	}
 	
 	@Override
-	public void saveNBTData(NBTTagCompound aNBT) {
-		NBTTagCompound tNBT = UT.NBT.make();
+	public void saveNBTData(CompoundTag aNBT) {
+		CompoundTag tNBT = UT.NBT.make();
 		if (mAlcohol     != 0) tNBT.setByte("a", mAlcohol    );
 		if (mCaffeine    != 0) tNBT.setByte("c", mCaffeine   );
 		if (mSugar       != 0) tNBT.setByte("s", mSugar      );
@@ -57,8 +57,8 @@ public class EntityFoodTracker implements IExtendedEntityProperties {
 	}
 	
 	@Override
-	public void loadNBTData(NBTTagCompound aNBT) {
-		NBTTagCompound tNBT = aNBT.getCompoundTag("gt.props.food");
+	public void loadNBTData(CompoundTag aNBT) {
+		CompoundTag tNBT = aNBT.getCompoundTag("gt.props.food");
 		if (tNBT == null) return;
 		mAlcohol     = tNBT.getByte("a");
 		mCaffeine    = tNBT.getByte("c");
@@ -195,7 +195,7 @@ public class EntityFoodTracker implements IExtendedEntityProperties {
 		}
 	}
 	
-	public static void add(EntityLivingBase aEntity) {
+	public static void add(LivingEntity aEntity) {
 		if (aEntity == null || aEntity.worldObj.isRemote) return;
 		aEntity.registerExtendedProperties("gt.props.food", new EntityFoodTracker(aEntity));
 	}

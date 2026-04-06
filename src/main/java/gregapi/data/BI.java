@@ -24,10 +24,10 @@ import gregapi.render.BlockTextureDefault;
 import gregapi.render.IIconContainer;
 import gregapi.render.ITexture;
 import gregapi.util.UT;
-import net.minecraft.client.renderer.texture.IIconRegister;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
+import net.minecraft.resources.ResourceLocation;
 
 import static gregapi.data.CS.*;
 

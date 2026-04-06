@@ -22,10 +22,10 @@ package gregapi.render;
 import gregapi.GT_API;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.data.MD;
-import net.minecraft.client.renderer.texture.IIconRegister;
+// PHASE4: import IIconRegister removed — use TextureAtlasSprite
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 

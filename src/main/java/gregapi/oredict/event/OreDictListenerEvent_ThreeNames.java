@@ -22,7 +22,7 @@ package gregapi.oredict.event;
 import static gregapi.data.CS.*;
 
 import gregapi.oredict.OreDictManager;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies

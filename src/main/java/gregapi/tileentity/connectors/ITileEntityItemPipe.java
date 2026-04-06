@@ -25,7 +25,7 @@ import java.util.Map;
 
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.util.UT;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author Gregorius Techneticies

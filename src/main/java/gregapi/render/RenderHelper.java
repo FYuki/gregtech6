@@ -27,7 +27,7 @@ import org.lwjgl.opengl.GL11;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.util.ST;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -35,10 +35,10 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+// PHASE4: import IIcon removed — use TextureAtlasSprite
+import net.minecraft.resources.ResourceLocation;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderHelper {
@@ -95,7 +95,7 @@ public class RenderHelper {
 		glEnable(GL_CULL_FACE);
 	}
 	
-	public static void drawWrenchOverlay(EntityPlayer aPlayer, int aX, int aY, int aZ, byte aConnections, byte aSide, float aPartialTicks) {
+	public static void drawWrenchOverlay(Player aPlayer, int aX, int aY, int aZ, byte aConnections, byte aSide, float aPartialTicks) {
 		try {Class.forName("codechicken.lib.vec.Rotation");} catch (ClassNotFoundException e) {return;}
 		
 //      GL11.glDepthFunc(GL11.GL_ALWAYS);

@@ -32,9 +32,9 @@ import gregapi.render.ITexture;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author Gregorius Techneticies
@@ -110,7 +110,7 @@ public class MultiTileEntityMiniPortalTropics extends MultiTileEntityMiniPortal 
 	}
 	
 	@Override
-	public boolean onBlockActivated2(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
 			ItemStack aStack = aPlayer.inventory.getCurrentItem();
 			if (ST.valid(aStack) && aStack.stackSize > 0 && ST.equal(aStack, MD.TROPIC, "cocktail")) {
@@ -122,10 +122,10 @@ public class MultiTileEntityMiniPortalTropics extends MultiTileEntityMiniPortal 
 		return T;
 	}
 	
-	@Override public float getBlockHardness() {return Blocks.planks.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
-	@Override public float getExplosionResistance2() {return Blocks.planks.getExplosionResistance(null);}
+	@Override public float getBlockHardness() {return Blocks.OAK_PLANKS.getBlockHardness(worldObj, xCoord, yCoord, zCoord);}
+	@Override public float getExplosionResistance2() {return Blocks.OAK_PLANKS.getExplosionResistance(null);}
 	
-	public ITexture sTropicsPortal = BlockTextureCopied.get(ST.block(MD.TROPIC, "tile.portal", Blocks.portal), SIDE_ANY, 0, UNCOLOURED, F, T, T), sTropicsPortalFrame = BlockTextureCopied.get(ST.block(MD.TROPIC, "tile.bambooBundle", Blocks.planks), SIDE_FRONT, 0, UNCOLOURED, F, F, F), sTropicsPortalInactive = BlockTextureCopied.get(Blocks.water, SIDE_TOP, 0, 0x0088ffcc, F, T, T);
+	public ITexture sTropicsPortal = BlockTextureCopied.get(ST.block(MD.TROPIC, "tile.portal", Blocks.portal), SIDE_ANY, 0, UNCOLOURED, F, T, T), sTropicsPortalFrame = BlockTextureCopied.get(ST.block(MD.TROPIC, "tile.bambooBundle", Blocks.OAK_PLANKS), SIDE_FRONT, 0, UNCOLOURED, F, F, F), sTropicsPortalInactive = BlockTextureCopied.get(Blocks.water, SIDE_TOP, 0, 0x0088ffcc, F, T, T);
 	@Override public ITexture getPortalTexture() {return sTropicsPortal;}
 	@Override public ITexture getFrameTexture() {return sTropicsPortalFrame;}
 	@Override public ITexture getInactiveTexture() {return sTropicsPortalInactive;}

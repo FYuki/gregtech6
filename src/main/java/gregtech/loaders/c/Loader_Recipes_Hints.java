@@ -113,7 +113,7 @@ public class Loader_Recipes_Hints implements Runnable {
 		  ST.make(OP.dust           .mat(MT.Endstone     , 1), "Endstone can be centrifuged for Helium")
 		, ST.make(OP.dust           .mat(MT.Monazite     , 1), "Monazite can be smelted for Helium")
 		, ST.make(OP.crushedPurified.mat(MT.Biotite      , 1), "Biotite can be dried for Argon")
-		, ST.make(Blocks.end_stone                     , 1, 0, "Some Overworld Dungeons have Endstone too!")
+		, ST.make(Blocks.END_STONE                     , 1, 0, "Some Overworld Dungeons have Endstone too!")
 		, ST.make(aRegistry                   .getItem(17111), "Cryo Distillation Towers also produce Noble Gasses")
 		, ST.make(aRegistry                   .getItem(17198), "Worst case, just let the Fusion Reactor make it!")
 		), ST.array(

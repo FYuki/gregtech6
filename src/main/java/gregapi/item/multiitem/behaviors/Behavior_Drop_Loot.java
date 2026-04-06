@@ -23,9 +23,9 @@ import gregapi.item.multiitem.MultiItem;
 import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ChestGenHooks;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class Behavior_Drop_Loot extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUse(MultiItem aItem, ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (!aWorld.isRemote && ST.use(aPlayer, T, aStack)) {
 			for (String tLoot : mLoots) ST.drop(aWorld, aX+OFFX[aSide]+0.5, aY+OFFY[aSide]+0.5, aZ+OFFZ[aSide]+0.5, ChestGenHooks.getOneItem(tLoot, RNGSUS));
 			if (aPlayer != null) UT.Sounds.send(SFX.MC_DIG_CLOTH, aPlayer);
