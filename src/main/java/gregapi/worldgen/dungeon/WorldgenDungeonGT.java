@@ -32,7 +32,7 @@ import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregtech.tileentity.placeables.MultiTileEntityCoin;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

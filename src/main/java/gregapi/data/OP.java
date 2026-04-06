@@ -29,7 +29,7 @@ import gregapi.oredict.listeners.OreDictListenerItem_Rocks;
 import gregapi.oredict.listeners.OreDictListenerItem_Washing;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.ItemGenerator.*;

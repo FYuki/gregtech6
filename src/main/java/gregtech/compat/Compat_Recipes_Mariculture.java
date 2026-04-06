@@ -35,7 +35,7 @@ import gregapi.data.RM;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 
 public class Compat_Recipes_Mariculture extends CompatMods {
 	public Compat_Recipes_Mariculture(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

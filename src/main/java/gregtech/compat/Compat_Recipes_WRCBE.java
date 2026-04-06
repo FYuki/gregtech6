@@ -33,7 +33,7 @@ import gregapi.data.RM;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 public class Compat_Recipes_WRCBE extends CompatMods {
 	public Compat_Recipes_WRCBE(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

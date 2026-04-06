@@ -31,7 +31,7 @@ import gregapi.data.LH.Chat;
 import gregapi.render.BlockTextureCopied;
 import gregapi.render.ITexture;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 

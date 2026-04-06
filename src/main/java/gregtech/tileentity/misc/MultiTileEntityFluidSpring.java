@@ -35,7 +35,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidFinite;

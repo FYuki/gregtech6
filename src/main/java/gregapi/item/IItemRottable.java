@@ -25,7 +25,7 @@ import gregapi.data.CS.FluidsGT;
 import gregapi.data.FL;
 import gregapi.data.IL;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;

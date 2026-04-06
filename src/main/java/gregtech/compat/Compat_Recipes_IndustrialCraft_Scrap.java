@@ -27,8 +27,8 @@ import gregapi.config.ConfigCategories;
 import gregapi.data.*;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 
 import static gregapi.data.CS.*;

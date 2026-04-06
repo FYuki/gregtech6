@@ -27,7 +27,7 @@ import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 import static gregapi.data.CS.OUT;
 import static gregapi.data.CS.T;

@@ -31,7 +31,7 @@ import net.minecraft.block.BlockSilverfish;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.AchievementList;
 

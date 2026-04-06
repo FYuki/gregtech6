@@ -28,8 +28,8 @@ import gregapi.data.CS.*;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 
 import static gregapi.data.CS.*;

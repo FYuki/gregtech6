@@ -40,7 +40,7 @@ import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.network.play.server.S27PacketExplosion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;

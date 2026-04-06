@@ -29,7 +29,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregtech.tileentity.tools.MultiTileEntityMold;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.ChestGenHooks;

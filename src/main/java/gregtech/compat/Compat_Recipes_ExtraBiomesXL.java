@@ -29,7 +29,7 @@ import gregapi.data.IL;
 import gregapi.data.MD;
 import gregapi.data.RM;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 
 public class Compat_Recipes_ExtraBiomesXL extends CompatMods {
 	public Compat_Recipes_ExtraBiomesXL(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

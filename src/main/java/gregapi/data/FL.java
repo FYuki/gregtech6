@@ -33,7 +33,7 @@ import gregapi.util.UT;
 import gregapi.util.UT.Code;
 import gregapi.util.UT.NBT;
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.*;

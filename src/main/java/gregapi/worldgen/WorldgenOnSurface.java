@@ -27,7 +27,7 @@ import java.util.Set;
 
 import gregapi.util.WD;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;

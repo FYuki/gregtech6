@@ -43,7 +43,7 @@ import ic2.api.recipe.RecipeInputOreDict;
 import ic2.api.recipe.RecipeOutput;
 import ic2.core.Ic2Items;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

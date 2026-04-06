@@ -37,7 +37,7 @@ import gregapi.oredict.event.OreDictListenerEvent_ThreeNames;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 
 public class Compat_Recipes_ArsMagica extends CompatMods {

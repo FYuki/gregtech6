@@ -32,7 +32,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.render.IconContainerCopied;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemStack;
 
 import java.util.Set;

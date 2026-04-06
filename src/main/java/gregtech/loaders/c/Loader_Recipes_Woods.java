@@ -30,7 +30,7 @@ import gregapi.wooddict.PlankEntry;
 import gregapi.wooddict.WoodDictionary;
 import gregapi.wooddict.WoodEntry;
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

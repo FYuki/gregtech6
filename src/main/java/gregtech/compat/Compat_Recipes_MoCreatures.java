@@ -27,7 +27,7 @@ import gregapi.data.IL;
 import gregapi.data.MD;
 import gregapi.data.RM;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 
 import static gregapi.data.CS.*;
 

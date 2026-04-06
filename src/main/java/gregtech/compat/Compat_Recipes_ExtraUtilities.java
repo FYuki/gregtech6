@@ -34,7 +34,7 @@ import gregapi.oredict.event.IOreDictListenerEvent;
 import gregapi.oredict.event.OreDictListenerEvent_Names;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 public class Compat_Recipes_ExtraUtilities extends CompatMods {
 	public Compat_Recipes_ExtraUtilities(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

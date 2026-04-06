@@ -37,7 +37,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
 public class Compat_Recipes_ActuallyAdditions extends CompatMods {

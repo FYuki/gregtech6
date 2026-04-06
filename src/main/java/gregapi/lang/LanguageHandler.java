@@ -31,7 +31,7 @@ import gregapi.util.UT;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.config.Configuration;
+// PHASE3: Configuration removed — use NeoForge ModConfigSpec or file-based config
 import net.minecraftforge.common.config.Property;
 
 import java.util.HashMap;

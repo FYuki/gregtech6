@@ -27,7 +27,7 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 

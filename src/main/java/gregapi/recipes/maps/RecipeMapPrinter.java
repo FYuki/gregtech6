@@ -32,7 +32,7 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

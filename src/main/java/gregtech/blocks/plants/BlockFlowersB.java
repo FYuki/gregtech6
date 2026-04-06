@@ -27,7 +27,7 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.WD;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;

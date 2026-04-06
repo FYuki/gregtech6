@@ -27,7 +27,7 @@ import gregapi.render.IIconContainer;
 import gregapi.render.TextureSet;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.fluids.FluidStack;

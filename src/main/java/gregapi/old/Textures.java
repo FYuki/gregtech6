@@ -27,7 +27,7 @@ import gregapi.render.IconContainerCopied;
 import gregapi.util.UT;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 

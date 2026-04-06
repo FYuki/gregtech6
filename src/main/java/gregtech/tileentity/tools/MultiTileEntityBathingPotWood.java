@@ -28,7 +28,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.render.*;
 import gregapi.util.UT;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;

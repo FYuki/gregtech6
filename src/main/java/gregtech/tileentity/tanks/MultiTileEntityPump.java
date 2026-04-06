@@ -46,7 +46,7 @@ import gregapi.tileentity.machines.ITileEntitySwitchableOnOff;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;

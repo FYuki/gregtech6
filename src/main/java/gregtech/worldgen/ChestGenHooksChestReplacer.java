@@ -21,7 +21,7 @@ package gregtech.worldgen;
 
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.util.UT;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;

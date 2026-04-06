@@ -27,7 +27,7 @@ import gregapi.util.CR;
 import gregapi.util.ST;
 import gregtech.blocks.BlockRailRoad;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.T;

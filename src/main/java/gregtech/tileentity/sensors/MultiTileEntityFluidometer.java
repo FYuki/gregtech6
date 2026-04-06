@@ -28,7 +28,7 @@ import gregapi.render.IIconContainer;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.machines.MultiTileEntitySensorTE;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;

@@ -31,7 +31,7 @@ import gregapi.worldgen.WorldgenObject;
 import gregtech.worldgen.NoiseGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;

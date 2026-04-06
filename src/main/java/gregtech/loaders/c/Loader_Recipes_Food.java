@@ -27,8 +27,8 @@ import gregapi.oredict.event.OreDictListenerEvent_TwoNames;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

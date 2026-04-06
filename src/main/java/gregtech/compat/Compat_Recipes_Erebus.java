@@ -29,7 +29,7 @@ import gregapi.oredict.event.OreDictListenerEvent_Names;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 import net.minecraftforge.fluids.FluidStack;
 

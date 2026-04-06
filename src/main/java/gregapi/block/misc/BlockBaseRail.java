@@ -40,7 +40,7 @@ import net.minecraft.entity.EntityMinecartCommandBlock;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;

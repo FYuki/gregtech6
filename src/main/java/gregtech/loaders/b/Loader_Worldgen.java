@@ -42,7 +42,7 @@ import gregtech.worldgen.overworld.WorldgenColtan;
 import gregtech.worldgen.planets.WorldgenPlanetRocks;
 import gregtech.worldgen.tree.*;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 import static gregapi.data.CS.*;
 

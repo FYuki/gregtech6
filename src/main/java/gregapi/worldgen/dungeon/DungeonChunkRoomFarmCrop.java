@@ -25,7 +25,7 @@ import gregapi.data.MD;
 import gregapi.util.ST;
 import gregapi.util.WD;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 import static gregapi.data.CS.*;
 

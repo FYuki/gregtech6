@@ -36,8 +36,8 @@ import gregapi.oredict.event.IOreDictListenerEvent;
 import gregapi.oredict.event.OreDictListenerEvent_Names;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.Item;
 
 public class Compat_Recipes_Tropicraft extends CompatMods {

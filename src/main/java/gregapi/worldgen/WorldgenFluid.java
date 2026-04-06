@@ -27,7 +27,7 @@ import java.util.Random;
 
 import gregapi.util.WD;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.World;
 
 /**

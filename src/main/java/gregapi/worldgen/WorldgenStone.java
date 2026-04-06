@@ -30,7 +30,7 @@ import gregapi.block.IBlockPlacable;
 import gregapi.code.ItemStackContainer;
 import gregapi.data.CS.BlocksGT;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.World;
 
 /**

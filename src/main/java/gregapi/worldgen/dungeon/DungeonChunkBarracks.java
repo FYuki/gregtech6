@@ -26,7 +26,7 @@ import gregapi.data.OP;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.ChestGenHooks;
 

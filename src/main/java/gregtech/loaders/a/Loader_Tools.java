@@ -48,8 +48,8 @@ import gregtech.items.tools.guns.GT_Tool_Pistol;
 import gregtech.items.tools.guns.GT_Tool_Rifle;
 import gregtech.items.tools.machine.*;
 import gregtech.items.tools.pocket.*;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 
 import static gregapi.data.CS.*;

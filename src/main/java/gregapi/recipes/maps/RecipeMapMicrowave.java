@@ -28,8 +28,8 @@ import gregapi.recipes.Recipe;
 import gregapi.tileentity.base.TileEntityBase01Root;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

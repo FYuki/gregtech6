@@ -28,7 +28,7 @@ import java.util.Set;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;

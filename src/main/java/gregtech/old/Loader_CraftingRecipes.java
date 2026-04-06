@@ -31,8 +31,8 @@ import gregapi.data.OD;
 import gregapi.data.OP;
 import gregapi.util.CR;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemStack;
 
 public class Loader_CraftingRecipes implements Runnable {

@@ -29,7 +29,7 @@ import gregapi.render.ITexture;
 import gregapi.tileentity.base.TileEntityBase09FacingSingle;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 /**
  * @author Gregorius Techneticies

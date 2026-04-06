@@ -33,7 +33,7 @@ import gregapi.random.WorldAndCoords;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

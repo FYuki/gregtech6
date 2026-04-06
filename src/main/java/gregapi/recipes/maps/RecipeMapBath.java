@@ -31,7 +31,7 @@ import gregapi.util.UT;
 import gregapi.wooddict.PlankEntry;
 import gregapi.wooddict.WoodDictionary;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;

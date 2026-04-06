@@ -30,7 +30,7 @@ import gregapi.oredict.event.OreDictListenerEvent_Names;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 import static gregapi.data.CS.*;
 

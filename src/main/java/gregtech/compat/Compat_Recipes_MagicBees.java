@@ -32,7 +32,7 @@ import gregapi.data.MT;
 import gregapi.data.RM;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.init.Items;
+import net.minecraft.world.item.Items;
 
 public class Compat_Recipes_MagicBees extends CompatMods {
 	public Compat_Recipes_MagicBees(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}

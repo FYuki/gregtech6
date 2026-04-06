@@ -26,7 +26,7 @@ import gregapi.block.misc.BlockBaseMachineUpdate;
 import gregapi.data.LH;
 import gregapi.render.IIconContainer;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.World;
 
 public class BlockLongDistPipe extends BlockBaseMachineUpdate {
