@@ -31,14 +31,14 @@ import gregapi.recipes.ICraftingRecipeGT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import gregapi.stubs.CraftingManager;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.Level;
 // PHASE7: import OreDictionary removed — replaced by Tags
 // PHASE7: import ShapedOreRecipe removed — use datapack recipes
@@ -54,10 +54,10 @@ import static gregapi.data.CS.*;
 public class CR {
 	public static final HashSetNoNulls<String>
 	CLASSES_NATIVE = new HashSetNoNulls<>(F
-	, ShapedRecipes.class.getName()
+	, ShapedRecipe.class.getName()
 	, ShapedOreRecipe.class.getName()
 	, AdvancedCraftingShaped.class.getName()
-	, ShapelessRecipes.class.getName()
+	, ShapelessRecipe.class.getName()
 	, ShapelessOreRecipe.class.getName()
 	, AdvancedCraftingShapeless.class.getName()
 	, "ic2.core.AdvRecipe"
@@ -516,14 +516,14 @@ public class CR {
 	public static IRecipe sLastRecipe = null;
 
 	/** Checks all Crafting Handlers for Recipe Output */
-	public static ItemStack getany(World aWorld, ItemStack... aRecipe) {return getany(aWorld, T, aRecipe);}
+	public static ItemStack getany(Level aWorld, ItemStack... aRecipe) {return getany(aWorld, T, aRecipe);}
 	/** Checks all Crafting Handlers for Recipe Output */
-	public static ItemStack getany(World aWorld, boolean aAllowCache, ItemStack... aRecipe) {
+	public static ItemStack getany(Level aWorld, boolean aAllowCache, ItemStack... aRecipe) {
 		if (!ST.hasValid(aRecipe)) return null;
 		
 		if (aWorld == null) aWorld = CS.DW;
 		
-		InventoryCrafting aCrafting = crafting(aRecipe);
+		CraftingContainer aCrafting = crafting(aRecipe);
 		
 		if (aAllowCache && sLastRecipe != null && sLastRecipe.matches(aCrafting, aWorld)) return sLastRecipe.getCraftingResult(aCrafting);
 		
@@ -557,7 +557,7 @@ public class CR {
 	/** Gives you a copy of the Output from a Crafting Recipe. Used for Recipe Detection. */
 	public static ItemStack get(boolean aUncopiedStack, ItemStack... aRecipe) {
 		if (!ST.hasValid(aRecipe)) return null;
-		InventoryCrafting aCrafting = crafting(aRecipe);
+		CraftingContainer aCrafting = crafting(aRecipe);
 		List<IRecipe> tList = list();
 		for (int i = 0; i < tList.size(); i++) try {if (tList.get(i).matches(aCrafting, CS.DW)) return aUncopiedStack ? ST.valisize(tList.get(i).getRecipeOutput()) : ST.copy(ST.valisize(tList.get(i).getCraftingResult(aCrafting)));} catch(Throwable e) {e.printStackTrace(ERR);}
 		return null;
@@ -568,14 +568,14 @@ public class CR {
 	/** Gives you a list of the Outputs from a Crafting Recipe. If you have multiple Mods, which add Bronze Armor for example */
 	public static List<ItemStack> outputs(List<IRecipe> aList, boolean aDeleteFromList, ItemStack... aRecipe) {
 		if (aList == null || !ST.hasValid(aRecipe)) return Collections.emptyList();
-		InventoryCrafting aCrafting = crafting(aRecipe);
+		CraftingContainer aCrafting = crafting(aRecipe);
 		ArrayList<ItemStack> rList = ST.arraylist();
 		for (int i = 0; i < aList.size(); i++) try {if (aList.get(i).matches(aCrafting, CS.DW)) rList.add(ST.copy(ST.valisize((aDeleteFromList ? aList.remove(i--) : aList.get(i)).getCraftingResult(aCrafting))));} catch(Throwable e) {e.printStackTrace(ERR);}
 		return rList;
 	}
 	
-	public static InventoryCrafting crafting(ItemStack... aRecipe) {
-		InventoryCrafting rCrafting = new InventoryCrafting(new Container() {@Override public boolean canInteractWith(Player var1) {return F;}}, 3, 3);
+	public static CraftingContainer crafting(ItemStack... aRecipe) {
+		CraftingContainer rCrafting = new CraftingContainer(new Container() {@Override public boolean canInteractWith(Player var1) {return F;}}, 3, 3);
 		for (int i = 0; i < 9 && i < aRecipe.length; i++) rCrafting.setInventorySlotContents(i, aRecipe[i]);
 		return rCrafting;
 	}
@@ -608,7 +608,7 @@ public class CR {
 		for (int i = 0; i < tList.size(); i++) {
 			IRecipe tRecipe = tList.get(i);
 			if (tRecipe instanceof ICraftingRecipeGT && !((ICraftingRecipeGT)tRecipe).isRemovableByGT()) continue;
-			if (aNotRemoveShapelessRecipes && (tRecipe instanceof ShapelessRecipes || tRecipe instanceof ShapelessOreRecipe)) continue;
+			if (aNotRemoveShapelessRecipes && (tRecipe instanceof ShapelessRecipe || tRecipe instanceof ShapelessOreRecipe)) continue;
 			if (aOnlyRemoveNativeHandlers) {
 				if (!CLASSES_NATIVE.contains(tRecipe.getClass().getName())) continue;
 			} else {
@@ -675,7 +675,7 @@ public class CR {
 	public static ItemStack remove(ItemStack... aRecipe) {
 		if (!ST.hasValid(aRecipe)) return null;
 		ItemStack rReturn = null, tReturn = null;
-		InventoryCrafting aCrafting = crafting(aRecipe);
+		CraftingContainer aCrafting = crafting(aRecipe);
 		List<IRecipe> tList = list();
 		for (int i = 0; i < tList.size(); i++) {try {for (; i < tList.size(); i++) {
 			if ((!(tList.get(i) instanceof ICraftingRecipeGT) || ((ICraftingRecipeGT)tList.get(i)).isRemovableByGT()) && tList.get(i).matches(aCrafting, CS.DW)) {

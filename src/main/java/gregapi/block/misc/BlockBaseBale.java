@@ -40,22 +40,22 @@ import net.minecraft.core.Direction; // was Direction
 public abstract class BlockBaseBale extends BlockBaseMeta {
 	public BlockBaseBale(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, Math.min(4, aMaxMeta), aIcons);
-		setCreativeTab(CreativeTabs.tabDecorations);
+		setCreativeTab(CreativeModeTab.tabDecorations);
 		if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("forester", ST.make(this, 1, W));
 	}
 	
 	@Override public String getHarvestTool(int aMeta) {return TOOL_sword;}
 	@Override public int damageDropped(int aMeta) {return aMeta & PILLAR_DATA;}
-	@Override public int getDamageValue(World aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ) & PILLAR_DATA;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.hay_block.getBlockHardness(aWorld, aX, aY, aZ);}
+	@Override public int getDamageValue(Level aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ) & PILLAR_DATA;}
+	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return Blocks.hay_block.getBlockHardness(aWorld, aX, aY, aZ);}
 	@Override public float getExplosionResistance(byte aMeta) {return Blocks.hay_block.getExplosionResistance(null);}
 	@Override public int getItemStackLimit(ItemStack aStack) {return ST.make(Blocks.hay_block, 1, 0).getMaxStackSize();}
 	@Override public int getRenderType() {return PILLAR_RENDER;}
 	@Override public boolean doesPistonPush(byte aMeta) {return T;}
 	@Override public boolean isSealable(byte aMeta, byte aSide) {return F;}
-	@Override public boolean isFireSource(World aWorld, int aX, int aY, int aZ, Direction aSide) {return F;}
+	@Override public boolean isFireSource(Level aWorld, int aX, int aY, int aZ, Direction aSide) {return F;}
 	@Override public int getFlammability(byte aMeta) {return 150;}
 	@Override public int getFireSpreadSpeed(byte aMeta) {return 150;}
-	@Override public int onBlockPlaced(World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ, int aMeta) {return PILLAR_DATA_SIDE[aMeta][aSide];}
+	@Override public int onBlockPlaced(Level aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ, int aMeta) {return PILLAR_DATA_SIDE[aMeta][aSide];}
 	@Override public IIcon getIcon(int aSide, int aMeta) {return mIcons[2*(aMeta&PILLAR_DATA)+(PILLAR_TO_AXIS[aMeta][aSide]?0:1)].getIcon(0);}
 }

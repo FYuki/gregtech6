@@ -31,7 +31,7 @@ import net.minecraft.world.level.Level;
  * PHASE2: Updated to NeoForge 1.21.4 types.
  *   ServerPlayer → ServerPlayer
  *   BlockPos → BlockPos
- *   World → Level
+ *   Level → Level
  *   TargetPoint moved to inner record
  *   FMLEmbeddedChannel removed
  */
@@ -45,16 +45,16 @@ public interface INetworkHandler {
 	void sendToPlayer(IPacket aPacket, ServerPlayer aPlayer);
 	/** It sends a Packet to all Players in the specified range. */
 	void sendToAllAround(IPacket aPacket, TargetPoint aPosition);
-	/** It sends a Packet to all Players watching the Chunk at X/Z. */
+	/** It sends a Packet to all Players watching the LevelChunk at X/Z. */
 	void sendToAllPlayersInRange(IPacket aPacket, Level aWorld, int aX, int aZ);
-	/** It sends a Packet to all Players watching the Chunk at the BlockPos. */
+	/** It sends a Packet to all Players watching the LevelChunk at the BlockPos. */
 	void sendToAllPlayersInRange(IPacket aPacket, Level aWorld, BlockPos aCoords);
-	/** It sends a Packet to one Player (by UUID) if they watch the Chunk at X/Z. */
+	/** It sends a Packet to one Player (by UUID) if they watch the LevelChunk at X/Z. */
 	void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, Level aWorld, int aX, int aZ);
-	/** It sends a Packet to one Player (by UUID) if they watch the Chunk at the BlockPos. */
+	/** It sends a Packet to one Player (by UUID) if they watch the LevelChunk at the BlockPos. */
 	void sendToPlayerIfInRange(IPacket aPacket, UUID aPlayer, Level aWorld, BlockPos aCoords);
-	/** It sends a Packet to all Players except one watching the Chunk at X/Z. */
+	/** It sends a Packet to all Players except one watching the LevelChunk at X/Z. */
 	void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, Level aWorld, int aX, int aZ);
-	/** It sends a Packet to all Players except one watching the Chunk at the BlockPos. */
+	/** It sends a Packet to all Players except one watching the LevelChunk at the BlockPos. */
 	void sendToAllPlayersInRangeExcept(IPacket aPacket, UUID aPlayer, Level aWorld, BlockPos aCoords);
 }

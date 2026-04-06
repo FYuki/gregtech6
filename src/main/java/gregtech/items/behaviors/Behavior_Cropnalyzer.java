@@ -43,7 +43,7 @@ public class Behavior_Cropnalyzer extends AbstractBehaviorDefault {
 	public static final Behavior_Cropnalyzer INSTANCE = new Behavior_Cropnalyzer();
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aPlayer instanceof ServerPlayer) {
 			ArrayList<String> tList = new ArrayListNoNulls<>();
 			long tUsedEnergy = getCropScan(tList, aWorld, aX, aY, aZ);
@@ -56,7 +56,7 @@ public class Behavior_Cropnalyzer extends AbstractBehaviorDefault {
 	}
 	
 	static {
-		LH.add("gt.behaviour.cropnalyzer", "Can scan Crops in World");
+		LH.add("gt.behaviour.cropnalyzer", "Can scan Crops in Level");
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class Behavior_Cropnalyzer extends AbstractBehaviorDefault {
 		return aList;
 	}
 	
-	public long getCropScan(ArrayList<String> aList, World aWorld, int aX, int aY, int aZ) {
+	public long getCropScan(ArrayList<String> aList, Level aWorld, int aX, int aY, int aZ) {
 		if (aList == null || !MD.IC2.mLoaded) return 0;
 		
 		ArrayList<String> rList = new ArrayListNoNulls<>();

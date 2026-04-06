@@ -35,7 +35,7 @@ public class Behavior_Sonictron extends AbstractBehaviorDefault {
 	public static final IBehavior<MultiItem> INSTANCE = new Behavior_Sonictron();
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		/*if (!aWorld.isRemote && aWorld.getBlock(aX, aY, aZ) == GregTech_API.sBlockMachines && aWorld.getBlockMetadata(aX, aY, aZ) == 6) {
 			
 			GT_TileEntity_Sonictron tSonictron = (GT_TileEntity_Sonictron)aWorld.getTileEntity(aX, aY, aZ);
@@ -57,13 +57,13 @@ public class Behavior_Sonictron extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
 		setCurrentIndex(aStack, 0);
 		return aStack;
 	}
 	
 	@Override
-	public void onUpdate(MultiItem aItem, ItemStack aStack, World aWorld, Entity aPlayer, int aTimer, boolean aIsInHand) {
+	public void onUpdate(MultiItem aItem, ItemStack aStack, Level aWorld, Entity aPlayer, int aTimer, boolean aIsInHand) {
 		int tTickTimer      = getTickTimer(aStack),
 			tCurrentIndex   = getCurrentIndex(aStack);
 			

@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 /**
  * @author Gregorius Techneticies
  * 
- * Note: ALL the Methods can and will be called at any time by another Thread. Nothing here is synched to World Ticks.
+ * Note: ALL the Methods can and will be called at any time by another Thread. Nothing here is synched to Level Ticks.
  */
 public interface IComputerizable {
 	/** @return a unique name for this device. All lowercase without spaces. null if you don't want functionality. */

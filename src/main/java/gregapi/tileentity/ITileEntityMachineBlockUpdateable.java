@@ -59,7 +59,7 @@ public interface ITileEntityMachineBlockUpdateable {
 		 * This update will cause surrounding MultiBlock Machines to update their Configuration.
 		 * You should call this Function in @Block.breakBlock and in @Block.onBlockAdded of your Machine.
 		 */
-		public static boolean causeMachineUpdate(World aWorld, int aX, int aY, int aZ, Block aBlock, byte aMeta, boolean aRemoved) {
+		public static boolean causeMachineUpdate(Level aWorld, int aX, int aY, int aZ, Block aBlock, byte aMeta, boolean aRemoved) {
 			if (!aWorld.isRemote) new Thread(new MachineBlockUpdateRunnable(aWorld, new BlockPos(aX, aY, aZ), aBlock, aMeta, aRemoved), "Machine Block Updating").start();
 			return T;
 		}
@@ -68,7 +68,7 @@ public interface ITileEntityMachineBlockUpdateable {
 		 * This update will cause surrounding MultiBlock Machines to update their Configuration.
 		 * You should call this Function in @Block.breakBlock and in @Block.onBlockAdded of your Machine.
 		 */
-		public static boolean causeMachineUpdate(World aWorld, BlockPos aCoords, Block aBlock, byte aMeta, boolean aRemoved) {
+		public static boolean causeMachineUpdate(Level aWorld, BlockPos aCoords, Block aBlock, byte aMeta, boolean aRemoved) {
 			if (!aWorld.isRemote) new Thread(new MachineBlockUpdateRunnable(aWorld, aCoords, aBlock, aMeta, aRemoved), "Machine Block Updating").start();
 			return T;
 		}
@@ -109,12 +109,12 @@ public interface ITileEntityMachineBlockUpdateable {
 		
 		private static class MachineBlockUpdateRunnable implements Runnable {
 			private final BlockPos mCoords;
-			private final World mWorld;
+			private final Level mWorld;
 			private final Block mBlock;
 			private final byte mMeta;
 			private final boolean mRemoved;
 			
-			public MachineBlockUpdateRunnable(World aWorld, BlockPos aCoords, Block aBlock, byte aMeta, boolean aRemoved) {
+			public MachineBlockUpdateRunnable(Level aWorld, BlockPos aCoords, Block aBlock, byte aMeta, boolean aRemoved) {
 				mWorld = aWorld; mCoords = aCoords; mBlock = aBlock; mMeta = aMeta; mRemoved = aRemoved;
 			}
 			
@@ -123,7 +123,7 @@ public interface ITileEntityMachineBlockUpdateable {
 				try {stepToUpdateMachine(mWorld, mCoords, new HashSetNoNulls<>(F, mCoords));} catch(Throwable e) {/**/} finally {if (TICK_LOCK.isHeldByCurrentThread()) TICK_LOCK.unlock();}
 			}
 			
-			private void stepToUpdateMachine(World aWorld, BlockPos aCoords, HashSetNoNulls<BlockPos> aSet) {
+			private void stepToUpdateMachine(Level aWorld, BlockPos aCoords, HashSetNoNulls<BlockPos> aSet) {
 				// Wait for the updateEntities Thread to be done because fucking Mojang and race conditions in loading Chunks.
 				TICK_LOCK.lock();
 				TileEntity tTileEntity = WD.te(aWorld, aCoords, T);

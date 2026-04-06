@@ -78,7 +78,7 @@ public class MultiTileEntityCFoam extends TileEntityBase07Paintable implements I
 	public static MultiTileEntityRegistry MTE_REGISTRY = null;
 	public static MultiTileEntityCFoam INSTANCE;
 	
-	public static boolean setBlock(World aWorld, int aX, int aY, int aZ, byte aSide, Player aPlayer, ItemStack aStack, short[] aRGB, boolean aOwned) {
+	public static boolean setBlock(Level aWorld, int aX, int aY, int aZ, byte aSide, Player aPlayer, ItemStack aStack, short[] aRGB, boolean aOwned) {
 		return MTE_REGISTRY.mBlock.placeBlock(aWorld, aX, aY, aZ, aSide, INSTANCE.getMultiTileEntityID(), UT.NBT.make(NBT_COLOR, UT.Code.getRGBInt(aRGB), NBT_PAINTED, T, NBT_OWNABLE, aOwned, NBT_OWNER, aOwned && aPlayer != null ? aPlayer.getUniqueID().toString() : null), T, F);
 	}
 	
@@ -104,7 +104,7 @@ public class MultiTileEntityCFoam extends TileEntityBase07Paintable implements I
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (mOwnable && aPlayer != null && !OWNERSHIP_RESET) mOwner = aPlayer.getUniqueID();
 		return T;
 	}

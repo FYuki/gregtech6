@@ -19,7 +19,7 @@
 
 package gregapi.item.multiitem;
 
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.item.multiitem.food.IFoodStat;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;

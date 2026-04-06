@@ -43,7 +43,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 public class BlockMetaType extends BlockBaseMeta {
@@ -60,7 +60,7 @@ public class BlockMetaType extends BlockBaseMeta {
 		onBlockCreation(aItemClass, aVanillaMaterial, aSoundType, aNameInternal, aDefaultLocalised, aMaterial, aResistanceMultiplier, aHardnessMultiplier, aHarvestLevel, aCount, aIcons);
 		setHardness(aHardnessMultiplier * 1.5F);
 		setResistance(aResistanceMultiplier * 10.0F);
-		setCreativeTab(CreativeTabs.tabBlock);
+		setCreativeTab(CreativeModeTab.tabBlock);
 		mIsWall = F;
 		mIsSlab = F;
 		mIsStair = F;
@@ -139,7 +139,7 @@ public class BlockMetaType extends BlockBaseMeta {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World aWorld, int aX, int aY, int aZ, Player aPlayer, int aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated(Level aWorld, int aX, int aY, int aZ, Player aPlayer, int aSide, float aHitX, float aHitY, float aHitZ) {
 		if (mBlock == this || aSide != OPOS[mSide] || (mBlock.getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ) != null && !aWorld.checkNoEntityCollision(mBlock.getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ)))) return F;
 		ItemStack aStack = aPlayer.getCurrentEquippedItem();
 		byte aMetaData = WD.meta(aWorld, aX, aY, aZ);
@@ -154,7 +154,7 @@ public class BlockMetaType extends BlockBaseMeta {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public boolean shouldSideBeRendered(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {
+	public boolean shouldSideBeRendered(BlockGetter aWorld, int aX, int aY, int aZ, int aSide) {
 		if (aSide == OPOS[mSide]) return T;
 		if (aSide != mSide && SIDES_VALID[mSide]) {
 			Block aBlock = aWorld.getBlock(aX, aY, aZ);
@@ -165,10 +165,10 @@ public class BlockMetaType extends BlockBaseMeta {
 	
 	@Override public String getHarvestTool(int aMeta) {return TOOL_pickaxe;}
 	@Override public int getHarvestLevel(int aMeta) {return mHarvestLevel;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.STONE.getBlockHardness(aWorld, aX, aY, aZ) * mHardnessMultiplier;}
+	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return Blocks.STONE.getBlockHardness(aWorld, aX, aY, aZ) * mHardnessMultiplier;}
 	@Override public float getExplosionResistance(byte aMeta) {return Blocks.STONE.getExplosionResistance(null) * mResistanceMultiplier;}
 	@Override public boolean isSideSolid(int aMeta, byte aSide) {return mBlock == this || mSide == aSide;}
-	@Override public boolean isNormalCube(IBlockAccess aWorld, int aX, int aY, int aZ)  {return mBlock == this;}
+	@Override public boolean isNormalCube(BlockGetter aWorld, int aX, int aY, int aZ)  {return mBlock == this;}
 	@Override public boolean isNormalCube() {return mBlock == this;}
 	@Override public boolean isOpaqueCube() {return mBlock == this;}
 	@Override public boolean renderAsNormalBlock() {return mBlock == this;}
@@ -176,6 +176,6 @@ public class BlockMetaType extends BlockBaseMeta {
 	@Override public int getLightOpacity() {return mBlock == this ? LIGHT_OPACITY_MAX : LIGHT_OPACITY_WATER;}
 	@Override public int getItemStackLimit(ItemStack aStack) {return UT.Code.bindStack(OP.stone.mDefaultStackSize * (mBlock.mBlock == mBlock ? 1 : 2));}
 	@Override public Item getItemDropped(int par1, Random par2Random, int par3) {return Item.getItemFromBlock(mIsSlab ? mBlock.mSlabs[0] : mBlock);}
-	@Override public void getSubBlocks(Item aItem, CreativeTabs aTab, @SuppressWarnings("rawtypes") List aList) {if (mIsPrimary) super.getSubBlocks(aItem, aTab, aList);}
-	@Override public Item getItem(World aWorld, int aX, int aY, int aZ) {return Item.getItemFromBlock(mIsSlab ? mBlock.mSlabs[0] : mBlock);}
+	@Override public void getSubBlocks(Item aItem, CreativeModeTab aTab, @SuppressWarnings("rawtypes") List aList) {if (mIsPrimary) super.getSubBlocks(aItem, aTab, aList);}
+	@Override public Item getItem(Level aWorld, int aX, int aY, int aZ) {return Item.getItemFromBlock(mIsSlab ? mBlock.mSlabs[0] : mBlock);}
 }

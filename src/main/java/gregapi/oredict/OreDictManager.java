@@ -19,8 +19,8 @@
 
 package gregapi.oredict;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.bus.api.SubscribeEvent;
 import gregapi.api.Abstract_Mod;
 import gregapi.code.*;
@@ -41,10 +41,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.NeoForge;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerRegisterEvent;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
+import gregapi.stubs.FluidContainerRegistry.FluidContainerRegisterEvent;
+import gregapi.stubs.IFluidContainerItem;
 // PHASE7: import OreDictionary removed — replaced by Tags
 // PHASE7: OreDictionary.OreRegisterEvent removed — use TagsUpdatedEvent
 

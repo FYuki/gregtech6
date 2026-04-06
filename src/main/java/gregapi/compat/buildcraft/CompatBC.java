@@ -31,7 +31,7 @@ import gregapi.util.ST;
 import gregapi.wooddict.WoodDictionary;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockHugeMushroom;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 import static gregapi.data.CS.T;
 
@@ -63,7 +63,7 @@ public class CompatBC extends CompatBase implements ICompatBC {
 	
 	public static class WorldPropertyIsLog extends WorldPropertyIsWood {
 		@Override
-		public boolean get(IBlockAccess aWorld, Block aBlock, int aMeta, int aX, int aY, int aZ) {
+		public boolean get(BlockGetter aWorld, Block aBlock, int aMeta, int aX, int aY, int aZ) {
 			return aBlock instanceof BlockHugeMushroom || aBlock.isWood(aWorld, aX, aY, aZ) || OP.log.contains(ST.make(aBlock, 1, aMeta)) || WoodDictionary.WOODS.containsKey(aBlock, aMeta, T);
 		}
 	}

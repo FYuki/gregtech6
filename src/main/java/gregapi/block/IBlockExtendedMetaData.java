@@ -19,12 +19,12 @@
 
 package gregapi.block;
 
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
  */
 public interface IBlockExtendedMetaData {
-	public void setExtendedMetaData(IBlockAccess aWorld, int aX, int aY, int aZ, short aMetaData);
-	public short getExtendedMetaData(IBlockAccess aWorld, int aX, int aY, int aZ);
+	public void setExtendedMetaData(BlockGetter aWorld, int aX, int aY, int aZ, short aMetaData);
+	public short getExtendedMetaData(BlockGetter aWorld, int aX, int aY, int aZ);
 }

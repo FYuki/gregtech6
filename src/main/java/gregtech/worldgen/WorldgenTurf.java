@@ -32,7 +32,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -45,7 +45,7 @@ public class WorldgenTurf extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if (aRandom.nextInt(32) > 0 || checkForMajorWorldgen(aWorld, aMinX, aMinZ, aMaxX, aMaxZ)) return F;
 		boolean temp = T;
 		for (String tName : aBiomeNames) if (BIOMES_SWAMP.contains(tName)) {temp = F; break;}

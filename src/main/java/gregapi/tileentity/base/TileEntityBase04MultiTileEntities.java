@@ -39,9 +39,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayer;
 
 import static gregapi.data.CS.*;
 
@@ -80,7 +80,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	
 	@Override
 	public final void readFromNBT(CompoundTag aNBT) {
-		// Check if this is a World/Chunk Loading Process calling readFromNBT.
+		// Check if this is a Level/LevelChunk Loading Process calling readFromNBT.
 		if (mMTEID == W || mMTERegistry == W) {
 			// Yes it is, so read the ID Tags first.
 			mMTEID = aNBT.getShort(NBT_MTE_ID);
@@ -180,12 +180,12 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aEntity.worldObj, aEntity.posX, aEntity.posY, aEntity.posZ, tStack);
 		setToAir();
 	}
-	public void popOff(World aWorld, double aX, double aY, double aZ) {
+	public void popOff(Level aWorld, double aX, double aY, double aZ) {
 		if (isDead()) return;
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aWorld, aX, aY, aZ, tStack);
 		setToAir();
 	}
-	public void popOff(World aWorld, BlockPos aCoords) {
+	public void popOff(Level aWorld, BlockPos aCoords) {
 		if (isDead()) return;
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aWorld, aCoords, tStack);
 		setToAir();
@@ -201,12 +201,12 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aEntity.worldObj, aEntity.posX, aEntity.posY, aEntity.posZ, tStack);
 		setToFire();
 	}
-	public void burnOff(World aWorld, double aX, double aY, double aZ) {
+	public void burnOff(Level aWorld, double aX, double aY, double aZ) {
 		if (isDead()) return;
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aWorld, aX, aY, aZ, tStack);
 		setToFire();
 	}
-	public void burnOff(World aWorld, BlockPos aCoords) {
+	public void burnOff(Level aWorld, BlockPos aCoords) {
 		if (isDead()) return;
 		for (ItemStack tStack : getDrops(0, F)) ST.drop(aWorld, aCoords, tStack);
 		setToFire();
@@ -219,7 +219,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World aWorld, Block aBlock) {
+	public void onNeighborBlockChange(Level aWorld, Block aBlock) {
 		mBlockUpdated = T;
 	}
 	
@@ -249,7 +249,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	
 	@Override public String getCustomName() {return UT.Code.stringValid(mCustomName) ? mCustomName : null;}
 	@Override public void setCustomName(String aName) {mCustomName = aName;}
-	@Override public ItemStack getPickBlock(MovingObjectPosition aTarget) {MultiTileEntityRegistry tRegistry = MultiTileEntityRegistry.getRegistry(mMTERegistry); return tRegistry == null ? null : tRegistry.getItem(mMTEID, writeItemNBT(UT.NBT.make()));}
+	@Override public ItemStack getPickBlock(HitResult aTarget) {MultiTileEntityRegistry tRegistry = MultiTileEntityRegistry.getRegistry(mMTERegistry); return tRegistry == null ? null : tRegistry.getItem(mMTEID, writeItemNBT(UT.NBT.make()));}
 	@Override public short getMultiTileEntityID() {return mMTEID;}
 	@Override public short getMultiTileEntityRegistryID() {return mMTERegistry;}
 	@Override public void setShouldRefresh(boolean aShouldRefresh) {mShouldRefresh = aShouldRefresh;}

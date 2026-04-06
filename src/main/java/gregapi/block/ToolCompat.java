@@ -39,14 +39,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
 import net.minecraft.core.Direction; // was Direction
-import net.minecraftforge.event.entity.player.UseHoeEvent;
-import net.minecraftforge.fluids.IFluidBlock;
+import net.neoforged.neoforge.event.entity.player.UseHoeEvent;
+import gregapi.stubs.IFluidBlock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,7 +79,7 @@ public class ToolCompat {
 	}
 	
 	/** Providing compatibility for vanilla Blocks and certain Mod Interfaces. */
-	public static long onToolClick(Block aBlock, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, World aWorld, byte aSide, int aX, int aY, int aZ, float aHitX, float aHitY, float aHitZ) {
+	public static long onToolClick(Block aBlock, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, Level aWorld, byte aSide, int aX, int aY, int aZ, float aHitX, float aHitY, float aHitZ) {
 		byte aMeta = WD.meta(aWorld, aX, aY, aZ);
 		TileEntity aTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		Player aEntityPlayer = aPlayer instanceof Player ? (Player)aPlayer : null;
@@ -379,7 +379,7 @@ public class ToolCompat {
 		return 0;
 	}
 	
-	public static boolean prospectOre(Block aBlock, byte aMeta, List<String> aChatReturn, World aWorld, int aX, int aY, int aZ) {
+	public static boolean prospectOre(Block aBlock, byte aMeta, List<String> aChatReturn, Level aWorld, int aX, int aY, int aZ) {
 		OreDictItemData tAssotiation = OM.anyassociation(ST.make(aBlock, 1, aWorld.getBlockMetadata(aX, aY, aZ)));
 		if (tAssotiation != null && tAssotiation.mPrefix.contains(TD.Prefix.ORE)) {
 			if (aChatReturn != null) aChatReturn.add(LanguageHandler.getLocalName(tAssotiation.mPrefix, tAssotiation.mMaterial.mMaterial)+"!");
@@ -388,7 +388,7 @@ public class ToolCompat {
 		return F;
 	}
 	
-	public static boolean prospectStone(Block aBlock, byte aMeta, long aQuality, List<String> aChatReturn, World aWorld, byte aSide, int aX, int aY, int aZ) {
+	public static boolean prospectStone(Block aBlock, byte aMeta, long aQuality, List<String> aChatReturn, Level aWorld, byte aSide, int aX, int aY, int aZ) {
 		Block tBlock;
 		int tX = aX, tY = aY, tZ = aZ, tQuality = (int)UT.Code.bind(1, 20, aQuality + 4);
 		

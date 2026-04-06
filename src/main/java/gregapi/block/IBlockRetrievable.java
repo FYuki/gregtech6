@@ -20,7 +20,7 @@
 package gregapi.block;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -29,5 +29,5 @@ import net.minecraft.world.IBlockAccess;
  */
 public interface IBlockRetrievable {
 	/** Gets the ItemStack representing this Block. Normally one could just check for getDrops, but this Interface is there for cases where the Block drops more than this Item or drops an NBT Item */
-	public ItemStack getItemStackFromBlock(IBlockAccess aWorld, int aX, int aY, int aZ, byte aSide);
+	public ItemStack getItemStackFromBlock(BlockGetter aWorld, int aX, int aY, int aZ, byte aSide);
 }

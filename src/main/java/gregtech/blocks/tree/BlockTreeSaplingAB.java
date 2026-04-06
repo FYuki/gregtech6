@@ -37,7 +37,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.IPlantable;
 import net.minecraft.core.Direction; // was Direction
 
 public class BlockTreeSaplingAB extends BlockBaseSapling {
@@ -67,7 +67,7 @@ public class BlockTreeSaplingAB extends BlockBaseSapling {
 	}
 	
 	@Override
-	public boolean canBlockStay(World aWorld, int aX, int aY, int aZ) {
+	public boolean canBlockStay(Level aWorld, int aX, int aY, int aZ) {
 		Block tBlock = aWorld.getBlock(aX, aY-1, aZ);
 		if (tBlock.canSustainPlant(aWorld, aX, aY-1, aZ, Direction.UP, (IPlantable)Blocks.sapling)) return T;
 		// Coconut Trees should be able to grow on Sand, not because realism, but because it makes it easier to plant them in Deserts and Beaches.
@@ -76,7 +76,7 @@ public class BlockTreeSaplingAB extends BlockBaseSapling {
 	}
 	
 	@Override
-	public boolean grow(World aWorld, int aX, int aY, int aZ, byte aMeta, Random aRandom) {
+	public boolean grow(Level aWorld, int aX, int aY, int aZ, byte aMeta, Random aRandom) {
 		int tMaxHeight = 0;
 		switch(aMeta & 7) {
 		case 0:

@@ -41,7 +41,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
@@ -209,8 +209,8 @@ public class MultiTileEntityBottleCrate extends TileEntityBase09FacingSingle imp
 		}
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[0],PX_P[0],PX_P[0],PX_N[0],PX_N[6],PX_N[0]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[0],PX_P[0],PX_P[0],PX_N[0],PX_P[6],PX_N[0]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[0],PX_P[0],PX_P[0],PX_N[0],PX_N[6],PX_N[0]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[0],PX_P[0],PX_P[0],PX_N[0],PX_P[6],PX_N[0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock)   {box(aBlock,PX_P[0],PX_P[0],PX_P[0],PX_N[0],PX_P[6],PX_N[0]);}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return 0;}

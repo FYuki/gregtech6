@@ -35,7 +35,7 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.entity.monster.EntityGolem;
 import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntitySlime;
@@ -45,11 +45,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.phys.AABB;
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.IFluidHandler;
+import gregapi.stubs.IFluidBlock;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import openblocks.common.LiquidXpUtils;
 import openmods.utils.EnchantmentUtils;
 
@@ -68,7 +68,7 @@ public class CoverDrain extends AbstractCoverAttachment {
 	public void onTickPre(byte aCoverSide, CoverData aData, long aTimer, boolean aIsServerSide, boolean aReceivedBlockUpdate, boolean aReceivedInventoryUpdate) {
 		if (aIsServerSide && !aData.mStopped && aData.mTileEntity instanceof IFluidHandler) {
 			if (SERVER_TIME % 100 == 10 && SIDES_TOP_HORIZONTAL[aCoverSide] && aData.mTileEntity.getWorld().isRaining()) {
-				BiomeGenBase tBiome = aData.mTileEntity.getBiome();
+				Biome tBiome = aData.mTileEntity.getBiome();
 				if (tBiome.rainfall > 0 && tBiome.temperature >= 0.2) {
 					Block tInFront = aData.mTileEntity.getBlockAtSide(aCoverSide);
 					if (!(tInFront instanceof BlockLiquid) && !(tInFront instanceof IFluidBlock) && !tInFront.isSideSolid(aData.mTileEntity.getWorld(), aData.mTileEntity.getOffsetX(aCoverSide), aData.mTileEntity.getOffsetY(aCoverSide), aData.mTileEntity.getOffsetZ(aCoverSide), FORGE_DIR_OPPOSITES[aCoverSide]) && !tInFront.isSideSolid(aData.mTileEntity.getWorld(), aData.mTileEntity.getOffsetX(aCoverSide), aData.mTileEntity.getOffsetY(aCoverSide), aData.mTileEntity.getOffsetZ(aCoverSide), FORGE_DIR[SIDE_TOP])) {
@@ -84,7 +84,7 @@ public class CoverDrain extends AbstractCoverAttachment {
 			}
 			if (SERVER_TIME % 100 == 50 && (FL.XP.exists() || FL.Mob.exists())) {
 				// Yes, I know that the AABB Check is a bit weird looking, but I think I will do more than just XP Orbs with this later on.
-				for (Entity tEntity : (Iterable<Entity>)aData.mTileEntity.getWorld().getEntitiesWithinAABB(EntityXPOrb.class, AxisAlignedBB.getBoundingBox(aData.mTileEntity.getOffsetX(aCoverSide, 2)-1, aData.mTileEntity.getOffsetY(aCoverSide, 2)-1, aData.mTileEntity.getOffsetZ(aCoverSide, 2)-1, aData.mTileEntity.getOffsetX(aCoverSide, 2)+2, aData.mTileEntity.getOffsetY(aCoverSide, 2)+2, aData.mTileEntity.getOffsetZ(aCoverSide, 2)+2))) if (!tEntity.isDead) {
+				for (Entity tEntity : (Iterable<Entity>)aData.mTileEntity.getWorld().getEntitiesWithinAABB(EntityXPOrb.class, AABB.getBoundingBox(aData.mTileEntity.getOffsetX(aCoverSide, 2)-1, aData.mTileEntity.getOffsetY(aCoverSide, 2)-1, aData.mTileEntity.getOffsetZ(aCoverSide, 2)-1, aData.mTileEntity.getOffsetX(aCoverSide, 2)+2, aData.mTileEntity.getOffsetY(aCoverSide, 2)+2, aData.mTileEntity.getOffsetZ(aCoverSide, 2)+2))) if (!tEntity.isDead) {
 					if (tEntity instanceof EntityXPOrb) {
 						if (MD.OB.mLoaded) {
 							try {

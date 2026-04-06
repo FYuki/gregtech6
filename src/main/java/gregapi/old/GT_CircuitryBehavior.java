@@ -54,7 +54,7 @@ public abstract class GT_CircuitryBehavior {
 	
 	/**
 	 * Validates the Parameters of this Circuit when a value has been changed by the GUI
-	 * Also called right after @initParameters and when the Chunk reloads
+	 * Also called right after @initParameters and when the LevelChunk reloads
 	 * aCircuitData, The Data Storage you can use (8 Slots and only the first 4 are User definable)
 	 * aRedstoneCircuitBlock, The Circuit Block MetaTileEntity itself
 	 */

@@ -41,7 +41,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -142,10 +142,10 @@ public abstract class TileEntityBase10ConnectorRendered extends TileEntityBase09
 	@Override public boolean usesRenderPass2(int aRenderPass, boolean[] aShouldSideBeRendered) {return aRenderPass == 0 || aRenderPass == 7 || connected((byte)(aRenderPass-1));}
 	
 	@Override public int getLightOpacity() {return mFoamDried ? LIGHT_OPACITY_MAX : mTransparent ? mDiameter >= 1.0F ? LIGHT_OPACITY_WATER : mDiameter > 0.5F ? LIGHT_OPACITY_LEAVES : LIGHT_OPACITY_NONE : mDiameter >= 1.0F ? LIGHT_OPACITY_MAX : mDiameter > 0.5F ? LIGHT_OPACITY_WATER : LIGHT_OPACITY_LEAVES;}
-	@Override public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return !mFoam && mDiameter < 1.0F;}
+	@Override public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return !mFoam && mDiameter < 1.0F;}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (mOwnable && aPlayer != null && !OWNERSHIP_RESET) mOwner = aPlayer.getUniqueID();
 		return super.onPlaced(aStack, aPlayer, aMTEContainer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ);
 	}
@@ -216,10 +216,10 @@ public abstract class TileEntityBase10ConnectorRendered extends TileEntityBase09
 	@Override public boolean driedFoam              (byte aSide) {return mFoam && mFoamDried;}
 	@Override public boolean ownedFoam              (byte aSide) {return mFoam && mOwnable;}
 	@Override public boolean addDefaultCollisionBoxToList() {return mDiameter >= 1.0F || mFoamDried;}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return mContactDamage && !mFoamDried ? box(PX_P[2], PX_P[2], PX_P[2], PX_N[2], PX_N[2], PX_N[2]) : super.getCollisionBoundingBoxFromPool();}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return mContactDamage && !mFoamDried ? box(PX_P[2], PX_P[2], PX_P[2], PX_N[2], PX_N[2], PX_N[2]) : super.getCollisionBoundingBoxFromPool();}
 	
 	@Override
-	public void addCollisionBoxesToList2(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {
+	public void addCollisionBoxesToList2(AABB aAABB, List<AABB> aList, Entity aEntity) {
 		if (!addDefaultCollisionBoxToList()) {
 			byte tSide;                                                                                                                                                                                                              box(aAABB, aList,   (1.0F-mDiameter)/2.0F,   (1.0F-mDiameter)/2.0F,   (1.0F-mDiameter)/2.0F, 1-(1.0F-mDiameter)/2.0F, 1-(1.0F-mDiameter)/2.0F, 1-(1.0F-mDiameter)/2.0F);
 			if (connected(tSide = SIDE_X_NEG)) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList, 0-tLength              ,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F);}

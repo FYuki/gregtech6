@@ -26,7 +26,8 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.item.ItemStack;
 // PHASE3: Configuration removed — use NeoForge ModConfigSpec or file-based config
-import net.minecraftforge.common.config.Property;
+import gregapi.stubs.Configuration;
+import gregapi.stubs.Property;
 
 import java.io.File;
 import java.io.IOException;

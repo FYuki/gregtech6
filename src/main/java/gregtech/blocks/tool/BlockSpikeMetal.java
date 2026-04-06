@@ -78,7 +78,7 @@ public class BlockSpikeMetal extends BlockBaseSpike {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World aWorld, int aX, int aY, int aZ, Entity aEntity) {
+	public void onEntityCollidedWithBlock(Level aWorld, int aX, int aY, int aZ, Entity aEntity) {
 		int aMeta = WD.meta(aWorld, aX, aY, aZ);
 		if (aEntity instanceof LivingEntity) {
 			if (aMeta < 8) {

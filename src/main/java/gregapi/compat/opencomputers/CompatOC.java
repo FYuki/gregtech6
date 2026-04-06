@@ -48,16 +48,16 @@ public class CompatOC extends CompatBase implements ICompatOC, SidedBlock {
 	}
 	
 	@Override
-	public boolean worksWith(World aWorld, int aX, int aY, int aZ, Direction aSide) {
+	public boolean worksWith(Level aWorld, int aX, int aY, int aZ, Direction aSide) {
 		return findPeripheral(aWorld, aX, aY, aZ, aSide) != null;
 	}
 	
 	@Override
-	public ManagedEnvironment createEnvironment(World aWorld, int aX, int aY, int aZ, Direction aSide) {
+	public ManagedEnvironment createEnvironment(Level aWorld, int aX, int aY, int aZ, Direction aSide) {
 		return new EnvironmentOC(findPeripheral(aWorld, aX, aY, aZ, aSide), WD.te(aWorld, aX, aY, aZ, UT.Code.side(aSide), F));
 	}
 	
-	public IComputerizable findPeripheral(World aWorld, int aX, int aY, int aZ, Direction side) {
+	public IComputerizable findPeripheral(Level aWorld, int aX, int aY, int aZ, Direction side) {
 		DelegatorTileEntity<TileEntity> tDelegator = WD.te(aWorld, aX, aY, aZ, UT.Code.side(side), F);
 		if (SIDES_VALID[tDelegator.mSideOfTileEntity] && tDelegator.mTileEntity instanceof ITileEntityCoverable) {
 			CoverData tData = ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData();

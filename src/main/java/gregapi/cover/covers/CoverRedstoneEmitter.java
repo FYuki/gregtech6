@@ -30,7 +30,7 @@ import gregapi.render.BlockTextureMulti;
 import gregapi.render.ITexture;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -38,7 +38,7 @@ import net.minecraft.world.item.ItemStack;
  */
 public class CoverRedstoneEmitter extends AbstractCoverAttachment {
 	@Override
-	public long onToolClick(byte aSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(byte aSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_cutter)) {
 			aData.value(aSide, (short)(aData.mValues[aSide] ^ B[0]), T);
 			if (aChatReturn != null) aChatReturn.add(aData.mValues[aSide] != 0 ? "Emits strong Redstone" : "Emits weak Redstone");

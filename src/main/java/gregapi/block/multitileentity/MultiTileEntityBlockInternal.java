@@ -40,7 +40,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 /**
@@ -54,16 +54,16 @@ public class MultiTileEntityBlockInternal extends Block implements IBlock, IItem
 	}
 	
 	@Override public ITexture getTexture(int aRenderPass, byte aSide, ItemStack aStack) {return null;}
-	@Override public ITexture getTexture(int aRenderPass, byte aSide, boolean[] aShouldSideBeRendered, IBlockAccess aWorld, int aX, int aY, int aZ) {return null;}
+	@Override public ITexture getTexture(int aRenderPass, byte aSide, boolean[] aShouldSideBeRendered, BlockGetter aWorld, int aX, int aY, int aZ) {return null;}
 	@Override public boolean setBlockBounds(int aRenderPass, ItemStack aStack) {return F;}
-	@Override public boolean setBlockBounds(int aRenderPass, IBlockAccess aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return F;}
+	@Override public boolean setBlockBounds(int aRenderPass, BlockGetter aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return F;}
 	@Override public int getRenderPasses(ItemStack aStack) {return 0;}
-	@Override public int getRenderPasses(IBlockAccess aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return 0;}
+	@Override public int getRenderPasses(BlockGetter aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return 0;}
 	@Override public boolean usesRenderPass(int aRenderPass, ItemStack aStack) {return T;}
-	@Override public boolean usesRenderPass(int aRenderPass, IBlockAccess aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return T;}
+	@Override public boolean usesRenderPass(int aRenderPass, BlockGetter aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return T;}
 	
 	@Override
-	public IRenderedBlockObject passRenderingToObject(IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public IRenderedBlockObject passRenderingToObject(BlockGetter aWorld, int aX, int aY, int aZ) {
 		return null;
 	}
 	
@@ -85,7 +85,7 @@ public class MultiTileEntityBlockInternal extends Block implements IBlock, IItem
 	@Override public final String getLocalizedName() {return StatCollector.translateToLocal(mMultiTileEntityRegistry.mNameInternal);}
 	
 	@Override
-	public boolean placeBlock(World aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT, boolean aCauseBlockUpdates, boolean aForcePlacement) {
+	public boolean placeBlock(Level aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT, boolean aCauseBlockUpdates, boolean aForcePlacement) {
 		MultiTileEntityContainer aMTEContainer = mMultiTileEntityRegistry.getNewTileEntityContainer(aWorld, aX, aY, aZ, aMetaData, aNBT);
 		if (aMTEContainer == null) return F;
 		

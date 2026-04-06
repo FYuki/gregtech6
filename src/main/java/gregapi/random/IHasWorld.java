@@ -23,15 +23,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 
 /**
  * @author Gregorius Techneticies
  * 
- * Contains simple Utility Functions based just on the World of the Implementor.
+ * Contains simple Utility Functions based just on the Level of the Implementor.
  */
 public interface IHasWorld {
-	public World getWorld();
+	public Level getWorld();
 	
 	public boolean isServerSide();
 	public boolean isClientSide();
@@ -63,6 +63,6 @@ public interface IHasWorld {
 	public boolean getAir(int aX, int aY, int aZ);
 	public boolean getAir(BlockPos aCoords);
 	
-	public BiomeGenBase getBiome(int aX, int aZ);
-	public BiomeGenBase getBiome(BlockPos aCoords);
+	public Biome getBiome(int aX, int aZ);
+	public Biome getBiome(BlockPos aCoords);
 }

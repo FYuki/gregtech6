@@ -30,7 +30,7 @@ import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOresBedrock;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -50,7 +50,7 @@ public class WorldgenColtan extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		Random tRandom = new Random(aWorld.getSeed()+5);
 		int tX = (int)(tRandom.nextGaussian()*1500), tZ = (int)(tRandom.nextGaussian()*1500);
 		// Generate Bedrock Vein where the Coltass points to.

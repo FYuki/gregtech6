@@ -20,7 +20,7 @@
 package gregapi;
 
 import codechicken.nei.recipe.GuiUsageRecipe;
-import cpw.mods.fml.common.Loader;
+import net.neoforged.fml.ModList;
 import gregapi.data.MD;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.tileentity.tools.MultiTileEntityAdvancedCraftingTable.MultiTileEntityGUIClientAdvancedCraftingTable;

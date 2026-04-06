@@ -76,10 +76,10 @@ public class FluidGT extends Fluid implements Runnable {
 	@Override public int getColor(FluidStack aFluid) {return UT.Code.getRGBInt(mRGBa);}
 	@Override public IIcon getIcon(FluidStack aFluid) {return mTexture.getIcon(0);}
 	
-	@Override public int getTemperature(World aWorld, int aX, int aY, int aZ) {return mTemperature;}
-	@Override public boolean isGaseous(World aWorld, int aX, int aY, int aZ) {return mGas;}
-	@Override public int getColor(World aWorld, int aX, int aY, int aZ) {return UT.Code.getRGBInt(mRGBa);}
-	@Override public IIcon getIcon(World aWorld, int aX, int aY, int aZ) {return mTexture.getIcon(0);}
+	@Override public int getTemperature(Level aWorld, int aX, int aY, int aZ) {return mTemperature;}
+	@Override public boolean isGaseous(Level aWorld, int aX, int aY, int aZ) {return mGas;}
+	@Override public int getColor(Level aWorld, int aX, int aY, int aZ) {return UT.Code.getRGBInt(mRGBa);}
+	@Override public IIcon getIcon(Level aWorld, int aX, int aY, int aZ) {return mTexture.getIcon(0);}
 	
 	@Override public int getColor() {return UT.Code.getRGBInt(mRGBa);}
 	@Override public IIcon getIcon() {return mTexture.getIcon(0);}

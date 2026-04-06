@@ -22,9 +22,9 @@ package gregapi.cover;
 import gregapi.render.ITexture;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
 
@@ -120,7 +120,7 @@ public interface ICover {
 	/**
 	 * Relaying the Tool Clicks to Covers.
 	 */
-	public long onToolClick(byte aCoverSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ);
+	public long onToolClick(byte aCoverSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ);
 	
 	/**
 	 * Gets called after a Cover gets removed via Crowbar.
@@ -201,7 +201,7 @@ public interface ICover {
 	public float[] getCoverBounds (byte aCoverSide, CoverData aData);
 	public float[] getHolderBounds(byte aCoverSide, CoverData aData);
 	
-	public void getCollisions(byte aCoverSide, CoverData aData, AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity);
+	public void getCollisions(byte aCoverSide, CoverData aData, AABB aAABB, List<AABB> aList, Entity aEntity);
 	
 	public static final float[][] BOXES_COVERS  = new float[][] {{PX_P[ 0]          , PX_P[ 0], PX_P[ 0]          , PX_N[ 0]          , PX_N[14], PX_N[ 0]          }, {PX_P[ 0]          , PX_P[14], PX_P[ 0]          , PX_N[ 0]          , PX_N[ 0], PX_N[ 0]          }, {PX_P[ 0]          , PX_P[ 0]          , PX_P[ 0], PX_N[ 0]          , PX_N[ 0]          , PX_N[14]}, {PX_P[ 0]          , PX_P[ 0]          , PX_P[14], PX_N[ 0]          , PX_N[ 0]          , PX_N[ 0]}, {PX_P[ 0], PX_P[ 0]          , PX_P[ 0]          , PX_N[14], PX_N[ 0]          , PX_N[ 0]          }, {PX_P[14], PX_P[ 0]          , PX_P[ 0]          , PX_N[ 0], PX_N[ 0]          , PX_N[ 0]          }};
 	public static final float[][] BOXES_HOLDERS = new float[][] {{PX_P[ 7]+PX_OFFSET, PX_P[ 0], PX_P[ 7]+PX_OFFSET, PX_N[ 7]-PX_OFFSET, PX_N[ 8], PX_N[ 7]-PX_OFFSET}, {PX_P[ 7]+PX_OFFSET, PX_P[ 8], PX_P[ 7]+PX_OFFSET, PX_N[ 7]-PX_OFFSET, PX_N[ 0], PX_N[ 7]-PX_OFFSET}, {PX_P[ 7]+PX_OFFSET, PX_P[ 7]+PX_OFFSET, PX_P[ 0], PX_N[ 7]-PX_OFFSET, PX_N[ 7]-PX_OFFSET, PX_N[ 8]}, {PX_P[ 7]+PX_OFFSET, PX_P[ 7]+PX_OFFSET, PX_P[ 8], PX_N[ 7]-PX_OFFSET, PX_N[ 7]-PX_OFFSET, PX_N[ 0]}, {PX_P[ 0], PX_P[ 7]+PX_OFFSET, PX_P[ 7]+PX_OFFSET, PX_N[ 8], PX_N[ 7]-PX_OFFSET, PX_N[ 7]-PX_OFFSET}, {PX_P[ 8], PX_P[ 7]+PX_OFFSET, PX_P[ 7]+PX_OFFSET, PX_N[ 0], PX_N[ 7]-PX_OFFSET, PX_N[ 7]-PX_OFFSET}};

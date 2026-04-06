@@ -45,12 +45,15 @@ import net.minecraft.block.BlockLiquid;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
-import net.minecraftforge.fluids.*;
+import net.minecraft.world.phys.AABB;
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidTank;
+import net.neoforged.neoforge.fluids.IFluidTank;
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.List;
 
@@ -94,7 +97,7 @@ public class MultiTileEntityMixingBowl extends TileEntityBase07Paintable impleme
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0 || isClientSide()) return rReturn;
 		if (SIDES_TOP[aSide] && aTool.equals(TOOL_mixer)) {
@@ -143,7 +146,7 @@ public class MultiTileEntityMixingBowl extends TileEntityBase07Paintable impleme
 	public void onTick2(long aTimer, boolean aIsServerSide) {
 		if (aIsServerSide) {
 			if (SERVER_TIME % 600 == 10 && worldObj.isRaining() && getRainOffset(0, 1, 0)) {
-				BiomeGenBase tBiome = getBiome();
+				Biome tBiome = getBiome();
 				if (tBiome.rainfall > 0 && tBiome.temperature >= 0.2) {
 					Block tInFront = getBlockAtSide(SIDE_TOP);
 					if (!(tInFront instanceof BlockLiquid) && !(tInFront instanceof IFluidBlock) && !tInFront.isSideSolid(worldObj, xCoord, yCoord+1, zCoord, FORGE_DIR_OPPOSITES[SIDE_TOP]) && !tInFront.isSideSolid(worldObj, xCoord, yCoord+1, zCoord, FORGE_DIR[SIDE_TOP])) {
@@ -413,7 +416,7 @@ public class MultiTileEntityMixingBowl extends TileEntityBase07Paintable impleme
 	}
 	
 	@Override
-	public void addCollisionBoxesToList2(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {
+	public void addCollisionBoxesToList2(AABB aAABB, List<AABB> aList, Entity aEntity) {
 		box(aAABB, aList, PX_P[14], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[ 8], PX_N[ 0]);
 		box(aAABB, aList, PX_P[ 0], PX_P[ 0], PX_P[14], PX_N[ 0], PX_N[ 8], PX_N[ 0]);
 		box(aAABB, aList, PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[14], PX_N[ 8], PX_N[ 0]);
@@ -424,8 +427,8 @@ public class MultiTileEntityMixingBowl extends TileEntityBase07Paintable impleme
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_WATER;}
 	
 	@Override public boolean addDefaultCollisionBoxToList() {return F;}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[ 8], PX_N[ 0]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[ 8], PX_N[ 0]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[ 8], PX_N[ 0]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[ 8], PX_N[ 0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[ 8], PX_N[ 0]);}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return SIDES_VERTICAL[aSide]?1.0F:0.0F;}

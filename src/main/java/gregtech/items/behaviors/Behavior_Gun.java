@@ -57,13 +57,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Vec3;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import twilightforest.entity.boss.EntityTFLich;
 
 import java.util.List;
@@ -109,10 +109,10 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		int tFireAspect = UT.NBT.getEnchantmentLevel(Enchantment.flame, aGun) + UT.NBT.getEnchantmentLevel(Enchantment.fireAspect, aBullet);
 		
 		// Make a List of all possible Targets.
-		List tEntities = aPlayer.worldObj.getEntitiesWithinAABBExcludingEntity(aPlayer, AxisAlignedBB.getBoundingBox(Math.min(tPos.xCoord, tAim.xCoord)-2, Math.min(tPos.yCoord, tAim.yCoord)-2, Math.min(tPos.zCoord, tAim.zCoord)-2, Math.max(tPos.xCoord, tAim.xCoord)+2, Math.max(tPos.yCoord, tAim.yCoord)+2, Math.max(tPos.zCoord, tAim.zCoord)+2));
+		List tEntities = aPlayer.worldObj.getEntitiesWithinAABBExcludingEntity(aPlayer, AABB.getBoundingBox(Math.min(tPos.xCoord, tAim.xCoord)-2, Math.min(tPos.yCoord, tAim.yCoord)-2, Math.min(tPos.zCoord, tAim.zCoord)-2, Math.max(tPos.xCoord, tAim.xCoord)+2, Math.max(tPos.yCoord, tAim.yCoord)+2, Math.max(tPos.zCoord, tAim.zCoord)+2));
 		List<Entity> tTargets = new ArrayListNoNulls<>();
 		for (Object tEntity : tEntities) if (tEntity instanceof Entity) {
-			AxisAlignedBB tBox = ((Entity)tEntity).boundingBox;
+			AABB tBox = ((Entity)tEntity).boundingBox;
 			if (tBox != null) {
 				if (tEntity instanceof EntityEnderCrystal) tBox = tBox.getOffsetBoundingBox(0, 1.3, 0);
 				if (tBox.calculateIntercept(tPos, tAim) != null) tTargets.add((Entity)tEntity);
@@ -232,7 +232,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 				continue;
 			}
 			if (aBlock.canCollideCheck(aMeta, F) || aBlock.canCollideCheck(aMeta, T)) {
-				AxisAlignedBB tBox = aBlock.getCollisionBoundingBoxFromPool(aPlayer.worldObj, aCoord.posX, aCoord.posY, aCoord.posZ);
+				AABB tBox = aBlock.getCollisionBoundingBoxFromPool(aPlayer.worldObj, aCoord.posX, aCoord.posY, aCoord.posZ);
 				if (tBox != null && tBox.calculateIntercept(tPos, tAim) != null) {
 					UT.Sounds.send(aBlock.stepSound.getBreakSound(), aPlayer.worldObj, aCoord);
 					tPower=0;
@@ -324,11 +324,11 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 	}
 	
 //  @Override public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
-	@Override public boolean onItemUse         (MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
-	@Override public boolean onItemUseFirst    (MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {if (aWorld.isRemote) return F; onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
+	@Override public boolean onItemUse         (MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
+	@Override public boolean onItemUseFirst    (MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {if (aWorld.isRemote) return F; onItemRightClick(aItem, aStack, aPlayer.worldObj, aPlayer); return T;}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aGun, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aGun, Level aWorld, Player aPlayer) {
 		// TODO Particles!
 		if (!(aPlayer instanceof ServerPlayer)) return aGun;
 		

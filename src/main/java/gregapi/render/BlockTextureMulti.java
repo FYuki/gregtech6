@@ -22,7 +22,7 @@ package gregapi.render;
 import static gregapi.data.CS.*;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+import gregapi.stubs.RenderBlocks;
 
 /**
  * @author Gregorius Techneticies

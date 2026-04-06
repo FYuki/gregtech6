@@ -58,12 +58,12 @@ public class CompatFR extends CompatBase implements ICompatFR, IFarmable {
 	}
 	
 	@Override
-	public boolean isSaplingAt(World aWorld, int aX, int aY, int aZ) {
+	public boolean isSaplingAt(Level aWorld, int aX, int aY, int aZ) {
 		return aWorld.getBlock(aX, aY, aZ) instanceof BlockBaseSapling;
 	}
 	
 	@Override
-	public ICrop getCropAt(World aWorld, int aX, int aY, int aZ) {
+	public ICrop getCropAt(Level aWorld, int aX, int aY, int aZ) {
 		Block aBlock = aWorld.getBlock(aX, aY, aZ);
 		return aBlock.isWood(aWorld, aX, aY, aZ) ? new CropBlock(aWorld, aBlock, aWorld.getBlockMetadata(aX, aY, aZ), new Vect(aX, aY, aZ)) : null;
 	}
@@ -82,7 +82,7 @@ public class CompatFR extends CompatBase implements ICompatFR, IFarmable {
 	}
 	
 	@Override
-	public boolean plantSaplingAt(Player aPlayer, ItemStack aSeed, World aWorld, int aX, int aY, int aZ) {
+	public boolean plantSaplingAt(Player aPlayer, ItemStack aSeed, Level aWorld, int aX, int aY, int aZ) {
 		return aSeed.copy().tryPlaceItemIntoWorld(aPlayer, aWorld, aX, aY - 1, aZ, SIDE_UP, 0, 0, 0);
 	}
 }

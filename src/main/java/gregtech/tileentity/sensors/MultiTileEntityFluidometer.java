@@ -32,8 +32,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import FluidTankInfo removed
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.IFluidHandler;
+import gregapi.stubs.IFluidBlock;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 /**
  * @author Gregorius Techneticies

@@ -57,7 +57,7 @@ public class Behavior_Spray_Color extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote || aStack.stackSize != 1) return F;
 		
 		boolean rOutput = F;
@@ -143,7 +143,7 @@ public class Behavior_Spray_Color extends AbstractBehaviorDefault {
 	
 	private final Collection<Block> mAllowedVanillaBlocks = Arrays.asList(Blocks.GRASS_BLOCK, Blocks.glass, Blocks.glass_pane, Blocks.stained_glass, Blocks.stained_glass_pane, Blocks.carpet, Blocks.TERRACOTTA, Blocks.WHITE_TERRACOTTA);
 	
-	private boolean colorize(World aWorld, int aX, int aY, int aZ, byte aSide) {
+	private boolean colorize(Level aWorld, int aX, int aY, int aZ, byte aSide) {
 		Block aBlock = aWorld.getBlock(aX, aY, aZ);
 		if (aBlock != NB && (mAllowedVanillaBlocks.contains(aBlock) || aBlock instanceof BlockColored || IL.TE_Rockwool.block() == aBlock || aBlock == BlocksGT.Grass)) {
 			if (aBlock == Blocks.TERRACOTTA  ) return aWorld.setBlock(aX, aY, aZ, Blocks.WHITE_TERRACOTTA, ~mColor & 15, 3);

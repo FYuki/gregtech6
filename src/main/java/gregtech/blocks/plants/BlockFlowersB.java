@@ -29,10 +29,10 @@ import gregapi.util.WD;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
+import net.neoforged.neoforge.common.IPlantable;
 import net.minecraft.core.Direction; // was Direction
 
 import java.util.List;
@@ -133,12 +133,12 @@ public class BlockFlowersB extends BlockBaseFlower implements Runnable {
 	}
 	
 	@Override
-	public boolean canBlockStay(World aWorld, int aX, int aY, int aZ) {
+	public boolean canBlockStay(Level aWorld, int aX, int aY, int aZ) {
 		return WD.oxygen(aWorld, aX, aY, aZ) && aWorld.getBlock(aX, aY - 1, aZ).canSustainPlant(aWorld, aX, aY - 1, aZ, Direction.UP, (IPlantable)Blocks.cactus);
 	}
 	
 	@Override
-	public EnumPlantType getPlantType(IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public EnumPlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {
 		return EnumPlantType.Desert;
 	}
 }

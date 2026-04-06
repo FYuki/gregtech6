@@ -35,7 +35,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
@@ -58,12 +58,12 @@ public class WorldgenTesting extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean enabled(World aWorld, int aDimType) {
+	public boolean enabled(Level aWorld, int aDimType) {
 		return GENERATE_TESTING && aWorld.provider.dimensionId == DIM_OVERWORLD;
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if ((aMinX != 32 && aMinX != 48) || (aMinZ != -32 && aMinZ != -48)) return F;
 		
 		for (int i = 0; i < 16; i++) for (int j = 0; j < 16; j++) {
@@ -183,7 +183,7 @@ public class WorldgenTesting extends WorldgenObject {
 			WD.set                     (aWorld, 38, mHeight+2, -18, Blocks.crafting_table, 0, 3);
 			tRegistry.mBlock.placeBlock(aWorld, 38, mHeight+3, -18, SIDE_UNKNOWN, (short)32744, null, T, T);
 			
-			// Lots of Items I want to have ready whenever I generate a new Test World.
+			// Lots of Items I want to have ready whenever I generate a new Test Level.
 			ItemStack[] tInventory = {
 			  ToolsGT.sMetaTool.getToolWithStats(ToolsGT.SWORD                 , MT.NetherizedDiamond, MT.LightBlue)
 			, ToolsGT.sMetaTool.getToolWithStats(ToolsGT.PICKAXE               , MT.NetherizedDiamond, MT.LightBlue)

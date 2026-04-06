@@ -34,7 +34,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -51,12 +51,12 @@ public class WorldgenBeacon extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean enabled(World aWorld, int aDimType) {
+	public boolean enabled(Level aWorld, int aDimType) {
 		return GENERATE_BEACON && aWorld.provider.dimensionId == DIM_OVERWORLD;
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if ((aMinX != -16 && aMinX != 0) || (aMinZ == -16 && aMinZ == 0)) return F;
 		if (!GENERATE_STREETS) {
 			for (int i = -5; i < 5; i++) for (int j = -5; j < 5; j++) WD.set(aWorld, i, mHeight+1, j, Blocks.iron_block, 0, 0);

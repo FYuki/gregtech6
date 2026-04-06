@@ -51,7 +51,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.world.item.ItemStack;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Arrays;
@@ -100,7 +100,7 @@ public abstract class MultiItemRandom extends MultiItem implements Runnable {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(ItemStack aStack, Level aWorld, Player aPlayer) {
 		useEnergy(TD.Energy.EU, aStack, 0, aPlayer, null, null, 0, 0, 0, T);
 		isItemStackUsable(aStack);
 		IFoodStat tStat = mFoodStats.get((short)getDamage(aStack));
@@ -290,7 +290,7 @@ public abstract class MultiItemRandom extends MultiItem implements Runnable {
 	}
 	
 	@Override
-	public ItemStack onEaten(ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onEaten(ItemStack aStack, Level aWorld, Player aPlayer) {
 		IFoodStat tStat = mFoodStats.get((short)getDamage(aStack));
 		if (tStat != null) {
 			
@@ -335,7 +335,7 @@ public abstract class MultiItemRandom extends MultiItem implements Runnable {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("unchecked")
-	public void getSubItems(Item aItem, CreativeTabs aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
+	public void getSubItems(Item aItem, CreativeModeTab aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
 		if (aItem == this) for (int i = 0, j = mEnabledItems.length(); i < j; i++) if (mVisibleItems.get(i) || (SHOW_HIDDEN_ITEMS && mEnabledItems.get(i))) {
 			IItemEnergy tStats = mElectricStats.get((short)i);
 			if (tStats == null || tStats instanceof EnergyStatDebug) {

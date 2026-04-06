@@ -24,7 +24,7 @@ import static gregapi.data.CS.*;
 import gregapi.data.FL;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.ChestGenHooks;
+import gregapi.stubs.ChestGenHooks;
 
 /**
  * @author Gregorius Techneticies

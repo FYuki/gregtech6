@@ -216,13 +216,13 @@ public class Loader_Books implements Runnable {
 		, "This should conclude all the Stuff about Twilight Forest that seems noteworthy, aswell as most of the changes I made to improve the gameplay and add variety.¶-------------------¶Have Fun! ^^"
 		});
 		
-		UT.Books.createWrittenBook("Manual_Enchantments", "The vexing World of Enchantments", "Evoker Number 42", ST.make(ItemsGT.BOOKS, 1, 10), new String[] {
+		UT.Books.createWrittenBook("Manual_Enchantments", "The vexing Level of Enchantments", "Evoker Number 42", ST.make(ItemsGT.BOOKS, 1, 10), new String[] {
 		  "I cant believe how hard it is to find Information on these ancient Enchantments! But here I am, finally having collected everything there is to know about this Magic!"
 		, "Enchanting Table¶===================¶You need one of these Tables, typically made of 2 Diamonds, 4 Obsidian and a Book. Then you can use your Magical Power and sometimes Lapis Lazuli to put random Enchantments onto Tools and Books!"
 		, "Book Shelves¶===================¶To increase the Power of these previously mentioned random Enchantments, you merely need any Book Shelves filled with Books. Can even be some fancy Metal Shelves! The Books can even be on the backside!"
 		, "Iron Anvils¶===================¶But random Enchantments cant just be removed from Tools. The Anvil will help with that, since it lets you put Enchantments that are in Books onto your Tools and even give them a Name!"
 		, "Grindstone¶===================¶There supposedly is Grindstones that can remove Enchantments, but I have never seen any of those! Must be like those Brains in Jars I keep hearing about!"
-		, "Magical Power¶===================¶You can acquire this by killing the many Creatures in this World, by cooking Food or messing with Ores! This is quite the Experience to be had, which is why many people call it XP or EXP!"
+		, "Magical Power¶===================¶You can acquire this by killing the many Creatures in this Level, by cooking Food or messing with Ores! This is quite the Experience to be had, which is why many people call it XP or EXP!"
 		, "List¶===================¶What follows is a List of the Enchantments that I know of and their Effects."
 		, "Sharpness¶===================¶Levels 1 to 5+¶Deals 0.625 Hearts of Extra Damage per Level and works on pretty much everything!"
 		, "Wrecking¶===================¶Levels 1 to 5+¶IDeals 0.75 Hearts of Extra Damage per Level and works on pretty much everything! Can normally only be applied to Railcraft Crowbars."
@@ -256,7 +256,7 @@ public class Loader_Books implements Runnable {
 		});
 		
 		
-		String tAlexGryllsIntro = "Hi, I'm Alex Grylls, Adventurer and experienced Hunter of the several Mobs you encounter in our World. In this Guide I will explain you easy Methods to hunt for wild Mobs in their natural Habitats.";
+		String tAlexGryllsIntro = "Hi, I'm Alex Grylls, Adventurer and experienced Hunter of the several Mobs you encounter in our Level. In this Guide I will explain you easy Methods to hunt for wild Mobs in their natural Habitats.";
 		
 		UT.Books.createWrittenBook("Manual_Hunting_Creeper", "Hunting Guide for Creepers", "Alex Grylls, Survival Specialist", ST.make(ItemsGT.BOOKS, 1, 3), new String[] {tAlexGryllsIntro
 		, "Creepers¶===================¶Creepers are sneaky, suicidal, leafy sticks on 4 short Legs, which will blow up when they are close by. They drop Gunpowder and will not deal any damage aside from the explosion when you let them come close."
@@ -356,7 +356,7 @@ public class Loader_Books implements Runnable {
 		});
 		
 		UT.Books.createWrittenBook("Manual_Hunting_End", "Hunting Guide for the End", "Alex Grylls, Survival Specialist", ST.make(ItemsGT.BOOKS, 1, 3), new String[] {tAlexGryllsIntro
-		, "Endermen¶===================¶Endermen, 3m tall, black, purple eyed Teleporters with a weakness for Water and Silver (Disjunction Enchant), that can take some Blocks away from the World."
+		, "Endermen¶===================¶Endermen, 3m tall, black, purple eyed Teleporters with a weakness for Water and Silver (Disjunction Enchant), that can take some Blocks away from the Level."
 		, "Endermen¶===================¶Under normal circumstances Endermen just mind their Business and don't care what you are doing, but they do not like getting stared at, to the point that they will attack you if you do so."
 		, "Endermen¶===================¶If you still want to look at them without them attacking you, then wear a carved Pumpkin as Helmet. But you are hunting them, probably for the Pearls, so turn to the next Page."
 		, "Endermen¶===================¶Since Endermen don't usually attack you, I presume you just want their Pearls, and for that an Enderman Trap is a good Idea."
@@ -526,7 +526,7 @@ public class Loader_Books implements Runnable {
 		tBook.add("Step 2: Crucible"    +"¶===================¶The choice of Crucible Material is very important. The Crucible can melt too at a certain Temperature, which is usually higher than the actual Melting Point of the Crucible itself.");
 		tBook.add("Step 2: Crucible"    +"¶===================¶Now place the Crucible of your choice at the Output Facing of the Heat Source. The Burning Box for example only emits to its Top Side, so you need to place the Crucible above it.");
 		tBook.add("Step 3: The Molds"   +"¶===================¶You probably want to cast the molten Metal into a Shape, so you need to place a Mold horizontally adjacent to the Crucible. As you may have noticed the Mold itself doesn't have a Shape.");
-		tBook.add("Step 3: The Molds"   +"¶===================¶This is why you need a Chisel in order to chisel the proper Shape into the Mold by using it in World. The most important Shapes are Listed in the last Pages of this Book.");
+		tBook.add("Step 3: The Molds"   +"¶===================¶This is why you need a Chisel in order to chisel the proper Shape into the Mold by using it in Level. The most important Shapes are Listed in the last Pages of this Book.");
 		tBook.add("Step 3: The Molds"   +"¶===================¶If you somehow fail to put a correct Shape into the Mold, the End Result will be as many Nuggets as you have chiseled out places.");
 		tBook.add("Step 4: Smelting"    +"¶===================¶Now we get to smelting. Just throw the things you want to smelt into the Crucible, or use a Hopper above the Crucible to fill it. And turn up the Heat until you reach the melting Point.");
 		tBook.add("Step 4: Smelting"    +"¶===================¶Unless your Heat Source has some kind of Temperature regulation, you may need to shut it off once the Temperature reaches the Melting Point or else you will vaporate the Metals or worse.");
@@ -534,7 +534,7 @@ public class Loader_Books implements Runnable {
 		tBook.add("Step 5: Shaping"     +"¶===================¶Wait for the Metal to cool down, but note that you should not touch or take out the Metal while it is hot or else you will burn yourself unless you wear a Hazmat Suit or something.");
 		tBook.add("Mold Shapes"         +"¶===================¶The following is a List of Shapes you can chisel the Mold into. The position of the Shape on the Mold is NOT important, you can rotate and mirror it too¶X = Chiseled¶O = Not Chiseled");
 		tBook.add("Ingot"               +"¶===================¶XXXOO¶XXXOO¶XXXOO¶XXXOO¶XXXOO¶===================¶1.000 Units required");
-		tBook.add("Chunk"               +"¶===================¶XXOOO¶XXOOO¶OOOOO¶OOOOO¶OOOOO¶===================¶0.250 Units required");
+		tBook.add("LevelChunk"               +"¶===================¶XXOOO¶XXOOO¶OOOOO¶OOOOO¶OOOOO¶===================¶0.250 Units required");
 		tBook.add("Plate"               +"¶===================¶XXXXX¶XXXXX¶XXXXX¶XXXXX¶XXXXX¶===================¶1.000 Units required");
 		tBook.add("Tiny Plate"          +"¶===================¶OOOOO¶OXXXO¶OXXXO¶OXXXO¶OOOOO¶===================¶0.111 Units required");
 		tBook.add("Bolt"                +"¶===================¶XXOOO¶OOOOO¶OOOOO¶OOOOO¶OOOOO¶===================¶0.125 Units required");

@@ -35,12 +35,12 @@ import gregapi.tileentity.multiblocks.*;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.Collection;
@@ -84,7 +84,7 @@ public class MultiTileEntityLargeHeatExchanger extends TileEntityBase10MultiBloc
 	}
 	
 	@Override
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {
 		int tX = xCoord-1, tY = yCoord, tZ = zCoord-1;
 		if (worldObj.blockExists(tX-1, tY, tZ-1) && worldObj.blockExists(tX+1, tY, tZ-1) && worldObj.blockExists(tX-1, tY, tZ+1) && worldObj.blockExists(tX+1, tY, tZ+1)) {
 			boolean tSuccess = T;

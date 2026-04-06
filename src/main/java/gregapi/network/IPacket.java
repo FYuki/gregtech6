@@ -51,7 +51,7 @@ public interface IPacket {
 	/**
 	 * It is VERY important that decoding and processing are in two different Steps! Otherwise there will be a Memory-Leak caused by the Network Handler!
 	 * process the Packet after it has been received, inside this Function.
-	 * @param aWorld The World this Packet was sent for on the Client, or null on the Server Side.
+	 * @param aWorld The Level this Packet was sent for on the Client, or null on the Server Side.
 	 */
 	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler);
 	

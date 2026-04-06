@@ -20,7 +20,7 @@
 package gregapi.item.multiitem;
 
 import buildcraft.api.tools.IToolWrench;
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import forestry.api.arboriculture.IToolGrafter;
 import gregapi.data.CS.ModIDs;
 import gregapi.data.TD;
@@ -69,7 +69,7 @@ public class MultiItemToolWithCompat extends MultiItemTool implements IWarpingGe
 	}
 	
 	@Override
-	public float getSaplingModifier(ItemStack aStack, World aWorld, Player aPlayer, int aX, int aY, int aZ) {
+	public float getSaplingModifier(ItemStack aStack, Level aWorld, Player aPlayer, int aX, int aY, int aZ) {
 		IToolStats tStats = getToolStats(aStack);
 		return tStats != null && tStats.isGrafter() ? Math.min(100.0F, (1+UT.Code.bind4(getHarvestLevel(aStack, ""))) * 20.0F) : 0.0F;
 	}

@@ -84,7 +84,7 @@ public class GT_ModHandler {
 	@Deprecated public static ItemStack removeRecipe(ItemStack... aRecipe) {return CR.remove(aRecipe);}
 	@Deprecated public static boolean removeRecipeByOutput(ItemStack aOutput) {return CR.remout(aOutput, T, F, F, F);}
 	@Deprecated public static boolean removeRecipeByOutput(ItemStack aOutput, boolean aIgnoreNBT, boolean aNotRemoveShapelessRecipes, boolean aOnlyRemoveNativeHandlers, boolean aDontRemoveDyeingRecipes) {return CR.remout(aOutput, aIgnoreNBT, aNotRemoveShapelessRecipes, aOnlyRemoveNativeHandlers, aDontRemoveDyeingRecipes);}
-	@Deprecated public static ItemStack getAllRecipeOutput(World aWorld, ItemStack... aRecipe) {return CR.getany(aWorld, aRecipe);}
+	@Deprecated public static ItemStack getAllRecipeOutput(Level aWorld, ItemStack... aRecipe) {return CR.getany(aWorld, aRecipe);}
 	@Deprecated public static ItemStack getRecipeOutput(ItemStack... aRecipe) {return CR.get(aRecipe);}
 	@Deprecated public static ItemStack getRecipeOutput(boolean aUncopiedStack, ItemStack... aRecipe) {return CR.get(aUncopiedStack, aRecipe);}
 }

@@ -20,7 +20,7 @@
 package gregapi.tileentity.energy;
 
 import cofh.api.energy.IEnergyHandler;
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.data.CS.ModIDs;
 
 

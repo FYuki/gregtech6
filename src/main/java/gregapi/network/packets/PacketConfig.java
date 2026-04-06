@@ -27,7 +27,7 @@ import com.google.common.io.ByteStreams;
 
 import gregapi.network.INetworkHandler;
 import gregapi.network.IPacket;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -56,7 +56,7 @@ public class PacketConfig implements IPacket {
 	}
 	
 	@Override
-	public void process(IBlockAccess aWorld, INetworkHandler aNetworkHandler) {
+	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler) {
 		// Since this actually doesn't process anything I can set the static variables directly in decode.
 	}
 }

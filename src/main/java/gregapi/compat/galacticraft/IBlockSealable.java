@@ -19,7 +19,7 @@
 
 package gregapi.compat.galacticraft;
 
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.data.CS.ModIDs;
 import micdoodle8.mods.galacticraft.api.block.IPartialSealableBlock;
 

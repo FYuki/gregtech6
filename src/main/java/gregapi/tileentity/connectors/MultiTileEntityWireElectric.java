@@ -46,7 +46,7 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -132,7 +132,7 @@ public class MultiTileEntityWireElectric extends TileEntityBase10ConnectorRender
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_electrometer) && isServerSide()) {
 			if (aChatReturn != null) aChatReturn.add(mWattageLast + " EU/t");
 			return 1;

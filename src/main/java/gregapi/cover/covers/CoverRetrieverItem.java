@@ -33,7 +33,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -68,7 +68,7 @@ public class CoverRetrieverItem extends AbstractCoverAttachment {
 			
 			for (ITileEntityItemPipe tPipe : UT.Code.sortByValuesAcending(ITileEntityItemPipe.Util.scanPipes((ITileEntityItemPipe)aData.mTileEntity, new HashMap<ITileEntityItemPipe, Long>(), 0, T, F)).keySet()) {
 				if (tUsedPipes.add(tPipe)) for (byte tSide : ALL_SIDES_VALID) if (tPipe.canAcceptItemsFrom(tSide, aData.mTileEntity) && (tSide != aSide || tPipe != aData.mTileEntity)) {
-					DelegatorTileEntity<IInventory> tDelegator = tPipe.getAdjacentInventory(tSide);
+					DelegatorTileEntity<Container> tDelegator = tPipe.getAdjacentInventory(tSide);
 					if (!(tDelegator.mTileEntity instanceof ITileEntityItemPipe) && ST.move(tDelegator, tTarget, tFilter, F, F, aData.mVisuals[aSide] != 0, T, 64, 1, 64, 1) > 0) {
 						for (ITileEntityItemPipe tUsedPipe : tUsedPipes) tUsedPipe.incrementTransferCounter(1);
 						return;
@@ -90,7 +90,7 @@ public class CoverRetrieverItem extends AbstractCoverAttachment {
 	}
 	
 	@Override
-	public long onToolClick(byte aCoverSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(byte aCoverSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_screwdriver)) {
 			aData.visual(aCoverSide, (short)(aData.mVisuals[aCoverSide] == 0 ? 1 : 0));
 			if (aChatReturn != null) aChatReturn.add(aData.mVisuals[aCoverSide] == 0 ? "Normal Filter" : "Inverted Filter");

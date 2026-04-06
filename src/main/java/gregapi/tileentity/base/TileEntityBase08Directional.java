@@ -21,7 +21,7 @@ package gregapi.tileentity.base;
 
 import static gregapi.data.CS.*;
 
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.data.CS.ModIDs;
 import gregapi.data.CS.ToolsGT;
 import gregapi.network.INetworkHandler;

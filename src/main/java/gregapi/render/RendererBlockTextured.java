@@ -23,15 +23,15 @@ import static gregapi.data.CS.*;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import gregapi.stubs.ISimpleBlockRenderingHandler;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
+import gregapi.stubs.RenderBlocks;
+import gregapi.stubs.Tessellator;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.IItemRenderer;
+import net.minecraft.world.level.BlockGetter;
+import gregapi.stubs.IItemRenderer;
 
 /**
  * @author Gregorius Techneticies
@@ -98,7 +98,7 @@ public class RendererBlockTextured implements ISimpleBlockRenderingHandler, IIte
 	}
 	
 	@Override
-	public boolean renderWorldBlock(IBlockAccess aWorld, int aX, int aY, int aZ, Block aBlock, int aModelID, RenderBlocks aRenderer) {
+	public boolean renderWorldBlock(BlockGetter aWorld, int aX, int aY, int aZ, Block aBlock, int aModelID, RenderBlocks aRenderer) {
 		Tessellator.instance.setBrightness(983055);
 		boolean rReturn = F;
 		aRenderer.setRenderBoundsFromBlock(aBlock);
@@ -160,7 +160,7 @@ public class RendererBlockTextured implements ISimpleBlockRenderingHandler, IIte
 		return rReturn;
 	}
 	
-	public static boolean renderNegativeYFacing(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
+	public static boolean renderNegativeYFacing(BlockGetter aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
 		if (aIcon == null || !aIcon.isValidTexture()) return F;
 		int aBrightness = 240;
 		if (aWorld != null) {
@@ -174,7 +174,7 @@ public class RendererBlockTextured implements ISimpleBlockRenderingHandler, IIte
 		return T;
 	}
 	
-	public static boolean renderPositiveYFacing(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
+	public static boolean renderPositiveYFacing(BlockGetter aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
 		if (aIcon == null || !aIcon.isValidTexture()) return F;
 		int aBrightness = 240;
 		if (aWorld != null) {
@@ -188,7 +188,7 @@ public class RendererBlockTextured implements ISimpleBlockRenderingHandler, IIte
 		return T;
 	}
 	
-	public static boolean renderNegativeZFacing(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
+	public static boolean renderNegativeZFacing(BlockGetter aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
 		if (aIcon == null || !aIcon.isValidTexture()) return F;
 		int aBrightness = 240;
 		if (aWorld != null) {
@@ -203,7 +203,7 @@ public class RendererBlockTextured implements ISimpleBlockRenderingHandler, IIte
 		return T;
 	}
 	
-	public static boolean renderPositiveZFacing(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
+	public static boolean renderPositiveZFacing(BlockGetter aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
 		if (aIcon == null || !aIcon.isValidTexture()) return F;
 		int aBrightness = 240;
 		if (aWorld != null) {
@@ -217,7 +217,7 @@ public class RendererBlockTextured implements ISimpleBlockRenderingHandler, IIte
 		return T;
 	}
 	
-	public static boolean renderNegativeXFacing(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
+	public static boolean renderNegativeXFacing(BlockGetter aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
 		if (aIcon == null || !aIcon.isValidTexture()) return F;
 		int aBrightness = 240;
 		if (aWorld != null) {
@@ -231,7 +231,7 @@ public class RendererBlockTextured implements ISimpleBlockRenderingHandler, IIte
 		return T;
 	}
 	
-	public static boolean renderPositiveXFacing(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
+	public static boolean renderPositiveXFacing(BlockGetter aWorld, RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, ITexture aIcon, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
 		if (aIcon == null || !aIcon.isValidTexture()) return F;
 		int aBrightness = 240;
 		if (aWorld != null) {

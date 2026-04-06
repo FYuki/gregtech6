@@ -43,7 +43,7 @@ public class Behavior_TripwireCutting extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aPlayer.worldObj.isRemote) return F;
 		if (aWorld.getBlock(aX, aY, aZ) == Blocks.tripwire) {
 			if (((MultiItemTool)aItem).doDamage(aStack, mCosts, aPlayer, F)) {

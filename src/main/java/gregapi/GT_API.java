@@ -164,7 +164,7 @@ public class GT_API extends Abstract_Mod {
 		
 		
 		try {
-			DW = new DummyWorld();
+			DW = null; // PHASE5: DummyWorld not yet ported — mock Level deferred to Phase 5
 		} catch(Throwable e) {
 			ERR.println("======================================================================================================");
 			ERR.println("WARNING, DUMMY WORLD COULD NOT BE CREATED, SOME RECIPE RELATED THINGS MAY NOT FUNCTION PROPERLY NOW!!!");

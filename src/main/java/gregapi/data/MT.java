@@ -3499,7 +3499,7 @@ public class MT {
 			// ========================================================================================================================================================================================================
 			  "Iridium, a very rare Metal used in only the most advanced Technology. Its properties are very versatile and used in many advanced Devices."
 			, "Iridium is a Metal that can stabilise a Tesseract, so that it can transfer much larger Amounts of Matter and Energy."
-			, "As Weapon it is very useful in order to kill Shapeshifters, since it is highly Toxic to them. Now, if there were Shapeshifters in our World this Information would be more useful."
+			, "As Weapon it is very useful in order to kill Shapeshifters, since it is highly Toxic to them. Now, if there were Shapeshifters in our Level this Information would be more useful."
 			};
 			
 			Desh.mDescription = new String[] {
@@ -3519,7 +3519,7 @@ public class MT {
 			Mcg.mDescription = new String[] {
 			// ======================================================================================================================================================================================================== 
 			  "Mac-Guffium, the most useful Material of them all. It can be used for everything, as long as its underlying Science is too obscure to be understood."
-			, "Possible Applications are: Time Travel, Infinite Impossibility Drives, World Peace, World Domination, World War, World War II, World War IV, Curing all Diseases, Stopping Global Warming,"
+			, "Possible Applications are: Time Travel, Infinite Impossibility Drives, Level Peace, Level Domination, Level War, Level War II, Level War IV, Curing all Diseases, Stopping Global Warming,"
 			, "Controlling the Weather, Turning everything into Gold, Turning you into a God, Killing a God, Making Dark Matter an Energy Source, Tesseracts, Wormholes, Black Holes, Bending Space and Time, Tardis,"
 			, "Ascension to a higher Level of existence, Invisibility, Killing Chuck Norris, Cloning, Making Profit of collecting Underpants, Making the Impossible possible, Love Rays, Hate Rays, Perpetuum Mobiles,"
 			, "Making you able to hold and use Thors Hammer, and ofcourse baking delicious Cookies."

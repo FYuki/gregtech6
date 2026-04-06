@@ -43,7 +43,7 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE7: import OreDictionary removed — replaced by Tags
 // PHASE7: import ShapedOreRecipe removed — use datapack recipes

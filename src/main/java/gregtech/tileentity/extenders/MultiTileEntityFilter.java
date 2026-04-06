@@ -40,9 +40,9 @@ import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.world.Container;
+import gregapi.stubs.ISidedInventory;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -50,7 +50,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -125,7 +125,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (aTool.equals(TOOL_screwdriver)) {
 			mInverted = !mInverted;
@@ -154,7 +154,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	@Override
 	public boolean isItemValidForSlot(int aSlot, ItemStack aStack) {
 		if ((mModes & EXTENDER_INV) != 0 && ST.valid(aStack) && (mLastSide == mFacing || allowInput(aStack))) {
-			DelegatorTileEntity<IInventory> tTileEntity = getAdjacentInventory(getExtenderTargetSide(mLastSide), F, T);
+			DelegatorTileEntity<Container> tTileEntity = getAdjacentInventory(getExtenderTargetSide(mLastSide), F, T);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.isItemValidForSlot(aSlot, aStack);
 		}
 		return F;
@@ -164,7 +164,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	public boolean canInsertItem2(int aSlot, ItemStack aStack, byte aSide) {
 		mLastSide = aSide;
 		if ((mModes & EXTENDER_INV) != 0 && ST.valid(aStack) && (mLastSide == mFacing || allowInput(aStack))) {
-			DelegatorTileEntity<IInventory> tTileEntity = getAdjacentInventory(getExtenderTargetSide(mLastSide), F, T);
+			DelegatorTileEntity<Container> tTileEntity = getAdjacentInventory(getExtenderTargetSide(mLastSide), F, T);
 			if (tTileEntity.mTileEntity instanceof ISidedInventory) return ((ISidedInventory)tTileEntity.mTileEntity).canInsertItem(aSlot, aStack, tTileEntity.mSideOfTileEntity);
 			if (tTileEntity.mTileEntity != null) return T;
 		}
@@ -175,7 +175,7 @@ public class MultiTileEntityFilter extends MultiTileEntityExtender implements IT
 	public boolean canExtractItem2(int aSlot, ItemStack aStack, byte aSide) {
 		mLastSide = aSide;
 		if ((mModes & EXTENDER_INV) != 0 && ST.valid(aStack) && (mLastSide == mFacing || allowInput(aStack))) {
-			DelegatorTileEntity<IInventory> tTileEntity = getAdjacentInventory(getExtenderTargetSide(mLastSide), F, T);
+			DelegatorTileEntity<Container> tTileEntity = getAdjacentInventory(getExtenderTargetSide(mLastSide), F, T);
 			if (tTileEntity.mTileEntity instanceof ISidedInventory) return ((ISidedInventory)tTileEntity.mTileEntity).canExtractItem(aSlot, aStack, tTileEntity.mSideOfTileEntity);
 			if (tTileEntity.mTileEntity != null) return T;
 		}

@@ -27,10 +27,10 @@ import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ChestGenHooks;
+import gregapi.stubs.ChestGenHooks;
 import twilightforest.TFTreasure;
 import twilightforest.TFTreasureTable;
 
@@ -293,8 +293,8 @@ public class TwilightTreasureReplacer extends TFTreasure {
 		ST.LOOT_TABLES.add(mCategory);
 	}
 	
-	@Override public boolean generate(World aWorld, Random aRandom, int aX, int aY, int aZ) {return generate(aWorld, aRandom, aX, aY, aZ, Blocks.chest);}
-	@Override public boolean generate(World aWorld, Random aRandom, int aX, int aY, int aZ, Block aChest) {
+	@Override public boolean generate(Level aWorld, Random aRandom, int aX, int aY, int aZ) {return generate(aWorld, aRandom, aX, aY, aZ, Blocks.chest);}
+	@Override public boolean generate(Level aWorld, Random aRandom, int aX, int aY, int aZ, Block aChest) {
 		// Give chance for the other Loot Table in Large Hollow Hills.
 		if (mTreasureID == 3 && RNGSUS.nextInt(3) == 0) return HILLS_2.generate(aWorld, aRandom, aX, aY, aZ, aChest);
 		// Check if GT6 Registry exists, which it SHOULD.
@@ -338,12 +338,12 @@ public class TwilightTreasureReplacer extends TFTreasure {
 		return tRegistry.mBlock.placeBlock(aWorld, aX, aY, aZ, SIDE_UNKNOWN, mChestID, UT.NBT.make(NBT_FACING, ALL_SIDES_HORIZONTAL[RNGSUS.nextInt(ALL_SIDES_HORIZONTAL.length)], NBT_TRAPPED, T, "gt.dungeonloot", mCategory), F, T);
 	}
 	
-	public static boolean generate(IInventory aInventory, String aCategory) {
+	public static boolean generate(Container aInventory, String aCategory) {
 		TwilightTreasureReplacer tTreasure = TWILIGHT_TREASURE.get(aCategory);
 		return tTreasure != null && tTreasure.generate(aInventory);
 	}
 	
-	public boolean generate(IInventory aInventory) {
+	public boolean generate(Container aInventory) {
 		boolean rReturn = T;
 		// About twice as much Loot as normal TF because the Loot is quite lackluster compared to the time investment otherwise.
 		for (int i = 0; i < mRares    ; i++) rReturn &= addToInventory(aInventory, mTreasure.getRareItem    (RNGSUS));
@@ -356,14 +356,14 @@ public class TwilightTreasureReplacer extends TFTreasure {
 		return rReturn;
 	}
 	
-	public boolean addToInventory(IInventory aInventory, ItemStack aStack) {
+	public boolean addToInventory(Container aInventory, ItemStack aStack) {
 		int tSlot = findEmptySlot(aInventory);
 		if (tSlot == -1) return F;
 		aInventory.setInventorySlotContents(tSlot, IL.TF_Uncrafting.equal(aStack, T, T) ? IL.TF_Transformation_Powder.get(12+RNGSUS.nextInt(13)) : ST.item(aStack) == Items.potionitem ? IL.Bottle_Loot.get(1+RNGSUS.nextInt(2)) : aStack);
 		return T;
 	}
 	
-	public int findEmptySlot(IInventory aInventory) {
+	public int findEmptySlot(Container aInventory) {
 		int j = aInventory.getSizeInventory();
 		for (int i = 0; i < 100; i++) {int k = RNGSUS.nextInt(j); if (aInventory.getStackInSlot(k) == null) return k;}
 		for (int i = 0; i <   j; i++) if (aInventory.getStackInSlot(i) == null) return i;

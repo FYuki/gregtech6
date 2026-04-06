@@ -19,7 +19,7 @@
 
 package gregtech.loaders.b;
 
-import cpw.mods.fml.common.registry.GameData;
+import gregapi.stubs.GameData;
 import gregapi.data.IL;
 import gregapi.data.OD;
 import gregapi.data.RM;

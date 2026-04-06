@@ -25,7 +25,7 @@ import java.util.AbstractSet;
 import java.util.HashMap;
 import java.util.Iterator;
 
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 
 /**
  * @author Gregorius Techneticies
@@ -37,13 +37,13 @@ public class BiomeNameSet extends AbstractSet<String> {
 	@SafeVarargs
 	public BiomeNameSet(Object... aArray) {
 		map = new HashMap<>(Math.max((int)(aArray.length/.75F) + 1, 16));
-		for (Object aName : aArray) add(aName instanceof BiomeGenBase ? ((BiomeGenBase)aName).biomeName : aName.toString());
+		for (Object aName : aArray) add(aName instanceof Biome ? ((Biome)aName).biomeName : aName.toString());
 	}
 	
 	@Override
 	public boolean contains(Object aName) {
 		if (aName == null) return F;
-		String aString = (aName instanceof BiomeGenBase ? ((BiomeGenBase)aName).biomeName : aName.toString());
+		String aString = (aName instanceof Biome ? ((Biome)aName).biomeName : aName.toString());
 		if (aString == null || aString.isEmpty()) return F;
 		return map.containsKey(aString.toLowerCase());
 	}

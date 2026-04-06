@@ -42,8 +42,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.IShearable;
-import net.minecraftforge.event.world.BlockEvent;
+import net.neoforged.neoforge.common.IShearable;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,7 +169,7 @@ public class GT_Tool_Saw extends ToolStats {
 	}
 	
 	@Override
-	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, Player aPlayer, World aWorld, int aX, int aY, int aZ) {
+	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, Player aPlayer, Level aWorld, int aX, int aY, int aZ) {
 		if (aBlock.isWood(aPlayer.worldObj, aX, aY, aZ) || OP.log.contains(ST.make(aBlock, 1, aMetaData))) return aDefault / 2;
 		if (aBlock.getMaterial() == Material.wood || OP.plank.contains(ST.make(aBlock, 1, aMetaData))) return aDefault * 2;
 		return aBlock.getMaterial() == Material.vine || aBlock.getMaterial() == Material.plants || aBlock.getMaterial() == Material.gourd ? aDefault / 4 : aDefault;

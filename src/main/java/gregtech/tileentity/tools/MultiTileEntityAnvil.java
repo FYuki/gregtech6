@@ -46,10 +46,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -92,7 +92,7 @@ public class MultiTileEntityAnvil extends TileEntityBase09FacingSingle implement
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0 || isClientSide()) return rReturn;
 		if ((SIDES_TOP_HORIZONTAL[aSide] || aPlayer == null) && aTool.equals(TOOL_hammer) && (slotHas(0)||slotHas(1))) {
@@ -274,7 +274,7 @@ public class MultiTileEntityAnvil extends TileEntityBase09FacingSingle implement
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		super.onPlaced(aStack, aPlayer, aMTEContainer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ);
 		if (aMTEContainer.mBlock.stepSound != Block.soundTypeMetal || mMaterial.contains(TD.Properties.STONE) || mMaterial == MT.IronWood) return T;
 		aWorld.playSoundEffect(aX+0.5, aY+0.5, aZ+0.5, Blocks.anvil.stepSound.func_150496_b(), (Blocks.anvil.stepSound.getVolume()+1)/2, Blocks.anvil.stepSound.getPitch()*0.8F);
@@ -394,8 +394,8 @@ public class MultiTileEntityAnvil extends TileEntityBase09FacingSingle implement
 	
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_WATER;}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[SIDES_AXIS_X[mFacing]? 4: 0], PX_P[ 0], PX_P[SIDES_AXIS_Z[mFacing]? 4: 0], PX_N[SIDES_AXIS_X[mFacing]? 4: 0], PX_N[4], PX_N[SIDES_AXIS_Z[mFacing]? 4: 0]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[SIDES_AXIS_X[mFacing]? 4: 0], PX_P[ 0], PX_P[SIDES_AXIS_Z[mFacing]? 4: 0], PX_N[SIDES_AXIS_X[mFacing]? 4: 0], PX_N[4], PX_N[SIDES_AXIS_Z[mFacing]? 4: 0]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[SIDES_AXIS_X[mFacing]? 4: 0], PX_P[ 0], PX_P[SIDES_AXIS_Z[mFacing]? 4: 0], PX_N[SIDES_AXIS_X[mFacing]? 4: 0], PX_N[4], PX_N[SIDES_AXIS_Z[mFacing]? 4: 0]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[SIDES_AXIS_X[mFacing]? 4: 0], PX_P[ 0], PX_P[SIDES_AXIS_Z[mFacing]? 4: 0], PX_N[SIDES_AXIS_X[mFacing]? 4: 0], PX_N[4], PX_N[SIDES_AXIS_Z[mFacing]? 4: 0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock)  {box(aBlock, PX_P[SIDES_AXIS_X[mFacing]? 4: 0], PX_P[ 0], PX_P[SIDES_AXIS_Z[mFacing]? 4: 0], PX_N[SIDES_AXIS_X[mFacing]? 4: 0], PX_N[4], PX_N[SIDES_AXIS_Z[mFacing]? 4: 0]);}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return SIDES_VERTICAL[aSide]?0.5F:0.0F;}

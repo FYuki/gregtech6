@@ -32,7 +32,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import gregapi.stubs.IFluidContainerItem;
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.T;
@@ -41,7 +41,7 @@ public class Behavior_Watering_Crops extends AbstractBehaviorDefault {
 	public static final IBehavior<MultiItem> INSTANCE = new Behavior_Watering_Crops();
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote || aPlayer == null || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		FluidStack mFluid = ((IFluidContainerItem)aItem).getFluid(aStack);
 		if (FL.water(mFluid)) {

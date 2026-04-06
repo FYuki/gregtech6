@@ -27,7 +27,7 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
-// PHASE7: MissingMappingsEvent removed in NeoForge 1.21 — numeric ID mapping no longer needed
+import gregapi.stubs.MissingMappingsEvent; // PHASE7: stub — removed from NeoForge 1.21
 
 import java.util.Collection;
 

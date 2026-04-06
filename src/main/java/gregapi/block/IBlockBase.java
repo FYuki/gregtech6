@@ -46,7 +46,7 @@ public interface IBlockBase extends IBlock, IItemGT {
 	public int getFlammability(byte aMeta);
 	public int getFireSpreadSpeed(byte aMeta);
 	public int getItemStackLimit(ItemStack aStack);
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer);
-	public boolean onItemUse(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ);
-	public boolean onItemUseFirst(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ);
+	public ItemStack onItemRightClick(ItemStack aStack, Level aWorld, Player aPlayer);
+	public boolean onItemUse(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ);
+	public boolean onItemUseFirst(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ);
 }

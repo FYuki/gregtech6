@@ -49,8 +49,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.stats.AchievementList;
@@ -59,7 +59,7 @@ import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import FluidTankInfo removed
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +118,7 @@ public class MultiTileEntityAdvancedCraftingTable extends TileEntityBase09Facing
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		mUpdatedGrid = T; // Just in case someone like Greg used NEI or something to delete all Slots or so.
 		if (isClientSide()) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (aTool.equals(TOOL_monkeywrench)) {
@@ -354,7 +354,7 @@ public class MultiTileEntityAdvancedCraftingTable extends TileEntityBase09Facing
 		
 		MultiItemTool.LAST_TOOL_COORDS_BEFORE_DAMAGE = getCoords();
 		
-		try {FMLCommonHandler.instance().firePlayerCraftingEvent(aPlayer, ST.copy(slot(31)), new InventoryCrafting(null, 3, 3));} catch(Throwable e) {e.printStackTrace(ERR);}
+		try {FMLCommonHandler.instance().firePlayerCraftingEvent(aPlayer, ST.copy(slot(31)), new CraftingContainer(null, 3, 3));} catch(Throwable e) {e.printStackTrace(ERR);}
 		
 		ItemStack[] tRecipeStacks = {ST.amount(1, slot(21)), ST.amount(1, slot(22)), ST.amount(1, slot(23)), ST.amount(1, slot(24)), ST.amount(1, slot(25)), ST.amount(1, slot(26)), ST.amount(1, slot(27)), ST.amount(1, slot(28)), ST.amount(1, slot(29))};
 		

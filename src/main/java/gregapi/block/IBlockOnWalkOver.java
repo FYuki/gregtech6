@@ -26,5 +26,5 @@ import net.minecraft.world.level.Level;
  * @author Gregorius Techneticies
  */
 public interface IBlockOnWalkOver {
-	public void onWalkOver(LivingEntity aEntity, World aWorld, int aX, int aY, int aZ);
+	public void onWalkOver(LivingEntity aEntity, Level aWorld, int aX, int aY, int aZ);
 }

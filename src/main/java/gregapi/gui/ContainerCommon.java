@@ -24,10 +24,10 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -641,7 +641,7 @@ public class ContainerCommon extends Container {
 	}
 	
 	@Override
-	public Slot getSlotFromInventory(IInventory aInventory, int aIndex) {
+	public Slot getSlotFromInventory(Container aInventory, int aIndex) {
 		try {
 			for (int j = 0; j < inventorySlots.size(); ++j) {
 				Slot slot = (Slot)inventorySlots.get(j);
@@ -699,7 +699,7 @@ public class ContainerCommon extends Container {
 	}
 	
 	@Override
-	public void onCraftMatrixChanged(IInventory aInventory) {
+	public void onCraftMatrixChanged(Container aInventory) {
 		detectAndSendChanges();
 	}
 	

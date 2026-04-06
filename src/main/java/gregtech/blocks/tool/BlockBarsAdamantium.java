@@ -27,7 +27,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 public class BlockBarsAdamantium extends BlockBaseBars {
 	public BlockBarsAdamantium(String aNameInternal) {
@@ -53,7 +53,7 @@ public class BlockBarsAdamantium extends BlockBaseBars {
 	@Override public float getExplosionResistance(byte aMeta) {return 100;}
 	
 	@Override
-	public boolean canEntityDestroy(IBlockAccess aWorld, int aX, int aY, int aZ, Entity aEntity) {
+	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
 		return !(aEntity instanceof EntityWither || aEntity instanceof EntityDragon);
 	}
 }

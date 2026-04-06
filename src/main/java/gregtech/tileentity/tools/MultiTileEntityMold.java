@@ -47,18 +47,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 // PHASE3: import Achievement removed — use Advancement
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import FluidTankInfo removed
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -322,7 +322,7 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (aTool.equals(TOOL_thermometer)) {if (aChatReturn != null) aChatReturn.add("Temperature: " + mTemperature + "K"); return 10000;}
 		if (aTool.equals(TOOL_chisel) && mContent == null && slot(0) == null && aHitX > PX_P[2] && aHitX < PX_N[2] && aHitZ > PX_P[2] && aHitZ < PX_N[2]) {
@@ -407,7 +407,7 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		mTemperature = WD.envTemp(worldObj, xCoord, yCoord, zCoord);
 		return T;
 	}
@@ -556,8 +556,8 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 		return (SIDES_BOTTOM_HORIZONTAL[aSide] || getClass() != MultiTileEntityMold.class) && super.checkObstruction(aPlayer, aSide, aHitX, aHitY, aHitZ);
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[14], PX_N[ 2]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[13], PX_N[ 0]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[14], PX_N[ 2]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[13], PX_N[ 0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock)  {box(aBlock, PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[13], PX_N[ 0]);}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return SIDES_VERTICAL[aSide]?1.0F:0.0F;}

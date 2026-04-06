@@ -59,7 +59,7 @@ public final class OreDictMaterial implements ITagDataContainer<OreDictMaterial>
 	 * <BR><BR>
 	 * In case there are two Materials with the same Name but a different ID, the one added later wins and overrides the spot in the HashMap.
 	 * If this happens, then the earlier Material gets a Registration Target in order to let MetaItems work properly, even when they get overridden.
-	 * That way there is no Danger to the World Save in having two or more Instances of the same Material with a different ID. But it wastes space, so try to avoid that!
+	 * That way there is no Danger to the Level Save in having two or more Instances of the same Material with a different ID. But it wastes space, so try to avoid that!
 	 * <BR><BR>
 	 * Please avoid having the same ID for two different Materials. This would cause some nasty collisions. So choose one of the following ID Ranges, which has not been taken already! Also maybe your Name is already Listed, you should check for that too. If you need a Range to be assigned to, then you just ask me.
 	 * <BR><BR>

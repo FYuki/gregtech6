@@ -38,7 +38,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 
 public class Behavior_Arrow extends AbstractBehaviorDefault {
@@ -94,9 +94,9 @@ public class Behavior_Arrow extends AbstractBehaviorDefault {
 	
 	@Override
 	public ItemStack onDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
-		World aWorld = aSource.getWorld();
+		Level aWorld = aSource.getWorld();
 		IPosition tPosition = BlockDispenser.func_149939_a(aSource);
-		EnumFacing tFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Direction tFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
 		EntityProjectile tEntityArrow = getProjectile(aItem, TD.Projectiles.ARROW, aStack, aWorld, tPosition.getX(), tPosition.getY(), tPosition.getZ());
 		if (tEntityArrow != null) {
 			tEntityArrow.setThrowableHeading(tFacing.getFrontOffsetX(), (tFacing.getFrontOffsetY() + 0.1F), tFacing.getFrontOffsetZ(), mSpeedMultiplier * 1.10F, mPrecision);
@@ -115,7 +115,7 @@ public class Behavior_Arrow extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {
+	public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ) {
 		if (!hasProjectile(aItem, aProjectileType, aStack)) return null;
 		EntityArrow_Material rArrow = (EntityArrow_Material)UT.Reflection.callConstructor(mArrow.getName(), -1, null, T, aWorld, aX, aY, aZ);
 		rArrow.setProjectileStack(aStack);
@@ -123,7 +123,7 @@ public class Behavior_Arrow extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed) {
+	public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed) {
 		if (!hasProjectile(aItem, aProjectileType, aStack)) return null;
 		EntityArrow_Material rArrow = (EntityArrow_Material)UT.Reflection.callConstructor(mArrow.getName(), -1, null, T, aWorld, aEntity, mSpeedMultiplier * aSpeed);
 		rArrow.setProjectileStack(aStack);

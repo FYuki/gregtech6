@@ -51,7 +51,7 @@ public abstract class BlockBasePlanks extends BlockMetaType {
 	}
 	
 	@Override public String getHarvestTool(int aMeta) {return TOOL_axe;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.OAK_PLANKS.getBlockHardness(aWorld, aX, aY, aZ) * mHardnessMultiplier;}
+	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return Blocks.OAK_PLANKS.getBlockHardness(aWorld, aX, aY, aZ) * mHardnessMultiplier;}
 	@Override public float getExplosionResistance(byte aMeta) {return Blocks.OAK_PLANKS.getExplosionResistance(null) * mResistanceMultiplier;}
 	@Override public int getItemStackLimit(ItemStack aStack) {return UT.Code.bindStack(OP.plank.mDefaultStackSize * (mBlock.mBlock == mBlock ? 1 : 2));}
 	@Override public boolean canCreatureSpawn(byte aMeta) {return F;}

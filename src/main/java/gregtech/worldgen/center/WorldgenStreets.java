@@ -33,9 +33,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.Potion;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
@@ -58,12 +58,12 @@ public class WorldgenStreets extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean enabled(World aWorld, int aDimType) {
+	public boolean enabled(Level aWorld, int aDimType) {
 		return GENERATE_STREETS && aWorld.provider.dimensionId == DIM_OVERWORLD;
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if (aMinX == -16 || aMinX == 0) {
 			if (aMinZ == -16 || aMinZ == 0) {
 				for (int i = -32; i < 32; i++) for (int j = -32; j < 32; j++) {
@@ -374,7 +374,7 @@ public class WorldgenStreets extends WorldgenObject {
 				}
 				aBiomeNames = new HashSetNoNulls<>(aBiomeNames);
 				for (int i = aMinZ; i <= aMaxZ; i++) for (int j = (aMinZ < 0 ? 0 : -16), k = (aMinZ < 0 ? 16 : 0); j < k; j++) {
-					BiomeGenBase tBiome = aWorld.getBiomeGenForCoords(j, i);
+					Biome tBiome = aWorld.getBiomeGenForCoords(j, i);
 					if (tBiome != null) aBiomeNames.add(tBiome.biomeName);
 				}
 				for (String tName : aBiomeNames) if (BIOMES_INFINITE_WATER.contains(tName)) {
@@ -401,7 +401,7 @@ public class WorldgenStreets extends WorldgenObject {
 				}
 				aBiomeNames = new HashSetNoNulls<>(aBiomeNames);
 				for (int i = aMinX; i <= aMaxX; i++) for (int j = (aMinZ < 0 ? 0 : -16), k = (aMinZ < 0 ? 16 : 0); j < k; j++) {
-					BiomeGenBase tBiome = aWorld.getBiomeGenForCoords(i, j);
+					Biome tBiome = aWorld.getBiomeGenForCoords(i, j);
 					if (tBiome != null) aBiomeNames.add(tBiome.biomeName);
 				}
 				for (String tName : aBiomeNames) if (BIOMES_INFINITE_WATER.contains(tName)) {
@@ -415,7 +415,7 @@ public class WorldgenStreets extends WorldgenObject {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public final boolean generateRoadX(World aWorld, int aMinZ, boolean aLand, boolean aKillSky, boolean aTunnel, boolean aBridge, boolean aSideWalls) {
+	public final boolean generateRoadX(Level aWorld, int aMinZ, boolean aLand, boolean aKillSky, boolean aTunnel, boolean aBridge, boolean aSideWalls) {
 		for (int i = 0; i < 16; i++) {
 			if (aLand) {
 				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld, -13, j, aMinZ+i, T, T)) WD.set(aWorld, -13, j, aMinZ+i, Blocks.GRAVEL, 1, 0, T); else break;
@@ -647,12 +647,12 @@ public class WorldgenStreets extends WorldgenObject {
 		}
 		
 		// Kill every living thing close by except Players.
-		for (LivingEntity tEntity : (List<LivingEntity>)aWorld.getEntitiesWithinAABB(LivingEntity.class, AxisAlignedBB.getBoundingBox(-16, mHeight, aMinZ, +16, mHeight+8, aMinZ+16))) if (!(tEntity instanceof Player)) tEntity.setDead();
+		for (LivingEntity tEntity : (List<LivingEntity>)aWorld.getEntitiesWithinAABB(LivingEntity.class, AABB.getBoundingBox(-16, mHeight, aMinZ, +16, mHeight+8, aMinZ+16))) if (!(tEntity instanceof Player)) tEntity.setDead();
 		return T;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public final boolean generateRoadZ(World aWorld, int aMinX, boolean aLand, boolean aKillSky, boolean aTunnel, boolean aBridge, boolean aSideWalls) {
+	public final boolean generateRoadZ(Level aWorld, int aMinX, boolean aLand, boolean aKillSky, boolean aTunnel, boolean aBridge, boolean aSideWalls) {
 		for (int i = 0; i < 16; i++) {
 			if (aLand) {
 				for (int j = mHeight+1; j > 0; j--) if (!WD.opq(aWorld, aMinX+i, j, -13, T, T)) WD.set(aWorld, aMinX+i, j, -13, Blocks.GRAVEL, 1, 0, T); else break;
@@ -884,7 +884,7 @@ public class WorldgenStreets extends WorldgenObject {
 		}
 		
 		// Kill every living thing close by except Players.
-		for (LivingEntity tEntity : (List<LivingEntity>)aWorld.getEntitiesWithinAABB(LivingEntity.class, AxisAlignedBB.getBoundingBox(aMinX, mHeight, -16, aMinX+16, mHeight+8, +16))) if (!(tEntity instanceof Player)) tEntity.setDead();
+		for (LivingEntity tEntity : (List<LivingEntity>)aWorld.getEntitiesWithinAABB(LivingEntity.class, AABB.getBoundingBox(aMinX, mHeight, -16, aMinX+16, mHeight+8, +16))) if (!(tEntity instanceof Player)) tEntity.setDead();
 		return T;
 	}
 }

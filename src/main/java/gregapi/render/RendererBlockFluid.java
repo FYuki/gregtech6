@@ -19,19 +19,19 @@
 
 package gregapi.render;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import gregapi.stubs.ISimpleBlockRenderingHandler;
 import gregapi.data.FL;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
+import gregapi.stubs.RenderBlocks;
+import gregapi.stubs.Tessellator;
 import net.minecraft.world.level.block.Blocks;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fluids.BlockFluidBase;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.BlockGetter;
+import gregapi.stubs.BlockFluidBase;
 // PHASE3: import FluidRegistry removed — use NeoForge fluid registry
-import net.minecraftforge.fluids.IFluidBlock;
+import gregapi.stubs.IFluidBlock;
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.T;
@@ -62,7 +62,7 @@ public class RendererBlockFluid implements ISimpleBlockRenderingHandler {
 		return end;
 	}
 	
-	public float getFluidHeightForRender(IBlockAccess aWorld, int aX, int aY, int aZ, BlockFluidBase aFluidBlock, Block aBlock) {
+	public float getFluidHeightForRender(BlockGetter aWorld, int aX, int aY, int aZ, BlockFluidBase aFluidBlock, Block aBlock) {
 		if (aBlock == null) aBlock = aWorld.getBlock(aX, aY, aZ);
 		if (aBlock == aFluidBlock) {
 			Block tBlockAbove = aWorld.getBlock(aX, aY - FL.dir(aFluidBlock), aZ);
@@ -75,7 +75,7 @@ public class RendererBlockFluid implements ISimpleBlockRenderingHandler {
 	@Override public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {/**/}
 	
 	@Override
-	public boolean renderWorldBlock(IBlockAccess aWorld, int aX, int aY, int aZ, Block aBlock, int aModelID, RenderBlocks aRenderer) {
+	public boolean renderWorldBlock(BlockGetter aWorld, int aX, int aY, int aZ, Block aBlock, int aModelID, RenderBlocks aRenderer) {
 		if (!(aBlock instanceof BlockFluidBase)) return F;
 		BlockFluidBase aFluid = (BlockFluidBase)aBlock;
 		
@@ -148,8 +148,8 @@ public class RendererBlockFluid implements ISimpleBlockRenderingHandler {
 				u3 = u4;
 				v3 = v2;
 			} else {
-				float xFlow = MathHelper.sin(flowDir) * 0.25F;
-				float zFlow = MathHelper.cos(flowDir) * 0.25F;
+				float xFlow = Mth.sin(flowDir) * 0.25F;
+				float zFlow = Mth.cos(flowDir) * 0.25F;
 				u2 = iconStill.getInterpolatedU(8.0F + (-zFlow - xFlow) * 16.0F);
 				v2 = iconStill.getInterpolatedV(8.0F + (-zFlow + xFlow) * 16.0F);
 				u1 = iconStill.getInterpolatedU(8.0F + (-zFlow + xFlow) * 16.0F);

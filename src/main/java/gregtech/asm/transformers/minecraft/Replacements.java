@@ -30,7 +30,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.util.Vec3;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
 
@@ -46,7 +46,7 @@ public class Replacements {
 		// Just ALWAYS convert Villagers, not only sometimes or when the stupid Difficulty Setting is right.
 		if (aVictim instanceof EntityVillager) {
 			EntityVillager aVillager = (EntityVillager)aVictim;
-			World aWorld = aVillager.worldObj;
+			Level aWorld = aVillager.worldObj;
 			// Yep, new Zombie Object.
 			EntityZombie tZombieVillager = new EntityZombie(aWorld);
 			// Location and Head need to point to the right places.
@@ -65,7 +65,7 @@ public class Replacements {
 			tZombieVillager.setCustomNameTag(aVillager.getCustomNameTag());
 			// Prevent duping Name Tags
 			aVillager.setCustomNameTag("");
-			// And put the new Zombie into the World!
+			// And put the new Zombie into the Level!
 			aWorld.spawnEntityInWorld(tZombieVillager);
 			// With Sound ofcourse!
 			aWorld.playAuxSFXAtEntity(null, 1016, (int)tZombieVillager.posX, (int)tZombieVillager.posY, (int)tZombieVillager.posZ, 0);
@@ -74,7 +74,7 @@ public class Replacements {
 		}
 	}
 	
-	public static void BlockStaticLiquid_updateTick(BlockStaticLiquid self, World world, int x, int y, int z, Random rand) {
+	public static void BlockStaticLiquid_updateTick(BlockStaticLiquid self, Level world, int x, int y, int z, Random rand) {
 		if (self.getMaterial() == Material.lava)
 		{
 			int l = rand.nextInt(3);
@@ -126,11 +126,11 @@ public class Replacements {
 		}
 	}
 
-	public static boolean BlockStaticLiquid_isFlammable(World world, int x, int y, int z, Direction dir) {
+	public static boolean BlockStaticLiquid_isFlammable(Level world, int x, int y, int z, Direction dir) {
 		return world.getBlock(x, y, z).isFlammable(world, x, y, z, dir);
 	}
 
-	public static boolean BlockStaticLiquid_isFlammable(World world, int x, int y, int z) {
+	public static boolean BlockStaticLiquid_isFlammable(Level world, int x, int y, int z) {
 		return world.getBlock(x, y, z).isFlammable(world, x, y, z, Direction.UNKNOWN);
 	}
 

@@ -29,8 +29,8 @@ import gregapi.tileentity.ITileEntityInventoryGUI;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -46,7 +46,7 @@ public class Slot_Base extends Slot {
 	public boolean mCanTake = T, mCanPut = T;
 	
 	protected Slot_Base(ITileEntityInventoryGUI aInventory, int aIndex, int aX, int aY) {
-		super(aInventory instanceof IInventory ? (IInventory)aInventory : null, aIndex, aX, aY);
+		super(aInventory instanceof Container ? (Container)aInventory : null, aIndex, aX, aY);
 		mInventory = aInventory;
 		mIndex = aIndex;
 	}
@@ -90,7 +90,7 @@ public class Slot_Base extends Slot {
 	
 	@Override public boolean isItemValid(ItemStack aStack) {return mCanPut && mInventory.isItemValidForSlotGUI(mIndex, aStack);}
 	@Override public boolean canTakeStack(Player aPlayer) {return mInventory.canTakeOutOfSlotGUI(mIndex) && (UT.Entities.isCreative(aPlayer) || (mCanTake && !ST.debug(getStack())));}
-	@Override public boolean isSlotInInventory(IInventory aInventory, int aIndex) {return aInventory == mInventory && aIndex == mIndex;}
+	@Override public boolean isSlotInInventory(Container aInventory, int aIndex) {return aInventory == mInventory && aIndex == mIndex;}
 	@Override public int getSlotStackLimit() {return mInventory.getInventoryStackLimitGUI(mIndex);}
 	@Override public void putStack(ItemStack aStack) {if (ST.size(aStack) > 64) ST.size_(64, aStack); mInventory.setInventorySlotContentsGUI(mIndex, aStack); onSlotChanged();}
 	@Override public ItemStack decrStackSize(int aAmount) {return mInventory.decrStackSizeGUI(mIndex, aAmount);}

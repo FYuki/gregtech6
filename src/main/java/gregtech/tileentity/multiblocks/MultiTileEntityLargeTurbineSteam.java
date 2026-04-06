@@ -28,7 +28,7 @@ import gregapi.tileentity.multiblocks.ITileEntityMultiBlockController;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos; // was BlockPos
@@ -67,7 +67,7 @@ public class MultiTileEntityLargeTurbineSteam extends MultiTileEntityLargeTurbin
 	}
 	
 	@Override
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {
 		int
 		tMinX = xCoord-(SIDE_X_NEG==mFacing?0:SIDE_X_POS==mFacing?3:1),
 		tMinY = yCoord-(SIDE_Y_NEG==mFacing?0:SIDE_Y_POS==mFacing?3:1),
@@ -124,7 +124,7 @@ public class MultiTileEntityLargeTurbineSteam extends MultiTileEntityLargeTurbin
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0) return rReturn;
 		

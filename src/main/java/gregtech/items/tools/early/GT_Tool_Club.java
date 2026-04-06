@@ -35,10 +35,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.List;
 
@@ -136,7 +135,7 @@ public class GT_Tool_Club extends GT_Tool_HardHammer {
 	}
 	
 	@Override
-	public IChatComponent getDeathMessage(LivingEntity aPlayer, LivingEntity aEntity, String aNamePlayer, String aNameEntity) {
-		return aNamePlayer.equalsIgnoreCase("Bear989Sr") ? new ChatComponentText(EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE+" got clubbed by a Bear!") : super.getDeathMessage(aPlayer, aEntity, aNamePlayer, aNameEntity);
+	public Component getDeathMessage(LivingEntity aPlayer, LivingEntity aEntity, String aNamePlayer, String aNameEntity) {
+		return aNamePlayer.equalsIgnoreCase("Bear989Sr") ? new Component(EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE+" got clubbed by a Bear!") : super.getDeathMessage(aPlayer, aEntity, aNamePlayer, aNameEntity);
 	}
 }

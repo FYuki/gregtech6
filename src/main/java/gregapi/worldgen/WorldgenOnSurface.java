@@ -29,7 +29,7 @@ import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -46,14 +46,14 @@ public abstract class WorldgenOnSurface extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		// How many times can we cast a ray downwards?
 		int aAmount = canGenerate(aWorld, aChunk, aDimType, aMinX, aMinZ, aMaxX, aMaxZ, aRandom, aBiomes, aBiomeNames);
 		if (aAmount <= 0) return F;
 		// Determine the Local Height from which to trace downwards.
 		int tMinHeight = Math.min(aWorld.getHeight()-2, WD.waterLevel(aWorld)-1)
 		,   tMaxHeight = Math.min(aWorld.getHeight()-1, aWorld.provider.hasNoSky ? 80 : tMinHeight * 2 + 16);
-		// Mark some Target Positions for this Chunk.
+		// Mark some Target Positions for this LevelChunk.
 		boolean tTargets[][] = new boolean[16][16], rResult = F;
 		for (int i = 0; i < aAmount; i++) tTargets[aRandom.nextInt(16)][aRandom.nextInt(16)] = T;
 		// Go over all Target Positions.
@@ -66,7 +66,7 @@ public abstract class WorldgenOnSurface extends WorldgenObject {
 				if (tContact == Blocks.farmland) break;
 				// Lets ignore all non-full Blocks and Trees on the way down, except Fluids.
 				if (!tContact.getMaterial().isLiquid()) if (!tContact.isOpaqueCube() || tContact.isWood(aWorld, tX, tY, tZ) || tContact.isLeaves(aWorld, tX, tY, tZ)) continue;
-				// Try to place the Stuff into the World.
+				// Try to place the Stuff into the Level.
 				rResult |= tryPlaceStuff(aWorld, tX, tY, tZ, aRandom, tContact);
 				// And on to the next Sky Ray Cast.
 				break;
@@ -75,7 +75,7 @@ public abstract class WorldgenOnSurface extends WorldgenObject {
 		return rResult;
 	}
 	
-	public int canGenerate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {return checkForMajorWorldgen(aWorld, aMinX, aMinZ, aMaxX, aMaxZ) ? 0 : mAmount;}
+	public int canGenerate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {return checkForMajorWorldgen(aWorld, aMinX, aMinZ, aMaxX, aMaxZ) ? 0 : mAmount;}
 	
-	public abstract boolean tryPlaceStuff(World aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact);
+	public abstract boolean tryPlaceStuff(Level aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact);
 }

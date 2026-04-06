@@ -28,12 +28,12 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.Level;
 // PHASE7: import ShapedOreRecipe removed — use datapack recipes
 // PHASE7: import ShapelessOreRecipe removed — use datapack recipes
@@ -151,8 +151,8 @@ public class AdvancedCraftingXToY implements ICraftingRecipeGT {
 						break;
 					}
 				}
-			} else if (tRecipe instanceof ShapedRecipes) {
-				ItemStack[] tInputs = ((ShapedRecipes)tRecipe).recipeItems;
+			} else if (tRecipe instanceof ShapedRecipe) {
+				ItemStack[] tInputs = ((ShapedRecipe)tRecipe).recipeItems;
 				
 				if (tInputs != null && tInputs.length >= mInputCount && (mInputCount == 9 || (mInputCount == 4 && tInputs.length == 9 && tInputs[2] == null && tInputs[5] == null && tInputs[6] == null && tInputs[7] == null && tInputs[8] == null))) for (ItemStack tObject : tInputs) if (tObject != null) {
 					if (++tCount > mInputCount) {
@@ -170,8 +170,8 @@ public class AdvancedCraftingXToY implements ICraftingRecipeGT {
 						break;
 					}
 				}
-			} else if (tRecipe instanceof ShapelessRecipes) {
-				List tInputs = ((ShapelessRecipes)tRecipe).recipeItems;
+			} else if (tRecipe instanceof ShapelessRecipe) {
+				List tInputs = ((ShapelessRecipe)tRecipe).recipeItems;
 				
 				if (tInputs != null && tInputs.size() == mInputCount) for (Object tObject : tInputs) if (tObject != null) {
 					tCount++;
@@ -204,7 +204,7 @@ public class AdvancedCraftingXToY implements ICraftingRecipeGT {
 	}
 	
 	@Override
-	public boolean matches(InventoryCrafting aGrid, World aWorld) {
+	public boolean matches(CraftingContainer aGrid, Level aWorld) {
 		if (mInputCount != 9) {
 			Container tContainer = (Container)UT.Reflection.getFieldContent(aGrid, "field_70465_c", F, F); if (tContainer == null) tContainer = (Container)UT.Reflection.getFieldContent(aGrid, "eventHandler", F, F);
 			if (tContainer != null && tContainer.getClass().getName().startsWith("thaumcraft")) return F;
@@ -231,7 +231,7 @@ public class AdvancedCraftingXToY implements ICraftingRecipeGT {
 	}
 	
 	@Override
-	public ItemStack getCraftingResult(InventoryCrafting aGrid) {
+	public ItemStack getCraftingResult(CraftingContainer aGrid) {
 		for (int i = 0, j = aGrid.getSizeInventory(); i < j; i++) {
 			OreDictItemData tData = OM.anydata(aGrid.getStackInSlot(i));
 			if (tData == null || tData.mMaterial == null || !mCondition.isTrue(tData.mMaterial.mMaterial)) continue;

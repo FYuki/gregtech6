@@ -35,7 +35,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.stats.AchievementList;
-import net.minecraftforge.event.world.BlockEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.List;
 

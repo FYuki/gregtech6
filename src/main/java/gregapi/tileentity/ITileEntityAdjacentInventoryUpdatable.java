@@ -19,7 +19,7 @@
 
 package gregapi.tileentity;
 
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 
 /**
  * @author Gregorius Techneticies
@@ -30,5 +30,5 @@ public interface ITileEntityAdjacentInventoryUpdatable extends ITileEntityUnload
 	 * 
 	 * This is only for important Inventory Updates, like when a Pipe has more free space than before.
 	 */
-	public void adjacentInventoryUpdated(byte aSide, IInventory aTileEntity);
+	public void adjacentInventoryUpdated(byte aSide, Container aTileEntity);
 }

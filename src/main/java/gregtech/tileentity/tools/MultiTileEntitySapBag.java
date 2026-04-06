@@ -43,7 +43,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
@@ -148,10 +148,10 @@ public class MultiTileEntitySapBag extends TileEntityBase09FacingSingle implemen
 		new Textures.BlockIcons.CustomIcon("machines/tools/sapbag/overlay_full/side"),
 	};
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return null;}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return null;}
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool() {
+	public AABB getSelectedBoundingBoxFromPool() {
 		switch(mFacing) {
 		case SIDE_Z_NEG: return box(PX_P[ 5], PX_P[ 0], PX_P[ 0], PX_N[ 5], PX_N[ 9], PX_N[10]);
 		case SIDE_Z_POS: return box(PX_P[ 5], PX_P[ 0], PX_P[10], PX_N[ 5], PX_N[ 9], PX_N[ 0]);

@@ -27,7 +27,7 @@ import gregapi.code.TagData;
 import gregapi.data.TD;
 import gregapi.item.IItemEnergy;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -36,9 +36,9 @@ public class EnergyStatDebug implements IItemEnergy {
 	
 	// Say yes to everything
 	@Override public boolean isEnergyType(TagData aEnergyType, ItemStack aStack, boolean aEmitting) {return T;}
-	@Override public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoInject) {return aAmount;}
-	@Override public long doEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoExtract) {return aAmount;}
-	@Override public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoUse) {return T;}
+	@Override public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoInject) {return aAmount;}
+	@Override public long doEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoExtract) {return aAmount;}
+	@Override public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoUse) {return T;}
 	@Override public ItemStack setEnergyStored(TagData aEnergyType, ItemStack aStack, long aAmount) {return aStack;}
 	@Override public long getEnergyStored(TagData aEnergyType, ItemStack aStack) {return 4000000000000000000L;}
 	@Override public long getEnergyCapacity(TagData aEnergyType, ItemStack aStack) {return 8000000000000000000L;}

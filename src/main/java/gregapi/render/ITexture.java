@@ -26,10 +26,10 @@ import org.lwjgl.opengl.GL11;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
+import gregapi.stubs.RenderBlocks;
+import gregapi.stubs.Tessellator;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -48,7 +48,7 @@ public interface ITexture {
 		public static boolean OPTIFINE_LOADED = F, GT_ALPHA_BLENDING = F, MC_ALPHA_BLENDING = F, IS_RENDERING_ALPHA = F;
 		public static float OFFSET_X_POS = 0.0F, OFFSET_X_NEG = 0.0F, OFFSET_Y_POS = 0.0F, OFFSET_Y_NEG = 0.0F, OFFSET_Z_POS = 0.0F, OFFSET_Z_NEG = 0.0F, OFFSET_DEFAULT = 0.0F, OFFSET_ADD = 0.0001F, OFFSET_BREAK = 0.0001F;
 		
-		public static void startRendering(RenderBlocks aRenderer, Block aBlock, IBlockAccess aWorld, int aX, int aY, int aZ) {
+		public static void startRendering(RenderBlocks aRenderer, Block aBlock, BlockGetter aWorld, int aX, int aY, int aZ) {
 			OFFSET_X_POS = OFFSET_X_NEG = OFFSET_Y_POS = OFFSET_Y_NEG = OFFSET_Z_POS = OFFSET_Z_NEG = aRenderer.hasOverrideBlockTexture()?OFFSET_BREAK:OFFSET_DEFAULT;
 			if (aWorld != null) {
 				if (aRenderer.hasOverrideBlockTexture()) {
@@ -67,7 +67,7 @@ public interface ITexture {
 			}
 		}
 		
-		public static void endRendering(RenderBlocks aRenderer, Block aBlock, IBlockAccess aWorld, int aX, int aY, int aZ) {
+		public static void endRendering(RenderBlocks aRenderer, Block aBlock, BlockGetter aWorld, int aX, int aY, int aZ) {
 			if (aWorld != null) {
 				if (IS_RENDERING_ALPHA) {
 					IS_RENDERING_ALPHA = F;

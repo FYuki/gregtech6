@@ -26,7 +26,7 @@ import gregapi.item.multiitem.MultiItemTool;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -53,7 +53,7 @@ public class AdvancedCraftingShapeless extends ShapelessOreRecipe implements ICr
 	}
 	
 	@Override
-	public boolean matches(InventoryCrafting aGrid, World aWorld) {
+	public boolean matches(CraftingContainer aGrid, Level aWorld) {
 		if (mKeepingNBT) {
 			ItemStack tStack = null, tMainInput = ((getInput().get(0) instanceof ItemStack) ? (ItemStack)getInput().get(0) : null);
 			for (int i = 0; i < aGrid.getSizeInventory(); i++) {
@@ -78,7 +78,7 @@ public class AdvancedCraftingShapeless extends ShapelessOreRecipe implements ICr
 	}
 	
 	@Override
-	public ItemStack getCraftingResult(InventoryCrafting aGrid) {
+	public ItemStack getCraftingResult(CraftingContainer aGrid) {
 		ItemStack rStack = super.getCraftingResult(aGrid);
 		if (rStack != null) {
 			// Update the Stack

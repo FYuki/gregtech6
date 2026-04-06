@@ -46,7 +46,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -104,7 +104,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		super.onPlaced(aStack, aPlayer, aMTEContainer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ);
 		if (isServerSide() && SIDES_BOTTOM_HORIZONTAL[mFacing]) {
 			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
@@ -116,7 +116,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (aTool.equals(TOOL_screwdriver)) {
 			if (aPlayer != null && aPlayer.isSneaking()) {
@@ -159,7 +159,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 					DelegatorTileEntity tDelegator = getAdjacentTileEntity(mFacing);
 					if (tDelegator.getBlock() instanceof BlockRailBase) {
 						List tList = worldObj.getEntitiesWithinAABBExcludingEntity(null, tDelegator.box(0, 0, 0, 1, 1, 1), IEntitySelector.selectInventories);
-						if (tList != null && !tList.isEmpty()) tDelegator = new DelegatorTileEntity<>((IInventory)tList.get(0), tDelegator);
+						if (tList != null && !tList.isEmpty()) tDelegator = new DelegatorTileEntity<>((Container)tList.get(0), tDelegator);
 					}
 					while (tMovedItems < mMode) {
 						mLock = T;
@@ -173,7 +173,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 				DelegatorTileEntity tDelegator = getAdjacentTileEntity(SIDE_TOP);
 				if (tDelegator.getBlock() instanceof BlockRailBase) {
 					List tList = worldObj.getEntitiesWithinAABBExcludingEntity(null, tDelegator.box(0, 0, 0, 1, 1, 1), IEntitySelector.selectInventories);
-					if (tList != null && !tList.isEmpty()) tDelegator = new DelegatorTileEntity<>((IInventory)tList.get(0), tDelegator);
+					if (tList != null && !tList.isEmpty()) tDelegator = new DelegatorTileEntity<>((Container)tList.get(0), tDelegator);
 				}
 				if (tDelegator.mTileEntity != null && !(tDelegator.mTileEntity instanceof MultiTileEntityAnvil)) {
 					tMovedItems += ST.move(tDelegator, delegator(SIDE_TOP));
@@ -231,7 +231,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 	@Override public int getInventoryStackLimitGUI(int aSlot) {return mMode;}
 	@Override public boolean canDrop(int aInventorySlot) {return T;}
 	
-	@Override public void adjacentInventoryUpdated(byte aSide, IInventory aTileEntity) {if (SIDES_TOP[aSide] || aSide == mFacing) if (mCheck < 0) mCheck = 0;}
+	@Override public void adjacentInventoryUpdated(byte aSide, Container aTileEntity) {if (SIDES_TOP[aSide] || aSide == mFacing) if (mCheck < 0) mCheck = 0;}
 	
 	@Override public byte getDefaultSide() {return SIDE_BOTTOM;}
 	@Override public boolean[] getValidSides() {return SIDES_VALID;}

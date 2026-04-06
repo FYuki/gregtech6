@@ -42,7 +42,7 @@ import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -51,7 +51,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.level.Level;
 // PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.Collection;
@@ -94,7 +94,7 @@ public class MultiTileEntityLargeBoiler extends TileEntityBase10MultiBlockBase i
 	}
 	
 	@Override
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {
 		int tX = getOffsetXN(mFacing), tY = yCoord, tZ = getOffsetZN(mFacing);
 		if (worldObj.blockExists(tX-1, tY, tZ-1) && worldObj.blockExists(tX+1, tY, tZ-1) && worldObj.blockExists(tX-1, tY, tZ+1) && worldObj.blockExists(tX+1, tY, tZ+1)) {
 			boolean tSuccess = T;
@@ -266,7 +266,7 @@ public class MultiTileEntityLargeBoiler extends TileEntityBase10MultiBlockBase i
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0) return rReturn;
 		
@@ -310,7 +310,7 @@ public class MultiTileEntityLargeBoiler extends TileEntityBase10MultiBlockBase i
 	}
 	
 	@Override
-	public boolean removedByPlayer(World aWorld, Player aPlayer, boolean aWillHarvest) {
+	public boolean removedByPlayer(Level aWorld, Player aPlayer, boolean aWillHarvest) {
 		if (isServerSide() && !UT.Entities.isCreative(aPlayer) && mBarometer > 4) explode(T);
 		return worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 	}

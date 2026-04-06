@@ -27,7 +27,7 @@ import gregapi.tileentity.multiblocks.ITileEntityMultiBlockController;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.tileentity.multiblocks.TileEntityBase11MultiBlockConverter;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -50,7 +50,7 @@ public class MultiTileEntityLargeDynamo extends TileEntityBase11MultiBlockConver
 	}
 	
 	@Override
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {
 		int
 		tMinX = xCoord-(SIDE_X_NEG==mFacing?0:SIDE_X_POS==mFacing?3:1),
 		tMinY = yCoord-(SIDE_Y_NEG==mFacing?0:SIDE_Y_POS==mFacing?3:1),

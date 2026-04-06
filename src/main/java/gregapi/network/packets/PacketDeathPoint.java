@@ -26,7 +26,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import gregapi.network.INetworkHandler;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -60,7 +60,7 @@ public class PacketDeathPoint extends PacketCoordinates {
 	}
 	
 	@Override
-	public void process(IBlockAccess aWorld, INetworkHandler aNetworkHandler) {
+	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler) {
 		LAST_DEATH_OF_THE_PLAYER = new BlockPos(mX, mY, mZ);
 	}
 }

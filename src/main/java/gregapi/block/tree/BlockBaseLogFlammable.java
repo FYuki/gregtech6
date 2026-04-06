@@ -35,7 +35,7 @@ public abstract class BlockBaseLogFlammable extends BlockBaseLog {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, aMaxMeta, aIcons);
 	}
 	
-	@Override public boolean isFireSource(World aWorld, int aX, int aY, int aZ, Direction aSide) {return F;}
+	@Override public boolean isFireSource(Level aWorld, int aX, int aY, int aZ, Direction aSide) {return F;}
 	@Override public int getFlammability(byte aMeta) {return 5;}
 	@Override public int getFireSpreadSpeed(byte aMeta) {return 5;}
 }

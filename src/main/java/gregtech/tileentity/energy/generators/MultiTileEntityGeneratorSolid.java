@@ -37,10 +37,10 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import java.util.Collection;
 import java.util.List;
@@ -217,7 +217,7 @@ public abstract class MultiTileEntityGeneratorSolid extends TileEntityBase09Faci
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0) return rReturn;
 		
@@ -256,7 +256,7 @@ public abstract class MultiTileEntityGeneratorSolid extends TileEntityBase09Faci
 	@Override public boolean[] getValidSides() {return mBurning ? SIDES_THIS[mFacing] : SIDES_HORIZONTAL;}
 	
 	@Override public void onEntityCollidedWithBlock(Entity aEntity) {if (mBurning) UT.Entities.applyHeatDamage(aEntity, Math.min(10.0F, mRate / 10.0F));}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(0, 0, 0, 1, 0.875, 1);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(0, 0, 0, 1, 0.875, 1);}
 	
 	// Inventory Stuff
 	private static final int[] ACCESSABLE_SLOTS = new int[] {0, 1};

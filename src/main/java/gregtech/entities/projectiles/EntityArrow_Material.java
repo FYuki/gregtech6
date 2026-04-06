@@ -47,8 +47,8 @@ import net.minecraft.util.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.WorldServer;
 import net.neoforged.neoforge.common.NeoForge;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
 import java.util.List;
 import java.util.UUID;
@@ -68,15 +68,15 @@ public class EntityArrow_Material extends EntityProjectile {
 	
 	private ItemStack mArrow = null;
 	
-	public EntityArrow_Material(World aWorld) {
+	public EntityArrow_Material(Level aWorld) {
 		super(aWorld);
 	}
 	
-	public EntityArrow_Material(World aWorld, double aX, double aY, double aZ) {
+	public EntityArrow_Material(Level aWorld, double aX, double aY, double aZ) {
 		super(aWorld, aX, aY, aZ);
 	}
 	
-	public EntityArrow_Material(World aWorld, LivingEntity aEntity, float aSpeed) {
+	public EntityArrow_Material(Level aWorld, LivingEntity aEntity, float aSpeed) {
 		super(aWorld, aEntity, aSpeed);
 	}
 	
@@ -100,7 +100,7 @@ public class EntityArrow_Material extends EntityProjectile {
 		Entity tShootingEntity = shootingEntity;
 		
 		if (prevRotationPitch == 0.0F && prevRotationYaw == 0.0F) {
-			float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+			float f = Mth.sqrt_double(motionX * motionX + motionZ * motionZ);
 			prevRotationYaw = rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
 			prevRotationPitch = rotationPitch = (float)(Math.atan2(motionY, f) * 180.0D / Math.PI);
 		}
@@ -111,7 +111,7 @@ public class EntityArrow_Material extends EntityProjectile {
 		
 		if (tBlock.getMaterial() != Material.air) {
 			tBlock.setBlockBoundsBasedOnState(worldObj, mHitBlockX, mHitBlockY, mHitBlockZ);
-			AxisAlignedBB axisalignedbb = tBlock.getCollisionBoundingBoxFromPool(worldObj, mHitBlockX, mHitBlockY, mHitBlockZ);
+			AABB axisalignedbb = tBlock.getCollisionBoundingBoxFromPool(worldObj, mHitBlockX, mHitBlockY, mHitBlockZ);
 			if (axisalignedbb != null && axisalignedbb.isVecInside(Vec3.createVectorHelper(posX, posY, posZ))) inGround = T;
 		}
 		
@@ -131,7 +131,7 @@ public class EntityArrow_Material extends EntityProjectile {
 			ticksInAir++;
 			Vec3 vec31 = Vec3.createVectorHelper(posX, posY, posZ);
 			Vec3 vec3 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-			MovingObjectPosition tVector = worldObj.func_147447_a(vec31, vec3, F, T, F);
+			HitResult tVector = worldObj.func_147447_a(vec31, vec3, F, T, F);
 			vec31 = Vec3.createVectorHelper(posX, posY, posZ);
 			vec3 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
 			
@@ -146,8 +146,8 @@ public class EntityArrow_Material extends EntityProjectile {
 				Entity entity1 = (Entity)tAllPotentiallyHitEntities.get(i);
 				
 				if (entity1.canBeCollidedWith() && (entity1 != tShootingEntity || ticksInAir >= 5)) {
-					AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(0.3, 0.3, 0.3);
-					MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
+					AABB axisalignedbb1 = entity1.boundingBox.expand(0.3, 0.3, 0.3);
+					HitResult movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
 					
 					if (movingobjectposition1 != null) {
 						double tDistance = vec31.distanceTo(movingobjectposition1.hitVec);
@@ -160,7 +160,7 @@ public class EntityArrow_Material extends EntityProjectile {
 				}
 			}
 			
-			if (tHitEntity != null) tVector = new MovingObjectPosition(tHitEntity);
+			if (tHitEntity != null) tVector = new HitResult(tHitEntity);
 			
 			if (tVector != null && tHitEntity != null && tHitEntity instanceof Player) {
 				if (((Player)tHitEntity).capabilities.disableDamage || (tShootingEntity instanceof Player && !((Player)tShootingEntity).canAttackPlayer((Player)tHitEntity))) tVector = null;
@@ -175,7 +175,7 @@ public class EntityArrow_Material extends EntityProjectile {
 					
 					float
 					tMagicDamage = tHitEntity instanceof LivingEntity?EnchantmentHelper.func_152377_a(mArrow, ((LivingEntity)tHitEntity).getCreatureAttribute()):0,
-					tDamage = UT.Code.roundUp(MathHelper.sqrt_double(motionX*motionX + motionY*motionY + motionZ*motionZ) * (getDamage() + Math.max(0, tData != null && tData.validMaterial() ? tData.mMaterial.mMaterial.mToolQuality-1 : 0)));
+					tDamage = UT.Code.roundUp(Mth.sqrt_double(motionX*motionX + motionY*motionY + motionZ*motionZ) * (getDamage() + Math.max(0, tData != null && tData.validMaterial() ? tData.mMaterial.mMaterial.mToolQuality-1 : 0)));
 					
 					if (getIsCritical()) tDamage += rand.nextInt((int)(tDamage / 2.0 + 2.0));
 					
@@ -226,7 +226,7 @@ public class EntityArrow_Material extends EntityProjectile {
 								if (!worldObj.isRemote) tHitLivingEntity.setArrowCountInEntity(tHitLivingEntity.getArrowCountInEntity() + 1);
 								
 								if (tKnockback > 0) {
-									float tKnockbackDivider = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+									float tKnockbackDivider = Mth.sqrt_double(motionX * motionX + motionZ * motionZ);
 									if (tKnockbackDivider > 0.0F) tHitLivingEntity.addVelocity(motionX * tKnockback * 0.6000000238418579D / tKnockbackDivider, 0.1D, motionZ * tKnockback * 0.6000000238418579D / tKnockbackDivider);
 								}
 								
@@ -263,7 +263,7 @@ public class EntityArrow_Material extends EntityProjectile {
 					motionX = ((float)(tVector.hitVec.xCoord - posX));
 					motionY = ((float)(tVector.hitVec.yCoord - posY));
 					motionZ = ((float)(tVector.hitVec.zCoord - posZ));
-					float f2 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+					float f2 = Mth.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
 					posX -= motionX / f2 * 0.05000000074505806D;
 					posY -= motionY / f2 * 0.05000000074505806D;
 					posZ -= motionZ / f2 * 0.05000000074505806D;
@@ -286,7 +286,7 @@ public class EntityArrow_Material extends EntityProjectile {
 			
 			rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
 			
-			for (rotationPitch = (float)(Math.atan2(motionY, MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ)) * 180.0D / Math.PI); rotationPitch - prevRotationPitch < -180.0F; prevRotationPitch -= 360.0F) {/**/}
+			for (rotationPitch = (float)(Math.atan2(motionY, Mth.sqrt_double(motionX * motionX + motionZ * motionZ)) * 180.0D / Math.PI); rotationPitch - prevRotationPitch < -180.0F; prevRotationPitch -= 360.0F) {/**/}
 			
 			while (rotationPitch    - prevRotationPitch >= 180.0F) prevRotationPitch += 360.0F;
 			while (rotationYaw      - prevRotationYaw   < -180.0F) prevRotationYaw -= 360.0F;

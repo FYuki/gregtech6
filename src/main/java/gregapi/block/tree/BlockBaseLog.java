@@ -38,7 +38,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.item.ItemStack;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
 
@@ -63,18 +63,18 @@ public abstract class BlockBaseLog extends BlockBaseTree {
 	
 	@Override public String getHarvestTool(int aMeta) {return TOOL_axe;}
 	@Override public int damageDropped(int aMeta) {return aMeta & PILLAR_DATA;}
-	@Override public int getDamageValue(World aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ) & PILLAR_DATA;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.OAK_LOG.getBlockHardness(aWorld, aX, aY, aZ);}
+	@Override public int getDamageValue(Level aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ) & PILLAR_DATA;}
+	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return Blocks.OAK_LOG.getBlockHardness(aWorld, aX, aY, aZ);}
 	@Override public float getExplosionResistance(byte aMeta) {return Blocks.OAK_LOG.getExplosionResistance(null);}
 	@Override public int getItemStackLimit(ItemStack aStack) {return UT.Code.bindStack(OP.log.mDefaultStackSize);}
 	@Override public int getRenderType() {return PILLAR_RENDER;}
 	@Override public boolean doesPistonPush(byte aMeta) {return T;}
 	@Override public boolean isSealable(byte aMeta, byte aSide) {return F;}
-	@Override public boolean isFireSource(World aWorld, int aX, int aY, int aZ, Direction aSide) {return F;}
+	@Override public boolean isFireSource(Level aWorld, int aX, int aY, int aZ, Direction aSide) {return F;}
 	@Override public int getFlammability(byte aMeta) {return 0;}
 	@Override public int getFireSpreadSpeed(byte aMeta) {return 0;}
-	@Override public int onBlockPlaced(World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ, int aMeta) {return PILLAR_DATA_SIDE[aMeta][aSide];}
+	@Override public int onBlockPlaced(Level aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ, int aMeta) {return PILLAR_DATA_SIDE[aMeta][aSide];}
 	@Override public IIcon getIcon(int aSide, int aMeta) {return mIcons[2*(aMeta&PILLAR_DATA)+(PILLAR_TO_AXIS[aMeta][aSide]?0:1)].getIcon(0);}
-	@Override public boolean isWood(IBlockAccess aWorld, int aX, int aY, int aZ) {return T;}
-	@SuppressWarnings("unchecked") @Override public void getSubBlocks(Item aItem, CreativeTabs aTab, @SuppressWarnings("rawtypes") List aList) {for (int i = 0; i < maxMeta(); i++) {aList.add(ST.make(aItem, 1, i)); aList.add(ST.make(aItem, 1, i|12));}}
+	@Override public boolean isWood(BlockGetter aWorld, int aX, int aY, int aZ) {return T;}
+	@SuppressWarnings("unchecked") @Override public void getSubBlocks(Item aItem, CreativeModeTab aTab, @SuppressWarnings("rawtypes") List aList) {for (int i = 0; i < maxMeta(); i++) {aList.add(ST.make(aItem, 1, i)); aList.add(ST.make(aItem, 1, i|12));}}
 }

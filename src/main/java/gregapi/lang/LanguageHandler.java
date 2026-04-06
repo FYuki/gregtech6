@@ -19,7 +19,7 @@
 
 package gregapi.lang;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import gregapi.stubs.LanguageRegistry;
 import gregapi.data.ANY;
 import gregapi.data.MT;
 import gregapi.data.OP;
@@ -32,7 +32,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StatCollector;
 // PHASE3: Configuration removed — use NeoForge ModConfigSpec or file-based config
-import net.minecraftforge.common.config.Property;
+import gregapi.stubs.Property;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -510,7 +510,7 @@ public class LanguageHandler {
 		} else
 		if (aMaterial == MT.Lignite || aMaterial == MT.LigniteCoke || aMaterial == MT.Charcoal || aMaterial == MT.Coal || aMaterial == MT.CoalCoke || aMaterial == MT.Anthracite || aMaterial == MT.Prismane || aMaterial == MT.Lonsdaleite || aMaterial == MT.PetCoke || aMaterial == MT.HydratedCoal) {
 			if (aPrefix.mNameInternal.startsWith("ingot"))                          return aPrefix.mMaterialPre + aMaterial.mNameLocal + " Brick";
-			if (aPrefix == OP.chunkGt)                                              return aPrefix.mMaterialPre + aMaterial.mNameLocal + " Chunk";
+			if (aPrefix == OP.chunkGt)                                              return aPrefix.mMaterialPre + aMaterial.mNameLocal + " LevelChunk";
 			if (aPrefix == OP.nugget)                                               return aPrefix.mMaterialPre + aMaterial.mNameLocal + " Pellet";
 		} else
 		if (aMaterial == MT.Sugar) {

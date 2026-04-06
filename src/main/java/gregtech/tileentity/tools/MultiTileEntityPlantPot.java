@@ -35,7 +35,7 @@ import gregapi.render.ITexture;
 import gregapi.tileentity.base.TileEntityBase07Paintable;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.IPlantable;
 
 /**
  * @author Gregorius Techneticies

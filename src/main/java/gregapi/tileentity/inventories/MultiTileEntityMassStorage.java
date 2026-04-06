@@ -19,7 +19,7 @@
 
 package gregapi.tileentity.inventories;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
+import gregapi.stubs.ClientRegistry;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity.IMTE_GetMaxStackSize;
@@ -51,12 +51,12 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.Explosion;
-import net.minecraftforge.client.ForgeHooksClient;
+import gregapi.stubs.ForgeHooksClient;
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 
 import java.util.List;
@@ -120,7 +120,7 @@ public abstract class MultiTileEntityMassStorage extends TileEntityBase09FacingS
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0) return rReturn;
 		if (isClientSide()) return 0;
@@ -426,7 +426,7 @@ public abstract class MultiTileEntityMassStorage extends TileEntityBase09FacingS
 	}
 	
 	public void emitOverflow() {
-		DelegatorTileEntity<IInventory> tTileEntity = getAdjacentInventory(SIDE_BOTTOM);
+		DelegatorTileEntity<Container> tTileEntity = getAdjacentInventory(SIDE_BOTTOM);
 		while (slotHas(1) && slot(1).stackSize > mMaxStorage) {
 			int tToBeMoved = UT.Code.bindStack(slot(1).stackSize - mMaxStorage);
 			if (ST.move(delegator(SIDE_BOTTOM), tTileEntity, null, F, F, F, T, tToBeMoved, 1, tToBeMoved, 1) <= 0) break;
@@ -548,7 +548,7 @@ public abstract class MultiTileEntityMassStorage extends TileEntityBase09FacingS
 	@Override public boolean canInsertItem2(int aSlot, ItemStack aStack, byte aSide) {return aSlot == 0 && (mMode & B[3]) == 0 && (!SIDES_BOTTOM[aSide] || (mMode & B[0]) == 0) && (!slotHas(1) || (slot(1).stackSize < getMaxContent() && allowInsertion(aStack)));}
 	@Override public boolean canExtractItem2(int aSlot, ItemStack aStack, byte aSide) {return aSlot == 0 || (slotHas(1) && slot(1).stackSize > 0 && (mMode & B[3]) == 0);}
 	@Override public boolean allowZeroStacks(int aSlot) {return aSlot == 1 && ((mMode & B[1]) == 0 || mPartialUnits > 0);}
-	@Override public void adjacentInventoryUpdated(byte aSide, IInventory aTileEntity) {if (SIDES_BOTTOM[aSide]) updateInventory();}
+	@Override public void adjacentInventoryUpdated(byte aSide, Container aTileEntity) {if (SIDES_BOTTOM[aSide]) updateInventory();}
 	@Override public long getAmountOfItemsInConnectedInventory(byte aSide, ItemStack aStack, long aStopCountingAtThisNumber) {return slotHas(1) && ST.equal(slot(1), aStack) ? slot(1).stackSize : 0;}
 	@Override public long getProgressValue(byte aSide) {return slotHas(1) ? slot(1).stackSize : 0;}
 	@Override public long getProgressMax(byte aSide) {return mMaxStorage;}

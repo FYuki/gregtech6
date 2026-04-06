@@ -91,8 +91,8 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.world.entity.player.Player;
@@ -101,36 +101,35 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.network.chat.Component;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.level.Level;
 // PHASE3: import WorldSettings removed
 import net.minecraft.world.level.chunk.LevelChunk;
 // PHASE3: import IChunkProvider removed
-import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.DimensionManager;
+import gregapi.stubs.ChestGenHooks;
+import gregapi.stubs.DimensionManager;
 import net.neoforged.neoforge.common.NeoForge;
-import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.item.ItemExpireEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.entity.player.*;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.event.world.ChunkWatchEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.neoforged.neoforge.event.entity.EntityEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import gregapi.stubs.ItemExpireEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.ChunkWatchEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import gregapi.stubs.IFluidContainerItem;
 // PHASE7: import ShapedOreRecipe removed — use datapack recipes
 // PHASE7: import ShapelessOreRecipe removed — use datapack recipes
 import thaumcraft.common.entities.monster.EntityBrainyZombie;
@@ -163,18 +162,18 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		return null;
 	}
 	
-	public boolean sendUseItemPacket(Player aPlayer, World aWorld, ItemStack aStack) {
+	public boolean sendUseItemPacket(Player aPlayer, Level aWorld, ItemStack aStack) {
 		return F;
 	}
 	
 	@Override
-	public Object getServerGuiElement(int aGUIID, Player aPlayer, World aWorld, int aX, int aY, int aZ) {
+	public Object getServerGuiElement(int aGUIID, Player aPlayer, Level aWorld, int aX, int aY, int aZ) {
 		TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		return tTileEntity instanceof ITileEntityGUI ? ((ITileEntityGUI)tTileEntity).getGUIServer(aGUIID, aPlayer) : null;
 	}
 	
 	@Override
-	public Object getClientGuiElement(int aGUIID, Player aPlayer, World aWorld, int aX, int aY, int aZ) {
+	public Object getClientGuiElement(int aGUIID, Player aPlayer, Level aWorld, int aX, int aY, int aZ) {
 		TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		return tTileEntity instanceof ITileEntityGUI ? ((ITileEntityGUI)tTileEntity).getGUIClient(aGUIID, aPlayer) : null;
 	}
@@ -186,12 +185,12 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	 */
 	public boolean checkSaveLocation(File aSaveLocation, boolean aForceSave) {
 		boolean tSave = (aForceSave || aSaveLocation == null), tLoad = (mSaveLocation == null);
-		// Did Save Files swap secretly? Can happen in Singleplayer with the popular Forge Monopoly Bug: "Go directly to the Main Menu. Do not enter your World. Do not collect 200 Blocks."
+		// Did Save Files swap secretly? Can happen in Singleplayer with the popular Forge Monopoly Bug: "Go directly to the Main Menu. Do not enter your Level. Do not collect 200 Blocks."
 		if (CODE_CLIENT && aSaveLocation != null && !aSaveLocation.equals(mSaveLocation)) tSave = tLoad = T;
 		
 		if (tSave && mSaveLocation != null) {
 			// Only print this if it is not the minutely Autosave.
-			if (aSaveLocation == null) OUT.println("Saving  World! " + mSaveLocation.getName());// else DEB.println("Autosave!      " + mSaveLocation.getName());
+			if (aSaveLocation == null) OUT.println("Saving  Level! " + mSaveLocation.getName());// else DEB.println("Autosave!      " + mSaveLocation.getName());
 			// Make the Folder to drop the Save Files into.
 			new File(mSaveLocation, "gregtech").mkdirs();
 			// Call the Save Function in all the things that need it.
@@ -200,7 +199,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		}
 		mSaveLocation = aSaveLocation;
 		if (tLoad && mSaveLocation != null) {
-			OUT.println("Loading World! " + mSaveLocation.getName());
+			OUT.println("Loading Level! " + mSaveLocation.getName());
 			// Make the Folder to uhh wait why is that needed? Probably helps preventing Issues though, so why not.
 			new File(mSaveLocation, "gregtech").mkdirs();
 			// Call the Load Function in all the things that need it.
@@ -609,8 +608,8 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 				if (aEntity == null || aEntity.isDead) continue;
 				if (aEntity instanceof EntityXPOrb) {
 					if (tOrbs != null) tOrbs.add((EntityXPOrb)aEntity);
-				} else if (aEntity instanceof EntityItem) {
-					ItemStack aStack = ((EntityItem)aEntity).getEntityItem();
+				} else if (aEntity instanceof ItemEntity) {
+					ItemStack aStack = ((ItemEntity)aEntity).getEntityItem();
 					if (ST.valid(aStack)) {
 						ItemStack rStack = ST.copy(aStack);
 						boolean tBreak = F, tFireProof = F;
@@ -624,30 +623,30 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						OreDictItemData aData = OM.anydata_(rStack);
 						if (aData != null) {
 							if (aData.validPrefix()) for (IOreDictListenerItem tListener : aData.mPrefix.mListenersItem) {
-								rStack = tListener.onTickWorld(aData.mPrefix, aData.mMaterial.mMaterial, rStack, (EntityItem)aEntity);
+								rStack = tListener.onTickWorld(aData.mPrefix, aData.mMaterial.mMaterial, rStack, (ItemEntity)aEntity);
 								if (!ST.equal(rStack, aStack) || rStack.stackSize != aStack.stackSize) {tBreak = T; break;}
 							}
 							if (!tBreak && aData.validMaterial()) for (OreDictMaterialStack tMaterial : aData.getAllMaterialStacks()) {
 								if (tBreak) break;
 								if (tMaterial.mMaterial.contains(TD.Properties.UNBURNABLE)) tFireProof = T;
 								for (IOreDictListenerItem tListener : tMaterial.mMaterial.mListenersItem) {
-									rStack = tListener.onTickWorld(aData.mPrefix, tMaterial.mMaterial, rStack, (EntityItem)aEntity);
+									rStack = tListener.onTickWorld(aData.mPrefix, tMaterial.mMaterial, rStack, (ItemEntity)aEntity);
 									if (!ST.equal(rStack, aStack) || rStack.stackSize != aStack.stackSize) {tBreak = T; break;}
 								}
 							}
 						}
 						
 						if (rStack == null || rStack.stackSize <= 0) {
-							((EntityItem)aEntity).setEntityItemStack(NI);
-							((EntityItem)aEntity).setDead();
+							((ItemEntity)aEntity).setEntityItemStack(NI);
+							((ItemEntity)aEntity).setDead();
 						} else if (!ST.equal(rStack, aStack) || rStack.stackSize != aStack.stackSize) {
-							((EntityItem)aEntity).setEntityItemStack(rStack);
-							((EntityItem)aEntity).delayBeforeCanPickup = 40;
+							((ItemEntity)aEntity).setEntityItemStack(rStack);
+							((ItemEntity)aEntity).delayBeforeCanPickup = 40;
 						}
 						
 						if (!aEntity.isDead && aEntity.isBurning() && (tBreak || (tFireProof && !MD.MC.owns(rStack)))) {
-							UT.Reflection.setField(EntityItem.class, aEntity, "health", 250, F);
-							UT.Reflection.setField(EntityItem.class, aEntity, "field_70291_e", 250, F);
+							UT.Reflection.setField(ItemEntity.class, aEntity, "health", 250, F);
+							UT.Reflection.setField(ItemEntity.class, aEntity, "field_70291_e", 250, F);
 							aEntity.extinguish();
 						}
 					}
@@ -746,7 +745,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						}
 					}
 					DEB.println("====01====");
-					DEB.println("List Changed: " + mMobsToFastDespawn.removeAll(aEvent.player.worldObj.getEntitiesWithinAABBExcludingEntity(aEvent.player, AxisAlignedBB.getBoundingBox(aEvent.player.posX-32, aEvent.player.posY-32, aEvent.player.posZ-32, aEvent.player.posX+32, aEvent.player.posY+32, aEvent.player.posZ+32))));
+					DEB.println("List Changed: " + mMobsToFastDespawn.removeAll(aEvent.player.worldObj.getEntitiesWithinAABBExcludingEntity(aEvent.player, AABB.getBoundingBox(aEvent.player.posX-32, aEvent.player.posY-32, aEvent.player.posZ-32, aEvent.player.posX+32, aEvent.player.posY+32, aEvent.player.posZ+32))));
 					DEB.println("====02====");
 					tIterator = mMobsToFastDespawn.iterator();
 					while (tIterator.hasNext()) {
@@ -852,43 +851,43 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 								if (tPlayer == null) continue;
 								if ("Bear989Sr".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									if (tPlayer.posY < 30) {
-										UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Stop making Holes in the Ground, Bear!"));
+										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Stop making Holes in the Ground, Bear!"));
 									} else {
 										// Bear does not like being called these names, so lets annoy him. XD
 										switch(tEmptySlots) {
-										case 0: UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Alright Buttercup, your Inventory is full, time to go home.")); break;
-										case 1: UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Your Inventory is starting to get full, Buttercup")); break;
-										case 2: UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Your Inventory is starting to get full, Bean989Sr")); break;
-										case 3: UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Your Inventory is starting to get full, Mr. Bear")); break;
+										case 0: UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Alright Buttercup, your Inventory is full, time to go home.")); break;
+										case 1: UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Your Inventory is starting to get full, Buttercup")); break;
+										case 2: UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Your Inventory is starting to get full, Bean989Sr")); break;
+										case 3: UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Your Inventory is starting to get full, Mr. Bear")); break;
 										}
 									}
 								} else if ("Bear989jr".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									ST.give(tPlayer, UT.NBT.addEnchantment(ST.make(Items.cookie, 1, 0, "Jr. Cookie"), Enchantment_WerewolfDamage.INSTANCE, 1), F);
-									UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Have a Jr. Cookie. Please tell Fatass to clean his Inventory, or smack him with it."));
+									UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Have a Jr. Cookie. Please tell Fatass to clean his Inventory, or smack him with it."));
 								} else if ("CrazyJ1984".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									ItemStack tArrow = ST.update(OP.arrowGtWood.mat(MT.Craponite, 1), aEvent.player);
 									if (ST.valid(tArrow)) {
 										ST.give(tPlayer, tArrow, F);
-										UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "I'm not trying to tell you what to do, but please don't hurt Bear with this."));
+										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "I'm not trying to tell you what to do, but please don't hurt Bear with this."));
 									} else {
-										UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "I'm not trying to tell you what to do, but please don't hurt Bear."));
+										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "I'm not trying to tell you what to do, but please don't hurt Bear."));
 									}
 								} else if ("TooShyShy78".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									ItemStack tArrow = ST.update(OP.arrowGtWood.mat(MT.Craponite, 1), aEvent.player);
 									if (ST.valid(tArrow)) {
 										ST.give(tPlayer, tArrow, F);
-										UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "People around Bear always seem to suffer a severe case of Craponite Arrow in Inventory, I don't know why."));
+										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "People around Bear always seem to suffer a severe case of Craponite Arrow in Inventory, I don't know why."));
 									} else {
-										UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Aaaaand Bears Inventory is full again isn't it..."));
+										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Aaaaand Bears Inventory is full again isn't it..."));
 									}
 								} else if ("Ilirith".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
-									UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Could you tell Bear989Sr very gently, that his Inventory is a fucking mess again?"));
+									UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Could you tell Bear989Sr very gently, that his Inventory is a fucking mess again?"));
 								} else if ("Shadowkn1ght18".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
-									UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "Here is your special Message to make you tell Bear989Sr to clean his Inventory."));
+									UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Here is your special Message to make you tell Bear989Sr to clean his Inventory."));
 								} else if ("e99999".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
-									UT.Entities.chat(tPlayer, new ChatComponentText(LH.Chat.DGRAY + "You get the sneaking suspicion that Bears Inventory may or may not be full right now."));
+									UT.Entities.chat(tPlayer, new Component(LH.Chat.DGRAY + "You get the sneaking suspicion that Bears Inventory may or may not be full right now."));
 								} else {
-									UT.Entities.chat(tPlayer, new ChatComponentText(CHAT_GREG + "There is this fella called Bear-Nine-Eight-Nine, needing be reminded of his Inventory being a major Pine."));
+									UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "There is this fella called Bear-Nine-Eight-Nine, needing be reminded of his Inventory being a major Pine."));
 								}
 							}
 						}
@@ -917,7 +916,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
 	public void onChunkWatchEvent(ChunkWatchEvent.Watch aEvent) {
-		Chunk tChunk = aEvent.player.worldObj.getChunkFromChunkCoords(aEvent.chunk.chunkXPos, aEvent.chunk.chunkZPos);
+		LevelChunk tChunk = aEvent.player.worldObj.getChunkFromChunkCoords(aEvent.chunk.chunkXPos, aEvent.chunk.chunkZPos);
 		if (tChunk != null && tChunk.isTerrainPopulated) {
 			byte tIterations = 8;
 			HashSetNoNulls<Object> tSet = new HashSetNoNulls<>();
@@ -1026,7 +1025,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		
 		PLAYER_LAST_CLICKED.put(aEvent.entityPlayer, new BlockPos(aEvent.x, aEvent.y, aEvent.z));
 		
-		// If a Player rightclicks something, then that Chunk gotta be marked as modified, even if nothing happens.
+		// If a Player rightclicks something, then that LevelChunk gotta be marked as modified, even if nothing happens.
 		// There has been plenty of Bugs in various Mods, because of forgetting to mark things.
 		WD.mark(aEvent.world, aEvent.x, aEvent.z);
 		
@@ -1343,7 +1342,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						ItemStack aDrop = aDrops.next();
 						if (ST.valid(aDrop)) {
 							aDrop = ST.update(aDrop, aEvent.world, aEvent.x, aEvent.y, aEvent.z);
-							EntityItem tEntity = ST.entity(aEvent.harvester, aDrop);
+							ItemEntity tEntity = ST.entity(aEvent.harvester, aDrop);
 							if (tEntity != null) {
 								tEntity.isDead = F;
 								EntityItemPickupEvent tEvent = new EntityItemPickupEvent(aEvent.harvester, tEntity);
@@ -1371,8 +1370,8 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntitySpawningEvent(EntityJoinWorldEvent aEvent) {
-		if (aEvent.entity instanceof EntityItem && !aEvent.entity.worldObj.isRemote) {
-			ItemStack aStack = ST.update(OM.get(((EntityItem)aEvent.entity).getEntityItem()), aEvent.entity);
+		if (aEvent.entity instanceof ItemEntity && !aEvent.entity.worldObj.isRemote) {
+			ItemStack aStack = ST.update(OM.get(((ItemEntity)aEvent.entity).getEntityItem()), aEvent.entity);
 			if (ST.valid(aStack) && aStack.stackSize > 0) {
 				Item aItem = ST.item_(aStack);
 				if (ST.meta_(aStack) == W || aItem == Items.gold_nugget) ST.meta(aStack, 0);
@@ -1387,17 +1386,17 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 					}
 				}} catch(Throwable e) {/** Do Nothing */}
 				// Life Span Stuff
-				if (((EntityItem)aEvent.entity).lifespan > 1200) {
+				if (((ItemEntity)aEvent.entity).lifespan > 1200) {
 					if (ST.item_(aStack) == Items.egg || ST.item_(aStack) == Items.feather || ST.item_(aStack) == Items.apple) {
-						((EntityItem)aEvent.entity).lifespan = 1200;
+						((ItemEntity)aEvent.entity).lifespan = 1200;
 					} else {
-						if (((EntityItem)aEvent.entity).lifespan == 6000) {
-							((EntityItem)aEvent.entity).lifespan = ITEM_DESPAWN_TIME;
+						if (((ItemEntity)aEvent.entity).lifespan == 6000) {
+							((ItemEntity)aEvent.entity).lifespan = ITEM_DESPAWN_TIME;
 						}
 					}
 				}
 				// Result was valid so set the ItemStack.
-				((EntityItem)aEvent.entity).setEntityItemStack(aStack);
+				((ItemEntity)aEvent.entity).setEntityItemStack(aStack);
 			} else {
 				// Result was invalid therefore kill the Stack.
 				aEvent.entity.setDead();
@@ -1426,7 +1425,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@Override
-	public void generate(Random aRandom, int aChunkX, int aChunkZ, World aWorld, IChunkProvider aChunkGenerator, IChunkProvider aChunkProvider) {
+	public void generate(Random aRandom, int aChunkX, int aChunkZ, Level aWorld, IChunkProvider aChunkGenerator, IChunkProvider aChunkProvider) {
 		GT6WorldGenerator.generate(aWorld, aChunkX << 4, aChunkZ << 4, F);
 	}
 	/*
@@ -1479,16 +1478,16 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onCheckSpawnEvent(LivingSpawnEvent.CheckSpawn aEvent) {
+	public void onCheckSpawnEvent(MobSpawnEvent.CheckSpawn aEvent) {
 		if (aEvent.getResult() == Result.DENY) return;
 		Class<? extends LivingEntity> aMobClass = aEvent.entityLiving.getClass();
-		World aWorld = aEvent.world;
+		Level aWorld = aEvent.world;
 		int aX = UT.Code.roundDown(aEvent.x), aY = (int)UT.Code.bind(0, aWorld.getHeight(), UT.Code.roundDown(aEvent.y)), aZ = UT.Code.roundDown(aEvent.z);
 		
 		if (SPAWN_NO_BATS && aMobClass == EntityBat.class && aWorld.getBlock(aX, aY-2, aZ) != Blocks.STONE && aWorld.getBlock(aX, aY+2, aZ) != Blocks.STONE) {aEvent.setResult(Result.DENY); return;}
 		
 		if (SPAWN_HOSTILES_ONLY_IN_DARKNESS && WD.dimOverworldLike(aWorld)) try {
-			Chunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
+			LevelChunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
 			if (tChunk != null && tChunk.getBlockStorageArray() != null && tChunk.getBlockStorageArray()[aY >> 4] != null && tChunk.getBlockStorageArray()[aY >> 4].getExtBlocklightValue(aX & 15, aY & 15, aZ & 15) > 0) {
 				// Vanilla Mobs only, just in case.
 				if (aMobClass == EntityCreeper.class || aMobClass == EntityEnderman.class || aMobClass == EntitySkeleton.class || aMobClass == EntityZombie.class || aMobClass == EntitySpider.class || aMobClass == EntityWitch.class || aMobClass == EntityBat.class) {aEvent.setResult(Result.DENY); return;}

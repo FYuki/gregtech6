@@ -79,7 +79,7 @@ public class Behavior_Lighter extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aWorld.isRemote || (aStack.stackSize != 1 && (mFuelAmount != 1 || mEmptyLighter != null))) return F;
 		
 		prepare(aStack);

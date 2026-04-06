@@ -46,7 +46,7 @@ public class Behavior_Plunger_Essentia extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote) return F;
 		TileEntity aTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		if (aTileEntity instanceof IEssentiaTransport) {

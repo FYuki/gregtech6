@@ -45,7 +45,7 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 
@@ -134,7 +134,7 @@ public class MultiTileEntityDustFunnel extends TileEntityBase07Paintable impleme
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (aTool.equals(TOOL_pincers)) {
 			ST.drop(worldObj, getCoords(), OM.dust(mContent));
@@ -258,7 +258,7 @@ public class MultiTileEntityDustFunnel extends TileEntityBase07Paintable impleme
 	@Override public boolean allowCovers            (byte aSide) {return SIDES_TOP[aSide];}
 	
 	// Inventory Stuff
-	@Override public void adjacentInventoryUpdated(byte aSide, IInventory aTileEntity) {if (SIDES_VERTICAL[aSide]) updateInventory();}
+	@Override public void adjacentInventoryUpdated(byte aSide, Container aTileEntity) {if (SIDES_VERTICAL[aSide]) updateInventory();}
 	@Override public ItemStack[] getDefaultInventory(CompoundTag aNBT) {return new ItemStack[2];}
 	@Override public boolean canDrop(int aInventorySlot) {return T;}
 	@Override public int getInventoryStackLimit() {return 64;}

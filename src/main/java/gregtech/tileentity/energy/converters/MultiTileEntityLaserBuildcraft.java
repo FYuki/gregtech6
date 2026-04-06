@@ -44,7 +44,7 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 public class MultiTileEntityLaserBuildcraft extends TileEntityBase10EnergyConverter implements ITileEntityAdjacentOnOff, ITileEntityEnergyElectricityAcceptor, IMTE_SetBlockBoundsBasedOnState, IMTE_GetCollisionBoundingBoxFromPool, IMTE_GetSelectedBoundingBoxFromPool {
 	static {LH.add("gt.tooltip.assemblylaser", "Place directly ontop of the Laser powered BC Device");}
@@ -93,8 +93,8 @@ public class MultiTileEntityLaserBuildcraft extends TileEntityBase10EnergyConver
 	@Override public boolean isSurfaceOpaque2       (byte aSide) {return aSide == OPOS[mFacing];}
 	@Override public boolean allowCovers            (byte aSide) {return aSide == OPOS[mFacing];}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[mFacing==SIDE_X_NEG?8:0], PX_P[mFacing==SIDE_Y_NEG?8:0], PX_P[mFacing==SIDE_Z_NEG?8:0], PX_N[mFacing==SIDE_X_POS?8:0], PX_N[mFacing==SIDE_Y_POS?8:0], PX_N[mFacing==SIDE_Z_POS?8:0]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool()  {return box(PX_P[mFacing==SIDE_X_NEG?8:0], PX_P[mFacing==SIDE_Y_NEG?8:0], PX_P[mFacing==SIDE_Z_NEG?8:0], PX_N[mFacing==SIDE_X_POS?8:0], PX_N[mFacing==SIDE_Y_POS?8:0], PX_N[mFacing==SIDE_Z_POS?8:0]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[mFacing==SIDE_X_NEG?8:0], PX_P[mFacing==SIDE_Y_NEG?8:0], PX_P[mFacing==SIDE_Z_NEG?8:0], PX_N[mFacing==SIDE_X_POS?8:0], PX_N[mFacing==SIDE_Y_POS?8:0], PX_N[mFacing==SIDE_Z_POS?8:0]);}
+	@Override public AABB getSelectedBoundingBoxFromPool()  {return box(PX_P[mFacing==SIDE_X_NEG?8:0], PX_P[mFacing==SIDE_Y_NEG?8:0], PX_P[mFacing==SIDE_Z_NEG?8:0], PX_N[mFacing==SIDE_X_POS?8:0], PX_N[mFacing==SIDE_Y_POS?8:0], PX_N[mFacing==SIDE_Z_POS?8:0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock)   {box(aBlock,PX_P[mFacing==SIDE_X_NEG?8:0], PX_P[mFacing==SIDE_Y_NEG?8:0], PX_P[mFacing==SIDE_Z_NEG?8:0], PX_N[mFacing==SIDE_X_POS?8:0], PX_N[mFacing==SIDE_Y_POS?8:0], PX_N[mFacing==SIDE_Z_POS?8:0]);}
 	
 	@Override

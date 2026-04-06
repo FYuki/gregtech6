@@ -34,7 +34,7 @@ import gregapi.util.ST;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;

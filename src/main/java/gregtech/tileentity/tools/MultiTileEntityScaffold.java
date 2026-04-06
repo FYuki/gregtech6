@@ -45,7 +45,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 /**
@@ -164,7 +164,7 @@ public class MultiTileEntityScaffold extends TileEntityBase09FacingSingle implem
 	}
 	
 	@Override
-	public void addCollisionBoxesToList2(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {
+	public void addCollisionBoxesToList2(AABB aAABB, List<AABB> aList, Entity aEntity) {
 		switch(mDesign) {
 		default: box(aAABB, aList); return;
 		case  0: box(aAABB, aList, PX_P[ 0], PX_P[14], PX_P[ 0], PX_N[ 0], PX_N[ 0], PX_N[ 0]); return;
@@ -190,8 +190,8 @@ public class MultiTileEntityScaffold extends TileEntityBase09FacingSingle implem
 	@Override public byte getVisualData() {return mDesign;}
 	@Override public void setVisualData(byte aData) {mDesign = aData;}
 	@Override public boolean addDefaultCollisionBoxToList() {return F;}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(0, mDesign == 0 ? PX_P[14] : 0, 0, 1, 1, 1);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(0, mDesign == 0 ? PX_P[14] : 0, 0, 1, 1, 1);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(0, mDesign == 0 ? PX_P[14] : 0, 0, 1, 1, 1);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(0, mDesign == 0 ? PX_P[14] : 0, 0, 1, 1, 1);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock , 0, mDesign == 0 ? PX_P[14] : 0, 0, 1, 1, 1);}
 	@Override public float getSurfaceSize          (byte aSide) {return SIDES_TOP[aSide] || mDesign == 3 ? 1 : 0;}
 	@Override public float getSurfaceSizeAttachable(byte aSide) {return SIDES_TOP[aSide] || mDesign == 3 ? 1 : 0;}
@@ -207,8 +207,8 @@ public class MultiTileEntityScaffold extends TileEntityBase09FacingSingle implem
 	@Override public boolean isLadder(LivingEntity aEntity) {return mDesign != 3;}
 	@Override public boolean ignorePlayerCollisionWhenPlacing() {return T;}
 	@Override public boolean useSidePlacementRotation        () {return F;}
-	@Override public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return aPlayer == null || !aPlayer.isSneaking();}
-	@Override public boolean useSidePlacementRotation        (ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return aPlayer != null &&  aPlayer.isSneaking();}
+	@Override public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return aPlayer == null || !aPlayer.isSneaking();}
+	@Override public boolean useSidePlacementRotation        (ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return aPlayer != null &&  aPlayer.isSneaking();}
 	@Override public boolean checkObstruction(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_NONE;}
 	@Override public byte getDefaultSide() {return SIDE_FRONT;}

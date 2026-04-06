@@ -19,15 +19,24 @@
 
 package gregapi.compat;
 
-import cpw.mods.fml.common.event.*;
+import gregapi.stubs.FMLModIdMappingEvent;
+import gregapi.stubs.MissingMappingsEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 
 public abstract class CompatBase implements ICompat {
-	@Override public void onPreLoad       (FMLPreInitializationEvent aEvent) {/**/}
-	@Override public void onLoad          (FMLInitializationEvent aEvent) {/**/}
-	@Override public void onPostLoad      (FMLPostInitializationEvent aEvent) {/**/}
-	@Override public void onServerStarting(FMLServerStartingEvent aEvent) {/**/}
-	@Override public void onServerStarted (FMLServerStartedEvent aEvent) {/**/}
-	@Override public void onServerStopping(FMLServerStoppingEvent aEvent) {/**/}
-	@Override public void onServerStopped (FMLServerStoppedEvent aEvent) {/**/}
-	@Override public void onIDChanging    (FMLModIdMappingEvent aEvent) {/**/}
+	@Override public void onPreLoad       (FMLCommonSetupEvent aEvent)   {/**/}
+	@Override public void onLoad          (InterModEnqueueEvent aEvent)  {/**/}
+	@Override public void onPostLoad      (FMLLoadCompleteEvent aEvent)  {/**/}
+	@Override public void onServerStarting(ServerStartingEvent aEvent)   {/**/}
+	@Override public void onServerStarted (ServerStartedEvent aEvent)    {/**/}
+	@Override public void onServerStopping(ServerStoppingEvent aEvent)   {/**/}
+	@Override public void onServerStopped (ServerStoppedEvent aEvent)    {/**/}
+	/** @deprecated PHASE7: onIDChanging stubbed — MissingMappingsEvent removed in NeoForge 1.21 */
+	@Override @Deprecated public void onIDChanging(MissingMappingsEvent<?> aEvent) {/**/}
 }

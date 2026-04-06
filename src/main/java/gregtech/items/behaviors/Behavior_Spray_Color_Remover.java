@@ -55,7 +55,7 @@ public class Behavior_Spray_Color_Remover extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote || aStack.stackSize != 1) return F;
 		
 		boolean rOutput = F;
@@ -93,7 +93,7 @@ public class Behavior_Spray_Color_Remover extends AbstractBehaviorDefault {
 		return rOutput;
 	}
 	
-	private static boolean decolorize(World aWorld, int aX, int aY, int aZ, byte aSide) {
+	private static boolean decolorize(Level aWorld, int aX, int aY, int aZ, byte aSide) {
 		DelegatorTileEntity<TileEntity> aDelegator = WD.te(aWorld, aX, aY, aZ, aSide, T);
 		if (aDelegator.mTileEntity instanceof ITileEntityDecolorable) return ((ITileEntityDecolorable)aDelegator.mTileEntity).removePaint(aDelegator.mSideOfTileEntity);
 		Block aBlock = aDelegator.getBlock();

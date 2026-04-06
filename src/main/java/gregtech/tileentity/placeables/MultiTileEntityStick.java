@@ -37,7 +37,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 import java.util.Random;
@@ -83,7 +83,7 @@ public class MultiTileEntityStick extends TileEntityBase03MultiTileEntities impl
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World aWorld, Block aBlock) {
+	public void onNeighborBlockChange(Level aWorld, Block aBlock) {
 		if (isServerSide()) {
 			if (!worldObj.getBlock(xCoord, yCoord-1, zCoord).isSideSolid(worldObj, xCoord, yCoord-1, zCoord, FORGE_DIR[SIDE_TOP])) {
 				ST.drop(worldObj, getCoords(), getDefaultStick(1));
@@ -173,8 +173,8 @@ public class MultiTileEntityStick extends TileEntityBase03MultiTileEntities impl
 	
 	@Override public boolean setBlockBounds(Block aBlock, int aRenderPass, boolean[] aShouldSideBeRendered) {box(aBlock, aRenderPass == 0 ? mMinX : 0, 0, aRenderPass == 0 ? mMinZ : 0, aRenderPass == 0 ? mMaxX : 1, aRenderPass == 0 ? PX_P[2] : PX_P[1], aRenderPass == 0 ? mMaxZ : 1); return T;}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, mMinX, 0, mMinZ, mMaxX, PX_P[2], mMaxZ);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool() {return box(mMinX, 0, mMinZ, mMaxX, PX_P[2], mMaxZ);}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return null;}
+	@Override public AABB getSelectedBoundingBoxFromPool() {return box(mMinX, 0, mMinZ, mMaxX, PX_P[2], mMaxZ);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return null;}
 	
 	@Override public boolean isSurfaceSolid         (byte aSide) {return F;}
 	@Override public boolean isSurfaceOpaque        (byte aSide) {return F;}

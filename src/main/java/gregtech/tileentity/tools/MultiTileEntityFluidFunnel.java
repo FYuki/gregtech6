@@ -37,9 +37,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import gregapi.stubs.IFluidContainerItem;
 
 import java.util.List;
 
@@ -143,7 +143,7 @@ public class MultiTileEntityFluidFunnel extends TileEntityBase11AttachmentSmall 
 	};
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool() {
+	public AABB getSelectedBoundingBoxFromPool() {
 		switch(mFacing) {
 		case SIDE_Z_NEG: return box(PX_P[ 5], PX_P[ 7], PX_P[ 0], PX_N[ 5], PX_N[ 6], PX_N[10]);
 		case SIDE_Z_POS: return box(PX_P[ 5], PX_P[ 7], PX_P[10], PX_N[ 5], PX_N[ 6], PX_N[ 0]);

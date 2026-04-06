@@ -23,10 +23,10 @@ import static gregapi.data.CS.*;
 
 import gregapi.util.ST;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 
-public class DummyInventory implements IInventory {
+public class DummyInventory implements Container {
 	public final ItemStack[] mInventory;
 	public DummyInventory(int aSize) {mInventory = new ItemStack[aSize];}
 	

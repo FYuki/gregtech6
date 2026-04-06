@@ -55,7 +55,7 @@ public class ItemEmptySlot extends ItemBase {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public final void getSubItems(Item var1, CreativeTabs aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
+	public final void getSubItems(Item var1, CreativeModeTab aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
 		//
 	}
 }

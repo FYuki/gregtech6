@@ -31,11 +31,11 @@ import gregapi.tileentity.ITileEntitySynchronising;
 import gregapi.tileentity.base.TileEntityBase01Root;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+import gregapi.stubs.RenderBlocks;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 import static gregapi.data.CS.*;
 
@@ -95,7 +95,7 @@ public class PrefixBlockTileEntity extends TileEntityBase01Root implements IRend
 	}
 	
 	@Override public boolean renderItem(Block aBlock, RenderBlocks aRenderer) {return F;}
-	@Override public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ) {return F;}
+	@Override public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, BlockGetter aWorld, int aX, int aY, int aZ) {return F;}
 	@Override public boolean setBlockBounds(Block aBlock, int aRenderPass, boolean[] aShouldSideBeRendered) {return F;}
 	@Override public int getRenderPasses(Block aBlock, boolean[] aShouldSideBeRendered) {return 1;}
 	@Override public void readFromNBT(CompoundTag aNBT) {super.readFromNBT(aNBT); mMetaData = aNBT.getShort("m"); if (aNBT.hasKey("gt.nbt.drop")) mItemNBT = aNBT.getCompoundTag("gt.nbt.drop");}

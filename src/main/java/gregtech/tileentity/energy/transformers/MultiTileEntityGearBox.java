@@ -43,7 +43,7 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 
@@ -101,7 +101,7 @@ public class MultiTileEntityGearBox extends TileEntityBase07Paintable implements
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return 0;
 		if (aTool.equals(TOOL_wrench)) {
 			if (SIDES_INVALID[aSide]) return 0;

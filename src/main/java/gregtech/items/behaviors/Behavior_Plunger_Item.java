@@ -38,7 +38,7 @@ public class Behavior_Plunger_Item extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote) return F;/*
 		TileEntity aTileEntity = UT.Worlds.getTileEntity(aWorld, aX, aY, aZ, true);
 		if (aTileEntity instanceof IGregTechTileEntity) {
@@ -50,7 +50,7 @@ public class Behavior_Plunger_Item extends AbstractBehaviorDefault {
 							if (aPlayer.capabilities.isCreativeMode || ((ItemMetaTool)aItem).doDamage(aStack, mCosts)) {
 								ItemStack tStack = tTileEntity.decrStackSize(i, 64);
 								if (tStack != null) {
-									EntityItem tEntity = new EntityItem(aWorld, ((IGregTechTileEntity)aTileEntity).getOffsetX((byte)aSide, 1) + 0.5, ((IGregTechTileEntity)aTileEntity).getOffsetY((byte)aSide, 1) + 0.5, ((IGregTechTileEntity)aTileEntity).getOffsetZ((byte)aSide, 1) + 0.5, tStack);
+									ItemEntity tEntity = new ItemEntity(aWorld, ((IGregTechTileEntity)aTileEntity).getOffsetX((byte)aSide, 1) + 0.5, ((IGregTechTileEntity)aTileEntity).getOffsetY((byte)aSide, 1) + 0.5, ((IGregTechTileEntity)aTileEntity).getOffsetZ((byte)aSide, 1) + 0.5, tStack);
 									tEntity.motionX = 0; tEntity.motionY = 0; tEntity.motionZ = 0;
 									aWorld.spawnEntityInWorld(tEntity);
 									UT.Sounds.send(aWorld, GregTech_API.sSoundList.get(101), 1.0F, -1, aX, aY, aZ);

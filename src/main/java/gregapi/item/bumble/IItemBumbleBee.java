@@ -26,7 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 
 import java.util.Random;
 
@@ -43,10 +43,10 @@ public interface IItemBumbleBee {
 	/** @return 0 for no Chance, 10000 for a 100% Chance. */
 	public int bumbleProductChance(ItemStack aBumbleBee, short aMetaData, int aProductIndex);
 	/** @return The Coordinates of where the Bumbles fly to for this product, or the Coords of the passed Hive, if the Environment allows the production of this specific Product. This is usually for checking for specific Flowers for this Product. */
-	public BlockPos bumbleCanProduct(World aWorld, int aX, int aY, int aZ, ItemStack aBumbleBee, short aMetaData, int aProductIndex);
+	public BlockPos bumbleCanProduct(Level aWorld, int aX, int aY, int aZ, ItemStack aBumbleBee, short aMetaData, int aProductIndex);
 	
 	/** @return The Coordinates of where the Bumbles fly to for this product, or the Coords of the passed Hive, if the Environment allows the Bumblebee Species to be active at this point in time. This is used for the Main checks. */
-	public BlockPos bumbleCanProduce(World aWorld, int aX, int aY, int aZ, ItemStack aBumbleBee, short aMetaData, int aDistance);
+	public BlockPos bumbleCanProduce(Level aWorld, int aX, int aY, int aZ, ItemStack aBumbleBee, short aMetaData, int aDistance);
 	
 	/** @return 0 = Drone, 1 = Princess, 2 = Queen, 4 = Dead, 5 = Scanned Drone, 6 = Scanned Princess, 7 = Scanned Queen, 9 = Dead Scanned */
 	public byte bumbleType(ItemStack aBumbleBee);
@@ -127,9 +127,9 @@ public interface IItemBumbleBee {
 			return rBumbleTag;
 		}
 		
-		public static CompoundTag getBumbleGenes(Random aRandom) {return getBumbleGenes(WD.envTemp(BiomeGenBase.plains), BiomeGenBase.plains, T, aRandom);}
-		public static CompoundTag getBumbleGenes(long aTemperature, BiomeGenBase aBiome, boolean aHasSky, Random aRandom) {return getBumbleGenes(aTemperature, aBiome, aHasSky, !(BIOMES_DESERT.contains(aBiome.biomeName) || BIOMES_MESA.contains(aBiome.biomeName)), BIOMES_DESERT.contains(aBiome.biomeName) || BIOMES_MESA.contains(aBiome.biomeName), aRandom);}
-		public static CompoundTag getBumbleGenes(long aTemperature, BiomeGenBase aBiome, boolean aHasSky, boolean aDay, boolean aNight, Random aRandom) {
+		public static CompoundTag getBumbleGenes(Random aRandom) {return getBumbleGenes(WD.envTemp(Biome.plains), Biome.plains, T, aRandom);}
+		public static CompoundTag getBumbleGenes(long aTemperature, Biome aBiome, boolean aHasSky, Random aRandom) {return getBumbleGenes(aTemperature, aBiome, aHasSky, !(BIOMES_DESERT.contains(aBiome.biomeName) || BIOMES_MESA.contains(aBiome.biomeName)), BIOMES_DESERT.contains(aBiome.biomeName) || BIOMES_MESA.contains(aBiome.biomeName), aRandom);}
+		public static CompoundTag getBumbleGenes(long aTemperature, Biome aBiome, boolean aHasSky, boolean aDay, boolean aNight, Random aRandom) {
 			CompoundTag rBumbleTag = UT.NBT.make();
 			setHumidityMin(rBumbleTag, aBiome.rainfall - 0.10F - aRandom.nextInt(41)/100.0F);
 			setHumidityMax(rBumbleTag, aBiome.rainfall + 0.10F + aRandom.nextInt(41)/100.0F);

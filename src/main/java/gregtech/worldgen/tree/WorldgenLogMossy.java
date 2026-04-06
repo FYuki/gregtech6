@@ -34,7 +34,7 @@ import gregapi.worldgen.WorldgenOnSurface;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -47,14 +47,14 @@ public class WorldgenLogMossy extends WorldgenOnSurface {
 	}
 	
 	@Override
-	public int canGenerate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public int canGenerate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if (checkForMajorWorldgen(aWorld, aMinX, aMinZ, aMaxX, aMaxZ)) return 0;
 		for (String tName : aBiomeNames) if (BIOMES_PLAINS.contains(tName) || BIOMES_WOODS.contains(tName) || BIOMES_SWAMP.contains(tName)) return mAmount;
 		return 0;
 	}
 	
 	@Override
-	public boolean tryPlaceStuff(World aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact) {
+	public boolean tryPlaceStuff(Level aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact) {
 		if (!BlocksGT.plantableTrees.contains(aContact) && aContact != Blocks.SAND) return F;
 		if (!WD.air(aWorld, aX, aY+1, aZ)) return F;
 		switch(aRandom.nextInt(3)) {
@@ -91,7 +91,7 @@ public class WorldgenLogMossy extends WorldgenOnSurface {
 		return F;
 	}
 	
-	public boolean setMushroom(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public boolean setMushroom(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		if (!WD.air(aWorld, aX, aY, aZ)) return F;
 		switch(aRandom.nextInt(MD.HaC.mLoaded?3:2)) {
 		case 0: return WD.set(aWorld, aX, aY, aZ, Blocks.red_mushroom, 0, 2);

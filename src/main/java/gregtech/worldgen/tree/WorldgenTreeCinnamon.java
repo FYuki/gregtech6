@@ -32,7 +32,7 @@ import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOnSurface;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -45,14 +45,14 @@ public class WorldgenTreeCinnamon extends WorldgenOnSurface {
 	}
 	
 	@Override
-	public int canGenerate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public int canGenerate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if (checkForMajorWorldgen(aWorld, aMinX, aMinZ, aMaxX, aMaxZ)) return 0;
 		for (String tName : aBiomeNames) if (BIOMES_CINNAMON.contains(tName)) return mAmount;
 		return 0;
 	}
 	
 	@Override
-	public boolean tryPlaceStuff(World aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact) {
+	public boolean tryPlaceStuff(Level aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact) {
 		if (!BlocksGT.plantableTrees.contains(aContact)) return F;
 		if (!WD.easyRep(aWorld, aX, aY+1, aZ)) return F;
 		return ((BlockBaseSapling)BlocksGT.Saplings_AB).grow(aWorld, aX, aY+1, aZ, (byte)5, aRandom);

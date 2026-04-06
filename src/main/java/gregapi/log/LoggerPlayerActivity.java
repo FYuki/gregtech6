@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import net.neoforged.bus.api.SubscribeEvent;
 import gregapi.util.UT;
 import net.neoforged.neoforge.common.NeoForge;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 /**
  * @author Gregorius Techneticies

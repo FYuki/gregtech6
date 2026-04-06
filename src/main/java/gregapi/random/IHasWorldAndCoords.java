@@ -23,16 +23,16 @@ import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.delegate.ITileEntityCanDelegate;
 import gregapi.tileentity.delegate.ITileEntityDelegating;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.world.Container;
+import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.level.block.entity.BlockEntity;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
-import net.minecraftforge.fluids.IFluidHandler;
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 /**
  * @author Gregorius Techneticies
  * 
- * Contains simple Utility Functions based on the In-World-Coordinates of the Implementor.
+ * Contains simple Utility Functions based on the In-Level-Coordinates of the Implementor.
  */
 public interface IHasWorldAndCoords extends IHasWorld, IHasCoords {
 	public TileEntity getTileEntityOffset(int aX, int aY, int aZ);
@@ -41,7 +41,7 @@ public interface IHasWorldAndCoords extends IHasWorld, IHasCoords {
 	/** Do not return null! See {@link ITileEntityDelegating} */
 	public DelegatorTileEntity<TileEntity> getAdjacentTileEntity(byte aSide);
 	/** Do not return null! See {@link ITileEntityDelegating} */
-	public DelegatorTileEntity<IInventory> getAdjacentInventory(byte aSide);
+	public DelegatorTileEntity<Container> getAdjacentInventory(byte aSide);
 	/** Do not return null! See {@link ITileEntityDelegating} */
 	public DelegatorTileEntity<ISidedInventory> getAdjacentSidedInventory(byte aSide);
 	/** Do not return null! See {@link ITileEntityDelegating} */
@@ -50,7 +50,7 @@ public interface IHasWorldAndCoords extends IHasWorld, IHasCoords {
 	/** Do not return null! See {@link ITileEntityDelegating} if aAllowDelegates is false, it will check if the TileEntity can delegate, see {@link ITileEntityCanDelegate}, and if it can, then this will output a Delegator Object with a null TileEntity instead. */
 	public DelegatorTileEntity<TileEntity> getAdjacentTileEntity(byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators);
 	/** Do not return null! See {@link ITileEntityDelegating} if aAllowDelegates is false, it will check if the TileEntity can delegate, see {@link ITileEntityCanDelegate}, and if it can, then this will output a Delegator Object with a null TileEntity instead. */
-	public DelegatorTileEntity<IInventory> getAdjacentInventory(byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators);
+	public DelegatorTileEntity<Container> getAdjacentInventory(byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators);
 	/** Do not return null! See {@link ITileEntityDelegating} if aAllowDelegates is false, it will check if the TileEntity can delegate, see {@link ITileEntityCanDelegate}, and if it can, then this will output a Delegator Object with a null TileEntity instead. */
 	public DelegatorTileEntity<ISidedInventory> getAdjacentSidedInventory(byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators);
 	/** Do not return null! See {@link ITileEntityDelegating} if aAllowDelegates is false, it will check if the TileEntity can delegate, see {@link ITileEntityCanDelegate}, and if it can, then this will output a Delegator Object with a null TileEntity instead. */
@@ -84,7 +84,7 @@ public interface IHasWorldAndCoords extends IHasWorld, IHasCoords {
 	public boolean getAirAtSide(byte aSide);
 	public boolean getAirAtSideAndDistance(byte aSide, int aDistance);
 	
-	public BiomeGenBase getBiome();
+	public Biome getBiome();
 	
 	public boolean hasRedstoneIncoming();
 	public byte getRedstoneIncoming(byte aSide);

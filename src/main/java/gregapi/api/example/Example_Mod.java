@@ -115,7 +115,7 @@ public final class Example_Mod extends gregapi.api.Abstract_Mod {
 		addItem(    1, "Small Pile of Examplium Dust"   , "", gregapi.data.OP.dustSmall .dat(tExamplium));
 		addItem(    2, "Examplium Dust"                 , "", gregapi.data.OP.dust      .dat(tExamplium));
 		addItem(    3, "Examplium Nugget"               , "", gregapi.data.OP.nugget    .dat(tExamplium));
-		addItem(    4, "Examplium Chunk"                , "", gregapi.data.OP.chunkGt   .dat(tExamplium));
+		addItem(    4, "Examplium LevelChunk"                , "", gregapi.data.OP.chunkGt   .dat(tExamplium));
 		addItem(    5, "Examplium Ingot"                , "", gregapi.data.OP.ingot     .dat(tExamplium));
 		addItem(    6, "Examplium Plate"                , "", gregapi.data.OP.plate     .dat(tExamplium));
 		addItem(    7, "Examplium Rod"                  , "", gregapi.data.OP.stick     .dat(tExamplium));

@@ -40,12 +40,12 @@ import gregapi.util.UT;
 import gregtech.tileentity.food.MultiTileEntitySandwich;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockCauldron;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
 import openblocks.common.LiquidXpUtils;
 import openmods.utils.EnchantmentUtils;
@@ -218,7 +218,7 @@ public class MultiTileEntityFluidTap extends TileEntityBase11AttachmentSmall {
 	};
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool() {
+	public AABB getSelectedBoundingBoxFromPool() {
 		switch(mFacing) {
 		case SIDE_Z_NEG: return box(PX_P[ 6], PX_P[ 3], PX_P[ 0], PX_N[ 6], PX_N[ 9], PX_N[10]);
 		default        : return box(PX_P[ 6], PX_P[ 3], PX_P[10], PX_N[ 6], PX_N[ 9], PX_N[ 0]);

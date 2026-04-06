@@ -25,8 +25,8 @@ import gregapi.old.Textures;
 import gregapi.render.IIconContainer;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.machines.MultiTileEntitySensorTE;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.world.Container;
+import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -41,21 +41,21 @@ public class MultiTileEntityItemometer extends MultiTileEntitySensorTE {
 	
 	@Override
 	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
-		if (aDelegator.mTileEntity instanceof IInventory) {
+		if (aDelegator.mTileEntity instanceof Container) {
 			long rAmount = 0;
 			if (aDelegator.mTileEntity instanceof ISidedInventory) {
 				int[] tSlots = ((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(aDelegator.mSideOfTileEntity);
 				if (tSlots == null || tSlots.length <= 0) try {tSlots = ((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(SIDE_ANY);} catch(Throwable e) {tSlots = null;}
 				if (tSlots != null && tSlots.length >  0) {
 					for (int i : tSlots) {
-						ItemStack tStack = ((IInventory)aDelegator.mTileEntity).getStackInSlot(i);
+						ItemStack tStack = ((Container)aDelegator.mTileEntity).getStackInSlot(i);
 						if (tStack != null && !IL.Display_Fluid.equal(tStack, T, T)) rAmount += tStack.stackSize;
 					}
 					return rAmount;
 				}
 			}
-			for (int i = 0, j = ((IInventory)aDelegator.mTileEntity).getSizeInventory(); i < j; i++) {
-				ItemStack tStack = ((IInventory)aDelegator.mTileEntity).getStackInSlot(i);
+			for (int i = 0, j = ((Container)aDelegator.mTileEntity).getSizeInventory(); i < j; i++) {
+				ItemStack tStack = ((Container)aDelegator.mTileEntity).getStackInSlot(i);
 				if (tStack != null && !IL.Display_Fluid.equal(tStack, T, T)) rAmount += tStack.stackSize;
 			}
 			return rAmount;
@@ -65,9 +65,9 @@ public class MultiTileEntityItemometer extends MultiTileEntitySensorTE {
 	
 	@Override
 	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
-		if (aDelegator.mTileEntity instanceof IInventory) {
-			if (aDelegator.mTileEntity instanceof ISidedInventory) return (long)((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(aDelegator.mSideOfTileEntity).length * ((IInventory)aDelegator.mTileEntity).getInventoryStackLimit();
-			return (long)((IInventory)aDelegator.mTileEntity).getSizeInventory() * ((IInventory)aDelegator.mTileEntity).getInventoryStackLimit();
+		if (aDelegator.mTileEntity instanceof Container) {
+			if (aDelegator.mTileEntity instanceof ISidedInventory) return (long)((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(aDelegator.mSideOfTileEntity).length * ((Container)aDelegator.mTileEntity).getInventoryStackLimit();
+			return (long)((Container)aDelegator.mTileEntity).getSizeInventory() * ((Container)aDelegator.mTileEntity).getInventoryStackLimit();
 		}
 		return 0;
 	}

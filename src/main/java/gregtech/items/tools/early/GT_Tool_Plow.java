@@ -32,7 +32,7 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.world.BlockEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.List;
 

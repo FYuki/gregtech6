@@ -19,7 +19,7 @@
 
 package gregapi.block.prefixblock;
 
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.data.CS.*;
 import gregapi.data.LH;
 import gregapi.data.MD;
@@ -67,14 +67,14 @@ public class PrefixBlockItem extends ItemBlock implements IItemUpdatable, IPrefi
 			mBlock.setCreativeTab(mBlock.mPrefix.mCreativeTab);
 			setCreativeTab(mBlock.mPrefix.mCreativeTab);
 		} else {
-			mBlock.setCreativeTab(CreativeTabs.tabBlock);
-			setCreativeTab(CreativeTabs.tabBlock);
+			mBlock.setCreativeTab(CreativeModeTab.tabBlock);
+			setCreativeTab(CreativeModeTab.tabBlock);
 		}
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void getSubItems(Item var1, CreativeTabs aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
+	public void getSubItems(Item var1, CreativeModeTab aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
 		if (!mBlock.mHidden && (SHOW_HIDDEN_PREFIXES || !mBlock.mPrefix.contains(TD.Creative.HIDDEN)) && (SHOW_ORE_BLOCK_PREFIXES || mBlock == BlocksGT.ore || !mBlock.mPrefix.contains(TD.Prefix.ORE) || mBlock.mPrefix.contains(TD.Prefix.STORAGE_BASED))) for (int i = 0; i < mBlock.mMaterialList.length; i++) if (mBlock.mPrefix.isGeneratingItem(mBlock.mMaterialList[i])) if (SHOW_HIDDEN_MATERIALS || !mBlock.mMaterialList[i].mHidden) {
 			ItemStack tStack = ST.make(this, 1, i);
 			updateItemStack(tStack);
@@ -84,7 +84,7 @@ public class PrefixBlockItem extends ItemBlock implements IItemUpdatable, IPrefi
 	}
 	
 	@Override
-	public boolean placeBlockAt(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ, int aMeta) {
+	public boolean placeBlockAt(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ, int aMeta) {
 		if (mBlock.placeBlock(aWorld, aX, aY, aZ, (byte)aSide, ST.meta_(aStack), aStack.getTagCompound(), T, F)) {
 			if (aWorld.getBlock(aX, aY, aZ) == field_150939_a) {
 				field_150939_a.onBlockPlacedBy(aWorld, aX, aY, aZ, aPlayer, aStack);
@@ -139,7 +139,7 @@ public class PrefixBlockItem extends ItemBlock implements IItemUpdatable, IPrefi
 		return null;
 	}
 	
-	@Override public void updateItemStack(ItemStack aStack, World aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
+	@Override public void updateItemStack(ItemStack aStack, Level aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
 	@Override public void updateItemStack(ItemStack aStack) {
 		if (mBlock.mMaterialList != OreDictMaterial.MATERIAL_ARRAY) return;
 		int aMeta = ST.meta_(aStack);
@@ -157,7 +157,7 @@ public class PrefixBlockItem extends ItemBlock implements IItemUpdatable, IPrefi
 	@Override public final boolean hasContainerItem(ItemStack aStack) {return getContainerItem(aStack) != null;}
 	@Override public ItemStack getContainerItem(ItemStack aStack) {return null;}
 	@Override public boolean doesContainerItemLeaveCraftingGrid(ItemStack aStack) {return F;}
-	@Override public void onCreated(ItemStack aStack, World aWorld, Player aPlayer) {updateItemStack(aStack);}
+	@Override public void onCreated(ItemStack aStack, Level aWorld, Player aPlayer) {updateItemStack(aStack);}
 	@Override public boolean isBookEnchantable(ItemStack aStack, ItemStack aBook) {return F;}
 	@Override public boolean getIsRepairable(ItemStack aStack, ItemStack aMaterial) {return F;}
 	@Override public int getItemEnchantability() {return 0;}

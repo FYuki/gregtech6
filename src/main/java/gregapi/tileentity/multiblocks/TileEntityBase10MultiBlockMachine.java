@@ -26,14 +26,14 @@ import gregapi.tileentity.machines.MultiTileEntityBasicMachine;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.List;
@@ -61,7 +61,7 @@ public abstract class TileEntityBase10MultiBlockMachine extends MultiTileEntityB
 	}
 	
 	@Override
-	public long onToolClickMultiBlock(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ, BlockPos aFrom) {
+	public long onToolClickMultiBlock(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ, BlockPos aFrom) {
 		if (aTool.equals(TOOL_builderwand)) {
 			if (isClientSide()) return 0;
 			checkStructure2(aFrom, aPlayer, aPlayerInventory);
@@ -72,7 +72,7 @@ public abstract class TileEntityBase10MultiBlockMachine extends MultiTileEntityB
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_builderwand)) {
 			if (isClientSide()) return 0;
 			checkStructure2(getCoords(), aPlayer, aPlayerInventory);
@@ -133,13 +133,13 @@ public abstract class TileEntityBase10MultiBlockMachine extends MultiTileEntityB
 	@Override public void onStructureChange() {mStructureChanged = T;}
 	
 	/** New Version of the MultiBlock Structure Check, which can't be made abstract for backwards compat reasons. */
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {return checkStructure2();}
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {return checkStructure2();}
 	/** Previous Version of the MultiBlock Structure Check without Builder Wand Support. Overriding this formerly abstract function will still work for regular checks but is not recommended. */
 	@Deprecated public boolean checkStructure2() {return T;}
 	
 	public boolean refreshStructureOnActiveStateChange() {return F;}
 	
-	@Override public abstract DelegatorTileEntity<IInventory> getItemInputTarget(byte aSide);
+	@Override public abstract DelegatorTileEntity<Container> getItemInputTarget(byte aSide);
 	@Override public abstract DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide);
 	@Override public abstract DelegatorTileEntity<IFluidHandler> getFluidInputTarget(byte aSide);
 	@Override public abstract DelegatorTileEntity<IFluidHandler> getFluidOutputTarget(byte aSide, Fluid aOutput);

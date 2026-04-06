@@ -19,7 +19,7 @@
 
 package gregapi.compat.thaumcraft;
 
-import cpw.mods.fml.common.event.FMLModIdMappingEvent;
+import gregapi.stubs.FMLModIdMappingEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
@@ -39,12 +39,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.resources.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.api.crafting.InfusionEnchantmentRecipe;

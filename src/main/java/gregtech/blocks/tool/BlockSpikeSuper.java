@@ -30,7 +30,7 @@ import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -71,7 +71,7 @@ public class BlockSpikeSuper extends BlockBaseSpike {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World aWorld, int aX, int aY, int aZ, Entity aEntity) {
+	public void onEntityCollidedWithBlock(Level aWorld, int aX, int aY, int aZ, Entity aEntity) {
 		int aMeta = WD.meta(aWorld, aX, aY, aZ);
 		if (aEntity instanceof LivingEntity) {
 			if (aMeta < 8) {
@@ -83,7 +83,7 @@ public class BlockSpikeSuper extends BlockBaseSpike {
 	}
 	
 	@Override
-	public boolean canEntityDestroy(IBlockAccess aWorld, int aX, int aY, int aZ, Entity aEntity) {
+	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
 		return WD.meta(aWorld, aX, aY, aZ) < 8 || !(aEntity instanceof EntityWither || aEntity instanceof EntityDragon);
 	}
 }

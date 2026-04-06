@@ -34,7 +34,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -95,7 +95,7 @@ public class BlockTreeLeavesCD extends BlockBaseLeaves implements Runnable {
 	@Override public int getLeavesRangeYPos(byte aMeta) {return 0;} // There is no instance where Leaves are below the Logs for these Trees.
 	
 	@Override
-	public ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {
+	public ArrayList<ItemStack> getDrops(Level aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {
 		ArrayListNoNulls<ItemStack> rDrops = ST.arraylist();
 		int tChance = 50;
 		if (aFortune > 0) {
@@ -120,7 +120,7 @@ public class BlockTreeLeavesCD extends BlockBaseLeaves implements Runnable {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public int colorMultiplier(BlockGetter aWorld, int aX, int aY, int aZ) {
 		return UNCOLORED;
 	}
 	

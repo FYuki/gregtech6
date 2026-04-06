@@ -26,7 +26,7 @@ import gregapi.block.IBlockErrorable;
 import gregapi.network.INetworkHandler;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 /**
@@ -66,8 +66,8 @@ public class PacketBlockError extends PacketCoordinates {
 	}
 	
 	@Override
-	public void process(IBlockAccess aWorld, INetworkHandler aNetworkHandler) {
-		if (aWorld instanceof World) {
+	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler) {
+		if (aWorld instanceof Level) {
 			Block tBlock = aWorld.getBlock(mX, mY, mZ);
 			if (tBlock instanceof IBlockErrorable) ((IBlockErrorable)tBlock).receiveBlockError(aWorld, mX, mY, mZ, mError);
 		}

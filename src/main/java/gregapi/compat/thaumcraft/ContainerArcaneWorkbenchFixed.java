@@ -25,7 +25,7 @@ import gregapi.util.CR;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import thaumcraft.common.container.ContainerArcaneWorkbench;
 import thaumcraft.common.items.wands.ItemWandCasting;
@@ -46,7 +46,7 @@ public class ContainerArcaneWorkbenchFixed extends ContainerArcaneWorkbench {
 	}
 	
 	@Override
-	public void onCraftMatrixChanged(IInventory aInventory) {
+	public void onCraftMatrixChanged(Container aInventory) {
 		if (mInventoryPlayer == null || mTileEntity == null) return;
 		mTileEntity.setInventorySlotContentsSoftly(9, CR.getany(mTileEntity.getWorldObj(), mTileEntity.stackList));
 		Item tWand = ST.item(mTileEntity.getStackInSlot(10));

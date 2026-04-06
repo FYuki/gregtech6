@@ -20,7 +20,7 @@
 package gregapi.tileentity.base;
 
 import appeng.api.movable.IMovableTile;
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity;
@@ -58,25 +58,29 @@ import ic2.api.energy.tile.IEnergyTile;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockRailBase;
-import net.minecraft.client.renderer.RenderBlocks;
+import gregapi.stubs.RenderBlocks;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.world.Container;
+import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
+import gregapi.stubs.DrawBlockHighlightEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.minecraft.core.Direction; // was Direction
-import net.minecraftforge.fluids.*;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidTank;
+import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTankInfo; // PHASE3: removed from NeoForge
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -93,7 +97,7 @@ import static gregapi.data.CS.*;
   @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = ModIDs.AE)
 })
 public abstract class TileEntityBase01Root extends TileEntity implements ITileEntity, ITileEntityGUI, IMovableTile {
-	/** If this TileEntity checks for the Chunk to be loaded before returning World based values. If this is set to T, this TileEntity will not cause worfin' Chunks, uhh I mean orphan Chunks. */
+	/** If this TileEntity checks for the LevelChunk to be loaded before returning Level based values. If this is set to T, this TileEntity will not cause worfin' Chunks, uhh I mean orphan Chunks. */
 	public boolean mIgnoreUnloadedChunks = T;
 	
 	/** This Variable checks if this TileEntity is dead, because Minecraft is too stupid to have proper TileEntity unloading. */
@@ -155,7 +159,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public abstract String getTileEntityName();
 	
 	@Override public void markDirty() {/* Oh no, I won't let this do anything anymore! It's only useful for Comparators and that didn't work properly anyways! */}
-	@Override public World getWorld() {return worldObj;}
+	@Override public Level getWorld() {return worldObj;}
 	@Override public int getX() {return xCoord;}
 	@Override public int getY() {return yCoord;}
 	@Override public int getZ() {return zCoord;}
@@ -181,9 +185,9 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	@Override public int getRandomNumber(int aRange) {return RNGSUS.nextInt(aRange);}
 	@Override public int rng(int aRange) {return RNGSUS.nextInt(aRange);}
 	public boolean rng() {return RNGSUS.nextBoolean();}
-	@Override public BiomeGenBase getBiome(BlockPos aCoords) {return worldObj==null?BiomeGenBase.plains:worldObj.getBiomeGenForCoords(aCoords.posX, aCoords.posZ);}
-	@Override public BiomeGenBase getBiome(int aX, int aZ) {return worldObj==null?BiomeGenBase.plains:worldObj.getBiomeGenForCoords(aX, aZ);}
-	@Override public BiomeGenBase getBiome() {return getBiome(xCoord, zCoord);}
+	@Override public Biome getBiome(BlockPos aCoords) {return worldObj==null?Biome.plains:worldObj.getBiomeGenForCoords(aCoords.posX, aCoords.posZ);}
+	@Override public Biome getBiome(int aX, int aZ) {return worldObj==null?Biome.plains:worldObj.getBiomeGenForCoords(aX, aZ);}
+	@Override public Biome getBiome() {return getBiome(xCoord, zCoord);}
 	@Override public Block getBlockOffset(int aX, int aY, int aZ) {return getBlock(xCoord+aX, yCoord+aY, zCoord+aZ);}
 	@Override public Block getBlockAtSide(byte aSide) {return getBlockAtSideAndDistance(aSide, 1);}
 	@Override public Block getBlockAtSideAndDistance(byte aSide, int aDistance) {return getBlock(getOffsetX(aSide, aDistance), getOffsetY(aSide, aDistance), getOffsetZ(aSide, aDistance));}
@@ -208,10 +212,10 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	@Override public TileEntity getTileEntityOffset(int aX, int aY, int aZ) {return getTileEntity(xCoord+aX, yCoord+aY, zCoord+aZ);}
 	@Override public TileEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance) {return getTileEntity(getOffsetX(aSide, aDistance), getOffsetY(aSide, aDistance), getOffsetZ(aSide, aDistance));}
 	@Override public DelegatorTileEntity<TileEntity         > getAdjacentTileEntity     (byte aSide) {return getAdjacentTileEntity(aSide, T, F);}
-	@Override public DelegatorTileEntity<IInventory         > getAdjacentInventory      (byte aSide) {return getAdjacentInventory(aSide, T, F);}
+	@Override public DelegatorTileEntity<Container         > getAdjacentInventory      (byte aSide) {return getAdjacentInventory(aSide, T, F);}
 	@Override public DelegatorTileEntity<ISidedInventory    > getAdjacentSidedInventory (byte aSide) {return getAdjacentSidedInventory(aSide, T, F);}
 	@Override public DelegatorTileEntity<IFluidHandler      > getAdjacentTank           (byte aSide) {return getAdjacentTank(aSide, T, F);}
-	@Override public DelegatorTileEntity<IInventory         > getAdjacentInventory      (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof IInventory      ?(IInventory        )tDelegator.mTileEntity:null, tDelegator);}
+	@Override public DelegatorTileEntity<Container         > getAdjacentInventory      (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof Container      ?(Container        )tDelegator.mTileEntity:null, tDelegator);}
 	@Override public DelegatorTileEntity<ISidedInventory    > getAdjacentSidedInventory (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof ISidedInventory ?(ISidedInventory   )tDelegator.mTileEntity:null, tDelegator);}
 	@Override public DelegatorTileEntity<IFluidHandler      > getAdjacentTank           (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof IFluidHandler   ?(IFluidHandler     )tDelegator.mTileEntity:null, tDelegator);}
 	
@@ -442,7 +446,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	}
 	
 	@Override
-	public boolean shouldRefresh(Block aOldBlock, Block aNewBlock, int aOldMeta, int aNewMeta, World aWorld, int aX, int aY, int aZ) {
+	public boolean shouldRefresh(Block aOldBlock, Block aNewBlock, int aOldMeta, int aNewMeta, Level aWorld, int aX, int aY, int aZ) {
 		return mShouldRefresh || aOldBlock != aNewBlock;
 	}
 	
@@ -531,17 +535,17 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	}
 	
 	@OnlyIn(Dist.CLIENT) public boolean renderItem(Block aBlock, RenderBlocks aRenderer) {return F;}
-	@OnlyIn(Dist.CLIENT) public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ) {return F;}
+	@OnlyIn(Dist.CLIENT) public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, BlockGetter aWorld, int aX, int aY, int aZ) {return F;}
 	@OnlyIn(Dist.CLIENT) public boolean usesRenderPass(int aRenderPass, boolean[] aShouldSideBeRendered) {return T;}
 	@OnlyIn(Dist.CLIENT) public boolean renderFullBlockSide(Block aBlock, RenderBlocks aRenderer, byte aSide) {return shouldSideBeRendered(aSide);}
 	@OnlyIn(Dist.CLIENT) public final IRenderedBlockObject passRenderingToObject(ItemStack aStack) {return ERROR_MESSAGE == null ? passRenderingToObject2(aStack) : ErrorRenderer.INSTANCE;}
-	@OnlyIn(Dist.CLIENT) public final IRenderedBlockObject passRenderingToObject(IBlockAccess aWorld, int aX, int aY, int aZ) {return ERROR_MESSAGE == null ? passRenderingToObject2(aWorld, aX, aY, aZ) : ErrorRenderer.INSTANCE;}
+	@OnlyIn(Dist.CLIENT) public final IRenderedBlockObject passRenderingToObject(BlockGetter aWorld, int aX, int aY, int aZ) {return ERROR_MESSAGE == null ? passRenderingToObject2(aWorld, aX, aY, aZ) : ErrorRenderer.INSTANCE;}
 	@OnlyIn(Dist.CLIENT) public IRenderedBlockObject passRenderingToObject2(ItemStack aStack) {return (IRenderedBlockObject)this;}
-	@OnlyIn(Dist.CLIENT) public IRenderedBlockObject passRenderingToObject2(IBlockAccess aWorld, int aX, int aY, int aZ) {return (IRenderedBlockObject)this;}
+	@OnlyIn(Dist.CLIENT) public IRenderedBlockObject passRenderingToObject2(BlockGetter aWorld, int aX, int aY, int aZ) {return (IRenderedBlockObject)this;}
 	
 	public void updateTanks() {/**/}
 	public void updateInventory() {/**/}
-	public void updateAdjacentInventories() {for (byte tSide : ALL_SIDES_VALID) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide); if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) ((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, (IInventory)this);}}
+	public void updateAdjacentInventories() {for (byte tSide : ALL_SIDES_VALID) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide); if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) ((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, (Container)this);}}
 	
 	public void playClick() {UT.Sounds.send(SFX.MC_CLICK, this, F);}
 	public void playCollect() {UT.Sounds.send(SFX.MC_COLLECT, 0.2F, this, F);}
@@ -830,14 +834,14 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public boolean isSurfaceSolid           (byte aSide) {return isSurfaceOpaque(aSide);}
 	public boolean isSurfaceOpaque          (byte aSide) {return T;}
 	public boolean isSealable               (byte aSide) {return F;}
-	public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box();}
-	public AxisAlignedBB getSelectedBoundingBoxFromPool () {if (FORCE_FULL_SELECTION_BOXES) return box(); return box(shrunkBox());}
+	public AABB getCollisionBoundingBoxFromPool() {return box();}
+	public AABB getSelectedBoundingBoxFromPool () {if (FORCE_FULL_SELECTION_BOXES) return box(); return box(shrunkBox());}
 	public void setBlockBoundsBasedOnState(Block aBlock) {if (FORCE_FULL_SELECTION_BOXES) box(aBlock); else box(aBlock, shrunkBox());}
-	public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return ignorePlayerCollisionWhenPlacing();}
+	public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return ignorePlayerCollisionWhenPlacing();}
 	public boolean ignorePlayerCollisionWhenPlacing() {return F;}
 	
 	/** Old Coordinate containing Variant of onCoordinateChange, use only if you really need the Coordinates, as there is also a No-Parameter variant in use for some TileEntity Types! */
-	public void onCoordinateChange(World aWorld, int aOldX, int aOldY, int aOldZ) {onCoordinateChange();}
+	public void onCoordinateChange(Level aWorld, int aOldX, int aOldY, int aOldZ) {onCoordinateChange();}
 	public void onCoordinateChange() {/**/}
 	
 	// AE Stuff
@@ -855,7 +859,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	// Removal and Snow Layer Stuff
 	
 	public static final ITexture SNOW_TEXTURE = BlockTextureCopied.get(Blocks.snow_layer); // very commonly used Texture.
-	public boolean removedByPlayer(World aWorld, Player aPlayer, boolean aWillHarvest) {return setToAir();}
+	public boolean removedByPlayer(Level aWorld, Player aPlayer, boolean aWillHarvest) {return setToAir();}
 	public boolean hasSnow() {for (int i : SCAN_NEG_1) for (int j : SCAN_NEG_1) if (getBlockOffset(i, 0, j) == Blocks.snow_layer) return T; return F;}
 	public boolean setToSnow() {return getOpacity(xCoord, yCoord-1, zCoord) && hasSnow() && worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.snow_layer, 0, 3);}
 	public boolean setToAir() {if (worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.AIR, 0, 3)) {if (this instanceof IMultiTileEntity.IMTE_CanPlaceSnowLayerOnRemoval) setToSnow(); return T;} return F;}
@@ -948,28 +952,28 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	
 	// Makes a Bounding Box without having to constantly specify the Offset Coordinates.
 	
-	public AxisAlignedBB box(double aMinX, double aMinY, double aMinZ, double aMaxX, double aMaxY, double aMaxZ) {return AxisAlignedBB.getBoundingBox(xCoord+aMinX, yCoord+aMinY, zCoord+aMinZ, xCoord+aMaxX, yCoord+aMaxY, zCoord+aMaxZ);}
-	public AxisAlignedBB box(double[] aBox) {return AxisAlignedBB.getBoundingBox(xCoord+aBox[0], yCoord+aBox[1], zCoord+aBox[2], xCoord+aBox[3], yCoord+aBox[4], zCoord+aBox[5]);}
-	public AxisAlignedBB box(float[] aBox) {return AxisAlignedBB.getBoundingBox(xCoord+aBox[0], yCoord+aBox[1], zCoord+aBox[2], xCoord+aBox[3], yCoord+aBox[4], zCoord+aBox[5]);}
-	public AxisAlignedBB box() {return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord+1, yCoord+1, zCoord+1);}
+	public AABB box(double aMinX, double aMinY, double aMinZ, double aMaxX, double aMaxY, double aMaxZ) {return AABB.getBoundingBox(xCoord+aMinX, yCoord+aMinY, zCoord+aMinZ, xCoord+aMaxX, yCoord+aMaxY, zCoord+aMaxZ);}
+	public AABB box(double[] aBox) {return AABB.getBoundingBox(xCoord+aBox[0], yCoord+aBox[1], zCoord+aBox[2], xCoord+aBox[3], yCoord+aBox[4], zCoord+aBox[5]);}
+	public AABB box(float[] aBox) {return AABB.getBoundingBox(xCoord+aBox[0], yCoord+aBox[1], zCoord+aBox[2], xCoord+aBox[3], yCoord+aBox[4], zCoord+aBox[5]);}
+	public AABB box() {return AABB.getBoundingBox(xCoord, yCoord, zCoord, xCoord+1, yCoord+1, zCoord+1);}
 	
-	public boolean box(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, double aMinX, double aMinY, double aMinZ, double aMaxX, double aMaxY, double aMaxZ) {
-		AxisAlignedBB tBox = box(aMinX, aMinY, aMinZ, aMaxX, aMaxY, aMaxZ);
+	public boolean box(AABB aAABB, List<AABB> aList, double aMinX, double aMinY, double aMinZ, double aMaxX, double aMaxY, double aMaxZ) {
+		AABB tBox = box(aMinX, aMinY, aMinZ, aMaxX, aMaxY, aMaxZ);
 		return tBox.intersectsWith(aAABB) && aList.add(tBox);
 	}
-	public boolean box(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, double[] aBox) {
-		AxisAlignedBB tBox = box(aBox[0], aBox[1], aBox[2], aBox[3], aBox[4], aBox[5]);
+	public boolean box(AABB aAABB, List<AABB> aList, double[] aBox) {
+		AABB tBox = box(aBox[0], aBox[1], aBox[2], aBox[3], aBox[4], aBox[5]);
 		return tBox.intersectsWith(aAABB) && aList.add(tBox);
 	}
-	public boolean box(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, float[] aBox) {
-		AxisAlignedBB tBox = box(aBox[0], aBox[1], aBox[2], aBox[3], aBox[4], aBox[5]);
+	public boolean box(AABB aAABB, List<AABB> aList, float[] aBox) {
+		AABB tBox = box(aBox[0], aBox[1], aBox[2], aBox[3], aBox[4], aBox[5]);
 		return tBox.intersectsWith(aAABB) && aList.add(tBox);
 	}
-	public boolean box(AxisAlignedBB aAABB, List<AxisAlignedBB> aList) {
-		AxisAlignedBB tBox = box(PX_BOX);
+	public boolean box(AABB aAABB, List<AABB> aList) {
+		AABB tBox = box(PX_BOX);
 		return tBox.intersectsWith(aAABB) && aList.add(tBox);
 	}
-	public boolean box(AxisAlignedBB aBox, AxisAlignedBB aAABB, List<AxisAlignedBB> aList) {
+	public boolean box(AABB aBox, AABB aAABB, List<AABB> aList) {
 		return aBox != null && aBox.intersectsWith(aAABB) && aList.add(aBox);
 	}
 	

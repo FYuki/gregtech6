@@ -26,28 +26,28 @@ import gregapi.tileentity.delegate.ITileEntityCanDelegate;
 import gregapi.tileentity.delegate.ITileEntityDelegating;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.world.Container;
+import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
-import net.minecraftforge.fluids.IFluidHandler;
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 /**
  * @author Gregorius Techneticies
  * 
- * Contains simple Utility Functions based on the In-World-Coordinates
+ * Contains simple Utility Functions based on the In-Level-Coordinates
  */
 public class WorldAndCoords implements IHasWorldAndCoords, Comparable<WorldAndCoords> {
 	public final int mX, mY, mZ;
-	public final World mWorld;
+	public final Level mWorld;
 	
-	public WorldAndCoords(World aWorld, int aX, int aY, int aZ) {mWorld = aWorld; mX = aX; mY = aY; mZ = aZ;}
-	public WorldAndCoords(World aWorld, BlockPos aCoords) {mWorld = aWorld; mX = aCoords.posX; mY = aCoords.posY; mZ = aCoords.posZ;}
+	public WorldAndCoords(Level aWorld, int aX, int aY, int aZ) {mWorld = aWorld; mX = aX; mY = aY; mZ = aZ;}
+	public WorldAndCoords(Level aWorld, BlockPos aCoords) {mWorld = aWorld; mX = aCoords.posX; mY = aCoords.posY; mZ = aCoords.posZ;}
 	public WorldAndCoords(TileEntity aTileEntity) {mWorld = aTileEntity.getWorldObj(); mX = aTileEntity.xCoord; mY = aTileEntity.yCoord; mZ = aTileEntity.zCoord;}
 	
-	@Override public World getWorld() {return mWorld;}
+	@Override public Level getWorld() {return mWorld;}
 	@Override public int getX() {return mX;}
 	@Override public int getY() {return mY;}
 	@Override public int getZ() {return mZ;}
@@ -78,9 +78,9 @@ public class WorldAndCoords implements IHasWorldAndCoords, Comparable<WorldAndCo
 	@Override public boolean getSky             (int aX, int aY, int aZ) {return mWorld==null||mWorld.canBlockSeeTheSky(aX, aY, aZ);}
 	@Override public boolean getRain            (int aX, int aY, int aZ) {return mWorld==null||mWorld.getPrecipitationHeight(aX, aZ) <= aY;}
 	@Override public boolean getAir             (int aX, int aY, int aZ) {return mWorld==null||mWorld.getBlock(aX, aY, aZ).isAir(mWorld, aX, aY, aZ);}
-	@Override public BiomeGenBase getBiome() {return getBiome(mX, mZ);}
-	@Override public BiomeGenBase getBiome      (int aX, int aZ) {return mWorld==null?null:mWorld.getBiomeGenForCoords(aX, aZ);}
-	@Override public BiomeGenBase getBiome      (BlockPos aCoords) {return mWorld==null?null:mWorld.getBiomeGenForCoords(aCoords.posX, aCoords.posZ);}
+	@Override public Biome getBiome() {return getBiome(mX, mZ);}
+	@Override public Biome getBiome      (int aX, int aZ) {return mWorld==null?null:mWorld.getBiomeGenForCoords(aX, aZ);}
+	@Override public Biome getBiome      (BlockPos aCoords) {return mWorld==null?null:mWorld.getBiomeGenForCoords(aCoords.posX, aCoords.posZ);}
 	@Override public TileEntity getTileEntity   (BlockPos aCoords) {return mWorld==null?null:mWorld.getTileEntity(aCoords.posX, aCoords.posY, aCoords.posZ);}
 	@Override public Block getBlock             (BlockPos aCoords) {return mWorld==null?NB:mWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ);}
 	@Override public byte getMetaData           (BlockPos aCoords) {return mWorld==null?0:UT.Code.bind4(mWorld.getBlockMetadata(aCoords.posX, aCoords.posY, aCoords.posZ));}
@@ -113,10 +113,10 @@ public class WorldAndCoords implements IHasWorldAndCoords, Comparable<WorldAndCo
 	@Override public TileEntity getTileEntityOffset(int aX, int aY, int aZ) {return getTileEntity(mX+aX, mY+aY, mZ+aZ);}
 	@Override public TileEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance) {return getTileEntity(getOffsetX(aSide, aDistance), getOffsetY(aSide, aDistance), getOffsetZ(aSide, aDistance));}
 	@Override public DelegatorTileEntity<TileEntity         > getAdjacentTileEntity     (byte aSide) {return getAdjacentTileEntity(aSide, T, F);}
-	@Override public DelegatorTileEntity<IInventory         > getAdjacentInventory      (byte aSide) {return getAdjacentInventory(aSide, T, F);}
+	@Override public DelegatorTileEntity<Container         > getAdjacentInventory      (byte aSide) {return getAdjacentInventory(aSide, T, F);}
 	@Override public DelegatorTileEntity<ISidedInventory    > getAdjacentSidedInventory (byte aSide) {return getAdjacentSidedInventory(aSide, T, F);}
 	@Override public DelegatorTileEntity<IFluidHandler      > getAdjacentTank           (byte aSide) {return getAdjacentTank(aSide, T, F);}
-	@Override public DelegatorTileEntity<IInventory         > getAdjacentInventory      (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof IInventory      ?(IInventory        )tDelegator.mTileEntity:null, tDelegator);}
+	@Override public DelegatorTileEntity<Container         > getAdjacentInventory      (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof Container      ?(Container        )tDelegator.mTileEntity:null, tDelegator);}
 	@Override public DelegatorTileEntity<ISidedInventory    > getAdjacentSidedInventory (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof ISidedInventory ?(ISidedInventory   )tDelegator.mTileEntity:null, tDelegator);}
 	@Override public DelegatorTileEntity<IFluidHandler      > getAdjacentTank           (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof IFluidHandler   ?(IFluidHandler     )tDelegator.mTileEntity:null, tDelegator);}
 	

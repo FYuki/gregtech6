@@ -32,7 +32,7 @@ import gregapi.render.ITexture;
 import gregapi.util.WD;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 /**
  * @author Gregorius Techneticies

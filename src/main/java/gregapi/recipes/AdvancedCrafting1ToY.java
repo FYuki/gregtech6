@@ -31,11 +31,11 @@ import gregapi.oredict.OreDictPrefix;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.Level;
 // PHASE7: import ShapedOreRecipe removed — use datapack recipes
 // PHASE7: import ShapelessOreRecipe removed — use datapack recipes
@@ -127,8 +127,8 @@ public class AdvancedCrafting1ToY implements ICraftingRecipeGT {
 						break;
 					}
 				}
-			} else if (tRecipe instanceof ShapedRecipes) {
-				ItemStack[] tInputs = ((ShapedRecipes)tRecipe).recipeItems;
+			} else if (tRecipe instanceof ShapedRecipe) {
+				ItemStack[] tInputs = ((ShapedRecipe)tRecipe).recipeItems;
 				
 				if (tInputs != null) for (ItemStack tObject : tInputs) if (tObject != null) {
 					if (++tCount > 1) {
@@ -141,8 +141,8 @@ public class AdvancedCrafting1ToY implements ICraftingRecipeGT {
 						break;
 					}
 				}
-			} else if (tRecipe instanceof ShapelessRecipes) {
-				List tInputs = ((ShapelessRecipes)tRecipe).recipeItems;
+			} else if (tRecipe instanceof ShapelessRecipe) {
+				List tInputs = ((ShapelessRecipe)tRecipe).recipeItems;
 				
 				if (tInputs != null && tInputs.size() == 1) for (Object tObject : tInputs) if (tObject != null) {
 					tCount++;
@@ -170,7 +170,7 @@ public class AdvancedCrafting1ToY implements ICraftingRecipeGT {
 	}
 	
 	@Override
-	public boolean matches(InventoryCrafting aGrid, World aWorld) {
+	public boolean matches(CraftingContainer aGrid, Level aWorld) {
 		ItemStack tStack = null;
 		OreDictMaterial rMaterial = null;
 		
@@ -192,7 +192,7 @@ public class AdvancedCrafting1ToY implements ICraftingRecipeGT {
 	}
 	
 	@Override
-	public ItemStack getCraftingResult(InventoryCrafting aGrid) {
+	public ItemStack getCraftingResult(CraftingContainer aGrid) {
 		for (int i = 0, j = aGrid.getSizeInventory(); i < j; i++) {
 			OreDictItemData tData = OM.anydata(aGrid.getStackInSlot(i));
 			if (tData == null || tData.mMaterial == null || !mCondition.isTrue(tData.mMaterial.mMaterial)) continue;

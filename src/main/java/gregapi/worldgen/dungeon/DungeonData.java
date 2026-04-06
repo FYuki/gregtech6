@@ -41,7 +41,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ChestGenHooks;
+import gregapi.stubs.ChestGenHooks;
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 
 import java.util.Random;
@@ -65,7 +65,7 @@ public class DungeonData extends WorldAndCoords {
 	public final CompoundTag mCoin;
 	public final Random mRandom;
 	
-	public DungeonData(World aWorld, int aX, int aY, int aZ, WorldgenDungeonGT aStructure, BlockStones aPrimaryBlock, BlockStones aSecondaryBlock, MultiTileEntityRegistry aRegistry, HashSetNoNulls<BlockPos> aLightUpdateCoords, HashSetNoNulls<TagData> aTags, long[] aKeyIDs, ItemStack[] aKeyStacks, boolean[] aGeneratedKeys, byte[][] aRoomLayout, int aRoomX, int aRoomZ, int aConnectionCount, int aColor, Random aRandom, CompoundTag aCoin) {
+	public DungeonData(Level aWorld, int aX, int aY, int aZ, WorldgenDungeonGT aStructure, BlockStones aPrimaryBlock, BlockStones aSecondaryBlock, MultiTileEntityRegistry aRegistry, HashSetNoNulls<BlockPos> aLightUpdateCoords, HashSetNoNulls<TagData> aTags, long[] aKeyIDs, ItemStack[] aKeyStacks, boolean[] aGeneratedKeys, byte[][] aRoomLayout, int aRoomX, int aRoomZ, int aConnectionCount, int aColor, Random aRandom, CompoundTag aCoin) {
 		super(aWorld, aX, aY, aZ);
 		mStructure = aStructure;
 		mPrimary = aPrimaryBlock;

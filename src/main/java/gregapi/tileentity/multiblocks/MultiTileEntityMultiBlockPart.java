@@ -52,7 +52,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -61,7 +61,7 @@ import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import FluidTankInfo removed
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -236,7 +236,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	}
 	
 	@Override
-	public void adjacentInventoryUpdated(byte aSide, IInventory aTileEntity) {
+	public void adjacentInventoryUpdated(byte aSide, Container aTileEntity) {
 		ITileEntityMultiBlockController tTileEntity = getTarget(T);
 		if (tTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) ((ITileEntityAdjacentInventoryUpdatable)tTileEntity).adjacentInventoryUpdated(aSide, aTileEntity);
 	}
@@ -249,7 +249,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	// Relay Tool Uses
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_wrench) || aTool.equals(TOOL_crowbar)) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		ITileEntityMultiBlockController tTileEntity = getTarget(F);
 		if (tTileEntity == null) {

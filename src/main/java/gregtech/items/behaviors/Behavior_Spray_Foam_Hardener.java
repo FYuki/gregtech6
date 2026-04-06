@@ -55,7 +55,7 @@ public class Behavior_Spray_Foam_Hardener extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote || aStack.stackSize != 1 || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		
 		boolean rOutput = F;
@@ -92,7 +92,7 @@ public class Behavior_Spray_Foam_Hardener extends AbstractBehaviorDefault {
 		return rOutput;
 	}
 	
-	public long harden(World aWorld, int aX, int aY, int aZ, byte aSide, long aUses, Player aPlayer, ItemStack aStack) {
+	public long harden(Level aWorld, int aX, int aY, int aZ, byte aSide, long aUses, Player aPlayer, ItemStack aStack) {
 		if (aUses < 1) return 0;
 		
 		DelegatorTileEntity<TileEntity> aTileEntity = WD.te(aWorld, aX, aY, aZ, aSide, T);

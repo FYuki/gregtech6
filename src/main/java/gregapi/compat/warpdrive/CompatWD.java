@@ -159,7 +159,7 @@ public class CompatWD extends CompatBase implements ICompatWD, IBlockTransformer
 	}
 	
 	@Override public boolean isJumpReady(Block aBlock, int aMeta, TileEntity aTileEntity, StringBuilder aStringBuilder) {return T;}
-	@Override public Tag saveExternals(World world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity) {return null;}
-	@Override public void removeExternals(World world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity) {/**/}
-	@Override public void restoreExternals(World world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity, ITransformation aTransformation, Tag aNBT) {/**/}
+	@Override public Tag saveExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity) {return null;}
+	@Override public void removeExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity) {/**/}
+	@Override public void restoreExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity, ITransformation aTransformation, Tag aNBT) {/**/}
 }

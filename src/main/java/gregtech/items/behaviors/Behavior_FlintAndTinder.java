@@ -34,7 +34,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayer;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ import static gregapi.data.CS.*;
 
 public class Behavior_FlintAndTinder extends AbstractBehaviorDefault {
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aPlayer != null && SIDES_VALID[aSide] && !(aPlayer instanceof FakePlayer) && WD.obstructed(aWorld, aX, aY, aZ, aSide)) return F;
 		List<String> tChatReturn = new ArrayListNoNulls<>();
 		long tDamage = 5000;
@@ -61,7 +61,7 @@ public class Behavior_FlintAndTinder extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		return T;
 	}
 	

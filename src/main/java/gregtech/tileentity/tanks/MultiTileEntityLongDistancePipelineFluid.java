@@ -44,7 +44,7 @@ import gregapi.util.WD;
 import gregtech.blocks.tool.BlockLongDistPipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -53,7 +53,7 @@ import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import FluidTankInfo removed
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 public class MultiTileEntityLongDistancePipelineFluid extends TileEntityBase09FacingSingle implements IFluidHandler, ITileEntityCanDelegate, IMTE_HasMultiBlockMachineRelevantData, ITileEntityMachineBlockUpdateable, ITileEntitySwitchableOnOff {
 	protected boolean mStopped = F;
@@ -90,7 +90,7 @@ public class MultiTileEntityLongDistancePipelineFluid extends TileEntityBase09Fa
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0) return rReturn;
 		

@@ -28,7 +28,7 @@ public class NoiseGenerator {
 	public NoiseGenerator(long aSeed) {
 		mSeed = (int)aSeed;
 	}
-	public NoiseGenerator(World aWorld) {
+	public NoiseGenerator(Level aWorld) {
 		mOffsetY = 512 * aWorld.provider.dimensionId;
 		mSeed = (int)aWorld.getSeed();
 	}

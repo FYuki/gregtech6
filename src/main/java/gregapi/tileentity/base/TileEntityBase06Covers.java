@@ -43,11 +43,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.world.Container;
+import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
@@ -137,7 +137,7 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	}
 	
 	@Override
-	public final long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public final long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (!allowInteraction(aPlayer)) return 0;
 		if (checkObstruction(aPlayer instanceof Player ? (Player)aPlayer : null, aSide, aHitX, aHitY, aHitZ)) return 0;
 		if (SIDES_VALID[aSide] && hasCovers()) {
@@ -163,7 +163,7 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		return 0;
 	}
 	
@@ -379,7 +379,7 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	protected IFluidTank getFluidTankDrainable2(byte aSide, FluidStack aFluidToDrain) {return null;}
 	protected IFluidTank[] getFluidTanks2(byte aSide) {return ZL_FT;}
 	
-	@Override public void onNeighborBlockChange(World aWorld, Block aBlock) {super.onNeighborBlockChange(aWorld, aBlock); if (hasCovers()) mCovers.onBlockUpdate();}
+	@Override public void onNeighborBlockChange(Level aWorld, Block aBlock) {super.onNeighborBlockChange(aWorld, aBlock); if (hasCovers()) mCovers.onBlockUpdate();}
 	@Override public void receiveBlockUpdateFromCover() {mBlockUpdated = T; if (hasCovers()) mCovers.onBlockUpdate();}
 	@Override public void sendBlockUpdateFromCover() {causeBlockUpdate();}
 	
@@ -468,14 +468,14 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 	public abstract ITexture getTexture2(Block aBlock, int aRenderPass, byte aSide, boolean[] aShouldSideBeRendered);
 	
 	@Override
-	public final void addCollisionBoxesToList(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {
+	public final void addCollisionBoxesToList(AABB aAABB, List<AABB> aList, Entity aEntity) {
 		if (addDefaultCollisionBoxToList()) box(getCollisionBoundingBoxFromPool(), aAABB, aList);
 		if (hasCovers()) for (byte tSide : ALL_SIDES_VALID) if (mCovers.mBehaviours[tSide] != null) mCovers.mBehaviours[tSide].getCollisions(tSide, mCovers, aAABB, aList, aEntity);
 		addCollisionBoxesToList2(aAABB, aList, aEntity);
 	}
 	
 	public boolean addDefaultCollisionBoxToList() {return T;}
-	public void addCollisionBoxesToList2(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {/**/}
+	public void addCollisionBoxesToList2(AABB aAABB, List<AABB> aList, Entity aEntity) {/**/}
 	
 	// GUI Stuff
 	@OnlyIn(Dist.CLIENT)

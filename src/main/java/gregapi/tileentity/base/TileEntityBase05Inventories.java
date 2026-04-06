@@ -27,7 +27,7 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -38,7 +38,7 @@ import static gregapi.data.CS.*;
 /**
  * @author Gregorius Techneticies
  */
-public abstract class TileEntityBase05Inventories extends TileEntityBase04MultiTileEntities implements IInventory, ITileEntityInventoryGUI, IMTE_OnBlockExploded, IMTE_BreakBlock {
+public abstract class TileEntityBase05Inventories extends TileEntityBase04MultiTileEntities implements Container, ITileEntityInventoryGUI, IMTE_OnBlockExploded, IMTE_BreakBlock {
 	private ItemStack[] mInventory = ZL_IS;
 	
 	public boolean mInventoryChanged = F;

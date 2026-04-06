@@ -37,10 +37,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 	}
 	
 	@Override
-	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide() && aTool.equals(TOOL_magnifyingglass)) {
 			if (aPlayer instanceof Player && aSneaking) {
 				ST.give(aPlayer, getRock(1), T, worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5);
@@ -97,7 +97,7 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 				if (worldObj.provider.dimensionId == +1)         {aChatReturn.add(LH.Chat.GRAY + "There is definitely an End"); return 1;}
 				if (WD.dimAETHER(worldObj))                      {aChatReturn.add(LH.Chat.GRAY + "Holy $#!T, it's a Rock.."); return 1;}
 				if (WD.dimALF   (worldObj))                      {aChatReturn.add(LH.Chat.GRAY + "Wait that Rock is alive?!"); return 1;}
-				if (WD.dimTROPIC(worldObj))                      {aChatReturn.add(LH.Chat.GRAY + "Seems to be a Chunk o'Head"); return 1;}
+				if (WD.dimTROPIC(worldObj))                      {aChatReturn.add(LH.Chat.GRAY + "Seems to be a LevelChunk o'Head"); return 1;}
 				if (BIOMES_MOON.contains(getBiome().biomeName))  {aChatReturn.add(LH.Chat.GRAY + "This is definitely not made of Cheese"); return 1;}
 				if (BIOMES_MARS.contains(getBiome().biomeName))  {aChatReturn.add(LH.Chat.GRAY + "This is definitely from Mars"); return 1;}
 				if (BIOMES_SPACE.contains(getBiome().biomeName)) {aChatReturn.add(LH.Chat.GRAY + "This is definitely a Space Rock"); return 1;}
@@ -148,7 +148,7 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World aWorld, Block aBlock) {
+	public void onNeighborBlockChange(Level aWorld, Block aBlock) {
 		if (isServerSide()) {
 			if (!worldObj.getBlock(xCoord, yCoord-1, zCoord).isSideSolid(worldObj, xCoord, yCoord-1, zCoord, FORGE_DIR[SIDE_TOP])) {
 				ST.drop(worldObj, getCoords(), getRock(1));
@@ -234,8 +234,8 @@ public class MultiTileEntityRock extends TileEntityBase03MultiTileEntities imple
 	
 	@Override public boolean setBlockBounds(Block aBlock, int aRenderPass, boolean[] aShouldSideBeRendered) {box(aBlock, aRenderPass == 0 ? mMinX : 0, 0, aRenderPass == 0 ? mMinZ : 0, aRenderPass == 0 ? mMaxX : 1, aRenderPass == 0 ? mMaxY : PX_P[1], aRenderPass == 0 ? mMaxZ : 1); return T;}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, mMinX, 0, mMinZ, mMaxX, mMaxY, mMaxZ);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool() {return box(mMinX, 0, mMinZ, mMaxX, mMaxY, mMaxZ);}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return null;}
+	@Override public AABB getSelectedBoundingBoxFromPool() {return box(mMinX, 0, mMinZ, mMaxX, mMaxY, mMaxZ);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return null;}
 	
 	@Override public boolean isSurfaceSolid         (byte aSide) {return F;}
 	@Override public boolean isSurfaceOpaque        (byte aSide) {return F;}

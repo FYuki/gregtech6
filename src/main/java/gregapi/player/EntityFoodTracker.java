@@ -27,7 +27,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.Potion;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.IExtendedEntityProperties;
+import gregapi.stubs.IExtendedEntityProperties;
 
 import static gregapi.data.CS.*;
 
@@ -68,7 +68,7 @@ public class EntityFoodTracker implements IExtendedEntityProperties {
 		mRadiation   = tNBT.getByte("r");
 	}
 	
-	@Override public void init(Entity aEntity, World aWorld) {TICK_LIST.add(this);}
+	@Override public void init(Entity aEntity, Level aWorld) {TICK_LIST.add(this);}
 	public void changeAlcohol    (long aAmount) {mAlcohol     = UT.Code.bind7(mAlcohol     + aAmount);}
 	public void changeCaffeine   (long aAmount) {mCaffeine    = UT.Code.bind7(mCaffeine    + aAmount);}
 	public void changeDehydration(long aAmount) {mDehydration = UT.Code.bind7(mDehydration + aAmount);}

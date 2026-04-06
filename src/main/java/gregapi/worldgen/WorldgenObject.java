@@ -31,7 +31,7 @@ import gregapi.config.Config;
 import gregapi.data.CS.ConfigsGT;
 import gregapi.util.UT;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -51,24 +51,26 @@ public abstract class WorldgenObject {
 		for (List<WorldgenObject> aList : aLists) aList.add(this);
 	}
 	
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		// Insert your WorldGen Code Here.
 		return F;
 	}
 	
-	public boolean enabled(World aWorld, int aDimType) {
+	public boolean enabled(Level aWorld, int aDimType) {
 		if (mInvalid) return F;
-		Boolean tAllowed = mDimEnabled.get(aWorld.provider.dimensionId);
+		// PHASE5: aWorld.provider removed — use Level.dimension() ResourceKey instead
+		Boolean tAllowed = mDimEnabled.get(aDimType);
 		if (tAllowed != null) return tAllowed && mEnabled;
-		boolean tValue = getConfigFile().get(mCategory+".dim", aWorld.provider.getDimensionName().replaceAll(" ", "_"), T);
-		mDimEnabled.put(aWorld.provider.dimensionId, tValue);
+		boolean tValue = getConfigFile().get(mCategory+".dim", String.valueOf(aDimType), T);
+		mDimEnabled.put(aDimType, tValue);
 		return tValue && mEnabled;
 	}
-	
-	public void reset(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {/**/}
-	
-	public boolean checkForMajorWorldgen(World aWorld, int aMinX, int aMinZ, int aMaxX, int aMaxZ) {
-		if (aWorld.provider.dimensionId == DIM_OVERWORLD) {
+
+	public void reset(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {/**/}
+
+	public boolean checkForMajorWorldgen(Level aWorld, int aMinX, int aMinZ, int aMaxX, int aMaxZ) {
+		// PHASE5: aWorld.provider.dimensionId removed — use aDimType param
+		if (DIM_OVERWORLD == 0) { // placeholder; real dimension check deferred to Phase 5
 			if (GENERATE_STREETS && (Math.abs(aMinX) < 64 || Math.abs(aMaxX) < 64 || Math.abs(aMinZ) < 64 || Math.abs(aMaxZ) < 64)) return T;
 			if (GENERATE_BIOMES && aMinX >= -96 && aMinX <= 80 && aMinZ >= -96 && aMinZ <= 80) return T;
 		}

@@ -31,12 +31,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathPoint;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 
 // Started off as a refactored copy of `EntityAIAttackOnCollide`
 public class EntityAIBetterAttackOnCollide extends EntityAIBase {
-	public World mWorld;
+	public Level mWorld;
 	public PathEntity mPath;
 	public Class<?> mTargetClass;
 	public EntityCreature mCreature;
@@ -71,7 +71,7 @@ public class EntityAIBetterAttackOnCollide extends EntityAIBase {
 	@Override
 	public boolean continueExecuting() {
 		LivingEntity tTarget = mCreature.getAttackTarget();
-		return tTarget != null && tTarget.isEntityAlive() && (!mLastingMemory ? !mCreature.getNavigator().noPath() : mCreature.isWithinHomeDistance(MathHelper.floor_double(tTarget.posX), MathHelper.floor_double(tTarget.posY), MathHelper.floor_double(tTarget.posZ)));
+		return tTarget != null && tTarget.isEntityAlive() && (!mLastingMemory ? !mCreature.getNavigator().noPath() : mCreature.isWithinHomeDistance(Mth.floor_double(tTarget.posX), Mth.floor_double(tTarget.posY), Mth.floor_double(tTarget.posZ)));
 	}
 	
 	@Override

@@ -35,8 +35,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.world.Container;
+import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -44,7 +44,7 @@ import net.minecraft.core.Direction; // was Direction
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import FluidTankInfo removed
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.io.File;
 import java.util.List;
@@ -225,7 +225,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	}
 	
 	@Override
-	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return 0;
 		if (aTool.equals(TOOL_magnifyingglass)) {
 			if (aChatReturn != null) {
@@ -354,7 +354,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public ItemStack decrStackSize(int aSlot, int aDecrement) {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.decrStackSize(aSlot, aDecrement);
 		}
 		return null;
@@ -362,7 +362,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public ItemStack getStackInSlotOnClosing(int aSlot) {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.getStackInSlotOnClosing(aSlot);
 		}
 		return null;
@@ -370,7 +370,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public ItemStack getStackInSlot(int aSlot) {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.getStackInSlot(aSlot);
 		}
 		return null;
@@ -378,7 +378,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public String getInventoryName() {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.getInventoryName();
 		}
 		String rName = getCustomName();
@@ -389,7 +389,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public int getSizeInventory() {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.getSizeInventory();
 		}
 		return 0;
@@ -397,7 +397,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public int getInventoryStackLimit() {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.getInventoryStackLimit();
 		}
 		return 0;
@@ -405,14 +405,14 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public void setInventorySlotContents(int aSlot, ItemStack aStack) {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) tTileEntity.mTileEntity.setInventorySlotContents(aSlot, aStack);
 		}
 	}
 	@Override
 	public boolean hasCustomInventoryName() {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.hasCustomInventoryName();
 		}
 		return getCustomName() != null;
@@ -420,7 +420,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public boolean isItemValidForSlot(int aSlot, ItemStack aStack) {
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity != null) return tTileEntity.mTileEntity.isItemValidForSlot(aSlot, aStack);
 		}
 		return F;
@@ -432,7 +432,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	public int[] getAccessibleSlotsFromSide(int aSide) {
 		mLastSide = (byte)aSide;
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity instanceof ISidedInventory) return ((ISidedInventory)tTileEntity.mTileEntity).getAccessibleSlotsFromSide(tTileEntity.mSideOfTileEntity);
 			if (tTileEntity.mTileEntity != null) {
 				int[] tReturn = new int[tTileEntity.mTileEntity.getSizeInventory()];
@@ -446,7 +446,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	public boolean canInsertItem(int aSlot, ItemStack aStack, int aSide) {
 		mLastSide = (byte)aSide;
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity instanceof ISidedInventory) return ((ISidedInventory)tTileEntity.mTileEntity).canInsertItem(aSlot, aStack, tTileEntity.mSideOfTileEntity);
 			if (tTileEntity.mTileEntity != null) return T;
 		}
@@ -456,7 +456,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	public boolean canExtractItem(int aSlot, ItemStack aStack, int aSide) {
 		mLastSide = (byte)aSide;
 		if (mTarget != null) {
-			DelegatorTileEntity<IInventory> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
+			DelegatorTileEntity<Container> tTileEntity = mTarget.getAdjacentInventory(OPOS[mLastSide]);
 			if (tTileEntity.mTileEntity instanceof ISidedInventory) return ((ISidedInventory)tTileEntity.mTileEntity).canExtractItem(aSlot, aStack, tTileEntity.mSideOfTileEntity);
 			if (tTileEntity.mTileEntity != null) return T;
 		}

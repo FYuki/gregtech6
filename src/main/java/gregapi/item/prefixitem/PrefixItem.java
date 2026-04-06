@@ -90,7 +90,7 @@ public class PrefixItem extends Item implements Runnable, IItemUpdatable, IPrefi
 			if (mPrefix.mCreativeTab == null) mPrefix.mCreativeTab = new CreativeTab(mPrefix.mNameInternal, mPrefix.mNameCategory, this, W);
 			setCreativeTab(mPrefix.mCreativeTab);
 		} else {
-			setCreativeTab(CreativeTabs.tabMisc);
+			setCreativeTab(CreativeModeTab.tabMisc);
 		}
 		
 		// Execute before all the other things. This is to ensure that PrefixItems are created before MultiItems.
@@ -110,7 +110,7 @@ public class PrefixItem extends Item implements Runnable, IItemUpdatable, IPrefi
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void getSubItems(Item var1, CreativeTabs aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
+	public void getSubItems(Item var1, CreativeModeTab aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
 		if ((SHOW_HIDDEN_PREFIXES || !mPrefix.contains(TD.Creative.HIDDEN))) for (int i = 0; i < mMaterialList.length; i++) if (mPrefix.isGeneratingItem(mMaterialList[i])) if (SHOW_HIDDEN_MATERIALS || !mMaterialList[i].mHidden) {
 			ItemStack tStack = OM.get_(ST.make(this, 1, i));
 			if (tStack.getItem() == this) {
@@ -173,7 +173,7 @@ public class PrefixItem extends Item implements Runnable, IItemUpdatable, IPrefi
 		return F;
 	}
 	
-	@Override public void updateItemStack(ItemStack aStack, World aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
+	@Override public void updateItemStack(ItemStack aStack, Level aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
 	@Override public void updateItemStack(ItemStack aStack) {
 		if (mMaterialList != OreDictMaterial.MATERIAL_ARRAY) return;
 		int aMeta = ST.meta_(aStack);
@@ -195,7 +195,7 @@ public class PrefixItem extends Item implements Runnable, IItemUpdatable, IPrefi
 	@Override public String getItemStackDisplayName(ItemStack aStack) {return StatCollector.translateToLocal(getUnlocalizedName(aStack));}
 	@Override public final boolean hasContainerItem(ItemStack aStack) {return getContainerItem(aStack) != null;}
 	@Override public boolean doesContainerItemLeaveCraftingGrid(ItemStack aStack) {return F;}
-	@Override public void onCreated(ItemStack aStack, World aWorld, Player aPlayer) {updateItemStack(aStack);}
+	@Override public void onCreated(ItemStack aStack, Level aWorld, Player aPlayer) {updateItemStack(aStack);}
 	@Override public boolean isBookEnchantable(ItemStack aStack, ItemStack aBook) {return F;}
 	@Override public boolean getIsRepairable(ItemStack aStack, ItemStack aMaterial) {return F;}
 	@Override public int getItemEnchantability() {return 0;}

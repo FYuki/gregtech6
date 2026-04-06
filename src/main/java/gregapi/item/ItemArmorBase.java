@@ -19,7 +19,7 @@
 
 package gregapi.item;
 
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import forestry.api.apiculture.IArmorApiarist;
@@ -47,13 +47,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.Direction;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ISpecialArmor;
-import net.minecraftforge.common.util.EnumHelper;
+import gregapi.stubs.ISpecialArmor;
+import gregapi.stubs.EnumHelper;
 
 import java.util.List;
 
@@ -90,7 +90,7 @@ public class ItemArmorBase extends ItemArmor implements IItemUpdatable, IItemGT,
 		mBeeArmor = aBeeArmor;
 		LH.add(mName, aEnglish);
 		setMaxDamage(aDurability);
-		setCreativeTab(CreativeTabs.tabCombat);
+		setCreativeTab(CreativeModeTab.tabCombat);
 		if (UT.Code.stringValid(aEnglishTooltip)) LH.add(mTooltip = mName + ".tooltip_main", aEnglishTooltip); else mTooltip = null;
 		ST.register(this, mName);
 		if (aRecipe != null && aRecipe.length > 0) {
@@ -114,7 +114,7 @@ public class ItemArmorBase extends ItemArmor implements IItemUpdatable, IItemGT,
 	}
 	
 	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
-		EnumFacing enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Direction enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
 		IPosition iposition = BlockDispenser.func_149939_a(aSource);
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
@@ -128,7 +128,7 @@ public class ItemArmorBase extends ItemArmor implements IItemUpdatable, IItemGT,
 		}
 		
 		@Override
-		protected IProjectile getProjectileEntity(World aWorld, IPosition aPosition) {
+		protected IProjectile getProjectileEntity(Level aWorld, IPosition aPosition) {
 			return null;
 		}
 	}
@@ -157,13 +157,13 @@ public class ItemArmorBase extends ItemArmor implements IItemUpdatable, IItemGT,
 	@Override @OnlyIn(Dist.CLIENT) public void registerIcons(IIconRegister aIconRegister) {mIcon = aIconRegister.registerIcon(mModID + ":" + "armor/" + mArmorName + "/" + armorType);}
 	@Override public IIcon getIconFromDamage(int aMeta) {return mIcon;}
 	@Override public IIcon getIconFromDamageForRenderPass(int aMeta, int aRenderpass) {return mIcon;}
-	@Override public void onCreated(ItemStack aStack, World aWorld, Player aPlayer) {isItemStackUsable(aStack);}
+	@Override public void onCreated(ItemStack aStack, Level aWorld, Player aPlayer) {isItemStackUsable(aStack);}
 	@Override public ItemStack getContainerItem(ItemStack aStack) {return null;}
 	@Override public boolean hasContainerItem(ItemStack aStack) {return getContainerItem(aStack) != null;}
 	@Override public boolean doesContainerItemLeaveCraftingGrid(ItemStack aStack) {return F;}
 	@Override public void updateItemStack(ItemStack aStack) {isItemStackUsable(aStack);}
-	@Override public void updateItemStack(ItemStack aStack, World aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
-	@Override public boolean doesSneakBypassUse(World aWorld, int aX, int aY, int aZ, Player aPlayer) {return T;}
+	@Override public void updateItemStack(ItemStack aStack, Level aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
+	@Override public boolean doesSneakBypassUse(Level aWorld, int aX, int aY, int aZ, Player aPlayer) {return T;}
 	public boolean isItemStackUsable(ItemStack aStack) {return T;}
 	public ItemStack make(long aMetaData) {return ST.make(this, 1, aMetaData);}
 	public ItemStack make(long aAmount, long aMetaData) {return ST.make(this, aAmount, aMetaData);}

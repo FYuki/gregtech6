@@ -31,7 +31,7 @@ import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOnSurface;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -44,14 +44,14 @@ public class WorldgenLogRotten extends WorldgenOnSurface {
 	}
 	
 	@Override
-	public int canGenerate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public int canGenerate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if (checkForMajorWorldgen(aWorld, aMinX, aMinZ, aMaxX, aMaxZ)) return 0;
 		for (String tName : aBiomeNames) if (BIOMES_SWAMP.contains(tName) || BIOMES_JUNGLE.contains(tName)) return mAmount;
 		return 0;
 	}
 	
 	@Override
-	public boolean tryPlaceStuff(World aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact) {
+	public boolean tryPlaceStuff(Level aWorld, int aX, int aY, int aZ, Random aRandom, Block aContact) {
 		if (WD.anywater(aWorld, aX, aY, aZ, aContact)) aY--; else {
 			if (!BlocksGT.plantableGreens.contains(aContact)) return F;
 			if (!WD.air(aWorld, aX, aY+1, aZ)) return F;

@@ -19,7 +19,7 @@
 
 package gregapi.item.multiitem;
 
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.TagData;
 import gregapi.data.FL;
@@ -38,7 +38,7 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -106,7 +106,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {
+	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ) {
 		ArrayList<IBehavior<MultiItem>> tList = mItemBehaviors.get(ST.meta_(aStack));
 		if (tList != null) for (IBehavior<MultiItem> tBehavior : tList) {
 			EntityProjectile rArrow = tBehavior.getProjectile(this, aProjectileType, aStack, aWorld, aX, aY, aZ);
@@ -116,7 +116,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed) {
+	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed) {
 		ArrayList<IBehavior<MultiItem>> tList = mItemBehaviors.get(ST.meta_(aStack));
 		if (tList != null) for (IBehavior<MultiItem> tBehavior : tList) {
 			EntityProjectile rArrow = tBehavior.getProjectile(this, aProjectileType, aStack, aWorld, aEntity, aSpeed);
@@ -180,7 +180,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	@Override
-	public boolean onItemUse(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUse(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
 		if (MD.BbLC.owns(aWorld, aX, aY, aZ)) return F;
 		if (!aWorld.isRemote) useEnergy(TD.Energy.EU, aStack, 0, aPlayer, null, null, 0, 0, 0, T);
 		if (!isItemStackUsable(aStack)) return F;
@@ -201,7 +201,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
 		if (MD.BbLC.owns(aWorld, aX, aY, aZ)) return F;
 		if (!aWorld.isRemote) useEnergy(TD.Energy.EU, aStack, 0, aPlayer, null, null, 0, 0, 0, T);
 		if (!isItemStackUsable(aStack)) return F;
@@ -230,7 +230,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(ItemStack aStack, Level aWorld, Player aPlayer) {
 		if (!aWorld.isRemote) useEnergy(TD.Energy.EU, aStack, 0, aPlayer, null, null, 0, 0, 0, T);
 		if (!isItemStackUsable(aStack)) return aStack;
 		ArrayList<IBehavior<MultiItem>> tList = mItemBehaviors.get(ST.meta_(aStack));
@@ -279,7 +279,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	@Override
-	public void onUpdate(ItemStack aStack, World aWorld, Entity aPlayer, int aTimer, boolean aIsInHand) {
+	public void onUpdate(ItemStack aStack, Level aWorld, Entity aPlayer, int aTimer, boolean aIsInHand) {
 		ArrayList<IBehavior<MultiItem>> tList = mItemBehaviors.get(ST.meta_(aStack));
 		if (tList != null) for (IBehavior<MultiItem> tBehavior : tList) tBehavior.onUpdate(this, aStack, aWorld, aPlayer, aTimer, aIsInHand);
 	}
@@ -416,21 +416,21 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	@Override
-	public long doEnergyInjection (TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoInject) {
+	public long doEnergyInjection (TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoInject) {
 		IItemEnergy tStats = getEnergyStats(aStack);
 		if (tStats == null) return 0;
 		return tStats.doEnergyInjection (aEnergyType, aStack, aSize, aAmount, aInventory, aWorld, aX, aY, aZ, aDoInject);
 	}
 	
 	@Override
-	public long doEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoExtract) {
+	public long doEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoExtract) {
 		IItemEnergy tStats = getEnergyStats(aStack);
 		if (tStats == null) return 0;
 		return tStats.doEnergyExtraction(aEnergyType, aStack, aSize, aAmount, aInventory, aWorld, aX, aY, aZ, aDoExtract);
 	}
 	
 	@Override
-	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoUse) {
+	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoUse) {
 		IItemEnergy tStats = getEnergyStats(aStack);
 		if (tStats == null) return F;
 		return tStats.useEnergy(aEnergyType, aStack, aEnergyAmount, aPlayer, aInventory, aWorld, aX, aY, aZ, aDoUse);

@@ -33,7 +33,7 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -126,7 +126,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	}
 	
 	@Override
-	public long onToolClickMultiBlock(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ, BlockPos aFrom) {
+	public long onToolClickMultiBlock(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ, BlockPos aFrom) {
 		if (aTool.equals(TOOL_builderwand)) {
 			if (isClientSide()) return 0;
 			checkStructure2(aFrom, aPlayer, aPlayerInventory);
@@ -137,7 +137,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_builderwand)) {
 			if (isClientSide()) return 0;
 			checkStructure2(getCoords(), aPlayer, aPlayerInventory);
@@ -199,7 +199,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	@Override public void onStructureChange() {mStructureChanged = T;}
 	
 	/** New Version of the MultiBlock Structure Check, which can't be made abstract for backwards compat reasons. */
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {return checkStructure2();}
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {return checkStructure2();}
 	/** Previous Version of the MultiBlock Structure Check without Builder Wand Support. Overriding this formerly abstract function will still work for regular checks but is not recommended. */
 	@Deprecated public boolean checkStructure2() {return T;}
 	

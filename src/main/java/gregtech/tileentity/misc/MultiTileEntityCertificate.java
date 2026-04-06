@@ -33,12 +33,12 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregtech.GT6_Main;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.level.Level;
 
@@ -157,8 +157,8 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 	
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_NONE;}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[SIDE_X_NEG==mFacing?15:SIDE_X_POS==mFacing?0:1], PX_P[SIDE_Y_NEG==mFacing?15:SIDE_Y_POS==mFacing?0:1], PX_P[SIDE_Z_NEG==mFacing?15:SIDE_Z_POS==mFacing?0:1], PX_N[SIDE_X_POS==mFacing?15:SIDE_X_NEG==mFacing?0:1], PX_N[SIDE_Y_POS==mFacing?15:SIDE_Y_NEG==mFacing?0:1], PX_N[SIDE_Z_POS==mFacing?15:SIDE_Z_NEG==mFacing?0:1]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[SIDE_X_NEG==mFacing?15:SIDE_X_POS==mFacing?0:1], PX_P[SIDE_Y_NEG==mFacing?15:SIDE_Y_POS==mFacing?0:1], PX_P[SIDE_Z_NEG==mFacing?15:SIDE_Z_POS==mFacing?0:1], PX_N[SIDE_X_POS==mFacing?15:SIDE_X_NEG==mFacing?0:1], PX_N[SIDE_Y_POS==mFacing?15:SIDE_Y_NEG==mFacing?0:1], PX_N[SIDE_Z_POS==mFacing?15:SIDE_Z_NEG==mFacing?0:1]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[SIDE_X_NEG==mFacing?15:SIDE_X_POS==mFacing?0:1], PX_P[SIDE_Y_NEG==mFacing?15:SIDE_Y_POS==mFacing?0:1], PX_P[SIDE_Z_NEG==mFacing?15:SIDE_Z_POS==mFacing?0:1], PX_N[SIDE_X_POS==mFacing?15:SIDE_X_NEG==mFacing?0:1], PX_N[SIDE_Y_POS==mFacing?15:SIDE_Y_NEG==mFacing?0:1], PX_N[SIDE_Z_POS==mFacing?15:SIDE_Z_NEG==mFacing?0:1]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[SIDE_X_NEG==mFacing?15:SIDE_X_POS==mFacing?0:1], PX_P[SIDE_Y_NEG==mFacing?15:SIDE_Y_POS==mFacing?0:1], PX_P[SIDE_Z_NEG==mFacing?15:SIDE_Z_POS==mFacing?0:1], PX_N[SIDE_X_POS==mFacing?15:SIDE_X_NEG==mFacing?0:1], PX_N[SIDE_Y_POS==mFacing?15:SIDE_Y_NEG==mFacing?0:1], PX_N[SIDE_Z_POS==mFacing?15:SIDE_Z_NEG==mFacing?0:1]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, PX_P[SIDE_X_NEG==mFacing?15:SIDE_X_POS==mFacing?0:1], PX_P[SIDE_Y_NEG==mFacing?15:SIDE_Y_POS==mFacing?0:1], PX_P[SIDE_Z_NEG==mFacing?15:SIDE_Z_POS==mFacing?0:1], PX_N[SIDE_X_POS==mFacing?15:SIDE_X_NEG==mFacing?0:1], PX_N[SIDE_Y_POS==mFacing?15:SIDE_Y_NEG==mFacing?0:1], PX_N[SIDE_Z_POS==mFacing?15:SIDE_Z_NEG==mFacing?0:1]);}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return ALONG_AXIS[aSide][mFacing]?PX_P[15]:0.0F;}
@@ -183,8 +183,8 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 	
 	@Override public void onExploded(Explosion aExplosion) {/* Doesn't get removed after Explosions. */}
 	
-	@Override public int getLifeSpan(World aWorld, ItemStack aStack) {return 1728000;}
-	@Override public int onDespawn(EntityItem aEntity, ItemStack aStack) {return 1728000;}
+	@Override public int getLifeSpan(Level aWorld, ItemStack aStack) {return 1728000;}
+	@Override public int onDespawn(ItemEntity aEntity, ItemStack aStack) {return 1728000;}
 	
 	@Override public byte getDefaultSide() {return SIDE_FRONT;}
 	

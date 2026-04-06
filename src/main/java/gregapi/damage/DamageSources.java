@@ -50,8 +50,8 @@ public class DamageSources {
 		return new DamageSourceExploding();
 	}
 	
-	public static DamageSource getCombatDamage(String aType, LivingEntity aPlayer, IChatComponent aDeathMessage) {return getCombatDamage(aType, aPlayer, aDeathMessage, F);}
-	public static DamageSource getCombatDamage(String aType, LivingEntity aPlayer, IChatComponent aDeathMessage, boolean aBeheading) {
+	public static DamageSource getCombatDamage(String aType, LivingEntity aPlayer, Component aDeathMessage) {return getCombatDamage(aType, aPlayer, aDeathMessage, F);}
+	public static DamageSource getCombatDamage(String aType, LivingEntity aPlayer, Component aDeathMessage, boolean aBeheading) {
 		return new DamageSourceCombat(aType, aPlayer, aDeathMessage, aBeheading);
 	}
 	
@@ -103,28 +103,28 @@ public class DamageSources {
 		return new DamageSourceFat();
 	}
 	
-	public static IChatComponent getDeathMessage(LivingEntity aPlayer, Entity aEntity, String aMessage) {
+	public static Component getDeathMessage(LivingEntity aPlayer, Entity aEntity, String aMessage) {
 		return getDeathMessage(aPlayer, aEntity, UT.Code.stringValidate(aPlayer.getCommandSenderName(), "Someone"), UT.Code.stringValidate(aEntity.getCommandSenderName(), "Someone"), aMessage);
 	}
 	
-	public static IChatComponent getDeathMessage(LivingEntity aPlayer, Entity aEntity, String aNamePlayer, String aNameEntity, String aMessage) {
-		if (UT.Code.stringInvalid(aNamePlayer) || UT.Code.stringInvalid(aEntity)) return new ChatComponentText("Death Message lacks names of involved People");
+	public static Component getDeathMessage(LivingEntity aPlayer, Entity aEntity, String aNamePlayer, String aNameEntity, String aMessage) {
+		if (UT.Code.stringInvalid(aNamePlayer) || UT.Code.stringInvalid(aEntity)) return new Component("Death Message lacks names of involved People");
 		aNamePlayer = aNamePlayer.trim(); aNameEntity = aNameEntity.trim();
 		if (aNamePlayer.equalsIgnoreCase("CrazyJ84") || aNamePlayer.equalsIgnoreCase("CrazyJ1984")) {
-			if (aNameEntity.equalsIgnoreCase("Bear989jr")) return new ChatComponentText("<"+ EnumChatFormatting.LIGHT_PURPLE+"Mrs. Crazy"+EnumChatFormatting.WHITE + "> Sorry "+EnumChatFormatting.RED+"Junior"+EnumChatFormatting.WHITE);
-			if (aNameEntity.equalsIgnoreCase("Bear989Sr")) return new ChatComponentText("<"+EnumChatFormatting.LIGHT_PURPLE+"Mrs. Crazy"+EnumChatFormatting.WHITE + "> Hush it!, "+EnumChatFormatting.RED+"Bear"+EnumChatFormatting.WHITE+"!");
+			if (aNameEntity.equalsIgnoreCase("Bear989jr")) return new Component("<"+ EnumChatFormatting.LIGHT_PURPLE+"Mrs. Crazy"+EnumChatFormatting.WHITE + "> Sorry "+EnumChatFormatting.RED+"Junior"+EnumChatFormatting.WHITE);
+			if (aNameEntity.equalsIgnoreCase("Bear989Sr")) return new Component("<"+EnumChatFormatting.LIGHT_PURPLE+"Mrs. Crazy"+EnumChatFormatting.WHITE + "> Hush it!, "+EnumChatFormatting.RED+"Bear"+EnumChatFormatting.WHITE+"!");
 		}
 		if (aNamePlayer.equalsIgnoreCase("Bear989Sr") || aNamePlayer.equalsIgnoreCase("Bear989jr")) {
 			//
 		}
 		
 		if (UT.Code.stringValid(aMessage)) {
-			return new ChatComponentText(aMessage.replace("[KILLER]", EnumChatFormatting.GREEN+aNamePlayer+EnumChatFormatting.WHITE).replace("[VICTIM]", EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE));
+			return new Component(aMessage.replace("[KILLER]", EnumChatFormatting.GREEN+aNamePlayer+EnumChatFormatting.WHITE).replace("[VICTIM]", EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE));
 		} else if (aEntity instanceof LivingEntity) {
 			return new EntityDamageSource(aPlayer instanceof Player ? "player" : "mob", aPlayer).func_151519_b((LivingEntity)aEntity);
 		} else if (aEntity instanceof EntityDragonPart) {
 			return new EntityDamageSource(aPlayer instanceof Player ? "player" : "mob", aPlayer).func_151519_b((LivingEntity)((EntityDragonPart)aEntity).entityDragonObj);
 		}
-		return new ChatComponentText(EnumChatFormatting.GREEN+aNamePlayer+EnumChatFormatting.WHITE+" has killed "+EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE);
+		return new Component(EnumChatFormatting.GREEN+aNamePlayer+EnumChatFormatting.WHITE+" has killed "+EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE);
 	}
 }

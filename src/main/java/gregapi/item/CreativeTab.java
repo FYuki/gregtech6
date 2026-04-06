@@ -26,7 +26,7 @@ import net.minecraft.world.item.Item;
 /**
  * @author Gregorius Techneticies
  */
-public class CreativeTab extends CreativeTabs {
+public class CreativeTab extends CreativeModeTab {
 	public final Item mItem;
 	public final short mMetaData;
 	

@@ -44,13 +44,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
 
 import java.util.List;
@@ -90,7 +90,7 @@ public class MultiTileEntityJuicer extends TileEntityBase07Paintable implements 
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0 || isClientSide()) return rReturn;
 		if (aTool.equals(TOOL_plunger)) {
@@ -272,7 +272,7 @@ public class MultiTileEntityJuicer extends TileEntityBase07Paintable implements 
 	}
 	
 	@Override
-	public void addCollisionBoxesToList2(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {
+	public void addCollisionBoxesToList2(AABB aAABB, List<AABB> aList, Entity aEntity) {
 		box(aAABB, aList, PX_P[12], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[12], PX_N[ 2]);
 		box(aAABB, aList, PX_P[ 2], PX_P[ 0], PX_P[12], PX_N[ 2], PX_N[12], PX_N[ 2]);
 		box(aAABB, aList, PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[12], PX_N[12], PX_N[ 2]);
@@ -283,8 +283,8 @@ public class MultiTileEntityJuicer extends TileEntityBase07Paintable implements 
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_WATER;}
 	
 	@Override public boolean addDefaultCollisionBoxToList() {return F;}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[12], PX_N[ 2]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[12], PX_N[ 2]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[12], PX_N[ 2]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[12], PX_N[ 2]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[12], PX_N[ 2]);}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return SIDES_VERTICAL[aSide]?0.5F:0.0F;}

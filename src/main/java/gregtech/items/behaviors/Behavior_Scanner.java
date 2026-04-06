@@ -47,7 +47,7 @@ public class Behavior_Scanner extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aPlayer instanceof ServerPlayer) {
 			ArrayList<String> tList = new ArrayListNoNulls<>();
 			if (aItem.useEnergy(TD.Energy.EU, aStack, WD.scan(tList, aPlayer, aWorld, mScanLevel, aX, aY, aZ, aSide, hitX, hitY, hitZ), aPlayer, aPlayer.inventory, aWorld, aX, aY, aZ, T)) UT.Entities.sendchat(aPlayer, tList, F);
@@ -76,7 +76,7 @@ public class Behavior_Scanner extends AbstractBehaviorDefault {
 	}
 	
 	static {
-		LH.add("gt.behaviour.scanning", "Can scan Blocks in World");
+		LH.add("gt.behaviour.scanning", "Can scan Blocks in Level");
 	}
 	
 	@Override

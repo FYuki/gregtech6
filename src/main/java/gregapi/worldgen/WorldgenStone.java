@@ -43,7 +43,7 @@ public class WorldgenStone extends WorldgenBlob {
 	}
 	
 	@Override
-	public boolean tryPlaceStuff(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public boolean tryPlaceStuff(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		Block tTargetedBlock = aWorld.getBlock(aX, aY, aZ);
 		if (tTargetedBlock == NB || tTargetedBlock.isAir(aWorld, aX, aY, aZ)) return mAllowToGenerateinVoid && aWorld.setBlock(aX, aY, aZ, mBlock, mBlockMeta, 0);
 		if (tTargetedBlock instanceof IBlockExtendedMetaData) return overrideBlock((IBlockExtendedMetaData)tTargetedBlock, aWorld, aX, aY, aZ);
@@ -51,7 +51,7 @@ public class WorldgenStone extends WorldgenBlob {
 	}
 	
 	@SuppressWarnings("unlikely-arg-type")
-	private boolean overrideBlock(IBlockExtendedMetaData aBlock, World aWorld, int aX, int aY, int aZ) {
+	private boolean overrideBlock(IBlockExtendedMetaData aBlock, Level aWorld, int aX, int aY, int aZ) {
 		if (!BlocksGT.stoneOverridable.contains(aBlock)) return F;
 		short aID = aBlock.getExtendedMetaData(aWorld, aX, aY, aZ);
 		IBlockPlacable tBlock = null;

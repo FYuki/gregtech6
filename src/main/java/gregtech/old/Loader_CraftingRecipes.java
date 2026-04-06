@@ -42,7 +42,7 @@ public class Loader_CraftingRecipes implements Runnable {
 		ItemStack tStack;
 		
 		tStack = GT_Utility.getWrittenBook("GregTech Manual I (Edition 5)", "Gregorius Techneticies", new String[] {
-				  "So, this is probably your first time using a Product of GregTech Intergalactical, so you might ask yourself where to begin with? This World is very complex, and you may want to aquire a few basic Resources first."
+				  "So, this is probably your first time using a Product of GregTech Intergalactical, so you might ask yourself where to begin with? This Level is very complex, and you may want to aquire a few basic Resources first."
 				, "You need many Resources to start with, as there are: Wood, Sticky Resin or Slimeballs, Sand, Clay, Silk, Food, Iron, Copper, Tin, Flint, Redstone, Coal (or another good Fuel for the Oven) and a bunch of Cobblestones would also be very useful."
 				, "All Resources aquired? Good, then cook your Ores, Food and Slimeballs in your Stone Oven, and build a Bed so that you can rest. Then you might need a Mortar for the production of Bronze Dust. Bronze is much better than wasting Iron."
 				, "So, now that you have a set of Tools, you can begin to make an Iron Oven out of your old Stone Oven. Smelting Sticky Resin into Rubber is no longer possible, you need to extract the Rubber from the Resin and then smelt the resulting Rubber Pulp."
@@ -188,7 +188,7 @@ public class Loader_CraftingRecipes implements Runnable {
 				, "Heating Coils are capable of upgrading the Efficiency of all Furnace alike Devices, including the electric Blast Furnace, when using 4 Coils at once. Note, that you need to install the Coils in a certain order for it to work."
 				, "Steam Engine Upgrades, let your Machines work on Steam directly. 2 Steam = 1 EU. Very useful if you have a Boiler running. If there is no Mod with Steam Engine, then you have to use a Gas Turbine in the Assembling Recipe."
 				, "Steam Tank Upgrades just increase the amount of Steam the Machine can buffer by 64 Buckets (32000 EU)."
-				, "Wireless Transmitter and Receiver are sending/receiving Redstone Signals Wireless and cross dimensional. A little warning: Chunk reloading causes it to not be stable for a second. Screwdriver for Frequency change, by clicking on the 4 Screws."
+				, "Wireless Transmitter and Receiver are sending/receiving Redstone Signals Wireless and cross dimensional. A little warning: LevelChunk reloading causes it to not be stable for a second. Screwdriver for Frequency change, by clicking on the 4 Screws."
 				, "Redstone Signalizers apply a constant Redstone Signal to a Side of a Machine. Signal can be changed via Screwdriver."
 				, "Redstone Conductors take the applied Redstone Signal of a Machine and emit it on their Facing."
 				, "Lock Upgrade. This makes a Machine private and unbreakable (except for explosions). Only the one who applied the Upgrade can interact with the Machine."
@@ -352,7 +352,7 @@ public class Loader_CraftingRecipes implements Runnable {
 				, "First of all you need the proper equipment. You should have at least one Prospectors Hammer with you to find out if there are Ores close by. Just hammer onto regular Rock and you will see if there are traces of whatever Ore."
 				, "But not only that, you can also hear if there is something behind this Rock, like Water, Lava or a Cave. Or Silverfish if you are unfortunate. If you find traces of the Ore you are looking for you should Dig out the Area around you to find it."
 				, "As soon as you found the Ore, take a Sign, paint a Picture of whatever Ore you found on it, place it down, yell Yipee and send your Boss a Letter about you finding the Ore. That's how I do it, and I did my Job very well."
-				, "But now about where to find the Ores in the normal World. Some Ores can only be found in certain Areas, they behave as follows:"
+				, "But now about where to find the Ores in the normal Level. Some Ores can only be found in certain Areas, they behave as follows:"
 				, "Coal Ore: You can find it almost everywhere, in fact it is everywhere."
 				, "Iron Ore: This can only be found Underground below Ocean Level."
 				, "Gold Ore: It is usually found below Y-Level 32 deep Underground."

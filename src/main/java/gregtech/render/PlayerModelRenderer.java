@@ -24,9 +24,9 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Mth;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import gregapi.stubs.RenderPlayerEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Collection;
@@ -85,8 +85,8 @@ public class PlayerModelRenderer extends RenderPlayer {
 				double d1 = aPlayer.field_71096_bN + (aPlayer.field_71095_bQ - aPlayer.field_71096_bN) * aPartialTicks - (aPlayer.prevPosY + (aPlayer.posY - aPlayer.prevPosY) * aPartialTicks);
 				double d2 = aPlayer.field_71097_bO + (aPlayer.field_71085_bR - aPlayer.field_71097_bO) * aPartialTicks - (aPlayer.prevPosZ + (aPlayer.posZ - aPlayer.prevPosZ) * aPartialTicks);
 				float f6 = aPlayer.prevRenderYawOffset + (aPlayer.renderYawOffset - aPlayer.prevRenderYawOffset) * aPartialTicks;
-				double d3 = MathHelper.sin(f6 * (float)Math.PI / 180.0F);
-				double d4 = (-MathHelper.cos(f6 * (float)Math.PI / 180.0F));
+				double d3 = Mth.sin(f6 * (float)Math.PI / 180.0F);
+				double d4 = (-Mth.cos(f6 * (float)Math.PI / 180.0F));
 				float f7 = (float)d1 * 10.0F;
 				float f8 = (float)(d0 * d3 + d2 * d4) * 100.0F;
 				float f9 = (float)(d0 * d4 - d2 * d3) * 100.0F;
@@ -94,7 +94,7 @@ public class PlayerModelRenderer extends RenderPlayer {
 				if (f7 > 32.0F) f7 = 32.0F;
 				if (f8 <  0.0F) f8 =  0.0F;
 				float f10 = aPlayer.prevCameraYaw + (aPlayer.cameraYaw - aPlayer.prevCameraYaw) * aPartialTicks;
-				f7 += MathHelper.sin((aPlayer.prevDistanceWalkedModified + (aPlayer.distanceWalkedModified - aPlayer.prevDistanceWalkedModified) * aPartialTicks) * 6.0F) * 32.0F * f10;
+				f7 += Mth.sin((aPlayer.prevDistanceWalkedModified + (aPlayer.distanceWalkedModified - aPlayer.prevDistanceWalkedModified) * aPartialTicks) * 6.0F) * 32.0F * f10;
 				if (aPlayer.isSneaking()) {
 					f7 += 25.0F;
 				}

@@ -66,9 +66,13 @@ import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.core.Direction; // was Direction
-import net.minecraftforge.fluids.*;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidTank;
+import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTankInfo; // PHASE3: removed from NeoForge
+import net.minecraft.world.level.material.Fluid;
 // PHASE7: import OreDictionary removed — replaced by Tags
 
 import java.io.File;
@@ -245,45 +249,45 @@ public class CS {
 	public static final int LIGHT_OPACITY_NONE = 0, LIGHT_OPACITY_LEAVES = 1, LIGHT_OPACITY_WATER = 3, LIGHT_OPACITY_MAX = 255;
 	
 	public static final Set<String>
-	  BIOMES_RIVER          = new BiomeNameSet(BiomeGenBase.river, BiomeGenBase.frozenRiver, "Lush River", "Estuary", "Twilight Stream", "Tropical River", "Riparian Zone", "Sandstone Canyon", "Sandstone Canyon 2", "Creek Bed", "rwg_riverIce", "Ice River", "rwg_riverCold", "Cold River", "rwg_riverTemperate", "Temperate River", "rwg_riverHot", "Hot River", "rwg_riverWet", "Wet River", "rwg_riverOasis", "River Oasis")
-	, BIOMES_RIVER_LAKE     = new BiomeNameSet(BiomeGenBase.river, BiomeGenBase.frozenRiver, "Lush River", "Estuary", "Twilight Stream", "Tropical River", "Riparian Zone", "Sandstone Canyon", "Sandstone Canyon 2", "Creek Bed", "rwg_riverIce", "Ice River", "rwg_riverCold", "Cold River", "rwg_riverTemperate", "Temperate River", "rwg_riverHot", "Hot River", "rwg_riverWet", "Wet River", "rwg_riverOasis", "River Oasis", "Tropical Lake", "Twilight Lake", "Lake", "Oasis", "Woodland Lake", "Woodland Lake Edge") // "Ephemeral Lake", "Ephemeral Lake Edge" those are vapourizing Lakes that vanish depending on Season.
+	  BIOMES_RIVER          = new BiomeNameSet(Biome.river, Biome.frozenRiver, "Lush River", "Estuary", "Twilight Stream", "Tropical River", "Riparian Zone", "Sandstone Canyon", "Sandstone Canyon 2", "Creek Bed", "rwg_riverIce", "Ice River", "rwg_riverCold", "Cold River", "rwg_riverTemperate", "Temperate River", "rwg_riverHot", "Hot River", "rwg_riverWet", "Wet River", "rwg_riverOasis", "River Oasis")
+	, BIOMES_RIVER_LAKE     = new BiomeNameSet(Biome.river, Biome.frozenRiver, "Lush River", "Estuary", "Twilight Stream", "Tropical River", "Riparian Zone", "Sandstone Canyon", "Sandstone Canyon 2", "Creek Bed", "rwg_riverIce", "Ice River", "rwg_riverCold", "Cold River", "rwg_riverTemperate", "Temperate River", "rwg_riverHot", "Hot River", "rwg_riverWet", "Wet River", "rwg_riverOasis", "River Oasis", "Tropical Lake", "Twilight Lake", "Lake", "Oasis", "Woodland Lake", "Woodland Lake Edge") // "Ephemeral Lake", "Ephemeral Lake Edge" those are vapourizing Lakes that vanish depending on Season.
 	, BIOMES_LAKE           = new BiomeNameSet("Tropical Lake", "Twilight Lake", "Lake", "Oasis", "Woodland Lake", "Woodland Lake Edge", "Ephemeral Lake", "Ephemeral Lake Edge")
-	, BIOMES_OCEAN          = new BiomeNameSet(BiomeGenBase.ocean, BiomeGenBase.frozenOcean, BiomeGenBase.deepOcean, "Coral Reef", "Kelp Forest", "Mangrove", "Ocean Oil Field", "Improved Oceans", "Tropical Ocean", "rwg_oceanIce", "rwg_oceanCold", "rwg_oceanTemperate", "rwg_oceanHot", "rwg_oceanWet", "rwg_oceanOasis", "Ice Ocean", "Cold Ocean", "Temperate Ocean", "Hot Ocean", "Wet Ocean", "Ocean Oasis")
-	, BIOMES_OCEAN_BEACH    = new BiomeNameSet(BiomeGenBase.ocean, BiomeGenBase.frozenOcean, BiomeGenBase.deepOcean, BiomeGenBase.beach, BiomeGenBase.coldBeach, BiomeGenBase.stoneBeach, BiomeGenBase.mushroomIslandShore, "Coral Reef", "Kelp Forest", "Mangrove", "Ocean Oil Field", "Improved Oceans", "Tropical Ocean", "rwg_oceanIce", "rwg_oceanCold", "rwg_oceanTemperate", "rwg_oceanHot", "rwg_oceanWet", "rwg_oceanOasis", "Ice Ocean", "Cold Ocean", "Temperate Ocean", "Hot Ocean", "Wet Ocean", "Ocean Oasis", "Tropical Beach")
-	, BIOMES_INFINITE_WATER = new BiomeNameSet(BiomeGenBase.ocean, BiomeGenBase.frozenOcean, BiomeGenBase.deepOcean, BiomeGenBase.beach, BiomeGenBase.coldBeach, BiomeGenBase.stoneBeach, BiomeGenBase.mushroomIslandShore, "Coral Reef", "Kelp Forest", "Mangrove", "Ocean Oil Field", "Improved Oceans", "Tropical Ocean", "rwg_oceanIce", "rwg_oceanCold", "rwg_oceanTemperate", "rwg_oceanHot", "rwg_oceanWet", "rwg_oceanOasis", "Ice Ocean", "Cold Ocean", "Temperate Ocean", "Hot Ocean", "Wet Ocean", "Ocean Oasis", "Tropical Beach", BiomeGenBase.river, BiomeGenBase.frozenRiver, "Lush River", "Estuary", "Twilight Stream", "Tropical River", "Riparian Zone", "Sandstone Canyon", "Sandstone Canyon 2", "Creek Bed", "rwg_riverIce", "Ice River", "rwg_riverCold", "Cold River", "rwg_riverTemperate", "Temperate River", "rwg_riverHot", "Hot River", "rwg_riverWet", "Wet River", "rwg_riverOasis", "River Oasis", "Tropical Lake", "Twilight Lake", "Lake", "Oasis", "Woodland Lake", "Woodland Lake Edge")
+	, BIOMES_OCEAN          = new BiomeNameSet(Biome.ocean, Biome.frozenOcean, Biome.deepOcean, "Coral Reef", "Kelp Forest", "Mangrove", "Ocean Oil Field", "Improved Oceans", "Tropical Ocean", "rwg_oceanIce", "rwg_oceanCold", "rwg_oceanTemperate", "rwg_oceanHot", "rwg_oceanWet", "rwg_oceanOasis", "Ice Ocean", "Cold Ocean", "Temperate Ocean", "Hot Ocean", "Wet Ocean", "Ocean Oasis")
+	, BIOMES_OCEAN_BEACH    = new BiomeNameSet(Biome.ocean, Biome.frozenOcean, Biome.deepOcean, Biome.beach, Biome.coldBeach, Biome.stoneBeach, Biome.mushroomIslandShore, "Coral Reef", "Kelp Forest", "Mangrove", "Ocean Oil Field", "Improved Oceans", "Tropical Ocean", "rwg_oceanIce", "rwg_oceanCold", "rwg_oceanTemperate", "rwg_oceanHot", "rwg_oceanWet", "rwg_oceanOasis", "Ice Ocean", "Cold Ocean", "Temperate Ocean", "Hot Ocean", "Wet Ocean", "Ocean Oasis", "Tropical Beach")
+	, BIOMES_INFINITE_WATER = new BiomeNameSet(Biome.ocean, Biome.frozenOcean, Biome.deepOcean, Biome.beach, Biome.coldBeach, Biome.stoneBeach, Biome.mushroomIslandShore, "Coral Reef", "Kelp Forest", "Mangrove", "Ocean Oil Field", "Improved Oceans", "Tropical Ocean", "rwg_oceanIce", "rwg_oceanCold", "rwg_oceanTemperate", "rwg_oceanHot", "rwg_oceanWet", "rwg_oceanOasis", "Ice Ocean", "Cold Ocean", "Temperate Ocean", "Hot Ocean", "Wet Ocean", "Ocean Oasis", "Tropical Beach", Biome.river, Biome.frozenRiver, "Lush River", "Estuary", "Twilight Stream", "Tropical River", "Riparian Zone", "Sandstone Canyon", "Sandstone Canyon 2", "Creek Bed", "rwg_riverIce", "Ice River", "rwg_riverCold", "Cold River", "rwg_riverTemperate", "Temperate River", "rwg_riverHot", "Hot River", "rwg_riverWet", "Wet River", "rwg_riverOasis", "River Oasis", "Tropical Lake", "Twilight Lake", "Lake", "Oasis", "Woodland Lake", "Woodland Lake Edge")
 	
-	, BIOMES_JUNGLE         = new BiomeNameSet(BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.jungleEdge, "Undergound Jungle", "Jungle Island", "Extreme Jungle", "Mini Jungle", "Rainforest Hills", "Jungle (RWG)")
-	, BIOMES_CINNAMON       = new BiomeNameSet(BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.jungleEdge, "Undergound Jungle", "Jungle Island", "Extreme Jungle", "Mini Jungle", "Rainforest Hills", "Jungle (RWG)")
-	, BIOMES_BLUEMAHOE      = new BiomeNameSet(BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.jungleEdge, "Undergound Jungle", "Jungle Island", "Extreme Jungle", "Mini Jungle", "Rainforest Hills", "Jungle (RWG)")
+	, BIOMES_JUNGLE         = new BiomeNameSet(Biome.jungle, Biome.jungleHills, Biome.jungleEdge, "Undergound Jungle", "Jungle Island", "Extreme Jungle", "Mini Jungle", "Rainforest Hills", "Jungle (RWG)")
+	, BIOMES_CINNAMON       = new BiomeNameSet(Biome.jungle, Biome.jungleHills, Biome.jungleEdge, "Undergound Jungle", "Jungle Island", "Extreme Jungle", "Mini Jungle", "Rainforest Hills", "Jungle (RWG)")
+	, BIOMES_BLUEMAHOE      = new BiomeNameSet(Biome.jungle, Biome.jungleHills, Biome.jungleEdge, "Undergound Jungle", "Jungle Island", "Extreme Jungle", "Mini Jungle", "Rainforest Hills", "Jungle (RWG)")
 	
-	, BIOMES_DESERT         = new BiomeNameSet(BiomeGenBase.desert, BiomeGenBase.desertHills, "Sahara", "Red Desert", "Desert Archipelago", "Oasis", "Sandstone Canyon", "Sandstone Canyon 2", "Sandstone Ranges", "Sahel", "Lush Desert", "Desert Oil Field", "Desert Island", "Mountainous Desert", "Desert Mountains", "Volcanic Desert", "Ulterior Outback", "Hot Desert")
-	, BIOMES_MESA           = new BiomeNameSet(BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.mesaPlateau_F, "Canyon", "Mesa (Bryce)", "Mesa", "Clay Hills")
-	, BIOMES_SAVANNA        = new BiomeNameSet(BiomeGenBase.savanna, BiomeGenBase.savannaPlateau, "Steppe", "Subterranean Savannah", "Oak Savanna", "Savannah", "Savanna", "Shrubland", "Shrublands", "Roofed Shrublands", "Xeric Savanna", "Xeric Shrubland", "Prairie", "Canyon")
+	, BIOMES_DESERT         = new BiomeNameSet(Biome.desert, Biome.desertHills, "Sahara", "Red Desert", "Desert Archipelago", "Oasis", "Sandstone Canyon", "Sandstone Canyon 2", "Sandstone Ranges", "Sahel", "Lush Desert", "Desert Oil Field", "Desert Island", "Mountainous Desert", "Desert Mountains", "Volcanic Desert", "Ulterior Outback", "Hot Desert")
+	, BIOMES_MESA           = new BiomeNameSet(Biome.mesa, Biome.mesaPlateau, Biome.mesaPlateau_F, "Canyon", "Mesa (Bryce)", "Mesa", "Clay Hills")
+	, BIOMES_SAVANNA        = new BiomeNameSet(Biome.savanna, Biome.savannaPlateau, "Steppe", "Subterranean Savannah", "Oak Savanna", "Savannah", "Savanna", "Shrubland", "Shrublands", "Roofed Shrublands", "Xeric Savanna", "Xeric Shrubland", "Prairie", "Canyon")
 	
-	, BIOMES_SWAMP          = new BiomeNameSet(BiomeGenBase.swampland, "Green Swamplands", "DeepSwamp", "Land of Lakes Marsh", "Marsh", "Lush Swamp", "Moor", "Mire", "Bog", "Twilight Swamp", "Submerged Swamp", "Fire Swamp")
-	, BIOMES_WILLOW         = new BiomeNameSet(BiomeGenBase.swampland, "Green Swamplands", "DeepSwamp", "Land of Lakes Marsh", "Marsh", "Lush Swamp", "Moor", "Mire", "Bog", "Twilight Swamp", "Submerged Swamp")
+	, BIOMES_SWAMP          = new BiomeNameSet(Biome.swampland, "Green Swamplands", "DeepSwamp", "Land of Lakes Marsh", "Marsh", "Lush Swamp", "Moor", "Mire", "Bog", "Twilight Swamp", "Submerged Swamp", "Fire Swamp")
+	, BIOMES_WILLOW         = new BiomeNameSet(Biome.swampland, "Green Swamplands", "DeepSwamp", "Land of Lakes Marsh", "Marsh", "Lush Swamp", "Moor", "Mire", "Bog", "Twilight Swamp", "Submerged Swamp")
 	
-	, BIOMES_TAIGA          = new BiomeNameSet(BiomeGenBase.taiga, BiomeGenBase.taigaHills, BiomeGenBase.coldTaiga, BiomeGenBase.coldTaigaHills, BiomeGenBase.megaTaiga, BiomeGenBase.megaTaigaHills, "Mountain Taiga", "Pinelands", "Tall Pine Forest", "Shield", "Cold Boreal Forest", "Cold Cypress Forest", "Cold Fir Forest", "Cold Pine Forest", "Boreal Archipelago", "Boreal Forest", "Boreal Plateau", "Twilight Highlands", "Snowy Forest")
-	, BIOMES_RUBBER         = new BiomeNameSet(BiomeGenBase.taiga, BiomeGenBase.taigaHills, BiomeGenBase.coldTaiga, BiomeGenBase.coldTaigaHills, BiomeGenBase.megaTaiga, BiomeGenBase.megaTaigaHills, "Mountain Taiga", "Pinelands", "Tall Pine Forest", "Shield", "Cold Boreal Forest", "Cold Cypress Forest", "Cold Fir Forest", "Cold Pine Forest", "Boreal Archipelago", "Boreal Forest", "Boreal Plateau", "Twilight Highlands", "Snowy Forest")
+	, BIOMES_TAIGA          = new BiomeNameSet(Biome.taiga, Biome.taigaHills, Biome.coldTaiga, Biome.coldTaigaHills, Biome.megaTaiga, Biome.megaTaigaHills, "Mountain Taiga", "Pinelands", "Tall Pine Forest", "Shield", "Cold Boreal Forest", "Cold Cypress Forest", "Cold Fir Forest", "Cold Pine Forest", "Boreal Archipelago", "Boreal Forest", "Boreal Plateau", "Twilight Highlands", "Snowy Forest")
+	, BIOMES_RUBBER         = new BiomeNameSet(Biome.taiga, Biome.taigaHills, Biome.coldTaiga, Biome.coldTaigaHills, Biome.megaTaiga, Biome.megaTaigaHills, "Mountain Taiga", "Pinelands", "Tall Pine Forest", "Shield", "Cold Boreal Forest", "Cold Cypress Forest", "Cold Fir Forest", "Cold Pine Forest", "Boreal Archipelago", "Boreal Forest", "Boreal Plateau", "Twilight Highlands", "Snowy Forest")
 	
-	, BIOMES_FROZEN         = new BiomeNameSet(BiomeGenBase.icePlains, BiomeGenBase.iceMountains, BiomeGenBase.coldTaiga, BiomeGenBase.coldTaigaHills, BiomeGenBase.frozenRiver, "Snow Island", "Ice Plains Spikes", "Ice Wasteland", "Frost Forest", "Snowy Rainforest", "Snow Forest", "Snowy Forest", "Snow Desert", "Twilight Glacier", "Alpine", "Glacier", "Tundra", "Snowy Desert", "Snowy Plateau", "Snowy Ranges", "Snowy Wastelands", "Polar Desert", "Ice Sheet", "Frozen Archipelago", "Alpine Mountains", "Alpine Mountains Edge", "Alpine Tundra", "rwg_riverIce", "Ice River", "Ice Ocean")
+	, BIOMES_FROZEN         = new BiomeNameSet(Biome.icePlains, Biome.iceMountains, Biome.coldTaiga, Biome.coldTaigaHills, Biome.frozenRiver, "Snow Island", "Ice Plains Spikes", "Ice Wasteland", "Frost Forest", "Snowy Rainforest", "Snow Forest", "Snowy Forest", "Snow Desert", "Twilight Glacier", "Alpine", "Glacier", "Tundra", "Snowy Desert", "Snowy Plateau", "Snowy Ranges", "Snowy Wastelands", "Polar Desert", "Ice Sheet", "Frozen Archipelago", "Alpine Mountains", "Alpine Mountains Edge", "Alpine Tundra", "rwg_riverIce", "Ice River", "Ice Ocean")
 	
-	, BIOMES_WOODS          = new BiomeNameSet(BiomeGenBase.forest, BiomeGenBase.forestHills, "Autumn Forest", "Elysian Forest", "Meadow Forest", "Seasonal Forest", "Seasonal Forest Clearing", "Forested Hills", "Forested Island", "Snow Forest", "Forest Island", "Forested Archipelago", "Forested Mountains", "Forested Valley", "Temperate Forest", "Redwood Forest", "Lush Redwoods", "Redwood", "Woodlands", "Woodland Mountains", "Woodland Field", "Woodland Hills", "Woodland Lake", "Woodland Lake Edge", "Dark Forest", "Dark Forest Center", "Dense Twilight Forest", "Twilight Forest", "Firefly Forest", "Maple Woods", BiomeGenBase.roofedForest, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, "Pine Forest", "Rainforest", "Rainforest Valley", "Spruce Woods", "Autumn Woods", "Flower Forest", "Birch Hills", "Woodlands", "Temperate Rainforest", "Pinelands", "Tall Pine Forest", "Shield", "Mystic Grove", "Ominous Woods", "Blossom Hills", "Blossom Woods", "Aspen Forest", "Aspen Hills", "Cypress Forest", "Silver Pine Forest", "Silver Pine Hills", "Fir Forest", "Flowery Archipelago", "Oak Forest", "Pine Forest", "Pine Forest Archipelago", "Rainforest Hills", "Rainforest Mountains", "Extreme Rainforest Mountains")
-	, BIOMES_FOREST         = new BiomeNameSet(BiomeGenBase.forest, BiomeGenBase.forestHills, "Autumn Forest", "Elysian Forest", "Meadow Forest", "Seasonal Forest", "Seasonal Forest Clearing", "Forested Hills", "Forested Island", "Snow Forest", "Forest Island", "Forested Archipelago", "Forested Mountains", "Forested Valley", "Temperate Forest", "Redwood Forest", "Lush Redwoods", "Redwood", "Woodlands", "Woodland Mountains", "Woodland Field", "Woodland Hills", "Woodland Lake", "Woodland Lake Edge", "Dark Forest", "Dark Forest Center", "Dense Twilight Forest", "Twilight Forest", "Firefly Forest")
-	, BIOMES_MAPLE          = new BiomeNameSet(BiomeGenBase.forest, BiomeGenBase.forestHills, "Autumn Forest", "Elysian Forest", "Meadow Forest", "Seasonal Forest", "Seasonal Forest Clearing", "Forested Hills", "Forested Island", "Snow Forest", "Forest Island", "Forested Archipelago", "Forested Mountains", "Forested Valley", "Temperate Forest", "Maple Woods", "Firefly Forest")
-	, BIOMES_DARK_FOREST    = new BiomeNameSet(BiomeGenBase.roofedForest, "Dark Forest", "Dark Forest Center")
+	, BIOMES_WOODS          = new BiomeNameSet(Biome.forest, Biome.forestHills, "Autumn Forest", "Elysian Forest", "Meadow Forest", "Seasonal Forest", "Seasonal Forest Clearing", "Forested Hills", "Forested Island", "Snow Forest", "Forest Island", "Forested Archipelago", "Forested Mountains", "Forested Valley", "Temperate Forest", "Redwood Forest", "Lush Redwoods", "Redwood", "Woodlands", "Woodland Mountains", "Woodland Field", "Woodland Hills", "Woodland Lake", "Woodland Lake Edge", "Dark Forest", "Dark Forest Center", "Dense Twilight Forest", "Twilight Forest", "Firefly Forest", "Maple Woods", Biome.roofedForest, Biome.birchForest, Biome.birchForestHills, "Pine Forest", "Rainforest", "Rainforest Valley", "Spruce Woods", "Autumn Woods", "Flower Forest", "Birch Hills", "Woodlands", "Temperate Rainforest", "Pinelands", "Tall Pine Forest", "Shield", "Mystic Grove", "Ominous Woods", "Blossom Hills", "Blossom Woods", "Aspen Forest", "Aspen Hills", "Cypress Forest", "Silver Pine Forest", "Silver Pine Hills", "Fir Forest", "Flowery Archipelago", "Oak Forest", "Pine Forest", "Pine Forest Archipelago", "Rainforest Hills", "Rainforest Mountains", "Extreme Rainforest Mountains")
+	, BIOMES_FOREST         = new BiomeNameSet(Biome.forest, Biome.forestHills, "Autumn Forest", "Elysian Forest", "Meadow Forest", "Seasonal Forest", "Seasonal Forest Clearing", "Forested Hills", "Forested Island", "Snow Forest", "Forest Island", "Forested Archipelago", "Forested Mountains", "Forested Valley", "Temperate Forest", "Redwood Forest", "Lush Redwoods", "Redwood", "Woodlands", "Woodland Mountains", "Woodland Field", "Woodland Hills", "Woodland Lake", "Woodland Lake Edge", "Dark Forest", "Dark Forest Center", "Dense Twilight Forest", "Twilight Forest", "Firefly Forest")
+	, BIOMES_MAPLE          = new BiomeNameSet(Biome.forest, Biome.forestHills, "Autumn Forest", "Elysian Forest", "Meadow Forest", "Seasonal Forest", "Seasonal Forest Clearing", "Forested Hills", "Forested Island", "Snow Forest", "Forest Island", "Forested Archipelago", "Forested Mountains", "Forested Valley", "Temperate Forest", "Maple Woods", "Firefly Forest")
+	, BIOMES_DARK_FOREST    = new BiomeNameSet(Biome.roofedForest, "Dark Forest", "Dark Forest Center")
 	
-	, BIOMES_PLAINS         = new BiomeNameSet(BiomeGenBase.plains, "Meadow", "Grassland", "Flower Field", "Sunflower Plains", "Plains (RWG)", "Clearing", "Twilight Clearing", "Elysian Fields", "Lowlands", "Origin Valley", "Grassy Archipelago", "Alfheim", "Rainforest Plains", "Tropics", "Highlands", "Bald Hill", "Tundra", "Low Hills", "Mining Biome")
-	, BIOMES_HAZEL          = new BiomeNameSet(BiomeGenBase.plains, "Meadow", "Grassland", "Flower Field", "Sunflower Plains", "Plains (RWG)", "Clearing", "Twilight Clearing", "Elysian Fields", "Lowlands", "Origin Valley", "Grassy Archipelago", "Alfheim")
+	, BIOMES_PLAINS         = new BiomeNameSet(Biome.plains, "Meadow", "Grassland", "Flower Field", "Sunflower Plains", "Plains (RWG)", "Clearing", "Twilight Clearing", "Elysian Fields", "Lowlands", "Origin Valley", "Grassy Archipelago", "Alfheim", "Rainforest Plains", "Tropics", "Highlands", "Bald Hill", "Tundra", "Low Hills", "Mining Biome")
+	, BIOMES_HAZEL          = new BiomeNameSet(Biome.plains, "Meadow", "Grassland", "Flower Field", "Sunflower Plains", "Plains (RWG)", "Clearing", "Twilight Clearing", "Elysian Fields", "Lowlands", "Origin Valley", "Grassy Archipelago", "Alfheim")
 	
-	, BIOMES_COCONUT        = new BiomeNameSet(BiomeGenBase.beach, "Tropical Ocean", "Tropical Beach", "Tropical River", "Tropical Lake", "Tropical Archipelago", "Tropical Island", "Tropical Islands", "Tropics", "Oasis")
+	, BIOMES_COCONUT        = new BiomeNameSet(Biome.beach, "Tropical Ocean", "Tropical Beach", "Tropical River", "Tropical Lake", "Tropical Archipelago", "Tropical Island", "Tropical Islands", "Tropics", "Oasis")
 	
-	, BIOMES_MOUNTAINS      = new BiomeNameSet(BiomeGenBase.extremeHills, BiomeGenBase.extremeHillsEdge, BiomeGenBase.extremeHillsPlus, BiomeGenBase.stoneBeach, "Mountainous Archipelago", "Mountains", "Mountains Edge", "Plateau", "Highlands", "Highlands Center", "Twilight Highlands", "Thornlands", "Alps", "Cliffs", "Flying Mountains", "Rock Mountains", "Snow Mountains", "Rock Island", "Valley", "Alpine Mountains", "Alpine Mountains Edge", "Alpine Tundra", "Stone Canyon", "Stone Canyon 2", "Rocky Desert", "Rocky Hills", "Rainforest Mountains", "Extreme Rainforest Mountains")
-	, BIOMES_BLUESPRUCE     = new BiomeNameSet(BiomeGenBase.extremeHills, BiomeGenBase.extremeHillsEdge, BiomeGenBase.extremeHillsPlus, BiomeGenBase.stoneBeach, "Mountainous Archipelago", "Mountains", "Mountains Edge", "Plateau", "Highlands", "Highlands Center", "Twilight Highlands", "Thornlands", "Alps", "Cliffs", "Flying Mountains", "Rock Mountains", "Snow Mountains", "Rock Island", "Valley", "Alpine Mountains", "Alpine Mountains Edge", "Alpine Tundra", "Stone Canyon", "Stone Canyon 2", "Rocky Desert", "Rocky Hills", "Rainforest Mountains", "Extreme Rainforest Mountains")
+	, BIOMES_MOUNTAINS      = new BiomeNameSet(Biome.extremeHills, Biome.extremeHillsEdge, Biome.extremeHillsPlus, Biome.stoneBeach, "Mountainous Archipelago", "Mountains", "Mountains Edge", "Plateau", "Highlands", "Highlands Center", "Twilight Highlands", "Thornlands", "Alps", "Cliffs", "Flying Mountains", "Rock Mountains", "Snow Mountains", "Rock Island", "Valley", "Alpine Mountains", "Alpine Mountains Edge", "Alpine Tundra", "Stone Canyon", "Stone Canyon 2", "Rocky Desert", "Rocky Hills", "Rainforest Mountains", "Extreme Rainforest Mountains")
+	, BIOMES_BLUESPRUCE     = new BiomeNameSet(Biome.extremeHills, Biome.extremeHillsEdge, Biome.extremeHillsPlus, Biome.stoneBeach, "Mountainous Archipelago", "Mountains", "Mountains Edge", "Plateau", "Highlands", "Highlands Center", "Twilight Highlands", "Thornlands", "Alps", "Cliffs", "Flying Mountains", "Rock Mountains", "Snow Mountains", "Rock Island", "Valley", "Alpine Mountains", "Alpine Mountains Edge", "Alpine Tundra", "Stone Canyon", "Stone Canyon 2", "Rocky Desert", "Rocky Hills", "Rainforest Mountains", "Extreme Rainforest Mountains")
 	
 	, BIOMES_VOLCANIC       = new BiomeNameSet("Fire Swamp", "Volcano", "Volcano Island", "Volcanic Desert")
 	
-	, BIOMES_SHROOM         = new BiomeNameSet(BiomeGenBase.mushroomIsland, BiomeGenBase.mushroomIslandShore, "Fungal Forest", "Mushroom Forest", "Deep Mushroom Forest")
+	, BIOMES_SHROOM         = new BiomeNameSet(Biome.mushroomIsland, Biome.mushroomIslandShore, "Fungal Forest", "Mushroom Forest", "Deep Mushroom Forest")
 	
 	, BIOMES_MAGICAL        = new BiomeNameSet("Magical Forest", "Eldritch", "Enchanted Forest", "Mystic Grove", "Alfheim", "Tainted Land", "Eerie", "WyvernBiome", "Ominous Woods")
 	, BIOMES_RAINBOWOOD     = new BiomeNameSet("Enchanted Forest")
@@ -293,8 +297,8 @@ public class CS {
 	, BIOMES_WASTELANDS     = new BiomeNameSet("Wasteland", "Wastelands", "Wasteland Mountains", "Wasteland Forest", "Radioactive Wasteland")
 	, BIOMES_RADIOACTIVE    = new BiomeNameSet("Radioactive Wasteland")
 	
-	, BIOMES_NETHER         = new BiomeNameSet(BiomeGenBase.hell, "Ruptured Chasm", "Abyssal Shadowland", "Crystalline Crag", "Basalt Deltas", "Crimson Forest", "Soul Sand Valley", "Warped Forest", "Foxfire Swamp")
-	, BIOMES_END            = new BiomeNameSet(BiomeGenBase.sky)
+	, BIOMES_NETHER         = new BiomeNameSet(Biome.hell, "Ruptured Chasm", "Abyssal Shadowland", "Crystalline Crag", "Basalt Deltas", "Crimson Forest", "Soul Sand Valley", "Warped Forest", "Foxfire Swamp")
+	, BIOMES_END            = new BiomeNameSet(Biome.sky)
 	, BIOMES_EREBUS         = new BiomeNameSet("Undergound Jungle", "Volcanic Desert", "Subterranean Savannah", "Elysian Fields", "Ulterior Outback", "Fungal Forest", "Submerged Swamp", "Elysian Forest")
 	, BIOMES_VOID           = new BiomeNameSet("Space", "space")
 	, BIOMES_MOON           = new BiomeNameSet("Moon", "moon")
@@ -871,7 +875,7 @@ public class CS {
 	WOODMANS_BDAY    = (new Date().getMonth()+1 ==  6 && new Date().getDate() >= 20),// 21st of June    , one day early then til end of month
 	XMAS_IN_JULY     = (new Date().getMonth()+1 ==  7 && new Date().getDate() >= 23),// 24th of July    , one day early then til end of month
 	XMAS_IN_DECEMBER = (new Date().getMonth()+1 == 12 && new Date().getDate() >=  5);//  6th of December, one day early then til end of month
-	/** This means that Client or Server specific Base Files are definitely existing and loaded! Not if the World is actually client side or server side! */
+	/** This means that Client or Server specific Base Files are definitely existing and loaded! Not if the Level is actually client side or server side! */
 	public static boolean CODE_UNCHECKED = T, CODE_CLIENT = F, CODE_SERVER = F;
 	
 	/** Not really Constants, but they set using the Config and therefore should be constant. */
@@ -890,11 +894,11 @@ public class CS {
 	/** Gets set when the Player dies. Only works Client Side and gets lost when the Client restarts, but not when the Client just relogs. */
 	public static BlockPos LAST_DEATH_OF_THE_PLAYER = null;
 	
-	/** Gets set when a TileEntity gets broken, in order to be able to access it for Drops, even though it just got deleted. */
-	public static ThreadLocal<TileEntity> LAST_BROKEN_TILEENTITY = new ThreadLocal<>();
-	
-	/** If you have to give something a World Parameter but there is no World... (Dummy World) */
-	public static DummyWorld DW;
+	/** Gets set when a BlockEntity gets broken, in order to be able to access it for Drops, even though it just got deleted. */
+	public static ThreadLocal<BlockEntity> LAST_BROKEN_TILEENTITY = new ThreadLocal<>();
+
+	/** PHASE5: DummyWorld replaced by null — real mock Level to be implemented in Phase 5. */
+	public static net.minecraft.world.level.Level DW;
 	/** Dimension Types that I use as parameter for my WorldGenerators, aside from the Vanilla Dimension IDs none of these IDs is accurate as they are just the Defaults of their Respective Mods! */
 	public static final int DIM_UNKNOWN = Integer.MAX_VALUE
 	, DIM_OVERWORLD = 0
@@ -926,7 +930,7 @@ public class CS {
 	, DIM_TROPICS = -127
 	;
 	
-	/** Lists of all the active World generation Features by Dimension Type, these are getting initialised in Load! */
+	/** Lists of all the active Level generation Features by Dimension Type, these are getting initialised in Load! */
 	@SuppressWarnings("unchecked")
 	public static final List<WorldgenObject>
 	  GEN_OVERWORLD         = new ArrayListNoNulls<>()

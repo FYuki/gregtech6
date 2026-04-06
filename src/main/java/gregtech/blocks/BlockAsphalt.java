@@ -42,7 +42,7 @@ import net.minecraft.world.level.Level;
 public class BlockAsphalt extends BlockColored implements IBlockOnWalkOver {
 	public BlockAsphalt(String aUnlocalised) {
 		super(ItemBlockMetaType.class, Material.rock, soundTypeStone, aUnlocalised, "Asphalt", null, 1.0F, 1.0F, 1, Textures.BlockIcons.ASPHALTS);
-		setCreativeTab(CreativeTabs.tabTransport);
+		setCreativeTab(CreativeModeTab.tabTransport);
 		OM.data(ST.make(this, 1, W), new OreDictItemData(MT.Asphalt, U ));
 		MT.Asphalt.mTextureSolid = BlockTextureCopied.get(this, SIDE_TOP, DYE_INDEX_Black);
 	}
@@ -54,12 +54,12 @@ public class BlockAsphalt extends BlockColored implements IBlockOnWalkOver {
 	
 	protected BlockAsphalt(Class<? extends ItemBlock> aItemClass, Material aVanillaMaterial, SoundType aVanillaSoundType, String aName, String aDefaultLocalised, OreDictMaterial aMaterial, float aResistanceMultiplier, float aHardnessMultiplier, int aHarvestLevel, int aCount, IIconContainer[] aIcons, byte aSlabType, BlockMetaType aBlock) {
 		super(aItemClass, aVanillaMaterial, aVanillaSoundType, aName, aDefaultLocalised, aMaterial, aResistanceMultiplier, aHardnessMultiplier, aHarvestLevel, aCount, aIcons, aSlabType, aBlock);
-		setCreativeTab(CreativeTabs.tabTransport);
+		setCreativeTab(CreativeModeTab.tabTransport);
 		OM.data(ST.make(this, 1, W), new OreDictItemData(MT.Asphalt, U2));
 	}
 	
 	@Override
-	public void onWalkOver(LivingEntity aEntity, World aWorld, int aX, int aY, int aZ) {
+	public void onWalkOver(LivingEntity aEntity, Level aWorld, int aX, int aY, int aZ) {
 		if ((aEntity.motionX != 0 || aEntity.motionZ != 0) && !aEntity.isInWater() && !aEntity.isSneaking()) {
 			double tSpeed = (mSide == SIDE_BOTTOM && aWorld.getBlock(aX, aY-1, aZ).slipperiness >= 0.8 ? 1.05 : 1.3);
 			aEntity.motionX *= tSpeed; aEntity.motionZ *= tSpeed;

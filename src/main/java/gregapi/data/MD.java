@@ -212,12 +212,12 @@ public class MD {
 	
 	, ATG               = new ModData(ModIDs.ATG                , "Alternate Terrain Generation")
 	, RTG               = new ModData(ModIDs.RTG                , "Realistic Terrain Generation")
-	, RWG               = new ModData(ModIDs.RWG                , "Realistic World Generation")
+	, RWG               = new ModData(ModIDs.RWG                , "Realistic Level Generation")
 	
 	, A97               = new ModData(ModIDs.A97                , "Aroma1997 Core")
 	, A97_MINING        = new ModData(ModIDs.A97_MINING         , "Aroma1997's Mining Dimension")
 	
-	, CW2               = new ModData(ModIDs.CW2                , "Cave World 2")
+	, CW2               = new ModData(ModIDs.CW2                , "Cave Level 2")
 	
 	, GaSu              = new ModData(ModIDs.GaSu               , "Ganys Surface")
 	, GaNe              = new ModData(ModIDs.GaNe               , "Ganys Nether")

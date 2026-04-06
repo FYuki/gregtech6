@@ -24,9 +24,9 @@ import static gregapi.data.CS.*;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+import gregapi.stubs.RenderBlocks;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -54,7 +54,7 @@ public interface IRenderedBlockObject {
 	
 	/** returning true stops all the other Rendering from happening. */
 	@OnlyIn(Dist.CLIENT)
-	public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ);
+	public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, BlockGetter aWorld, int aX, int aY, int aZ);
 	
 	/** return "this" if you want to use the functions above. */
 	@OnlyIn(Dist.CLIENT)
@@ -62,7 +62,7 @@ public interface IRenderedBlockObject {
 	
 	/** return "this" if you want to use the functions above. */
 	@OnlyIn(Dist.CLIENT)
-	public IRenderedBlockObject passRenderingToObject(IBlockAccess aWorld, int aX, int aY, int aZ);
+	public IRenderedBlockObject passRenderingToObject(BlockGetter aWorld, int aX, int aY, int aZ);
 	
 	public static class ErrorRenderer implements IRenderedBlockObjectSideCheck, IRenderedBlockObject {
 		public static final ErrorRenderer INSTANCE = new ErrorRenderer();
@@ -74,10 +74,10 @@ public interface IRenderedBlockObject {
 		@Override public boolean renderItem(Block aBlock, RenderBlocks aRenderer) {return F;}
 		@Override public boolean renderFullBlockSide(Block aBlock, RenderBlocks aRenderer, byte aSide) {return T;}
 		@Override public IRenderedBlockObject passRenderingToObject(ItemStack aStack) {return this;}
-		@Override public IRenderedBlockObject passRenderingToObject(IBlockAccess aWorld, int aX, int aY, int aZ) {return this;}
+		@Override public IRenderedBlockObject passRenderingToObject(BlockGetter aWorld, int aX, int aY, int aZ) {return this;}
 		
 		@Override
-		public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ) {
+		public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, BlockGetter aWorld, int aX, int aY, int aZ) {
 			aBlock.setBlockBounds(-0.25F, -0.25F, -0.25F, 1.25F, 1.25F, 1.25F);
 			RendererBlockTextured.renderNegativeYFacing(aWorld, aRenderer, aBlock, aX, aY, aZ, mErrorTexture, F, T, this);
 			RendererBlockTextured.renderPositiveYFacing(aWorld, aRenderer, aBlock, aX, aY, aZ, mErrorTexture, F, T, this);

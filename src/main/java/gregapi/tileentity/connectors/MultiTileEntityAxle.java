@@ -38,7 +38,7 @@ import gregapi.tileentity.energy.ITileEntityEnergy;
 import gregapi.tileentity.energy.ITileEntityEnergyDataConductor;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -78,7 +78,7 @@ public class MultiTileEntityAxle extends TileEntityBase11ConnectorStraight imple
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_tachometer) && isServerSide()) {
 			if (aChatReturn != null) aChatReturn.add(mTransferredLast + " RU/t");
 			return 1;

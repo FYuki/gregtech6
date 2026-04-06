@@ -24,7 +24,7 @@ import gregapi.code.TagData;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -52,7 +52,7 @@ public abstract class TileEntityBase09PowerCell extends TileEntityBase08Battery 
 	}
 	
 	@Override
-	public boolean getSubItems(MultiTileEntityBlockInternal aBlock, Item aItem, CreativeTabs aTab, List<ItemStack> aList, short aID) {
+	public boolean getSubItems(MultiTileEntityBlockInternal aBlock, Item aItem, CreativeModeTab aTab, List<ItemStack> aList, short aID) {
 		if (mCapacity > 0)
 		aList.add(setEnergyStored(mType, aBlock.mMultiTileEntityRegistry.getItem(aID), mCapacity));
 		else
@@ -60,6 +60,6 @@ public abstract class TileEntityBase09PowerCell extends TileEntityBase08Battery 
 		return F;
 	}
 	
-	@Override public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoInject) {return 0;}
+	@Override public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoInject) {return 0;}
 	@Override public boolean canEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize) {return F;}
 }

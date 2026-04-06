@@ -32,22 +32,22 @@ public interface IItemProjectile {
 	/** @return if this Item has an Arrow Entity */
 	public boolean hasProjectile(TagData aProjectileType, ItemStack aStack);
 	/** @return an Arrow Entity to be spawned. If null then this is not an Arrow. Note: Other Projectiles still extend EntityArrow */
-	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ);
+	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ);
 	/** @return an Arrow Entity to be spawned. If null then this is not an Arrow. Note: Other Projectiles still extend EntityArrow */
-	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed);
+	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed);
 	
 	/** Class for being able to set the ItemStack when launching the Projectile. And for de-obfuscation of Parameters. */
 	public static abstract class EntityProjectile extends EntityArrow {
-		public EntityProjectile(World aWorld) {
+		public EntityProjectile(Level aWorld) {
 			super(aWorld);
 		}
-		public EntityProjectile(World aWorld, double aX, double aY, double aZ) {
+		public EntityProjectile(Level aWorld, double aX, double aY, double aZ) {
 			super(aWorld, aX, aY, aZ);
 		}
-		public EntityProjectile(World aWorld, LivingEntity aShootingEntity, LivingEntity aWhateverThatIs, float aSpeed, float aPrecision) {
+		public EntityProjectile(Level aWorld, LivingEntity aShootingEntity, LivingEntity aWhateverThatIs, float aSpeed, float aPrecision) {
 			super(aWorld, aShootingEntity, aWhateverThatIs, aSpeed, aPrecision);
 		}
-		public EntityProjectile(World aWorld, LivingEntity aShootingEntity, float aSpeed) {
+		public EntityProjectile(Level aWorld, LivingEntity aShootingEntity, float aSpeed) {
 			super(aWorld, aShootingEntity, aSpeed);
 		}
 		

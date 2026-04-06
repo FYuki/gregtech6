@@ -38,7 +38,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import static gregapi.data.CS.*;
 
@@ -122,7 +122,7 @@ public class MultiTileEntityRope extends TileEntityBase09FacingSingle implements
 	public static IIconContainer sColored = new Textures.BlockIcons.CustomIcon("machines/tools/rope/colored"), sOverlay = new Textures.BlockIcons.CustomIcon("machines/tools/rope/overlay");
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool() {
+	public AABB getCollisionBoundingBoxFromPool() {
 		switch(mFacing) {
 		case SIDE_Z_POS: return box(PX_P[ 7], PX_P[ 0], PX_P[12], PX_N[ 7], PX_N[ 0], PX_N[ 2]);
 		case SIDE_Z_NEG: return box(PX_P[ 7], PX_P[ 0], PX_P[ 2], PX_N[ 7], PX_N[ 0], PX_N[12]);
@@ -135,7 +135,7 @@ public class MultiTileEntityRope extends TileEntityBase09FacingSingle implements
 	}
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool() {
+	public AABB getSelectedBoundingBoxFromPool() {
 		switch(mFacing) {
 		case SIDE_Z_POS: return box(PX_P[ 6], PX_P[ 0], PX_P[12], PX_N[ 6], PX_N[ 0], PX_N[ 0]);
 		case SIDE_Z_NEG: return box(PX_P[ 6], PX_P[ 0], PX_P[ 0], PX_N[ 6], PX_N[ 0], PX_N[12]);

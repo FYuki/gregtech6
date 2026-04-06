@@ -20,7 +20,7 @@
 package gregapi.item.prefixitem;
 
 import baubles.api.BaubleType;
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.code.ModData;
 import gregapi.data.CS.ModIDs;
 import gregapi.oredict.OreDictMaterial;

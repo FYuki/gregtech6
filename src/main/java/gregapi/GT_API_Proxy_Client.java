@@ -19,14 +19,14 @@
 
 package gregapi;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import gregapi.stubs.FMLClientHandler;
+import gregapi.stubs.RenderingRegistry;
 import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import gregapi.stubs.ClientTickEvent;
 // PHASE2: TickEvent.Phase replaced by PlayerTickEvent.Phase
 // PHASE3: GameRegistry → DeferredRegister
 import gregapi.api.Abstract_Mod;
@@ -67,9 +67,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import gregapi.stubs.DrawBlockHighlightEvent;
+import net.neoforged.neoforge.client.event.TextureAtlasStitchedEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 // PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 
@@ -115,7 +115,7 @@ public class GT_API_Proxy_Client extends GT_API_Proxy {
 	}
 	
 	@Override
-	public boolean sendUseItemPacket(Player aPlayer, World aWorld, ItemStack aStack) {
+	public boolean sendUseItemPacket(Player aPlayer, Level aWorld, ItemStack aStack) {
 		Minecraft.getMinecraft().playerController.sendUseItem(aPlayer, aWorld, aStack);
 		return T;
 	}
@@ -526,7 +526,7 @@ public class GT_API_Proxy_Client extends GT_API_Proxy {
 				if (!SHOW_MICROBLOCKS && NEI) for (Item aItem : new Item[] {ST.item(MD.FMB, "microblock"), ST.item(MD.ExU, "microblocks"), ST.item(MD.ExS, "microblocks"), ST.item(MD.AE, "item.ItemFacade")}) if (aItem != null) {
 					ST.hide(aItem);
 					List<ItemStack> tList = new ArrayListNoNulls<>();
-					aItem.getSubItems(aItem, CreativeTabs.tabAllSearch, tList);
+					aItem.getSubItems(aItem, CreativeModeTab.tabAllSearch, tList);
 					for (ItemStack tStack : tList) ST.hide(tStack);
 				}
 			}

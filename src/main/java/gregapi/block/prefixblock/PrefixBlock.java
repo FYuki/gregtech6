@@ -55,22 +55,22 @@ import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.MinecraftForgeClient;
+import gregapi.stubs.MinecraftForgeClient;
 import net.minecraft.core.Direction; // was Direction
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -260,7 +260,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public IIcon getIcon(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {
+	public IIcon getIcon(BlockGetter aWorld, int aX, int aY, int aZ, int aSide) {
 		return getIcon(aSide, getMetaDataValue(aWorld, aX, aY, aZ));
 	}
 	
@@ -303,7 +303,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public ITexture getTexture(int aRenderPass, byte aSide, boolean[] aShouldSideBeRendered, IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public ITexture getTexture(int aRenderPass, byte aSide, boolean[] aShouldSideBeRendered, BlockGetter aWorld, int aX, int aY, int aZ) {
 		return aShouldSideBeRendered[aSide] ? getTexture(getMetaDataValue(aWorld, aX, aY, aZ), T) : null;
 	}
 	
@@ -313,7 +313,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public boolean setBlockBounds(int aRenderPass, IBlockAccess aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {
+	public boolean setBlockBounds(int aRenderPass, BlockGetter aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {
 		return F;
 	}
 	
@@ -323,12 +323,12 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public int getRenderPasses(IBlockAccess aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {
+	public int getRenderPasses(BlockGetter aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {
 		return 1;
 	}
 	
 	@Override
-	public IRenderedBlockObject passRenderingToObject(IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public IRenderedBlockObject passRenderingToObject(BlockGetter aWorld, int aX, int aY, int aZ) {
 		TileEntity tRenderParameterTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		return mRenderingObjectBlock != null ? mRenderingObjectBlock : tRenderParameterTileEntity instanceof IRenderedBlockObject ? (IRenderedBlockObject)tRenderParameterTileEntity : null;
 	}
@@ -349,7 +349,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	private static boolean LOCK = F;
 	
 	@Override
-	public void onNeighborChange(IBlockAccess aWorld, int aX, int aY, int aZ, int aTileX, int aTileY, int aTileZ) {
+	public void onNeighborChange(BlockGetter aWorld, int aX, int aY, int aZ, int aTileX, int aTileY, int aTileZ) {
 		if (!LOCK) {
 			LOCK = T;
 			TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
@@ -359,7 +359,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World aWorld, int aX, int aY, int aZ, Block aBlock) {
+	public void onNeighborBlockChange(Level aWorld, int aX, int aY, int aZ, Block aBlock) {
 		TileEntity aTileEntity = null;
 		if (!LOCK) {
 			LOCK = T;
@@ -370,7 +370,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		scheduleUpdateIfNeeded(aWorld, aX, aY, aZ, aTileEntity);
 	}
 	
-	public boolean scheduleUpdateIfNeeded(World aWorld, int aX, int aY, int aZ, TileEntity aTileEntity) {
+	public boolean scheduleUpdateIfNeeded(Level aWorld, int aX, int aY, int aZ, TileEntity aTileEntity) {
 		if (mGravity && aY > 0 && BlockFalling.func_149831_e(aWorld, aX, aY - 1, aZ)) {
 			aWorld.scheduleBlockUpdate(aX, aY, aZ, this, 2);
 			return T;
@@ -390,7 +390,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public void onBlockExploded(World aWorld, int aX, int aY, int aZ, Explosion aExplosion) {
+	public void onBlockExploded(Level aWorld, int aX, int aY, int aZ, Explosion aExplosion) {
 		if (aWorld.isRemote) return;
 		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if (aTileEntity != null) LAST_BROKEN_TILEENTITY.set(aTileEntity);
@@ -400,40 +400,40 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public float getExplosionResistance(Entity par1Entity, World aWorld, int aX, int aY, int aZ, double explosionX, double explosionY, double explosionZ)       {
+	public float getExplosionResistance(Entity par1Entity, Level aWorld, int aX, int aY, int aZ, double explosionX, double explosionY, double explosionZ)       {
 		OreDictMaterial aMaterial = getMetaMaterial(aWorld, aX, aY, aZ);
 		if (aMaterial != null && ((mCanExplode && aMaterial.contains(TD.Properties.EXPLOSIVE)) || (mCanBurn && aMaterial.contains(TD.Properties.FLAMMABLE) && mPrefix.contains(TD.Prefix.DUST_BASED)))) return 0;
 		return mBaseResistance * (1+getHarvestLevel(aWorld.getBlockMetadata(aX, aY, aZ)));
 	}
 	
 	@Override
-	public boolean onBlockEventReceived(World aWorld, int aX, int aY, int aZ, int aID, int aData) {
+	public boolean onBlockEventReceived(Level aWorld, int aX, int aY, int aZ, int aID, int aData) {
 		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		return aTileEntity == null || aTileEntity.receiveClientEvent(aID, aData);
 	}
 	
 	@Override
-	public int getDamageValue(World aWorld, int aX, int aY, int aZ) {
+	public int getDamageValue(Level aWorld, int aX, int aY, int aZ) {
 		return getMetaDataValue(aWorld, aX, aY, aZ);
 	}
 	
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition aTarget, World aWorld, int aX, int aY, int aZ, Player aPlayer) {
+	public ItemStack getPickBlock(HitResult aTarget, Level aWorld, int aX, int aY, int aZ, Player aPlayer) {
 		return getItemStackFromBlock(aWorld, aX, aY, aZ, SIDE_UNKNOWN);
 	}
 	
 	@Override
-	public void breakBlock(World aWorld, int aX, int aY, int aZ, Block aBlock, int par6) {
+	public void breakBlock(Level aWorld, int aX, int aY, int aZ, Block aBlock, int par6) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if (tTileEntity != null) LAST_BROKEN_TILEENTITY.set(tTileEntity);
 		aWorld.removeTileEntity(aX, aY, aZ);
 	}
 	
 	@Override
-	public boolean placeBlock(World aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT, boolean aCauseBlockUpdates, boolean aForcePlacement) {
+	public boolean placeBlock(Level aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT, boolean aCauseBlockUpdates, boolean aForcePlacement) {
 		OreDictMaterial aMaterial = getMetaMaterial(aMetaData);
 		if (aMaterial != null && (aForcePlacement || ((!mPlacementChecksAntimatter || !aMaterial.contains(TD.Atomic.ANTIMATTER)) && (!mPlacementChecksTemperature || aMaterial.mMeltingPoint > WD.temperature(aWorld, aX, aY, aZ)))) && aWorld.setBlock(aX, aY, aZ, this, UT.Code.bind4(aMaterial.mToolQuality), aCauseBlockUpdates?3:0)) {
-			// This darn TileEntity update is ruining World generation Code (infinite Loops when placing TileEntities on Chunk Borders). I'm glad I finally found a way to disable it.
+			// This darn TileEntity update is ruining Level generation Code (infinite Loops when placing TileEntities on LevelChunk Borders). I'm glad I finally found a way to disable it.
 			TileEntity tTileEntity = createTileEntity(aWorld, aX, aY, aZ, aSide, aMetaData, aNBT);
 			WD.te(aWorld, aX, aY, aZ, tTileEntity, aCauseBlockUpdates);
 			scheduleUpdateIfNeeded(aWorld, aX, aY, aZ, tTileEntity);
@@ -444,31 +444,31 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public ItemStack getItemStackFromBlock(IBlockAccess aWorld, int aX, int aY, int aZ, byte aSide) {
+	public ItemStack getItemStackFromBlock(BlockGetter aWorld, int aX, int aY, int aZ, byte aSide) {
 		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		return ST.make(this, 1, getMetaDataValue(aTileEntity), aTileEntity instanceof PrefixBlockTileEntity ? ((PrefixBlockTileEntity)aTileEntity).mItemNBT : null);
 	}
 	
 	@Override
-	public int getFlammability(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide) {
+	public int getFlammability(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide) {
 		OreDictMaterialStack aMaterial = getMaterialAtSide(aWorld, aX, aY, aZ, UT.Code.side(aSide));
 		return aMaterial == null || !mCanBurn || aMaterial.mMaterial.contains(TD.Properties.UNBURNABLE) ? 0 : (aMaterial.mMaterial.contains(TD.Properties.FLAMMABLE)?100:0) + (aMaterial.mMaterial.contains(TD.Properties.BURNING)?200:0);
 	}
 	
 	@Override
-	public int getFireSpreadSpeed(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide) {
+	public int getFireSpreadSpeed(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide) {
 		OreDictMaterialStack aMaterial = getMaterialAtSide(aWorld, aX, aY, aZ, UT.Code.side(aSide));
 		return aMaterial == null || !mCanBurn || aMaterial.mMaterial.contains(TD.Properties.UNBURNABLE) ? 0 : (aMaterial.mMaterial.contains(TD.Properties.FLAMMABLE)?100:0) + (aMaterial.mMaterial.contains(TD.Properties.BURNING)?200:0);
 	}
 	
 	@Override
-	public boolean isFireSource(World aWorld, int aX, int aY, int aZ, Direction aSide) {
+	public boolean isFireSource(Level aWorld, int aX, int aY, int aZ, Direction aSide) {
 		OreDictMaterialStack aMaterial = getMaterialAtSide(aWorld, aX, aY, aZ, UT.Code.side(aSide));
 		return aMaterial != null && mCanBurn && aMaterial.mMaterial.contains(TD.Properties.FLAMMABLE) && aMaterial.mMaterial.contains(TD.Properties.UNBURNABLE);
 	}
 	
 	@Override
-	public boolean canEntityDestroy(IBlockAccess aWorld, int aX, int aY, int aZ, Entity aEntity) {
+	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
 		if (aEntity instanceof EntityDragon) {
 			if (mEnderDragonProof) return F;
 			OreDictMaterialStack aMaterial = getMaterialAtSide(aWorld, aX, aY, aZ, SIDE_ANY);
@@ -483,7 +483,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, World aWorld, byte aSide, int aX, int aY, int aZ, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, Level aWorld, byte aSide, int aX, int aY, int aZ, float aHitX, float aHitY, float aHitZ) {
 		OreDictMaterial aMaterial = getMetaMaterial(aWorld, aX, aY, aZ);
 		if (!aWorld.isRemote && aTool.equals(TOOL_magnifyingglass)) {
 			if (aChatReturn != null) aChatReturn.add("This is " + getLocalName(mPrefix, aMaterial));
@@ -498,27 +498,27 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public OreDictMaterialStack getMaterialAtSide(IBlockAccess aWorld, int aX, int aY, int aZ, byte aSide) {
+	public OreDictMaterialStack getMaterialAtSide(BlockGetter aWorld, int aX, int aY, int aZ, byte aSide) {
 		if (mHullMaterial != null) return mHullMaterial;
 		OreDictMaterial aMaterial = getMetaMaterial(aWorld, aX, aY, aZ);
 		return aMaterial == null ? null : OM.stack(mPrefix, aMaterial);
 	}
 	
 	@Override
-	public void setExtendedMetaData(IBlockAccess aWorld, int aX, int aY, int aZ, short aMetaData) {
+	public void setExtendedMetaData(BlockGetter aWorld, int aX, int aY, int aZ, short aMetaData) {
 		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-		if (aTileEntity == null && aWorld instanceof World) aTileEntity = WD.te((World)aWorld, aX, aY, aZ, createTileEntity((World)aWorld, aX, aY, aZ, SIDE_ANY, aMetaData, null), F);
+		if (aTileEntity == null && aWorld instanceof Level) aTileEntity = WD.te((Level)aWorld, aX, aY, aZ, createTileEntity((Level)aWorld, aX, aY, aZ, SIDE_ANY, aMetaData, null), F);
 		if (aTileEntity instanceof PrefixBlockTileEntity) ((PrefixBlockTileEntity)aTileEntity).mMetaData = aMetaData;
-		if (aWorld instanceof World && ((World)aWorld).isRemote) WD.update(aWorld, aX, aY, aZ);
+		if (aWorld instanceof Level && ((Level)aWorld).isRemote) WD.update(aWorld, aX, aY, aZ);
 	}
 	
 	@Override
-	public short getExtendedMetaData(IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public short getExtendedMetaData(BlockGetter aWorld, int aX, int aY, int aZ) {
 		return getMetaDataValue(aWorld, aX, aY, aZ);
 	}
 	
 	@Override
-	public boolean removeMaterialFromSide(World aWorld, int aX, int aY, int aZ, byte aSide, OreDictMaterialStack aMaterial) {
+	public boolean removeMaterialFromSide(Level aWorld, int aX, int aY, int aZ, byte aSide, OreDictMaterialStack aMaterial) {
 		OreDictMaterialStack tMaterial = getMaterialAtSide(aWorld, aX, aY, aZ, aSide);
 		if (aMaterial.mMaterial == tMaterial.mMaterial && aMaterial.mAmount > 0 && aMaterial.mAmount <= tMaterial.mAmount) {
 			ItemStack tStack = OM.dust(aMaterial.mMaterial, tMaterial.mAmount - aMaterial.mAmount);
@@ -530,7 +530,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public void updateTick(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public void updateTick(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		if (aWorld.isRemote || checkGravity(aWorld, aX, aY, aZ)) return;
 		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		OreDictMaterial aMaterial = getMetaMaterial(aTileEntity);
@@ -559,14 +559,14 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	}
 	
 	@Override
-	public void dropBlockAsItemWithChance(World aWorld, int aX, int aY, int aZ, int aMeta, float aChance, int aFortune) {
+	public void dropBlockAsItemWithChance(Level aWorld, int aX, int aY, int aZ, int aMeta, float aChance, int aFortune) {
 		ArrayList<ItemStack> tList = mDrops.getDrops(this, aWorld, aX, aY, aZ, aFortune, F);
 		aChance = ForgeEventFactory.fireBlockHarvesting(tList, aWorld, this, aX, aY, aZ, 0, aFortune, aChance, F, harvesters.get());
 		for (ItemStack tStack : tList) if (RNGSUS.nextFloat() <= aChance) dropBlockAsItem(aWorld, aX, aY, aZ, tStack);
 	}
 	
 	@Override
-	public void harvestBlock(World aWorld, Player aPlayer, int aX, int aY, int aZ, int aMeta) {
+	public void harvestBlock(Level aWorld, Player aPlayer, int aX, int aY, int aZ, int aMeta) {
 		aPlayer.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
 		UT.Entities.exhaust(aPlayer, 0.025F);
 		boolean aSilkTouch = EnchantmentHelper.getSilkTouchModifier(aPlayer);
@@ -576,41 +576,41 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		for (ItemStack tStack : tList) if (RNGSUS.nextFloat() <= aChance) dropBlockAsItem(aWorld, aX, aY, aZ, tStack);
 	}
 	
-	@Override public final ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aUnusableMetaData, int aFortune) {return mDrops.getDrops(this, aWorld, aX, aY, aZ, aFortune, F);}
-	@Override public int getExpDrop(IBlockAccess aWorld, int aMeta, int aFortune) {return mDrops.getExp(this);}
+	@Override public final ArrayList<ItemStack> getDrops(Level aWorld, int aX, int aY, int aZ, int aUnusableMetaData, int aFortune) {return mDrops.getDrops(this, aWorld, aX, aY, aZ, aFortune, F);}
+	@Override public int getExpDrop(BlockGetter aWorld, int aMeta, int aFortune) {return mDrops.getExp(this);}
 	@Override public int getRenderBlockPass() {return ITexture.Util.MC_ALPHA_BLENDING?1:0;}
-	@Override public void getSubBlocks(Item aItem, CreativeTabs aCreativeTab, @SuppressWarnings("rawtypes") List aList) {aItem.getSubItems(aItem, aCreativeTab, aList);}
+	@Override public void getSubBlocks(Item aItem, CreativeModeTab aCreativeTab, @SuppressWarnings("rawtypes") List aList) {aItem.getSubItems(aItem, aCreativeTab, aList);}
 	/** Where I come from, we set the TileEntities ourselves instead of letting a Handler do it. */
-	@Override public final TileEntity createNewTileEntity(World aWorld, int aMeta) {return null;}
+	@Override public final TileEntity createNewTileEntity(Level aWorld, int aMeta) {return null;}
 	/** Where I come from, we set the TileEntities ourselves instead of letting a Handler do it. */
-	@Override public final TileEntity createTileEntity(World aWorld, int aMeta) {return null;}
+	@Override public final TileEntity createTileEntity(Level aWorld, int aMeta) {return null;}
 	@Override public String toString() {return mNameInternal;}
 	@Override public String getUnlocalizedName() {return mNameInternal;}
 	@Override public String getLocalizedName() {return StatCollector.translateToLocal(mNameInternal);}
 	@Override public String getHarvestTool(int aMaterialToolQuality) {return mTool;}
 	@Override public boolean isToolEffective(String aType, int aMeta) {return getHarvestTool(aMeta).equals(aType);}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {return AxisAlignedBB.getBoundingBox(aX + mMinX, aY + mMinY, aZ + mMinZ, aX + mMaxX, aY + mMaxY, aZ + mMaxZ);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {return AxisAlignedBB.getBoundingBox(aX + mMinX, aY + mMinY, aZ + mMinZ, aX + mMaxX, aY + mMaxY, aZ + mMaxZ);}
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess aWorld, int aX, int aY, int aZ) {setBlockBounds(mMinX, mMinY, mMinZ, mMaxX, mMaxY, mMaxZ);}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return mBaseHardness < 0 ? -1 : mBaseHardness == 0 ? 0 : Math.max(1, mBaseHardness * (1+getHarvestLevel(aWorld.getBlockMetadata(aX, aY, aZ))));}
+	@Override public AABB getCollisionBoundingBoxFromPool(Level aWorld, int aX, int aY, int aZ) {return AABB.getBoundingBox(aX + mMinX, aY + mMinY, aZ + mMinZ, aX + mMaxX, aY + mMaxY, aZ + mMaxZ);}
+	@Override public AABB getSelectedBoundingBoxFromPool(Level aWorld, int aX, int aY, int aZ) {return AABB.getBoundingBox(aX + mMinX, aY + mMinY, aZ + mMinZ, aX + mMaxX, aY + mMaxY, aZ + mMaxZ);}
+	@Override public void setBlockBoundsBasedOnState(BlockGetter aWorld, int aX, int aY, int aZ) {setBlockBounds(mMinX, mMinY, mMinZ, mMaxX, mMaxY, mMaxZ);}
+	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return mBaseHardness < 0 ? -1 : mBaseHardness == 0 ? 0 : Math.max(1, mBaseHardness * (1+getHarvestLevel(aWorld.getBlockMetadata(aX, aY, aZ))));}
 	@Override public int getRenderType() {return RendererBlockTextured.INSTANCE==null?super.getRenderType():RendererBlockTextured.INSTANCE.mRenderID;}
 	@Override public int getHarvestLevel(int aMaterialToolQuality) {return (int)UT.Code.bind_(mHarvestLevelMinimum, mHarvestLevelMaximum, mHarvestLevelOffset + aMaterialToolQuality);}
-	@Override public int tickRate(World aWorld) {return 2;}
-	@Override public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {return getRenderColor(getMetaDataValue(aWorld, aX, aY, aZ));}
+	@Override public int tickRate(Level aWorld) {return 2;}
+	@Override public int colorMultiplier(BlockGetter aWorld, int aX, int aY, int aZ) {return getRenderColor(getMetaDataValue(aWorld, aX, aY, aZ));}
 	@Override public int getLightOpacity() {return mOpaque?255:0;}
-	@Override public boolean isBeaconBase(IBlockAccess aWorld, int aX, int aY, int aZ, int aBeaconX, int aBeaconY, int aBeaconZ) {return mBeaconBase;}
-	@Override public boolean isSideSolid(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide) {return mOpaque;}
-	@Override public boolean canBeReplacedByLeaves(IBlockAccess aWorld, int aX, int aY, int aZ) {return F;}
-	@Override public boolean isNormalCube(IBlockAccess aWorld, int aX, int aY, int aZ)  {return mNormalCube;}
+	@Override public boolean isBeaconBase(BlockGetter aWorld, int aX, int aY, int aZ, int aBeaconX, int aBeaconY, int aBeaconZ) {return mBeaconBase;}
+	@Override public boolean isSideSolid(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide) {return mOpaque;}
+	@Override public boolean canBeReplacedByLeaves(BlockGetter aWorld, int aX, int aY, int aZ) {return F;}
+	@Override public boolean isNormalCube(BlockGetter aWorld, int aX, int aY, int aZ)  {return mNormalCube;}
 	@Override public boolean hasTileEntity(int aMeta) {return T;}
 	@Override public boolean renderAsNormalBlock() {return T;}
 	@Override public final boolean isOpaqueCube() {return mOpaque;}
 	@Override public boolean canSilkHarvest() {return F;}
 	@Override public boolean func_149730_j() {return mOpaque;}
-	@Override public boolean canCreatureSpawn(EnumCreatureType aType, IBlockAccess aWorld, int aX, int aY, int aZ) {return !mSpawnProof;}
-	@Override public boolean shouldSideBeRendered(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {setBlockBoundsBasedOnState(aWorld, aX, aY, aZ); return super.shouldSideBeRendered(aWorld, aX, aY, aZ, aSide);}
+	@Override public boolean canCreatureSpawn(EnumCreatureType aType, BlockGetter aWorld, int aX, int aY, int aZ) {return !mSpawnProof;}
+	@Override public boolean shouldSideBeRendered(BlockGetter aWorld, int aX, int aY, int aZ, int aSide) {setBlockBoundsBasedOnState(aWorld, aX, aY, aZ); return super.shouldSideBeRendered(aWorld, aX, aY, aZ, aSide);}
 	@Override public boolean usesRenderPass(int aRenderPass, ItemStack aStack) {return T;}
-	@Override public boolean usesRenderPass(int aRenderPass, IBlockAccess aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return T;}
+	@Override public boolean usesRenderPass(int aRenderPass, BlockGetter aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered) {return T;}
 	@Override public Block getBlock() {return this;}
 	
 	public PrefixBlock setHidden(boolean aHidden) {mHidden = aHidden; return this;}
@@ -624,7 +624,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		return aTileEntity instanceof PrefixBlockTileEntity?((PrefixBlockTileEntity)aTileEntity).mMetaData:0;
 	}
 	
-	public short getMetaDataValue(IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public short getMetaDataValue(BlockGetter aWorld, int aX, int aY, int aZ) {
 		return getMetaDataValue(aWorld.getTileEntity(aX, aY, aZ));
 	}
 	
@@ -636,11 +636,11 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		return getMetaMaterial(aTileEntity instanceof PrefixBlockTileEntity?((PrefixBlockTileEntity)aTileEntity).mMetaData:0);
 	}
 	
-	public OreDictMaterial getMetaMaterial(IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public OreDictMaterial getMetaMaterial(BlockGetter aWorld, int aX, int aY, int aZ) {
 		return getMetaMaterial(aWorld.getTileEntity(aX, aY, aZ));
 	}
 	
-	public TileEntity createTileEntity(World aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT) {
+	public TileEntity createTileEntity(Level aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT) {
 		PrefixBlockTileEntity rTileEntity = new PrefixBlockTileEntity();
 		if (aNBT != null) rTileEntity.readFromNBT(aNBT);
 		rTileEntity.mMetaData = aMetaData;
@@ -648,7 +648,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		return rTileEntity;
 	}
 	
-	protected boolean checkGravity(World aWorld, int aX, int aY, int aZ) {
+	protected boolean checkGravity(Level aWorld, int aX, int aY, int aZ) {
 		if (mGravity && aY > 0 && aWorld.getTileEntity(aX, aY, aZ) != null && BlockFalling.func_149831_e(aWorld, aX, aY - 1, aZ)) {
 			if (!BlockFalling.fallInstantly && aWorld.checkChunksExist(aX-32, aY-32, aZ-32, aX+32, aY+32, aZ+32)) {
 				if (!aWorld.isRemote) aWorld.spawnEntityInWorld(new PrefixBlockFallingEntity(aWorld, aX+0.5, aY+0.5, aZ+0.5, this, getItemStackFromBlock(aWorld, aX, aY, aZ, SIDE_UP)));
@@ -665,10 +665,10 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		return F;
 	}
 	
-	@Override public void receiveDataByte     (IBlockAccess aWorld, int aX, int aY, int aZ, byte   aData, INetworkHandler aNetworkHandler) {/**/}
-	@Override public void receiveDataShort    (IBlockAccess aWorld, int aX, int aY, int aZ, short  aData, INetworkHandler aNetworkHandler) {setExtendedMetaData(aWorld, aX, aY, aZ, aData);}
-	@Override public void receiveDataInteger  (IBlockAccess aWorld, int aX, int aY, int aZ, int    aData, INetworkHandler aNetworkHandler) {/**/}
-	@Override public void receiveDataLong     (IBlockAccess aWorld, int aX, int aY, int aZ, long   aData, INetworkHandler aNetworkHandler) {/**/}
-	@Override public void receiveDataByteArray(IBlockAccess aWorld, int aX, int aY, int aZ, byte[] aData, INetworkHandler aNetworkHandler) {/**/}
-	@Override public void receiveDataName     (IBlockAccess aWorld, int aX, int aY, int aZ, String aData, INetworkHandler aNetworkHandler) {if (UT.Code.stringValid(aData)) {TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ); if (aTileEntity instanceof PrefixBlockTileEntity) {if (((PrefixBlockTileEntity)aTileEntity).mItemNBT == null) ((PrefixBlockTileEntity)aTileEntity).mItemNBT = UT.NBT.make(); ((PrefixBlockTileEntity)aTileEntity).mItemNBT.setTag("display", UT.NBT.makeString(((PrefixBlockTileEntity)aTileEntity).mItemNBT.getCompoundTag("display"), "Name", aData));}}}
+	@Override public void receiveDataByte     (BlockGetter aWorld, int aX, int aY, int aZ, byte   aData, INetworkHandler aNetworkHandler) {/**/}
+	@Override public void receiveDataShort    (BlockGetter aWorld, int aX, int aY, int aZ, short  aData, INetworkHandler aNetworkHandler) {setExtendedMetaData(aWorld, aX, aY, aZ, aData);}
+	@Override public void receiveDataInteger  (BlockGetter aWorld, int aX, int aY, int aZ, int    aData, INetworkHandler aNetworkHandler) {/**/}
+	@Override public void receiveDataLong     (BlockGetter aWorld, int aX, int aY, int aZ, long   aData, INetworkHandler aNetworkHandler) {/**/}
+	@Override public void receiveDataByteArray(BlockGetter aWorld, int aX, int aY, int aZ, byte[] aData, INetworkHandler aNetworkHandler) {/**/}
+	@Override public void receiveDataName     (BlockGetter aWorld, int aX, int aY, int aZ, String aData, INetworkHandler aNetworkHandler) {if (UT.Code.stringValid(aData)) {TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ); if (aTileEntity instanceof PrefixBlockTileEntity) {if (((PrefixBlockTileEntity)aTileEntity).mItemNBT == null) ((PrefixBlockTileEntity)aTileEntity).mItemNBT = UT.NBT.make(); ((PrefixBlockTileEntity)aTileEntity).mItemNBT.setTag("display", UT.NBT.makeString(((PrefixBlockTileEntity)aTileEntity).mItemNBT.getCompoundTag("display"), "Name", aData));}}}
 }

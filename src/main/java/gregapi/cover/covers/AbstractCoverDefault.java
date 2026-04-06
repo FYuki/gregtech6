@@ -30,9 +30,9 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
 // PHASE3: import IFluidTank removed — use IFluidHandler capability
 
@@ -58,7 +58,7 @@ public abstract class AbstractCoverDefault implements ICover {
 	@Override public boolean interceptClickLeft (byte aCoverSide, CoverData aData, Entity aPlayer, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {return T;}
 	@Override public boolean onCoverClickedRight(byte aCoverSide, CoverData aData, Entity aPlayer, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {return F;}
 	@Override public boolean interceptClickRight(byte aCoverSide, CoverData aData, Entity aPlayer, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {return T;}
-	@Override public long onToolClick(byte aCoverSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {return 0;}
+	@Override public long onToolClick(byte aCoverSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {return 0;}
 	@Override public ItemStack getCoverItem(byte aCoverSide, CoverData aData) {return ST.make(aData.mIDs[aCoverSide], 1, aData.mMetas[aCoverSide], aData.mNBTs[aCoverSide]==null||aData.mNBTs[aCoverSide].hasNoTags()?null:aData.mNBTs[aCoverSide]);}
 	@Override public ITexture getCoverTextureSurface(byte aCoverSide, CoverData aData) {return null;}
 	@Override public ITexture getCoverTextureAttachment(byte aCoverSide, CoverData aData, byte aTextureSide) {return getCoverTextureSurface(aCoverSide, aData);}
@@ -85,7 +85,7 @@ public abstract class AbstractCoverDefault implements ICover {
 	@Override public float[] getCoverBounds(byte aCoverSide, CoverData aData) {return BOXES_COVERS[aCoverSide];}
 	@Override public float[] getHolderBounds(byte aCoverSide, CoverData aData) {return BOXES_HOLDERS[aCoverSide];}
 	
-	@Override public void getCollisions(byte aCoverSide, CoverData aData, AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {aData.box(aAABB, aList, getCoverBounds(aCoverSide, aData));}
+	@Override public void getCollisions(byte aCoverSide, CoverData aData, AABB aAABB, List<AABB> aList, Entity aEntity) {aData.box(aAABB, aList, getCoverBounds(aCoverSide, aData));}
 	
 	@Override public boolean interceptConnect(byte aCoverSide, CoverData aData) {return F;}
 	@Override public boolean interceptDisconnect(byte aCoverSide, CoverData aData) {return F;}

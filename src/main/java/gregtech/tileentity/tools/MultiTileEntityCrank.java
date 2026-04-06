@@ -38,7 +38,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import java.util.Collection;
 import java.util.List;
@@ -166,7 +166,7 @@ public class MultiTileEntityCrank extends TileEntityBase11AttachmentSmall implem
 	}
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool() {
+	public AABB getSelectedBoundingBoxFromPool() {
 		return box(
 		  PX_P[SIDES_AXIS_X[mFacing] ? mFacing == SIDE_X_NEG ? 0 : 13 : 2]
 		, PX_P[SIDES_AXIS_Y[mFacing] ? mFacing == SIDE_Y_NEG ? 0 : 13 : 2]

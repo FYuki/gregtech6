@@ -21,16 +21,16 @@ package gregtech.api.interfaces.tileentity;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
-import net.minecraftforge.fluids.IFluidHandler;
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 @Deprecated
 /** Required to exist in GT6 because Immersive Engineering crashes otherwise. Also there is that GT5U+GT6 Mod that basically needs this for Compat. */
 public interface IHasWorldObjectAndCoords {
-	public World getWorld();
+	public Level getWorld();
 	public int getXCoord();
 	public short getYCoord();
 	public int getZCoord();
@@ -41,10 +41,10 @@ public interface IHasWorldObjectAndCoords {
 	public TileEntity getTileEntityOffset(int aX, int aY, int aZ);
 	public TileEntity getTileEntityAtSide(byte aSide);
 	public TileEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance);
-	public IInventory getIInventory(int aX, int aY, int aZ);
-	public IInventory getIInventoryOffset(int aX, int aY, int aZ);
-	public IInventory getIInventoryAtSide(byte aSide);
-	public IInventory getIInventoryAtSideAndDistance(byte aSide, int aDistance);
+	public Container getIInventory(int aX, int aY, int aZ);
+	public Container getIInventoryOffset(int aX, int aY, int aZ);
+	public Container getIInventoryAtSide(byte aSide);
+	public Container getIInventoryAtSideAndDistance(byte aSide, int aDistance);
 	public IFluidHandler getITankContainer(int aX, int aY, int aZ);
 	public IFluidHandler getITankContainerOffset(int aX, int aY, int aZ);
 	public IFluidHandler getITankContainerAtSide(byte aSide);
@@ -77,8 +77,8 @@ public interface IHasWorldObjectAndCoords {
 	public boolean getAirOffset(int aX, int aY, int aZ);
 	public boolean getAirAtSide(byte aSide);
 	public boolean getAirAtSideAndDistance(byte aSide, int aDistance);
-	public BiomeGenBase getBiome();
-	public BiomeGenBase getBiome(int aX, int aZ);
+	public Biome getBiome();
+	public Biome getBiome(int aX, int aZ);
 	public int   getOffsetX(byte aSide, int aMultiplier);
 	public short getOffsetY(byte aSide, int aMultiplier);
 	public int   getOffsetZ(byte aSide, int aMultiplier);

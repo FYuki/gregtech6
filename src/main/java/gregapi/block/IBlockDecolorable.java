@@ -26,5 +26,5 @@ import net.minecraft.world.level.Level;
  */
 public interface IBlockDecolorable {
 	/** @return if it got removed successfully. */
-	public boolean removePaint(World aWorld, int aX, int aY, int aZ, byte aSide);
+	public boolean removePaint(Level aWorld, int aX, int aY, int aZ, byte aSide);
 }

@@ -30,15 +30,15 @@ import static gregapi.data.CS.*;
 
 public class EntityArrow_Potion extends EntityArrow_Material {
 	
-	public EntityArrow_Potion(World aWorld) {
+	public EntityArrow_Potion(Level aWorld) {
 		super(aWorld);
 	}
 	
-	public EntityArrow_Potion(World aWorld, double aX, double aY, double aZ) {
+	public EntityArrow_Potion(Level aWorld, double aX, double aY, double aZ) {
 		super(aWorld, aX, aY, aZ);
 	}
 	
-	public EntityArrow_Potion(World aWorld, LivingEntity aEntity, float aSpeed) {
+	public EntityArrow_Potion(Level aWorld, LivingEntity aEntity, float aSpeed) {
 		super(aWorld, aEntity, aSpeed);
 	}
 	

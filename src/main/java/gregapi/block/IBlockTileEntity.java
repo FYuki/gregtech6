@@ -20,7 +20,7 @@
 package gregapi.block;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -30,5 +30,5 @@ import net.minecraft.world.IBlockAccess;
  */
 public interface IBlockTileEntity {
 	/** can return a TileEntity for this Block even if it has no actual one, in order to provide an Interface to the Main-Block of a MultiBlock Contraption. */
-	public TileEntity getTileEntity(IBlockAccess aWorld, int aX, int aY, int aZ);
+	public TileEntity getTileEntity(BlockGetter aWorld, int aX, int aY, int aZ);
 }

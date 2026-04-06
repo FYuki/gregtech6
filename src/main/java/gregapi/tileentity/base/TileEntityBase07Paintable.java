@@ -108,7 +108,7 @@ public abstract class TileEntityBase07Paintable extends TileEntityBase06Covers i
 	@Override public int getFlammability(byte aSide, boolean aDefault) {return mFlammability;}
 	@Override public float getBlockHardness() {return mHardness;}
 	@Override public float getExplosionResistance2() {return mResistance;}
-	@Override public boolean getSubItems(MultiTileEntityBlockInternal aBlock, Item aItem, CreativeTabs aTab, List<ItemStack> aList, short aID) {return showInCreative();}
+	@Override public boolean getSubItems(MultiTileEntityBlockInternal aBlock, Item aItem, CreativeModeTab aTab, List<ItemStack> aList, short aID) {return showInCreative();}
 	
 	// Stuff to Override
 	public byte getVisualData() {return 0;}

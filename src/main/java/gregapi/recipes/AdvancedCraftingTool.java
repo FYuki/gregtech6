@@ -29,7 +29,7 @@ import gregapi.oredict.event.IOreDictListenerEvent;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 // PHASE7: import ShapelessOreRecipe removed — use datapack recipes
@@ -83,7 +83,7 @@ public class AdvancedCraftingTool extends ShapelessOreRecipe implements ICraftin
 	}
 	
 	@Override
-	public boolean matches(InventoryCrafting aGrid, World aWorld) {
+	public boolean matches(CraftingContainer aGrid, Level aWorld) {
 		ItemStack tStack = null;
 		OreDictMaterial rHead = null, rRod = null;
 		for (int i = 0; i < aGrid.getSizeInventory(); i++) {
@@ -106,7 +106,7 @@ public class AdvancedCraftingTool extends ShapelessOreRecipe implements ICraftin
 	}
 	
 	@Override
-	public ItemStack getCraftingResult(InventoryCrafting aGrid) {
+	public ItemStack getCraftingResult(CraftingContainer aGrid) {
 		ItemStack tStack = null;
 		OreDictMaterial rHead = null, rRod = null;
 		for (int i = 0; i < aGrid.getSizeInventory(); i++) {

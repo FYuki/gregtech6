@@ -19,7 +19,7 @@
 
 package gregapi.block.tree;
 
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.block.BlockBaseMeta;
 import gregapi.data.CS.*;
 import gregapi.data.MD;
@@ -37,14 +37,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
+import net.neoforged.neoforge.common.IPlantable;
 import net.minecraft.core.Direction; // was Direction
-import net.minecraftforge.event.terraingen.TerrainGen;
+import gregapi.stubs.TerrainGen;
 
 import java.util.Random;
 
@@ -61,49 +61,49 @@ public abstract class BlockBaseSapling extends BlockBaseMeta implements IPlantab
 	public BlockBaseSapling(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, Math.min(8, aMaxMeta), aIcons);
 		setBlockBounds(0.1F, 0.0F, 0.1F, 0.9F, 0.8F, 0.9F);
-		setCreativeTab(CreativeTabs.tabDecorations);
+		setCreativeTab(CreativeModeTab.tabDecorations);
 		setTickRandomly(T);
 		setHardness(0);
 		if (MD.RC.mLoaded) try {EntityTunnelBore.addMineableBlock(this);} catch(Throwable e) {e.printStackTrace(ERR);}
 		if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("forester", ST.make(this, 1, W));
 	}
 	
-	public abstract boolean grow(World aWorld, int aX, int aY, int aZ, byte aMeta, Random aRandom);
+	public abstract boolean grow(Level aWorld, int aX, int aY, int aZ, byte aMeta, Random aRandom);
 	
 	@Override public String getHarvestTool(int aMeta) {return TOOL_sword;}
 	@Override public int damageDropped(int aMeta) {return aMeta & 7;}
-	@Override public int getDamageValue(World aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ) & 7;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.sapling.getBlockHardness(aWorld, aX, aY, aZ);}
+	@Override public int getDamageValue(Level aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ) & 7;}
+	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return Blocks.sapling.getBlockHardness(aWorld, aX, aY, aZ);}
 	@Override public float getExplosionResistance(byte aMeta) {return Blocks.sapling.getExplosionResistance(null);}
-	@Override public boolean checkNoEntityCollision(World aWorld, int aX, int aY, int aZ, byte aMeta, Entity aExceptThisOne) {return T;}
-	@Override public boolean canBeReplacedByLeaves(IBlockAccess aWorld, int aX, int aY, int aZ) {return T;}
+	@Override public boolean checkNoEntityCollision(Level aWorld, int aX, int aY, int aZ, byte aMeta, Entity aExceptThisOne) {return T;}
+	@Override public boolean canBeReplacedByLeaves(BlockGetter aWorld, int aX, int aY, int aZ) {return T;}
 	@Override public boolean renderAsNormalBlock() {return F;}
-	@Override public boolean isNormalCube(IBlockAccess aWorld, int aX, int aY, int aZ)  {return F;}
+	@Override public boolean isNormalCube(BlockGetter aWorld, int aX, int aY, int aZ)  {return F;}
 	@Override public boolean isOpaqueCube() {return F;}
 	@Override public boolean isSealable(byte aMeta, byte aSide) {return F;}
 	@Override public boolean isSideSolid(int aMeta, byte aSide) {return F;}
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_LEAVES;}
 	@Override public int getItemStackLimit(ItemStack aStack) {return UT.Code.bindStack(OP.treeSapling.mDefaultStackSize);}
 	@Override public IIcon getIcon(int aSide, int aMeta) {return mIcons[aMeta & 15].getIcon(0);}
-	@Override public boolean canBlockStay(World aWorld, int aX, int aY, int aZ) {return aWorld.getBlock(aX, aY - 1, aZ).canSustainPlant(aWorld, aX, aY - 1, aZ, Direction.UP, (IPlantable)Blocks.sapling);}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {return null;}
+	@Override public boolean canBlockStay(Level aWorld, int aX, int aY, int aZ) {return aWorld.getBlock(aX, aY - 1, aZ).canSustainPlant(aWorld, aX, aY - 1, aZ, Direction.UP, (IPlantable)Blocks.sapling);}
+	@Override public AABB getCollisionBoundingBoxFromPool(Level aWorld, int aX, int aY, int aZ) {return null;}
 	@Override public int getRenderType() {return 1;}
-	@Override public void onOxygenAdded(World aWorld, int aX, int aY, int aZ) {/**/}
-	@Override public void onOxygenRemoved(World aWorld, int aX, int aY, int aZ) {if (!aWorld.isRemote && !WD.oxygen(aWorld, aX, aY, aZ)) {aWorld.setBlock(aX, aY, aZ, Blocks.deadbush, 0, 3); return;}}
+	@Override public void onOxygenAdded(Level aWorld, int aX, int aY, int aZ) {/**/}
+	@Override public void onOxygenRemoved(Level aWorld, int aX, int aY, int aZ) {if (!aWorld.isRemote && !WD.oxygen(aWorld, aX, aY, aZ)) {aWorld.setBlock(aX, aY, aZ, Blocks.deadbush, 0, 3); return;}}
 	
 	@Override
-	public void onBlockAdded2(World aWorld, int aX, int aY, int aZ) {
+	public void onBlockAdded2(Level aWorld, int aX, int aY, int aZ) {
 		if (!aWorld.isRemote && !WD.oxygen(aWorld, aX, aY, aZ)) {aWorld.setBlock(aX, aY, aZ, Blocks.deadbush, 0, 3); return;}
 	}
 	
 	@Override
-	public void updateTick2(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public void updateTick2(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		if (!aWorld.isRemote && !WD.oxygen(aWorld, aX, aY, aZ)) {aWorld.setBlock(aX, aY, aZ, Blocks.deadbush, 0, 3); return;}
 		if (aWorld.isRemote || checkAndDropBlock(aWorld, aX, aY, aZ) || aWorld.getBlockLightValue(aX, aY+1, aZ) < 9 || aRandom.nextInt(7) != 0) return;
 		tryGrow(aWorld, aX, aY, aZ, aRandom);
 	}
 	
-	public boolean tryGrow(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public boolean tryGrow(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		if (!aWorld.isRemote && !WD.oxygen(aWorld, aX, aY, aZ)) {aWorld.setBlock(aX, aY, aZ, Blocks.deadbush, 0, 3); return F;}
 		if (TREE_GROWTH_TIME > 1 && RNGSUS.nextInt(TREE_GROWTH_TIME) > 0) return F;
 		byte aMeta = WD.meta(aWorld, aX, aY, aZ);
@@ -114,40 +114,40 @@ public abstract class BlockBaseSapling extends BlockBaseMeta implements IPlantab
 		return TerrainGen.saplingGrowTree(aWorld, aRandom, aX, aY, aZ) && grow(aWorld, aX, aY, aZ, aMeta, aRandom);
 	}
 	
-	public int getMaxHeight(World aWorld, int aX, int aY, int aZ, int aMaxTreeHeight) {
+	public int getMaxHeight(Level aWorld, int aX, int aY, int aZ, int aMaxTreeHeight) {
 		aMaxTreeHeight--;
 		int rMaxHeight = 0;
 		while (rMaxHeight++ < aMaxTreeHeight) if (aY+rMaxHeight >= aWorld.getHeight() || !canPlaceTree(aWorld, aX, aY+rMaxHeight, aZ)) return rMaxHeight-1;
 		return rMaxHeight;
 	}
 	
-	public boolean placeTree(World aWorld, int aX, int aY, int aZ, Block aBlock, int aMeta) {
+	public boolean placeTree(Level aWorld, int aX, int aY, int aZ, Block aBlock, int aMeta) {
 		return canPlaceTree(aWorld, aX, aY, aZ) && WD.set(aWorld, aX, aY, aZ, aBlock, aMeta, 3);
 	}
 	
-	public boolean canPlaceTree(World aWorld, int aX, int aY, int aZ) {
+	public boolean canPlaceTree(Level aWorld, int aX, int aY, int aZ) {
 		Block tBlock = aWorld.getBlock(aX, aY, aZ);
 		return tBlock == this || tBlock instanceof BlockTallGrass || tBlock instanceof BlockSnow || tBlock instanceof BlockLeavesBase || tBlock.canBeReplacedByLeaves(aWorld, aX, aY, aZ);
 	}
 	
-	@Override public boolean canPlaceBlockAt(World aWorld, int aX, int aY, int aZ) {return super.canPlaceBlockAt(aWorld, aX, aY, aZ) && canBlockStay(aWorld, aX, aY, aZ);}
+	@Override public boolean canPlaceBlockAt(Level aWorld, int aX, int aY, int aZ) {return super.canPlaceBlockAt(aWorld, aX, aY, aZ) && canBlockStay(aWorld, aX, aY, aZ);}
 	
 	@Override
-	public void onNeighborBlockChange2(World aWorld, int aX, int aY, int aZ, Block aBlock) {
+	public void onNeighborBlockChange2(Level aWorld, int aX, int aY, int aZ, Block aBlock) {
 		checkAndDropBlock(aWorld, aX, aY, aZ);
 	}
 	
-	public boolean checkAndDropBlock(World aWorld, int aX, int aY, int aZ) {
+	public boolean checkAndDropBlock(Level aWorld, int aX, int aY, int aZ) {
 		if (canBlockStay(aWorld, aX, aY, aZ)) return F;
 		dropBlockAsItem(aWorld, aX, aY, aZ, WD.meta(aWorld, aX, aY, aZ), 0);
 		aWorld.setBlock(aX, aY, aZ, NB, 0, 2);
 		return T;
 	}
 	
-	@Override public EnumPlantType getPlantType(IBlockAccess aWorld, int aX, int aY, int aZ) {return Plains;}
-	@Override public Block getPlant(IBlockAccess aWorld, int aX, int aY, int aZ) {return this;}
-	@Override public int getPlantMetadata(IBlockAccess aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ);}
-	@Override public boolean func_149851_a(World aWorld, int aX, int aY, int aZ, boolean aIsRemote) {return T;}
-	@Override public boolean func_149852_a(World aWorld, Random aRandom, int aX, int aY, int aZ) {return aRandom.nextFloat() < 0.45;}
-	@Override public void func_149853_b(World aWorld, Random aRandom, int aX, int aY, int aZ) {tryGrow(aWorld, aX, aY, aZ, aRandom);}
+	@Override public EnumPlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {return Plains;}
+	@Override public Block getPlant(BlockGetter aWorld, int aX, int aY, int aZ) {return this;}
+	@Override public int getPlantMetadata(BlockGetter aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ);}
+	@Override public boolean func_149851_a(Level aWorld, int aX, int aY, int aZ, boolean aIsRemote) {return T;}
+	@Override public boolean func_149852_a(Level aWorld, Random aRandom, int aX, int aY, int aZ) {return aRandom.nextFloat() < 0.45;}
+	@Override public void func_149853_b(Level aWorld, Random aRandom, int aX, int aY, int aZ) {tryGrow(aWorld, aX, aY, aZ, aRandom);}
 }

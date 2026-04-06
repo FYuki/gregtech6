@@ -24,7 +24,7 @@ import static gregapi.data.CS.*;
 import gregapi.data.FL;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+import gregapi.stubs.RenderBlocks;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 import net.neoforged.neoforge.fluids.FluidStack;

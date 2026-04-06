@@ -20,7 +20,7 @@
 package gregapi.tileentity.machines;
 
 import buildcraft.api.tiles.IHasWork;
-import cpw.mods.fml.common.Optional;
+import gregapi.stubs.Optional;
 import gregapi.GT_API;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.code.TagData;
@@ -50,12 +50,16 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraftforge.fluids.*;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidTank;
+import net.neoforged.neoforge.fluids.IFluidTank;
+import gregapi.stubs.FluidTankInfo; // PHASE3: removed from NeoForge
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.Collection;
 import java.util.List;
@@ -344,12 +348,12 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 		}
 	}
 	
-	public long onToolClick3(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ, BlockPos aFrom) {
+	public long onToolClick3(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ, BlockPos aFrom) {
 		return onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0) return rReturn;
 		
@@ -746,7 +750,7 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 		}
 		
 		for (byte tSide : ALL_SIDES_VALID_FIRST[FACING_TO_SIDE[mFacing][mItemAutoInput]]) if (FACE_CONNECTED[FACING_ROTATIONS[mFacing][tSide]][mItemInputs]) {
-			DelegatorTileEntity<IInventory> tDelegator = getItemInputTarget(tSide);
+			DelegatorTileEntity<Container> tDelegator = getItemInputTarget(tSide);
 			if (tDelegator != null && tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) {
 				((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, this);
 			}
@@ -963,7 +967,7 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 		return T;
 	}
 	
-	public DelegatorTileEntity<IInventory> getItemInputTarget(byte aSide) {
+	public DelegatorTileEntity<Container> getItemInputTarget(byte aSide) {
 		return getAdjacentInventory(aSide);
 	}
 	
@@ -1030,7 +1034,7 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 	@Override public String getTileEntityName() {return "gt.multitileentity.machine.basic";}
 	
 	@Override
-	public void adjacentInventoryUpdated(byte aSide, IInventory aTileEntity) {
+	public void adjacentInventoryUpdated(byte aSide, Container aTileEntity) {
 		if (FACE_CONNECTED[FACING_ROTATIONS[mFacing][aSide]][mItemInputs|mItemOutputs]) updateInventory();
 	}
 }

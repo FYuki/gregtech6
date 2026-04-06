@@ -31,10 +31,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
+import gregapi.stubs.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
+import gregapi.stubs.TextureMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 // PHASE4: import IIcon removed — use TextureAtlasSprite

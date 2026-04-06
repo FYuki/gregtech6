@@ -492,7 +492,7 @@ public class LH {
 		add(REQUIREMENT_WATER_ANY                       , "Requires input of any Water!");
 		add(REQUIREMENT_WATER_PURE                      , "Requires any Water. Use distilled Water for best efficiency!");
 		add(REQUIREMENT_DISTILLED_WATER                 , "Requires input of distilled Water!");
-		add(REQUIREMENT_CHUNKLOADER                     , "Needs to be in a loaded Chunk to work properly!");
+		add(REQUIREMENT_CHUNKLOADER                     , "Needs to be in a loaded LevelChunk to work properly!");
 		add(REQUIREMENT_UNSTACKED                       , "Does not work when stacked!");
 		add(EMITS_USED_STEAM                            , "Emits used Steam");
 		add(EMITS_REDSTONE_FLUX                         , "Can emit Redstone Flux (RF) losslessly");

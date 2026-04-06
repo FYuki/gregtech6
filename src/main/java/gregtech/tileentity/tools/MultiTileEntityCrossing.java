@@ -35,7 +35,7 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import static gregapi.data.CS.*;
 
@@ -111,8 +111,8 @@ public class MultiTileEntityCrossing extends TileEntityBase07Paintable implement
 	
 	@Override public ITexture getTexture2(Block aBlock, int aRenderPass, byte aSide, boolean[] aShouldSideBeRendered) {return mTexture;}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[ 0], PX_P[ 1], PX_P[ 0], PX_N[ 0], PX_N[10], PX_N[ 0]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[ 0], PX_P[ 1], PX_P[ 0], PX_N[ 0], PX_N[10], PX_N[ 0]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[ 0], PX_P[ 1], PX_P[ 0], PX_N[ 0], PX_N[10], PX_N[ 0]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[ 0], PX_P[ 1], PX_P[ 0], PX_N[ 0], PX_N[10], PX_N[ 0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock)  {box(aBlock, PX_P[ 0], PX_P[ 1], PX_P[ 0], PX_N[ 0], PX_N[10], PX_N[ 0]);}
 	
 	@Override public byte isProvidingWeakPower2(byte aSide) {return (byte)(mRedstone && SIDES_HORIZONTAL[aSide] ? 1 : 0);}

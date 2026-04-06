@@ -28,7 +28,7 @@ import com.google.common.io.ByteStreams;
 import gregapi.network.INetworkHandler;
 import gregapi.network.IPacket;
 import gregapi.oredict.OreDictPrefix;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -70,7 +70,7 @@ public class PacketPrefix implements IPacket {
 	}
 	
 	@Override
-	public void process(IBlockAccess aWorld, INetworkHandler aNetworkHandler) {
+	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler) {
 		if (mPrefix == null) return;
 		mPrefix.applyStackSizes();
 	}

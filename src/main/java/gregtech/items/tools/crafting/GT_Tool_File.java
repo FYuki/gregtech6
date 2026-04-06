@@ -83,7 +83,7 @@ public class GT_Tool_File extends ToolStats {
 	}
 	
 	@Override
-	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, Player aPlayer, World aWorld, int aX, int aY, int aZ) {
+	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, Player aPlayer, Level aWorld, int aX, int aY, int aZ) {
 		return aBlock == Blocks.iron_bars ? aDefault * 3 : aDefault;
 	}
 	

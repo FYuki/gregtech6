@@ -20,7 +20,7 @@
 package gregapi.block;
 
 import gregapi.oredict.OreDictMaterialStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 /**
@@ -30,7 +30,7 @@ import net.minecraft.world.level.Level;
  */
 public interface IBlockMaterial {
 	/** Gets the Material on this Side of the Block, including its amount in Material Units. */
-	public OreDictMaterialStack getMaterialAtSide(IBlockAccess aWorld, int aX, int aY, int aZ, byte aSide);
+	public OreDictMaterialStack getMaterialAtSide(BlockGetter aWorld, int aX, int aY, int aZ, byte aSide);
 	/** Removes the specified Material from that Side. return true if it was successful. */
-	public boolean removeMaterialFromSide(World aWorld, int aX, int aY, int aZ, byte aSide, OreDictMaterialStack aMaterial);
+	public boolean removeMaterialFromSide(Level aWorld, int aX, int aY, int aZ, byte aSide, OreDictMaterialStack aMaterial);
 }

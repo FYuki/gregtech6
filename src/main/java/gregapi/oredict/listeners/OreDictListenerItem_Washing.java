@@ -29,7 +29,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockCauldron;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.RNGSUS;
@@ -54,7 +54,7 @@ public class OreDictListenerItem_Washing extends OreDictListenerItem {
 	}
 	
 	@Override
-	public ItemStack onTickWorld(OreDictPrefix aPrefix, OreDictMaterial aMaterial, ItemStack aStack, EntityItem aItem) {
+	public ItemStack onTickWorld(OreDictPrefix aPrefix, OreDictMaterial aMaterial, ItemStack aStack, ItemEntity aItem) {
 		if (aMaterial != null) {
 			int tX = UT.Code.roundDown(aItem.posX), tY = UT.Code.roundDown(aItem.posY-0.25), tZ = UT.Code.roundDown(aItem.posZ);
 			Block tBlock = aItem.worldObj.getBlock(tX, tY, tZ);

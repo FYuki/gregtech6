@@ -42,7 +42,7 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -90,10 +90,10 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {
+	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ) {
 		if (!hasProjectile(aProjectileType, aStack)) return null;
 		try {
-			EntityProjectile tProjectile = mEntityClass.getConstructor(World.class, Double.TYPE, Double.TYPE, Double.TYPE).newInstance(aWorld, aX, aY, aZ);
+			EntityProjectile tProjectile = mEntityClass.getConstructor(Level.class, Double.TYPE, Double.TYPE, Double.TYPE).newInstance(aWorld, aX, aY, aZ);
 			tProjectile.setProjectileStack(ST.amount(1, aStack));
 			return tProjectile;
 		} catch (Throwable e) {FMLLog.severe("Problems with '%s'", mEntityClass.getName()); FMLLog.severe(e.toString());}
@@ -101,10 +101,10 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed) {
+	public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed) {
 		if (!hasProjectile(aProjectileType, aStack)) return null;
 		try {
-			EntityProjectile tProjectile = mEntityClass.getConstructor(World.class, LivingEntity.class, Float.TYPE).newInstance(aWorld, aEntity, mSpeedMultiplier * aSpeed);
+			EntityProjectile tProjectile = mEntityClass.getConstructor(Level.class, LivingEntity.class, Float.TYPE).newInstance(aWorld, aEntity, mSpeedMultiplier * aSpeed);
 			tProjectile.setProjectileStack(ST.amount(1, aStack));
 			return tProjectile;
 		} catch (Throwable e) {FMLLog.severe("Problems with '%s'", mEntityClass.getName()); FMLLog.severe(e.toString());}
@@ -148,9 +148,9 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	}
 	
 	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
-		World aWorld = aSource.getWorld();
+		Level aWorld = aSource.getWorld();
 		IPosition tPosition = BlockDispenser.func_149939_a(aSource);
-		EnumFacing tFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Direction tFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
 		EntityProjectile tProjectile = getProjectile(mProjectileType, aStack, aWorld, tPosition.getX(), tPosition.getY(), tPosition.getZ());
 		if (tProjectile != null) {
 			tProjectile.setThrowableHeading(tFacing.getFrontOffsetX(), (tFacing.getFrontOffsetY() + 0.1F), tFacing.getFrontOffsetZ(), mSpeedMultiplier * 1.10F, mPrecision);
@@ -162,7 +162,7 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 		}
 		
 		// Default Item Dropping.
-		EnumFacing enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Direction enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
 		IPosition iposition = BlockDispenser.func_149939_a(aSource);
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
@@ -171,6 +171,6 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 	
 	public static class MetaItemDispense extends BehaviorProjectileDispense {
 		@Override public ItemStack dispenseStack(IBlockSource aSource, ItemStack aStack) {return ((PrefixItemProjectile)aStack.getItem()).onDispense(aSource, aStack);}
-		@Override protected IProjectile getProjectileEntity(World aWorld, IPosition aPosition) {return null;}
+		@Override protected IProjectile getProjectileEntity(Level aWorld, IPosition aPosition) {return null;}
 	}
 }

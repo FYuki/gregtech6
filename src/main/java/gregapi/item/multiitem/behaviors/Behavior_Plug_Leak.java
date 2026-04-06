@@ -42,7 +42,7 @@ public class Behavior_Plug_Leak extends AbstractBehaviorDefault {
 	public static final Behavior_Plug_Leak INSTANCE = new Behavior_Plug_Leak();
 	
 	@Override
-	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aWorld.isRemote || aPlayer == null || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		for (byte tSide : ALL_SIDES) {
 			// Only place right next to Liquids or inside of Liquids.

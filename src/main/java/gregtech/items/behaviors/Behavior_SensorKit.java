@@ -29,17 +29,17 @@ import gregapi.item.multiitem.behaviors.IBehavior.AbstractBehaviorDefault;
 import gregapi.util.WD;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
 
 public class Behavior_SensorKit extends AbstractBehaviorDefault {
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aPlayer instanceof ServerPlayer) {
 			TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
-			if (tTileEntity instanceof IInventory && !((IInventory)tTileEntity).isUseableByPlayer(aPlayer)) return F;/*
+			if (tTileEntity instanceof Container && !((Container)tTileEntity).isUseableByPlayer(aPlayer)) return F;/*
 			if (tTileEntity instanceof IGregTechDeviceInformation && ((IGregTechDeviceInformation)tTileEntity).isGivingInformation()) {
 				UT.Stacks.set(aStack, IL.NC_SensorCard.get(aStack.stackSize));
 				CompoundTag tNBT = aStack.getTagCompound();

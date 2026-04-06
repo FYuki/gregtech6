@@ -29,7 +29,7 @@ import gregapi.tileentity.ITileEntityMachineBlockUpdateable;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -62,14 +62,14 @@ public abstract class TileEntityBase09FacingSingle extends TileEntityBase08Direc
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return 0;
 		if (getFacingTool() != null && aTool.equals(getFacingTool())) {byte aTargetSide = UT.Code.getSideWrenching(aSide, aHitX, aHitY, aHitZ); if (getValidSides()[aTargetSide]) {byte oFacing = mFacing; mFacing = aTargetSide; updateClientData(); causeBlockUpdate(); onFacingChange(oFacing); return 10000;}}
 		return 0;
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		mFacing = useSidePlacementRotation(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ)?useInversePlacementRotation(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ)?getValidSides()[OPOS[aSide]]?OPOS[aSide]:getDefaultSide():getValidSides()[aSide]?aSide:getDefaultSide():(useInversePlacementRotation(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ)?UT.Code.getOppositeSideForPlayerPlacing(aPlayer, mFacing, getValidSides()):UT.Code.getSideForPlayerPlacing(aPlayer, mFacing, getValidSides()));
 		onFacingChange(SIDE_UNKNOWN);
 		checkCoverValidity();
@@ -92,7 +92,7 @@ public abstract class TileEntityBase09FacingSingle extends TileEntityBase08Direc
 	public boolean[] getValidSides() {return SIDES_VALID;}
 	public void onFacingChange(byte aPreviousFacing) {/**/}
 	public boolean useSidePlacementRotation() {return F;}
-	public boolean useSidePlacementRotation(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return useSidePlacementRotation();}
+	public boolean useSidePlacementRotation(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return useSidePlacementRotation();}
 	public boolean useInversePlacementRotation() {return F;}
-	public boolean useInversePlacementRotation(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return useInversePlacementRotation();}
+	public boolean useInversePlacementRotation(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return useInversePlacementRotation();}
 }

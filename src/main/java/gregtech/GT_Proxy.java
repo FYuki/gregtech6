@@ -66,7 +66,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 // PHASE5: Fluid helper return types use net.minecraft.world.level.material.Fluid (old net.minecraftforge.fluids.Fluid removed)
 import net.minecraft.world.level.material.Fluid;
@@ -160,8 +160,8 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 						return;
 					}
 					
-					MovingObjectPosition tTarget = WD.getMOP(aEvent.world, aEvent.entityPlayer, T);
-					if (tTarget == null || tTarget.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK || !aEvent.world.canMineBlock(aEvent.entityPlayer, tTarget.blockX, tTarget.blockY, tTarget.blockZ) || !aEvent.entityPlayer.canPlayerEdit(tTarget.blockX, tTarget.blockY, tTarget.blockZ, tTarget.sideHit, aStack)) return;
+					HitResult tTarget = WD.getMOP(aEvent.world, aEvent.entityPlayer, T);
+					if (tTarget == null || tTarget.typeOfHit != HitResult.MovingObjectType.BLOCK || !aEvent.world.canMineBlock(aEvent.entityPlayer, tTarget.blockX, tTarget.blockY, tTarget.blockZ) || !aEvent.entityPlayer.canPlayerEdit(tTarget.blockX, tTarget.blockY, tTarget.blockZ, tTarget.sideHit, aStack)) return;
 					Block tBlock = aEvent.world.getBlock(tTarget.blockX, tTarget.blockY, tTarget.blockZ);
 					
 					if (tBlock == Blocks.water || tBlock == Blocks.flowing_water) {
@@ -202,8 +202,8 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 					return;
 				}
 				if (aStack.getItem() == Items.bucket) {
-					MovingObjectPosition tTarget = WD.getMOP(aEvent.world, aEvent.entityPlayer, T);
-					if (tTarget != null && tTarget.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+					HitResult tTarget = WD.getMOP(aEvent.world, aEvent.entityPlayer, T);
+					if (tTarget != null && tTarget.typeOfHit == HitResult.MovingObjectType.BLOCK) {
 						Block tBlock = aEvent.world.getBlock(tTarget.blockX, tTarget.blockY, tTarget.blockZ);
 						if (tBlock instanceof BlockWaterlike && tBlock != BlocksGT.River) aEvent.setCanceled(T);
 					}

@@ -36,12 +36,12 @@ import gregapi.util.UT;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 // PHASE7: import OreDictionary removed — replaced by Tags
 // PHASE7: import ShapedOreRecipe removed — use datapack recipes
 // PHASE7: import ShapelessOreRecipe removed — use datapack recipes
@@ -132,7 +132,7 @@ public class Loader_Recipes_Replace implements Runnable {
 			if (aOutput.stackSize != 1) continue;
 			if (aOutput.getMaxDamage() <= 0) continue;
 			if (aOutput.getMaxStackSize() != 1) continue;
-			if (tRecipe instanceof ShapelessRecipes) continue;
+			if (tRecipe instanceof ShapelessRecipe) continue;
 			if (tRecipe instanceof ShapelessOreRecipe) continue;
 			if (tRecipe instanceof ICraftingRecipeGT) continue;
 			if (ST.block(aOutput) != NB) continue;
@@ -145,8 +145,8 @@ public class Loader_Recipes_Replace implements Runnable {
 			
 			if (tRecipe instanceof ShapedOreRecipe) {
 				tRecipeInputs = ((ShapedOreRecipe)tRecipe).getInput();
-			} else if (tRecipe instanceof ShapedRecipes) {
-				tRecipeInputs = ((ShapedRecipes)tRecipe).recipeItems;
+			} else if (tRecipe instanceof ShapedRecipe) {
+				tRecipeInputs = ((ShapedRecipe)tRecipe).recipeItems;
 			} else if (MD.IC2.mLoaded && tRecipe instanceof ic2.core.AdvRecipe) {
 				tRecipeInputs = ((ic2.core.AdvRecipe)tRecipe).input;
 			}
@@ -266,7 +266,7 @@ public class Loader_Recipes_Replace implements Runnable {
 	public static ItemStack getRecipeOutput(IRecipe aRecipe, ItemStack... aStacks) {
 		if (aRecipe == null || aStacks == null) return null;
 		for (byte i = 0; i < aStacks.length; i++) if (aStacks[i] != null) {
-			InventoryCrafting aCrafting = new InventoryCrafting(new Container() {@Override public boolean canInteractWith(Player aPlayer) {return F;}}, 3, 3);
+			CraftingContainer aCrafting = new CraftingContainer(new Container() {@Override public boolean canInteractWith(Player aPlayer) {return F;}}, 3, 3);
 			for (int j = 0; j < 9 && j < aStacks.length; j++) aCrafting.setInventorySlotContents(j, aStacks[j]);
 			if (!aRecipe.matches(aCrafting, DW)) return null;
 			ItemStack rOutput = aRecipe.getCraftingResult(aCrafting);

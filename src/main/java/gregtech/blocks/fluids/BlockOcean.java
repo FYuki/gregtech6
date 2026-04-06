@@ -25,9 +25,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos; // was BlockPos
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 
 import java.util.Random;
@@ -46,7 +46,7 @@ public class BlockOcean extends BlockWaterlike {
 	}
 	
 	@Override
-	public void onBlockAdded(World aWorld, int aX, int aY, int aZ) {
+	public void onBlockAdded(Level aWorld, int aX, int aY, int aZ) {
 		if (PLACEMENT_ALLOWED) {
 			if (UPDATE_TICK) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, 10+RNGSUS.nextInt(90));
 		} else {
@@ -55,13 +55,13 @@ public class BlockOcean extends BlockWaterlike {
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World aWorld, int aX, int aY, int aZ, Block aBlock) {
+	public void onNeighborBlockChange(Level aWorld, int aX, int aY, int aZ, Block aBlock) {
 		if (aBlock == Blocks.DIRT && aWorld.getBlock(aX, aY-1, aZ) == Blocks.GRASS_BLOCK) aWorld.setBlock(aX, aY-1, aZ, Blocks.DIRT, 1, 2);
 		super.onNeighborBlockChange(aWorld, aX, aY, aZ, aBlock);
 	}
 	
 	@Override
-	public void updateTick(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public void updateTick(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		PLACEMENT_ALLOWED = UPDATE_TICK = T;
 		
 		if (aWorld.doChunksNearChunkExist(aX, aY, aZ, 33)) {
@@ -89,7 +89,7 @@ public class BlockOcean extends BlockWaterlike {
 		
 		Block tBlock;
 		
-		BiomeGenBase tBiome = aWorld.getBiomeGenForCoords(aX, aZ);
+		Biome tBiome = aWorld.getBiomeGenForCoords(aX, aZ);
 		
 		boolean tHasNoOceanAround = T, tHasOceanBiome = BIOMES_OCEAN_BEACH.contains(tBiome.biomeName);
 		byte tOceanCounter = 0;
@@ -161,12 +161,12 @@ public class BlockOcean extends BlockWaterlike {
 	}
 	
 	@Override
-	public int getLightOpacity(IBlockAccess aWorld, int aX, int aY, int aZ) {
+	public int getLightOpacity(BlockGetter aWorld, int aX, int aY, int aZ) {
 		// TODO FIX THIS SHIT
 		return aWorld.getBlockMetadata(aX, aY, aZ) == 0 && WD.air(aWorld.getBlock(aX, aY+1, aZ)) && WD.air(aWorld.getBlock(aX, aY+2, aZ)) && aWorld.getBlock(aX, aY-1, aZ).getLightOpacity(aWorld, aX, aY-1, aZ) < LIGHT_OPACITY_MAX ? 16 : LIGHT_OPACITY_NONE;
 	}
 	
 	@Override public IIcon getIcon(int aSide, int aMeta) {return Blocks.water.getIcon(aSide, aMeta);}
 	@Override public int getRenderColor(int aMeta) {return 0x00c0c0c0;}
-	@Override public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {return 0x00c0c0c0;}
+	@Override public int colorMultiplier(BlockGetter aWorld, int aX, int aY, int aZ) {return 0x00c0c0c0;}
 }

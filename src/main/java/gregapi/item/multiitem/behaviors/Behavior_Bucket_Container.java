@@ -30,18 +30,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidBlock;
+import gregapi.stubs.IFluidBlock;
 
 public class Behavior_Bucket_Container extends AbstractBehaviorDefault {
 	public static final IBehavior<MultiItem> INSTANCE = new Behavior_Bucket_Container();
 	
 	@Override
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, Player aPlayer) {
-		MovingObjectPosition tPosition = WD.getMOP(aWorld, aPlayer, T);
-		if (tPosition == null || tPosition.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return aStack;
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
+		HitResult tPosition = WD.getMOP(aWorld, aPlayer, T);
+		if (tPosition == null || tPosition.typeOfHit != HitResult.MovingObjectType.BLOCK) return aStack;
 		if (!aWorld.canMineBlock(aPlayer, tPosition.blockX, tPosition.blockY, tPosition.blockZ)) return aStack;
 		
 		Block tBlock = aWorld.getBlock(tPosition.blockX, tPosition.blockY, tPosition.blockZ);

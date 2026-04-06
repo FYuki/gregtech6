@@ -31,7 +31,7 @@ import gregapi.render.ITexture;
 import gregapi.tileentity.machines.ITileEntitySwitchableMode;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -68,7 +68,7 @@ public class CoverSelectorButtonPanel extends AbstractCoverAttachmentSelector {
 	}
 	
 	@Override
-	public long onToolClick(byte aSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(byte aSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_chisel)) {
 			aData.visual(aSide, (short)((aData.mVisuals[aSide] + 16) & 127));
 			return 100;

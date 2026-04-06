@@ -32,9 +32,9 @@ import gregapi.render.ITexture;
 import gregapi.tileentity.energy.TileEntityBase08Battery;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 /**
@@ -69,14 +69,14 @@ public class MultiTileEntityZPM extends TileEntityBase08Battery implements IMTE_
 		return T;
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box( PX_P[ 4], PX_P[ 0], PX_P[ 4], PX_N[ 4], PX_N[ 4], PX_N[ 4]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box( PX_P[ 4], PX_P[ 0], PX_P[ 4], PX_N[ 4], PX_N[ 4], PX_N[ 4]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box( PX_P[ 4], PX_P[ 0], PX_P[ 4], PX_N[ 4], PX_N[ 4], PX_N[ 4]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box( PX_P[ 4], PX_P[ 0], PX_P[ 4], PX_N[ 4], PX_N[ 4], PX_N[ 4]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock  , PX_P[ 4], PX_P[ 0], PX_P[ 4], PX_N[ 4], PX_N[ 4], PX_N[ 4]);}
 	
 	@Override public byte getMaxStackSize(ItemStack aStack, byte aDefault) {return aDefault;}
 	@Override public byte getDisplayScaleMax() {return 15;}
 	@Override public int getLightValue() {return mDisplayedEnergy;}
-	@Override public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoInject) {return 0;}
+	@Override public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoInject) {return 0;}
 	@Override public boolean canEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize) {return F;}
 	
 	@Override public String getTileEntityName() {return "gt.multitileentity.zpm";}

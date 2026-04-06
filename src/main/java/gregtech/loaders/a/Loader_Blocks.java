@@ -19,7 +19,7 @@
 
 package gregtech.loaders.a;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
+import net.neoforged.fml.InterModComms;
 import gregapi.block.MaterialGas;
 import gregapi.block.MaterialOil;
 import gregapi.block.fluid.BlockBaseFluid;

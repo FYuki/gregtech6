@@ -21,7 +21,7 @@ package gregtech.render;
 
 import static gregapi.data.CS.*;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import gregapi.stubs.RenderingRegistry;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;

@@ -32,7 +32,7 @@ import net.minecraft.world.level.Level;
  * @author Gregorius Techneticies
  */
 public abstract class MultiTileEntityPanel extends TileEntityBase03MultiTileEntities implements IMTE_CanPlace {
-	@Override public boolean canPlace(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
+	@Override public boolean canPlace(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return F;}
 	@Override public boolean setBlockBounds(Block aBlock, int aRenderPass, boolean[] aShouldSideBeRendered) {box(aBlock, PX_P[0], PX_P[0], PX_P[7], PX_N[0], PX_N[0], PX_N[7]); return T;}
 	@Override public int getRenderPasses(Block aBlock, boolean[] aShouldSideBeRendered) {return 1;}
 }

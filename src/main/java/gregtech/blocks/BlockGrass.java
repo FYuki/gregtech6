@@ -32,10 +32,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
+import net.neoforged.neoforge.common.IPlantable;
 import net.minecraft.core.Direction; // was Direction
 
 import java.util.ArrayList;
@@ -94,7 +94,7 @@ public class BlockGrass extends BlockBaseMeta {
 	}
 	
 	@Override
-	public boolean canSustainPlant(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
+	public boolean canSustainPlant(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
 		EnumPlantType tType = aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ);
 		return tType == EnumPlantType.Plains || (tType == EnumPlantType.Beach && (WD.anywater(aWorld, aX+1, aY, aZ) || WD.anywater(aWorld, aX-1, aY, aZ) || WD.anywater(aWorld, aX, aY, aZ+1) || WD.anywater(aWorld, aX, aY, aZ-1)));
 	}
@@ -102,12 +102,12 @@ public class BlockGrass extends BlockBaseMeta {
 	public static final IconContainerCopied DIRT = new IconContainerCopied(Blocks.DIRT, 0, SIDE_BOTTOM);
 	
 	@Override public IIcon getIcon(int aSide, int aMeta) {return (SIDES_BOTTOM[aSide]?DIRT:(SIDES_TOP[aSide]?Textures.BlockIcons.GRASSES_TOP:Textures.BlockIcons.GRASSES_SIDE)[aMeta % 16]).getIcon(0);}
-	@Override public ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {return ST.arraylist(ST.make(Blocks.DIRT, 1, 0));}
+	@Override public ArrayList<ItemStack> getDrops(Level aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {return ST.arraylist(ST.make(Blocks.DIRT, 1, 0));}
 	@Override public boolean doesPistonPush  (byte aMeta) {return T;}
 	@Override public boolean canCreatureSpawn(byte aMeta) {return F;}
 	@Override public boolean isSealable      (byte aMeta, byte aSide) {return F;}
 	@Override public String getHarvestTool   (int  aMeta) {return TOOL_shovel;}
 	@Override public int getHarvestLevel     (int  aMeta) {return 0;}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return Blocks.GRASS_BLOCK.getBlockHardness(aWorld, aX, aY, aZ);}
+	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return Blocks.GRASS_BLOCK.getBlockHardness(aWorld, aX, aY, aZ);}
 	@Override public float getExplosionResistance(byte aMeta) {return Blocks.GRASS_BLOCK.getExplosionResistance(null);}
 }

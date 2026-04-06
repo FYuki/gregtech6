@@ -42,12 +42,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.network.chat.Component;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.world.BlockEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.List;
 
@@ -91,7 +91,7 @@ public abstract class ToolStats implements IToolStats {
 	}
 	
 	@Override
-	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, Player aPlayer, World aWorld, int aX, int aY, int aZ) {
+	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, Player aPlayer, Level aWorld, int aX, int aY, int aZ) {
 		return aDefault;
 	}
 	
@@ -100,7 +100,7 @@ public abstract class ToolStats implements IToolStats {
 		return DamageSources.getCombatDamage(aPlayer instanceof Player ? "player" : "mob", aPlayer, aEntity instanceof LivingEntity ? getDeathMessage(aPlayer, (LivingEntity)aEntity, aPlayer == null ? "Someone" : UT.Code.stringValidate(aPlayer.getCommandSenderName(), "Someone"), UT.Code.stringValidate(aEntity.getCommandSenderName(), "Someone")) : null, canBehead());
 	}
 	
-	public IChatComponent getDeathMessage(LivingEntity aPlayer, LivingEntity aEntity, String aNamePlayer, String aNameEntity) {return DamageSources.getDeathMessage(aPlayer, aEntity, aNamePlayer, aNameEntity, getDeathMessage());}
+	public Component getDeathMessage(LivingEntity aPlayer, LivingEntity aEntity, String aNamePlayer, String aNameEntity) {return DamageSources.getDeathMessage(aPlayer, aEntity, aNamePlayer, aNameEntity, getDeathMessage());}
 	public String getDeathMessage() {return "Why is there no custom Death Message for this Tool?";}
 	
 	@Override
@@ -228,7 +228,7 @@ public abstract class ToolStats implements IToolStats {
 		if (aEntity instanceof LivingEntity && aFireAspect > 0) aEntity.setFire(aFireAspect * 4);
 		int tKnockback = (aPlayer.isSprinting()?1:0) + (aEntity instanceof LivingEntity?EnchantmentHelper.getKnockbackModifier(aPlayer, (LivingEntity)aEntity):0);
 		if (tKnockback > 0) {
-			aEntity.addVelocity(-MathHelper.sin((float)(aPlayer.rotationYaw * Math.PI / 180)) * tKnockback * 0.5, 0.1, MathHelper.cos((float)(aPlayer.rotationYaw * Math.PI / 180)) * tKnockback * 0.5);
+			aEntity.addVelocity(-Mth.sin((float)(aPlayer.rotationYaw * Math.PI / 180)) * tKnockback * 0.5, 0.1, Mth.cos((float)(aPlayer.rotationYaw * Math.PI / 180)) * tKnockback * 0.5);
 			aPlayer.motionX *= 0.6;
 			aPlayer.motionZ *= 0.6;
 			aPlayer.setSprinting(F);

@@ -28,10 +28,10 @@ import java.util.Random;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.BiomeNameSet;
 import gregapi.util.WD;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -40,12 +40,12 @@ import net.minecraft.world.level.chunk.LevelChunk;
 public class GT6WorldGenerator {
 	public static class WorldGenContainer implements Runnable {
 		public final int mMinX, mMinZ, mMaxX, mMaxZ, mDimType;
-		public final World mWorld;
+		public final Level mWorld;
 		public final Random mRandom;
 		public final List<WorldgenObject> mGenNormal;
 		public final List<WorldgenObject> mGenLargeOres;
 		
-		public WorldGenContainer(List<WorldgenObject> aGenNormal, List<WorldgenObject> aGenLargeOres, int aDimType, World aWorld, int aX, int aZ) {
+		public WorldGenContainer(List<WorldgenObject> aGenNormal, List<WorldgenObject> aGenLargeOres, int aDimType, Level aWorld, int aX, int aZ) {
 			mMinX = aX; mMinZ = aZ; mMaxX = aX + 15; mMaxZ = aZ + 15;
 			mDimType = aDimType;
 			mWorld = aWorld;
@@ -57,14 +57,14 @@ public class GT6WorldGenerator {
 		@Override @SuppressWarnings("unchecked")
 		public void run() {
 			if (!mGenNormal.isEmpty()) {
-				Chunk tChunk = mWorld.getChunkFromBlockCoords(mMinX+7, mMinZ+7);
+				LevelChunk tChunk = mWorld.getChunkFromBlockCoords(mMinX+7, mMinZ+7);
 				if (tChunk == null) return;
-				BiomeGenBase[][] tBiomes = new BiomeGenBase[16][16];
+				Biome[][] tBiomes = new Biome[16][16];
 				BiomeNameSet tBiomeNames = new BiomeNameSet();
 				for (int i = 0; i < 16; i++) for (int j = 0; j < 16; j++) {
 					tBiomes[i][j] = tChunk.getBiomeGenForWorldCoords(i, j, mWorld.provider.worldChunkMgr);
 					if (tBiomes[i][j] == null) {
-						tBiomes[i][j] = (mDimType == DIM_NETHER ? BiomeGenBase.hell : mDimType == DIM_END ? BiomeGenBase.sky : BiomeGenBase.plains);
+						tBiomes[i][j] = (mDimType == DIM_NETHER ? Biome.hell : mDimType == DIM_END ? Biome.sky : Biome.plains);
 					} else {
 						tBiomeNames.add(tBiomes[i][j].biomeName);
 					}
@@ -82,7 +82,7 @@ public class GT6WorldGenerator {
 					}
 					if (tChunk.lastSaveTime == Long.MAX_VALUE) {
 						tChunk.hasEntities = tChunk.isModified = F;
-						throw new RuntimeException("A corrupted Chunk was found while generating at (X: " + mMinX + " Z: " + mMinZ + "), please try loading the World again to see if this specific Chunk consistently corrupts, and >>>ONLY<<< if it does so, please report this to Greg.");
+						throw new RuntimeException("A corrupted LevelChunk was found while generating at (X: " + mMinX + " Z: " + mMinZ + "), please try loading the Level again to see if this specific LevelChunk consistently corrupts, and >>>ONLY<<< if it does so, please report this to Greg.");
 					}
 				}
 				
@@ -106,10 +106,10 @@ public class GT6WorldGenerator {
 				}
 				
 				// Kill off every single Item Entity that may have dropped during Worldgen.
-				for (EntityItem tEntity : (List<EntityItem>)mWorld.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(mMinX-32, 0, mMinZ-32, mMinX+48, 256, mMinZ+48))) tEntity.setDead();
+				for (ItemEntity tEntity : (List<ItemEntity>)mWorld.getEntitiesWithinAABB(ItemEntity.class, AABB.getBoundingBox(mMinX-32, 0, mMinZ-32, mMinX+48, 256, mMinZ+48))) tEntity.setDead();
 				// Prevent Snow Layers from killing Treestumps. I really hope this works...
 				Arrays.fill(tChunk.precipitationHeightMap, -999);
-				// Chunk got modified, duh.
+				// LevelChunk got modified, duh.
 				tChunk.isModified = T;
 			}
 		}
@@ -119,7 +119,7 @@ public class GT6WorldGenerator {
 	private static boolean LOCK = F;
 	public static boolean PFAA = F, TFC = F;
 	
-	public static void generate(World aWorld, int aX, int aZ, boolean aGalactiCraft) {
+	public static void generate(Level aWorld, int aX, int aZ, boolean aGalactiCraft) {
 		switch(aWorld.provider.dimensionId) {
 		case -2147483648  : return;
 		case DIM_OVERWORLD: generate(new WorldGenContainer(TFC ? GEN_TFC : PFAA ? GEN_PFAA : GENERATE_STONE ? GEN_GT : GEN_OVERWORLD, TFC ? ORE_TFC : PFAA ? ORE_PFAA : GENERATE_STONE ? null : ORE_OVERWORLD, DIM_OVERWORLD, aWorld, aX, aZ)); return;
@@ -149,7 +149,7 @@ public class GT6WorldGenerator {
 		if (WD.dimCANDY        (aWorld)) {generate(new WorldGenContainer(GEN_CANDY       , ORE_CANDY       , DIM_CANDY       , aWorld, aX, aZ)); return;}
 		
 		
-		BiomeGenBase aBiome = aWorld.getBiomeGenForCoords(aX+7, aZ+7);
+		Biome aBiome = aWorld.getBiomeGenForCoords(aX+7, aZ+7);
 		if (aBiome == null || BIOMES_VOID.contains(aBiome.biomeName)) return;
 		
 		if (BIOMES_EREBUS.contains(aBiome.biomeName)) {

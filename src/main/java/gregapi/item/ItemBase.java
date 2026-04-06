@@ -37,7 +37,7 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.core.Direction;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.level.Level;
@@ -86,7 +86,7 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 	}
 	
 	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
-		EnumFacing enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Direction enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
 		IPosition iposition = BlockDispenser.func_149939_a(aSource);
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
@@ -100,14 +100,14 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 		}
 		
 		@Override
-		protected IProjectile getProjectileEntity(World aWorld, IPosition aPosition) {
+		protected IProjectile getProjectileEntity(Level aWorld, IPosition aPosition) {
 			return null;
 		}
 	}
 	
 	@Override public boolean hasProjectile(TagData aProjectileType, ItemStack aStack) {return F;}
-	@Override public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {return null;}
-	@Override public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed) {return null;}
+	@Override public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ) {return null;}
+	@Override public EntityProjectile getProjectile(TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed) {return null;}
 	@Override public final Item setUnlocalizedName(String aName) {return this;}
 	@Override public String toString() {return mName;}
 	@Override public final String getUnlocalizedName() {return mName;}
@@ -116,13 +116,13 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 	@Override public final boolean getShareTag() {return T;} // just to be sure.
 	@Override @OnlyIn(Dist.CLIENT) public void registerIcons(IIconRegister aIconRegister) {mIcon = aIconRegister.registerIcon(mModID + ":" + mName);}
 	@Override public IIcon getIconFromDamage(int aMeta) {return mIcon;}
-	@Override public void onCreated(ItemStack aStack, World aWorld, Player aPlayer) {isItemStackUsable(aStack);}
+	@Override public void onCreated(ItemStack aStack, Level aWorld, Player aPlayer) {isItemStackUsable(aStack);}
 	@Override public ItemStack getContainerItem(ItemStack aStack) {return null;}
 	@Override public boolean hasContainerItem(ItemStack aStack) {return getContainerItem(aStack) != null;}
 	@Override public boolean doesContainerItemLeaveCraftingGrid(ItemStack aStack) {return F;}
 	@Override public void updateItemStack(ItemStack aStack) {isItemStackUsable(aStack);}
-	@Override public void updateItemStack(ItemStack aStack, World aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
-	@Override public boolean doesSneakBypassUse(World aWorld, int aX, int aY, int aZ, Player aPlayer) {return T;}
+	@Override public void updateItemStack(ItemStack aStack, Level aWorld, int aX, int aY, int aZ) {updateItemStack(aStack);}
+	@Override public boolean doesSneakBypassUse(Level aWorld, int aX, int aY, int aZ, Player aPlayer) {return T;}
 	public boolean isItemStackUsable(ItemStack aStack) {return T;}
 	public ItemStack make(long aMetaData) {return ST.make(this, 1, aMetaData);}
 	public ItemStack make(long aAmount, long aMetaData) {return ST.make(this, aAmount, aMetaData);}

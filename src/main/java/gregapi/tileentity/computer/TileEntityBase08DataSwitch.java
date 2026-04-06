@@ -27,7 +27,7 @@ import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.machines.ITileEntitySwitchableMode;
 import gregapi.util.OM;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 
@@ -99,7 +99,7 @@ public abstract class TileEntityBase08DataSwitch extends TileEntityBase07Paintab
 		if (mMode != aMode) {
 			mMode = aMode;
 			for (byte tSide : ALL_SIDES_VALID) {
-				DelegatorTileEntity<IInventory> tDelegator = getAdjacentInventory(tSide);
+				DelegatorTileEntity<Container> tDelegator = getAdjacentInventory(tSide);
 				if (tDelegator.mTileEntity != null) for (int i = 0, j = tDelegator.mTileEntity.getSizeInventory(); i < j; i++) {
 					ItemStack tUSB = tDelegator.mTileEntity.getStackInSlot(i);
 					if (OM.is(OD_USB_CABLES[0], tUSB) && (!tUSB.hasTagCompound() || !tUSB.getTagCompound().hasKey(NBT_USB_DIRECTION) || SIDES_EQUAL[tUSB.getTagCompound().getByte(NBT_USB_DIRECTION)][tDelegator.mSideOfTileEntity])) {

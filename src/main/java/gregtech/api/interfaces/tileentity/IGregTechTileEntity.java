@@ -26,7 +26,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 @Deprecated
@@ -51,7 +51,7 @@ public interface IGregTechTileEntity {
 	@Deprecated public float getBlastResistance(byte aSide);
 	@Deprecated public ArrayList<ItemStack> getDrops();
 	@Deprecated public int getLightOpacity();
-	@Deprecated public void addCollisionBoxesToList(World aWorld, int aX, int aY, int aZ, AxisAlignedBB inputAABB, List<AxisAlignedBB> outputAABB, Entity collider);
-	@Deprecated public AxisAlignedBB getCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ);
-	@Deprecated public void onEntityCollidedWithBlock(World aWorld, int aX, int aY, int aZ, Entity collider);
+	@Deprecated public void addCollisionBoxesToList(Level aWorld, int aX, int aY, int aZ, AABB inputAABB, List<AABB> outputAABB, Entity collider);
+	@Deprecated public AABB getCollisionBoundingBoxFromPool(Level aWorld, int aX, int aY, int aZ);
+	@Deprecated public void onEntityCollidedWithBlock(Level aWorld, int aX, int aY, int aZ, Entity collider);
 }

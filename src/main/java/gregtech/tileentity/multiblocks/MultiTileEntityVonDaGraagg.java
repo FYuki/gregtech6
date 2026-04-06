@@ -33,12 +33,12 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 
 import java.util.Collection;
 import java.util.List;
@@ -59,7 +59,7 @@ public class MultiTileEntityVonDaGraagg extends TileEntityBase10MultiBlockBase i
 	}
 	
 	@Override
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {
 		int tX = getOffsetXN(mFacing, 2), tY = yCoord-1, tZ = getOffsetZN(mFacing, 2);
 		if (worldObj.blockExists(tX-2, tY, tZ-2) && worldObj.blockExists(tX+2, tY, tZ-2) && worldObj.blockExists(tX-2, tY, tZ+2) && worldObj.blockExists(tX+2, tY, tZ+2)) {
 			boolean tSuccess = T;
@@ -104,7 +104,7 @@ public class MultiTileEntityVonDaGraagg extends TileEntityBase10MultiBlockBase i
 	}
 	
 	@Override
-	public boolean inhibitMobSpawn(LivingSpawnEvent.CheckSpawn aEvent, World aWorld, int aX, int aY, int aZ) {
+	public boolean inhibitMobSpawn(MobSpawnEvent.CheckSpawn aEvent, Level aWorld, int aX, int aY, int aZ) {
 		if (mCurrentRange <= 0 || aWorld != worldObj || Math.abs(aX - xCoord) > mCurrentRange || Math.abs(aZ - zCoord) > mCurrentRange) return F;
 		// Allow wild Mobs to spawn on Mossy Cobblestone.
 		for (int i = -5; i <= 5; i++) {

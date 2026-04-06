@@ -37,7 +37,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -89,7 +89,7 @@ public class PacketItemStackChat implements IPacket {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void process(IBlockAccess aWorld, INetworkHandler aNetworkHandler) {
+	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler) {
 		DISPLAY_TEMP_TOOLTIP = F;
 		List<String> tList = mStack.getTooltip(GT_API.api_proxy.getThePlayer(), F);
 		DISPLAY_TEMP_TOOLTIP = T;

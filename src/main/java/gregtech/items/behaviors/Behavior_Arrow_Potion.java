@@ -53,7 +53,7 @@ public class Behavior_Arrow_Potion extends Behavior_Arrow {
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {
+	public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ) {
 		if (!hasProjectile(aItem, aProjectileType, aStack)) return null;
 		EntityArrow_Potion rArrow = new EntityArrow_Potion(aWorld, aX, aY, aZ);
 		rArrow.setProjectileStack(aStack);
@@ -62,7 +62,7 @@ public class Behavior_Arrow_Potion extends Behavior_Arrow {
 	}
 	
 	@Override
-	public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed) {
+	public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed) {
 		if (!hasProjectile(aItem, aProjectileType, aStack)) return null;
 		EntityArrow_Potion rArrow = new EntityArrow_Potion(aWorld, aEntity, aSpeed);
 		rArrow.setProjectileStack(aStack);

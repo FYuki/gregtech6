@@ -24,7 +24,7 @@ import static gregapi.data.CS.*;
 import gregapi.old.Textures;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+import gregapi.stubs.RenderBlocks;
 import net.minecraft.world.level.block.Blocks;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 

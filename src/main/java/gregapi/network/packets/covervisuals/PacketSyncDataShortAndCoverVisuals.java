@@ -31,7 +31,7 @@ import gregapi.network.packets.PacketCoordinates;
 import gregapi.network.packets.data.PacketSyncDataShort;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -85,7 +85,7 @@ public class PacketSyncDataShortAndCoverVisuals extends PacketSyncDataShort {
 	}
 	
 	@Override
-	public void process(IBlockAccess aWorld, INetworkHandler aNetworkHandler) {
+	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler) {
 		if (aWorld != null) {
 			Block tBlock = aWorld.getBlock(mX, mY, mZ);
 			if (tBlock instanceof IBlockSyncDataAndCoversAndIDs) ((IBlockSyncDataAndCoversAndIDs)tBlock).receiveDataShort(aWorld, mX, mY, mZ, mData, aNetworkHandler, mCoverVisuals, mVisualsToSync);

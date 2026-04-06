@@ -32,7 +32,7 @@ import gregapi.tileentity.machines.ITileEntityRunningActively;
 import gregapi.tileentity.machines.ITileEntityRunningSuccessfully;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -40,7 +40,7 @@ import net.minecraft.world.item.ItemStack;
  */
 public class CoverControllerAutoRedstone extends AbstractCoverAttachmentController {
 	@Override
-	public long onToolClick(byte aSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(byte aSide, CoverData aData, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSideClicked, float aHitX, float aHitY, float aHitZ) {
 		if (aTool.equals(TOOL_screwdriver)) {
 			aData.value(aSide, (short)(aData.mValues[aSide] ^ B[0]));
 			if (aChatReturn != null) aChatReturn.add((aData.mValues[aSide] & B[0]) != 0 ? "Runs when Input is OFF" : "Runs when Input is ON");

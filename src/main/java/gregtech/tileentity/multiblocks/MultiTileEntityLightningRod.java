@@ -34,7 +34,7 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos; // was BlockPos
@@ -69,7 +69,7 @@ public class MultiTileEntityLightningRod extends TileEntityBase10MultiBlockBase 
 	}
 	
 	@Override
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {
 		boolean tSuccess = T;
 		mSize = 0;
 		

@@ -213,7 +213,7 @@ public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItem
 	}
 	
 	@Override
-	public BlockPos bumbleCanProduce(World aWorld, int aX, int aY, int aZ, ItemStack aBumbleBee, short aMetaData, int aDistance) {
+	public BlockPos bumbleCanProduce(Level aWorld, int aX, int aY, int aZ, ItemStack aBumbleBee, short aMetaData, int aDistance) {
 		boolean temp = T;
 		for (byte tSide : ALL_SIDES_VALID) if (WD.oxygen(aWorld, aX+OFFX[tSide], aY+OFFY[tSide], aZ+OFFZ[tSide])) {temp = F; break;}
 		if (temp) return null;
@@ -494,7 +494,7 @@ public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItem
 	}
 	
 	@Override
-	public BlockPos bumbleCanProduct(World aWorld, int aX, int aY, int aZ, ItemStack aBumbleBee, short aMetaData, int aProductIndex) {
+	public BlockPos bumbleCanProduct(Level aWorld, int aX, int aY, int aZ, ItemStack aBumbleBee, short aMetaData, int aProductIndex) {
 		return new BlockPos(aX, aY, aZ);
 	}
 	
@@ -614,7 +614,7 @@ public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItem
 		RM.BumbleQueens.addFakeRecipe(F, ST.array(ST.make(this, 1, aSpeciesID+2), ST.make(this, 1, aSpeciesID+7)), tOutputs, null, tChances, null, null, 0, 0, 0);
 	}
 	
-	public static boolean checkFlowers(World aWorld, int aX, int aY, int aZ) {
+	public static boolean checkFlowers(Level aWorld, int aX, int aY, int aZ) {
 		Block aBlock = WD.block(aWorld, aX, aY, aZ, F);
 		if (aBlock == NB) return F;
 		if (aBlock == Blocks.flower_pot) {

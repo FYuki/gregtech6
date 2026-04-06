@@ -31,7 +31,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -65,7 +65,7 @@ public class EnergyStat implements IItemEnergy {
 	public static IItemEnergy makeTool     (TagData aEnergyType, long aCapacity, long aSize, long aAmount, ItemStack aItem) {return new EnergyStat(aEnergyType, aCapacity, aSize, aAmount, aAmount, T, F, aItem, aItem, aItem);}
 	
 	@Override
-	public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoInject) {
+	public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoInject) {
 		if (aAmount < 1 || mAmountIN < 1) return 0;
 		if (!canEnergyInjection(aEnergyType, aStack, aSize = Math.abs(aSize))) return 0;
 		long tStored = getEnergyStored(mType, aStack);
@@ -77,7 +77,7 @@ public class EnergyStat implements IItemEnergy {
 	}
 	
 	@Override
-	public long doEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoExtract) {
+	public long doEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoExtract) {
 		if (aAmount < 1 || mAmountOUT < 1) return 0;
 		if (!canEnergyExtraction(aEnergyType, aStack, aSize = Math.abs(aSize))) return 0;
 		long tStored = getEnergyStored(mType, aStack);
@@ -88,7 +88,7 @@ public class EnergyStat implements IItemEnergy {
 		return rAmount;
 	}
 	
-	public ItemStack rechargeFromPlayer(TagData aEnergyType, ItemStack aStack, LivingEntity aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ) {
+	public ItemStack rechargeFromPlayer(TagData aEnergyType, ItemStack aStack, LivingEntity aPlayer, Container aInventory, Level aWorld, int aX, int aY, int aZ) {
 		if (COMPAT_EU_ITEM == null || !mCanCharge || aPlayer == null || aPlayer.worldObj.isRemote || aEnergyType != mType || aEnergyType != TD.Energy.EU) return aStack;
 		long tMinInput = getEnergySizeInputMin(aEnergyType, aStack), tCapacity = getEnergyCapacity(aEnergyType, aStack);
 		boolean temp = F;
@@ -105,7 +105,7 @@ public class EnergyStat implements IItemEnergy {
 	}
 	
 	@Override
-	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoUse) {
+	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoUse) {
 		if (aPlayer instanceof Player && ((Player)aPlayer).capabilities.isCreativeMode) return T;
 		if (aEnergyType != mType && aEnergyType != null) return F;
 		rechargeFromPlayer(mType, aStack, aPlayer, aInventory, aWorld, aX, aY, aZ);

@@ -1585,7 +1585,7 @@ public class LoaderItemData implements Runnable {
 		OM.data(MD.RoC, "rotarycraft_item_machine"  , 1,  46/* Force Field                  */  , MT.HSLA               ,  U * 2, MT.NetherStar         ,  U * 1, ANY.Diamond           ,  U * 3, MT.Au                 ,  U * 1);
 		OM.data(MD.RoC, "rotarycraft_item_machine"  , 1,  47/* Music Box                    */  , MT.HSLA               ,  U4, MT.Redstone          , 5* U12, ANY.Wood      ,  U * 8);
 		OM.data(MD.RoC, "rotarycraft_item_machine"  , 1,  48/* Liquid Spiller               */  , MT.HSLA               , 35* U8, MT.Glass              , 3* U16);
-		OM.data(MD.RoC, "rotarycraft_item_machine"  , 1,  49/* Chunk Loader                 */  , MT.HSLA               ,  U *13, MT.NetherStar         ,  U * 2, MT.Bedrock            ,  U *20);
+		OM.data(MD.RoC, "rotarycraft_item_machine"  , 1,  49/* LevelChunk Loader                 */  , MT.HSLA               ,  U *13, MT.NetherStar         ,  U * 2, MT.Bedrock            ,  U *20);
 		OM.data(MD.RoC, "rotarycraft_item_machine"  , 1,  50/* Mob Harvester                */  , MT.HSLA               ,  U * 9, MT.Redstone           ,  U * 1, MT.Au                 ,  U * 1, MT.EnderPearl         ,  U * 1);
 		OM.data(MD.RoC, "rotarycraft_item_machine"  , 1,  52/* Projector                    */  , MT.HSLA               ,  U * 7, MT.Redstone           ,  2* U3, ANY.Glowstone ,  U * 4, MT.Glass              ,  U * 1);
 		OM.data(MD.RoC, "rotarycraft_item_machine"  , 1,  53/* Railgun                      */  , MT.HSLA               ,  U *71, MT.Au                 ,  U *74, MT.Redstone           , 42* U3, ANY.Diamond           ,  U * 1);

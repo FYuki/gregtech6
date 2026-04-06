@@ -44,7 +44,7 @@ public class Behavior_Remote extends AbstractBehaviorDefault {
 	public static final IBehavior<MultiItem> INSTANCE = new Behavior_Remote();
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aWorld.isRemote || aPlayer == null || !aPlayer.isSneaking() || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		CompoundTag aNBT = UT.NBT.getNBT(aStack);
 		ArrayListNoNulls<BlockPos> tList = getCoords(aNBT, aWorld.provider.dimensionId);
@@ -73,7 +73,7 @@ public class Behavior_Remote extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
 		if (aWorld.isRemote || aPlayer.isSneaking() || !aStack.hasTagCompound()) return aStack;
 		ArrayListNoNulls<BlockPos> tToBeKept = new ArrayListNoNulls<>();
 		for (BlockPos tCoords : getCoords(aStack.getTagCompound(), aWorld.provider.dimensionId)) {
@@ -89,7 +89,7 @@ public class Behavior_Remote extends AbstractBehaviorDefault {
 		return aStack;
 	}
 	
-	public static boolean addCoords(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ) {
+	public static boolean addCoords(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ) {
 		CompoundTag aNBT = UT.NBT.getNBT(aStack);
 		ArrayListNoNulls<BlockPos> tList = getCoords(aNBT, aWorld.provider.dimensionId);
 		if (tList.size() >= 64) return F;

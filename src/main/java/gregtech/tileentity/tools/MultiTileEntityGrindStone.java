@@ -36,11 +36,11 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
@@ -250,8 +250,8 @@ public class MultiTileEntityGrindStone extends TileEntityBase09FacingSingle impl
 
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_WATER;}
 
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[2], PX_P[0], PX_P[2], PX_N[2], PX_N[1], PX_N[2]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[2], PX_P[0], PX_P[2], PX_N[2], PX_N[1], PX_N[2]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[2], PX_P[0], PX_P[2], PX_N[2], PX_N[1], PX_N[2]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[2], PX_P[0], PX_P[2], PX_N[2], PX_N[1], PX_N[2]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, PX_P[2], PX_P[0], PX_P[2], PX_N[2], PX_N[1], PX_N[2]);}
 
 	@Override public float getSurfaceSize           (byte aSide) {return SIDES_BOTTOM[aSide]?1.0F:0.0F;}

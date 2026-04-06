@@ -38,7 +38,7 @@ public class Behavior_WritableBook extends AbstractBehaviorDefault {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
 		UT.Books.display(aPlayer, T, aStack);
 		return super.onItemRightClick(aItem, aStack, aWorld, aPlayer);
 	}

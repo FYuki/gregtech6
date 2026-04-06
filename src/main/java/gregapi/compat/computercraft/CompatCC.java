@@ -44,7 +44,7 @@ public class CompatCC extends CompatBase implements ICompatCC, IPeripheralProvid
 	}
 	
 	@Override
-	public IPeripheral getPeripheral(World aWorld, int aX, int aY, int aZ, int aSide) {
+	public IPeripheral getPeripheral(Level aWorld, int aX, int aY, int aZ, int aSide) {
 		DelegatorTileEntity<TileEntity> aDelegator = WD.te(aWorld, aX, aY, aZ, (byte)aSide, F);
 		if (SIDES_VALID[aDelegator.mSideOfTileEntity] && aDelegator.mTileEntity instanceof ITileEntityCoverable) {
 			CoverData tData = ((ITileEntityCoverable)aDelegator.mTileEntity).getCoverData();

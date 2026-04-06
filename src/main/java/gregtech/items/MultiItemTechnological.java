@@ -33,7 +33,7 @@ import gregtech.items.behaviors.Behavior_DataStorage16;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
 
 import static gregapi.data.CS.*;
 

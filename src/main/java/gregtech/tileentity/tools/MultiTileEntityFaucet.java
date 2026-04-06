@@ -37,11 +37,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
@@ -146,7 +146,7 @@ public class MultiTileEntityFaucet extends TileEntityBase11AttachmentSmall imple
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (aTool.equals(TOOL_softhammer)) {
 			mAutoPull = F;
@@ -205,7 +205,7 @@ public class MultiTileEntityFaucet extends TileEntityBase11AttachmentSmall imple
 	}
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool() {
+	public AABB getSelectedBoundingBoxFromPool() {
 		switch(mFacing) {
 		case SIDE_Z_NEG: return box(PX_P[ 5], PX_P[ 1], PX_P[ 0], PX_N[ 5], PX_N[10], PX_N[12]);
 		default        : return box(PX_P[ 5], PX_P[ 1], PX_P[12], PX_N[ 5], PX_N[10], PX_N[ 0]);

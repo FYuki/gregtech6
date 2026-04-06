@@ -42,7 +42,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
@@ -153,7 +153,7 @@ public class MultiTileEntityMortar extends TileEntityBase07Paintable implements 
 	}
 	
 	@Override
-	public void addCollisionBoxesToList2(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {
+	public void addCollisionBoxesToList2(AABB aAABB, List<AABB> aList, Entity aEntity) {
 		box(aAABB, aList, PX_P[12], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[10], PX_N[ 2]);
 		box(aAABB, aList, PX_P[ 2], PX_P[ 0], PX_P[12], PX_N[ 2], PX_N[10], PX_N[ 2]);
 		box(aAABB, aList, PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[12], PX_N[10], PX_N[ 2]);
@@ -164,8 +164,8 @@ public class MultiTileEntityMortar extends TileEntityBase07Paintable implements 
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_WATER;}
 	
 	@Override public boolean addDefaultCollisionBoxToList() {return F;}
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[10], PX_N[ 2]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[10], PX_N[ 2]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[10], PX_N[ 2]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[10], PX_N[ 2]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, PX_P[ 2], PX_P[ 0], PX_P[ 2], PX_N[ 2], PX_N[10], PX_N[ 2]);}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return SIDES_VERTICAL[aSide]?0.5F:0.0F;}

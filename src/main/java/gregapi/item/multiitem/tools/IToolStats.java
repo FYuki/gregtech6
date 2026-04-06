@@ -27,10 +27,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.world.BlockEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.List;
 
@@ -179,7 +179,7 @@ public interface IToolStats {
 	/**
 	 * @return Mining Speed for this Block from this Tool. Return aDefault if you don't want to override this.
 	 */
-	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, Player aPlayer, World aWorld, int aX, int aY, int aZ);
+	public float getMiningSpeed(Block aBlock, byte aMetaData, float aDefault, Player aPlayer, Level aWorld, int aX, int aY, int aZ);
 	
 	/**
 	 * This lets you modify the Drop List, when this type of Tool has been used.

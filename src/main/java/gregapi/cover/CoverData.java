@@ -24,7 +24,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
@@ -190,28 +190,28 @@ public class CoverData {
 		try {for (byte tSide : ALL_SIDES_VALID) if (mBehaviours[tSide] != null) mBehaviours[tSide].onTickPost(tSide, this, aTimer, aIsServerSide, aReceivedBlockUpdate, aReceivedInventoryUpdate);} catch(Throwable e) {e.printStackTrace(ERR); mTileEntity.setError("Cover Post Tick - " + (aIsServerSide?"Serverside: ":"Clientside: ") + e);}
 	}
 	
-	public AxisAlignedBB box(double aMinX, double aMinY, double aMinZ, double aMaxX, double aMaxY, double aMaxZ) {return AxisAlignedBB.getBoundingBox(mTileEntity.getX()+aMinX, mTileEntity.getY()+aMinY, mTileEntity.getZ()+aMinZ, mTileEntity.getX()+aMaxX, mTileEntity.getY()+aMaxY, mTileEntity.getZ()+aMaxZ);}
-	public AxisAlignedBB box(double[] aBox) {return AxisAlignedBB.getBoundingBox(mTileEntity.getX()+aBox[0], mTileEntity.getY()+aBox[1], mTileEntity.getZ()+aBox[2], mTileEntity.getX()+aBox[3], mTileEntity.getY()+aBox[4], mTileEntity.getZ()+aBox[5]);}
-	public AxisAlignedBB box(float[] aBox) {return AxisAlignedBB.getBoundingBox(mTileEntity.getX()+aBox[0], mTileEntity.getY()+aBox[1], mTileEntity.getZ()+aBox[2], mTileEntity.getX()+aBox[3], mTileEntity.getY()+aBox[4], mTileEntity.getZ()+aBox[5]);}
-	public AxisAlignedBB box() {return AxisAlignedBB.getBoundingBox(mTileEntity.getX(), mTileEntity.getY(), mTileEntity.getZ(), mTileEntity.getX()+1, mTileEntity.getY()+1, mTileEntity.getZ()+1);}
+	public AABB box(double aMinX, double aMinY, double aMinZ, double aMaxX, double aMaxY, double aMaxZ) {return AABB.getBoundingBox(mTileEntity.getX()+aMinX, mTileEntity.getY()+aMinY, mTileEntity.getZ()+aMinZ, mTileEntity.getX()+aMaxX, mTileEntity.getY()+aMaxY, mTileEntity.getZ()+aMaxZ);}
+	public AABB box(double[] aBox) {return AABB.getBoundingBox(mTileEntity.getX()+aBox[0], mTileEntity.getY()+aBox[1], mTileEntity.getZ()+aBox[2], mTileEntity.getX()+aBox[3], mTileEntity.getY()+aBox[4], mTileEntity.getZ()+aBox[5]);}
+	public AABB box(float[] aBox) {return AABB.getBoundingBox(mTileEntity.getX()+aBox[0], mTileEntity.getY()+aBox[1], mTileEntity.getZ()+aBox[2], mTileEntity.getX()+aBox[3], mTileEntity.getY()+aBox[4], mTileEntity.getZ()+aBox[5]);}
+	public AABB box() {return AABB.getBoundingBox(mTileEntity.getX(), mTileEntity.getY(), mTileEntity.getZ(), mTileEntity.getX()+1, mTileEntity.getY()+1, mTileEntity.getZ()+1);}
 	
-	public boolean box(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, double aMinX, double aMinY, double aMinZ, double aMaxX, double aMaxY, double aMaxZ) {
-		AxisAlignedBB tBox = box(aMinX, aMinY, aMinZ, aMaxX, aMaxY, aMaxZ);
+	public boolean box(AABB aAABB, List<AABB> aList, double aMinX, double aMinY, double aMinZ, double aMaxX, double aMaxY, double aMaxZ) {
+		AABB tBox = box(aMinX, aMinY, aMinZ, aMaxX, aMaxY, aMaxZ);
 		return tBox.intersectsWith(aAABB) && aList.add(tBox);
 	}
-	public boolean box(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, double[] aBox) {
-		AxisAlignedBB tBox = box(aBox[0], aBox[1], aBox[2], aBox[3], aBox[4], aBox[5]);
+	public boolean box(AABB aAABB, List<AABB> aList, double[] aBox) {
+		AABB tBox = box(aBox[0], aBox[1], aBox[2], aBox[3], aBox[4], aBox[5]);
 		return tBox.intersectsWith(aAABB) && aList.add(tBox);
 	}
-	public boolean box(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, float[] aBox) {
-		AxisAlignedBB tBox = box(aBox[0], aBox[1], aBox[2], aBox[3], aBox[4], aBox[5]);
+	public boolean box(AABB aAABB, List<AABB> aList, float[] aBox) {
+		AABB tBox = box(aBox[0], aBox[1], aBox[2], aBox[3], aBox[4], aBox[5]);
 		return tBox.intersectsWith(aAABB) && aList.add(tBox);
 	}
-	public boolean box(AxisAlignedBB aAABB, List<AxisAlignedBB> aList) {
-		AxisAlignedBB tBox = box(0, 0, 0, 1, 1, 1);
+	public boolean box(AABB aAABB, List<AABB> aList) {
+		AABB tBox = box(0, 0, 0, 1, 1, 1);
 		return tBox.intersectsWith(aAABB) && aList.add(tBox);
 	}
-	public boolean box(AxisAlignedBB aBox, AxisAlignedBB aAABB, List<AxisAlignedBB> aList) {
+	public boolean box(AABB aBox, AABB aAABB, List<AABB> aList) {
 		return aBox != null && aBox.intersectsWith(aAABB) && aList.add(aBox);
 	}
 }

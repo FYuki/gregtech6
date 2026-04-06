@@ -23,9 +23,9 @@ import java.util.Arrays;
 
 import com.google.common.eventbus.EventBus;
 
-import cpw.mods.fml.common.DummyModContainer;
-import cpw.mods.fml.common.LoadController;
-import cpw.mods.fml.common.ModMetadata;
+import gregapi.stubs.DummyModContainer;
+import gregapi.stubs.LoadController;
+import gregapi.stubs.ModMetadata;
 
 // ASM Mods will get loaded before all other mods, regardless of any ordering specified.
 public class GT_ASM_Dummy extends DummyModContainer {

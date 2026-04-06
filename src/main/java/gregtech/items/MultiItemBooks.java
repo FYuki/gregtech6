@@ -170,7 +170,7 @@ public class MultiItemBooks extends MultiItemRandomWithCompat {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(ItemStack aStack, Level aWorld, Player aPlayer) {
 		// assume higher meta than this is the loot books.
 		if (ST.meta(aStack) < 32700) UT.Books.display(aPlayer, aStack);
 		// Do normal Rightclick Behaviors.

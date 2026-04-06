@@ -25,7 +25,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 public class BlockStonesWitherProof extends BlockStones {
 	public BlockStonesWitherProof(Class<? extends ItemBlock> aItemClass, Material aVanillaMaterial, SoundType aVanillaSoundType, String aName, String aDefaultLocalised, OreDictMaterial aMaterial, float aResistanceMultiplier, float aHardnessMultiplier, int aHarvestLevel, IIconContainer[] aIcons) {
@@ -42,7 +42,7 @@ public class BlockStonesWitherProof extends BlockStones {
 	}
 	
 	@Override
-	public boolean canEntityDestroy(IBlockAccess aWorld, int aX, int aY, int aZ, Entity aEntity) {
+	public boolean canEntityDestroy(BlockGetter aWorld, int aX, int aY, int aZ, Entity aEntity) {
 		return !(aEntity instanceof EntityWither);
 	}
 }

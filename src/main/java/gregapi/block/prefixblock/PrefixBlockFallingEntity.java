@@ -33,8 +33,8 @@ import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 
 /**
@@ -44,11 +44,11 @@ public class PrefixBlockFallingEntity extends EntityFallingBlock {
 	protected IBlockPlacable mBlock;
 	protected ItemStack mStack;
 	
-	public PrefixBlockFallingEntity(World aWorld) {
+	public PrefixBlockFallingEntity(Level aWorld) {
 		super(aWorld);
 	}
 	
-	public PrefixBlockFallingEntity(World aWorld, double aX, double aY, double aZ, IBlockPlacable aBlock, ItemStack aStack) {
+	public PrefixBlockFallingEntity(Level aWorld, double aX, double aY, double aZ, IBlockPlacable aBlock, ItemStack aStack) {
 		super(aWorld, aX, aY, aZ, (Block)aBlock, 0);
 		mBlock = aBlock;
 		mStack = aStack;
@@ -97,9 +97,9 @@ public class PrefixBlockFallingEntity extends EntityFallingBlock {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void fall(float p_70069_1_) {
-		int i = MathHelper.ceiling_float_int(p_70069_1_ - 1.0F);
+		int i = Mth.ceiling_float_int(p_70069_1_ - 1.0F);
 		if (i > 0) for (Entity tEntity : new ArrayListNoNulls<Entity>(worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox))) {
-			if (tEntity instanceof LivingEntity) tEntity.attackEntityFrom(DamageSource.fallingBlock, TFC_DAMAGE_MULTIPLIER * Math.min(MathHelper.floor_float((float)i * 2), 40));
+			if (tEntity instanceof LivingEntity) tEntity.attackEntityFrom(DamageSource.fallingBlock, TFC_DAMAGE_MULTIPLIER * Math.min(Mth.floor_float((float)i * 2), 40));
 		}
 	}
 	

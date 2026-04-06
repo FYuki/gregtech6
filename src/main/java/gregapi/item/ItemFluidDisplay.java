@@ -48,7 +48,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidType; // PHASE3: Fluid renamed to FluidType
 // PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import gregapi.stubs.IFluidContainerItem;
 
 import java.util.Collection;
 import java.util.List;
@@ -74,7 +74,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	}
 	
 	@Override
-	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
 		if (!aWorld.isRemote && UT.Entities.hasInfiniteItems(aPlayer)) for (byte tSide : ALL_SIDES_VALID) if (FL.fill(WD.te(aWorld, aX, aY, aZ, tSide, T), FL.make(FL.fluid(ST.meta_(aStack)), Integer.MAX_VALUE), T) > 0) return T;
 		return !aWorld.isRemote;
 	}
@@ -275,7 +275,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("unchecked")
-	public void getSubItems(Item aItem, CreativeTabs aTab, @SuppressWarnings("rawtypes") List aList) {
+	public void getSubItems(Item aItem, CreativeModeTab aTab, @SuppressWarnings("rawtypes") List aList) {
 		for (int i = 0, j = FluidRegistry.getMaxID(); i <= j; i++) {
 			Fluid tFluid = FL.fluid(i);
 			if (tFluid != null && !FluidsGT.HIDDEN.contains(tFluid.getName())) {
@@ -290,7 +290,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 	@Override public final String getUnlocalizedName() {return mName;}
 	
 	@Override
-	public boolean doesSneakBypassUse(World aWorld, int aX, int aY, int aZ, Player aPlayer) {
+	public boolean doesSneakBypassUse(Level aWorld, int aX, int aY, int aZ, Player aPlayer) {
 		return T;
 	}
 	
@@ -320,7 +320,7 @@ public class ItemFluidDisplay extends Item implements IFluidContainerItem, IItem
 		if (tFluid == null) ST.meta_(aStack, W); else {aStack.setTagCompound(UT.NBT.makeString("f", tFluid.getName()));}
 	}
 	@Override
-	public void updateItemStack(ItemStack aStack, World aWorld, int aX, int aY, int aZ) {
+	public void updateItemStack(ItemStack aStack, Level aWorld, int aX, int aY, int aZ) {
 		updateItemStack(aStack);
 	}
 	

@@ -85,7 +85,7 @@ public class WorldgenOresLarge extends WorldgenObject {
 		if (mTop.mID <= 0 && mBottom.mID <= 0 && mBetween.mID <= 0 && mSpread.mID <= 0) mInvalid = T;
 	}
 	
-	public boolean generate(World aWorld, Chunk aChunk, int aMinX, int aMinZ, int aMaxX, int aMaxZ, int aOriginChunkX, int aOriginChunkZ, Random aRandom) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aMinX, int aMinZ, int aMaxX, int aMaxZ, int aOriginChunkX, int aOriginChunkZ, Random aRandom) {
 		if (GENERATING_SPECIAL) return F;
 		if (mDistance > 0 && Math.abs(aMinX) <= mDistance && Math.abs(aMinZ) <= mDistance) return F;
 		

@@ -40,7 +40,7 @@ public class WorldgenFluid extends WorldgenBlob {
 	}
 	
 	@Override
-	public boolean tryPlaceStuff(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public boolean tryPlaceStuff(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		Block tTargetedBlock = aWorld.getBlock(aX, aY, aZ);
 		if (tTargetedBlock == mBlock && aWorld.getBlockMetadata(aX, aY, aZ) == mBlockMeta) {
 			return T;
@@ -57,7 +57,7 @@ public class WorldgenFluid extends WorldgenBlob {
 		return F;
 	}
 	
-	public boolean doBedrockStuff(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public boolean doBedrockStuff(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		return F;
 	}
 }

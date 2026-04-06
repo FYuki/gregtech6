@@ -55,14 +55,14 @@ import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -109,7 +109,7 @@ public class MultiTileEntityCrucible extends TileEntityBase10MultiBlockBase impl
 	}
 	
 	@Override
-	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, IInventory aInventory) {
+	public boolean checkStructure2(BlockPos aCoordinates, Entity aPlayer, Container aInventory) {
 		boolean tSuccess = T;
 		
 		if (getAir(xCoord, yCoord+1, zCoord)) worldObj.setBlockToAir(xCoord, yCoord+1, zCoord); else tSuccess = F;
@@ -195,7 +195,7 @@ public class MultiTileEntityCrucible extends TileEntityBase10MultiBlockBase impl
 		}
 		
 		if (SERVER_TIME % 600 == 10 && worldObj.isRaining() && getRainOffset(0, 1, 0)) {
-			BiomeGenBase tBiome = getBiome();
+			Biome tBiome = getBiome();
 			if (tBiome.rainfall > 0 && tBiome.temperature >= 0.2) {
 				addMaterialStacks(Arrays.asList(OM.stack(MT.Water, U100 * (long)Math.max(1, tBiome.rainfall*100) * (worldObj.isThundering()?2:1))), tTemperature);
 			}
@@ -556,7 +556,7 @@ public class MultiTileEntityCrucible extends TileEntityBase10MultiBlockBase impl
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (aTool.equals(TOOL_thermometer)) {if (aChatReturn != null) aChatReturn.add("Temperature: " + mTemperature + "K"); return 10000;}
 		if (aTool.equals(TOOL_shovel) && SIDES_TOP[aSide] && checkStructure(F) && aPlayer instanceof Player) {
@@ -586,7 +586,7 @@ public class MultiTileEntityCrucible extends TileEntityBase10MultiBlockBase impl
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		mTemperature = WD.envTemp(worldObj, xCoord, yCoord, zCoord);
 		return T;
 	}

@@ -41,19 +41,19 @@ import net.minecraft.block.BlockCauldron;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemFood;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.IFluidHandler;
+import gregapi.stubs.IFluidBlock;
+import gregapi.stubs.IFluidContainerItem;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import squeek.applecore.api.food.FoodValues;
 import thaumcraft.common.tiles.TileCrucible;
 
@@ -114,7 +114,7 @@ public abstract class TileEntityBase08FluidContainer extends TileEntityBase07Pai
 	public void onTick2(long aTimer, boolean aIsServerSide) {
 		super.onTick2(aTimer, aIsServerSide);
 		if (aIsServerSide && canFillWithRain() && SERVER_TIME % 600 == 10 && worldObj.isRaining() && getRainOffset(0, 1, 0)) {
-			BiomeGenBase tBiome = getBiome();
+			Biome tBiome = getBiome();
 			if (tBiome.rainfall > 0 && tBiome.temperature >= 0.2) {
 				Block tInFront = getBlockAtSide(SIDE_TOP);
 				if (!WD.liquid(tInFront) && !tInFront.isSideSolid(worldObj, xCoord, yCoord+1, zCoord, FORGE_DIR_OPPOSITES[SIDE_TOP]) && !tInFront.isSideSolid(worldObj, xCoord, yCoord+1, zCoord, FORGE_DIR[SIDE_TOP])) {
@@ -125,7 +125,7 @@ public abstract class TileEntityBase08FluidContainer extends TileEntityBase07Pai
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0 || isClientSide()) return rReturn;
 		if (aTool.equals(TOOL_plunger)) {
@@ -200,7 +200,7 @@ public abstract class TileEntityBase08FluidContainer extends TileEntityBase07Pai
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiTileEntityItemInternal aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiTileEntityItemInternal aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote || aPlayer == null || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack) || aStack.stackSize != 1) return F;
 		if (canWaterCrops()) {
 			FluidStack mFluid = aItem.getFluid(aStack);
@@ -271,10 +271,10 @@ public abstract class TileEntityBase08FluidContainer extends TileEntityBase07Pai
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiTileEntityItemInternal aItem, ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(MultiTileEntityItemInternal aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
 		if (canPickUpFluids() && aStack.stackSize == 1) {
-			MovingObjectPosition tTarget = WD.getMOP(aWorld, aPlayer, T);
-			if (tTarget != null && tTarget.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && aWorld.canMineBlock(aPlayer, tTarget.blockX, tTarget.blockY, tTarget.blockZ)) {
+			HitResult tTarget = WD.getMOP(aWorld, aPlayer, T);
+			if (tTarget != null && tTarget.typeOfHit == HitResult.MovingObjectType.BLOCK && aWorld.canMineBlock(aPlayer, tTarget.blockX, tTarget.blockY, tTarget.blockZ)) {
 				Block tBlock = aWorld.getBlock(tTarget.blockX, tTarget.blockY, tTarget.blockZ);
 				if (tBlock == Blocks.water || tBlock == Blocks.flowing_water) {
 					if (aWorld.getBlockMetadata(tTarget.blockX, tTarget.blockY, tTarget.blockZ) == 0) {
@@ -349,7 +349,7 @@ public abstract class TileEntityBase08FluidContainer extends TileEntityBase07Pai
 		return isDrinkable() && aStack.stackSize == 1 ? FoodStatFluid.INSTANCE.getFoodAction(aStack.getItem(), aStack) : EnumAction.none;
 	}
 	
-	public ItemStack onEaten(MultiTileEntityItemInternal aItem, ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onEaten(MultiTileEntityItemInternal aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
 		if (!isDrinkable() || aStack.stackSize != 1) return aStack;
 		
 		int tFoodLevel = FoodStatFluid.INSTANCE.getFoodLevel(aStack.getItem(), aStack, aPlayer);

@@ -56,11 +56,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.potion.Potion;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -284,7 +284,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(ItemStack aStack, Level aWorld, Player aPlayer) {
 		IToolStats tStats = getToolStats(aStack);
 		if (tStats != null && tStats.canBlock()) aPlayer.setItemInUse(aStack, 72000);
 		return super.onItemRightClick(aStack, aWorld, aPlayer);
@@ -306,7 +306,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("unchecked")
-	public final void getSubItems(Item var1, CreativeTabs aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
+	public final void getSubItems(Item var1, CreativeModeTab aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
 		for (int i = 0; i < 32766; i+=2) if (getToolStats(ST.make(this, 1, i)) != null) {
 			ItemStack tStack = ST.make(this, 1, i);
 			isItemStackUsable(tStack);
@@ -497,7 +497,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	}
 	
 	@Override
-	public boolean onBlockDestroyed(ItemStack aStack, World aWorld, Block aBlock, int aX, int aY, int aZ, LivingEntity aPlayer) {
+	public boolean onBlockDestroyed(ItemStack aStack, Level aWorld, Block aBlock, int aX, int aY, int aZ, LivingEntity aPlayer) {
 		if (ST.instaharvest(aBlock) || UT.Entities.hasInfiniteItems(aPlayer)) return T;
 		if (!isItemStackUsable(aStack)) return F;
 		IToolStats tStats = getToolStats(aStack);
@@ -550,7 +550,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	}
 	
 	@Override
-	public void onCreated(ItemStack aStack, World aWorld, Player aPlayer) {
+	public void onCreated(ItemStack aStack, Level aWorld, Player aPlayer) {
 		IToolStats tStats = getToolStats(aStack);
 		if (tStats != null && aPlayer != null) tStats.onToolCrafted(aStack, aPlayer);
 		super.onCreated(aStack, aWorld, aPlayer);

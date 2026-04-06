@@ -26,17 +26,17 @@ import net.minecraft.world.level.Level;
  */
 public interface IBlockFoamable {
 	/** @return if it got applied successfully. */
-	public boolean applyFoam(World aWorld, int aX, int aY, int aZ, byte aSide, short[] aCFoamRGB, byte aVanillaColor);
+	public boolean applyFoam(Level aWorld, int aX, int aY, int aZ, byte aSide, short[] aCFoamRGB, byte aVanillaColor);
 	
 	/** @return if it got dried successfully. */
-	public boolean dryFoam(World aWorld, int aX, int aY, int aZ, byte aSide);
+	public boolean dryFoam(Level aWorld, int aX, int aY, int aZ, byte aSide);
 	
 	/** @return if it got removed successfully. */
-	public boolean removeFoam(World aWorld, int aX, int aY, int aZ, byte aSide);
+	public boolean removeFoam(Level aWorld, int aX, int aY, int aZ, byte aSide);
 	
 	/** @return if it is foamed. */
-	public boolean hasFoam(World aWorld, int aX, int aY, int aZ, byte aSide);
+	public boolean hasFoam(Level aWorld, int aX, int aY, int aZ, byte aSide);
 	
 	/** @return if it is dried. */
-	public boolean driedFoam(World aWorld, int aX, int aY, int aZ, byte aSide);
+	public boolean driedFoam(Level aWorld, int aX, int aY, int aZ, byte aSide);
 }

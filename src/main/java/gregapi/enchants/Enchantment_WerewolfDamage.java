@@ -29,7 +29,7 @@ import gregapi.util.UT;
 import net.minecraft.enchantment.EnchantmentDamage;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -97,7 +97,7 @@ public class Enchantment_WerewolfDamage extends EnchantmentDamage {
 					int tSlot = RNGSUS.nextInt(((Player)aHurtEntity).inventory.mainInventory.length);
 					ItemStack tStack = ((Player)aHurtEntity).inventory.mainInventory[tSlot];
 					if (ST.valid(tStack)) {
-						EntityItem tEntity = ST.drop(aHurtEntity, ST.copy_(tStack));
+						ItemEntity tEntity = ST.drop(aHurtEntity, ST.copy_(tStack));
 						if (tEntity != null) {
 							tEntity.delayBeforeCanPickup = 40;
 							((Player)aHurtEntity).inventory.mainInventory[tSlot] = null;

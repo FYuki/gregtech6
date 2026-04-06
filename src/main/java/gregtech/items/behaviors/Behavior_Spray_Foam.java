@@ -60,13 +60,13 @@ public class Behavior_Spray_Foam extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
 		if (aPlayer.isSneaking()) switchMode(aStack, aPlayer);
 		return super.onItemRightClick(aItem, aStack, aWorld, aPlayer);
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote || aStack.stackSize != 1 || aPlayer.isSneaking() || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		
 		boolean rOutput = F;
@@ -106,7 +106,7 @@ public class Behavior_Spray_Foam extends AbstractBehaviorDefault {
 		return rOutput;
 	}
 	
-	public long foam(World aWorld, int aX, int aY, int aZ, byte aSide, long aUses, Player aPlayer, ItemStack aStack) {
+	public long foam(Level aWorld, int aX, int aY, int aZ, byte aSide, long aUses, Player aPlayer, ItemStack aStack) {
 		if (aUses < 1) return 0;
 		long rUses = 0;
 		

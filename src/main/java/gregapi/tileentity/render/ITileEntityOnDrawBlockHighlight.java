@@ -20,7 +20,7 @@
 package gregapi.tileentity.render;
 
 import gregapi.tileentity.ITileEntityUnloadable;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import gregapi.stubs.DrawBlockHighlightEvent;
 
 /**
  * @author Gregorius Techneticies

@@ -36,8 +36,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fluids.*;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidTank;
+import net.neoforged.neoforge.fluids.IFluidTank;
+import net.minecraft.world.level.material.Fluid;
+import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
 
 import java.util.*;
 

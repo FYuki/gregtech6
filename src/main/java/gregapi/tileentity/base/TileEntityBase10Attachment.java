@@ -26,13 +26,13 @@ import gregapi.block.multitileentity.IMultiTileEntity.IMTE_GetSelectedBoundingBo
 import gregapi.block.multitileentity.IMultiTileEntity.IMTE_SetBlockBoundsBasedOnState;
 import gregapi.tileentity.ITileEntityQuickObstructionCheck;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 /**
  * @author Gregorius Techneticies
  */
 public abstract class TileEntityBase10Attachment extends TileEntityBase09FacingSingle implements ITileEntityQuickObstructionCheck, IMTE_GetCollisionBoundingBoxFromPool, IMTE_SetBlockBoundsBasedOnState, IMTE_GetSelectedBoundingBoxFromPool {
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return null;}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return null;}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return 0;}
 	@Override public float getSurfaceSizeAttachable (byte aSide) {return 0;}

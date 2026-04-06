@@ -29,7 +29,7 @@ import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.WD;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -56,7 +56,7 @@ public class WorldgenOresSmall extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if (GENERATING_SPECIAL) return F;
 		for (int i = 0, j = Math.max(1, mAmount/2 + aRandom.nextInt(1+mAmount)/2); i < j; i++) WD.setSmallOre(aWorld, aMinX+aRandom.nextInt(16), mMinY+aRandom.nextInt(Math.max(1, mMaxY-mMinY)), aMinZ+aRandom.nextInt(16), mMaterial.mID);
 		return T;

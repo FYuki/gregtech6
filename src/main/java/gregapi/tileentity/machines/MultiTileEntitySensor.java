@@ -42,10 +42,10 @@ import gregapi.util.UT;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 /**
  * @author Gregorius Techneticies
@@ -97,7 +97,7 @@ public abstract class MultiTileEntitySensor extends TileEntityBase10FacingDouble
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return 0;
 		if (aTool.equals(TOOL_wrench      )) {byte aTargetSide = UT.Code.getSideWrenching(aSide, aHitX, aHitY, aHitZ); if (SIDES_VALID[aTargetSide]                           ) {mSecondFacing = OPOS[mFacing = aTargetSide];    updateClientData(); causeBlockUpdate(); return 10000;}}
 		if (aTool.equals(TOOL_monkeywrench)) {byte aTargetSide = UT.Code.getSideWrenching(aSide, aHitX, aHitY, aHitZ); if (SIDES_VALID[aTargetSide] && aTargetSide != mFacing ) {mSecondFacing = aTargetSide;                         updateClientData(); causeBlockUpdate(); return 10000;}}
@@ -246,8 +246,8 @@ public abstract class MultiTileEntitySensor extends TileEntityBase10FacingDouble
 	
 	@Override public byte isProvidingWeakPower2(byte aSide) {return aSide == OPOS[mSecondFacing] ? 0 : mRedstone;}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[SIDE_X_NEG==mFacing?14: 0], PX_P[SIDE_Y_NEG==mFacing?14: 0], PX_P[SIDE_Z_NEG==mFacing?14: 0], PX_N[SIDE_X_POS==mFacing?14: 0], PX_N[SIDE_Y_POS==mFacing?14: 0], PX_N[SIDE_Z_POS==mFacing?14: 0]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[SIDE_X_NEG==mFacing?14: 0], PX_P[SIDE_Y_NEG==mFacing?14: 0], PX_P[SIDE_Z_NEG==mFacing?14: 0], PX_N[SIDE_X_POS==mFacing?14: 0], PX_N[SIDE_Y_POS==mFacing?14: 0], PX_N[SIDE_Z_POS==mFacing?14: 0]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[SIDE_X_NEG==mFacing?14: 0], PX_P[SIDE_Y_NEG==mFacing?14: 0], PX_P[SIDE_Z_NEG==mFacing?14: 0], PX_N[SIDE_X_POS==mFacing?14: 0], PX_N[SIDE_Y_POS==mFacing?14: 0], PX_N[SIDE_Z_POS==mFacing?14: 0]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[SIDE_X_NEG==mFacing?14: 0], PX_P[SIDE_Y_NEG==mFacing?14: 0], PX_P[SIDE_Z_NEG==mFacing?14: 0], PX_N[SIDE_X_POS==mFacing?14: 0], PX_N[SIDE_Y_POS==mFacing?14: 0], PX_N[SIDE_Z_POS==mFacing?14: 0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock,  PX_P[SIDE_X_NEG==mFacing?14: 0], PX_P[SIDE_Y_NEG==mFacing?14: 0], PX_P[SIDE_Z_NEG==mFacing?14: 0], PX_N[SIDE_X_POS==mFacing?14: 0], PX_N[SIDE_Y_POS==mFacing?14: 0], PX_N[SIDE_Z_POS==mFacing?14: 0]);}
 	
 	@Override public float getSurfaceSize           (byte aSide) {return ALONG_AXIS[aSide][mFacing]?1.0F:0.0F;}

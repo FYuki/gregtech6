@@ -24,7 +24,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import gregapi.network.INetworkHandler;
 import gregapi.util.UT;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * @author Gregorius Techneticies
@@ -70,7 +70,7 @@ public class PacketSound extends PacketCoordinates {
 	}
 	
 	@Override
-	public void process(IBlockAccess aWorld, INetworkHandler aNetworkHandler) {
+	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler) {
 		UT.Sounds.play(mSound, 2, mVolume, mPitch, mX, mY, mZ);
 	}
 }

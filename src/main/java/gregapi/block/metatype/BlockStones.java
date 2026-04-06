@@ -41,13 +41,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
+import net.neoforged.neoforge.common.IPlantable;
 import net.minecraft.core.Direction; // was Direction
 
 import java.util.ArrayList;
@@ -554,7 +554,7 @@ public class BlockStones extends BlockMetaType implements IOreDictListenerEvent,
 	}
 	
 	@Override
-	public boolean onBlockActivated(World aWorld, int aX, int aY, int aZ, Player aPlayer, int aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onBlockActivated(Level aWorld, int aX, int aY, int aZ, Player aPlayer, int aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aPlayer == null) return F;
 		ItemStack aStack = aPlayer.getCurrentEquippedItem();
 		if (ST.invalid(aStack)) return F;
@@ -567,7 +567,7 @@ public class BlockStones extends BlockMetaType implements IOreDictListenerEvent,
 	}
 	
 	@Override
-	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, World aWorld, byte aSide, int aX, int aY, int aZ, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, Level aWorld, byte aSide, int aX, int aY, int aZ, float aHitX, float aHitY, float aHitZ) {
 		byte aMeta = WD.meta(aWorld, aX, aY, aZ);
 		if (aTool.equals(TOOL_prospector)) return aMeta == STONE && ToolCompat.prospectStone(this, aMeta, aQuality, aChatReturn, aWorld, aSide, aX, aY, aZ) ? 10000 : 0;
 		if (aTool.equals(TOOL_chisel) && !aSneaking && CHISEL_MAPPINGS[aMeta & 15] != aMeta) {
@@ -601,7 +601,7 @@ public class BlockStones extends BlockMetaType implements IOreDictListenerEvent,
 	}
 	
 	@Override
-	public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {
+	public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {
 		switch(WD.meta(aWorld, aX, aY, aZ)) {
 		case RNFBR: return Blocks.STONE.getBlockHardness(aWorld, aX, aY, aZ) * mHardnessMultiplier * 2;
 		default   : return Blocks.STONE.getBlockHardness(aWorld, aX, aY, aZ) * mHardnessMultiplier;
@@ -617,7 +617,7 @@ public class BlockStones extends BlockMetaType implements IOreDictListenerEvent,
 	}
 	
 	@Override
-	public void updateTick2(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public void updateTick2(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		if (!aWorld.isRemote && WD.burning(aWorld, aX, aY, aZ)) switch(WD.meta(aWorld, aX, aY, aZ)) {
 		case MCOBL: aWorld.setBlock(aX, aY, aZ, this, COBBL, 3); break;
 		case MBRIK: aWorld.setBlock(aX, aY, aZ, this, BRICK, 3); break;
@@ -625,15 +625,15 @@ public class BlockStones extends BlockMetaType implements IOreDictListenerEvent,
 	}
 	
 	@Override
-	public boolean canSustainPlant(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
+	public boolean canSustainPlant(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
 		return PLANTABLE[WD.meta(aWorld, aX, aY, aZ)] && aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ) == EnumPlantType.Cave;
 	}
 	
-	@Override public boolean func_149851_a(World aWorld, int aX, int aY, int aZ, boolean aIsRemote) {return MOSSY[WD.meta(aWorld, aX, aY, aZ)];}
-	@Override public boolean func_149852_a(World aWorld, Random aRandom, int aX, int aY, int aZ) {return MOSSY[WD.meta(aWorld, aX, aY, aZ)];}
+	@Override public boolean func_149851_a(Level aWorld, int aX, int aY, int aZ, boolean aIsRemote) {return MOSSY[WD.meta(aWorld, aX, aY, aZ)];}
+	@Override public boolean func_149852_a(Level aWorld, Random aRandom, int aX, int aY, int aZ) {return MOSSY[WD.meta(aWorld, aX, aY, aZ)];}
 	
 	@Override
-	public void func_149853_b(World aWorld, Random aRandom, int aX, int aY, int aZ) {
+	public void func_149853_b(Level aWorld, Random aRandom, int aX, int aY, int aZ) {
 		for (byte[] tOffs : CUBE_3) {
 			Block tBlock = WD.block(aWorld, aX+tOffs[0], aY+tOffs[1], aZ+tOffs[2]);
 			if (tBlock == Blocks.COBBLESTONE && WD.set(aWorld, aX+tOffs[0], aY+tOffs[1], aZ+tOffs[2], Blocks.MOSSY_COBBLESTONE, 0, 3)) return;
@@ -644,7 +644,7 @@ public class BlockStones extends BlockMetaType implements IOreDictListenerEvent,
 	}
 	
 	@Override
-	public void onWalkOver(LivingEntity aEntity, World aWorld, int aX, int aY, int aZ) {
+	public void onWalkOver(LivingEntity aEntity, Level aWorld, int aX, int aY, int aZ) {
 		// Mossy Cobblestone is slightly slippery, unless you sneak on it.
 		if (!aEntity.isInWater() && !aEntity.isSneaking() && WD.meta(aWorld, aX, aY, aZ) == MCOBL) {
 			int tAddX = (aEntity.posX >= aX + 0.5 ? +1 : -1);
@@ -728,17 +728,17 @@ public class BlockStones extends BlockMetaType implements IOreDictListenerEvent,
 		}
 	}
 	
-	@Override public ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {return ST.arraylist(ST.make(this, 1, mBlock == this && aMeta == STONE ? COBBL : aMeta));}
+	@Override public ArrayList<ItemStack> getDrops(Level aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {return ST.arraylist(ST.make(this, 1, mBlock == this && aMeta == STONE ? COBBL : aMeta));}
 	@Override public boolean isSealable(byte aMeta, byte aSide) {return SEALABLE[aMeta] && super.isSealable(aMeta, aSide);}
-	@Override public int isProvidingWeakPower(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {return WD.meta(aWorld, aX, aY, aZ) == RSTBR ? 15 : 0;}
-	@Override public boolean shouldCheckWeakPower(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {return mBlock == this && WD.meta(aWorld, aX, aY, aZ) != RSTBR;}
-	@Override public void onNeighborBlockChange2(World aWorld, int aX, int aY, int aZ, Block aBlock) {if (MOSSY[WD.meta(aWorld, aX, aY, aZ)] && WD.burning(aWorld, aX, aY, aZ)) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, tickRate(aWorld));}
-	@Override public void onBlockAdded2(World aWorld, int aX, int aY, int aZ) {if (MOSSY[WD.meta(aWorld, aX, aY, aZ)] && WD.burning(aWorld, aX, aY, aZ)) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, tickRate(aWorld));}
-	@Override public int tickRate(World aWorld) {return 100;}
+	@Override public int isProvidingWeakPower(BlockGetter aWorld, int aX, int aY, int aZ, int aSide) {return WD.meta(aWorld, aX, aY, aZ) == RSTBR ? 15 : 0;}
+	@Override public boolean shouldCheckWeakPower(BlockGetter aWorld, int aX, int aY, int aZ, int aSide) {return mBlock == this && WD.meta(aWorld, aX, aY, aZ) != RSTBR;}
+	@Override public void onNeighborBlockChange2(Level aWorld, int aX, int aY, int aZ, Block aBlock) {if (MOSSY[WD.meta(aWorld, aX, aY, aZ)] && WD.burning(aWorld, aX, aY, aZ)) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, tickRate(aWorld));}
+	@Override public void onBlockAdded2(Level aWorld, int aX, int aY, int aZ) {if (MOSSY[WD.meta(aWorld, aX, aY, aZ)] && WD.burning(aWorld, aX, aY, aZ)) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, tickRate(aWorld));}
+	@Override public int tickRate(Level aWorld) {return 100;}
 	@Override public boolean canCreatureSpawn(byte aMeta) {return mBlock == this && SPAWNABLE[aMeta];}
 	@Override public boolean isFireSource(byte aMeta) {return MOSSY[aMeta];}
 	@Override public boolean isFlammable(byte aMeta) {return MOSSY[aMeta];}
 	@Override public int getFlammability(byte aMeta) {return 0;}
 	@Override public int getFireSpreadSpeed(byte aMeta) {return MOSSY[aMeta]?3000:0;}
-	@Override public boolean isReplaceableOreGen(World aWorld, int aX, int aY, int aZ, Block aTarget) {return aTarget == this && WD.meta(aWorld, aX, aY, aZ) == STONE;}// No longer pretend to be Vanilla Stone at Y<=6, as all the special cases (Draconium) have been resolved.
+	@Override public boolean isReplaceableOreGen(Level aWorld, int aX, int aY, int aZ, Block aTarget) {return aTarget == this && WD.meta(aWorld, aX, aY, aZ) == STONE;}// No longer pretend to be Vanilla Stone at Y<=6, as all the special cases (Draconium) have been resolved.
 }

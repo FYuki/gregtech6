@@ -45,7 +45,7 @@ public interface ITileEntityInventoryGUI extends ITileEntityUnloadable {
 	public ItemStack decrStackSizeGUI(int aSlot, int aDecrement);
 	
 	/**
-	 * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
+	 * When some containers are closed they call this on each slot, then drop whatever it returns as an ItemEntity -
 	 * like when you close a workbench GUI.
 	 */
 	public ItemStack getStackInSlotOnClosingGUI(int aSlot);

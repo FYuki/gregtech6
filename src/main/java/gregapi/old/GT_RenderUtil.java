@@ -19,7 +19,7 @@
 
 package gregapi.old;
 
-import net.minecraft.client.renderer.Tessellator;
+import gregapi.stubs.Tessellator;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 
 public class GT_RenderUtil {

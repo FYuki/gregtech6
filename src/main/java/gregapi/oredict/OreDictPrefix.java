@@ -39,7 +39,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import thaumcraft.api.aspects.IEssentiaContainerItem;
+import gregapi.stubs.IEssentiaContainerItem;
 
 import java.util.*;
 
@@ -69,7 +69,7 @@ public final class OreDictPrefix implements IOreDictListenerEvent, ITagDataConta
 	public final Set<IOreDictListenerItem> mListenersItem = new HashSetNoNulls<>();
 	public final String mNameInternal;
 	public OreDictPrefix mTargetRegistration = this;
-	public CreativeTabs mCreativeTab = null;
+	public CreativeModeTab mCreativeTab = null;
 	
 	public ItemStack mContainerItem = null;
 	@SuppressWarnings("rawtypes")

@@ -26,21 +26,21 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
 
 import java.util.List;
 
 import static gregapi.data.CS.*;
 
 public class Override_Drops {
-	public static void handleDrops(LivingEntity aDead, String aClass, List<EntityItem> aDrops, DamageSource aDamage, int aLooting, boolean aBurn, boolean aPlayerKill) {
+	public static void handleDrops(LivingEntity aDead, String aClass, List<ItemEntity> aDrops, DamageSource aDamage, int aLooting, boolean aBurn, boolean aPlayerKill) {
 		if (UT.Code.stringInvalid(aClass) || "EntityTFLichMinion".equalsIgnoreCase(aClass) || "EntitySkeletonBoss".equalsIgnoreCase(aClass)) return;
 		final boolean aSpace = aClass.startsWith("entityevolved") || aClass.startsWith("entityalien");
 		boolean tReplaceIron = aClass.startsWith("entitygaia");
@@ -477,7 +477,7 @@ public class Override_Drops {
 			if (aLooting > 0) tAmount += RNGSUS.nextInt(aLooting+1);
 			while (tAmount-->0) aDrops.add(ST.entity(aDead, OP.stick.mat(MT.Blizz, 1)));
 		} else if (aClass.equalsIgnoreCase("EntityTFTowerGolem")) {
-			for (EntityItem tEntity : aDrops) {
+			for (ItemEntity tEntity : aDrops) {
 				ItemStack tStack = tEntity.getEntityItem();
 				if (OM.is("ingotAnyIronOrSteel", tStack)) ST.set(tStack, OP.ingot.mat(MT.IronWood, 1), F, F);
 			}
@@ -672,7 +672,7 @@ public class Override_Drops {
 		
 		// All of this Drop replacement does NOT work with Mo'Creatures Mobs at all...
 		if (!(aDead instanceof Player)) {
-			for (EntityItem tEntity : aDrops) if (tEntity != null) {ItemStack tStack = tEntity.getEntityItem(); if (ST.valid(tStack)) {
+			for (ItemEntity tEntity : aDrops) if (tEntity != null) {ItemStack tStack = tEntity.getEntityItem(); if (ST.valid(tStack)) {
 				// Replace stupid Wooden and Stone Tools that clutter up Mob Farms for no reason, but only if nonplayerkill.
 				if (!aPlayerKill) {
 					Item tItem = ST.item_(tStack);

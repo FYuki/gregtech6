@@ -22,7 +22,7 @@ package gregapi.render;
 import static gregapi.data.CS.*;
 
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
-import net.minecraft.client.renderer.texture.TextureMap;
+import gregapi.stubs.TextureMap;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.resources.ResourceLocation;
 

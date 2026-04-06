@@ -19,13 +19,13 @@
 
 package gregtech.asm;
 
-import cpw.mods.fml.relauncher.FMLRelaunchLog;
-import cpw.mods.fml.relauncher.IFMLCallHook;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.Name;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
+import gregapi.stubs.FMLRelaunchLog;
+import gregapi.stubs.IFMLCallHook;
+import gregapi.stubs.IFMLLoadingPlugin;
+import gregapi.stubs.IFMLLoadingPlugin.MCVersion;
+import gregapi.stubs.IFMLLoadingPlugin.Name;
+import gregapi.stubs.IFMLLoadingPlugin.SortingIndex;
+import gregapi.stubs.IFMLLoadingPlugin.TransformerExclusions;
 import gregtech.asm.transformers.*;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.apache.logging.log4j.LogManager;

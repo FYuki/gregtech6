@@ -46,7 +46,7 @@ public abstract class BlockBaseTree extends BlockBaseMeta {
 	public abstract int getLeavesRangeYNeg(byte aMeta);
 	
 	@Override
-	public void breakBlock(World aWorld, int aX, int aY, int aZ, Block aBlock, int aMeta) {
+	public void breakBlock(Level aWorld, int aX, int aY, int aZ, Block aBlock, int aMeta) {
 		int tRangeSide = getLeavesRangeSide((byte)aMeta)+1, tRangeYNeg = getLeavesRangeYNeg((byte)aMeta)+1, tRangeYPos = getLeavesRangeYPos((byte)aMeta)+1;
 		if (!aWorld.isRemote && aWorld.checkChunksExist(aX - tRangeSide, aY - tRangeYNeg, aZ - tRangeSide, aX + tRangeSide, aY + tRangeYPos, aZ + tRangeSide)) {
 			tRangeSide--; tRangeYNeg--; tRangeYPos--;

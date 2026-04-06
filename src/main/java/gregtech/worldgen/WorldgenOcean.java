@@ -32,7 +32,7 @@ import gregtech.blocks.fluids.BlockOcean;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
@@ -49,7 +49,7 @@ public class WorldgenOcean extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		boolean temp = T;
 		for (String tName : aBiomeNames) if (BIOMES_OCEAN.contains(tName)) {temp = F; break;}
 		if (temp) return F;

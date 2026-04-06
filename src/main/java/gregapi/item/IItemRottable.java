@@ -29,14 +29,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
+import gregapi.stubs.IFluidContainerItem;
 
 /**
  * @author Gregorius Techneticies
  */
 public interface IItemRottable {
 	public ItemStack getRotten(ItemStack aStack);
-	public ItemStack getRotten(ItemStack aStack, World aWorld, int aX, int aY, int aZ);
+	public ItemStack getRotten(ItemStack aStack, Level aWorld, int aX, int aY, int aZ);
 	
 	public static class RottingUtil {
 		public static ItemStack rotting(ItemStack aStack) {
@@ -46,7 +46,7 @@ public interface IItemRottable {
 			return aStack;
 		}
 		
-		public static ItemStack rotting(ItemStack aStack, World aWorld, int aX, int aY, int aZ) {
+		public static ItemStack rotting(ItemStack aStack, Level aWorld, int aX, int aY, int aZ) {
 			if (aStack.getItem() == Items.milk_bucket) return IL.ENVM_Spoiled_Milk_Bucket.exists()?IL.ENVM_Spoiled_Milk_Bucket.get(aStack.stackSize):ST.make(Items.bucket, aStack.stackSize, 0);
 			if (aStack.getItem() instanceof IItemRottable) return ((IItemRottable)aStack.getItem()).getRotten(aStack, aWorld, aX, aY, aZ);
 			if (aStack.getItem() instanceof IFluidContainerItem) return rotting(aStack, (IFluidContainerItem)aStack.getItem());

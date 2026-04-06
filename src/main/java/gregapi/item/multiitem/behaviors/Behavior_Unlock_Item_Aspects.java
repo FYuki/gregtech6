@@ -19,7 +19,7 @@
 
 package gregapi.item.multiitem.behaviors;
 
-import cpw.mods.fml.common.registry.GameData;
+import gregapi.stubs.GameData;
 import gregapi.code.ItemStackContainer;
 import gregapi.code.ModData;
 import gregapi.data.IL;
@@ -53,7 +53,7 @@ public class Behavior_Unlock_Item_Aspects extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (!aWorld.isRemote) {
 			if (aPlayer != null) {
 				UT.Sounds.send(SFX.MC_HMM, aPlayer);

@@ -37,12 +37,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.IPlantable;
+import net.neoforged.neoforge.common.IPlantable;
 import net.minecraft.core.Direction; // was Direction
 
 import java.util.List;
@@ -60,7 +60,7 @@ public abstract class BlockBase extends Block implements IBlockBase {
 		super(aMaterial);
 		setStepSound(aSoundType);
 		setBlockName(mNameInternal = aNameInternal);
-		setCreativeTab(CreativeTabs.tabBlock);
+		setCreativeTab(CreativeModeTab.tabBlock);
 		ST.register(this, mNameInternal, aItemClass);
 		LH.add(mNameInternal+"."+W, "Any Sub-Block of this one");
 	}
@@ -70,37 +70,37 @@ public abstract class BlockBase extends Block implements IBlockBase {
 	@Override public String getHarvestTool(int aMeta) {return TOOL_pickaxe;}
 	@Override public int getHarvestLevel(int aMeta) {return 0;}
 	@Override public boolean canSilkHarvest() {return canSilkHarvest((byte)0);}
-	@Override public boolean canSilkHarvest(World aWorld, Player aPlayer, int aX, int aY, int aZ, int aMeta) {return canSilkHarvest(UT.Code.bind4(aMeta));}
+	@Override public boolean canSilkHarvest(Level aWorld, Player aPlayer, int aX, int aY, int aZ, int aMeta) {return canSilkHarvest(UT.Code.bind4(aMeta));}
 	@Override public boolean isToolEffective(String aType, int aMeta) {return getHarvestTool(aMeta).equals(aType);}
-	@Override public boolean canBeReplacedByLeaves(IBlockAccess aWorld, int aX, int aY, int aZ) {return F;}
-	@Override public boolean isNormalCube(IBlockAccess aWorld, int aX, int aY, int aZ)  {return T;}
+	@Override public boolean canBeReplacedByLeaves(BlockGetter aWorld, int aX, int aY, int aZ) {return F;}
+	@Override public boolean isNormalCube(BlockGetter aWorld, int aX, int aY, int aZ)  {return T;}
 	@Override public boolean renderAsNormalBlock() {return T;}
 	@Override public boolean isOpaqueCube() {return T;}
 	@Override public boolean func_149730_j() {return isOpaqueCube();}
-	@Override public boolean isSideSolid(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aDirection) {return isSideSolid(WD.meta(aWorld, aX, aY, aZ), UT.Code.side(aDirection));}
-	@Override public boolean shouldSideBeRendered(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {return isOpaqueCube() ? !WD.visOpq(aWorld.getBlock(aX, aY, aZ)) : super.shouldSideBeRendered(aWorld, aX, aY, aZ, aSide);}
+	@Override public boolean isSideSolid(BlockGetter aWorld, int aX, int aY, int aZ, Direction aDirection) {return isSideSolid(WD.meta(aWorld, aX, aY, aZ), UT.Code.side(aDirection));}
+	@Override public boolean shouldSideBeRendered(BlockGetter aWorld, int aX, int aY, int aZ, int aSide) {return isOpaqueCube() ? !WD.visOpq(aWorld.getBlock(aX, aY, aZ)) : super.shouldSideBeRendered(aWorld, aX, aY, aZ, aSide);}
 	@Override public int damageDropped(int aMeta) {return aMeta;}
 	@Override public int quantityDropped(int aMeta, int aFortune, Random aRandom) {return 1;}
 	@Override public ItemStack createStackedBlock(int aMeta) {return ST.make(this, 1, damageDropped(aMeta));}
-	@Override public int getDamageValue(World aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ);}
+	@Override public int getDamageValue(Level aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ);}
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_MAX;}
 	@Override public Item getItemDropped(int aMeta, Random aRandom, int aFortune) {return Item.getItemFromBlock(this);}
-	@Override public Item getItem(World aWorld, int aX, int aY, int aZ) {return Item.getItemFromBlock(this);}
+	@Override public Item getItem(Level aWorld, int aX, int aY, int aZ) {return Item.getItemFromBlock(this);}
 	@Override public void registerBlockIcons(IIconRegister aIconRegister) {/**/}
-	@Override public boolean canSustainPlant(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {return F;}
-	@Override public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess aWorld, int aX, int aY, int aZ) {byte aMeta = WD.meta(aWorld, aX, aY, aZ); return canCreatureSpawn(aMeta) && isSideSolid(aMeta, SIDE_TOP);}
-	@Override public boolean isFireSource(World aWorld, int aX, int aY, int aZ, Direction aSide) {return isFireSource(WD.meta(aWorld, aX, aY, aZ));}
-	@Override public boolean isFlammable(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide) {return isFlammable(WD.meta(aWorld, aX, aY, aZ));}
-	@Override public int getFlammability(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide) {return getFlammability(WD.meta(aWorld, aX, aY, aZ));}
-	@Override public int getFireSpreadSpeed(IBlockAccess aWorld, int aX, int aY, int aZ, Direction aSide) {return getFireSpreadSpeed(WD.meta(aWorld, aX, aY, aZ));}
-	@Override public float getExplosionResistance(Entity aEntity, World aWorld, int aX, int aY, int aZ, double eX, double eY, double eZ) {return getExplosionResistance(WD.meta(aWorld, aX, aY, aZ));}
+	@Override public boolean canSustainPlant(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {return F;}
+	@Override public boolean canCreatureSpawn(EnumCreatureType type, BlockGetter aWorld, int aX, int aY, int aZ) {byte aMeta = WD.meta(aWorld, aX, aY, aZ); return canCreatureSpawn(aMeta) && isSideSolid(aMeta, SIDE_TOP);}
+	@Override public boolean isFireSource(Level aWorld, int aX, int aY, int aZ, Direction aSide) {return isFireSource(WD.meta(aWorld, aX, aY, aZ));}
+	@Override public boolean isFlammable(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide) {return isFlammable(WD.meta(aWorld, aX, aY, aZ));}
+	@Override public int getFlammability(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide) {return getFlammability(WD.meta(aWorld, aX, aY, aZ));}
+	@Override public int getFireSpreadSpeed(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide) {return getFireSpreadSpeed(WD.meta(aWorld, aX, aY, aZ));}
+	@Override public float getExplosionResistance(Entity aEntity, Level aWorld, int aX, int aY, int aZ, double eX, double eY, double eZ) {return getExplosionResistance(WD.meta(aWorld, aX, aY, aZ));}
 	@Override public float getExplosionResistance(Entity aEntity) {return getExplosionResistance((byte)0);}
-	@Override public float getBlockHardness(World aWorld, int aX, int aY, int aZ) {return 1;}
+	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return 1;}
 	@Override public Block getBlock() {return this;}
 	@Override public byte maxMeta() {return 1;}
-	@Override public final void onNeighborBlockChange(World aWorld, int aX, int aY, int aZ, Block aBlock) {if (useGravity(WD.meta(aWorld, aX, aY, aZ))) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, 2); onNeighborBlockChange2(aWorld, aX, aY, aZ, aBlock);}
-	@Override public final void onBlockAdded(World aWorld, int aX, int aY, int aZ) {if (useGravity(WD.meta(aWorld, aX, aY, aZ))) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, 2); onBlockAdded2(aWorld, aX, aY, aZ);}
-	@Override public IIcon getIcon(IBlockAccess aWorld, int aX, int aY, int aZ, int aSide) {return getIcon(aSide, WD.meta(aWorld, aX, aY, aZ));}
+	@Override public final void onNeighborBlockChange(Level aWorld, int aX, int aY, int aZ, Block aBlock) {if (useGravity(WD.meta(aWorld, aX, aY, aZ))) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, 2); onNeighborBlockChange2(aWorld, aX, aY, aZ, aBlock);}
+	@Override public final void onBlockAdded(Level aWorld, int aX, int aY, int aZ) {if (useGravity(WD.meta(aWorld, aX, aY, aZ))) aWorld.scheduleBlockUpdate(aX, aY, aZ, this, 2); onBlockAdded2(aWorld, aX, aY, aZ);}
+	@Override public IIcon getIcon(BlockGetter aWorld, int aX, int aY, int aZ, int aSide) {return getIcon(aSide, WD.meta(aWorld, aX, aY, aZ));}
 	
 	@Override public String name(byte aMeta) {return aMeta == W ? mNameInternal : mNameInternal + "." + aMeta;}
 	@Override public boolean useGravity(byte aMeta) {return F;}
@@ -116,21 +116,21 @@ public abstract class BlockBase extends Block implements IBlockBase {
 	@Override public int getFlammability(byte aMeta) {return 0;}
 	@Override public int getFireSpreadSpeed(byte aMeta) {return 0;}
 	@Override public int getItemStackLimit(ItemStack aStack) {return UT.Code.bindStack(OP.block.mDefaultStackSize);}
-	@Override public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer) {return aStack;}
+	@Override public ItemStack onItemRightClick(ItemStack aStack, Level aWorld, Player aPlayer) {return aStack;}
 	
-	public boolean checkNoEntityCollision(World aWorld, int aX, int aY, int aZ, byte aMeta, Entity aExceptThisOne) {return aWorld.checkNoEntityCollision(AxisAlignedBB.getBoundingBox(aX, aY, aZ, aX+1, aY+1, aZ+1), aExceptThisOne);}
+	public boolean checkNoEntityCollision(Level aWorld, int aX, int aY, int aZ, byte aMeta, Entity aExceptThisOne) {return aWorld.checkNoEntityCollision(AABB.getBoundingBox(aX, aY, aZ, aX+1, aY+1, aZ+1), aExceptThisOne);}
 	public boolean isSideSolid(int aMeta, byte aSide) {return T;}
-	public void updateTick2(World aWorld, int aX, int aY, int aZ, Random aRandom) {/**/}
-	public void onNeighborBlockChange2(World aWorld, int aX, int aY, int aZ, Block aBlock) {/**/}
-	public void onBlockAdded2(World aWorld, int aX, int aY, int aZ) {/**/}
+	public void updateTick2(Level aWorld, int aX, int aY, int aZ, Random aRandom) {/**/}
+	public void onNeighborBlockChange2(Level aWorld, int aX, int aY, int aZ, Block aBlock) {/**/}
+	public void onBlockAdded2(Level aWorld, int aX, int aY, int aZ) {/**/}
 	
 	@Override
-	public final void updateTick(World aWorld, int aX, int aY, int aZ, Random aRandom) {
+	public final void updateTick(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		if (aWorld.isRemote || checkGravity(aWorld, aX, aY, aZ)) return;
 		updateTick2(aWorld, aX, aY, aZ, aRandom);
 	}
 	
-	public boolean checkGravity(World aWorld, int aX, int aY, int aZ) {
+	public boolean checkGravity(Level aWorld, int aX, int aY, int aZ) {
 		byte aMeta = WD.meta(aWorld, aX, aY, aZ);
 		if (aY > 0 && useGravity(aMeta) && BlockFalling.func_149831_e(aWorld, aX, aY - 1, aZ)) {
 			if (!BlockFalling.fallInstantly && aWorld.checkChunksExist(aX-32, aY-32, aZ-32, aX+32, aY+32, aZ+32)) {
@@ -145,10 +145,10 @@ public abstract class BlockBase extends Block implements IBlockBase {
 		return F;
 	}
 	
-	@Override public boolean onItemUseFirst(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {return F;}
+	@Override public boolean onItemUseFirst(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {return F;}
 	
 	@Override
-	public boolean onItemUse(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onItemUse(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aStack.stackSize == 0) return F;
 		
 		Block tBlock = aWorld.getBlock(aX, aY, aZ);

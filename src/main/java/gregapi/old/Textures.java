@@ -26,7 +26,7 @@ import gregapi.render.ITexture;
 import gregapi.render.IconContainerCopied;
 import gregapi.util.UT;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
-import net.minecraft.client.renderer.texture.TextureMap;
+import gregapi.stubs.TextureMap;
 import net.minecraft.world.level.block.Blocks;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.resources.ResourceLocation;

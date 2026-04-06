@@ -24,7 +24,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import gregapi.network.INetworkHandler;
 import net.minecraft.core.BlockPos; // was BlockPos
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 /**
@@ -67,7 +67,7 @@ public class PacketBlockEvent extends PacketCoordinates {
 	}
 	
 	@Override
-	public void process(IBlockAccess aWorld, INetworkHandler aNetworkHandler) {
-		if (aWorld instanceof World) aWorld.getBlock(mX, mY, mZ).onBlockEventReceived((World)aWorld, mX, mY, mZ, mID, mData);
+	public void process(BlockGetter aWorld, INetworkHandler aNetworkHandler) {
+		if (aWorld instanceof Level) aWorld.getBlock(mX, mY, mZ).onBlockEventReceived((Level)aWorld, mX, mY, mZ, mID, mData);
 	}
 }

@@ -45,13 +45,13 @@ import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
@@ -134,7 +134,7 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 	
 	static {
 		LH.add("gt.tooltip.coins.1", "Use the GregTech.cfg inside your Minecraft Root Directory");
-		LH.add("gt.tooltip.coins.2", "to disable 3D Rendered Coins in World if they are too much");
+		LH.add("gt.tooltip.coins.2", "to disable 3D Rendered Coins in Level if they are too much");
 		LH.add("gt.tooltip.coins.3", "Render Lag for your System.");
 	}
 	
@@ -184,12 +184,12 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 	}
 	
 	@Override
-	public int getLifeSpan(World aWorld, ItemStack aStack) {
+	public int getLifeSpan(Level aWorld, ItemStack aStack) {
 		return 200;
 	}
 	
 	@Override
-	public int onDespawn(EntityItem aEntity, ItemStack aStack) {
+	public int onDespawn(ItemEntity aEntity, ItemStack aStack) {
 		CompoundTag aNBT = aStack.getTagCompound();
 		if (aNBT != null && !aEntity.worldObj.isRemote && aEntity.onGround) {
 			if (aStack.stackSize > 0) for (byte tSide : ALL_SIDES_MIDDLE_DOWN) if (aStack.stackSize > 0) {
@@ -248,7 +248,7 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		for (byte i = 0; i < mCoinStackSizes.length; i++) if (mCoinStackSizes[i] > 0) return T;
 		mCoinStackSizes[(int)(Math.min(0.99F, Math.max(0, aHitX))*4)*4+(int)(Math.min(0.99F, Math.max(0, aHitZ))*4)] = 1;
 		return T;
@@ -329,7 +329,7 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 	}
 	
 	@Override
-	public boolean getSubItems(MultiTileEntityBlockInternal aBlock, Item aItem, CreativeTabs aTab, List<ItemStack> aList, short aID) {
+	public boolean getSubItems(MultiTileEntityBlockInternal aBlock, Item aItem, CreativeModeTab aTab, List<ItemStack> aList, short aID) {
 		for (ItemStack tStack : COIN_MAP.values()) aList.add(ST.copy(tStack));
 		return F;
 	}
@@ -450,12 +450,12 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 	
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_WATER;}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(PX_P[ 2], PX_P[ 2], PX_P[ 2], PX_N[ 2], PX_N[ 2], PX_N[ 2]);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[14], PX_N[ 0]);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(PX_P[ 2], PX_P[ 2], PX_P[ 2], PX_N[ 2], PX_N[ 2], PX_N[ 2]);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[14], PX_N[ 0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, PX_P[ 0], PX_P[ 0], PX_P[ 0], PX_N[ 0], PX_N[14], PX_N[ 0]);}
 	
 	@Override
-	public void addCollisionBoxesToList(AxisAlignedBB aAABB, List<AxisAlignedBB> aList, Entity aEntity) {
+	public void addCollisionBoxesToList(AABB aAABB, List<AABB> aList, Entity aEntity) {
 		for (byte i = 0; i < 16; i++) if (mCoinStackSizes[i] > 0) box(aAABB, aList, PX_P[i/4]*4, 0, PX_P[i%4]*4, PX_P[i/4]*4+PX_P[4], mCoinStackSizes[i]/(float)COIN_STACKSIZE, PX_P[i%4]*4+PX_P[4]);
 	}
 	

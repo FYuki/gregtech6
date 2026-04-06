@@ -42,10 +42,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.network.play.server.S27PacketExplosion;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.level.Level;
@@ -55,7 +55,7 @@ import net.minecraft.world.WorldServer;
  * @author Gregorius Techneticies
  */
 public class ExplosionGT extends Explosion {
-	public static ExplosionGT explode(World aWorld, Entity aEntity, double aX, double aY, double aZ, float aPower, boolean aFlaming, boolean aSmoking) {
+	public static ExplosionGT explode(Level aWorld, Entity aEntity, double aX, double aY, double aZ, float aPower, boolean aFlaming, boolean aSmoking) {
 		ExplosionGT tExplosion = new ExplosionGT(aWorld, aEntity, aX, aY, aZ, aPower);
 		tExplosion.isFlaming = aFlaming;
 		tExplosion.isSmoking = aSmoking;
@@ -78,12 +78,12 @@ public class ExplosionGT extends Explosion {
 		return tExplosion;
 	}
 	
-	public ExplosionGT(World aWorld, Entity aEntity, double aX, double aY, double aZ, float aPower) {
+	public ExplosionGT(Level aWorld, Entity aEntity, double aX, double aY, double aZ, float aPower) {
 		super(aWorld, aEntity, aX, aY, aZ, aPower);
 		mWorld = aWorld;
 	}
 	
-	private World mWorld;
+	private Level mWorld;
 	@SuppressWarnings("rawtypes")
 	private Map field_77288_k = new HashMap<>();
 	
@@ -116,7 +116,7 @@ public class ExplosionGT extends Explosion {
 		affectedBlockPositions.addAll(tPositions);
 		tSize *= 2;
 		@SuppressWarnings("rawtypes")
-		List tEntities = mWorld.getEntitiesWithinAABBExcludingEntity(exploder, AxisAlignedBB.getBoundingBox(UT.Code.roundDown(explosionX - tSize - 1), UT.Code.roundDown(explosionY - tSize - 1), UT.Code.roundDown(explosionZ - tSize - 1), UT.Code.roundDown(explosionX + tSize + 1), UT.Code.roundDown(explosionY + tSize + 1), UT.Code.roundDown(explosionZ + tSize + 1)));
+		List tEntities = mWorld.getEntitiesWithinAABBExcludingEntity(exploder, AABB.getBoundingBox(UT.Code.roundDown(explosionX - tSize - 1), UT.Code.roundDown(explosionY - tSize - 1), UT.Code.roundDown(explosionZ - tSize - 1), UT.Code.roundDown(explosionX + tSize + 1), UT.Code.roundDown(explosionY + tSize + 1), UT.Code.roundDown(explosionZ + tSize + 1)));
 		net.minecraftforge.event.ForgeEventFactory.onExplosionDetonate(mWorld, this, tEntities, tSize);
 		Vec3 tVec3 = Vec3.createVectorHelper(explosionX, explosionY, explosionZ);
 		for (int i1 = 0; i1 < tEntities.size(); ++i1) {
@@ -124,7 +124,7 @@ public class ExplosionGT extends Explosion {
 			double tEntityDist = tEntity.getDistance(explosionX, explosionY, explosionZ) / tSize;
 			if (tEntityDist <= 1 && !(tEntity instanceof EntityWither || tEntity instanceof EntityDragon || tEntity instanceof EntityDragonPart || tEntity.getClass().getName().toLowerCase().contains("boss"))) {
 				double tKnockX = tEntity.posX - explosionX, tKnockY = tEntity.posY + tEntity.getEyeHeight() - explosionY, tKnockZ = tEntity.posZ - explosionZ;
-				double tDist = MathHelper.sqrt_double(tKnockX * tKnockX + tKnockY * tKnockY + tKnockZ * tKnockZ);
+				double tDist = Mth.sqrt_double(tKnockX * tKnockX + tKnockY * tKnockY + tKnockZ * tKnockZ);
 				if (tDist > 0) {
 					tKnockX /= tDist;
 					tKnockY /= tDist;
@@ -159,7 +159,7 @@ public class ExplosionGT extends Explosion {
 					double d3 = d0 - explosionX;
 					double d4 = d1 - explosionY;
 					double d5 = d2 - explosionZ;
-					double d6 = MathHelper.sqrt_double(d3 * d3 + d4 * d4 + d5 * d5);
+					double d6 = Mth.sqrt_double(d3 * d3 + d4 * d4 + d5 * d5);
 					d3 /= d6;
 					d4 /= d6;
 					d5 /= d6;

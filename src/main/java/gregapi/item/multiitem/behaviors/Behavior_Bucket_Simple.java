@@ -44,11 +44,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidBlock;
+import gregapi.stubs.IFluidBlock;
 
 public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 	public static final IBehavior<MultiItem> INSTANCE = new Behavior_Bucket_Simple(NI);
@@ -67,8 +67,8 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 		FluidStack mFluid = FL.getFluid(aStack, T);
 		ItemStack tBucket = ST.make(Items.bucket, 1, 0);
 		
-		EnumFacing aFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
-		World aWorld = aSource.getWorld();
+		Direction aFacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+		Level aWorld = aSource.getWorld();
 		int aX = aSource.getXInt() + aFacing.getFrontOffsetX(), aY = aSource.getYInt() + aFacing.getFrontOffsetY(), aZ = aSource.getZInt() + aFacing.getFrontOffsetZ();
 		
 		if (mFluid == null) {
@@ -120,10 +120,10 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
 		FluidStack mFluid = FL.getFluid(aStack, T);
-		MovingObjectPosition aTarget = WD.getMOP(aWorld, aPlayer, mFluid == null);
-		if (aTarget == null || aTarget.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return aStack;
+		HitResult aTarget = WD.getMOP(aWorld, aPlayer, mFluid == null);
+		if (aTarget == null || aTarget.typeOfHit != HitResult.MovingObjectType.BLOCK) return aStack;
 		int aX = aTarget.blockX, aY = aTarget.blockY, aZ = aTarget.blockZ;
 		ItemStack tBucket = ST.make(Items.bucket, 1, 0);
 		
@@ -182,7 +182,7 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
+	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aPlayer.worldObj.isRemote) return F;
 		FluidStack mFluid = FL.getFluid(aStack, T);
 		if (mFluid == null) return F;

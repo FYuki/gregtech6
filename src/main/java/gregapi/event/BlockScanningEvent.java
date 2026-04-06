@@ -42,7 +42,7 @@ public class BlockScanningEvent extends net.minecraftforge.event.world.WorldEven
 	 */
 	public long mEUCost = 0;
 	
-	public BlockScanningEvent(World aWorld, Player aPlayer, int aX, int aY, int aZ, byte aSide, int aScanLevel, Block aBlock, TileEntity aTileEntity, ArrayList<String> aList, float aClickX, float aClickY, float aClickZ) {
+	public BlockScanningEvent(Level aWorld, Player aPlayer, int aX, int aY, int aZ, byte aSide, int aScanLevel, Block aBlock, TileEntity aTileEntity, ArrayList<String> aList, float aClickX, float aClickY, float aClickZ) {
 		super(aWorld);
 		mPlayer = aPlayer;
 		mScanLevel = aScanLevel;

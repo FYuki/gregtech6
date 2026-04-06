@@ -26,7 +26,7 @@ import net.minecraft.server.level.ServerPlayer;
  * @author Gregorius Techneticies
  */
 public interface ITileEntitySynchronising extends ITileEntityUnloadable {
-	/** Called when the passed Player starts watching this Chunk. */
+	/** Called when the passed Player starts watching this LevelChunk. */
 	public void sendUpdateToPlayer(ServerPlayer aPlayer);
 	/** Called by Packets. */
 	public void processPacket(INetworkHandler aNetworkHandler);

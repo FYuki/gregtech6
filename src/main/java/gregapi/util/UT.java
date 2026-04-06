@@ -60,7 +60,7 @@ import net.minecraft.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Items;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.Tag;
@@ -74,12 +74,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
-import net.minecraftforge.common.IExtendedEntityProperties;
-import net.minecraftforge.common.util.FakePlayer;
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
+import gregapi.stubs.IExtendedEntityProperties;
+import net.neoforged.neoforge.common.util.FakePlayer;
 import net.minecraft.core.Direction; // was Direction
-import net.minecraftforge.fluids.*;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidTank;
+import net.neoforged.neoforge.fluids.IFluidTank;
+import net.minecraft.world.level.material.Fluid;
+import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -1504,7 +1507,7 @@ public class UT {
 		public static String stringValidate(Object aString) {return stringValidate(aString, "");}
 		public static String stringValidate(Object aString, String aReplacement) {
 			if (aString == null) return aReplacement;
-			if (aString instanceof BiomeGenBase) return ((BiomeGenBase)aString).biomeName;
+			if (aString instanceof Biome) return ((Biome)aString).biomeName;
 			String rString = aString.toString();
 			return rString == null || rString.isEmpty() ? aReplacement : rString;
 		}
@@ -2667,26 +2670,26 @@ public class UT {
 	
 	@Deprecated public static class Inventories {
 		@Deprecated public static boolean isConnectableNonInventoryPipe(Object aTileEntity, int aSide) {return F;}
-		@Deprecated public static byte moveStackIntoPipe(IInventory aTileEntity1, Object aTarget, int[] aGrabSlots, byte aGrabFrom, byte aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
-		@Deprecated public static byte moveStackFromSlotAToSlotB(IInventory aTileEntity, IInventory aTarget, int aGrabFrom, int aPutTo, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
-		@Deprecated public static boolean isAllowedToTakeFromSlot(IInventory aTileEntity, int aSlot, byte aSide, ItemStack aStack) {return F;}
-		@Deprecated public static boolean isAllowedToPutIntoSlot(IInventory aTileEntity, int aSlot, byte aSide, ItemStack aStack, int aMaxStackSize) {return F;}
+		@Deprecated public static byte moveStackIntoPipe(Container aTileEntity1, Object aTarget, int[] aGrabSlots, byte aGrabFrom, byte aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
+		@Deprecated public static byte moveStackFromSlotAToSlotB(Container aTileEntity, Container aTarget, int aGrabFrom, int aPutTo, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
+		@Deprecated public static boolean isAllowedToTakeFromSlot(Container aTileEntity, int aSlot, byte aSide, ItemStack aStack) {return F;}
+		@Deprecated public static boolean isAllowedToPutIntoSlot(Container aTileEntity, int aSlot, byte aSide, ItemStack aStack, int aMaxStackSize) {return F;}
 		@Deprecated public static byte moveOneItemStack(Object aTileEntity1, Object aTileEntity2, byte aGrabFrom, byte aPutTo) {return 0;}
 		@Deprecated public static byte moveOneItemStack(Object aTileEntity1, Object aTileEntity2, byte aGrabFrom, byte aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
 		@Deprecated public static byte moveOneItemStackIntoSlot(Object aTileEntity1, Object aTarget, byte aGrabFrom, int aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
-		@Deprecated public static byte moveFromSlotToSlot(IInventory aTileEntity1, IInventory aTileEntity2, int aGrabFrom, int aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
-		@Deprecated public static void removeNullStacksFromInventory(IInventory aInventory) {ST.denull(aInventory);}
+		@Deprecated public static byte moveFromSlotToSlot(Container aTileEntity1, Container aTileEntity2, int aGrabFrom, int aPutTo, List<ItemStack> aFilter, boolean aInvertFilter, int aMaxTargetStackSize, int aMinTargetStackSize, int aMaxMoveAtOnce, int aMinMoveAtOnce) {return 0;}
+		@Deprecated public static void removeNullStacksFromInventory(Container aInventory) {ST.denull(aInventory);}
 		@Deprecated public static boolean unlockAchievement(Player aPlayer, Achievement aAchievement) {return ST.achieve(aPlayer, aAchievement);}
 		@Deprecated public static boolean checkAchievements(Player aPlayer, ItemStack aStack) {return ST.check(aPlayer, aStack);}
 		@Deprecated public static boolean addStackToPlayerInventory(Player aPlayer, ItemStack aStack) {return ST.add(aPlayer, aStack);}
 		@Deprecated public static boolean addStackToPlayerInventory(Player aPlayer, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.add(aPlayer, aStack, aCurrentSlotFirst);}
-		@Deprecated public static boolean addStackToPlayerInventory(Player aPlayer, IInventory aInventory, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.add(aPlayer, aInventory, aStack, aCurrentSlotFirst);}
+		@Deprecated public static boolean addStackToPlayerInventory(Player aPlayer, Container aInventory, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.add(aPlayer, aInventory, aStack, aCurrentSlotFirst);}
 		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack) {return ST.give(aPlayer, aStack);}
 		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack, boolean aCurrentSlotFirst) {return ST.give(aPlayer, aStack, aCurrentSlotFirst);}
-		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aStack, aWorld, aX, aY, aZ);}
-		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack, boolean aCurrentSlotFirst, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aStack, aCurrentSlotFirst, aWorld, aX, aY, aZ);}
-		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, IInventory aInventory, ItemStack aStack, boolean aCurrentSlotFirst, World aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aInventory, aStack, aCurrentSlotFirst, aWorld, aX, aY, aZ);}
-		@Deprecated public static ItemStack getProjectile(TagData aProjectileType, IInventory aInventory) {return ST.projectile(aInventory, aProjectileType);}
+		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack, Level aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aStack, aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, ItemStack aStack, boolean aCurrentSlotFirst, Level aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aStack, aCurrentSlotFirst, aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean addStackToPlayerInventoryOrDrop(Player aPlayer, Container aInventory, ItemStack aStack, boolean aCurrentSlotFirst, Level aWorld, double aX, double aY, double aZ) {return ST.give(aPlayer, aInventory, aStack, aCurrentSlotFirst, aWorld, aX, aY, aZ);}
+		@Deprecated public static ItemStack getProjectile(TagData aProjectileType, Container aInventory) {return ST.projectile(aInventory, aProjectileType);}
 	}
 	
 	public static class Sounds {
@@ -2737,10 +2740,10 @@ public class UT {
 		public static boolean send(String aSound, Entity aEntity) {
 			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aEntity.worldObj, new BlockPos(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
 		}
-		public static boolean send(String aSound, World aWorld, int aX, int aY, int aZ) {
+		public static boolean send(String aSound, Level aWorld, int aX, int aY, int aZ) {
 			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aWorld, new BlockPos(aX, aY, aZ));
 		}
-		public static boolean send(String aSound, World aWorld, BlockPos aCoords) {
+		public static boolean send(String aSound, Level aWorld, BlockPos aCoords) {
 			return send(aSound, 1.0F, SFX.RANDOM_PITCH, aWorld, aCoords);
 		}
 		public static boolean send(String aSound, float aVolume, IHasWorldAndCoords aTileEntity) {
@@ -2755,10 +2758,10 @@ public class UT {
 		public static boolean send(String aSound, float aVolume, Entity aEntity) {
 			return send(aSound, aVolume, SFX.RANDOM_PITCH, aEntity.worldObj, new BlockPos(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
 		}
-		public static boolean send(String aSound, float aVolume, World aWorld, int aX, int aY, int aZ) {
+		public static boolean send(String aSound, float aVolume, Level aWorld, int aX, int aY, int aZ) {
 			return send(aSound, aVolume, SFX.RANDOM_PITCH, aWorld, new BlockPos(aX, aY, aZ));
 		}
-		public static boolean send(String aSound, float aVolume, World aWorld, BlockPos aCoords) {
+		public static boolean send(String aSound, float aVolume, Level aWorld, BlockPos aCoords) {
 			return send(aSound, aVolume, SFX.RANDOM_PITCH, aWorld, aCoords);
 		}
 		public static boolean send(String aSound, float aVolume, float aPitch, IHasWorldAndCoords aTileEntity) {
@@ -2773,19 +2776,19 @@ public class UT {
 		public static boolean send(String aSound, float aVolume, float aPitch, Entity aEntity) {
 			return send(aSound, aVolume, aPitch, aEntity.worldObj, new BlockPos(UT.Code.roundDown(aEntity.posX), UT.Code.roundDown(aEntity.posY), UT.Code.roundDown(aEntity.posZ)));
 		}
-		public static boolean send(String aSound, float aVolume, float aPitch, World aWorld, int aX, int aY, int aZ) {
+		public static boolean send(String aSound, float aVolume, float aPitch, Level aWorld, int aX, int aY, int aZ) {
 			return send(aSound, aVolume, aPitch, aWorld, new BlockPos(aX, aY, aZ));
 		}
-		public static boolean send(String aSound, float aVolume, float aPitch, World aWorld, BlockPos aCoords) {
+		public static boolean send(String aSound, float aVolume, float aPitch, Level aWorld, BlockPos aCoords) {
 			if (Code.stringInvalid(aSound) || aWorld == null || aWorld.isRemote) return F;
 			NW_API.sendToAllPlayersInRange(new PacketSound(aSound, aVolume, aPitch, aCoords), aWorld, aCoords);
 			return T;
 		}
 		
-		@Deprecated public static boolean send(World aWorld, String aSound, int aX, int aY, int aZ) {return send(aSound, 1.0F, SFX.RANDOM_PITCH, aWorld, aX, aY, aZ);}
-		@Deprecated public static boolean send(World aWorld, String aSound, float aVolume, float aPitch, int aX, int aY, int aZ) {return send(aSound, aVolume, aPitch, aWorld, aX, aY, aZ);}
-		@Deprecated public static boolean send(World aWorld, String aSound, float aVolume, float aPitch, Entity aEntity) {return send(aSound, aVolume, aPitch, aEntity);}
-		@Deprecated public static boolean send(World aWorld, String aSound, float aVolume, float aPitch, BlockPos aCoords) {return send(aSound, aVolume, aPitch, aWorld, aCoords);}
+		@Deprecated public static boolean send(Level aWorld, String aSound, int aX, int aY, int aZ) {return send(aSound, 1.0F, SFX.RANDOM_PITCH, aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean send(Level aWorld, String aSound, float aVolume, float aPitch, int aX, int aY, int aZ) {return send(aSound, aVolume, aPitch, aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean send(Level aWorld, String aSound, float aVolume, float aPitch, Entity aEntity) {return send(aSound, aVolume, aPitch, aEntity);}
+		@Deprecated public static boolean send(Level aWorld, String aSound, float aVolume, float aPitch, BlockPos aCoords) {return send(aSound, aVolume, aPitch, aWorld, aCoords);}
 		
 		public static class PlayedSound {
 			public final String mSoundName;
@@ -2814,11 +2817,11 @@ public class UT {
 		
 		public static class SoundWithLocation {
 			public final int mX, mY, mZ, mTimeUntilNextSound;
-			public final World mWorld;
+			public final Level mWorld;
 			public final String mSound;
 			public final float mVolume, mPitch;
 			
-			public SoundWithLocation(World aWorld, int aX, int aY, int aZ, int aTimeUntilNextSound, String aSound, float aVolume, float aPitch) {
+			public SoundWithLocation(Level aWorld, int aX, int aY, int aZ, int aTimeUntilNextSound, String aSound, float aVolume, float aPitch) {
 				mWorld = aWorld; mX = aX; mY = aY; mZ = aZ; mTimeUntilNextSound = aTimeUntilNextSound; mSound = aSound; mVolume = aVolume; mPitch = aPitch;
 			}
 			
@@ -2835,32 +2838,32 @@ public class UT {
 	public static class Entities {
 		/** Sends Messages to a Player */
 		public static void sendchat(Object aPlayer, String... aChatMessages) {
-			if (aPlayer instanceof ServerPlayer) for (String aMessage : aChatMessages) ((ServerPlayer)aPlayer).addChatComponentMessage(new ChatComponentText(aMessage));
+			if (aPlayer instanceof ServerPlayer) for (String aMessage : aChatMessages) ((ServerPlayer)aPlayer).addChatComponentMessage(new Component(aMessage));
 		}
 		
 		/** Sends Messages to a Player */
-		public static void sendchat(Object aPlayer, IChatComponent... aChatMessages) {
-			if (aPlayer instanceof ServerPlayer) for (IChatComponent aMessage : aChatMessages) ((ServerPlayer)aPlayer).addChatComponentMessage(aMessage);
+		public static void sendchat(Object aPlayer, Component... aChatMessages) {
+			if (aPlayer instanceof ServerPlayer) for (Component aMessage : aChatMessages) ((ServerPlayer)aPlayer).addChatComponentMessage(aMessage);
 		}
 		
 		/** Sends Messages to a Player */
 		public static void sendchat(Object aPlayer, @SuppressWarnings("rawtypes") List aChatMessages, boolean aSkipFirst) {
-			if (aChatMessages != null && aPlayer instanceof ServerPlayer) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((ServerPlayer)aPlayer).addChatComponentMessage(aMessage instanceof IChatComponent ? (IChatComponent)aMessage : new ChatComponentText(aMessage.toString()));
+			if (aChatMessages != null && aPlayer instanceof ServerPlayer) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((ServerPlayer)aPlayer).addChatComponentMessage(aMessage instanceof Component ? (Component)aMessage : new Component(aMessage.toString()));
 		}
 		
 		public static void chat(Object aPlayer, String... aChatMessages) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aPlayer instanceof Player) for (String aMessage : aChatMessages) ((Player)aPlayer).addChatComponentMessage(new ChatComponentText(aMessage));
+			if (aPlayer instanceof Player) for (String aMessage : aChatMessages) ((Player)aPlayer).addChatComponentMessage(new Component(aMessage));
 		}
 		
-		public static void chat(Object aPlayer, IChatComponent... aChatMessages) {
+		public static void chat(Object aPlayer, Component... aChatMessages) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aPlayer instanceof Player) for (IChatComponent aMessage : aChatMessages) ((Player)aPlayer).addChatComponentMessage(aMessage);
+			if (aPlayer instanceof Player) for (Component aMessage : aChatMessages) ((Player)aPlayer).addChatComponentMessage(aMessage);
 		}
 		
 		public static void chat(Object aPlayer, @SuppressWarnings("rawtypes") List aChatMessages, boolean aSkipFirst) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aChatMessages != null && aPlayer instanceof Player) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((Player)aPlayer).addChatComponentMessage(aMessage instanceof IChatComponent ? (IChatComponent)aMessage : new ChatComponentText(aMessage.toString()));
+			if (aChatMessages != null && aPlayer instanceof Player) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((Player)aPlayer).addChatComponentMessage(aMessage instanceof Component ? (Component)aMessage : new Component(aMessage.toString()));
 		}
 		
 		
@@ -3140,11 +3143,11 @@ public class UT {
 		}
 		
 		public static Collection<Player> getPlayersWithLastTarget(IHasWorldAndCoords aTarget) {return getPlayersWithLastTarget(6, aTarget);}
-		public static Collection<Player> getPlayersWithLastTarget(World aWorld, int aX, int aY, int aZ) {return getPlayersWithLastTarget(6, aWorld, aX, aY, aZ);}
-		public static Collection<Player> getPlayersWithLastTarget(World aWorld, BlockPos aCoords) {return getPlayersWithLastTarget(6, aWorld, aCoords);}
+		public static Collection<Player> getPlayersWithLastTarget(Level aWorld, int aX, int aY, int aZ) {return getPlayersWithLastTarget(6, aWorld, aX, aY, aZ);}
+		public static Collection<Player> getPlayersWithLastTarget(Level aWorld, BlockPos aCoords) {return getPlayersWithLastTarget(6, aWorld, aCoords);}
 		public static Collection<Player> getPlayersWithLastTarget(long aRange, IHasWorldAndCoords aTarget) {return getPlayersWithLastTarget(aRange, aTarget.getWorld(), aTarget.getCoords());}
-		public static Collection<Player> getPlayersWithLastTarget(long aRange, World aWorld, int aX, int aY, int aZ) {return getPlayersWithLastTarget(aRange, aWorld, new BlockPos(aX, aY, aZ));}
-		public static Collection<Player> getPlayersWithLastTarget(long aRange, World aWorld, BlockPos aCoords) {
+		public static Collection<Player> getPlayersWithLastTarget(long aRange, Level aWorld, int aX, int aY, int aZ) {return getPlayersWithLastTarget(aRange, aWorld, new BlockPos(aX, aY, aZ));}
+		public static Collection<Player> getPlayersWithLastTarget(long aRange, Level aWorld, BlockPos aCoords) {
 			ArrayListNoNulls<Player> rList = new ArrayListNoNulls<>();
 			for (Entry<Player, BlockPos> tEntry : PLAYER_LAST_CLICKED.entrySet()) {
 				if (!tEntry.getKey().isDead && aWorld == tEntry.getKey().worldObj && aCoords.equals(tEntry.getValue())) {
@@ -3200,44 +3203,44 @@ public class UT {
 	}
 	
 	@Deprecated public static class Worlds {
-		@Deprecated public static ItemStack suckOneItemStackAt(World aWorld, double aX, double aY, double aZ, double aL, double aH, double aW) {return WD.suck(aWorld, aX, aY, aZ, aL, aH, aW);}
-		@Deprecated public static boolean isSideObstructed(World aWorld, int aX, int aY, int aZ, byte aSide) {return WD.obstructed(aWorld, aX, aY, aZ, aSide);}
-		@Deprecated public static MovingObjectPosition getMovingObjectPositionFromPlayer(World aWorld, Player aPlayer, boolean aFlag) {return WD.getMOP(aWorld, aPlayer, aFlag);}
+		@Deprecated public static ItemStack suckOneItemStackAt(Level aWorld, double aX, double aY, double aZ, double aL, double aH, double aW) {return WD.suck(aWorld, aX, aY, aZ, aL, aH, aW);}
+		@Deprecated public static boolean isSideObstructed(Level aWorld, int aX, int aY, int aZ, byte aSide) {return WD.obstructed(aWorld, aX, aY, aZ, aSide);}
+		@Deprecated public static HitResult getMovingObjectPositionFromPlayer(Level aWorld, Player aPlayer, boolean aFlag) {return WD.getMOP(aWorld, aPlayer, aFlag);}
 		@Deprecated public static boolean isRealDimension(int aDimensionID) {return T;}
 		@Deprecated public static boolean moveEntityToDimensionAtCoords(Entity aEntity, int aDimension, double aX, double aY, double aZ) {return WD.move(aEntity, aDimension, aX, aY, aZ);}
-		@Deprecated public static DelegatorTileEntity<TileEntity> getTileEntity(World aWorld, BlockPos aCoords, byte aSide, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aCoords, aSide, aLoadUnloadedChunks);}
-		@Deprecated public static DelegatorTileEntity<TileEntity> getTileEntity(World aWorld, int aX, int aY, int aZ, byte aSide, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aX, aY, aZ, aSide, aLoadUnloadedChunks);}
-		@Deprecated public static TileEntity getTileEntity(World aWorld, BlockPos aCoords, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aCoords, aLoadUnloadedChunks);}
-		@Deprecated public static TileEntity getTileEntity(World aWorld, int aX, int aY, int aZ, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aX, aY, aZ, aLoadUnloadedChunks);}
-		@Deprecated public static TileEntity setTileEntity(World aWorld, int aX, int aY, int aZ, TileEntity aTileEntity, boolean aCauseTileEntityUpdates) {return WD.te(aWorld, aX, aY, aZ, aTileEntity, aCauseTileEntityUpdates);}
-		@Deprecated public static long getEnvironmentalTemperature(World aWorld, int aX, int aY, int aZ) {return WD.envTemp(aWorld, aX, aY, aZ);}
-		@Deprecated public static long getTemperature(World aWorld, int aX, int aY, int aZ) {return WD.temperature(aWorld, aX, aY, aZ);}
-		@Deprecated public static ItemStack getStack(World aWorld, int aX, int aY, int aZ) {return WD.stack(aWorld, aX, aY, aZ);}
-		@Deprecated public static Block getBlock(World aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks) {return WD.block(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks);}
-		@Deprecated public static boolean setBlock(World aWorld, int aX, int aY, int aZ, Block aBlock, long aMeta, long aFlags) {return WD.set(aWorld, aX, aY, aZ, aBlock, aMeta, aFlags);}
+		@Deprecated public static DelegatorTileEntity<TileEntity> getTileEntity(Level aWorld, BlockPos aCoords, byte aSide, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aCoords, aSide, aLoadUnloadedChunks);}
+		@Deprecated public static DelegatorTileEntity<TileEntity> getTileEntity(Level aWorld, int aX, int aY, int aZ, byte aSide, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aX, aY, aZ, aSide, aLoadUnloadedChunks);}
+		@Deprecated public static TileEntity getTileEntity(Level aWorld, BlockPos aCoords, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aCoords, aLoadUnloadedChunks);}
+		@Deprecated public static TileEntity getTileEntity(Level aWorld, int aX, int aY, int aZ, boolean aLoadUnloadedChunks) {return WD.te(aWorld, aX, aY, aZ, aLoadUnloadedChunks);}
+		@Deprecated public static TileEntity setTileEntity(Level aWorld, int aX, int aY, int aZ, TileEntity aTileEntity, boolean aCauseTileEntityUpdates) {return WD.te(aWorld, aX, aY, aZ, aTileEntity, aCauseTileEntityUpdates);}
+		@Deprecated public static long getEnvironmentalTemperature(Level aWorld, int aX, int aY, int aZ) {return WD.envTemp(aWorld, aX, aY, aZ);}
+		@Deprecated public static long getTemperature(Level aWorld, int aX, int aY, int aZ) {return WD.temperature(aWorld, aX, aY, aZ);}
+		@Deprecated public static ItemStack getStack(Level aWorld, int aX, int aY, int aZ) {return WD.stack(aWorld, aX, aY, aZ);}
+		@Deprecated public static Block getBlock(Level aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks) {return WD.block(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks);}
+		@Deprecated public static boolean setBlock(Level aWorld, int aX, int aY, int aZ, Block aBlock, long aMeta, long aFlags) {return WD.set(aWorld, aX, aY, aZ, aBlock, aMeta, aFlags);}
 		@Deprecated public static boolean crossedChunkBorder(int aFromX, int aFromZ, int aToX, int aToZ) {return WD.border(aFromX, aFromZ, aToX, aToZ);}
 		@Deprecated public static boolean areCoordsEven(TileEntity aTileEntity) {return WD.even(aTileEntity);}
 		@Deprecated public static boolean areCoordsEven(BlockPos aCoords) {return WD.even(aCoords);}
 		@Deprecated public static boolean areCoordsEven(int... aCoords) {return WD.even(aCoords);}
-		@Deprecated public static boolean setBlockIfDifferent(World aWorld, int aX, int aY, int aZ, Block aBlock, int aMetaData, int aFlags) {return WD.setIfDiff(aWorld, aX, aY, aZ, aBlock, aMetaData, aFlags);}
-		@Deprecated public static boolean setBlock(World aWorld, int aX, int aY, int aZ, ItemStack aStack) {return WD.set(aWorld, aX, aY, aZ, aStack);}
+		@Deprecated public static boolean setBlockIfDifferent(Level aWorld, int aX, int aY, int aZ, Block aBlock, int aMetaData, int aFlags) {return WD.setIfDiff(aWorld, aX, aY, aZ, aBlock, aMetaData, aFlags);}
+		@Deprecated public static boolean setBlock(Level aWorld, int aX, int aY, int aZ, ItemStack aStack) {return WD.set(aWorld, aX, aY, aZ, aStack);}
 		@Deprecated public static boolean isRegularStoneBlock(Block aBlock, short aMetaData) {return WD.stone(aBlock, aMetaData);}
 		@Deprecated public static boolean isOreBlock(Block aBlock, short aMetaData) {return WD.ore(aBlock, aMetaData);}
 		@Deprecated public static boolean isOreOrRegularStoneBlock(Block aBlock, short aMetaData) {return WD.ore_stone(aBlock, aMetaData);}
-		@Deprecated public static boolean isVisuallyOccluded(World aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks, boolean aDefault) {return WD.visOcc(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks, aDefault);}
-		@Deprecated public static boolean isVisuallyOpaque(World aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks, boolean aDefault) {return WD.visOpq(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks, aDefault);}
+		@Deprecated public static boolean isVisuallyOccluded(Level aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks, boolean aDefault) {return WD.visOcc(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks, aDefault);}
+		@Deprecated public static boolean isVisuallyOpaque(Level aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks, boolean aDefault) {return WD.visOpq(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks, aDefault);}
 		@Deprecated public static boolean isVisuallyOpaque(Block aBlock) {return WD.visOpq(aBlock);}
-		@Deprecated public static boolean isOccluded(World aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks, boolean aDefault) {return WD.occ(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks, aDefault);}
-		@Deprecated public static boolean isOpaque(World aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks, boolean aDefault) {return WD.opq(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks, aDefault);}
-		@Deprecated public static boolean isAir(World aWorld, int aX, int aY, int aZ) {return WD.air(aWorld, aX, aY, aZ);}
-		@Deprecated public static boolean isEasilyReplaceable(World aWorld, int aX, int aY, int aZ) {return WD.easyRep(aWorld, aX, aY, aZ);}
-		@Deprecated public static boolean hasCollisionBox(World aWorld, int aX, int aY, int aZ) {return aWorld.getBlock(aX, aY, aZ).getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ) != null;}
-		@Deprecated public static void setOnFire(World aWorld, int aX, int aY, int aZ, boolean aReplaceCenter, boolean aCheckFlammability) {WD.burn(aWorld, aX, aY, aZ, aReplaceCenter, aCheckFlammability);}
-		@Deprecated public static void setOnFire(World aWorld, BlockPos aCoords, boolean aReplaceCenter, boolean aCheckFlammability) {WD.burn(aWorld, aCoords, aReplaceCenter, aCheckFlammability);}
-		@Deprecated public static boolean setToFire(World aWorld, int aX, int aY, int aZ, boolean aCheckFlammability) {return WD.fire(aWorld, aX, aY, aZ, aCheckFlammability);}
-		@Deprecated public static boolean setToFire(World aWorld, BlockPos aCoords, boolean aCheckFlammability) {return WD.fire(aWorld, aCoords, aCheckFlammability);}
-		@Deprecated public static boolean getCoordsOnFire(World aWorld, int aX, int aY, int aZ) {return WD.burning(aWorld, aX, aY, aZ);}
-		@Deprecated public static long getCoordinateScan(ArrayList<String> aList, Player aPlayer, World aWorld, int aScanLevel, int aX, int aY, int aZ, byte aSide, float aClickX, float aClickY, float aClickZ) {return WD.scan(aList, aPlayer, aWorld, aScanLevel, aX, aY, aZ, aSide, aClickX, aClickY, aClickZ);}
+		@Deprecated public static boolean isOccluded(Level aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks, boolean aDefault) {return WD.occ(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks, aDefault);}
+		@Deprecated public static boolean isOpaque(Level aWorld, int aX, int aY, int aZ, boolean aIgnoreUnloadedChunks, boolean aDefault) {return WD.opq(aWorld, aX, aY, aZ, aIgnoreUnloadedChunks, aDefault);}
+		@Deprecated public static boolean isAir(Level aWorld, int aX, int aY, int aZ) {return WD.air(aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean isEasilyReplaceable(Level aWorld, int aX, int aY, int aZ) {return WD.easyRep(aWorld, aX, aY, aZ);}
+		@Deprecated public static boolean hasCollisionBox(Level aWorld, int aX, int aY, int aZ) {return aWorld.getBlock(aX, aY, aZ).getCollisionBoundingBoxFromPool(aWorld, aX, aY, aZ) != null;}
+		@Deprecated public static void setOnFire(Level aWorld, int aX, int aY, int aZ, boolean aReplaceCenter, boolean aCheckFlammability) {WD.burn(aWorld, aX, aY, aZ, aReplaceCenter, aCheckFlammability);}
+		@Deprecated public static void setOnFire(Level aWorld, BlockPos aCoords, boolean aReplaceCenter, boolean aCheckFlammability) {WD.burn(aWorld, aCoords, aReplaceCenter, aCheckFlammability);}
+		@Deprecated public static boolean setToFire(Level aWorld, int aX, int aY, int aZ, boolean aCheckFlammability) {return WD.fire(aWorld, aX, aY, aZ, aCheckFlammability);}
+		@Deprecated public static boolean setToFire(Level aWorld, BlockPos aCoords, boolean aCheckFlammability) {return WD.fire(aWorld, aCoords, aCheckFlammability);}
+		@Deprecated public static boolean getCoordsOnFire(Level aWorld, int aX, int aY, int aZ) {return WD.burning(aWorld, aX, aY, aZ);}
+		@Deprecated public static long getCoordinateScan(ArrayList<String> aList, Player aPlayer, Level aWorld, int aScanLevel, int aX, int aY, int aZ, byte aSide, float aClickX, float aClickY, float aClickZ) {return WD.scan(aList, aPlayer, aWorld, aScanLevel, aX, aY, aZ, aSide, aClickX, aClickY, aClickZ);}
 	}
 	
 	@Deprecated public static class Stacks {
@@ -3341,7 +3344,7 @@ public class UT {
 		@Deprecated public static boolean shapeless(ItemStack aResult, Enchantment[] aEnchantmentsAdded, int[] aEnchantmentLevelsAdded, Object[] aRecipe) {return CR.shapeless(aResult, aEnchantmentsAdded, aEnchantmentLevelsAdded, aRecipe);}
 		@Deprecated public static boolean shapeless(ItemStack aResult, Object[] aRecipe) {return CR.shapeless(aResult, aRecipe);}
 		@Deprecated public static boolean shapeless(ItemStack aResult, long aBitMask, Object[] aRecipe) {return CR.shapeless(aResult, aBitMask, aRecipe);}
-		@Deprecated public static ItemStack getany(World aWorld, ItemStack... aRecipe) {return CR.getany(aWorld, aRecipe);}
+		@Deprecated public static ItemStack getany(Level aWorld, ItemStack... aRecipe) {return CR.getany(aWorld, aRecipe);}
 		@Deprecated public static ItemStack get(ItemStack... aRecipe) {return CR.get(aRecipe);}
 		@Deprecated public static ItemStack get(boolean aUncopiedStack, ItemStack... aRecipe) {return CR.get(aUncopiedStack, aRecipe);}
 		@Deprecated public static boolean has(ItemStack aOutput) {return CR.has(aOutput);}

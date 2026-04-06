@@ -29,8 +29,8 @@ import gregapi.tileentity.data.ITileEntityWeight;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
 import gregapi.tileentity.machines.MultiTileEntitySensorTE;
 import gregapi.util.OM;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.world.Container;
+import gregapi.stubs.ISidedInventory;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
@@ -47,14 +47,14 @@ public class MultiTileEntityWeightometerLight extends MultiTileEntitySensorTE {
 		double rWeightKG = 0;
 		if (aDelegator.mTileEntity instanceof ITileEntityWeight) {
 			rWeightKG = ((ITileEntityWeight)aDelegator.mTileEntity).getWeightValue(aDelegator.mSideOfTileEntity);
-		} else if (aDelegator.mTileEntity instanceof IInventory) {
+		} else if (aDelegator.mTileEntity instanceof Container) {
 			if (aDelegator.mTileEntity instanceof ISidedInventory) {
 				for (int i : ((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(aDelegator.mSideOfTileEntity)) {
-					rWeightKG += OM.weight(((IInventory)aDelegator.mTileEntity).getStackInSlot(i));
+					rWeightKG += OM.weight(((Container)aDelegator.mTileEntity).getStackInSlot(i));
 					if (rWeightKG >= MAX_WEIGHT) break;
 				}
-			} else for (int i = 0, j = ((IInventory)aDelegator.mTileEntity).getSizeInventory(); i < j; i++) {
-				rWeightKG += OM.weight(((IInventory)aDelegator.mTileEntity).getStackInSlot(i));
+			} else for (int i = 0, j = ((Container)aDelegator.mTileEntity).getSizeInventory(); i < j; i++) {
+				rWeightKG += OM.weight(((Container)aDelegator.mTileEntity).getStackInSlot(i));
 				if (rWeightKG >= MAX_WEIGHT) break;
 			}
 		}

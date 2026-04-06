@@ -42,7 +42,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 /**
@@ -133,12 +133,12 @@ public class WorldgenOresBedrock extends WorldgenObject {
 	}
 	
 	@Override
-	public void reset(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public void reset(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		GENERATED_NO_BEDROCK_ORE = CAN_GENERATE_BEDROCK_ORE = T;
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if (GENERATING_SPECIAL || !CAN_GENERATE_BEDROCK_ORE || aRandom.nextInt(mProbability) != 0) return F;
 		if (!generateVein(mMaterial, aWorld, aDimType, aMinX, aMinZ, aRandom)) return F;
 		
@@ -151,7 +151,7 @@ public class WorldgenOresBedrock extends WorldgenObject {
 			
 			int tMinHeight = Math.min(aWorld.getHeight()-2, WD.waterLevel(aWorld)-1)
 			,   tMaxHeight = Math.min(aWorld.getHeight()-1, tMinHeight * 2 + 16);
-			// Generate first an 8x8 of 4, then a 16x16 of 8, and at the end a 32x32 of 16 Rocks/Flowers. That way the Pattern gets denser in the middle, and Chunk Boundary Issues of GalactiCraft wont be as terrible.
+			// Generate first an 8x8 of 4, then a 16x16 of 8, and at the end a 32x32 of 16 Rocks/Flowers. That way the Pattern gets denser in the middle, and LevelChunk Boundary Issues of GalactiCraft wont be as terrible.
 			for (int tD = 4; tD <= 16; tD *= 2) try {for (int i = 0; i < tD; i++) {
 				int tX = aMinX+aRandom.nextInt(tD*2)+8-tD, tZ = aMinZ+aRandom.nextInt(tD*2)+8-tD;
 				for (int tY = tMaxHeight; tY > tMinHeight; tY--) {
@@ -178,7 +178,7 @@ public class WorldgenOresBedrock extends WorldgenObject {
 		return T;
 	}
 	
-	public static boolean generateVein(OreDictMaterial aMaterial, World aWorld, int aDimType, int aMinX, int aMinZ, Random aRandom) {
+	public static boolean generateVein(OreDictMaterial aMaterial, Level aWorld, int aDimType, int aMinX, int aMinZ, Random aRandom) {
 		try {
 			Block tStone = WD.block(aWorld, aMinX+8, 0, aMinZ+8);
 			// Requires existing Bedrock!
@@ -194,7 +194,7 @@ public class WorldgenOresBedrock extends WorldgenObject {
 			BlocksGT.oreBedrock.placeBlock(aWorld, aMinX+6+aRandom.nextInt(4), 0, aMinZ+6+aRandom.nextInt(4), SIDE_UNKNOWN, (aMaterial == ANY.Hexorium ? UT.Code.select(MT.HexoriumBlack, ANY.Hexorium.mToThis.toArray(ZL_MATERIAL)) : aMaterial).mID, null, F, T);
 			// Use Deepslate if available, except in the Nether.
 			tStone = (aDimType == DIM_NETHER ? Blocks.NETHERRACK : StoneLayer.DEEPSLATE == null ? NB : StoneLayer.DEEPSLATE.mStone);
-			// Keep Distances within the Chunk for this important step.
+			// Keep Distances within the LevelChunk for this important step.
 			int[] tD1 = new int[] { 5,  4,  2,  1,  0,  2,  5};
 			int[] tD2 = new int[] {11, 12, 14, 15, 16, 14, 11};
 			// Portion a Muffin shaped Ore Blob around the Bedrock Spot.

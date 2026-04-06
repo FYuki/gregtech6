@@ -21,7 +21,7 @@ package gregapi.data;
 
 import appeng.api.AEApi;
 import com.cricketcraft.chisel.api.carving.CarvingUtils;
-import cpw.mods.fml.common.event.FMLInterModComms;
+import net.neoforged.fml.InterModComms;
 import ganymedes01.etfuturum.recipes.BlastFurnaceRecipes;
 import ganymedes01.etfuturum.recipes.SmokerRecipes;
 import gregapi.code.ArrayListNoNulls;

@@ -36,7 +36,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 
 public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ {
 	public int mCharge, mTransfer, mTier, mDamageEnergyCost, mSpecials;
@@ -65,7 +65,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack aStack, World aWorld, Player aPlayer) {
+	public ItemStack onItemRightClick(ItemStack aStack, Level aWorld, Player aPlayer) {
 		ItemStack tStack = aPlayer.inventory.armorInventory[3-armorType];
 		if (tStack != null) {
 			for (int i = 0; i < 9; i++) {
@@ -110,7 +110,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	}
 	
 	@Override
-	public void onArmorTick(World aWorld, Player aPlayer, ItemStack aStack) {/*
+	public void onArmorTick(Level aWorld, Player aPlayer, ItemStack aStack) {/*
 		if (mSpecials == 0) return;
 		
 		if (!aPlayer.worldObj.isRemote && (mSpecials & 1) != 0) {
@@ -214,7 +214,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 					tTargetDechargeItem = null;
 				}
 				
-				if (aPlayer.worldObj.isDaytime() && aPlayer.worldObj.canBlockSeeTheSky(MathHelper.floor_double(aPlayer.posX), MathHelper.floor_double(aPlayer.posY+1), MathHelper.floor_double(aPlayer.posZ))) {
+				if (aPlayer.worldObj.isDaytime() && aPlayer.worldObj.canBlockSeeTheSky(Mth.floor_double(aPlayer.posX), Mth.floor_double(aPlayer.posY+1), Mth.floor_double(aPlayer.posZ))) {
 					if ((mSpecials & 32) != 0 && tTargetChargeItem != null) {
 						GT_ModHandler.chargeElectricItem(tTargetChargeItem, 20, Integer.MAX_VALUE, true, false);
 					}
@@ -237,7 +237,7 @@ public class GT_EnergyArmor_Item extends ItemArmor /*implements ISpecialArmor*/ 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 //  @SuppressWarnings("unchecked")
-	public void getSubItems(Item aItem, CreativeTabs var2, @SuppressWarnings("rawtypes") List var3) {
+	public void getSubItems(Item aItem, CreativeModeTab var2, @SuppressWarnings("rawtypes") List var3) {
 		//ItemStack tCharged = ST.make(this, 1, 0), tUncharged = ST.make(this, 1, getMaxDamage());
 		//GT_ModHandler.chargeElectricItem(tCharged, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false);
 		//var3.add(tCharged);

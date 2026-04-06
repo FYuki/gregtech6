@@ -19,7 +19,7 @@
 
 package gregapi.block.multitileentity.example;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
+import gregapi.stubs.ClientRegistry;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.block.multitileentity.IMultiTileEntity.*;
@@ -47,22 +47,22 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
+import gregapi.stubs.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.Entity;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 import java.util.HashMap;
@@ -125,7 +125,7 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		mFacing = UT.Code.getSideForPlayerPlacing(aPlayer, mFacing, SIDES_HORIZONTAL);
 		return T;
 	}
@@ -168,7 +168,7 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 	}
 	
 	@Override
-	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return 0;
 		if (aTool.equals(TOOL_wrench)) {
 			byte aTargetSide = UT.Code.getSideWrenching(aSide, aHitX, aHitY, aHitZ);
@@ -256,7 +256,7 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 	@Override public int getComparatorInputOverride(byte aSide) {return Container.calcRedstoneFromInventory(this);}
 	@Override public ITexture getTexture(Block aBlock, int aRenderPass, byte aSide, boolean[] aShouldSideBeRendered) {return null;}
 	@Override public int getRenderPasses(Block aBlock, boolean[] aShouldSideBeRendered) {return 0;}
-	@Override public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ) {return T;}
+	@Override public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, BlockGetter aWorld, int aX, int aY, int aZ) {return T;}
 	
 	protected void generateDungeonLoot() {
 		if (isServerSide() && UT.Code.stringValid(mDungeonLootName) && ST.generateLoot(RNGSUS, mDungeonLootName, this)) {
@@ -270,7 +270,7 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 	}
 	
 	@Override
-	public boolean getSubItems(MultiTileEntityBlockInternal aBlock, Item aItem, CreativeTabs aTab, List<ItemStack> aList, short aID) {
+	public boolean getSubItems(MultiTileEntityBlockInternal aBlock, Item aItem, CreativeModeTab aTab, List<ItemStack> aList, short aID) {
 		if (!SHOW_HIDDEN_MATERIALS && mMaterial.mHidden) return F;
 		if (D1 || "lootchest".equalsIgnoreCase(mTextureName)) for (String tLoot : ST.LOOT_TABLES) aList.add(aBlock.mMultiTileEntityRegistry.getItem(aID, UT.NBT.makeString("gt.dungeonloot", tLoot)));
 		return T;
@@ -306,8 +306,8 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 	@Override public int isProvidingStrongPower(byte aOppositeSide) {return mIsTrapped && mUsingPlayers > 0 ? 15 : 0;}
 	
 	private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(minX, minY, minZ, maxX, maxY, maxZ);}
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(minX, minY, minZ, maxX, maxY, maxZ);}
+	@Override public AABB getCollisionBoundingBoxFromPool() {return box(minX, minY, minZ, maxX, maxY, maxZ);}
+	@Override public AABB getSelectedBoundingBoxFromPool () {return box(minX, minY, minZ, maxX, maxY, maxZ);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, minX, minY, minZ, maxX, maxY, maxZ);}
 	@Override public boolean setBlockBounds(Block aBlock, int aRenderPass, boolean[] aShouldSideBeRendered) {box(aBlock, minX, minY, minZ, maxX, maxY, maxZ); return true;}
 	@Override public float getSurfaceSize           (byte aSide) {return 0.875F;}

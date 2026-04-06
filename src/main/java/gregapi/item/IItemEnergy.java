@@ -29,7 +29,7 @@ import gregapi.data.TD;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -41,11 +41,11 @@ import net.minecraft.world.level.Level;
 public interface IItemEnergy {
 	// for tampering with the charge of an Object.
 	// 
-	// The World and Coordinate Parameters are there in case something should happen when tampering with the Item.
+	// The Level and Coordinate Parameters are there in case something should happen when tampering with the Item.
 	//   This could be used for remote re-chargable Items.
 	// The Inventory Parameters are for the Inventory the Item is inside.
 	//   If it is inside a Player, then please always add the Player Inventory.
-	//   If this is inside a TileEntity, then you are not required to add the IInventory, even if it has an Inventory.
+	//   If this is inside a TileEntity, then you are not required to add the Container, even if it has an Inventory.
 	
 	/**
 	 * You do not have to check for this Function, this is only for things like Slot insertion Conditions and similar.
@@ -70,7 +70,7 @@ public interface IItemEnergy {
 	 * @param aDoInject if this is supposed to increase the internal Energy. true = Yes, this is a normal Operation. false = No, this is just a simulation.
 	 * @return amount of used aAmount.
 	 */
-	public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoInject);
+	public long doEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoInject);
 	
 	public boolean canEnergyInjection(TagData aEnergyType, ItemStack aStack, long aSize);
 	
@@ -81,7 +81,7 @@ public interface IItemEnergy {
 	 * @param aDoExtract if this is supposed to decrease the internal Energy. true = Yes, this is a normal Operation. false = No, this is just a simulation.
 	 * @return amount of taken aAmount.
 	 */
-	public long doEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoExtract);
+	public long doEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoExtract);
 	
 	public boolean canEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize);
 	
@@ -92,7 +92,7 @@ public interface IItemEnergy {
 	 * @param aDoUse if this is supposed to decrease the internal Energy. true = Yes, this is a normal Operation. false = No, this is just a simulation.
 	 * @return true if this can use that much Energy.
 	 */
-	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoUse);
+	public boolean useEnergy(TagData aEnergyType, ItemStack aStack, long aEnergyAmount, LivingEntity aPlayer, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoUse);
 	
 	/**
 	 * @param aEnergyType The Type of Energy.
@@ -159,14 +159,14 @@ public interface IItemEnergy {
 	
 	/** Utility for the Energy Items */
 	public static class Utility {
-		public static long inject(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoInject) {
+		public static long inject(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoInject) {
 			if (ST.invalid(aStack)) return 0;
 			if (aStack.getItem() instanceof IItemEnergy) return ((IItemEnergy)aStack.getItem()).doEnergyInjection(aEnergyType, aStack, aSize, aAmount, aInventory, aWorld, aX, aY, aZ, aDoInject);
 			if (aEnergyType == TD.Energy.EU && COMPAT_EU_ITEM != null && COMPAT_EU_ITEM.is(aStack) && !IL.IC2_EnergyCrystal.equal(aStack, T, T) && !IL.IC2_LapotronCrystal.equal(aStack, T, T) && COMPAT_EU_ITEM.insidevolt(aStack, UT.Code.voltMin(aSize), UT.Code.voltMax(aSize)) && COMPAT_EU_ITEM.charge(aStack, aSize, aDoInject) > 0) return 1;
 			return 0;
 		}
 		
-		public static long extract(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, IInventory aInventory, World aWorld, int aX, int aY, int aZ, boolean aDoExtract) {
+		public static long extract(TagData aEnergyType, ItemStack aStack, long aSize, long aAmount, Container aInventory, Level aWorld, int aX, int aY, int aZ, boolean aDoExtract) {
 			if (ST.invalid(aStack)) return 0;
 			if (aStack.getItem() instanceof IItemEnergy) return ((IItemEnergy)aStack.getItem()).doEnergyExtraction(aEnergyType, aStack, aSize, aAmount, aInventory, aWorld, aX, aY, aZ, aDoExtract);
 			if (aEnergyType == TD.Energy.EU && COMPAT_EU_ITEM != null && COMPAT_EU_ITEM.is(aStack) && !IL.IC2_EnergyCrystal.equal(aStack, T, T) && !IL.IC2_LapotronCrystal.equal(aStack, T, T) && COMPAT_EU_ITEM.provider(aStack) && COMPAT_EU_ITEM.insidevolt(aStack, UT.Code.voltMin(aSize), UT.Code.voltMax(aSize)) && COMPAT_EU_ITEM.decharge(aStack, aSize, aDoExtract) >= aSize) return 1;

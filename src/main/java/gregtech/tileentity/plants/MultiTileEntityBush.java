@@ -42,11 +42,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -152,7 +152,7 @@ public class MultiTileEntityBush extends TileEntityBase09FacingSingle implements
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (aTool.equals(TOOL_magnifyingglass)) {
 			if (aChatReturn != null && ST.valid(mBerry)) aChatReturn.add("Grows " + (CODE_CLIENT ? mBerry.getDisplayName() : LH.get(mBerry.getDisplayName())));
@@ -180,7 +180,7 @@ public class MultiTileEntityBush extends TileEntityBase09FacingSingle implements
 	}
 	
 	@Override
-	public boolean canPlace(ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean canPlace(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		TileEntity tTileEntity = aWorld.getTileEntity(aX-OFFX[aSide], aY-OFFY[aSide], aZ-OFFZ[aSide]);
 		if (tTileEntity instanceof MultiTileEntityBush && SIDES_INVALID[((MultiTileEntityBush)tTileEntity).mFacing] && (ST.invalid(mBerry) || ST.equal(((MultiTileEntityBush)tTileEntity).mBerry, mBerry, F))) {
 			mFacing = OPOS[aSide];
@@ -198,7 +198,7 @@ public class MultiTileEntityBush extends TileEntityBase09FacingSingle implements
 	}
 	
 	@Override
-	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, World aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		return T;
 	}
 	
@@ -282,7 +282,7 @@ public class MultiTileEntityBush extends TileEntityBase09FacingSingle implements
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool() {
+	public AABB getCollisionBoundingBoxFromPool() {
 		switch(mFacing) {
 		case SIDE_X_POS: return box(PX_P[14], PX_P[ 2], PX_P[ 2], PX_N[ 0], PX_N[ 2], PX_N[ 2]);
 		case SIDE_Y_POS: return box(PX_P[ 2], PX_P[14], PX_P[ 2], PX_N[ 2], PX_N[ 0], PX_N[ 2]);
@@ -295,7 +295,7 @@ public class MultiTileEntityBush extends TileEntityBase09FacingSingle implements
 	}
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool() {
+	public AABB getSelectedBoundingBoxFromPool() {
 		switch(mFacing) {
 		case SIDE_X_POS: return box(PX_P[12], PX_P[ 2], PX_P[ 2], PX_N[ 0], PX_N[ 2], PX_N[ 2]);
 		case SIDE_Y_POS: return box(PX_P[ 2], PX_P[12], PX_P[ 2], PX_N[ 2], PX_N[ 0], PX_N[ 2]);

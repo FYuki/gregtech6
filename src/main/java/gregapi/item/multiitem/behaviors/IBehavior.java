@@ -35,7 +35,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 
 /**
@@ -44,35 +44,35 @@ import net.minecraft.world.level.Level;
 public interface IBehavior<E extends Item> {
 	public boolean onLeftClickEntity(E aItem, ItemStack aStack, Player aPlayer, Entity aEntity);
 	public boolean onRightClickEntity(E aItem, ItemStack aStack, Player aPlayer, Entity aEntity);
-	public boolean onItemUse(E aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ);
-	public boolean onItemUseFirst(E aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ);
-	public ItemStack onItemRightClick(E aItem, ItemStack aStack, World aWorld, Player aPlayer);
+	public boolean onItemUse(E aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ);
+	public boolean onItemUseFirst(E aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ);
+	public ItemStack onItemRightClick(E aItem, ItemStack aStack, Level aWorld, Player aPlayer);
 	public List<String> getAdditionalToolTips(E aItem, List<String> aList, ItemStack aStack);
-	public void onUpdate(E aItem, ItemStack aStack, World aWorld, Entity aPlayer, int aTimer, boolean aIsInHand);
+	public void onUpdate(E aItem, ItemStack aStack, Level aWorld, Entity aPlayer, int aTimer, boolean aIsInHand);
 	public boolean isItemStackUsable(E aItem, ItemStack aStack);
 	public boolean canDispense(E aItem, IBlockSource aSource, ItemStack aStack);
 	public ItemStack onDispense(E aItem, IBlockSource aSource, ItemStack aStack);
 	public boolean hasProjectile(E aItem, TagData aProjectileType, ItemStack aStack);
-	public EntityProjectile getProjectile(E aItem, TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ);
-	public EntityProjectile getProjectile(E aItem, TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed);
+	public EntityProjectile getProjectile(E aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ);
+	public EntityProjectile getProjectile(E aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed);
 	
 	public abstract class AbstractBehaviorDefault implements IBehavior<MultiItem> {
 		@Override public boolean onLeftClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {return F;}
 		@Override public boolean onRightClickEntity(MultiItem aItem, ItemStack aStack, Player aPlayer, Entity aEntity) {return F;}
-		@Override public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {return F;}
-		@Override public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, World aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {return F;}
-		@Override public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, World aWorld, Player aPlayer) {return aStack;}
+		@Override public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {return F;}
+		@Override public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {return F;}
+		@Override public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, Level aWorld, Player aPlayer) {return aStack;}
 		@Override public List<String> getAdditionalToolTips(MultiItem aItem, List<String> aList, ItemStack aStack) {return aList;}
-		@Override public void onUpdate(MultiItem aItem, ItemStack aStack, World aWorld, Entity aPlayer, int aTimer, boolean aIsInHand) {/**/}
+		@Override public void onUpdate(MultiItem aItem, ItemStack aStack, Level aWorld, Entity aPlayer, int aTimer, boolean aIsInHand) {/**/}
 		@Override public boolean isItemStackUsable(MultiItem aItem, ItemStack aStack) {return T;}
 		@Override public boolean canDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {return F;}
 		@Override public boolean hasProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack) {return F;}
-		@Override public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, World aWorld, double aX, double aY, double aZ) {return null;}
-		@Override public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, World aWorld, LivingEntity aEntity, float aSpeed) {return null;}
+		@Override public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ) {return null;}
+		@Override public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed) {return null;}
 		
 		@Override
 		public ItemStack onDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
-			EnumFacing enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
+			Direction enumfacing = BlockDispenser.func_149937_b(aSource.getBlockMetadata());
 			IPosition iposition = BlockDispenser.func_149939_a(aSource);
 			ItemStack itemstack1 = aStack.splitStack(1);
 			BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);

@@ -108,7 +108,7 @@ public class ItemIntegratedCircuit extends ItemBase {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("unchecked")
-	public final void getSubItems(Item var1, CreativeTabs aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
+	public final void getSubItems(Item var1, CreativeModeTab aCreativeTab, @SuppressWarnings("rawtypes") List aList) {
 		aList.add(ST.make(this, 1, 0));
 	}
 	

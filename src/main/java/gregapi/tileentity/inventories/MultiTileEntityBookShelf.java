@@ -42,10 +42,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
@@ -169,7 +169,7 @@ public class MultiTileEntityBookShelf extends TileEntityBase09FacingSingle imple
 	}
 	
 	@Override
-	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, IInventory aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
+	public long onToolClick2(String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		long rReturn = super.onToolClick2(aTool, aRemainingDurability, aQuality, aPlayer, aChatReturn, aPlayerInventory, aSneaking, aStack, aSide, aHitX, aHitY, aHitZ);
 		if (rReturn > 0 || isClientSide()) return rReturn;
 		if (aTool.equals(TOOL_magnifyingglass) && aPlayer instanceof ServerPlayer) {
@@ -331,7 +331,7 @@ public class MultiTileEntityBookShelf extends TileEntityBase09FacingSingle imple
 		return (ALONG_AXIS[aSide][mFacing]?BooksGT.BOOK_TEXTURES_BACK:BooksGT.BOOK_TEXTURES_SIDE)[UT.Code.unsignB(mDisplay[aRenderPass-7])];
 	}
 	
-	@Override public AxisAlignedBB getSelectedBoundingBoxFromPool() {return box(PX_P[SIDES_AXIS_X[mFacing]?2:0], 0, PX_P[SIDES_AXIS_Z[mFacing]?2:0], PX_N[SIDES_AXIS_X[mFacing]?2:0], 1, PX_N[SIDES_AXIS_Z[mFacing]?2:0]);}
+	@Override public AABB getSelectedBoundingBoxFromPool() {return box(PX_P[SIDES_AXIS_X[mFacing]?2:0], 0, PX_P[SIDES_AXIS_Z[mFacing]?2:0], PX_N[SIDES_AXIS_X[mFacing]?2:0], 1, PX_N[SIDES_AXIS_Z[mFacing]?2:0]);}
 	@Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, PX_P[SIDES_AXIS_X[mFacing]?2:0], 0, PX_P[SIDES_AXIS_Z[mFacing]?2:0], PX_N[SIDES_AXIS_X[mFacing]?2:0], 1, PX_N[SIDES_AXIS_Z[mFacing]?2:0]);}
 	
 	@Override public boolean isSurfaceSolid         (byte aSide) {return !ALONG_AXIS[aSide][mFacing];}

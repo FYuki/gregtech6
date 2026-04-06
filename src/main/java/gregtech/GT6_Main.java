@@ -75,10 +75,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
-import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
+import gregapi.stubs.ChestGenHooks;
+import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
 // PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 // PHASE7: import OreDictionary removed — replaced by Tags
 
@@ -637,8 +636,8 @@ public class GT6_Main extends Abstract_Mod {
 			ORD.println("Biomes:");
 			ORD.println("*"); ORD.println("*"); ORD.println("*");
 			
-			for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++) {
-				if (BiomeGenBase.getBiomeGenArray()[i] != null) ORD.println(BiomeGenBase.getBiomeGenArray()[i].biomeID + " = " + BiomeGenBase.getBiomeGenArray()[i].biomeName);
+			for (int i = 0; i < Biome.getBiomeGenArray().length; i++) {
+				if (Biome.getBiomeGenArray()[i] != null) ORD.println(Biome.getBiomeGenArray()[i].biomeID + " = " + Biome.getBiomeGenArray()[i].biomeName);
 			}
 			
 			ORD.println("*"); ORD.println("*"); ORD.println("*");

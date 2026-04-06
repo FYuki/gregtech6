@@ -50,27 +50,27 @@ public class BlockCFoam extends BlockColored implements IBlockFoamable {
 	}
 	
 	@Override
-	public boolean applyFoam(World aWorld, int aX, int aY, int aZ, byte aSide, short[] aCFoamRGB, byte aVanillaColor) {
+	public boolean applyFoam(Level aWorld, int aX, int aY, int aZ, byte aSide, short[] aCFoamRGB, byte aVanillaColor) {
 		return F;
 	}
 	
 	@Override
-	public boolean dryFoam(World aWorld, int aX, int aY, int aZ, byte aSide) {
+	public boolean dryFoam(Level aWorld, int aX, int aY, int aZ, byte aSide) {
 		return F;
 	}
 	
 	@Override
-	public boolean removeFoam(World aWorld, int aX, int aY, int aZ, byte aSide) {
+	public boolean removeFoam(Level aWorld, int aX, int aY, int aZ, byte aSide) {
 		return aWorld.setBlock(aX, aY, aZ, NB, 0, 3);
 	}
 	
 	@Override
-	public boolean hasFoam(World aWorld, int aX, int aY, int aZ, byte aSide) {
+	public boolean hasFoam(Level aWorld, int aX, int aY, int aZ, byte aSide) {
 		return T;
 	}
 	
 	@Override
-	public boolean driedFoam(World aWorld, int aX, int aY, int aZ, byte aSide) {
+	public boolean driedFoam(Level aWorld, int aX, int aY, int aZ, byte aSide) {
 		return T;
 	}
 }

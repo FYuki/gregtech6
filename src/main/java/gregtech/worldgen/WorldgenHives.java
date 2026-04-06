@@ -33,7 +33,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
-// PHASE5: import BiomeGenBase removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class WorldgenHives extends WorldgenObject {
 	}
 	
 	@Override
-	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
+	public boolean generate(Level aWorld, LevelChunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, Biome[][] aBiomes, Set<String> aBiomeNames) {
 		if (checkForMajorWorldgen(aWorld, aMinX, aMinZ, aMaxX, aMaxZ)) return F;
 		MultiTileEntityRegistry tRegistry = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
 		if (tRegistry == null) return F;
@@ -192,7 +192,7 @@ public class WorldgenHives extends WorldgenObject {
 		return rResult;
 	}
 	
-	public boolean placeHive(MultiTileEntityRegistry aRegistry, int aDimType, World aWorld, int aX, int aY, int aZ, int aColor, int aSpeciesID, Random aRandom) {
+	public boolean placeHive(MultiTileEntityRegistry aRegistry, int aDimType, Level aWorld, int aX, int aY, int aZ, int aColor, int aSpeciesID, Random aRandom) {
 		CompoundTag aBumbleTag;
 		if (aDimType == DIM_OVERWORLD) {
 			aBumbleTag = IItemBumbleBee.Util.getBumbleGenes(WD.envTemp(aWorld, aX, aY, aZ), aWorld.getBiomeGenForCoords(aX, aZ), !aWorld.provider.hasNoSky && aWorld.getPrecipitationHeight(aX, aZ) <= aY + 5, aRandom);

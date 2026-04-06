@@ -38,7 +38,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.BlockFluidFinite;
+import gregapi.stubs.BlockFluidFinite;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import static gregapi.data.CS.*;
@@ -74,7 +74,7 @@ public class MultiTileEntityFluidSpring extends TileEntityBase04MultiTileEntitie
 	public static MultiTileEntityRegistry MTE_REGISTRY = null;
 	public static MultiTileEntityFluidSpring INSTANCE;
 	
-	public static boolean setBlock(World aWorld, int aX, int aY, int aZ, FluidStack aSpring) {
+	public static boolean setBlock(Level aWorld, int aX, int aY, int aZ, FluidStack aSpring) {
 		return MTE_REGISTRY.mBlock.placeBlock(aWorld, aX, aY, aZ, SIDE_UP, INSTANCE.getMultiTileEntityID(), UT.NBT.make("gt.spring", aSpring), T, F);
 	}
 	
