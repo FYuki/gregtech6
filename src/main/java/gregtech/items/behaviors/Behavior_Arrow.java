@@ -67,8 +67,8 @@ public class Behavior_Arrow extends AbstractBehaviorDefault {
 		if (aEntity instanceof LivingEntity) {
 			Enchantments.applyBullshitA((LivingEntity)aEntity, aPlayer, aStack);
 			Enchantments.applyBullshitB(aPlayer, aEntity, aStack);
-			if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
-			if (aStack.stackSize <= 0) aPlayer.destroyCurrentEquippedItem();
+			if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
+			if (aStack.getCount() <= 0) aPlayer.destroyCurrentEquippedItem();
 			return F;
 		}
 		return F;
@@ -79,7 +79,7 @@ public class Behavior_Arrow extends AbstractBehaviorDefault {
 		if (mEnchantment != null && mLevel > 0) {
 			CompoundTag tNBT = UT.NBT.getNBT(aStack);
 			if (!tNBT.getBoolean("gt.u")) {
-				tNBT.setBoolean("gt.u", T);
+				tNBT.putBoolean("gt.u", T);
 				UT.NBT.set(aStack, tNBT);
 				UT.NBT.addEnchantment(aStack, mEnchantment, mLevel);
 			}
@@ -103,7 +103,7 @@ public class Behavior_Arrow extends AbstractBehaviorDefault {
 			tEntityArrow.setProjectileStack(aStack);
 			tEntityArrow.canBePickedUp = 1;
 			aWorld.spawnEntityInWorld(tEntityArrow);
-			if (aStack.stackSize < 100) aStack.stackSize--;
+			if (aStack.getCount() < 100) aStack.shrink(1);
 			return aStack;
 		}
 		return super.onDispense(aItem, aSource, aStack);

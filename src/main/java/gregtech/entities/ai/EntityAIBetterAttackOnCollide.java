@@ -131,7 +131,7 @@ public class EntityAIBetterAttackOnCollide extends Goal {
 					mAttackCoolDown = 20;
 					tAttacking = F;
 					
-					if (--tHeld.stackSize <= 0) mCreature.setCurrentItemOrArmor(0, NI);
+					if (--tHeld.getCount() <= 0) mCreature.setCurrentItemOrArmor(0, NI);
 					
 					if (!mWorld.isRemote) {
 						PrimedTnt entitytntprimed = new PrimedTnt(mWorld, mCreature.posX, mCreature.posY, mCreature.posZ, mCreature);

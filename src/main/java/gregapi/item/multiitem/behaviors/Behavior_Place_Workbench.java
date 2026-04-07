@@ -49,10 +49,10 @@ public class Behavior_Place_Workbench extends AbstractBehaviorDefault {
 			ItemStack tStack = aPlayer.inventory.mainInventory[aPlayer.inventory.mainInventory.length-i-1];
 			if (!OD.craftingWorkBench.is(tStack)) continue;
 			
-			int tOldSize = tStack.stackSize;
+			int tOldSize = tStack.getCount();
 			if (tStack.tryPlaceItemIntoWorld(aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ)) {
 				if (UT.Entities.hasInfiniteItems(aPlayer)) {
-					tStack.stackSize = tOldSize;
+					tStack.setCount(tOldSize);
 				} else {
 					ST.use(aPlayer, T, tStack, 0);
 				}

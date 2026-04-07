@@ -47,7 +47,7 @@ public abstract class TileEntityBase09PowerCell extends TileEntityBase08Battery 
 			mEnergy = 0;
 			ST.set(aStack, getEmptyPowerCell(), F, F);
 		}
-		UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make()));
+		UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make()));
 		return ST.update_(aStack);
 	}
 	

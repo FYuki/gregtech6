@@ -70,7 +70,7 @@ public class MultiTileEntityFluidNozzle extends TileEntityBase11AttachmentSmall 
 	@Override
 	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mFacing);
 			if (tDelegator.mTileEntity instanceof ITileEntityTapAccessible) {
 				FluidStack aFluid = ((ITileEntityTapAccessible)tDelegator.mTileEntity).nozzleDrain(tDelegator.mSideOfTileEntity, Integer.MAX_VALUE, F);
 				if (FL.gas(aFluid, F) && aFluid.amount > 0 && (mAcidProof || !FL.acid(aFluid))) {
@@ -113,7 +113,7 @@ public class MultiTileEntityFluidNozzle extends TileEntityBase11AttachmentSmall 
 					ItemStack tStack = FL.fill(tNewFluid, ST.amount(1, aStack), T, T, T, T);
 					if (aFluid.amount > tNewFluid.amount && ((ITileEntityTapAccessible)tDelegator.mTileEntity).nozzleDrain(tDelegator.mSideOfTileEntity, aFluid.amount - tNewFluid.amount, T) != null) {
 						UT.Sounds.send(SFX.MC_FIZZ, 1.0F, 2.0F, this, F);
-						aStack.stackSize--;
+						aStack.shrink(1);
 						ST.give(aPlayer, tStack, T);
 						return T;
 					}

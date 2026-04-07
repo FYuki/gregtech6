@@ -47,7 +47,7 @@ import gregapi.stubs.IIcon; // stub
  * @author Gregorius Techneticies
  */
 public abstract class BlockBaseLog extends BlockBaseTree {
-	public BlockBaseLog(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
+	public BlockBaseLog(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, Math.min(4, aMaxMeta), aIcons);
 		
 		// To make All-Bark Logs.

@@ -72,8 +72,8 @@ public abstract class MultiTileEntityReactorCore extends TileEntityBase10FacingD
 		mTanks[0].readFromNBT(aNBT, NBT_TANK+".0");
 		mTanks[1].readFromNBT(aNBT, NBT_TANK+".1");
 		for (int i = 0; i < 4; i++) {
-			mNeutronCounts[i] = aNBT.getInteger(NBT_VALUE+".m."+i);
-			oNeutronCounts[i] = aNBT.getInteger(NBT_VALUE+".o."+i);
+			mNeutronCounts[i] = aNBT.getInt(NBT_VALUE+".m."+i);
+			oNeutronCounts[i] = aNBT.getInt(NBT_VALUE+".o."+i);
 		}
 		
 		if (worldObj != null && isServerSide() && mHasToAddTimer) {
@@ -88,8 +88,8 @@ public abstract class MultiTileEntityReactorCore extends TileEntityBase10FacingD
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_MODE, mMode);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mRunning);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mRunning);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
 		mTanks[0].writeToNBT(aNBT, NBT_TANK+".0");
 		mTanks[1].writeToNBT(aNBT, NBT_TANK+".1");
 		for (int i = 0; i < 4; i++) {

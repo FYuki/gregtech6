@@ -71,11 +71,11 @@ public abstract class TileEntityBase10EnergyBatBox extends TileEntityBase09Facin
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mMode != 0) aNBT.setByte(NBT_MODE, mMode);
+		if (mMode != 0) aNBT.putByte(NBT_MODE, mMode);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
 	}
 	
 	static {LH.add("gt.tooltip.energybattery.1", "Selector Covers can set the amount of emitted Packets");}

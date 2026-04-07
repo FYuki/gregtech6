@@ -60,7 +60,7 @@ public class MultiTileEntityCrank extends TileEntityBase11AttachmentSmall implem
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
 	}
 	
 	@Override

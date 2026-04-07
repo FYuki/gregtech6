@@ -67,7 +67,7 @@ public class MultiTileEntityAutoToolHammer extends TileEntityBase09FacingSingle 
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_STATE, mPullingBack);
+		UT.NBT.putBoolean(aNBT, NBT_STATE, mPullingBack);
 	}
 	
 	@Override
@@ -82,7 +82,7 @@ public class MultiTileEntityAutoToolHammer extends TileEntityBase09FacingSingle 
 	public void onTick2(long aTimer, boolean aIsServerSide) {
 		if (aIsServerSide) {
 			if (mPullingBack && mEnergy > 0) {
-				DelegatorTileEntity<TileEntity> tD = getAdjacentTileEntity(mFacing);
+				DelegatorTileEntity<BlockEntity> tD = getAdjacentTileEntity(mFacing);
 				if (IBlockToolable.Util.onToolClick(TOOL_hammer, mEnergy * 10, mQuality, null, null, null, F, null, tD.mWorld, tD.mSideOfTileEntity, tD.mX, tD.mY, tD.mZ, 0.5F, 0.5F, 0.5F) > 0) {
 					mSendSound = 1;
 				} else {

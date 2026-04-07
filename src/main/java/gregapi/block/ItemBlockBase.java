@@ -34,7 +34,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -42,7 +42,7 @@ import java.util.List;
 import static gregapi.data.CS.*;
 import gregapi.stubs.IIcon; // stub
 
-public class ItemBlockBase extends ItemBlock implements IBlock, IItemGT {
+public class ItemBlockBase extends BlockItem implements IBlock, IItemGT {
 	public final IBlockBase mPlaceable;
 	
 	public ItemBlockBase(Block aBlock) {

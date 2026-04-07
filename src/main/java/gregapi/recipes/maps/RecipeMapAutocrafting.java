@@ -114,7 +114,7 @@ public class RecipeMapAutocrafting extends RecipeMap {
 		for (ItemStack tPlan : tBlueprint) if (tPlan != null) {
 			boolean temp = T;
 			for (ItemStack tInput : tInputs) if (ST.equal(tInput, tPlan, F)) {
-				tInput.stackSize++;
+				tInput.grow(1);
 				tOutputs.add(ST.container(tPlan, F));
 				temp = F;
 			}
@@ -124,7 +124,7 @@ public class RecipeMapAutocrafting extends RecipeMap {
 			}
 		}
 		
-		for (ItemStack tInput : tInputs) if (OM.is_("gt:autocrafterinfinite", tInput)) tInput.stackSize = 0;
+		for (ItemStack tInput : tInputs) if (OM.is_("gt:autocrafterinfinite", tInput)) tInput.setCount(0);
 		
 		return new Recipe(T, F, T, tInputs.toArray(ZL_IS), tOutputs.toArray(ZL_IS), null, null, null, null, 1024, 16, 0);
 	}
@@ -135,14 +135,14 @@ public class RecipeMapAutocrafting extends RecipeMap {
 		if (IL.Paper_Blueprint_Used.equal(aSpecialSlot, F, T)) {
 			rBlueprint = UT.NBT.getBlueprintCrafting(aSpecialSlot);
 		} else if (OM.is_(OD_USB_STICKS[1], aSpecialSlot)) {
-			if (!aSpecialSlot.hasTagCompound()) return rBlueprint;
+			if (!aSpecialSlot.hasTag()) return rBlueprint;
 			CompoundTag tData = aSpecialSlot.getTagCompound().getCompoundTag(NBT_USB_DATA);
 			if (tData == null) return rBlueprint;
 			rBlueprint = UT.NBT.getBlueprintCrafting(tData);
 		} else if (OM.is_(OD_USB_CABLES[1], aSpecialSlot)) {
 			if (aTileEntity == null) return rBlueprint;
-			for (byte tSide : ALL_SIDES_VALID_ONLY[aSpecialSlot.hasTagCompound() && aSpecialSlot.getTagCompound().hasKey(NBT_USB_DIRECTION) ? aSpecialSlot.getTagCompound().getByte(NBT_USB_DIRECTION) : SIDE_ANY]) {
-				DelegatorTileEntity<TileEntity> tDelegator = aTileEntity.getAdjacentTileEntity(tSide);
+			for (byte tSide : ALL_SIDES_VALID_ONLY[aSpecialSlot.hasTag() && aSpecialSlot.getTagCompound().hasKey(NBT_USB_DIRECTION) ? aSpecialSlot.getTagCompound().getByte(NBT_USB_DIRECTION) : SIDE_ANY]) {
+				DelegatorTileEntity<BlockEntity> tDelegator = aTileEntity.getAdjacentTileEntity(tSide);
 				if (tDelegator.mTileEntity instanceof ITileEntityUSBPort) {
 					CompoundTag tData = ((ITileEntityUSBPort)tDelegator.mTileEntity).getUSBData(tDelegator.mSideOfTileEntity, 1);
 					if (tData == null) continue;

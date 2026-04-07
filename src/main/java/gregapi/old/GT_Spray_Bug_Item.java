@@ -59,7 +59,7 @@ public class GT_Spray_Bug_Item extends GT_Tool_Item {
 		Block aBlock = aWorld.getBlock(aX, aY, aZ);
 		if (aBlock == null) return false;
 //      byte aMeta = (byte)aWorld.getBlockMetadata(aX, aY, aZ);
-		TileEntity aTileEntity = UT.Worlds.getTileEntity(aWorld, aX, aY, aZ, true);
+		BlockEntity aTileEntity = UT.Worlds.getTileEntity(aWorld, aX, aY, aZ, true);
 		
 		try {
 			if (aTileEntity instanceof ic2.api.crops.ICropTile) {

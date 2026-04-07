@@ -73,15 +73,15 @@ public class MultiTileEntityFilterPrefix extends MultiTileEntityExtender impleme
 	
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
-		UT.NBT.setBoolean(aNBT, NBT_INVERTED, mInverted);
-		if (mFilter != null) aNBT.setString(NBT_INV_FILTER, mFilter.mNameInternal);
+		UT.NBT.putBoolean(aNBT, NBT_INVERTED, mInverted);
+		if (mFilter != null) aNBT.putString(NBT_INV_FILTER, mFilter.mNameInternal);
 		super.writeToNBT2(aNBT);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		UT.NBT.setBoolean(aNBT, NBT_INVERTED, mInverted);
-		if (mFilter != null) aNBT.setString(NBT_INV_FILTER, mFilter.mNameInternal);
+		UT.NBT.putBoolean(aNBT, NBT_INVERTED, mInverted);
+		if (mFilter != null) aNBT.putString(NBT_INV_FILTER, mFilter.mNameInternal);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -98,7 +98,7 @@ public class MultiTileEntityFilterPrefix extends MultiTileEntityExtender impleme
 		}
 	}
 	
-	@Override public DelegatorTileEntity<TileEntity> getDelegateTileEntity(byte aSide) {return delegator(aSide);}
+	@Override public DelegatorTileEntity<BlockEntity> getDelegateTileEntity(byte aSide) {return delegator(aSide);}
 	@Override public Object getGUIClient2(int aGUIID, Player aPlayer) {return new MultiTileEntityGUIClientFilterPrefix(aPlayer.inventory, this, aGUIID);}
 	@Override public Object getGUIServer2(int aGUIID, Player aPlayer) {return new MultiTileEntityGUICommonFilterPrefix(aPlayer.inventory, this, aGUIID);}
 	@Override public int getSizeInventoryGUI() {return 1;}

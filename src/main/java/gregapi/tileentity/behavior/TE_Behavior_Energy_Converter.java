@@ -34,7 +34,7 @@ public class TE_Behavior_Energy_Converter extends TE_Behavior {
 	public long mMultiplier = 1;
 	public byte mFactor = 1;
 	
-	public TE_Behavior_Energy_Converter(TileEntity aTileEntity, CompoundTag aNBT, TE_Behavior_Energy_Capacitor aStorage, TE_Behavior_Energy_Stats aEnergyIN, TE_Behavior_Energy_Stats aEnergyOUT, long aMultiplier, boolean aWasteEnergy, boolean aNegativeOutput, boolean aLimitConsumption) {
+	public TE_Behavior_Energy_Converter(BlockEntity aTileEntity, CompoundTag aNBT, TE_Behavior_Energy_Capacitor aStorage, TE_Behavior_Energy_Stats aEnergyIN, TE_Behavior_Energy_Stats aEnergyOUT, long aMultiplier, boolean aWasteEnergy, boolean aNegativeOutput, boolean aLimitConsumption) {
 		super(aTileEntity, aNBT);
 		mStorage = aStorage;
 		mEnergyIN = aEnergyIN;
@@ -54,11 +54,11 @@ public class TE_Behavior_Energy_Converter extends TE_Behavior {
 	
 	@Override
 	public void save(CompoundTag aNBT) {
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_CAN_ENERGY, mCanEmitEnergy);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
+		UT.NBT.putBoolean(aNBT, NBT_CAN_ENERGY, mCanEmitEnergy);
 	}
 	
-	public boolean doConversion(long aTimer, TileEntity aEmitter, byte aSide, byte aMode, boolean aNegative) {
+	public boolean doConversion(long aTimer, BlockEntity aEmitter, byte aSide, byte aMode, boolean aNegative) {
 		long tOutput = UT.Code.units(mStorage.mEnergy, mEnergyIN.mRec, mEnergyOUT.mRec, F);
 		if (aMode > 0) tOutput = Math.min(tOutput, UT.Code.units(mEnergyOUT.mMax, 16, 16-aMode, F));
 		mCanEmitEnergy = (tOutput >= mEnergyOUT.mMin);
@@ -93,7 +93,7 @@ public class TE_Behavior_Energy_Converter extends TE_Behavior {
 		return mCanEmitEnergy;
 	}
 	
-	public boolean doBipolar(long aTimer, TileEntity aEmitter, byte aSidePos, byte aSideNeg, byte aMode) {
+	public boolean doBipolar(long aTimer, BlockEntity aEmitter, byte aSidePos, byte aSideNeg, byte aMode) {
 		long tOutput = UT.Code.units(mStorage.mEnergy, mEnergyIN.mRec, mEnergyOUT.mRec, F);
 		if (aMode > 0) tOutput = Math.min(tOutput, UT.Code.units(mEnergyOUT.mMax, 16, 16-aMode, F));
 		mCanEmitEnergy = (tOutput >= mEnergyOUT.mMin);
@@ -132,7 +132,7 @@ public class TE_Behavior_Energy_Converter extends TE_Behavior {
 		return mCanEmitEnergy;
 	}
 	
-	public boolean doTwinType(long aTimer, TileEntity aEmitter, byte aSide1, byte aSide2, byte aMode, TE_Behavior_Energy_Stats aEnergyOUT) {
+	public boolean doTwinType(long aTimer, BlockEntity aEmitter, byte aSide1, byte aSide2, byte aMode, TE_Behavior_Energy_Stats aEnergyOUT) {
 		long tOutput = UT.Code.units(mStorage.mEnergy, mEnergyIN.mRec, mEnergyOUT.mRec, F);
 		if (aMode > 0) tOutput = Math.min(tOutput, UT.Code.units(mEnergyOUT.mMax, 16, 16-aMode, F));
 		mCanEmitEnergy = (tOutput >= mEnergyOUT.mMin);

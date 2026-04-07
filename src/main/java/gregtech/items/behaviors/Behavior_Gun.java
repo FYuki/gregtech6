@@ -334,7 +334,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		CompoundTag aNBT = UT.NBT.getOrCreate(aGun);
 		ItemStack aBullet = ST.load(aNBT, NBT_AMMO);
 		if (aPlayer.isSneaking()) {
-			if (ST.invalid(aBullet) || aBullet.stackSize <= 0) {
+			if (ST.invalid(aBullet) || aBullet.getCount() <= 0) {
 				reloadGun(aGun, aPlayer, F);
 				return aGun;
 			}
@@ -343,7 +343,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 			ST.save(aNBT, NBT_AMMO, NI);
 			return aGun;
 		}
-		if (ST.invalid(aBullet) || aBullet.stackSize <= 0) {
+		if (ST.invalid(aBullet) || aBullet.getCount() <= 0) {
 			UT.Sounds.send(SFX.MC_CLICK, 16, aPlayer);
 			ST.save(aNBT, NBT_AMMO, NI);
 			return aGun;
@@ -352,8 +352,8 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		UT.Sounds.send(SFX.MC_FIREWORK_BLAST_FAR, 128, aPlayer);
 		if (!UT.Entities.hasInfiniteItems(aPlayer) && RNGSUS.nextInt(1+UT.NBT.getEnchantmentLevel(Enchantment.infinity, aGun)) == 0) {
 			OreDictItemData tData = OM.anydata(aBullet);
-			aBullet.stackSize--;
-			ST.save(aNBT, NBT_AMMO, aBullet.stackSize > 0 ? aBullet : NI);
+			aBullet.shrink(1);
+			ST.save(aNBT, NBT_AMMO, aBullet.getCount() > 0 ? aBullet : NI);
 			for (OreDictMaterialStack tMat : tData.mByProducts) if (tMat.mAmount >= OP.scrapGt.mAmount && !tMat.mMaterial.containsAny(TD.Properties.EXPLOSIVE, TD.Properties.FLAMMABLE)) ST.give(aPlayer, OP.scrapGt.mat(tMat.mMaterial, tMat.mAmount/OP.scrapGt.mAmount));
 		}
 		((MultiItemTool)aItem).doDamage(aGun, 100, aPlayer, F);
@@ -364,7 +364,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 	public List<String> getAdditionalToolTips(MultiItem aItem, List<String> aList, ItemStack aStack) {
 		aList.add(LH.Chat.CYAN + LH.get(LH.WEAPON_SNEAK_RIGHTCLICK_TO_RELOAD));
 		ItemStack aBullet = ST.load(UT.NBT.getNBT(aStack), NBT_AMMO);
-		if (ST.valid(aBullet)) aList.add(LH.Chat.YELLOW + aBullet.getDisplayName() + LH.Chat._WHITE + aBullet.stackSize);
+		if (ST.valid(aBullet)) aList.add(LH.Chat.YELLOW + aBullet.getDisplayName() + LH.Chat._WHITE + aBullet.getCount());
 		return aList;
 	}
 	
@@ -375,9 +375,9 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 	public boolean reloadGun(ItemStack aGun, Player aPlayer, boolean aOnlyCheckHeld) {
 		CompoundTag aNBT = UT.NBT.getOrCreate(aGun);
 		ItemStack aBullet = ST.load(aNBT, NBT_AMMO);
-		if (ST.valid(aBullet) && aBullet.stackSize > 0) return F;
+		if (ST.valid(aBullet) && aBullet.getCount() > 0) return F;
 		if (isProjectile(aPlayer.inventory.mainInventory[aPlayer.inventory.currentItem])) {
-			int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[aPlayer.inventory.currentItem].stackSize);
+			int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[aPlayer.inventory.currentItem].getCount());
 			UT.Sounds.send(SFX.MC_CLICK, 16, aPlayer);
 			ST.save(aNBT, NBT_AMMO, ST.amount(tConsumed, aPlayer.inventory.mainInventory[aPlayer.inventory.currentItem]));
 			aPlayer.inventory.decrStackSize(aPlayer.inventory.currentItem, tConsumed);
@@ -389,21 +389,21 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 			if (i < 27 && isProjectile(aPlayer.inventory.mainInventory[i+27])) {
 			if (i < 18 && isProjectile(aPlayer.inventory.mainInventory[i+18])) {
 			if (i <  9 && isProjectile(aPlayer.inventory.mainInventory[i+ 9])) {
-				int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[i+ 9].stackSize);
+				int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[i+ 9].getCount());
 				UT.Sounds.send(SFX.MC_CLICK, 16, aPlayer);
 				ST.save(aNBT, NBT_AMMO, ST.amount(tConsumed, aPlayer.inventory.mainInventory[i+ 9]));
 				aPlayer.inventory.decrStackSize(i+ 9, tConsumed);
 				ST.update(aPlayer);
 				return T;
 			}
-				int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[i+18].stackSize);
+				int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[i+18].getCount());
 				UT.Sounds.send(SFX.MC_CLICK, 16, aPlayer);
 				ST.save(aNBT, NBT_AMMO, ST.amount(tConsumed, aPlayer.inventory.mainInventory[i+18]));
 				aPlayer.inventory.decrStackSize(i+18, tConsumed);
 				ST.update(aPlayer);
 				return T;
 			}
-				int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[i+27].stackSize);
+				int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[i+27].getCount());
 				UT.Sounds.send(SFX.MC_CLICK, 16, aPlayer);
 				ST.save(aNBT, NBT_AMMO, ST.amount(tConsumed, aPlayer.inventory.mainInventory[i+27]));
 				aPlayer.inventory.decrStackSize(i+27, tConsumed);
@@ -413,7 +413,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 			break;
 		}
 		for (int i = aPlayer.inventory.mainInventory.length-1; i >= 0; i--) if (isProjectile(aPlayer.inventory.mainInventory[i])) {
-			int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[i].stackSize);
+			int tConsumed = Math.min(mAmmoPerMag, aPlayer.inventory.mainInventory[i].getCount());
 			UT.Sounds.send(SFX.MC_CLICK, 16, aPlayer);
 			ST.save(aNBT, NBT_AMMO, ST.amount(tConsumed, aPlayer.inventory.mainInventory[i]));
 			aPlayer.inventory.decrStackSize(i, tConsumed);

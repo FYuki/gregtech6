@@ -49,12 +49,12 @@ public class MultiTileEntityTPSmeter extends MultiTileEntitySensorTE {
 	}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		return mCurrentTime;
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		return 2000;
 	}
 	

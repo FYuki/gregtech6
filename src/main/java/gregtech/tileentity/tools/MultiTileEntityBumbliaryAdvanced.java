@@ -68,7 +68,7 @@ public class MultiTileEntityBumbliaryAdvanced extends TileEntityBase07Paintable 
 		if (aNBT.hasKey(NBT_PROGRESS)) mLife = aNBT.getLong(NBT_PROGRESS);
 		if (aNBT.hasKey(NBT_COOLDOWN)) mBreedingCountDown = aNBT.getLong(NBT_COOLDOWN);
 		if (aNBT.hasKey(NBT_INV_OUT)) {
-			mOffSpring = new ItemStack[aNBT.getInteger(NBT_INV_OUT)];
+			mOffSpring = new ItemStack[aNBT.getInt(NBT_INV_OUT)];
 			for (int i = 0; i < mOffSpring.length; i++) mOffSpring[i] = ST.load(aNBT, NBT_INV_OUT+"."+i);
 		}
 	}
@@ -252,7 +252,7 @@ public class MultiTileEntityBumbliaryAdvanced extends TileEntityBase07Paintable 
 								
 								mLife = Util.getLifeSpan(tRoyalTag);
 								
-								int tLoss = (tBreedSlot == SLOT_DRONE && tBreedStack.stackSize > 1 ? 2 : 1);
+								int tLoss = (tBreedSlot == SLOT_DRONE && tBreedStack.getCount() > 1 ? 2 : 1);
 								ItemStack tDead = tBreedItem.bumbleKill(ST.amount(tLoss, tBreedStack));
 								for (int tDeadSlot : SLOTS_DEAD) if (addStackToSlot(tDeadSlot, tDead)) break;
 								decrStackSize(tBreedSlot, tLoss);

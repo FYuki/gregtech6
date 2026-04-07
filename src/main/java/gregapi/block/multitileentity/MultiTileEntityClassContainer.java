@@ -30,15 +30,15 @@ import net.minecraft.world.level.block.entity.BlockEntity;
  * @author Gregorius Techneticies
  */
 public class MultiTileEntityClassContainer {
-	public final Class<? extends TileEntity> mClass;
+	public final Class<? extends BlockEntity> mClass;
 	public final MultiTileEntityBlock mBlock;
-	public final TileEntity mCanonicalTileEntity;
+	public final BlockEntity mCanonicalTileEntity;
 	public final CompoundTag mParameters;
 	public final byte mBlockMetaData, mStackSize;
 	public final short mID, mCreativeTabID;
 	public final boolean mHidden;
 	
-	public MultiTileEntityClassContainer(int aID, int aCreativeTabID, Class<? extends TileEntity> aClass, int aBlockMetaData, int aStackSize, MultiTileEntityBlock aBlock, CompoundTag aParameters) {
+	public MultiTileEntityClassContainer(int aID, int aCreativeTabID, Class<? extends BlockEntity> aClass, int aBlockMetaData, int aStackSize, MultiTileEntityBlock aBlock, CompoundTag aParameters) {
 		if (!IMultiTileEntity.class.isAssignableFrom(aClass)) throw new IllegalArgumentException("MultiTileEntities must implement the Interface IMultiTileEntity!");
 		mBlockMetaData = (byte)aBlockMetaData;
 		mStackSize = (byte)aStackSize;
@@ -48,7 +48,7 @@ public class MultiTileEntityClassContainer {
 		mCreativeTabID = (short)aCreativeTabID;
 		mBlock = aBlock;
 		mClass = aClass;
-		if (mParameters.hasKey(NBT_MATERIAL) && !mParameters.hasKey(NBT_COLOR)) mParameters.setInteger(NBT_COLOR, UT.Code.getRGBInt(OreDictMaterial.get(mParameters.getString(NBT_MATERIAL)).fRGBaSolid));
+		if (mParameters.hasKey(NBT_MATERIAL) && !mParameters.hasKey(NBT_COLOR)) mParameters.putInt(NBT_COLOR, UT.Code.getRGBInt(OreDictMaterial.get(mParameters.getString(NBT_MATERIAL)).fRGBaSolid));
 		try {mCanonicalTileEntity = aClass.newInstance();} catch (Throwable e) {throw new IllegalArgumentException(e);}
 		if (mCanonicalTileEntity instanceof IMultiTileEntity) ((IMultiTileEntity)mCanonicalTileEntity).initFromNBT(mParameters, mID, (short)-1);
 	}

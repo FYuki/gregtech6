@@ -63,7 +63,7 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 	
 	@Override
 	public ItemStack onDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
-		if (aStack.stackSize > 1) return super.onDispense(aItem, aSource, aStack);
+		if (aStack.getCount() > 1) return super.onDispense(aItem, aSource, aStack);
 		FluidStack mFluid = FL.getFluid(aStack, T);
 		ItemStack tBucket = ST.make(Items.bucket, 1, 0);
 		
@@ -172,7 +172,7 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 				if (MD.HO.mLoaded && IguanaConfig.milkedTimeout > 0 && !UT.Entities.hasInfiniteItems(aPlayer)) {
 					CompoundTag tNBT = aEntity.getEntityData();
 					if (tNBT.hasKey("Milked")) return T;
-					tNBT.setInteger("Milked", IguanaConfig.milkedTimeout * 60);
+					tNBT.putInt("Milked", IguanaConfig.milkedTimeout * 60);
 				}
 				ST.set(aStack, FL.fill(FL.Milk.make(Integer.MAX_VALUE), aStack, F, T, T, T));
 			}
@@ -205,14 +205,14 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 		if (aWasFull) {
 			if (aBucket.getItem() == Items.bucket) {
 				aBucket = ST.container(aStack, F);
-				if (aBucket == null) aStack.stackSize = 0; else aStack = aBucket;
+				if (aBucket == null) aStack.setCount(0); else aStack = aBucket;
 				return aStack;
 			}
 		} else {
 			FluidStack tFluid = FL.getFluid(aBucket, T);
 			if (tFluid != null) {
 				aBucket = FL.fill(tFluid, aStack, F, T, F, T);
-				if (aBucket == null) aStack.stackSize = 0; else aStack = aBucket;
+				if (aBucket == null) aStack.setCount(0); else aStack = aBucket;
 				return aStack;
 			}
 		}

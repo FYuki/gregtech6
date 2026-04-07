@@ -45,7 +45,7 @@ public class Behavior_Watering_Crops extends AbstractBehaviorDefault {
 		if (aWorld.isRemote || aPlayer == null || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		FluidStack mFluid = ((IFluidContainerItem)aItem).getFluid(aStack);
 		if (FL.water(mFluid)) {
-			TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, F);
+			BlockEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, F);
 			try {if (tTileEntity instanceof ICropTile) {
 				int tHydration = ((ICropTile)tTileEntity).getHydrationStorage();
 				int tDrained = Math.min((200-tHydration)/10, mFluid.amount);

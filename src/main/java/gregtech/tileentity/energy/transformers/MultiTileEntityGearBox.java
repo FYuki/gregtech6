@@ -73,13 +73,13 @@ public class MultiTileEntityGearBox extends TileEntityBase07Paintable implements
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mJammed);
-		aNBT.setByte(NBT_CONNECTION, (byte)mAxleGear);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mJammed);
+		aNBT.putByte(NBT_CONNECTION, (byte)mAxleGear);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		aNBT.setByte(NBT_CONNECTION, (byte)mAxleGear);
+		aNBT.putByte(NBT_CONNECTION, (byte)mAxleGear);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -267,7 +267,7 @@ public class MultiTileEntityGearBox extends TileEntityBase07Paintable implements
 		return mRotationData;
 	}
 	
-	/** This is only ever called whenever the Axle or Gears change or when the Gearbox TileEntity is loaded. */
+	/** This is only ever called whenever the Axle or Gears change or when the Gearbox BlockEntity is loaded. */
 	public boolean checkGears() {
 		// Just in case something broke during setting up the Gearbox.
 		mIgnorePower = 0;

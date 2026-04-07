@@ -70,7 +70,7 @@ public class MultiTileEntityEnderGarbageDump extends TileEntityBase07Paintable i
 	public void onTick2(long aTimer, boolean aIsServerSide) {
 		super.onTick2(aTimer, aIsServerSide);
 		if (aIsServerSide) {
-			DelegatorTileEntity<TileEntity> tDelegate = getAdjacentTileEntity(SIDE_BOTTOM, T, F);
+			DelegatorTileEntity<BlockEntity> tDelegate = getAdjacentTileEntity(SIDE_BOTTOM, T, F);
 			if (!(tDelegate.mTileEntity instanceof MultiTileEntityEnderGarbageBin)) {
 				if (!GarbageGT.GARBAGE_ITEMS.isEmpty()) ST.move(delegator(SIDE_BOTTOM), tDelegate);
 				if (!GarbageGT.GARBAGE_FLUIDS.isEmpty()) if (tDelegate.mTileEntity instanceof IFluidHandler) FL.move_(GarbageGT.GARBAGE_FLUIDS, tDelegate);
@@ -107,10 +107,10 @@ public class MultiTileEntityEnderGarbageDump extends TileEntityBase07Paintable i
 	public ItemStack decrStackSize(int aSlot, int aDecrement) {
 		ItemStack tStack = GarbageGT.GARBAGE_ITEMS.get(aSlot);
 		if (tStack == null) return null;
-		aDecrement = Math.min(tStack.stackSize, aDecrement);
+		aDecrement = Math.min(tStack.getCount(), aDecrement);
 		if (aDecrement <= 0) return null;
 		ItemStack rStack = ST.amount(aDecrement, tStack);
-		tStack.stackSize -= aDecrement;
+		tStack.shrink(aDecrement);
 		updateInventory();
 		return rStack;
 	}
@@ -127,12 +127,12 @@ public class MultiTileEntityEnderGarbageDump extends TileEntityBase07Paintable i
 	
 	@Override
 	public void setInventorySlotContents(int aSlot, ItemStack aStack) {
-		GarbageGT.GARBAGE_ITEMS.get(aSlot).stackSize = (aStack == null ? 0 : aStack.stackSize);
+		GarbageGT.GARBAGE_ITEMS.get(aSlot).getCount() = (aStack == null ? 0 : aStack.getCount());
 		updateInventory();
 	}
 	
 	@Override public boolean canInsertItem2(int aSlot, ItemStack aStack, byte aSide) {return F;}
-	@Override public boolean canExtractItem2(int aSlot, ItemStack aStack, byte aSide) {return GarbageGT.GARBAGE_ITEMS.get(aSlot).stackSize > 0;}
+	@Override public boolean canExtractItem2(int aSlot, ItemStack aStack, byte aSide) {return GarbageGT.GARBAGE_ITEMS.get(aSlot).getCount() > 0;}
 	
 	@Override
 	public FluidStack tapDrain(byte aSide, int aMaxDrain, boolean aDoDrain) {

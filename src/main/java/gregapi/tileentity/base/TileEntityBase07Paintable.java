@@ -54,11 +54,11 @@ public abstract class TileEntityBase07Paintable extends TileEntityBase06Covers i
 	@Override
 	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
-		if (aNBT.hasKey(NBT_COLOR)) mRGBa = aNBT.getInteger(NBT_COLOR);
+		if (aNBT.hasKey(NBT_COLOR)) mRGBa = aNBT.getInt(NBT_COLOR);
 		if (aNBT.hasKey(NBT_PAINTED)) mIsPainted = aNBT.getBoolean(NBT_PAINTED);
 		if (aNBT.hasKey(NBT_HARDNESS)) mHardness = aNBT.getFloat(NBT_HARDNESS);
 		if (aNBT.hasKey(NBT_RESISTANCE)) mResistance = aNBT.getFloat(NBT_RESISTANCE);
-		if (aNBT.hasKey(NBT_FLAMMABILITY)) mFlammability = aNBT.getInteger(NBT_FLAMMABILITY);
+		if (aNBT.hasKey(NBT_FLAMMABILITY)) mFlammability = aNBT.getInt(NBT_FLAMMABILITY);
 		if (aNBT.hasKey(NBT_MATERIAL)) mMaterial = OreDictMaterial.get(aNBT.getString(NBT_MATERIAL));
 	}
 	
@@ -86,12 +86,12 @@ public abstract class TileEntityBase07Paintable extends TileEntityBase06Covers i
 	@Override public int getPaint() {return mRGBa;}
 	@Override public boolean canRecolorItem(ItemStack aStack) {return T;}
 	@Override public boolean canDecolorItem(ItemStack aStack) {return mIsPainted;}
-	@Override public boolean recolorItem(ItemStack aStack, int aRGB) {if (paint((isPainted() ? UT.Code.mixRGBInt(aRGB, getPaint()) : aRGB) & ALL_NON_ALPHA_COLOR)) {UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make())); return T;} return F;}
+	@Override public boolean recolorItem(ItemStack aStack, int aRGB) {if (paint((isPainted() ? UT.Code.mixRGBInt(aRGB, getPaint()) : aRGB) & ALL_NON_ALPHA_COLOR)) {UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make())); return T;} return F;}
 	
 	@Override
 	public boolean decolorItem(ItemStack aStack) {
 		if (unpaint()) {
-			if (aStack.hasTagCompound()) {
+			if (aStack.hasTag()) {
 				aStack.getTagCompound().removeTag(NBT_PAINTED);
 				aStack.getTagCompound().removeTag(NBT_COLOR);
 				UT.NBT.set(aStack, writeItemNBT(aStack.getTagCompound()));

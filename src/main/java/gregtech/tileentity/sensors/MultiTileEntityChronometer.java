@@ -37,12 +37,12 @@ public class MultiTileEntityChronometer extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.chronometer");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		return (((aDelegator.mWorld.getWorldTime()+6000)%24000)*60)/1000;
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		return 1440;
 	}
 	

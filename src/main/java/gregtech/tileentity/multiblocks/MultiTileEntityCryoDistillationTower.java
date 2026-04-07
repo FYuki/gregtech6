@@ -131,7 +131,7 @@ public class MultiTileEntityCryoDistillationTower extends TileEntityBase10MultiB
 	public void updateAdjacentToggleableEnergySources() {
 		int tX = getOffsetXN(mFacing) - 1, tZ = getOffsetZN(mFacing) - 1;
 		for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) {
-			DelegatorTileEntity<TileEntity> tDelegator = WD.te(worldObj, tX+i, yCoord-2, tZ+j, SIDE_TOP, F);
+			DelegatorTileEntity<BlockEntity> tDelegator = WD.te(worldObj, tX+i, yCoord-2, tZ+j, SIDE_TOP, F);
 			if (tDelegator.mTileEntity instanceof ITileEntityAdjacentOnOff && tDelegator.mTileEntity instanceof ITileEntityEnergy && ((ITileEntityEnergy)tDelegator.mTileEntity).isEnergyEmittingTo(mEnergyTypeAccepted, tDelegator.mSideOfTileEntity, T)) {
 				((ITileEntityAdjacentOnOff)tDelegator.mTileEntity).setAdjacentOnOff(getStateOnOff());
 			}
@@ -148,7 +148,7 @@ public class MultiTileEntityCryoDistillationTower extends TileEntityBase10MultiB
 		for (FluidTankGT tTank : mTanksOutput) {
 			Fluid tFluid = tTank.fluid();
 			if (tFluid != null && tTank.has()) {
-				DelegatorTileEntity<TileEntity> tDelegator = null;
+				DelegatorTileEntity<BlockEntity> tDelegator = null;
 				if (FL.is(tFluid, "helium")) {
 					tDelegator = WD.te(worldObj, getOffsetXN(mFacing, 3), yCoord+7, getOffsetZN(mFacing, 3), mFacing, F);
 				} else if (FL.is(tFluid, "neon")) {
@@ -171,7 +171,7 @@ public class MultiTileEntityCryoDistillationTower extends TileEntityBase10MultiB
 	}
 	
 	@Override public DelegatorTileEntity<Container> getItemInputTarget(byte aSide) {return null;}
-	@Override public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {return null;}
+	@Override public DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide) {return null;}
 	@Override public DelegatorTileEntity<IFluidHandler> getFluidInputTarget(byte aSide) {return null;}
 	@Override public DelegatorTileEntity<IFluidHandler> getFluidOutputTarget(byte aSide, Fluid aOutput) {return null;}
 	

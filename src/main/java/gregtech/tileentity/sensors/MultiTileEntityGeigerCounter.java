@@ -42,7 +42,7 @@ public class MultiTileEntityGeigerCounter extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.geigercounter");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof MultiTileEntityReactorCore) {
 			return UT.Code.sum(((MultiTileEntityReactorCore)aDelegator.mTileEntity).oNeutronCounts);
 		}
@@ -50,7 +50,7 @@ public class MultiTileEntityGeigerCounter extends MultiTileEntitySensorTE {
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof MultiTileEntityReactorCore) {
 			MultiTileEntityReactorCore TE = (MultiTileEntityReactorCore)aDelegator.mTileEntity;
 			int tMaximum = 0;

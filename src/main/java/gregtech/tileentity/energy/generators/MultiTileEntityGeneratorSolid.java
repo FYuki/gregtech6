@@ -77,7 +77,7 @@ public abstract class MultiTileEntityGeneratorSolid extends TileEntityBase09Faci
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mBurning);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mBurning);
 		ST.save(aNBT, NBT_INV_OUT + ".1", mOutput1);
 	}
 	
@@ -200,14 +200,14 @@ public abstract class MultiTileEntityGeneratorSolid extends TileEntityBase09Faci
 					return T;
 				}
 			} else if (ST.equal(aStack, slot(0))) {
-				int tDifference = Math.min(aStack.stackSize, slot(0).getMaxStackSize() - slot(0).stackSize);
-				aStack.stackSize-=tDifference;
-				slot(0).stackSize+=tDifference;
+				int tDifference = Math.min(aStack.getCount(), slot(0).getMaxStackSize() - slot(0).getCount());
+				aStack.shrink(tDifference);
+				slot(0).getCount()+=tDifference;
 				return T;
 			} else if (ST.equal(aStack, slot(1))) {
-				int tDifference = Math.min(slot(1).stackSize, aStack.getMaxStackSize() - aStack.stackSize);
-				aStack.stackSize+=tDifference;
-				slot(1).stackSize-=tDifference;
+				int tDifference = Math.min(slot(1).getCount(), aStack.getMaxStackSize() - aStack.getCount());
+				aStack.grow(tDifference);
+				slot(1).getCount()-=tDifference;
 				removeAllDroppableNullStacks();
 				if (mBurning) UT.Entities.applyHeatDamage(aPlayer, Math.max(1.0F, Math.min(5.0F, mRate / 20.0F)));
 				return T;
@@ -226,7 +226,7 @@ public abstract class MultiTileEntityGeneratorSolid extends TileEntityBase09Faci
 		if (aTool.equals(TOOL_igniter       ) && (aSide == mFacing || aPlayer == null)) {mBurning = T; return 10000;}
 		if (aTool.equals(TOOL_extinguisher  ) && (aSide == mFacing || aPlayer == null)) {mBurning = F; return 10000;}
 		if (aTool.equals(TOOL_shovel        ) &&  aSide == mFacing && slotHas(1)) {
-			long rDamage = 1000 * slot(1).stackSize;
+			long rDamage = 1000 * slot(1).getCount();
 			ST.give(aPlayer, slot(1), worldObj, xCoord, yCoord, zCoord);
 			slotKill(1);
 			return rDamage;

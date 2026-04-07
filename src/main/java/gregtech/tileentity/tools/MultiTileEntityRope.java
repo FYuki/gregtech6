@@ -52,7 +52,7 @@ public class MultiTileEntityRope extends TileEntityBase09FacingSingle implements
 		MultiTileEntityRegistry tRegistry = MultiTileEntityRegistry.getRegistry(getMultiTileEntityRegistryID());
 		if (tRegistry != null && ST.equal(aStack, toStack(), F)) {
 			if (isServerSide()) for (int tY = yCoord-1; tY >= 0; tY--) {
-				TileEntity tTileEntity = getTileEntity(xCoord, tY, zCoord);
+				BlockEntity tTileEntity = getTileEntity(xCoord, tY, zCoord);
 				if (tTileEntity instanceof MultiTileEntityRope) {
 					if (((MultiTileEntityRope)tTileEntity).getMultiTileEntityRegistryID() != getMultiTileEntityRegistryID()) return T;
 					if (((MultiTileEntityRope)tTileEntity).getMultiTileEntityID() != getMultiTileEntityID()) return T;
@@ -60,8 +60,8 @@ public class MultiTileEntityRope extends TileEntityBase09FacingSingle implements
 					continue;
 				}
 				if (WD.air(worldObj, xCoord, tY, zCoord)) {
-					tRegistry.mBlock.placeBlock(worldObj, xCoord, tY, zCoord, SIDE_ANY, getMultiTileEntityID(), UT.NBT.make(aStack.hasTagCompound()?(CompoundTag)aStack.getTagCompound().copy():null, NBT_FACING, mFacing), T, F);
-					if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
+					tRegistry.mBlock.placeBlock(worldObj, xCoord, tY, zCoord, SIDE_ANY, getMultiTileEntityID(), UT.NBT.make(aStack.hasTag()?(CompoundTag)aStack.getTagCompound().copy():null, NBT_FACING, mFacing), T, F);
+					if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
 					UT.Sounds.send(SFX.MC_DIG_CLOTH, this, F);
 				}
 				return T;
@@ -74,7 +74,7 @@ public class MultiTileEntityRope extends TileEntityBase09FacingSingle implements
 	@Override
 	public void onBlockHarvested(int aMetaData, Player aPlayer) {
 		if (isServerSide() && aPlayer != null) {
-			TileEntity tTileEntity = getTileEntityAtSideAndDistance(SIDE_UP, 1);
+			BlockEntity tTileEntity = getTileEntityAtSideAndDistance(SIDE_UP, 1);
 			if (!(tTileEntity instanceof MultiTileEntityRope)) for (int tY = yCoord-1; tY >= 0; tY--) {
 				tTileEntity = getTileEntity(xCoord, tY, zCoord);
 				if (tTileEntity instanceof MultiTileEntityRope && ((MultiTileEntityRope)tTileEntity).mFacing == mFacing && ((MultiTileEntityRope)tTileEntity).getMultiTileEntityRegistryID() == getMultiTileEntityRegistryID() && ((MultiTileEntityRope)tTileEntity).getMultiTileEntityID() == getMultiTileEntityID()) {

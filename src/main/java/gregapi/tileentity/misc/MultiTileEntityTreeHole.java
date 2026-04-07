@@ -51,12 +51,12 @@ public abstract class MultiTileEntityTreeHole extends TileEntityBase09FacingSing
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mHasResin);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mHasResin);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mHasResin);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mHasResin);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -74,7 +74,7 @@ public abstract class MultiTileEntityTreeHole extends TileEntityBase09FacingSing
 	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aSide != mFacing) return F;
 		ItemStack aStack = aPlayer.getCurrentEquippedItem();
-		if (aStack != null && aStack.getItem() instanceof ItemBlock) return F;
+		if (aStack != null && aStack.getItem() instanceof BlockItem) return F;
 		if (isServerSide() && hasResin(aSide)) {
 			ItemStack tResin = getResinItem(aSide), tStack = FL.fill(getResinFluid(aSide), ST.amount(1, aStack), T, T, T, T);
 			if ((tStack != null || tResin != null) && extractResin(aSide)) {
@@ -83,7 +83,7 @@ public abstract class MultiTileEntityTreeHole extends TileEntityBase09FacingSing
 				}
 				assert aStack != null;
 				if (tStack != null) {
-					aStack.stackSize--;
+					aStack.shrink(1);
 					ST.give(aPlayer, tStack, T);
 				}
 			}

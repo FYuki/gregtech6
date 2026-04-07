@@ -130,7 +130,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_TARGET)) {mTargetPos = new BlockPos(UT.Code.bindInt(aNBT.getLong(NBT_TARGET_X)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Y)), UT.Code.bindInt(aNBT.getLong(NBT_TARGET_Z)));}
 		if (aNBT.hasKey(NBT_DESIGN)) mDesign = UT.Code.unsignB(aNBT.getByte(NBT_DESIGN));
-		if (aNBT.hasKey(NBT_MODE)) mMode = aNBT.getInteger(NBT_MODE);
+		if (aNBT.hasKey(NBT_MODE)) mMode = aNBT.getInt(NBT_MODE);
 		
 		if (CODE_CLIENT) {
 			if (GT_API.sBlockIcons == null && aNBT.hasKey(NBT_TEXTURE)) {
@@ -145,7 +145,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 				new Textures.BlockIcons.CustomIcon("machines/multiblockparts/"+tTextureName+"/"+i+"/overlay/side")
 				};}
 			} else {
-				TileEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
+				BlockEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
 				if (tCanonicalTileEntity instanceof MultiTileEntityMultiBlockPart) {
 					mTextures = ((MultiTileEntityMultiBlockPart)tCanonicalTileEntity).mTextures;
 				}
@@ -156,10 +156,10 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mDesign != 0) aNBT.setByte(NBT_DESIGN, (byte)mDesign);
-		if (mMode   != 0) aNBT.setInteger(NBT_MODE, mMode);
+		if (mDesign != 0) aNBT.putByte(NBT_DESIGN, (byte)mDesign);
+		if (mMode   != 0) aNBT.putInt(NBT_MODE, mMode);
 		if (mTargetPos != null) {
-		UT.NBT.setBoolean(aNBT, NBT_TARGET, T);
+		UT.NBT.putBoolean(aNBT, NBT_TARGET, T);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_X, mTargetPos.posX);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_Y, mTargetPos.posY);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_Z, mTargetPos.posZ);
@@ -186,7 +186,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 	@Override
 	public void onBlockAdded() {
 		for (byte tSide : ALL_SIDES_VALID) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 			if (tDelegator.mTileEntity instanceof MultiTileEntityMultiBlockPart) {
 				ITileEntityMultiBlockController tController = ((MultiTileEntityMultiBlockPart)tDelegator.mTileEntity).getTarget(F);
 				if (tController != null) tController.onStructureChange();;
@@ -201,7 +201,7 @@ public class MultiTileEntityMultiBlockPart extends TileEntityBase05Paintable imp
 		if (mTarget == null || mTarget.isDead()) {
 			mTarget = null;
 			if (worldObj.blockExists(mTargetPos.posX, mTargetPos.posY, mTargetPos.posZ)) {
-				TileEntity tTarget = WD.te(worldObj, mTargetPos, T);
+				BlockEntity tTarget = WD.te(worldObj, mTargetPos, T);
 				if (tTarget instanceof ITileEntityMultiBlockController && ((ITileEntityMultiBlockController)tTarget).isInsideStructure(xCoord, yCoord, zCoord)) {
 					mTarget = (ITileEntityMultiBlockController)tTarget;
 				} else {

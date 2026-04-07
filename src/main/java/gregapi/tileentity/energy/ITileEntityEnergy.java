@@ -48,16 +48,16 @@ public interface ITileEntityEnergy extends gregapi.tileentity.ITileEntityEnergy 
 	 * @param aEnergyType The Type of Energy
 	 * @param aEmitting if it is asked to emit this Energy Type, otherwise it is asked to accept this Energy Type.
 	 * @param aSide 0 - 5 = Vanilla Directions of the Implementors Block. 6 = No specific Side (don't do Side checks for this Side)
-	 * @return if this TileEntity has anything to do with this Type of Energy, depending on insert or extract request. The returning Value must be constant for this TileEntity.
+	 * @return if this BlockEntity has anything to do with this Type of Energy, depending on insert or extract request. The returning Value must be constant for this BlockEntity.
 	 */
 	@Override
 	public boolean isEnergyType(TagData aEnergyType, byte aSide, boolean aEmitting);
 	
 	/**
-	 * Gets all the Types of Energy, which are relevant to this TileEntity.
+	 * Gets all the Types of Energy, which are relevant to this BlockEntity.
 	 * 
 	 * @param aSide 0 - 5 = Vanilla Directions of the Implementors Block. 6 = No specific Side (should return all related Types of Energy)
-	 * @return any Type of Energy that is related to this TileEntity. This is especially useful for Data Displays and Redstone Conditions, where people can select the Energy Type via GUI or something.
+	 * @return any Type of Energy that is related to this BlockEntity. This is especially useful for Data Displays and Redstone Conditions, where people can select the Energy Type via GUI or something.
 	 */
 	@Override
 	public Collection<TagData> getEnergyTypes(byte aSide);
@@ -110,7 +110,7 @@ public interface ITileEntityEnergy extends gregapi.tileentity.ITileEntityEnergy 
 	 * @param aEnergyType The Type of Energy
 	 * @param aSide 0 - 5 = Vanilla Directions of the Implementors Block. 6 = No specific Side (don't do Side checks for this Side)
 	 * @param aSize the Energy Packet Size to be demanded. getEnergySizeInputRecommended is the recommended Power Level.
-	 * @return The Amount of Energy Packets of aSize Size this TileEntity needs
+	 * @return The Amount of Energy Packets of aSize Size this BlockEntity needs
 	 */
 	@Override
 	public long getEnergyDemanded(TagData aEnergyType, byte aSide, long aSize);
@@ -141,7 +141,7 @@ public interface ITileEntityEnergy extends gregapi.tileentity.ITileEntityEnergy 
 	 * @param aEnergyType The Type of Energy
 	 * @param aSide 0 - 5 = Vanilla Directions of the Implementors Block. 6 = No specific Side (don't do Side checks for this Side)
 	 * @param aSize the Energy Packet Size to be taken. getEnergySizeOutputRecommended is the recommended Power Level.
-	 * @return The Amount of Energy Packets of aSize Size this TileEntity offers
+	 * @return The Amount of Energy Packets of aSize Size this BlockEntity offers
 	 */
 	@Override
 	public long getEnergyOffered(TagData aEnergyType, byte aSide, long aSize);
@@ -223,13 +223,13 @@ public interface ITileEntityEnergy extends gregapi.tileentity.ITileEntityEnergy 
 		 * @param aEnergyType The Type of Energy to be emitted
 		 * @param aSize The Minimum Transfer Rate of Energy (like Voltage for example). This can be negative too in case it has a direction for example (clockwise/counterclockwise)
 		 * @param aAmount The Amount of Packets in size of aSize to be emitted (like Amperage for example)
-		 * @param aEmitter The TileEntity which emits the Energy.
+		 * @param aEmitter The BlockEntity which emits the Energy.
 		 * @return the amount of used Energy Packets.
 		 */
 		public static final long emitEnergyToNetwork(TagData aEnergyType, long aSize, long aAmount, gregapi.tileentity.ITileEntityEnergy aEmitter) {
 			long rUsedAmount = 0;
 			for (byte tSide : ALL_SIDES_VALID) if (aEmitter.isEnergyEmittingTo(aEnergyType, tSide, F)) {
-				rUsedAmount += emitEnergyToSide(aEnergyType, tSide, aSize, aAmount-rUsedAmount, (TileEntity)aEmitter);
+				rUsedAmount += emitEnergyToSide(aEnergyType, tSide, aSize, aAmount-rUsedAmount, (BlockEntity)aEmitter);
 				if (aAmount <= rUsedAmount) break;
 			}
 			return rUsedAmount;
@@ -239,44 +239,44 @@ public interface ITileEntityEnergy extends gregapi.tileentity.ITileEntityEnergy 
 		 * Emits Energy to the adjacent Block.
 		 * Also compatible with IC2 TileEntities when electric and RF TileEntities when RedstoneFlux.
 		 * @param aEnergyType The Type of Energy to be emitted
-		 * @param aSideOutOf The Side of the TileEntity to output Energy out of.
+		 * @param aSideOutOf The Side of the BlockEntity to output Energy out of.
 		 * @param aSize The Minimum Transfer Rate of Energy (like Voltage for example). This can be negative too in case it has a direction for example (clockwise/counterclockwise)
 		 * @param aAmount The Amount of Packets in size of aSize to be emitted (like Amperage for example)
-		 * @param aEmitter The TileEntity which emits the Energy.
+		 * @param aEmitter The BlockEntity which emits the Energy.
 		 * @return the amount of used Energy Packets.
 		 */
-		public static final long emitEnergyToSide(TagData aEnergyType, byte aSideOutOf, long aSize, long aAmount, TileEntity aEmitter) {
-			DelegatorTileEntity<TileEntity> tDelegator = aEmitter instanceof IHasWorldAndCoords ? ((IHasWorldAndCoords)aEmitter).getAdjacentTileEntity(aSideOutOf) : WD.te(aEmitter.getWorldObj(), aEmitter.xCoord+OFFX[aSideOutOf], aEmitter.yCoord+OFFY[aSideOutOf], aEmitter.zCoord+OFFZ[aSideOutOf], OPOS[aSideOutOf], F);
+		public static final long emitEnergyToSide(TagData aEnergyType, byte aSideOutOf, long aSize, long aAmount, BlockEntity aEmitter) {
+			DelegatorTileEntity<BlockEntity> tDelegator = aEmitter instanceof IHasWorldAndCoords ? ((IHasWorldAndCoords)aEmitter).getAdjacentTileEntity(aSideOutOf) : WD.te(aEmitter.getWorldObj(), aEmitter.xCoord+OFFX[aSideOutOf], aEmitter.yCoord+OFFY[aSideOutOf], aEmitter.zCoord+OFFZ[aSideOutOf], OPOS[aSideOutOf], F);
 			return insertEnergyInto(aEnergyType, aSize, aAmount, aEmitter, tDelegator);
 		}
 		
 		/**
-		 * Inserts Energy into the TileEntity.
+		 * Inserts Energy into the BlockEntity.
 		 * Also compatible with IC2 TileEntities when electric and RF TileEntities when RedstoneFlux.
 		 * @param aEnergyType The Type of Energy to be emitted
-		 * @param aSideInto The Side of the receiving TileEntity to insert the Energy into.
+		 * @param aSideInto The Side of the receiving BlockEntity to insert the Energy into.
 		 * @param aSize The Minimum Transfer Rate of Energy (like Voltage for example). This can be negative too in case it has a direction for example (clockwise/counterclockwise)
 		 * @param aAmount The Amount of Packets in size of aSize to be emitted (like Amperage for example)
-		 * @param aEmitter The TileEntity which emits the Energy. May be null!
-		 * @param aReceiver The TileEntity which receives the Energy.
+		 * @param aEmitter The BlockEntity which emits the Energy. May be null!
+		 * @param aReceiver The BlockEntity which receives the Energy.
 		 * @return the amount of used Energy Packets.
 		 */
-		public static final long insertEnergyInto(TagData aEnergyType, byte aSideInto, long aSize, long aAmount, Object aEmitter, TileEntity aReceiver) {
+		public static final long insertEnergyInto(TagData aEnergyType, byte aSideInto, long aSize, long aAmount, Object aEmitter, BlockEntity aReceiver) {
 			return aReceiver instanceof ITileEntityEnergy ? ((ITileEntityEnergy)aReceiver).doEnergyInjection(aEnergyType, aSideInto, aSize, aAmount, T) : EnergyCompat.insertEnergyInto(aEnergyType, aSideInto, aSize, aAmount, aEmitter, aReceiver);
 		}
 		
 		/**
-		 * Inserts Energy into the TileEntity.
+		 * Inserts Energy into the BlockEntity.
 		 * Also compatible with IC2 TileEntities when electric and RF TileEntities when RedstoneFlux.
 		 * @param aEnergyType The Type of Energy to be emitted
-		 * @param aSideInto The Side of the receiving TileEntity to insert the Energy into.
+		 * @param aSideInto The Side of the receiving BlockEntity to insert the Energy into.
 		 * @param aSize The Minimum Transfer Rate of Energy (like Voltage for example). This can be negative too in case it has a direction for example (clockwise/counterclockwise)
 		 * @param aAmount The Amount of Packets in size of aSize to be emitted (like Amperage for example)
-		 * @param aEmitter The TileEntity which emits the Energy. May be null!
-		 * @param aReceiver The TileEntity which receives the Energy.
+		 * @param aEmitter The BlockEntity which emits the Energy. May be null!
+		 * @param aReceiver The BlockEntity which receives the Energy.
 		 * @return the amount of used Energy Packets.
 		 */
-		public static final long insertEnergyInto(TagData aEnergyType, long aSize, long aAmount, Object aEmitter, DelegatorTileEntity<TileEntity> aReceiver) {
+		public static final long insertEnergyInto(TagData aEnergyType, long aSize, long aAmount, Object aEmitter, DelegatorTileEntity<BlockEntity> aReceiver) {
 			return insertEnergyInto(aEnergyType, aReceiver.mSideOfTileEntity, aSize, aAmount, aEmitter, aReceiver.mTileEntity);
 		}
 	}

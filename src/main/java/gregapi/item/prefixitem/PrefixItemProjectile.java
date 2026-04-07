@@ -139,7 +139,7 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 		if (UT.Code.exists(aMetaData, mMaterialList) && !mMaterialList[aMetaData].mEnchantmentAmmo.isEmpty()) {
 			CompoundTag tNBT = UT.NBT.getOrCreate(aStack);
 			if (!tNBT.getBoolean("gt.u")) {
-				tNBT.setBoolean("gt.u", T);
+				tNBT.putBoolean("gt.u", T);
 				for (ObjectStack<Enchantment> tEnchantment : mMaterialList[aMetaData].mEnchantmentAmmo) {
 					UT.NBT.addEnchantment(aStack, tEnchantment.mObject, tEnchantment.mObject == Enchantment.looting ? tEnchantment.mAmount * mLootingMultiplier : tEnchantment.mAmount);
 				}
@@ -157,7 +157,7 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 			tProjectile.setProjectileStack(ST.amount(1, aStack));
 			tProjectile.canBePickedUp = 1;
 			aWorld.spawnEntityInWorld(tProjectile);
-			if (aStack.stackSize < 100) aStack.stackSize--;
+			if (aStack.getCount() < 100) aStack.shrink(1);
 			return aStack;
 		}
 		

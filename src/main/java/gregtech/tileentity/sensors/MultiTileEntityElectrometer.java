@@ -47,11 +47,11 @@ public class MultiTileEntityElectrometer extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.electrometer");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof MultiTileEntityWireElectric) return ((MultiTileEntityWireElectric)aDelegator.mTileEntity).mWattageLast;
 		
 		if (EnergyCompat.IC_ENERGY && EnergyNet.instance != null) {
-			TileEntity tTileEntity = EnergyNet.instance.getTileEntity(aDelegator.mWorld, aDelegator.mX, aDelegator.mY, aDelegator.mZ);
+			BlockEntity tTileEntity = EnergyNet.instance.getTileEntity(aDelegator.mWorld, aDelegator.mX, aDelegator.mY, aDelegator.mZ);
 			if (tTileEntity != null) {
 				NodeStats tStats = EnergyNet.instance.getNodeStats(tTileEntity);
 				if (tStats != null) {
@@ -65,11 +65,11 @@ public class MultiTileEntityElectrometer extends MultiTileEntitySensorTE {
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof MultiTileEntityWireElectric) return ((MultiTileEntityWireElectric)aDelegator.mTileEntity).mAmperage * ((MultiTileEntityWireElectric)aDelegator.mTileEntity).mVoltage;
 		
 		if (EnergyCompat.IC_ENERGY) {
-			TileEntity tTileEntity = aDelegator.mTileEntity instanceof IEnergyTile || EnergyNet.instance == null ? aDelegator.mTileEntity : EnergyNet.instance.getTileEntity(aDelegator.mWorld, aDelegator.mX, aDelegator.mY, aDelegator.mZ);
+			BlockEntity tTileEntity = aDelegator.mTileEntity instanceof IEnergyTile || EnergyNet.instance == null ? aDelegator.mTileEntity : EnergyNet.instance.getTileEntity(aDelegator.mWorld, aDelegator.mX, aDelegator.mY, aDelegator.mZ);
 			if (tTileEntity instanceof IEnergyConductor ) return (long)((IEnergyConductor)tTileEntity).getConductorBreakdownEnergy();
 			if (tTileEntity instanceof IEnergySink      ) return V[((IEnergySink)tTileEntity).getSinkTier()];
 			if (tTileEntity instanceof IEnergySource    ) return V[((IEnergySource)tTileEntity).getSourceTier()];

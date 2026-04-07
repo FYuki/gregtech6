@@ -70,9 +70,9 @@ public class Minecraft_EmptyRecipeOptimization implements IClassTransformer  {
 				// And lastly insert the new instructions right before the next `if` conditional
 				m.instructions.insertBefore(at, insert);
 				// This basically turned this:
-				//   if (i == 2 && itemstack.getItem() == itemstack1.getItem() && itemstack.stackSize == 1 && itemstack1.stackSize == 1 && itemstack.getItem().isRepairable())
+				//   if (i == 2 && itemstack.getItem() == itemstack1.getItem() && itemstack.getCount() == 1 && itemstack1.getCount() == 1 && itemstack.getItem().isRepairable())
 				// Into this:
-				//    if(i==0) return null; if (i == 2 && itemstack.getItem() == itemstack1.getItem() && itemstack.stackSize == 1 && itemstack1.stackSize == 1 && itemstack.getItem().isRepairable())
+				//    if(i==0) return null; if (i == 2 && itemstack.getItem() == itemstack1.getItem() && itemstack.getCount() == 1 && itemstack1.getCount() == 1 && itemstack.getItem().isRepairable())
 			}
 		}
 		

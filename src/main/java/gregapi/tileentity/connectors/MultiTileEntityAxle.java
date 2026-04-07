@@ -67,7 +67,7 @@ public class MultiTileEntityAxle extends TileEntityBase11ConnectorStraight imple
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_ACTIVE_DATA, mRotationDir);
+		aNBT.putByte(NBT_ACTIVE_DATA, mRotationDir);
 	}
 	
 	@Override
@@ -102,7 +102,7 @@ public class MultiTileEntityAxle extends TileEntityBase11ConnectorStraight imple
 	@Override public void setVisualData(byte aData) {mRotationDir = aData;}
 	@Override public byte getVisualData() {return mRotationDir;}
 	
-	public long transferRotations(byte aSide, long aSpeed, long aPower, long aChannel, HashSetNoNulls<TileEntity> aAlreadyPassed) {
+	public long transferRotations(byte aSide, long aSpeed, long aPower, long aChannel, HashSetNoNulls<BlockEntity> aAlreadyPassed) {
 		if (mTimer < 1) return 0;
 		
 		// Replaced a switch/case with "simple" Math.
@@ -112,7 +112,7 @@ public class MultiTileEntityAxle extends TileEntityBase11ConnectorStraight imple
 		if (oRotationDir == 0) return addToEnergyTransferred(aSpeed, aPower, aPower);
 		
 		if (!canEmitEnergyTo(OPOS[aSide])) return addToEnergyTransferred(aSpeed, aPower, 0);
-		DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(OPOS[aSide]);
+		DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(OPOS[aSide]);
 		return addToEnergyTransferred(aSpeed, aPower, aAlreadyPassed.add(tDelegator.mTileEntity) ? tDelegator.mTileEntity instanceof MultiTileEntityAxle ? ((MultiTileEntityAxle)tDelegator.mTileEntity).isEnergyAcceptingFrom(TD.Energy.RU, tDelegator.mSideOfTileEntity, F) ? ((MultiTileEntityAxle)tDelegator.mTileEntity).transferRotations(tDelegator.mSideOfTileEntity, aSpeed, aPower, aChannel, aAlreadyPassed) : 0 : ITileEntityEnergy.Util.insertEnergyInto(TD.Energy.RU, aSpeed, aPower, this, tDelegator) : 0);
 	}
 	
@@ -131,7 +131,7 @@ public class MultiTileEntityAxle extends TileEntityBase11ConnectorStraight imple
 	}
 	
 	@Override
-	public boolean canConnect(byte aSide, DelegatorTileEntity<TileEntity> aDelegator) {
+	public boolean canConnect(byte aSide, DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof ITileEntityEnergy) return ((ITileEntityEnergy)aDelegator.mTileEntity).isEnergyAcceptingFrom(TD.Energy.RU, aDelegator.mSideOfTileEntity, T) || ((ITileEntityEnergy)aDelegator.mTileEntity).isEnergyEmittingTo(TD.Energy.RU, aDelegator.mSideOfTileEntity, T);
 		return F;
 	}
@@ -142,7 +142,7 @@ public class MultiTileEntityAxle extends TileEntityBase11ConnectorStraight imple
 	@Override public boolean isEnergyEmittingTo   (TagData aEnergyType, byte aSide, boolean aTheoretical) {return isEnergyType(aEnergyType, aSide, T) && canEmitEnergyTo    (aSide);}
 	@Override public boolean isEnergyAcceptingFrom(TagData aEnergyType, byte aSide, boolean aTheoretical) {return isEnergyType(aEnergyType, aSide, F) && canAcceptEnergyFrom(aSide);}
 	@Override public synchronized long doEnergyExtraction(TagData aEnergyType, byte aSide, long aSize, long aAmount, boolean aDoExtract) {return 0;}
-	@Override public synchronized long doEnergyInjection (TagData aEnergyType, byte aSide, long aSize, long aAmount, boolean aDoInject ) {return aSize != 0 && isEnergyAcceptingFrom(aEnergyType, aSide, F) ? aDoInject ? transferRotations(aSide, aSize, aAmount, -1, new HashSetNoNulls<TileEntity>(F, this)) : aAmount : 0;}
+	@Override public synchronized long doEnergyInjection (TagData aEnergyType, byte aSide, long aSize, long aAmount, boolean aDoInject ) {return aSize != 0 && isEnergyAcceptingFrom(aEnergyType, aSide, F) ? aDoInject ? transferRotations(aSide, aSize, aAmount, -1, new HashSetNoNulls<BlockEntity>(F, this)) : aAmount : 0;}
 	@Override public long getEnergySizeOutputRecommended(TagData aEnergyType, byte aSide) {return mSpeed;}
 	@Override public long getEnergySizeOutputMin(TagData aEnergyType, byte aSide) {return 0;}
 	@Override public long getEnergySizeOutputMax(TagData aEnergyType, byte aSide) {return mSpeed;}

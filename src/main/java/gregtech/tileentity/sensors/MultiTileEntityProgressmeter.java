@@ -40,7 +40,7 @@ public class MultiTileEntityProgressmeter extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.progressmeter");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof ITileEntityProgress) return ((ITileEntityProgress)aDelegator.mTileEntity).getProgressValue(aDelegator.mSideOfTileEntity);
 		if (aDelegator.mTileEntity instanceof TileEntityMobSpawner) {
 			MobSpawnerBaseLogic tLogic = ((TileEntityMobSpawner)aDelegator.mTileEntity).func_145881_a();
@@ -49,7 +49,7 @@ public class MultiTileEntityProgressmeter extends MultiTileEntitySensorTE {
 		return 0;
 	}
 	@Override
-	public long getCurrentMax  (DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax  (DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof ITileEntityProgress) return ((ITileEntityProgress)aDelegator.mTileEntity).getProgressMax(aDelegator.mSideOfTileEntity);
 		if (aDelegator.mTileEntity instanceof TileEntityMobSpawner) {
 			MobSpawnerBaseLogic tLogic = ((TileEntityMobSpawner)aDelegator.mTileEntity).func_145881_a();

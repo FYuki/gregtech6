@@ -53,7 +53,7 @@ public abstract class TileEntityBase09FacingSingle extends TileEntityBase08Direc
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_FACING, mFacing);
+		aNBT.putByte(NBT_FACING, mFacing);
 	}
 	
 	@Override

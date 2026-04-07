@@ -86,7 +86,7 @@ public class MultiTileEntityCokeOven extends TileEntityBase10MultiBlockMachine {
 		if (aOutput != null) {
 			int tX = getOffsetXN(mFacing), tY = getOffsetYN(mFacing)-2, tZ = getOffsetZN(mFacing);
 			for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
-				DelegatorTileEntity<TileEntity> tTarget = WD.te(worldObj, tX+i, tY, tZ+j, SIDE_TOP, F);
+				DelegatorTileEntity<BlockEntity> tTarget = WD.te(worldObj, tX+i, tY, tZ+j, SIDE_TOP, F);
 				if (tTarget.mTileEntity instanceof IFluidHandler && ((IFluidHandler)tTarget.mTileEntity).canFill(tTarget.getForgeSideOfTileEntity(), aOutput)) {
 					return mFluidOutputTarget = new DelegatorTileEntity<>((IFluidHandler)tTarget.mTileEntity, tTarget);
 				}
@@ -96,7 +96,7 @@ public class MultiTileEntityCokeOven extends TileEntityBase10MultiBlockMachine {
 	}
 	
 	@Override public DelegatorTileEntity<Container> getItemInputTarget(byte aSide) {return null;}
-	@Override public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {return null;}
+	@Override public DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide) {return null;}
 	@Override public DelegatorTileEntity<IFluidHandler> getFluidInputTarget(byte aSide) {return null;}
 	
 	@Override public String getTileEntityName() {return "gt.multitileentity.multiblock.cokeoven";}

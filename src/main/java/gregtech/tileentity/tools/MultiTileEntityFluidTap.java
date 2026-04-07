@@ -76,13 +76,13 @@ public class MultiTileEntityFluidTap extends TileEntityBase11AttachmentSmall {
 	@Override
 	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mFacing);
 			if (tDelegator.mTileEntity instanceof ITileEntityTapAccessible) {
 				FluidStack aFluid = ((ITileEntityTapAccessible)tDelegator.mTileEntity).tapDrain(tDelegator.mSideOfTileEntity, Integer.MAX_VALUE, F);
 				if (!FL.gas(aFluid, T) && aFluid.amount > 0 && (mAcidProof || !FL.acid(aFluid))) {
 					ItemStack aStack = aPlayer.getCurrentEquippedItem();
 					if (aStack == null) {
-						DelegatorTileEntity<TileEntity> tDelegator2 = getAdjacentTileEntity(SIDE_BOTTOM);
+						DelegatorTileEntity<BlockEntity> tDelegator2 = getAdjacentTileEntity(SIDE_BOTTOM);
 						if (tDelegator2.mTileEntity == null) {
 							if (tDelegator2.getBlock() instanceof BlockCauldron) {
 								byte tMeta = tDelegator2.getMetaData();
@@ -160,7 +160,7 @@ public class MultiTileEntityFluidTap extends TileEntityBase11AttachmentSmall {
 					ItemStack tStack = FL.fill(tNewFluid, ST.amount(1, aStack), T, T, T, T);
 					if (aFluid.amount > tNewFluid.amount && ((ITileEntityTapAccessible)tDelegator.mTileEntity).tapDrain(tDelegator.mSideOfTileEntity, aFluid.amount - tNewFluid.amount, T) != null) {
 						UT.Sounds.send(SFX.IC_SPRAY, 1.0F, 2.0F, this, F);
-						aStack.stackSize--;
+						aStack.shrink(1);
 						ST.give(aPlayer, tStack, T);
 						return T;
 					}

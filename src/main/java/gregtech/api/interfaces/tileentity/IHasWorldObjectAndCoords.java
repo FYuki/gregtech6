@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.minecraft.world.level.biome.Biome;
 
 @Deprecated
 /** Required to exist in GT6 because Immersive Engineering crashes otherwise. Also there is that GT5U+GT6 Mod that basically needs this for Compat. */
@@ -37,10 +38,10 @@ public interface IHasWorldObjectAndCoords {
 	public boolean isServerSide();
 	public boolean isClientSide();
 	public int getRandomNumber(int aRange);
-	public TileEntity getTileEntity(int aX, int aY, int aZ);
-	public TileEntity getTileEntityOffset(int aX, int aY, int aZ);
-	public TileEntity getTileEntityAtSide(byte aSide);
-	public TileEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance);
+	public BlockEntity getTileEntity(int aX, int aY, int aZ);
+	public BlockEntity getTileEntityOffset(int aX, int aY, int aZ);
+	public BlockEntity getTileEntityAtSide(byte aSide);
+	public BlockEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance);
 	public Container getIInventory(int aX, int aY, int aZ);
 	public Container getIInventoryOffset(int aX, int aY, int aZ);
 	public Container getIInventoryAtSide(byte aSide);

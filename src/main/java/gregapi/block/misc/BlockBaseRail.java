@@ -47,7 +47,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
@@ -327,7 +327,7 @@ public class BlockBaseRail extends BaseRailBlock implements IBlockBase, IBlockSe
 	
 	@Override
 	public boolean onItemUse(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {
-		if (aStack.stackSize == 0) return F;
+		if (aStack.getCount() == 0) return F;
 		
 		Block tBlock = aWorld.getBlock(aX, aY, aZ);
 		if (tBlock == Blocks.snow_layer && (WD.meta(aWorld, aX, aY, aZ) & 7) < 1) {
@@ -340,7 +340,7 @@ public class BlockBaseRail extends BaseRailBlock implements IBlockBase, IBlockSe
 		
 		if (aItem.placeBlockAt(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ, SIDES_AXIS_X[UT.Code.getHorizontalForPlayerPlacing(aPlayer)] ? 1 : 0)) {
 			aWorld.playSoundEffect(aX+0.5F, aY+0.5F, aZ+0.5F, stepSound.func_150496_b(), (stepSound.getVolume() + 1.0F) / 2.0F, stepSound.getPitch() * 0.8F);
-			aStack.stackSize--;
+			aStack.shrink(1);
 		}
 		return T;
 	}

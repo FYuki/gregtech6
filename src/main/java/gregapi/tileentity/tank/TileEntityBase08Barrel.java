@@ -76,14 +76,14 @@ public abstract class TileEntityBase08Barrel extends TileEntityBase07Paintable i
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mMode != 0) aNBT.setByte(NBT_MODE, mMode);
+		if (mMode != 0) aNBT.putByte(NBT_MODE, mMode);
 		UT.NBT.setNumber(aNBT, NBT_PROGRESS, mSealedTime);
 		mTank.writeToNBT(aNBT, NBT_TANK);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		if (mMode != 0) aNBT.setByte(NBT_MODE, mMode);
+		if (mMode != 0) aNBT.putByte(NBT_MODE, mMode);
 		UT.NBT.setNumber(aNBT, NBT_PROGRESS, mSealedTime);
 		mTank.writeToNBT(aNBT, NBT_TANK);
 		return super.writeItemNBT2(aNBT);
@@ -257,7 +257,7 @@ public abstract class TileEntityBase08Barrel extends TileEntityBase07Paintable i
 		if (!mMagicProof && FL.magic(aFluid)) return 0;
 		if (!mPlasmaProof && FL.plasma(aFluid)) return 0;
 		int tFilled = mTank.fill(aFluid, aDoFill);
-		if (tFilled > 0 && aDoFill) UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make()));
+		if (tFilled > 0 && aDoFill) UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make()));
 		return tFilled;
 	}
 	
@@ -265,7 +265,7 @@ public abstract class TileEntityBase08Barrel extends TileEntityBase07Paintable i
 	public FluidStack drain(ItemStack aStack, int aMaxDrain, boolean aDoDrain) {
 		if ((mMode & B[1]) != 0) return null;
 		FluidStack tDrained = mTank.drain(aMaxDrain, aDoDrain);
-		if (tDrained != NF && aDoDrain) UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make()));
+		if (tDrained != NF && aDoDrain) UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make()));
 		return tDrained;
 	}
 	

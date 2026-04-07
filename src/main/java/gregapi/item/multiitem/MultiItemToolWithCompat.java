@@ -29,7 +29,7 @@ import gregapi.util.UT;
 import ic2.api.item.IBoxable;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
-import micdoodle8.mods.galacticraft.api.item.IItemElectric;
+import gregapi.stubs.IItemElectric;
 import mods.railcraft.api.core.items.IToolCrowbar;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.player.Player;

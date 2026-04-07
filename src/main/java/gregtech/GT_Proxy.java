@@ -151,7 +151,7 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 		}
 		
 		ItemStack aStack = aEvent.entityPlayer.getCurrentEquippedItem();
-		if (aStack != null && aStack.stackSize > 0) {
+		if (aStack != null && aStack.getCount() > 0) {
 			if (aEvent.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
 				if (aStack.getItem() == Items.glass_bottle) {
 					aEvent.setCanceled(T);
@@ -166,8 +166,8 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 					
 					if (tBlock == Blocks.water || tBlock == Blocks.flowing_water) {
 						if (aEvent.world.getBlockMetadata(tTarget.blockX, tTarget.blockY, tTarget.blockZ) != 0) return;
-						for (int i = 0; i < 3 && aStack.stackSize > 0; i++) {
-							if (aStack.stackSize == 1) {
+						for (int i = 0; i < 3 && aStack.getCount() > 0; i++) {
+							if (aStack.getCount() == 1) {
 								aEvent.entityPlayer.inventory.mainInventory[aEvent.entityPlayer.inventory.currentItem] = ST.make(Items.potionitem, 1, 0);
 							} else {
 								ST.use(aEvent.entityPlayer, aStack);
@@ -237,7 +237,7 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 						return;
 					}
 				} else if (IL.Food_Toast_Sliced.equal(aStack, F, T) || IL.Food_Toasted_Sliced.equal(aStack, F, T)) {
-					int tUsed = Math.min(16, aStack.stackSize);
+					int tUsed = Math.min(16, aStack.getCount());
 					if (!aEvent.world.isRemote && aEvent.entityPlayer.isSneaking() && MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(32105, ST.save("sandwich.0", ST.amount(tUsed, aStack))).tryPlaceItemIntoWorld(aEvent.entityPlayer, aEvent.world, aEvent.x, aEvent.y, aEvent.z, (byte)aEvent.face, 0.5F, 0.5F, 0.5F)) {
 						ST.use(aEvent.entityPlayer, aStack, tUsed); aEvent.setCanceled(T);
 					}
@@ -260,22 +260,22 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 							}
 							if (tData.mPrefix == OP.ingot) if (!MD.BOTA.mLoaded || tData.mMaterial.mMaterial.mOriginalMod != MD.BOTA || Blocks.beacon != aEvent.world.getBlock(aEvent.x, aEvent.y, aEvent.z)) {
 								if (MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(32084, ST.save(NBT_VALUE, aStack)).tryPlaceItemIntoWorld(aEvent.entityPlayer, aEvent.world, aEvent.x, aEvent.y, aEvent.z, (byte)aEvent.face, 0.5F, 0.5F, 0.5F)) {
-									ST.use(aEvent.entityPlayer, aStack, aStack.stackSize); aEvent.setCanceled(T);
+									ST.use(aEvent.entityPlayer, aStack, aStack.getCount()); aEvent.setCanceled(T);
 								}
 							}
 							if (tData.mPrefix == OP.plate) {
 								if (MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(32085, ST.save(NBT_VALUE, aStack)).tryPlaceItemIntoWorld(aEvent.entityPlayer, aEvent.world, aEvent.x, aEvent.y, aEvent.z, (byte)aEvent.face, 0.5F, 0.5F, 0.5F)) {
-									ST.use(aEvent.entityPlayer, aStack, aStack.stackSize); aEvent.setCanceled(T);
+									ST.use(aEvent.entityPlayer, aStack, aStack.getCount()); aEvent.setCanceled(T);
 								}
 							}
 							if (tData.mPrefix == OP.plateGem) {
 								if (MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(32086, ST.save(NBT_VALUE, aStack)).tryPlaceItemIntoWorld(aEvent.entityPlayer, aEvent.world, aEvent.x, aEvent.y, aEvent.z, (byte)aEvent.face, 0.5F, 0.5F, 0.5F)) {
-									ST.use(aEvent.entityPlayer, aStack, aStack.stackSize); aEvent.setCanceled(T);
+									ST.use(aEvent.entityPlayer, aStack, aStack.getCount()); aEvent.setCanceled(T);
 								}
 							}
 							if (tData.mPrefix == OP.scrapGt) {
 								if (MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(32103, ST.save(NBT_VALUE, aStack)).tryPlaceItemIntoWorld(aEvent.entityPlayer, aEvent.world, aEvent.x, aEvent.y, aEvent.z, (byte)aEvent.face, 0.5F, 0.5F, 0.5F)) {
-									ST.use(aEvent.entityPlayer, aStack, aStack.stackSize); aEvent.setCanceled(T);
+									ST.use(aEvent.entityPlayer, aStack, aStack.getCount()); aEvent.setCanceled(T);
 								}
 							}
 						}
@@ -332,7 +332,7 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 					}
 				}
 				// Mark Entity as has been spawned
-				aEvent.entity.getEntityData().setBoolean("gt.spawned", T);
+				aEvent.entity.getEntityData().putBoolean("gt.spawned", T);
 			}
 			return;
 		}

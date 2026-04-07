@@ -132,7 +132,7 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 		if (aNBT.hasKey(NBT_INPUT_MIN)) {mInputMin = aNBT.getLong(NBT_INPUT_MIN);}
 		if (aNBT.hasKey(NBT_INPUT_MAX)) {mInputMax = aNBT.getLong(NBT_INPUT_MAX);}
 		if (aNBT.hasKey(NBT_MINENERGY)) {mMinEnergy = aNBT.getLong(NBT_MINENERGY);}
-		if (aNBT.hasKey(NBT_PARALLEL)) {mParallel = Math.max(1, aNBT.getInteger(NBT_PARALLEL));}
+		if (aNBT.hasKey(NBT_PARALLEL)) {mParallel = Math.max(1, aNBT.getInt(NBT_PARALLEL));}
 		if (aNBT.hasKey(NBT_PARALLEL_DURATION)) mParallelDuration = aNBT.getBoolean(NBT_PARALLEL_DURATION);
 		if (aNBT.hasKey(NBT_USE_OUTPUT_TANK)) mCanUseOutputTanks = aNBT.getBoolean(NBT_USE_OUTPUT_TANK);
 		if (aNBT.hasKey(NBT_PROGRESS)) {mProgress = aNBT.getLong(NBT_PROGRESS);}
@@ -207,7 +207,7 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 				new Textures.BlockIcons.CustomIcon("machines/basicmachines/"+tTextureName+"/overlay_running/right"),
 				new Textures.BlockIcons.CustomIcon("machines/basicmachines/"+tTextureName+"/overlay_running/back")};
 			} else {
-				TileEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
+				BlockEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
 				if (tCanonicalTileEntity instanceof MultiTileEntityBasicMachine) {
 					mTexturesMaterial = ((MultiTileEntityBasicMachine)tCanonicalTileEntity).mTexturesMaterial;
 					mTexturesInactive = ((MultiTileEntityBasicMachine)tCanonicalTileEntity).mTexturesInactive;
@@ -232,18 +232,18 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 		UT.NBT.setNumber(aNBT, NBT_OUTPUT, mOutputEnergy);
 		UT.NBT.setNumber(aNBT, NBT_INPUT_EU, mChargeRequirement);
 		
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
-		UT.NBT.setBoolean(aNBT, NBT_RUNNING, mRunning);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
-		UT.NBT.setBoolean(aNBT, NBT_STATE+".new", mStateNew);
-		UT.NBT.setBoolean(aNBT, NBT_STATE+".old", mStateOld);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_RUNNING, mRunning);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_STATE+".new", mStateNew);
+		UT.NBT.putBoolean(aNBT, NBT_STATE+".old", mStateOld);
 		
 		UT.NBT.setNumber(aNBT, NBT_MODE, mMode);
 		UT.NBT.setNumber(aNBT, NBT_IGNITION, mIgnited);
-		UT.NBT.setBoolean(aNBT, NBT_INV_DISABLED_IN, mDisabledItemInput);
-		UT.NBT.setBoolean(aNBT, NBT_INV_DISABLED_OUT, mDisabledItemOutput);
-		UT.NBT.setBoolean(aNBT, NBT_TANK_DISABLED_IN, mDisabledFluidInput);
-		UT.NBT.setBoolean(aNBT, NBT_TANK_DISABLED_OUT, mDisabledFluidOutput);
+		UT.NBT.putBoolean(aNBT, NBT_INV_DISABLED_IN, mDisabledItemInput);
+		UT.NBT.putBoolean(aNBT, NBT_INV_DISABLED_OUT, mDisabledItemOutput);
+		UT.NBT.putBoolean(aNBT, NBT_TANK_DISABLED_IN, mDisabledFluidInput);
+		UT.NBT.putBoolean(aNBT, NBT_TANK_DISABLED_OUT, mDisabledFluidOutput);
 		
 		for (int i = 0; i < mTanksInput  .length; i++) mTanksInput [i].writeToNBT(aNBT, NBT_TANK+".in." +i);
 		for (int i = 0; i < mTanksOutput .length; i++) mTanksOutput[i].writeToNBT(aNBT, NBT_TANK+".out."+i);
@@ -254,10 +254,10 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
 		UT.NBT.setNumber(aNBT, NBT_MODE, mMode);
-		UT.NBT.setBoolean(aNBT, NBT_INV_DISABLED_IN, mDisabledItemInput);
-		UT.NBT.setBoolean(aNBT, NBT_INV_DISABLED_OUT, mDisabledItemOutput);
-		UT.NBT.setBoolean(aNBT, NBT_TANK_DISABLED_IN, mDisabledFluidInput);
-		UT.NBT.setBoolean(aNBT, NBT_TANK_DISABLED_OUT, mDisabledFluidOutput);
+		UT.NBT.putBoolean(aNBT, NBT_INV_DISABLED_IN, mDisabledItemInput);
+		UT.NBT.putBoolean(aNBT, NBT_INV_DISABLED_OUT, mDisabledItemOutput);
+		UT.NBT.putBoolean(aNBT, NBT_TANK_DISABLED_IN, mDisabledFluidInput);
+		UT.NBT.putBoolean(aNBT, NBT_TANK_DISABLED_OUT, mDisabledFluidOutput);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -613,7 +613,7 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 	
 	public void updateAdjacentToggleableEnergySources() {
 		for (byte tSide : ALL_SIDES_VALID) if (isEnergyAcceptingFrom(mEnergyTypeAccepted, tSide, T)) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 			if (tDelegator.mTileEntity instanceof ITileEntityAdjacentOnOff && tDelegator.mTileEntity instanceof ITileEntityEnergy && ((ITileEntityEnergy)tDelegator.mTileEntity).isEnergyEmittingTo(mEnergyTypeAccepted, tDelegator.mSideOfTileEntity, T)) {
 				((ITileEntityAdjacentOnOff)tDelegator.mTileEntity).setAdjacentOnOff(getStateOnOff());
 			}
@@ -643,13 +643,13 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 					mOutputBlocked++;
 					return 0;
 				}
-				rMaxTimes = Math.min(rMaxTimes, (slot(j).getMaxStackSize() - slot(j).stackSize) / aRecipe.mOutputs[i].stackSize);
+				rMaxTimes = Math.min(rMaxTimes, (slot(j).getMaxStackSize() - slot(j).getCount()) / aRecipe.mOutputs[i].getCount());
 				if (rMaxTimes <= 0) {
 					mOutputBlocked++;
 					return 0;
 				}
 			} else {
-				rMaxTimes = Math.min(rMaxTimes, Math.max(1, 64 / aRecipe.mOutputs[i].stackSize));
+				rMaxTimes = Math.min(rMaxTimes, Math.max(1, 64 / aRecipe.mOutputs[i].getCount()));
 			}
 		}
 		if (aRecipe.mFluidOutputs.length > 0) {
@@ -856,7 +856,7 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 					mIgnited = 40;
 					
 					for (byte tSide : ALL_SIDES_VALID_FIRST[FACING_TO_SIDE[mFacing][mItemAutoOutput]]) if (FACE_CONNECTED[FACING_ROTATIONS[mFacing][tSide]][mItemOutputs]) {
-						DelegatorTileEntity<TileEntity> tDelegator = getItemOutputTarget(tSide);
+						DelegatorTileEntity<BlockEntity> tDelegator = getItemOutputTarget(tSide);
 						if (tDelegator != null && tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) {
 							((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, this);
 						}
@@ -972,7 +972,7 @@ public class MultiTileEntityBasicMachine extends TileEntityBase09FacingSingle im
 		return getAdjacentInventory(aSide);
 	}
 	
-	public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {
+	public DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide) {
 		return getAdjacentTileEntity(aSide);
 	}
 	

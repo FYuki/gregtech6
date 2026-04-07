@@ -93,7 +93,7 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 	@Override
 	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
-		if (aNBT.hasKey("gt.mold")) mShape = aNBT.getInteger("gt.mold");
+		if (aNBT.hasKey("gt.mold")) mShape = aNBT.getInt("gt.mold");
 		if (aNBT.hasKey(NBT_MODE)) mUseRedstone = aNBT.getBoolean(NBT_MODE);
 		if (aNBT.hasKey(NBT_ACIDPROOF)) mAcidProof = aNBT.getBoolean(NBT_ACIDPROOF);
 		if (aNBT.hasKey(NBT_CONNECTION)) mAutoPullDirections = aNBT.getByte(NBT_CONNECTION);
@@ -104,8 +104,8 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_CONNECTION, mAutoPullDirections);
-		UT.NBT.setBoolean(aNBT, NBT_MODE, mUseRedstone);
+		aNBT.putByte(NBT_CONNECTION, mAutoPullDirections);
+		UT.NBT.putBoolean(aNBT, NBT_MODE, mUseRedstone);
 		UT.NBT.setNumber(aNBT, NBT_TEMPERATURE, mTemperature);
 		UT.NBT.setNumber(aNBT, "gt.mold", mShape);
 		if (mContent != null) mContent.save(NBT_MATERIALS, aNBT);
@@ -113,9 +113,9 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		aNBT.setInteger("gt.mold", mShape);
-		aNBT.setByte(NBT_CONNECTION, mAutoPullDirections);
-		UT.NBT.setBoolean(aNBT, NBT_MODE, mUseRedstone);
+		aNBT.putInt("gt.mold", mShape);
+		aNBT.putByte(NBT_CONNECTION, mAutoPullDirections);
+		UT.NBT.putBoolean(aNBT, NBT_MODE, mUseRedstone);
 		return aNBT;
 	}
 	
@@ -170,7 +170,7 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 		if (mContent == null) {
 			if (mAutoPullDirections != 0 && (mInventoryChanged || SERVER_TIME % 20 == 5 || (mBlockUpdated && mUseRedstone)) && (!mUseRedstone || hasRedstoneIncoming())) {
 				for (byte tSide : ALL_SIDES_VALID) if (FACE_CONNECTED[tSide][mAutoPullDirections]) {
-					DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+					DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 					if (tDelegator.mTileEntity instanceof ITileEntityCrucible && ((ITileEntityCrucible)tDelegator.mTileEntity).fillMoldAtSide(this, tDelegator.mSideOfTileEntity, tSide)) break;
 				}
 			}
@@ -272,7 +272,7 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 				if (SIDES_VERTICAL[tSide]) {
 					for (byte tSide2 : ALL_SIDES_HORIZONTAL) {
 						if (isMoldInputSide(tSide2)) {
-							DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide2);
+							DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide2);
 							if (tDelegator.mTileEntity instanceof ITileEntityCrucible) {
 								((ITileEntityCrucible)tDelegator.mTileEntity).fillMoldAtSide(this, tDelegator.mSideOfTileEntity, tSide2);
 								return T;
@@ -281,7 +281,7 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 					}
 				} else {
 					if (isMoldInputSide(tSide)) {
-						DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+						DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 						if (tDelegator.mTileEntity instanceof ITileEntityCrucible) {
 							((ITileEntityCrucible)tDelegator.mTileEntity).fillMoldAtSide(this, tDelegator.mSideOfTileEntity, tSide);
 							return T;
@@ -306,9 +306,9 @@ public class MultiTileEntityMold extends TileEntityBase07Paintable implements IT
 				if (aCauseDamage) UT.Entities.applyTemperatureDamage(aPlayer, mTemperature, 1, 5.0F);
 				return T;
 			}
-			if (ST.equal(aStack, tOutputStack) && aStack.stackSize < aStack.getMaxStackSize()) {
-				int tDifference = Math.min(tOutputStack.stackSize, aStack.getMaxStackSize() - aStack.stackSize);
-				aStack.stackSize+=tDifference;
+			if (ST.equal(aStack, tOutputStack) && aStack.getCount() < aStack.getMaxStackSize()) {
+				int tDifference = Math.min(tOutputStack.getCount(), aStack.getMaxStackSize() - aStack.getCount());
+				aStack.grow(tDifference);
 				decrStackSize(0, tDifference);
 				if (aCauseDamage) UT.Entities.applyTemperatureDamage(aPlayer, mTemperature, 1, 5.0F);
 				return T;

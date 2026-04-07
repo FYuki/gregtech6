@@ -67,7 +67,7 @@ public class Behavior_Spray_Foam extends AbstractBehaviorDefault {
 	
 	@Override
 	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
-		if (aWorld.isRemote || aStack.stackSize != 1 || aPlayer.isSneaking() || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
+		if (aWorld.isRemote || aStack.getCount() != 1 || aPlayer.isSneaking() || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		
 		boolean rOutput = F;
 		
@@ -93,7 +93,7 @@ public class Behavior_Spray_Foam extends AbstractBehaviorDefault {
 			tUses = 0;
 			tNBT.removeTag(NBT_MODE);
 			if (mEmpty == null) {
-				aStack.stackSize--;
+				aStack.shrink(1);
 			} else {
 				aStack.func_150996_a(mEmpty.getItem());
 				ST.meta_(aStack, ST.meta_(mEmpty));
@@ -110,7 +110,7 @@ public class Behavior_Spray_Foam extends AbstractBehaviorDefault {
 		if (aUses < 1) return 0;
 		long rUses = 0;
 		
-		DelegatorTileEntity<TileEntity> aDelegator = WD.te(aWorld, aX, aY, aZ, aSide, T);
+		DelegatorTileEntity<BlockEntity> aDelegator = WD.te(aWorld, aX, aY, aZ, aSide, T);
 		if (aDelegator.mTileEntity instanceof ITileEntityFoamable && !((ITileEntityFoamable)aDelegator.mTileEntity).hasFoam(aDelegator.mSideOfTileEntity)) return ((ITileEntityFoamable)aDelegator.mTileEntity).applyFoam(aDelegator.mSideOfTileEntity, aPlayer, DYES[mColor], mColor, mOwned) ? 10 : 0;
 		Block aBlock = aDelegator.getBlock(); aWorld = aDelegator.mWorld; aX = aDelegator.mX; aY = aDelegator.mY; aZ = aDelegator.mZ;
 		if (aBlock instanceof IBlockFoamable && !((IBlockFoamable)aBlock).hasFoam(aWorld, aX, aY, aZ, aDelegator.mSideOfTileEntity)) return ((IBlockFoamable)aBlock).applyFoam(aWorld, aX, aY, aZ, aDelegator.mSideOfTileEntity, DYES[mColor], mColor) ? 10 : 0;

@@ -20,7 +20,7 @@
 package gregapi.recipes.maps;
 
 import forestry.api.genetics.AlleleManager;
-import forestry.api.genetics.IIndividual;
+import gregapi.stubs.IIndividual;
 import gregapi.data.IL;
 import gregapi.random.IHasWorldAndCoords;
 import gregapi.recipes.Recipe;
@@ -54,7 +54,7 @@ public class RecipeMapPlantalyzer extends RecipeMap {
 					ItemStack rOutput = ST.copy(aInput);
 					CompoundTag tNBT = UT.NBT.getOrCreate(rOutput);
 					if (tNBT.getByte("scan") >= 4) return new Recipe(F, F, F, ST.array(aInput), ST.array(aInput), null, null, null, null, 1, 16, 0);
-					tNBT.setByte("scan", (byte)4);
+					tNBT.putByte("scan", (byte)4);
 					return new Recipe(F, F, F, ST.array(aInput), ST.array(rOutput), null, null, null, null, 64, 16, 0);
 				}
 				if (IL.FR_Tree_Sapling.equal(aInput, T, T)) try {

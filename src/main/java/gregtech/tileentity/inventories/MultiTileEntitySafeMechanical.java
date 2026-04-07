@@ -57,7 +57,7 @@ public class MultiTileEntitySafeMechanical extends MultiTileEntitySafe {
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mOwner != null) aNBT.setString(NBT_OWNER, mOwner.toString());
+		if (mOwner != null) aNBT.putString(NBT_OWNER, mOwner.toString());
 	}
 	
 	@Override

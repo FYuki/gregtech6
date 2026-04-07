@@ -44,7 +44,7 @@ public class Behavior_Key extends AbstractBehaviorDefault {
 	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote) return F;
 		
-		DelegatorTileEntity<TileEntity> aTileEntity = WD.te(aWorld, aX, aY, aZ, aSide, T);
+		DelegatorTileEntity<BlockEntity> aTileEntity = WD.te(aWorld, aX, aY, aZ, aSide, T);
 		if (aTileEntity.mTileEntity instanceof ITileEntityKeyInteractable) {
 			CompoundTag tNBT = UT.NBT.getNBT(aStack);
 			long tKeyID = tNBT.getLong(NBT_KEY);

@@ -80,26 +80,26 @@ public class Behavior_Sonictron extends AbstractBehaviorDefault {
 	public static int getCurrentIndex(ItemStack aStack) {
 		CompoundTag tNBTTagCompound = aStack.getTagCompound();
 		if (tNBTTagCompound == null) tNBTTagCompound = UT.NBT.make();
-		return tNBTTagCompound.getInteger("mCurrentIndex");
+		return tNBTTagCompound.getInt("mCurrentIndex");
 	}
 
 	public static int getTickTimer(ItemStack aStack) {
 		CompoundTag tNBTTagCompound = aStack.getTagCompound();
 		if (tNBTTagCompound == null) tNBTTagCompound = UT.NBT.make();
-		return tNBTTagCompound.getInteger("mTickTimer");
+		return tNBTTagCompound.getInt("mTickTimer");
 	}
 
 	public static CompoundTag setCurrentIndex(ItemStack aStack, int aIndex) {
 		CompoundTag tNBTTagCompound = aStack.getTagCompound();
 		if (tNBTTagCompound == null) tNBTTagCompound = UT.NBT.make();
-		tNBTTagCompound.setInteger("mCurrentIndex", aIndex);
+		tNBTTagCompound.putInt("mCurrentIndex", aIndex);
 		return tNBTTagCompound;
 	}
 
 	public static CompoundTag setTickTimer(ItemStack aStack, int aTime) {
 		CompoundTag tNBTTagCompound = aStack.getTagCompound();
 		if (tNBTTagCompound == null) tNBTTagCompound = UT.NBT.make();
-		tNBTTagCompound.setInteger("mTickTimer", aTime);
+		tNBTTagCompound.putInt("mTickTimer", aTime);
 		return tNBTTagCompound;
 	}
 	
@@ -128,7 +128,7 @@ public class Behavior_Sonictron extends AbstractBehaviorDefault {
 			ItemStack stack = aInventory[i];
 			if (stack != null) {
 				CompoundTag tag = UT.NBT.make();
-				tag.setByte("Slot", (byte) i);
+				tag.putByte("Slot", (byte) i);
 				tNBT_ItemList.appendTag(ST.save(stack));
 			}
 		}

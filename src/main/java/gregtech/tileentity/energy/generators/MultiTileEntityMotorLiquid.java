@@ -88,7 +88,7 @@ public class MultiTileEntityMotorLiquid extends TileEntityBase09FacingSingle imp
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
 		mActivity.save(aNBT);
 		mTanks[0].writeToNBT(aNBT, NBT_TANK+".0");
 		mTanks[1].writeToNBT(aNBT, NBT_TANK+".1");

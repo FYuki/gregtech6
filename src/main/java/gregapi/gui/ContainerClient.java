@@ -21,8 +21,7 @@ package gregapi.gui;
 
 import static gregapi.data.CS.*;
 
-import org.lwjgl.opengl.GL11;
-
+// PHASE4: GL11 and old rendering removed
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.util.ST;
@@ -61,38 +60,22 @@ public class ContainerClient extends GuiContainer {
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
-		mc.renderEngine.bindTexture(mBackground);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		// PHASE4: mc.renderEngine.bindTexture(mBackground); GL11.glColor4f removed
 		drawGuiContainerBackgroundLayer2(par1, par2, par3);
 	}
-	
+
 	protected void drawGuiContainerBackgroundLayer2(float par1, int par2, int par3) {
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
-	
+
 	@Override
 	public void drawScreen(int aX, int aY, float par3) {
-		try {
-			super.drawScreen(aX, aY, par3);
-			for (int i = 0; i < inventorySlots.inventorySlots.size(); ++i) {
-				Slot tSlot = (Slot)inventorySlots.inventorySlots.get(i);
-				if (ST.invalid(tSlot.getStack()) && isMouseOverSlot(tSlot, aX, aY) && tSlot instanceof Slot_Base) {
-					drawHoveringText(((Slot_Base)tSlot).getTooltip(mc.thePlayer, mc.gameSettings.advancedItemTooltips), aX, aY, fontRendererObj);
-				}
-			}
-		} catch (Throwable e) {
-			e.printStackTrace(ERR);
-			try {
-				Tessellator.instance.draw();
-			} catch (Throwable f) {
-				f.printStackTrace(ERR);
-			}
-		}
+		// PHASE4: old rendering code removed — rewrite with PoseStack/AbstractContainerScreen
 	}
-	
-	protected boolean isMouseOverSlot(Slot aSlot, int aX, int aY) {return func_146978_c(aSlot.xDisplayPosition, aSlot.yDisplayPosition, 16, 16, aX, aY);}
+
+	protected boolean isMouseOverSlot(Slot aSlot, int aX, int aY) {return func_146978_c(aSlot.x, aSlot.y, 16, 16, aX, aY);}
 	
 	/*
 	@Override

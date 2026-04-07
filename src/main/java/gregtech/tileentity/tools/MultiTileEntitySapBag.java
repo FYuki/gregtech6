@@ -67,7 +67,7 @@ public class MultiTileEntitySapBag extends TileEntityBase09FacingSingle implemen
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mFull);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mFull);
 		mTank.writeToNBT(aNBT, NBT_TANK);
 	}
 	
@@ -80,7 +80,7 @@ public class MultiTileEntitySapBag extends TileEntityBase09FacingSingle implemen
 	public void onTick2(long aTimer, boolean aIsServerSide) {
 		super.onTick2(aTimer, aIsServerSide);
 		if (aIsServerSide) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mFacing);
 			if (tDelegator.mTileEntity instanceof ITileEntityTreeHole) {
 				if (((ITileEntityTreeHole)tDelegator.mTileEntity).hasResin(tDelegator.mSideOfTileEntity)) {
 					if (((ITileEntityTreeHole)tDelegator.mTileEntity).extractResin(tDelegator.mSideOfTileEntity)) {
@@ -104,7 +104,7 @@ public class MultiTileEntitySapBag extends TileEntityBase09FacingSingle implemen
 			}
 			ItemStack aStack = aPlayer.getCurrentEquippedItem(), tStack;
 			if (aStack != null) if ((tStack = FL.fill(mTank, ST.amount(1, aStack), T, T, T, T)) != null) {
-				aStack.stackSize--;
+				aStack.shrink(1);
 				ST.give(aPlayer, tStack, T);
 				return T;
 			}

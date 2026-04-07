@@ -684,7 +684,7 @@ public enum FL {
 		CompoundTag tNBT = NBT.makeString("f", aFluid.getFluid().getName());
 		if (aAmount != 0) NBT.setNumber(tNBT, "a", aAmount);
 		NBT.setNumber(tNBT, "h", temperature(aFluid));
-		NBT.setBoolean(tNBT, "s", gas(aFluid));
+		NBT.putBoolean(tNBT, "s", gas(aFluid));
 		return NBT.set(rStack, tNBT);
 	}
 	
@@ -1048,13 +1048,13 @@ public enum FL {
 			aFluid = fluid(aName);
 		}
 		if (aFluid == null) {
-			if (FL.LubRoCant      .is(aName)) return FL.Lubricant    .make(aNBT.getInteger("Amount"));
-			if (FL.Reikanol       .is(aName)) return FL.BioEthanol   .make(aNBT.getInteger("Amount"));
-			if (FL.Liquid_Reikygen.is(aName)) return FL.Oxygen       .make(aNBT.getInteger("Amount"));
-			if (FL.Reikygen       .is(aName)) return FL.Liquid_Oxygen.make(aNBT.getInteger("Amount"));
+			if (FL.LubRoCant      .is(aName)) return FL.Lubricant    .make(aNBT.getInt("Amount"));
+			if (FL.Reikanol       .is(aName)) return FL.BioEthanol   .make(aNBT.getInt("Amount"));
+			if (FL.Liquid_Reikygen.is(aName)) return FL.Oxygen       .make(aNBT.getInt("Amount"));
+			if (FL.Reikygen       .is(aName)) return FL.Liquid_Oxygen.make(aNBT.getInt("Amount"));
 			return null;
 		}
-		FluidStack rFluid = new FluidStack(aFluid, aNBT.getInteger("Amount"));
+		FluidStack rFluid = new FluidStack(aFluid, aNBT.getInt("Amount"));
 		if (aNBT.hasKey("Tag")) rFluid.tag = aNBT.getCompoundTag("Tag");
 		return rFluid;
 	}

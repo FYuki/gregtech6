@@ -66,6 +66,7 @@ import java.util.List;
 import java.util.Set;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -436,8 +437,8 @@ public class MultiTileEntitySmeltery extends TileEntityBase07Paintable implement
 							UT.Entities.applyTemperatureDamage(aPlayer, mTemperature, 1, 5.0F);
 							return T;
 						}
-						if (ST.equal(aStack, tOutputStack) && aStack.stackSize < aStack.getMaxStackSize()) {
-							aStack.stackSize++;
+						if (ST.equal(aStack, tOutputStack) && aStack.getCount() < aStack.getMaxStackSize()) {
+							aStack.grow(1);
 							tLightest.mAmount-=OP.scrapGt.mAmount;
 							UT.Entities.exhaust(aPlayer);
 							UT.Entities.applyTemperatureDamage(aPlayer, mTemperature, 1, 5.0F);
@@ -457,7 +458,7 @@ public class MultiTileEntitySmeltery extends TileEntityBase07Paintable implement
 									ItemStack tStack = FL.fill(tFluid, ST.amount(1, aStack), T, T, T, T);
 									if (ST.valid(tStack)) {
 										tLightest.mAmount -= UT.Code.units(tAmount - tFluid.amount, tLightest.mMaterial.mLiquid.amount, tLightest.mMaterial.mLiquidUnit, T);
-										aStack.stackSize--;
+										aStack.shrink(1);
 										ST.give(aPlayer, tStack, T);
 										return T;
 									}
@@ -471,13 +472,13 @@ public class MultiTileEntitySmeltery extends TileEntityBase07Paintable implement
 							if (tFluidData != null) {
 								if (FL.equal(tFluidData.mMaterial.mLiquid, tFluid)) {
 									if (addMaterialStacks(new ArrayListNoNulls<>(F, OM.stack(tFluidData.mMaterial, UT.Code.units(tFluid.amount, tFluidData.mMaterial.mLiquid.amount, tFluidData.mMaterial.mLiquidUnit, F))), UT.Code.bind(FL.temperature(tFluid), tFluidData.mMaterial.mMeltingPoint+25, tFluidData.mMaterial.mBoilingPoint-1))) {
-										aStack.stackSize--;
+										aStack.shrink(1);
 										ST.give(aPlayer, tStack, T);
 										return T;
 									}
 								} else {
 									if (addMaterialStacks(new ArrayListNoNulls<>(F, OM.stack(tFluidData.mMaterial, UT.Code.units(tFluid.amount, tFluidData.mAmount, U, F))), UT.Code.bind(FL.temperature(tFluid), tFluidData.mMaterial.mMeltingPoint+25, tFluidData.mMaterial.mBoilingPoint-1))) {
-										aStack.stackSize--;
+										aStack.shrink(1);
 										ST.give(aPlayer, tStack, T);
 										return T;
 									}
@@ -524,9 +525,9 @@ public class MultiTileEntitySmeltery extends TileEntityBase07Paintable implement
 					return 500;
 				}
 				if (ST.add(aPlayer, tOutputStack)) {
-					UT.Entities.exhaust(aPlayer, 0.1F * tOutputStack.stackSize);
-					tLightest.mAmount -= OP.scrapGt.mAmount * tOutputStack.stackSize;
-					return 1000 * tOutputStack.stackSize;
+					UT.Entities.exhaust(aPlayer, 0.1F * tOutputStack.getCount());
+					tLightest.mAmount -= OP.scrapGt.mAmount * tOutputStack.getCount();
+					return 1000 * tOutputStack.getCount();
 				}
 				return 0;
 			}

@@ -1,0 +1,3 @@
+package mods.railcraft.api.core.items;
+// PHASE8: stub for compat
+import net.minecraft.world.item.ItemStack; import net.minecraft.world.entity.player.Player; public interface IToolCrowbar { boolean canWhack(Player player, Object hand, ItemStack stack, Object pos); void onWhack(Player player, Object hand, ItemStack stack, Object pos); boolean canLink(Player player, Object hand, ItemStack stack, Object cart); void onLink(Player player, Object hand, ItemStack stack, Object cart); boolean canBoost(Player player, Object hand, ItemStack stack, Object cart); void onBoost(Player player, Object hand, ItemStack stack, Object cart); }

@@ -98,7 +98,7 @@ public class MultiTileEntityCentrifuge extends TileEntityBase10MultiBlockMachine
 	
 	@Override
 	public void updateAdjacentToggleableEnergySources() {
-		DelegatorTileEntity<TileEntity>
+		DelegatorTileEntity<BlockEntity>
 		tDelegator = WD.te(worldObj, getOffsetXN(mFacing), yCoord-1, getOffsetZN(mFacing), SIDE_TOP, F);
 		if (tDelegator.mTileEntity instanceof ITileEntityAdjacentOnOff && tDelegator.mTileEntity instanceof ITileEntityEnergy && ((ITileEntityEnergy)tDelegator.mTileEntity).isEnergyEmittingTo(mEnergyTypeAccepted, tDelegator.mSideOfTileEntity, T)) {
 			((ITileEntityAdjacentOnOff)tDelegator.mTileEntity).setAdjacentOnOff(getStateOnOff());
@@ -115,7 +115,7 @@ public class MultiTileEntityCentrifuge extends TileEntityBase10MultiBlockMachine
 	}
 	
 	@Override
-	public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {
+	public DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide) {
 		return getAdjacentTileEntity(SIDE_BOTTOM);
 	}
 	

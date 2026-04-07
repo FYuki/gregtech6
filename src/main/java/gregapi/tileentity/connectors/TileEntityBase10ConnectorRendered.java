@@ -72,17 +72,17 @@ public abstract class TileEntityBase10ConnectorRendered extends TileEntityBase09
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_FOAMED, mFoam);
-		UT.NBT.setBoolean(aNBT, NBT_FOAMDRIED, mFoamDried);
-		UT.NBT.setBoolean(aNBT, NBT_OWNABLE, mOwnable);
-		if (mOwner != null) aNBT.setString(NBT_OWNER, mOwner.toString());
+		UT.NBT.putBoolean(aNBT, NBT_FOAMED, mFoam);
+		UT.NBT.putBoolean(aNBT, NBT_FOAMDRIED, mFoamDried);
+		UT.NBT.putBoolean(aNBT, NBT_OWNABLE, mOwnable);
+		if (mOwner != null) aNBT.putString(NBT_OWNER, mOwner.toString());
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		UT.NBT.setBoolean(aNBT, NBT_FOAMED, mFoam);
-		UT.NBT.setBoolean(aNBT, NBT_FOAMDRIED, mFoamDried);
-		UT.NBT.setBoolean(aNBT, NBT_OWNABLE, mOwnable);
+		UT.NBT.putBoolean(aNBT, NBT_FOAMED, mFoam);
+		UT.NBT.putBoolean(aNBT, NBT_FOAMDRIED, mFoamDried);
+		UT.NBT.putBoolean(aNBT, NBT_OWNABLE, mOwnable);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -118,7 +118,7 @@ public abstract class TileEntityBase10ConnectorRendered extends TileEntityBase09
 		// TODO: I need to add the old optimizations back somehow.
 		// Even though this Version is way more modular and can adjust to stuff much easier, it does also look bad when rendered with ambient occlusion.
 		if (aRenderPass <= 6) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity((byte)(aRenderPass - 1), F, F);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity((byte)(aRenderPass - 1), F, F);
 			float tDiameter = getConnectorDiameter((byte)(aRenderPass - 1), tDelegator), tLength = getConnectorLength((byte)(aRenderPass - 1), tDelegator);
 			switch(aRenderPass - 1) {
 			case SIDE_X_NEG: box(aBlock, 0-tLength                  ,   (1.0F-tDiameter)/2.0F   ,   (1.0F-tDiameter)/2.0F   ,   (1.0F-tDiameter)/2.0F   , 1-(1.0F-tDiameter)/2.0F   , 1-(1.0F-tDiameter)/2.0F   ); return T;
@@ -222,12 +222,12 @@ public abstract class TileEntityBase10ConnectorRendered extends TileEntityBase09
 	public void addCollisionBoxesToList2(AABB aAABB, List<AABB> aList, Entity aEntity) {
 		if (!addDefaultCollisionBoxToList()) {
 			byte tSide;                                                                                                                                                                                                              box(aAABB, aList,   (1.0F-mDiameter)/2.0F,   (1.0F-mDiameter)/2.0F,   (1.0F-mDiameter)/2.0F, 1-(1.0F-mDiameter)/2.0F, 1-(1.0F-mDiameter)/2.0F, 1-(1.0F-mDiameter)/2.0F);
-			if (connected(tSide = SIDE_X_NEG)) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList, 0-tLength              ,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F);}
-			if (connected(tSide = SIDE_Y_NEG)) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList,   (1.0F-tDiameter)/2.0F, 0-tLength              ,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F);}
-			if (connected(tSide = SIDE_Z_NEG)) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 0-tLength              , 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F);}
-			if (connected(tSide = SIDE_X_POS)) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList, 1-(1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1+tLength              , 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F);}
-			if (connected(tSide = SIDE_Y_POS)) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1+tLength              , 1-(1.0F-tDiameter)/2.0F);}
-			if (connected(tSide = SIDE_Z_POS)) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1+tLength              );}
+			if (connected(tSide = SIDE_X_NEG)) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList, 0-tLength              ,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F);}
+			if (connected(tSide = SIDE_Y_NEG)) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList,   (1.0F-tDiameter)/2.0F, 0-tLength              ,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F);}
+			if (connected(tSide = SIDE_Z_NEG)) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 0-tLength              , 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F);}
+			if (connected(tSide = SIDE_X_POS)) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList, 1-(1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1+tLength              , 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F);}
+			if (connected(tSide = SIDE_Y_POS)) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1+tLength              , 1-(1.0F-tDiameter)/2.0F);}
+			if (connected(tSide = SIDE_Z_POS)) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide, F, F); float tDiameter = getConnectorDiameter(tSide, tDelegator), tLength = mContactDamage ? -PX_P[2] : 0; box(aAABB, aList,   (1.0F-tDiameter)/2.0F,   (1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1-(1.0F-tDiameter)/2.0F, 1+tLength              );}
 		}
 	}
 	
@@ -238,7 +238,7 @@ public abstract class TileEntityBase10ConnectorRendered extends TileEntityBase09
 		return new float[] {connected(SIDE_X_NEG) ? 0 : tDiameter, connected(SIDE_Y_NEG) ? 0 : tDiameter, connected(SIDE_Z_NEG) ? 0 : tDiameter, connected(SIDE_X_POS) ? 1 : 1-tDiameter, connected(SIDE_Y_POS) ? 1 : 1-tDiameter, connected(SIDE_Z_POS) ? 1 : 1-tDiameter};
 	}
 	
-	public float getConnectorLength(byte aConnectorSide, DelegatorTileEntity<TileEntity> aDelegator) {
+	public float getConnectorLength(byte aConnectorSide, DelegatorTileEntity<BlockEntity> aDelegator) {
 		float rLength = (mDiameter != 1.0F && hasCovers() && mCovers.mBehaviours[aConnectorSide] != null ? mCovers.mBehaviours[aConnectorSide].showsConnectorFront(aConnectorSide, mCovers) ? +0.001F : -0.001F : 0);
 		if (aDelegator.mTileEntity instanceof ITileEntitySurface) {
 			float tDistance = ((ITileEntitySurface)aDelegator.mTileEntity).getSurfaceDistance(aDelegator.mSideOfTileEntity);
@@ -248,7 +248,7 @@ public abstract class TileEntityBase10ConnectorRendered extends TileEntityBase09
 		return rLength;
 	}
 	
-	public float getConnectorDiameter(byte aConnectorSide, DelegatorTileEntity<TileEntity> aDelegator) {
+	public float getConnectorDiameter(byte aConnectorSide, DelegatorTileEntity<BlockEntity> aDelegator) {
 		float rDiameter = mDiameter;
 		if (aDelegator.mTileEntity instanceof ITileEntitySurface) rDiameter = ((ITileEntitySurface)aDelegator.mTileEntity).getSurfaceSizeAttachable(aDelegator.mSideOfTileEntity);
 		// Connect with normal Size when the target cannot connect and ensure that minimum and maximum size are properly done.

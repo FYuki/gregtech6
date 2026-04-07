@@ -85,7 +85,7 @@ public class MultiTileEntityAutoclave extends TileEntityBase10MultiBlockMachine 
 	}
 	
 	@Override
-	public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {
+	public DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide) {
 		return getAdjacentTileEntity(SIDE_BOTTOM);
 	}
 	

@@ -40,7 +40,7 @@ public class Behavior_Plunger_Item extends AbstractBehaviorDefault {
 	@Override
 	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aWorld.isRemote) return F;/*
-		TileEntity aTileEntity = UT.Worlds.getTileEntity(aWorld, aX, aY, aZ, true);
+		BlockEntity aTileEntity = UT.Worlds.getTileEntity(aWorld, aX, aY, aZ, true);
 		if (aTileEntity instanceof IGregTechTileEntity) {
 			IMetaTileEntity tMetaTileEntity = ((IGregTechTileEntity)aTileEntity).getMetaTileEntity();
 			if (tMetaTileEntity instanceof IMetaTileEntityItemPipe) {

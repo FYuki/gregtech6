@@ -167,13 +167,13 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	
 	@Override
 	public Object getServerGuiElement(int aGUIID, Player aPlayer, Level aWorld, int aX, int aY, int aZ) {
-		TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
+		BlockEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		return tTileEntity instanceof ITileEntityGUI ? ((ITileEntityGUI)tTileEntity).getGUIServer(aGUIID, aPlayer) : null;
 	}
 	
 	@Override
 	public Object getClientGuiElement(int aGUIID, Player aPlayer, Level aWorld, int aX, int aY, int aZ) {
-		TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
+		BlockEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		return tTileEntity instanceof ITileEntityGUI ? ((ITileEntityGUI)tTileEntity).getGUIClient(aGUIID, aPlayer) : null;
 	}
 	
@@ -372,7 +372,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 								FMLLog.severe("Also it is a Ban Reason on the IC2-Forums to seriously post this Text. We all know about its existence.");
 								
 								tOutput.setStackDisplayName("ERROR!");
-								UT.NBT.setBoolean(UT.NBT.getNBT(tOutput), "gt.err.oredict.output", T);
+								UT.NBT.putBoolean(UT.NBT.getNBT(tOutput), "gt.err.oredict.output", T);
 							}
 						} else {
 							OM.set(tOutput);
@@ -456,7 +456,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						try {
 							tTileEntity.onScheduledUpdate();
 						} catch(Throwable e) {
-							if (tTileEntity instanceof ITileEntityErrorable) ((ITileEntityErrorable)tTileEntity).setError("Scheduled TileEntity Update - " + e);
+							if (tTileEntity instanceof ITileEntityErrorable) ((ITileEntityErrorable)tTileEntity).setError("Scheduled BlockEntity Update - " + e);
 							e.printStackTrace(ERR);
 						}
 					}
@@ -623,22 +623,22 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						if (aData != null) {
 							if (aData.validPrefix()) for (IOreDictListenerItem tListener : aData.mPrefix.mListenersItem) {
 								rStack = tListener.onTickWorld(aData.mPrefix, aData.mMaterial.mMaterial, rStack, (ItemEntity)aEntity);
-								if (!ST.equal(rStack, aStack) || rStack.stackSize != aStack.stackSize) {tBreak = T; break;}
+								if (!ST.equal(rStack, aStack) || rStack.getCount() != aStack.getCount()) {tBreak = T; break;}
 							}
 							if (!tBreak && aData.validMaterial()) for (OreDictMaterialStack tMaterial : aData.getAllMaterialStacks()) {
 								if (tBreak) break;
 								if (tMaterial.mMaterial.contains(TD.Properties.UNBURNABLE)) tFireProof = T;
 								for (IOreDictListenerItem tListener : tMaterial.mMaterial.mListenersItem) {
 									rStack = tListener.onTickWorld(aData.mPrefix, tMaterial.mMaterial, rStack, (ItemEntity)aEntity);
-									if (!ST.equal(rStack, aStack) || rStack.stackSize != aStack.stackSize) {tBreak = T; break;}
+									if (!ST.equal(rStack, aStack) || rStack.getCount() != aStack.getCount()) {tBreak = T; break;}
 								}
 							}
 						}
 						
-						if (rStack == null || rStack.stackSize <= 0) {
+						if (rStack == null || rStack.getCount() <= 0) {
 							((ItemEntity)aEntity).setEntityItemStack(NI);
 							((ItemEntity)aEntity).setDead();
-						} else if (!ST.equal(rStack, aStack) || rStack.stackSize != aStack.stackSize) {
+						} else if (!ST.equal(rStack, aStack) || rStack.getCount() != aStack.getCount()) {
 							((ItemEntity)aEntity).setEntityItemStack(rStack);
 							((ItemEntity)aEntity).delayBeforeCanPickup = 40;
 						}
@@ -679,7 +679,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 			
 			if (SERVER_TIME % 20 == 1) {
 				for (int i = 0; i < aEvent.world.loadedTileEntityList.size(); i++) {
-					TileEntity aTileEntity = (TileEntity)aEvent.world.loadedTileEntityList.get(i);
+					BlockEntity aTileEntity = (BlockEntity)aEvent.world.loadedTileEntityList.get(i);
 					if (aTileEntity instanceof ITileEntityNeedsSaving) WD.mark(aTileEntity);
 				}
 			}
@@ -802,7 +802,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 									}
 								}
 								ItemStack tRotten = RottingUtil.rotting(tStack, aEvent.player.worldObj, UT.Code.roundDown(aEvent.player.posX), UT.Code.roundDown(aEvent.player.posY), UT.Code.roundDown(aEvent.player.posZ));
-								if (ST.invalid(tRotten)) {tStack.stackSize = 0; aEvent.player.inventory.setInventorySlotContents(i, null); continue;}
+								if (ST.invalid(tRotten)) {tStack.setCount(0); aEvent.player.inventory.setInventorySlotContents(i, null); continue;}
 								if (tStack != tRotten) ST.set(tStack, tRotten);
 							}
 							// You can't detect properly when you pick things up out of a Chest, so part of the Inventory scan it is!
@@ -811,7 +811,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 							}
 							// Radiation and Heat Damage.
 							if (!UT.Entities.isInvincible(aEvent.player)) {
-								UT.Entities.applyRadioactivity(aEvent.player, UT.Entities.getRadioactivityLevel(tStack), tStack.stackSize);
+								UT.Entities.applyRadioactivity(aEvent.player, UT.Entities.getRadioactivityLevel(tStack), tStack.getCount());
 								float tHeat = UT.Entities.getHeatDamageFromItem(tStack);
 								if (tHeat != 0.0F) if (tHeat > 0) UT.Entities.applyHeatDamage(aEvent.player, tHeat); else UT.Entities.applyFrostDamage(aEvent.player, -tHeat);
 							}
@@ -825,14 +825,14 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 								if (tData.mMaterial.mMaterial == MT.Craponite) {
 									tCraponite++;
 								}
-								if (tData.mMaterial.mMaterial == MT.Firestone && tData.validPrefix() && !MD.RC.owns(tStack)) for (int j = (int)UT.Code.divup(tData.mMaterial.mAmount * tStack.stackSize, U); j > 0; j--) {
+								if (tData.mMaterial.mMaterial == MT.Firestone && tData.validPrefix() && !MD.RC.owns(tStack)) for (int j = (int)UT.Code.divup(tData.mMaterial.mAmount * tStack.getCount(), U); j > 0; j--) {
 									WD.fire(aEvent.player.worldObj, UT.Code.roundDown(aEvent.player.posX)-5+RNGSUS.nextInt(11), UT.Code.roundDown(aEvent.player.posY)-5+RNGSUS.nextInt(11), UT.Code.roundDown(aEvent.player.posZ)-5+RNGSUS.nextInt(11), RNGSUS.nextInt(8) != 0);
 								}
 							}
-							if (tHungerEffect) tCount+=(tStack.stackSize * 64) / Math.max(1, tStack.getMaxStackSize());
+							if (tHungerEffect) tCount+=(tStack.getCount() * 64) / Math.max(1, tStack.getMaxStackSize());
 							if (INVENTORY_UNIFICATION) OM.set_(tStack);
 							ST.update(tStack, aEvent.player);
-							if (tStack.hasTagCompound() && tStack.getTagCompound().hasNoTags()) tStack.setTagCompound(null);
+							if (tStack.hasTag() && tStack.getTagCompound().hasNoTags()) tStack.setTagCompound(null);
 						}
 					}
 					
@@ -901,7 +901,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						}
 						
 						if (!UT.Entities.isInvincible(aEvent.player)) {
-							UT.Entities.applyRadioactivity(aEvent.player, UT.Entities.getRadioactivityLevel(tStack), tStack.stackSize);
+							UT.Entities.applyRadioactivity(aEvent.player, UT.Entities.getRadioactivityLevel(tStack), tStack.getCount());
 							float tHeat = UT.Entities.getHeatDamageFromItem(tStack);
 							if (tHeat != 0.0F) if (tHeat > 0) UT.Entities.applyHeatDamage(aEvent.player, tHeat); else UT.Entities.applyFrostDamage(aEvent.player, -tHeat);
 						}
@@ -957,7 +957,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		// There cant be any Inventory Row above this one.
 		if (tSlot >= 27) return;
 		// Refill, but only if the Slot in the Hotbar is Empty.
-		if (tInv[tSlot] != null && tInv[tSlot].stackSize > 0) return;
+		if (tInv[tSlot] != null && tInv[tSlot].getCount() > 0) return;
 		// Do not refill Foods!
 		if (ST.food(aEvent.original) > 0) return;
 		// Do not refill Edibles!
@@ -1006,7 +1006,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		CompoundTag tNBT = aEvent.item.getTagCompound();
 		if (tNBT != null && tNBT.hasKey(NBT_EFFECTS)) {
 			tNBT = tNBT.getCompoundTag(NBT_EFFECTS);
-			if (RNGSUS.nextInt(100) < tNBT.getInteger("chance")) UT.Entities.applyPotion(aEvent.entityPlayer, tNBT.getInteger("id"), tNBT.getInteger("time"), tNBT.getInteger("lvl"), F);
+			if (RNGSUS.nextInt(100) < tNBT.getInt("chance")) UT.Entities.applyPotion(aEvent.entityPlayer, tNBT.getInt("id"), tNBT.getInt("time"), tNBT.getInt("lvl"), F);
 		}
 		
 		if (aEvent.item.getItem() == Items.apple) {
@@ -1030,13 +1030,13 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		
 		ItemStack aStack = aEvent.entityPlayer.inventory.getCurrentItem();
 		Block aBlock = WD.block(aEvent.world, aEvent.x, aEvent.y, aEvent.z);
-		TileEntity aTileEntity = aEvent.world.getTileEntity(aEvent.x, aEvent.y, aEvent.z);
+		BlockEntity aTileEntity = aEvent.world.getTileEntity(aEvent.x, aEvent.y, aEvent.z);
 		
 		if (aEvent.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 			// Fixing a Vanilla Dupe Bug with stacked Music Discs and the Jukebox.
 			if (aTileEntity instanceof TileEntityJukebox) {
 				ItemStack tStack = ((TileEntityJukebox)aTileEntity).func_145856_a();
-				if (tStack != null) tStack.stackSize = 1;
+				if (tStack != null) tStack.setCount(1);
 				return;
 			}
 			// You can easily recycle most things in GT6 anyways, so this should not be needed.
@@ -1085,7 +1085,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 					// Dollies won't work on GT6 TileEntities, so to prevent a Crash and deleted Resources, I just disable the interaction.
 					if (IL.JABBA_Dolly.equal(aStack, T, T) || IL.JABBA_Dolly_Diamond.equal(aStack, T, T)) {
 						if (aTileEntity instanceof ITileEntitySpecificPlacementBehavior) {
-							UT.Entities.chat(aEvent.entityPlayer, CHAT_GREG + "The Dolly Code is sadly not smart enough to move this TileEntity.", CHAT_GREG + "It would crash if it actually did, so be glad I prevented your mistake.", CHAT_GREG + "Would be great if it did work though...");
+							UT.Entities.chat(aEvent.entityPlayer, CHAT_GREG + "The Dolly Code is sadly not smart enough to move this BlockEntity.", CHAT_GREG + "It would crash if it actually did, so be glad I prevented your mistake.", CHAT_GREG + "Would be great if it did work though...");
 							aEvent.setCanceled(T);
 						}
 						return;
@@ -1289,7 +1289,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		if (aBlock == null) return;
 		
 		if (aBlock == Blocks.DIRT && aEvent.blockMetadata == 1) for (int i = 0, j = aEvent.drops.size(); i < j; i++) if (ST.block(aEvent.drops.get(0)) == Blocks.DIRT) {
-			aEvent.drops.set(i, ST.make(Blocks.DIRT, aEvent.drops.get(i).stackSize, 1));
+			aEvent.drops.set(i, ST.make(Blocks.DIRT, aEvent.drops.get(i).getCount(), 1));
 		}
 		
 		if (IL.TF_Mushgloom_Huge.equal(aBlock)) {
@@ -1317,18 +1317,18 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 				if (tFireAspect) for (ItemStack tDrop : aEvent.drops) {
 					ItemStack tTarget = RM.get_smelting(tDrop);
 					if (ST.valid(tTarget)) {
-						tDrop.stackSize *= tTarget.stackSize;
+						tDrop.getCount() *= tTarget.getCount();
 						OM.set(ST.set(tDrop, tTarget, F, T));
 						tTarget = (aEvent.isSilkTouching?BlocksGT.blockToSilk:BlocksGT.blockToDrop).get(tDrop);
 						if (ST.valid(tTarget)) OM.set(ST.set(tDrop, tTarget, F, F));
 					} else {
 						WoodEntry tWoodEntry = WoodDictionary.WOODS.get(tDrop);
 						if (tWoodEntry != null && tWoodEntry.mCharcoalCount > 0) {
-							ST.set(tDrop, OP.gem.mat(MT.Charcoal, tWoodEntry.mCharcoalCount * tDrop.stackSize), T, F);
+							ST.set(tDrop, OP.gem.mat(MT.Charcoal, tWoodEntry.mCharcoalCount * tDrop.getCount()), T, F);
 						} else {
 							BeamEntry tBeamEntry = WoodDictionary.BEAMS.get(tDrop);
 							if (tBeamEntry != null && tBeamEntry.mCharcoalCount > 0) {
-								ST.set(tDrop, OP.gem.mat(MT.Charcoal, tBeamEntry.mCharcoalCount * tDrop.stackSize), T, F);
+								ST.set(tDrop, OP.gem.mat(MT.Charcoal, tBeamEntry.mCharcoalCount * tDrop.getCount()), T, F);
 							}
 						}
 					}
@@ -1348,7 +1348,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 								ST.set(aDrop, tEvent.item.getEntityItem(), T, T);
 								// I have to ignore this event being cancellable because that causes Item Dupes.
 								NeoForge.EVENT_BUS.post(tEvent);
-								if (tEvent.getResult() == Result.ALLOW || tEntity.isDead || aDrop.stackSize <= 0 || ST.invalid(aDrop)) {
+								if (tEvent.getResult() == Result.ALLOW || tEntity.isDead || aDrop.getCount() <= 0 || ST.invalid(aDrop)) {
 									aDrops.remove();
 								} else if (ST.add(aEvent.harvester, aDrop)) {
 									aDrops.remove();
@@ -1371,7 +1371,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	public void onEntitySpawningEvent(EntityJoinWorldEvent aEvent) {
 		if (aEvent.entity instanceof ItemEntity && !aEvent.entity.worldObj.isRemote) {
 			ItemStack aStack = ST.update(OM.get(((ItemEntity)aEvent.entity).getEntityItem()), aEvent.entity);
-			if (ST.valid(aStack) && aStack.stackSize > 0) {
+			if (ST.valid(aStack) && aStack.getCount() > 0) {
 				Item aItem = ST.item_(aStack);
 				if (ST.meta_(aStack) == W || aItem == Items.gold_nugget) ST.meta(aStack, 0);
 				if (ST.meta_(aStack) == 0 && aItem == IL.TF_Mushgloom.item()) ST.meta(aStack, 9);
@@ -1442,7 +1442,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		if (ST.valid(aStack)) {
 			if (ST.item_(aStack) instanceof MultiTileEntityItemInternal) {
 				long tExtraLife = ((MultiTileEntityItemInternal)ST.item_(aStack)).onDespawn(aEvent.entityItem, aStack);
-				if (aStack.stackSize <= 0) {
+				if (aStack.getCount() <= 0) {
 					aEvent.extraLife = 0;
 					aEvent.entityItem.setDead();
 					aEvent.setCanceled(T);
@@ -1459,15 +1459,15 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 			if (tRegistry != null) {
 				OreDictItemData tData = OM.anydata(aStack);
 				if (tData != null) {
-					if (tData.mPrefix == OP.rockGt || tData.mPrefix == OP.oreRaw) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32074, ST.save(NBT_VALUE, aStack), T, F)) {aStack.stackSize = 0; aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
-					if (tData.mPrefix == OP.ingot                               ) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32084, ST.save(NBT_VALUE, aStack), T, F)) {aStack.stackSize = 0; aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
-					if (tData.mPrefix == OP.plate                               ) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32085, ST.save(NBT_VALUE, aStack), T, F)) {aStack.stackSize = 0; aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
-					if (tData.mPrefix == OP.plateGem                            ) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32086, ST.save(NBT_VALUE, aStack), T, F)) {aStack.stackSize = 0; aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
-					if (tData.mPrefix == OP.scrapGt                             ) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32103, ST.save(NBT_VALUE, aStack), T, F)) {aStack.stackSize = 0; aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
+					if (tData.mPrefix == OP.rockGt || tData.mPrefix == OP.oreRaw) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32074, ST.save(NBT_VALUE, aStack), T, F)) {aStack.setCount(0); aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
+					if (tData.mPrefix == OP.ingot                               ) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32084, ST.save(NBT_VALUE, aStack), T, F)) {aStack.setCount(0); aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
+					if (tData.mPrefix == OP.plate                               ) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32085, ST.save(NBT_VALUE, aStack), T, F)) {aStack.setCount(0); aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
+					if (tData.mPrefix == OP.plateGem                            ) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32086, ST.save(NBT_VALUE, aStack), T, F)) {aStack.setCount(0); aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
+					if (tData.mPrefix == OP.scrapGt                             ) for (byte[] tOff : CUBE_3) if (WD.irrelevant(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2]) && tRegistry.mBlock.placeBlock(aEvent.entity.worldObj, aX+tOff[0], aY+tOff[1], aZ+tOff[2], SIDE_TOP, (short)32103, ST.save(NBT_VALUE, aStack), T, F)) {aStack.setCount(0); aEvent.extraLife = 0; aEvent.entityItem.setDead(); aEvent.setCanceled(T); return;}
 				}
 			}
 			GarbageGT.trash(aStack);
-			aStack.stackSize = 0;
+			aStack.setCount(0);
 			aEvent.extraLife = 0;
 			aEvent.entityItem.setEntityItemStack(aStack);
 			aEvent.entityItem.setDead();
@@ -1567,8 +1567,8 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 			
 			tArrowEntity.canBePickedUp = 1;
 			
-			if (!UT.Entities.hasInfiniteItems(aEvent.entityPlayer)) aArrow.stackSize--;
-			if (aArrow.stackSize == 0) ST.denull(aEvent.entityPlayer);
+			if (!UT.Entities.hasInfiniteItems(aEvent.entityPlayer)) aArrow.shrink(1);
+			if (aArrow.getCount() == 0) ST.denull(aEvent.entityPlayer);
 			
 			if (!aEvent.entityPlayer.worldObj.isRemote) aEvent.entityPlayer.worldObj.spawnEntityInWorld(tArrowEntity);
 			

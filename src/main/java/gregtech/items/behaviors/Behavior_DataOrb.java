@@ -63,7 +63,7 @@ public class Behavior_DataOrb extends AbstractBehaviorDefault {
 	public static CompoundTag setDataName(ItemStack aStack, String aDataName) {
 		CompoundTag tNBT = aStack.getTagCompound();
 		if (tNBT == null) tNBT = UT.NBT.make();
-		tNBT.setString("mDataName", aDataName);
+		tNBT.putString("mDataName", aDataName);
 		UT.NBT.set(aStack, tNBT);
 		return tNBT;
 	}
@@ -71,7 +71,7 @@ public class Behavior_DataOrb extends AbstractBehaviorDefault {
 	public static CompoundTag setDataTitle(ItemStack aStack, String aDataTitle) {
 		CompoundTag tNBT = aStack.getTagCompound();
 		if (tNBT == null) tNBT = UT.NBT.make();
-		tNBT.setString("mDataTitle", aDataTitle);
+		tNBT.putString("mDataTitle", aDataTitle);
 		UT.NBT.set(aStack, tNBT);
 		return tNBT;
 	}
@@ -101,7 +101,7 @@ public class Behavior_DataOrb extends AbstractBehaviorDefault {
 			ItemStack stack = aInventory[i];
 			if (stack != null) {
 				CompoundTag tag = UT.NBT.make();
-				tag.setByte("Slot", (byte) i);
+				tag.putByte("Slot", (byte) i);
 				tNBT_ItemList.appendTag(ST.save(stack));
 			}
 		}

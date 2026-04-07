@@ -68,16 +68,16 @@ public abstract class MultiTileEntitySensor extends TileEntityBase10FacingDouble
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setShort(NBT_VISUAL, (short)mDisplayedNumber);
-		aNBT.setShort(NBT_VALUE, (short)mSetNumber);
-		aNBT.setByte(NBT_MODE, mMode);
-		aNBT.setByte(NBT_REDSTONE, mRedstone);
+		aNBT.putShort(NBT_VISUAL, (short)mDisplayedNumber);
+		aNBT.putShort(NBT_VALUE, (short)mSetNumber);
+		aNBT.putByte(NBT_MODE, mMode);
+		aNBT.putByte(NBT_REDSTONE, mRedstone);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		aNBT.setShort(NBT_VALUE, (short)mSetNumber);
-		aNBT.setByte(NBT_MODE, mMode);
+		aNBT.putShort(NBT_VALUE, (short)mSetNumber);
+		aNBT.putByte(NBT_MODE, mMode);
 		return aNBT;
 	}
 	

@@ -47,10 +47,10 @@ public class MultiTileEntityReactorRodNuclear extends MultiTileEntityReactorRodB
 	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		mDurability = aNBT.getLong(aNBT.hasKey(NBT_DURABILITY) ? NBT_DURABILITY : NBT_MAXDURABILITY);
-		if (aNBT.hasKey(NBT_NUCLEAR_SELF    )) mNeutronSelf  = aNBT.getInteger(NBT_NUCLEAR_SELF );
-		if (aNBT.hasKey(NBT_NUCLEAR_OTHER   )) mNeutronOther = aNBT.getInteger(NBT_NUCLEAR_OTHER);
-		if (aNBT.hasKey(NBT_NUCLEAR_DIV     )) mNeutronDiv   = aNBT.getInteger(NBT_NUCLEAR_DIV  );
-		if (aNBT.hasKey(NBT_NUCLEAR_MAX     )) mNeutronMax   = aNBT.getInteger(NBT_NUCLEAR_MAX);
+		if (aNBT.hasKey(NBT_NUCLEAR_SELF    )) mNeutronSelf  = aNBT.getInt(NBT_NUCLEAR_SELF );
+		if (aNBT.hasKey(NBT_NUCLEAR_OTHER   )) mNeutronOther = aNBT.getInt(NBT_NUCLEAR_OTHER);
+		if (aNBT.hasKey(NBT_NUCLEAR_DIV     )) mNeutronDiv   = aNBT.getInt(NBT_NUCLEAR_DIV  );
+		if (aNBT.hasKey(NBT_NUCLEAR_MAX     )) mNeutronMax   = aNBT.getInt(NBT_NUCLEAR_MAX);
 		if (aNBT.hasKey(NBT_NUCLEAR_MOD     )) mModerated    = aNBT.getBoolean(NBT_NUCLEAR_MOD);
 		if (aNBT.hasKey(NBT_NUCLEAR_MOD+".o")) oModerated    = aNBT.getBoolean(NBT_NUCLEAR_MOD+".o");
 		if (aNBT.hasKey(NBT_VALUE           )) mDepleted     = aNBT.getShort(NBT_VALUE);
@@ -60,15 +60,15 @@ public class MultiTileEntityReactorRodNuclear extends MultiTileEntityReactorRodB
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_DURABILITY, mDurability);
-		UT.NBT.setBoolean(aNBT, NBT_NUCLEAR_MOD, mModerated);
-		UT.NBT.setBoolean(aNBT, NBT_NUCLEAR_MOD+".o", oModerated);
+		UT.NBT.putBoolean(aNBT, NBT_NUCLEAR_MOD, mModerated);
+		UT.NBT.putBoolean(aNBT, NBT_NUCLEAR_MOD+".o", oModerated);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
 		UT.NBT.setNumber(aNBT, NBT_DURABILITY, mDurability);
-		UT.NBT.setBoolean(aNBT, NBT_NUCLEAR_MOD, mModerated);
-		UT.NBT.setBoolean(aNBT, NBT_NUCLEAR_MOD+".o", oModerated);
+		UT.NBT.putBoolean(aNBT, NBT_NUCLEAR_MOD, mModerated);
+		UT.NBT.putBoolean(aNBT, NBT_NUCLEAR_MOD+".o", oModerated);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -215,7 +215,7 @@ public class MultiTileEntityReactorRodNuclear extends MultiTileEntityReactorRodB
 		long tDurabilityLoss = aReactor.oNeutronCounts[aSlot] <= tNeutronMax ? 100 : UT.Code.divup(400 * aReactor.oNeutronCounts[aSlot], tNeutronMax);
 		if (oModerated) tDurabilityLoss *= 4;
 		mDurability = tDurabilityLoss > mDurability ? -1 : mDurability - tDurabilityLoss;
-		UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make()));
+		UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make()));
 
 		if (mDurability <= 0) {
 			ST.meta(aStack, mDepleted);
@@ -230,7 +230,7 @@ public class MultiTileEntityReactorRodNuclear extends MultiTileEntityReactorRodB
 	public int getReactorRodNeutronReflection(MultiTileEntityReactorCore aReactor, int aSlot, ItemStack aStack, int aNeutrons, boolean aModerated) {
 		if (aModerated) {
 			mModerated = T;
-			UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make()));
+			UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make()));
 		}
 		aReactor.mNeutronCounts[aSlot] += aNeutrons;
 		return 0;
@@ -260,7 +260,7 @@ public class MultiTileEntityReactorRodNuclear extends MultiTileEntityReactorRodB
 	public void updateModeration(MultiTileEntityReactorCore aReactor, int aSlot, ItemStack aStack) {
 		oModerated = mModerated;
 		mModerated = F;
-		UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make()));
+		UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make()));
 	}
 
 	@Override public ITexture getReactorRodTextureSides(MultiTileEntityReactorCore aReactor, int aSlot, ItemStack aStack, boolean aActive) {return BlockTextureMulti.get(BlockTextureDefault.get(sColoreds[1], mRGBa, T), BlockTextureDefault.get(sOverlays[1], aActive ? UNCOLOURED : MT.Pb.fRGBaSolid));}

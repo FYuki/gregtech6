@@ -38,13 +38,13 @@ public class MultiTileEntityLaserometer extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.laserometer");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof MultiTileEntityWireLaser) return ((MultiTileEntityWireLaser)aDelegator.mTileEntity).mTransferredLast;
 		return 0;
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof MultiTileEntityWireLaser) return 65535;
 		return 0;
 	}

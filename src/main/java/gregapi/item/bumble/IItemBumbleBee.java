@@ -31,6 +31,7 @@ import net.minecraft.world.level.Level;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -152,20 +153,20 @@ public interface IItemBumbleBee {
 			return rBumbleTag;
 		}
 		
-		public static void setHumidityMin       (CompoundTag aBumbleTag, float aHumidity)        {aBumbleTag.setFloat("minhum", aHumidity < 0.01F ? 0     : aHumidity);}
-		public static void setHumidityMax       (CompoundTag aBumbleTag, float aHumidity)        {aBumbleTag.setFloat("maxhum", aHumidity < 0.01F ? 0.01F : aHumidity);}
+		public static void setHumidityMin       (CompoundTag aBumbleTag, float aHumidity)        {aBumbleTag.putFloat("minhum", aHumidity < 0.01F ? 0     : aHumidity);}
+		public static void setHumidityMax       (CompoundTag aBumbleTag, float aHumidity)        {aBumbleTag.putFloat("maxhum", aHumidity < 0.01F ? 0.01F : aHumidity);}
 		public static void setTemperatureMin    (CompoundTag aBumbleTag, long aTemperature)      {UT.NBT.setNumber( aBumbleTag, "mintemp"    , aTemperature);}
 		public static void setTemperatureMax    (CompoundTag aBumbleTag, long aTemperature)      {UT.NBT.setNumber( aBumbleTag, "maxtemp"    , aTemperature);}
 		public static void setOffspring         (CompoundTag aBumbleTag, long aOffspring)        {UT.NBT.setNumber( aBumbleTag, "offspring"  , UT.Code.bindStack(aOffspring));}
 		public static void setAggressiveness    (CompoundTag aBumbleTag, long aAggressiveness)   {UT.NBT.setNumber( aBumbleTag, "aggro"      , UT.Code.bind(1, 10000, aAggressiveness));}
 		public static void setWorkForce         (CompoundTag aBumbleTag, long aWorkForce)        {UT.NBT.setNumber( aBumbleTag, "work"       , UT.Code.bind(1, 10000, aWorkForce));}
 		public static void setLifeSpan          (CompoundTag aBumbleTag, long aLifeSpan)         {UT.NBT.setNumber( aBumbleTag, "life"       , UT.Code.bind(1200, 144000, aLifeSpan));}
-		public static void setRainproof         (CompoundTag aBumbleTag, boolean aRainproof)     {UT.NBT.setBoolean(aBumbleTag, "rain"       , aRainproof);}
-		public static void setStormproof        (CompoundTag aBumbleTag, boolean aStormproof)    {UT.NBT.setBoolean(aBumbleTag, "storm"      , aStormproof);}
-		public static void setDayActive         (CompoundTag aBumbleTag, boolean aDayActive)     {UT.NBT.setBoolean(aBumbleTag, "day"        , aDayActive);}
-		public static void setNightActive       (CompoundTag aBumbleTag, boolean aNightActive)   {UT.NBT.setBoolean(aBumbleTag, "night"      , aNightActive);}
-		public static void setOutsideActive     (CompoundTag aBumbleTag, boolean aOutsideActive) {UT.NBT.setBoolean(aBumbleTag, "outside"    , aOutsideActive);}
-		public static void setInsideActive      (CompoundTag aBumbleTag, boolean aInsideActive)  {UT.NBT.setBoolean(aBumbleTag, "inside"     , aInsideActive);}
+		public static void setRainproof         (CompoundTag aBumbleTag, boolean aRainproof)     {UT.NBT.putBoolean(aBumbleTag, "rain"       , aRainproof);}
+		public static void setStormproof        (CompoundTag aBumbleTag, boolean aStormproof)    {UT.NBT.putBoolean(aBumbleTag, "storm"      , aStormproof);}
+		public static void setDayActive         (CompoundTag aBumbleTag, boolean aDayActive)     {UT.NBT.putBoolean(aBumbleTag, "day"        , aDayActive);}
+		public static void setNightActive       (CompoundTag aBumbleTag, boolean aNightActive)   {UT.NBT.putBoolean(aBumbleTag, "night"      , aNightActive);}
+		public static void setOutsideActive     (CompoundTag aBumbleTag, boolean aOutsideActive) {UT.NBT.putBoolean(aBumbleTag, "outside"    , aOutsideActive);}
+		public static void setInsideActive      (CompoundTag aBumbleTag, boolean aInsideActive)  {UT.NBT.putBoolean(aBumbleTag, "inside"     , aInsideActive);}
 		
 		public static float getHumidityMin      (CompoundTag aBumbleTag) {return Math.max(0    , aBumbleTag.getFloat("minhum"));}
 		public static float getHumidityMax      (CompoundTag aBumbleTag) {return Math.max(0.01F, aBumbleTag.getFloat("maxhum"));}

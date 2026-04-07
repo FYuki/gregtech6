@@ -38,12 +38,12 @@ public class MultiTileEntityPlayerCounter extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.playercounter");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		return ((WorldServer)worldObj).func_73046_m().getCurrentPlayerCount();
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		return ((WorldServer)worldObj).func_73046_m().getMaxPlayers();
 	}
 	

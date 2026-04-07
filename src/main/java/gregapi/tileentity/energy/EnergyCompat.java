@@ -86,7 +86,7 @@ public class EnergyCompat {
 		} catch(Throwable e) {/**/}
 	}
 	
-	public static boolean isElectricRFReceiver(TileEntity aReceiver) {
+	public static boolean isElectricRFReceiver(BlockEntity aReceiver) {
 		if (aReceiver == null) return F;
 		String tClass = null;
 		if (MD.OMT .mLoaded) {                    tClass = aReceiver.getClass().getName(); if (tClass.startsWith("openmodularturrets"             )) return T;}
@@ -97,7 +97,7 @@ public class EnergyCompat {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static boolean canConnectElectricity(TileEntity aThis, TileEntity aTarget, byte aSide) {
+	public static boolean canConnectElectricity(BlockEntity aThis, BlockEntity aTarget, byte aSide) {
 		if (aTarget == null) return F;
 		if (aTarget instanceof ITileEntityEnergy                                  ) return ((ITileEntityEnergy                   )aTarget).isEnergyAcceptingFrom(TD.Energy.EU, aSide, T) || ((ITileEntityEnergy                   )aTarget).isEnergyEmittingTo(TD.Energy.EU, aSide, T);
 		if (aTarget instanceof gregapi.tileentity.ITileEntityEnergy               ) return ((gregapi.tileentity.ITileEntityEnergy)aTarget).isEnergyAcceptingFrom(TD.Energy.EU, aSide, T) || ((gregapi.tileentity.ITileEntityEnergy)aTarget).isEnergyEmittingTo(TD.Energy.EU, aSide, T);
@@ -115,7 +115,7 @@ public class EnergyCompat {
 		if (BB_ENERGY &&  aTarget instanceof com.builtbroken.mc.api.energy.IEnergyBufferProvider && ((com.builtbroken.mc.api.energy.IEnergyBufferProvider)aTarget).getEnergyBuffer(FORGE_DIR[aSide]) != null) return T;
 		
 		if (IC_ENERGY) {
-			TileEntity tConnected = (aTarget instanceof ic2.api.energy.tile.IEnergyTile || ic2.api.energy.EnergyNet.instance == null ? aTarget : ic2.api.energy.EnergyNet.instance.getTileEntity(aTarget.getWorldObj(), aTarget.xCoord, aTarget.yCoord, aTarget.zCoord));
+			BlockEntity tConnected = (aTarget instanceof ic2.api.energy.tile.IEnergyTile || ic2.api.energy.EnergyNet.instance == null ? aTarget : ic2.api.energy.EnergyNet.instance.getTileEntity(aTarget.getWorldObj(), aTarget.xCoord, aTarget.yCoord, aTarget.zCoord));
 			if (tConnected instanceof ic2.api.energy.tile.IEnergySink   && (aThis == null || ((ic2.api.energy.tile.IEnergySink  )tConnected).acceptsEnergyFrom(aThis, FORGE_DIR[aSide]))) return T;
 			if (tConnected instanceof ic2.api.energy.tile.IEnergySource && (aThis == null || ((ic2.api.energy.tile.IEnergySource)tConnected).emitsEnergyTo    (aThis, FORGE_DIR[aSide]))) return T;
 		}
@@ -126,7 +126,7 @@ public class EnergyCompat {
 		return F;
 	}
 	
-	public static boolean checkOverCharge(long aSize, TileEntity aReceiver) {
+	public static boolean checkOverCharge(long aSize, BlockEntity aReceiver) {
 		if (aSize > VMAX[3]) {
 			Level tWorld = aReceiver.getWorldObj();
 			tWorld.setBlockToAir(aReceiver.xCoord, aReceiver.yCoord, aReceiver.zCoord);
@@ -137,7 +137,7 @@ public class EnergyCompat {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static long insertEnergyInto(TagData aEnergyType, byte aSide, long aSize, long aAmount, Object aEmitter, TileEntity aReceiver) {
+	public static long insertEnergyInto(TagData aEnergyType, byte aSide, long aSize, long aAmount, Object aEmitter, BlockEntity aReceiver) {
 		if (aAmount <= 0 || aSize == 0 || aReceiver == null) return 0;
 		// Obvious GT6 Blocks should not be eligible for Compat. Should reduce some IC2 Compat Lag.
 		if (aReceiver instanceof gregapi.tileentity.base.TileEntityBase01Root) return 0;
@@ -148,7 +148,7 @@ public class EnergyCompat {
 			
 			// Applied Energistics gets a special case.
 			if (AE_ENERGY && aReceiver instanceof appeng.tile.powersink.IC2) {
-				if (((appeng.tile.powersink.IC2)aReceiver).acceptsEnergyFrom(aEmitter instanceof TileEntity ? (TileEntity)aEmitter : null, FORGE_DIR[aSide])) {
+				if (((appeng.tile.powersink.IC2)aReceiver).acceptsEnergyFrom(aEmitter instanceof BlockEntity ? (BlockEntity)aEmitter : null, FORGE_DIR[aSide])) {
 					if (checkOverCharge(aSize, aReceiver)) return aAmount;
 					long rUsedAmount = 0;
 					while (aAmount > rUsedAmount && ((appeng.tile.powersink.IC2)aReceiver).getDemandedEnergy() >= aSize && ((appeng.tile.powersink.IC2)aReceiver).injectEnergy(FORGE_DIR[aSide], aSize, aSize) < aSize) rUsedAmount++;
@@ -222,8 +222,8 @@ public class EnergyCompat {
 			
 			// IC2 Power at last, because special cases should always override the very "compatible" IC2 Stuff.
 			if (IC_ENERGY) {
-				TileEntity tReceiver = (aReceiver instanceof ic2.api.energy.tile.IEnergyTile || ic2.api.energy.EnergyNet.instance == null ? aReceiver : ic2.api.energy.EnergyNet.instance.getTileEntity(aReceiver.getWorldObj(), aReceiver.xCoord, aReceiver.yCoord, aReceiver.zCoord));
-				if (tReceiver instanceof ic2.api.energy.tile.IEnergySink && ((ic2.api.energy.tile.IEnergySink)tReceiver).acceptsEnergyFrom(aEmitter instanceof TileEntity ? (TileEntity)aEmitter : null, FORGE_DIR[aSide])) {
+				BlockEntity tReceiver = (aReceiver instanceof ic2.api.energy.tile.IEnergyTile || ic2.api.energy.EnergyNet.instance == null ? aReceiver : ic2.api.energy.EnergyNet.instance.getTileEntity(aReceiver.getWorldObj(), aReceiver.xCoord, aReceiver.yCoord, aReceiver.zCoord));
+				if (tReceiver instanceof ic2.api.energy.tile.IEnergySink && ((ic2.api.energy.tile.IEnergySink)tReceiver).acceptsEnergyFrom(aEmitter instanceof BlockEntity ? (BlockEntity)aEmitter : null, FORGE_DIR[aSide])) {
 					long rUsedAmount = 0;
 					while (aAmount > rUsedAmount && ((ic2.api.energy.tile.IEnergySink)tReceiver).getDemandedEnergy() >= (rUsedAmount <= 0 && aSize <= VMAX[0] ? 4 : aSize) && ((ic2.api.energy.tile.IEnergySink)tReceiver).injectEnergy(FORGE_DIR[aSide], aSize, aSize) < aSize) rUsedAmount++;
 					if (rUsedAmount > 0) {

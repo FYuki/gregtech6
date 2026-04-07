@@ -58,8 +58,8 @@ public class MultiTileEntityMagicFieldAbsorber extends TileEntityBase09FacingSin
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
 	}
 	
 	static {

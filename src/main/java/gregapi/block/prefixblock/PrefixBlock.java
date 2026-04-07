@@ -64,7 +64,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -137,7 +137,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	 * @param aNameInternal the internal Name of this Item. DO NOT START YOUR UNLOCALISED NAME WITH "gt."!!!
 	 * @param aPrefix the OreDictPrefix corresponding to this Item.
 	 * @param aHullMaterial the Material the Hull consists of. Can be null.
-	 * @param aItemClass the Class of the ItemBlock to be used. If you pass null it will default to the regular MetaBlockItem Class.
+	 * @param aItemClass the Class of the BlockItem to be used. If you pass null it will default to the regular MetaBlockItem Class.
 	 * @param aTexture the Texture underlay for this Block. Used for Ores and Crates. Can be null to use normal Rendering.
 	 * @param aVanillaMaterial the Material used to determine the Block.
 	 * @param aSoundType the Sound Type of the Block.
@@ -331,7 +331,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	
 	@Override
 	public IRenderedBlockObject passRenderingToObject(BlockGetter aWorld, int aX, int aY, int aZ) {
-		TileEntity tRenderParameterTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity tRenderParameterTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		return mRenderingObjectBlock != null ? mRenderingObjectBlock : tRenderParameterTileEntity instanceof IRenderedBlockObject ? (IRenderedBlockObject)tRenderParameterTileEntity : null;
 	}
 	
@@ -354,7 +354,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	public void onNeighborChange(BlockGetter aWorld, int aX, int aY, int aZ, int aTileX, int aTileY, int aTileZ) {
 		if (!LOCK) {
 			LOCK = T;
-			TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+			BlockEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 			if (aTileEntity instanceof ITileEntity) ((ITileEntity)aTileEntity).onAdjacentBlockChange(aTileX, aTileY, aTileZ);
 			LOCK = F;
 		}
@@ -362,7 +362,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	
 	@Override
 	public void onNeighborBlockChange(Level aWorld, int aX, int aY, int aZ, Block aBlock) {
-		TileEntity aTileEntity = null;
+		BlockEntity aTileEntity = null;
 		if (!LOCK) {
 			LOCK = T;
 			aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
@@ -372,7 +372,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		scheduleUpdateIfNeeded(aWorld, aX, aY, aZ, aTileEntity);
 	}
 	
-	public boolean scheduleUpdateIfNeeded(Level aWorld, int aX, int aY, int aZ, TileEntity aTileEntity) {
+	public boolean scheduleUpdateIfNeeded(Level aWorld, int aX, int aY, int aZ, BlockEntity aTileEntity) {
 		if (mGravity && aY > 0 && FallingBlock.func_149831_e(aWorld, aX, aY - 1, aZ)) {
 			aWorld.scheduleBlockUpdate(aX, aY, aZ, this, 2);
 			return T;
@@ -394,7 +394,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	@Override
 	public void onBlockExploded(Level aWorld, int aX, int aY, int aZ, Explosion aExplosion) {
 		if (aWorld.isRemote) return;
-		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if (aTileEntity != null) LAST_BROKEN_TILEENTITY.set(aTileEntity);
 		OreDictMaterial aMaterial = getMetaMaterial(aTileEntity);
 		aWorld.setBlockToAir(aX, aY, aZ);
@@ -410,7 +410,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	
 	@Override
 	public boolean onBlockEventReceived(Level aWorld, int aX, int aY, int aZ, int aID, int aData) {
-		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		return aTileEntity == null || aTileEntity.receiveClientEvent(aID, aData);
 	}
 	
@@ -426,7 +426,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	
 	@Override
 	public void breakBlock(Level aWorld, int aX, int aY, int aZ, Block aBlock, int par6) {
-		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if (tTileEntity != null) LAST_BROKEN_TILEENTITY.set(tTileEntity);
 		aWorld.removeTileEntity(aX, aY, aZ);
 	}
@@ -435,8 +435,8 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	public boolean placeBlock(Level aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT, boolean aCauseBlockUpdates, boolean aForcePlacement) {
 		OreDictMaterial aMaterial = getMetaMaterial(aMetaData);
 		if (aMaterial != null && (aForcePlacement || ((!mPlacementChecksAntimatter || !aMaterial.contains(TD.Atomic.ANTIMATTER)) && (!mPlacementChecksTemperature || aMaterial.mMeltingPoint > WD.temperature(aWorld, aX, aY, aZ)))) && aWorld.setBlock(aX, aY, aZ, this, UT.Code.bind4(aMaterial.mToolQuality), aCauseBlockUpdates?3:0)) {
-			// This darn TileEntity update is ruining Level generation Code (infinite Loops when placing TileEntities on LevelChunk Borders). I'm glad I finally found a way to disable it.
-			TileEntity tTileEntity = createTileEntity(aWorld, aX, aY, aZ, aSide, aMetaData, aNBT);
+			// This darn BlockEntity update is ruining Level generation Code (infinite Loops when placing TileEntities on LevelChunk Borders). I'm glad I finally found a way to disable it.
+			BlockEntity tTileEntity = createTileEntity(aWorld, aX, aY, aZ, aSide, aMetaData, aNBT);
 			WD.te(aWorld, aX, aY, aZ, tTileEntity, aCauseBlockUpdates);
 			scheduleUpdateIfNeeded(aWorld, aX, aY, aZ, tTileEntity);
 			if (!aWorld.isRemote) GT_API_Proxy.SCHEDULED_TILEENTITY_UPDATES.add((PrefixBlockTileEntity)tTileEntity);
@@ -447,7 +447,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	
 	@Override
 	public ItemStack getItemStackFromBlock(BlockGetter aWorld, int aX, int aY, int aZ, byte aSide) {
-		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		return ST.make(this, 1, getMetaDataValue(aTileEntity), aTileEntity instanceof PrefixBlockTileEntity ? ((PrefixBlockTileEntity)aTileEntity).mItemNBT : null);
 	}
 	
@@ -508,7 +508,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	
 	@Override
 	public void setExtendedMetaData(BlockGetter aWorld, int aX, int aY, int aZ, short aMetaData) {
-		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if (aTileEntity == null && aWorld instanceof Level) aTileEntity = WD.te((Level)aWorld, aX, aY, aZ, createTileEntity((Level)aWorld, aX, aY, aZ, SIDE_ANY, aMetaData, null), F);
 		if (aTileEntity instanceof PrefixBlockTileEntity) ((PrefixBlockTileEntity)aTileEntity).mMetaData = aMetaData;
 		if (aWorld instanceof Level && ((Level)aWorld).isRemote) WD.update(aWorld, aX, aY, aZ);
@@ -534,7 +534,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	@Override
 	public void updateTick(Level aWorld, int aX, int aY, int aZ, Random aRandom) {
 		if (aWorld.isRemote || checkGravity(aWorld, aX, aY, aZ)) return;
-		TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		OreDictMaterial aMaterial = getMetaMaterial(aTileEntity);
 		if (aMaterial != null) {
 			if (mCanBurn && (mPrefix.contains(TD.Prefix.DUST_BASED) || (mCanExplode && aMaterial.contains(TD.Properties.EXPLOSIVE))) && aMaterial.contains(TD.Properties.FLAMMABLE) && WD.temperature(aWorld, aX, aY, aZ) > C + 100) {
@@ -583,9 +583,9 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	@Override public int getRenderBlockPass() {return ITexture.Util.MC_ALPHA_BLENDING?1:0;}
 	@Override public void getSubBlocks(Item aItem, CreativeModeTab aCreativeTab, @SuppressWarnings("rawtypes") List aList) {aItem.getSubItems(aItem, aCreativeTab, aList);}
 	/** Where I come from, we set the TileEntities ourselves instead of letting a Handler do it. */
-	@Override public final TileEntity createNewTileEntity(Level aWorld, int aMeta) {return null;}
+	@Override public final BlockEntity createNewTileEntity(Level aWorld, int aMeta) {return null;}
 	/** Where I come from, we set the TileEntities ourselves instead of letting a Handler do it. */
-	@Override public final TileEntity createTileEntity(Level aWorld, int aMeta) {return null;}
+	@Override public final BlockEntity createTileEntity(Level aWorld, int aMeta) {return null;}
 	@Override public String toString() {return mNameInternal;}
 	@Override public String getUnlocalizedName() {return mNameInternal;}
 	@Override public String getLocalizedName() {return StatCollector.translateToLocal(mNameInternal);}
@@ -622,7 +622,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		return LanguageHandler.getLocalName(aPrefix, aMaterial);
 	}
 	
-	public short getMetaDataValue(TileEntity aTileEntity) {
+	public short getMetaDataValue(BlockEntity aTileEntity) {
 		return aTileEntity instanceof PrefixBlockTileEntity?((PrefixBlockTileEntity)aTileEntity).mMetaData:0;
 	}
 	
@@ -634,7 +634,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		return UT.Code.exists(aMetaData, mMaterialList)?mMaterialList[aMetaData]:null;
 	}
 	
-	public OreDictMaterial getMetaMaterial(TileEntity aTileEntity) {
+	public OreDictMaterial getMetaMaterial(BlockEntity aTileEntity) {
 		return getMetaMaterial(aTileEntity instanceof PrefixBlockTileEntity?((PrefixBlockTileEntity)aTileEntity).mMetaData:0);
 	}
 	
@@ -642,7 +642,7 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 		return getMetaMaterial(aWorld.getTileEntity(aX, aY, aZ));
 	}
 	
-	public TileEntity createTileEntity(Level aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT) {
+	public BlockEntity createTileEntity(Level aWorld, int aX, int aY, int aZ, byte aSide, short aMetaData, CompoundTag aNBT) {
 		PrefixBlockTileEntity rTileEntity = new PrefixBlockTileEntity();
 		if (aNBT != null) rTileEntity.readFromNBT(aNBT);
 		rTileEntity.mMetaData = aMetaData;
@@ -672,5 +672,5 @@ public class PrefixBlock extends Block implements Runnable, ITileEntityProvider,
 	@Override public void receiveDataInteger  (BlockGetter aWorld, int aX, int aY, int aZ, int    aData, INetworkHandler aNetworkHandler) {/**/}
 	@Override public void receiveDataLong     (BlockGetter aWorld, int aX, int aY, int aZ, long   aData, INetworkHandler aNetworkHandler) {/**/}
 	@Override public void receiveDataByteArray(BlockGetter aWorld, int aX, int aY, int aZ, byte[] aData, INetworkHandler aNetworkHandler) {/**/}
-	@Override public void receiveDataName     (BlockGetter aWorld, int aX, int aY, int aZ, String aData, INetworkHandler aNetworkHandler) {if (UT.Code.stringValid(aData)) {TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ); if (aTileEntity instanceof PrefixBlockTileEntity) {if (((PrefixBlockTileEntity)aTileEntity).mItemNBT == null) ((PrefixBlockTileEntity)aTileEntity).mItemNBT = UT.NBT.make(); ((PrefixBlockTileEntity)aTileEntity).mItemNBT.setTag("display", UT.NBT.makeString(((PrefixBlockTileEntity)aTileEntity).mItemNBT.getCompoundTag("display"), "Name", aData));}}}
+	@Override public void receiveDataName     (BlockGetter aWorld, int aX, int aY, int aZ, String aData, INetworkHandler aNetworkHandler) {if (UT.Code.stringValid(aData)) {BlockEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ); if (aTileEntity instanceof PrefixBlockTileEntity) {if (((PrefixBlockTileEntity)aTileEntity).mItemNBT == null) ((PrefixBlockTileEntity)aTileEntity).mItemNBT = UT.NBT.make(); ((PrefixBlockTileEntity)aTileEntity).mItemNBT.setTag("display", UT.NBT.makeString(((PrefixBlockTileEntity)aTileEntity).mItemNBT.getCompoundTag("display"), "Name", aData));}}}
 }

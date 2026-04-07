@@ -73,14 +73,14 @@ public class MultiTileEntityHopper extends TileEntityBase09FacingSingle implemen
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mMode != 0) aNBT.setByte(NBT_MODE, mMode);
-		UT.NBT.setBoolean(aNBT, NBT_MODE+".a", mExactMode);
+		if (mMode != 0) aNBT.putByte(NBT_MODE, mMode);
+		UT.NBT.putBoolean(aNBT, NBT_MODE+".a", mExactMode);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		if (mMode != 0) aNBT.setByte(NBT_MODE, mMode);
-		UT.NBT.setBoolean(aNBT, NBT_MODE+".a", mExactMode);
+		if (mMode != 0) aNBT.putByte(NBT_MODE, mMode);
+		UT.NBT.putBoolean(aNBT, NBT_MODE+".a", mExactMode);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -114,7 +114,7 @@ public class MultiTileEntityHopper extends TileEntityBase09FacingSingle implemen
 	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		super.onPlaced(aStack, aPlayer, aMTEContainer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ);
 		if (isServerSide() && SIDES_BOTTOM_HORIZONTAL[mFacing]) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mFacing);
 			if (tDelegator.mTileEntity instanceof ITileEntityConnector && SIDES_VALID[tDelegator.mSideOfTileEntity] && ((ITileEntityConnector)tDelegator.mTileEntity).allowInteraction(aPlayer) && UT.Code.haveOneCommonElement(((ITileEntityConnector)tDelegator.mTileEntity).getConnectorTypes(tDelegator.mSideOfTileEntity), TD.Connectors.ALL_ITEM_TRANSPORT)) {
 				((ITileEntityConnector)tDelegator.mTileEntity).connect(tDelegator.mSideOfTileEntity, T);
 			}
@@ -196,7 +196,7 @@ public class MultiTileEntityHopper extends TileEntityBase09FacingSingle implemen
 						while (i-->0) if (!slotHas(i)) {
 							slot(i, WD.suck(tDelegator));
 							if (slotHas(i)) {
-								tMovedItems += slot(i).stackSize;
+								tMovedItems += slot(i).getCount();
 								updateInventory();
 							}
 							break;
@@ -212,19 +212,19 @@ public class MultiTileEntityHopper extends TileEntityBase09FacingSingle implemen
 					for (int i = 0, k = invsize(), l = getInventoryStackLimit(); i < k; i++) for (int j = i+1; j < k; j++) if (slotHas(j)) {
 						int tMaxSize = Math.min(l, slot(j).getMaxStackSize());
 						if (slotHas(i)) {
-							if (slot(i).stackSize < tMaxSize && ST.equal(slot(i), slot(j))) {
+							if (slot(i).getCount() < tMaxSize && ST.equal(slot(i), slot(j))) {
 								tMovedItems += ST.move(this, j, i);
-								if (slot(i).stackSize >= tMaxSize) break;
+								if (slot(i).getCount() >= tMaxSize) break;
 							}
 						} else {
 							tMovedItems += ST.move(this, j, i);
-							if (slotHas(i) && slot(i).stackSize >= tMaxSize) break;
+							if (slotHas(i) && slot(i).getCount() >= tMaxSize) break;
 						}
 					}
 				}
 				if (tMovedItems > 0) {
 					for (byte tSide : ALL_SIDES_BUT_TOP) if (tSide != mFacing) {
-						DelegatorTileEntity<TileEntity> tDelegatorUpdate = getAdjacentTileEntity(tSide);
+						DelegatorTileEntity<BlockEntity> tDelegatorUpdate = getAdjacentTileEntity(tSide);
 						if (tDelegatorUpdate.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) {
 							((ITileEntityAdjacentInventoryUpdatable)tDelegatorUpdate.mTileEntity).adjacentInventoryUpdated(tDelegatorUpdate.mSideOfTileEntity, this);
 						}

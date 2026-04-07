@@ -44,8 +44,8 @@ import gregapi.util.WD;
 import gregtech.tileentity.energy.reactors.MultiTileEntityReactorCore;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
-import micdoodle8.mods.galacticraft.api.item.IItemElectric;
-import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
+import gregapi.stubs.IItemElectric;
+import gregapi.stubs.EnergyConfigHandler;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SnowLayerBlock;
 // PHASE4: import IIconRegister removed — use TextureAtlasSprite
@@ -62,7 +62,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 import gregapi.stubs.IFluidContainerItem;
@@ -87,7 +87,7 @@ import gregapi.stubs.IIconRegister; // stub
 , @Optional.Interface(iface = "micdoodle8.mods.galacticraft.api.item.IItemElectric", modid = ModIDs.GC)
 , @Optional.Interface(iface = "vazkii.botania.api.item.IFlowerPlaceable", modid = ModIDs.BOTA)
 })
-public class MultiTileEntityItemInternal extends ItemBlock implements squeek.applecore.api.food.IEdible, IItemReactorRod, IItemUpdatable, IItemColorableRGB, IOreDictItemDataOverrideItem, IItemGT, IItemNoGTOverride, IFluidContainerItem, ISpecialElectricItem, IElectricItemManager, IItemEnergy, IItemElectric, IItemRottable, IFlowerPlaceable {
+public class MultiTileEntityItemInternal extends BlockItem implements squeek.applecore.api.food.IEdible, IItemReactorRod, IItemUpdatable, IItemColorableRGB, IOreDictItemDataOverrideItem, IItemGT, IItemNoGTOverride, IFluidContainerItem, ISpecialElectricItem, IElectricItemManager, IItemEnergy, IItemElectric, IItemRottable, IFlowerPlaceable {
 	public final MultiTileEntityBlockInternal mBlock;
 	
 	public MultiTileEntityItemInternal(Block aBlock) {
@@ -169,7 +169,7 @@ public class MultiTileEntityItemInternal extends ItemBlock implements squeek.app
 			Block tReplacedBlock = aWorld.getBlock(aX, aY, aZ);
 			
 			if (!tReplacedBlock.isReplaceable(aWorld, aX, aY, aZ) || !mBlock.canReplace(aWorld, aX, aY, aZ, aSide, aStack)) return F;
-			if (aStack.stackSize == 0 || (aPlayer != null && !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack))) return F;
+			if (aStack.getCount() == 0 || (aPlayer != null && !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack))) return F;
 			
 			MultiTileEntityContainer aMTEContainer = mBlock.mMultiTileEntityRegistry.getNewTileEntityContainer(aWorld, aX, aY, aZ, aStack);
 			
@@ -211,7 +211,7 @@ public class MultiTileEntityItemInternal extends ItemBlock implements squeek.app
 					aWorld.func_147451_t(aX, aY, aZ);
 				} catch(Throwable e) {e.printStackTrace(ERR);}
 				
-				aStack.stackSize--;
+				aStack.shrink(1);
 				return T;
 			}
 		} catch(Throwable e) {

@@ -1,0 +1,3 @@
+package thaumcraft.api.aspects;
+// PHASE8: stub for compat
+public interface IEssentiaTransport { boolean isConnectable(Object face); boolean canInputFrom(Object face); boolean canOutputTo(Object face); void setSuction(thaumcraft.api.aspects.Aspect aspect, int amount); thaumcraft.api.aspects.Aspect getSuctionType(Object face); int getSuctionAmount(Object face); int takeEssentia(thaumcraft.api.aspects.Aspect aspect, int amount, Object face); int addEssentia(thaumcraft.api.aspects.Aspect aspect, int amount, Object face); thaumcraft.api.aspects.Aspect getEssentiaType(Object face); int getEssentiaAmount(Object face); int getMinimumSuction(); boolean renderOverlayOnFace(Object face); }

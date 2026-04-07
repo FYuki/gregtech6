@@ -70,16 +70,16 @@ public class MultiTileEntityMoldCoinage extends TileEntityBase07Paintable implem
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, "gt.coin.unique", mIsUnique);
-		for (int i = 0; i < mShape[0].length; i++) aNBT.setShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
-		for (int i = 0; i < mShape[1].length; i++) aNBT.setShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
+		UT.NBT.putBoolean(aNBT, "gt.coin.unique", mIsUnique);
+		for (int i = 0; i < mShape[0].length; i++) aNBT.putShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
+		for (int i = 0; i < mShape[1].length; i++) aNBT.putShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		UT.NBT.setBoolean(aNBT, "gt.coin.unique", mIsUnique);
-		for (int i = 0; i < mShape[0].length; i++) aNBT.setShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
-		for (int i = 0; i < mShape[1].length; i++) aNBT.setShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
+		UT.NBT.putBoolean(aNBT, "gt.coin.unique", mIsUnique);
+		for (int i = 0; i < mShape[0].length; i++) aNBT.putShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
+		for (int i = 0; i < mShape[1].length; i++) aNBT.putShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
 		return aNBT;
 	}
 	
@@ -114,7 +114,7 @@ public class MultiTileEntityMoldCoinage extends TileEntityBase07Paintable implem
 			if (tOutputStack == null) {
 				OreDictItemData tData = OM.anyassociation(aStack);
 				if (tData != null && tData.mPrefix == OP.plateTiny) {
-					if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
+					if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
 					slot(0, ST.amount(1, aStack));
 					UT.Sounds.send(SFX.MC_CLICK, this, F);
 					return T;
@@ -133,7 +133,7 @@ public class MultiTileEntityMoldCoinage extends TileEntityBase07Paintable implem
 			if (aRemainingDurability >= 2000) {
 				OreDictItemData tData = OM.anyassociation(slot(0));
 				if (tData != null && tData.mPrefix == OP.plateTiny) {
-					slot(0, MultiTileEntityCoin.getCoin(slot(0).stackSize, tData.mMaterial.mMaterial, mIsUnique, mShape));
+					slot(0, MultiTileEntityCoin.getCoin(slot(0).getCount(), tData.mMaterial.mMaterial, mIsUnique, mShape));
 					return 2000;
 				}
 				return 0;

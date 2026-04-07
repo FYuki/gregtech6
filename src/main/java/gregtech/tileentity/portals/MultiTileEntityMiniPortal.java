@@ -76,7 +76,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
 	}
 	
 	private static final String
@@ -325,7 +325,7 @@ public abstract class MultiTileEntityMiniPortal extends TileEntityBase04MultiTil
 	// Relay TileEntities
 	
 	@Override
-	public DelegatorTileEntity<TileEntity> getDelegateTileEntity(byte aSide) {
+	public DelegatorTileEntity<BlockEntity> getDelegateTileEntity(byte aSide) {
 		if (mTarget == null) return delegator(aSide);
 		return mTarget.getAdjacentTileEntity(OPOS[aSide]);
 	}

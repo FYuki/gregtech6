@@ -61,14 +61,14 @@ public class RecipeMapReplicator extends RecipeMap {
 		for (ItemStack aInput : aInputs) if (aInput != null) {
 			if (tData == null) {
 				if (OM.is_(OD_USB_STICKS[3], aInput)) {
-					if (!aInput.hasTagCompound()) return rRecipe;
+					if (!aInput.hasTag()) return rRecipe;
 					tUSB = aInput;
 					tData = tUSB.getTagCompound().getCompoundTag(NBT_USB_DATA);
 				} else if (OM.is_(OD_USB_CABLES[3], aInput)) {
 					if (aTileEntity == null) return rRecipe;
 					tUSB = aInput;
-					for (byte tSide : ALL_SIDES_VALID_ONLY[tUSB.hasTagCompound() && tUSB.getTagCompound().hasKey(NBT_USB_DIRECTION) ? tUSB.getTagCompound().getByte(NBT_USB_DIRECTION) : SIDE_ANY]) {
-						DelegatorTileEntity<TileEntity> tDelegator = aTileEntity.getAdjacentTileEntity(tSide);
+					for (byte tSide : ALL_SIDES_VALID_ONLY[tUSB.hasTag() && tUSB.getTagCompound().hasKey(NBT_USB_DIRECTION) ? tUSB.getTagCompound().getByte(NBT_USB_DIRECTION) : SIDE_ANY]) {
+						DelegatorTileEntity<BlockEntity> tDelegator = aTileEntity.getAdjacentTileEntity(tSide);
 						if (tDelegator.mTileEntity instanceof ITileEntityUSBPort) {
 							tData = ((ITileEntityUSBPort)tDelegator.mTileEntity).getUSBData(tDelegator.mSideOfTileEntity, 3);
 							if (tData != null) if (tData.hasNoTags()) tData = null; else break;

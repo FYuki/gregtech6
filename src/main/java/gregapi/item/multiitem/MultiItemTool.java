@@ -180,14 +180,14 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 		if (tToolStats != null) {
 			CompoundTag tMainNBT = UT.NBT.make(), tToolNBT = UT.NBT.make();
 			if (aPrimaryMaterial != null) {
-				if (aPrimaryMaterial.mID > 0) tToolNBT.setShort("a", aPrimaryMaterial.mID); else tToolNBT.setString("b", aPrimaryMaterial.toString());
+				if (aPrimaryMaterial.mID > 0) tToolNBT.putShort("a", aPrimaryMaterial.mID); else tToolNBT.putString("b", aPrimaryMaterial.toString());
 				UT.NBT.setNumber(tToolNBT, "j", (long)((aPrimaryMaterial.mToolDurability * 100L) * tToolStats.getMaxDurabilityMultiplier()));
 			}
 			if (aSecondaryMaterial != null) {
-				if (aSecondaryMaterial.mID > 0) tToolNBT.setShort("c", aSecondaryMaterial.mID); else tToolNBT.setString("d", aSecondaryMaterial.toString());
+				if (aSecondaryMaterial.mID > 0) tToolNBT.putShort("c", aSecondaryMaterial.mID); else tToolNBT.putString("d", aSecondaryMaterial.toString());
 			}
 			if (aMaxCharge > 0) {
-				tToolNBT.setBoolean("e", T);
+				tToolNBT.putBoolean("e", T);
 				UT.NBT.setNumber(tToolNBT, "f", aMaxCharge);
 				UT.NBT.setNumber(tToolNBT, "g", aVoltage);
 			}
@@ -453,14 +453,14 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 					}
 					LAST_TOOL_COORDS_BEFORE_DAMAGE = null;
 					ItemStack tBroken = tStats.getBrokenItem(aStack);
-					if (ST.invalid(tBroken) || tBroken.stackSize <= 0) {
+					if (ST.invalid(tBroken) || tBroken.getCount() <= 0) {
 						ST.use(aPlayer, T, aStack);
 					} else if (aPlayer instanceof Player) {
-						if (tBroken.stackSize > 64) tBroken.stackSize = 64;
+						if (tBroken.getCount() > 64) tBroken.setCount(64);
 						if (!aPlayer.worldObj.isRemote) ST.give(aPlayer, tBroken, F);
 						ST.use(aPlayer, T, aStack);
 					} else {
-						if (tBroken.stackSize > 64) tBroken.stackSize = 64;
+						if (tBroken.getCount() > 64) tBroken.setCount(64);
 						ST.set(aStack, tBroken);
 					}
 				}
@@ -538,7 +538,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 		if (TOOL_SOUNDS) UT.Sounds.play(tStats.getCraftingSound(), 200, 1, LAST_TOOL_COORDS_BEFORE_DAMAGE);
 		aStack = ST.amount(1, aStack);
 		doDamage(aStack, tStats.getToolDamagePerContainerCraft(), null, T);
-		return aStack.stackSize > 0 ? aStack : null;
+		return aStack.getCount() > 0 ? aStack : null;
 	}
 	
 	@Override
@@ -548,7 +548,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 		if (tStats == null) return F;
 		aStack = ST.amount(1, aStack);
 		doDamage(aStack, tStats.getToolDamagePerContainerCraft(), null, T);
-		return aStack.stackSize > 0;
+		return aStack.getCount() > 0;
 	}
 	
 	@Override
@@ -566,7 +566,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	
 	@Override
 	public boolean isItemStackUsable(ItemStack aStack) {
-		if (aStack.stackSize <= 0) return F;
+		if (aStack.getCount() <= 0) return F;
 		
 		CompoundTag aNBT = aStack.getTagCompound();
 		// The Tool has no Data? Treat it like a single use Creative Tool.

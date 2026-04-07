@@ -93,7 +93,7 @@ public class MultiTileEntityGeneratorFluidBed extends TileEntityBase09FacingSing
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mBurning);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mBurning);
 		ST.save(aNBT, NBT_INV_OUT + ".1", mOutput1);
 		mTank.writeToNBT(aNBT, NBT_TANK);
 	}
@@ -178,14 +178,14 @@ public class MultiTileEntityGeneratorFluidBed extends TileEntityBase09FacingSing
 					return T;
 				}
 			} else if (ST.equal(aStack, slot(0))) {
-				int tDifference = Math.min(aStack.stackSize, slot(0).getMaxStackSize() - slot(0).stackSize);
-				aStack.stackSize-=tDifference;
-				slot(0).stackSize+=tDifference;
+				int tDifference = Math.min(aStack.getCount(), slot(0).getMaxStackSize() - slot(0).getCount());
+				aStack.shrink(tDifference);
+				slot(0).getCount()+=tDifference;
 				return T;
 			} else if (ST.equal(aStack, slot(1))) {
-				int tDifference = Math.min(slot(1).stackSize, aStack.getMaxStackSize() - aStack.stackSize);
-				aStack.stackSize+=tDifference;
-				slot(1).stackSize-=tDifference;
+				int tDifference = Math.min(slot(1).getCount(), aStack.getMaxStackSize() - aStack.getCount());
+				aStack.grow(tDifference);
+				slot(1).getCount()-=tDifference;
 				removeAllDroppableNullStacks();
 				return T;
 			}

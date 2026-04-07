@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class TE_Behavior_Energy_Capacitor extends TE_Behavior {
 	public long mEnergy = 0, mCapacity = 0;
 	
-	public TE_Behavior_Energy_Capacitor(TileEntity aTileEntity, CompoundTag aNBT, long aCapacity) {
+	public TE_Behavior_Energy_Capacitor(BlockEntity aTileEntity, CompoundTag aNBT, long aCapacity) {
 		super(aTileEntity, aNBT);
 		mCapacity = aCapacity;
 	}

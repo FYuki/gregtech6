@@ -64,8 +64,8 @@ public abstract class TileEntityBase10EnergyConverter extends TileEntityBase09Fa
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
-		aNBT.setByte(NBT_MODE, mMode);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
+		aNBT.putByte(NBT_MODE, mMode);
 		mActivity.save(aNBT);
 		writeEnergyBehavior(aNBT);
 	}

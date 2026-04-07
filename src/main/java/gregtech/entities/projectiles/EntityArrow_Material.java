@@ -315,16 +315,16 @@ public class EntityArrow_Material extends EntityProjectile {
 	@Override
 	public void writeEntityToNBT(CompoundTag aNBT) {
 		super.writeEntityToNBT(aNBT);
-		aNBT.setShort("xTile", (short)mHitBlockX);
-		aNBT.setShort("yTile", (short)mHitBlockY);
-		aNBT.setShort("zTile", (short)mHitBlockZ);
-		aNBT.setShort("life", (short)mTicksAlive);
-		aNBT.setByte("inTile", (byte)Block.getIdFromBlock(mHitBlock));
-		aNBT.setByte("inData", (byte)mHitBlockMeta);
-		aNBT.setByte("shake", (byte)arrowShake);
-		aNBT.setByte("inGround", (byte)(inGround ? 1 : 0));
-		aNBT.setByte("pickup", (byte)canBePickedUp);
-		aNBT.setDouble("damage", getDamage());
+		aNBT.putShort("xTile", (short)mHitBlockX);
+		aNBT.putShort("yTile", (short)mHitBlockY);
+		aNBT.putShort("zTile", (short)mHitBlockZ);
+		aNBT.putShort("life", (short)mTicksAlive);
+		aNBT.putByte("inTile", (byte)Block.getIdFromBlock(mHitBlock));
+		aNBT.putByte("inData", (byte)mHitBlockMeta);
+		aNBT.putByte("shake", (byte)arrowShake);
+		aNBT.putByte("inGround", (byte)(inGround ? 1 : 0));
+		aNBT.putByte("pickup", (byte)canBePickedUp);
+		aNBT.putDouble("damage", getDamage());
 		aNBT.setTag("mArrow", ST.save(mArrow));
 	}
 	

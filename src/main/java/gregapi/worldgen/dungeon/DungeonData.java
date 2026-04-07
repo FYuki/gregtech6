@@ -166,8 +166,8 @@ public class DungeonData extends WorldAndCoords {
 	}
 	
 	public boolean coins(int aX, int aY, int aZ) {
-		for (int i = 0; i < 16; i++) mCoin.setByte("gt.coin.stacksize."+i, (byte)(next1in3() ? next(8) : 0));
-		mCoin.setByte("gt.coin.stacksize."+next(16), (byte)(1+next(8)));
+		for (int i = 0; i < 16; i++) mCoin.putByte("gt.coin.stacksize."+i, (byte)(next1in3() ? next(8) : 0));
+		mCoin.putByte("gt.coin.stacksize."+next(16), (byte)(1+next(8)));
 		return mMTERegistryGT.mBlock.placeBlock(mWorld, mX+aX, mY+aY, mZ+aZ, SIDE_UNKNOWN, (short)32700, mCoin, T, T);
 	}
 	
@@ -327,7 +327,7 @@ public class DungeonData extends WorldAndCoords {
 	public boolean pot(int aX, int aY, int aZ) {
 		int tIndex = next(BlocksGT.POT_FLOWER_TILES.length);
 		set(aX, aY, aZ, Blocks.flower_pot, 0, 2);
-		TileEntity tTileEntity = mWorld.getTileEntity(mX+aX, mY+aY, mZ+aZ);
+		BlockEntity tTileEntity = mWorld.getTileEntity(mX+aX, mY+aY, mZ+aZ);
 		if (tTileEntity instanceof TileEntityFlowerPot) {
 			if (next1in2()) {
 				((TileEntityFlowerPot)tTileEntity).func_145964_a(ST.item(BlocksGT.POT_FLOWER_TILES[tIndex]), BlocksGT.POT_FLOWER_METAS[tIndex]);

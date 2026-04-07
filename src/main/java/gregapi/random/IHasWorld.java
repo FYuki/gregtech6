@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 
 /**
@@ -39,8 +40,8 @@ public interface IHasWorld {
 	public int rng(int aRange);
 	public int getRandomNumber(int aRange);
 	
-	public TileEntity getTileEntity(int aX, int aY, int aZ);
-	public TileEntity getTileEntity(BlockPos aCoords);
+	public BlockEntity getTileEntity(int aX, int aY, int aZ);
+	public BlockEntity getTileEntity(BlockPos aCoords);
 	
 	public Block getBlock(int aX, int aY, int aZ);
 	public Block getBlock(BlockPos aCoords);

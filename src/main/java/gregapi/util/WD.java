@@ -86,6 +86,7 @@ import java.util.*;
 import static gregapi.data.CS.*;
 import gregapi.stubs.WorldProvider; // stub
 import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -128,7 +129,7 @@ public class WD {
 	public static boolean obstructed(Level aWorld, int aX, int aY, int aZ, byte aSide) {
 		if (!OBSTRUCTION_CHECKS) return F;
 		aX += OFFX[aSide]; aY += OFFY[aSide]; aZ += OFFZ[aSide];
-		TileEntity tTileEntity = te(aWorld, aX, aY, aZ, T);
+		BlockEntity tTileEntity = te(aWorld, aX, aY, aZ, T);
 		if (tTileEntity != null) {
 			if (tTileEntity instanceof ITileEntityQuickObstructionCheck) return ((ITileEntityQuickObstructionCheck)tTileEntity).isObstructingBlockAt(OPOS[aSide]);
 			if (MD.TC.mLoaded && tTileEntity instanceof INode) return F;
@@ -328,27 +329,27 @@ public class WD {
 	}
 	/** Marks a LevelChunk dirty so it is saved */
 	public static boolean mark(Object aTileEntity) {
-		return aTileEntity instanceof TileEntity && mark(((TileEntity)aTileEntity).getWorldObj(), ((TileEntity)aTileEntity).xCoord, ((TileEntity)aTileEntity).zCoord);
+		return aTileEntity instanceof BlockEntity && mark(((BlockEntity)aTileEntity).getWorldObj(), ((BlockEntity)aTileEntity).xCoord, ((BlockEntity)aTileEntity).zCoord);
 	}
 	
 	
-	/** to get a TileEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
-	public static DelegatorTileEntity<TileEntity> te(Level aWorld, BlockPos aCoords, byte aSide, boolean aLoadUnloadedChunks) {
+	/** to get a BlockEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
+	public static DelegatorTileEntity<BlockEntity> te(Level aWorld, BlockPos aCoords, byte aSide, boolean aLoadUnloadedChunks) {
 		return te(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ, aSide, aLoadUnloadedChunks);
 	}
-	/** to get a TileEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
-	public static DelegatorTileEntity<TileEntity> te(Level aWorld, int aX, int aY, int aZ, byte aSide, boolean aLoadUnloadedChunks) {
-		TileEntity aTileEntity = te(aWorld, aX, aY, aZ, aLoadUnloadedChunks);
+	/** to get a BlockEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
+	public static DelegatorTileEntity<BlockEntity> te(Level aWorld, int aX, int aY, int aZ, byte aSide, boolean aLoadUnloadedChunks) {
+		BlockEntity aTileEntity = te(aWorld, aX, aY, aZ, aLoadUnloadedChunks);
 		return aTileEntity instanceof ITileEntityDelegating ? ((ITileEntityDelegating)aTileEntity).getDelegateTileEntity(aSide) : new DelegatorTileEntity<>(aTileEntity, aWorld, aX, aY, aZ, aSide);
 	}
-	/** to get a TileEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
-	public static TileEntity te(Level aWorld, BlockPos aCoords, boolean aLoadUnloadedChunks) {
+	/** to get a BlockEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
+	public static BlockEntity te(Level aWorld, BlockPos aCoords, boolean aLoadUnloadedChunks) {
 		return te(aWorld, aCoords.posX, aCoords.posY, aCoords.posZ, aLoadUnloadedChunks);
 	}
-	/** to get a TileEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
-	public static TileEntity te(Level aWorld, int aX, int aY, int aZ, boolean aLoadUnloadedChunks) {
+	/** to get a BlockEntity properly, according to my additional Interfaces. Normally you should set aLoadUnloadedChunks to false, unless you have already checked these Coordinates, or you want to load Chunks */
+	public static BlockEntity te(Level aWorld, int aX, int aY, int aZ, boolean aLoadUnloadedChunks) {
 		if (aLoadUnloadedChunks || aWorld.blockExists(aX, aY, aZ)) {
-			TileEntity rTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+			BlockEntity rTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 			if (rTileEntity instanceof ITileEntityUnloadable && ((ITileEntityUnloadable)rTileEntity).isDead()) return null;
 			if (rTileEntity != null) return rTileEntity;
 			rTileEntity = LAST_BROKEN_TILEENTITY.get();
@@ -361,7 +362,7 @@ public class WD {
 	
 	public static byte WARN_ABOUT_TILEENTITY_NEGATIVE_Y_COORD = 0;
 	
-	public static TileEntity invalidateTileEntityWithNegativeYCoord(int aX, int aY, int aZ, TileEntity aTileEntity) {
+	public static BlockEntity invalidateTileEntityWithNegativeYCoord(int aX, int aY, int aZ, BlockEntity aTileEntity) {
 		if (WARN_ABOUT_TILEENTITY_NEGATIVE_Y_COORD == 0) UT.Entities.chat(null, "Please provide the gregtech.log File to Greg, there was a weird Error");
 		if (WARN_ABOUT_TILEENTITY_NEGATIVE_Y_COORD < 10) {
 			ERR.println("===============================");
@@ -379,8 +380,8 @@ public class WD {
 		return aTileEntity;
 	}
 	
-	/** Sets the TileEntity at the passed position, with the option of turning adjacent TileEntity updates off. */
-	public static TileEntity te(Level aWorld, int aX, int aY, int aZ, TileEntity aTileEntity, boolean aCauseTileEntityUpdates) {
+	/** Sets the BlockEntity at the passed position, with the option of turning adjacent BlockEntity updates off. */
+	public static BlockEntity te(Level aWorld, int aX, int aY, int aZ, BlockEntity aTileEntity, boolean aCauseTileEntityUpdates) {
 		if (aY < 0) return invalidateTileEntityWithNegativeYCoord(aX, aY, aZ, aTileEntity);
 		if (aCauseTileEntityUpdates) aWorld.setTileEntity(aX, aY, aZ, aTileEntity); else {
 			LevelChunk tChunk = aWorld.getChunkFromChunkCoords(aX >> 4, aZ >> 4);
@@ -536,7 +537,7 @@ public class WD {
 	
 	public static boolean sign(Level aWorld, int aX, int aY, int aZ, byte aSide, long aFlags, String aLine1, String aLine2, String aLine3, String aLine4) {
 		aWorld.setBlock(aX, aY, aZ, Blocks.wall_sign, aSide, (byte)aFlags);
-		TileEntity tSign = te(aWorld, aX, aY, aZ, T);
+		BlockEntity tSign = te(aWorld, aX, aY, aZ, T);
 		if (!(tSign instanceof SignBlockEntity)) return F;
 		((SignBlockEntity)tSign).signText[0] = aLine1;
 		((SignBlockEntity)tSign).signText[1] = aLine2;
@@ -570,17 +571,17 @@ public class WD {
 		return rRandom.nextInt(aBound);
 	}
 	
-	public static Random random(TileEntity aTileEntity) {return new Random(aTileEntity.xCoord ^ aTileEntity.yCoord ^ aTileEntity.zCoord);}
-	public static int random(TileEntity aTileEntity, int aBound) {return random(aTileEntity).nextInt(aBound);}
-	public static boolean random(TileEntity aTileEntity, int aBound, long aTime) {return random(aTileEntity, aBound) == aTime % aBound;}
+	public static Random random(BlockEntity aTileEntity) {return new Random(aTileEntity.xCoord ^ aTileEntity.yCoord ^ aTileEntity.zCoord);}
+	public static int random(BlockEntity aTileEntity, int aBound) {return random(aTileEntity).nextInt(aBound);}
+	public static boolean random(BlockEntity aTileEntity, int aBound, long aTime) {return random(aTileEntity, aBound) == aTime % aBound;}
 	
 	public static boolean border(int aFromX, int aFromZ, int aToX, int aToZ) {return aFromX >> 4 != aToX >> 4 || aFromZ >> 4 != aToZ >> 4;}
 	
-	public static boolean even(TileEntity aTileEntity) {return even(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord);}
+	public static boolean even(BlockEntity aTileEntity) {return even(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord);}
 	public static boolean even(BlockPos aCoords) {return even(aCoords.posX, aCoords.posY, aCoords.posZ);}
 	public static boolean even(int... aCoords) {int i = 0; for (int tCoord : aCoords) if (tCoord % 2 == 0) i++; return i % 2 == 0;}
 	
-	public static int evenness(TileEntity aTileEntity) {return evenness(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord);}
+	public static int evenness(BlockEntity aTileEntity) {return evenness(aTileEntity.xCoord, aTileEntity.yCoord, aTileEntity.zCoord);}
 	public static int evenness(BlockPos aCoords) {return evenness(aCoords.posX, aCoords.posY, aCoords.posZ);}
 	public static int evenness(int... aCoords) {int i = 0; for (int tCoord : aCoords) {i <<= 1; if (tCoord % 2 != 0) i++;} return i;}
 	
@@ -917,7 +918,7 @@ public class WD {
 		
 		Block aBlock = aWorld.getBlock(aX, aY, aZ);
 		byte aMeta = (byte)aWorld.getBlockMetadata(aX, aY, aZ);
-		TileEntity aTileEntity = te(aWorld, aX, aY, aZ, T);
+		BlockEntity aTileEntity = te(aWorld, aX, aY, aZ, T);
 		
 		rList.add("--- X: " + aX + " Y: " + aY + " Z: " + aZ + " ---");
 		try {
@@ -925,7 +926,7 @@ public class WD {
 			rList.add("Registry: " + ST.regName(aBlock));
 			if (aScanLevel >= 10) {
 				rList.add("Block Class: " + aBlock.getClass());
-				if (aTileEntity != null) rList.add("TileEntity Class: " + aTileEntity.getClass());
+				if (aTileEntity != null) rList.add("BlockEntity Class: " + aTileEntity.getClass());
 			}
 			float tResistance = aBlock.getExplosionResistance(aPlayer, aWorld, aX, aY, aZ, aPlayer.posX, aPlayer.posY, aPlayer.posZ);
 			rList.add("Hardness: " + aBlock.getBlockHardness(aWorld, aX, aY, aZ) + " - " + LH.getToolTipBlastResistance(aBlock, tResistance));
@@ -1011,7 +1012,7 @@ public class WD {
 			if (!(aTileEntity instanceof ITileEntity)) {
 				try {if (aTileEntity instanceof ic2.api.reactor.IReactorChamber) {
 					rEUAmount+=V[4];
-					aTileEntity = (TileEntity)(((ic2.api.reactor.IReactorChamber)aTileEntity).getReactor());
+					aTileEntity = (BlockEntity)(((ic2.api.reactor.IReactorChamber)aTileEntity).getReactor());
 				}} catch(NoClassDefFoundError e) {/* ignore */} catch(Throwable e) {e.printStackTrace(ERR);}
 				try {if (aTileEntity instanceof ic2.api.reactor.IReactor) {
 					rEUAmount+=V[4];

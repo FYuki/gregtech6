@@ -87,6 +87,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies

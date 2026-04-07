@@ -59,6 +59,7 @@ import java.util.List;
 
 import static gregapi.data.CS.*;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -192,7 +193,7 @@ public class MultiTileEntityMixingBowl extends TileEntityBase07Paintable impleme
 
 	protected boolean canOutput(Recipe aRecipe) {
 		if (slot(6) != null) {
-			if (aRecipe.mNeedsEmptyOutput || (aRecipe.mOutputs.length > 0 && aRecipe.mOutputs[0] != null && (!ST.equal(slot(6), aRecipe.mOutputs[0], F) || slot(6).stackSize + aRecipe.mOutputs[0].stackSize > slot(6).getMaxStackSize()))) {
+			if (aRecipe.mNeedsEmptyOutput || (aRecipe.mOutputs.length > 0 && aRecipe.mOutputs[0] != null && (!ST.equal(slot(6), aRecipe.mOutputs[0], F) || slot(6).getCount() + aRecipe.mOutputs[0].getCount() > slot(6).getMaxStackSize()))) {
 				return F;
 			}
 		}
@@ -240,7 +241,7 @@ public class MultiTileEntityMixingBowl extends TileEntityBase07Paintable impleme
 			FluidStack tFluid = FL.getFluid(ST.amount(1, aStack), T);
 			
 			if (aStack != null && tFluid != null && FL.fillAll_(this, SIDE_ANY, tFluid, T)) {
-				aStack.stackSize--;
+				aStack.shrink(1);
 				ST.give(aPlayer, tStack, T);
 				updateInventory();
 				updateAdjacentInventories();
@@ -251,23 +252,23 @@ public class MultiTileEntityMixingBowl extends TileEntityBase07Paintable impleme
 					if (ST.move(aPlayer.inventory, this, aPlayer.inventory.currentItem, i) > 0) return T;
 				}
 				if (aStack != null) for (FluidTankGT tTank : mTanksOutput) if ((tStack = FL.fill(tTank, ST.amount(1, aStack), T, T, T, T)) != null) {
-					aStack.stackSize--;
+					aStack.shrink(1);
 					ST.give(aPlayer, tStack, T);
 					return T;
 				}
 				if (aStack != null) for (FluidTankGT tTank : mTanksInput) if ((tStack = FL.fill(tTank, ST.amount(1, aStack), T, T, T, T)) != null) {
-					aStack.stackSize--;
+					aStack.shrink(1);
 					ST.give(aPlayer, tStack, T);
 					return T;
 				}
 			} else {
 				if (aStack != null) for (FluidTankGT tTank : mTanksOutput) if ((tStack = FL.fill(tTank, ST.amount(1, aStack), T, T, T, T)) != null) {
-					aStack.stackSize--;
+					aStack.shrink(1);
 					ST.give(aPlayer, tStack, T);
 					return T;
 				}
 				if (aStack != null) for (FluidTankGT tTank : mTanksInput) if ((tStack = FL.fill(tTank, ST.amount(1, aStack), T, T, T, T)) != null) {
-					aStack.stackSize--;
+					aStack.shrink(1);
 					ST.give(aPlayer, tStack, T);
 					return T;
 				}

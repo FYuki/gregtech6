@@ -71,7 +71,7 @@ public abstract class BlockWaterlike extends BlockFluidClassic implements IBlock
 		setResistance(30);
 		setBlockName(aName);
 		setLightOpacity(LIGHT_OPACITY_WATER);
-		ST.register(this, aName, ItemBlock.class);
+		ST.register(this, aName, BlockItem.class);
 		LH.add(getUnlocalizedName(), getLocalizedName());
 		LanguageHandler.set(getLocalizedName(), getLocalizedName()); // WAILA is retarded...
 		setFluidStack(FL.make(aFluid, 1000));
@@ -186,7 +186,7 @@ public abstract class BlockWaterlike extends BlockFluidClassic implements IBlock
 		if (aBlock == NB) return T;
 		if (aBlock.getMaterial() == Material.water || WD.visOpq(aBlock)) return F;
 		if (aBlock.isAir(aWorld, aX, aY, aZ)) return T;
-		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if (tTileEntity instanceof ITileEntitySurface) return !((ITileEntitySurface)tTileEntity).isSurfaceOpaque(OPOS[aSide]);
 		return T;
 	}

@@ -34,6 +34,7 @@ import java.util.Set;
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.T;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies

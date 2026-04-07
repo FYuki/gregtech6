@@ -85,12 +85,12 @@ public class MultiTileEntityEngineSteam extends TileEntityBase09FacingSingle imp
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		aNBT.setByte(NBT_VISUAL, mState);
-		aNBT.setByte(NBT_PISTON, mPiston);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
-		aNBT.setShort(NBT_EFFICIENCY, mEfficiency);
+		aNBT.putByte(NBT_VISUAL, mState);
+		aNBT.putByte(NBT_PISTON, mPiston);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
+		aNBT.putShort(NBT_EFFICIENCY, mEfficiency);
 		mTank.writeToNBT(aNBT, NBT_TANK+"."+0);
 	}
 	
@@ -361,7 +361,7 @@ public class MultiTileEntityEngineSteam extends TileEntityBase09FacingSingle imp
 		}
 
 		@Override
-		public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
+		public void renderTileEntityAt(BlockEntity tileentity, double x, double y, double z, float f) {
 			if (tileentity != null) {
 //              render(tileentity.progress, tileentity.orientation, tileentity.getBaseTexture(), tileentity.getChamberTexture(), tileentity.getTrunkTexture(tileentity.getEnergyStage()), x, y, z);
 			}

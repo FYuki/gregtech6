@@ -58,7 +58,7 @@ public class CompatOC extends CompatBase implements ICompatOC, SidedBlock {
 	}
 	
 	public IComputerizable findPeripheral(Level aWorld, int aX, int aY, int aZ, Direction side) {
-		DelegatorTileEntity<TileEntity> tDelegator = WD.te(aWorld, aX, aY, aZ, UT.Code.side(side), F);
+		DelegatorTileEntity<BlockEntity> tDelegator = WD.te(aWorld, aX, aY, aZ, UT.Code.side(side), F);
 		if (SIDES_VALID[tDelegator.mSideOfTileEntity] && tDelegator.mTileEntity instanceof ITileEntityCoverable) {
 			CoverData tData = ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData();
 			if (tData != null && tData.mBehaviours[tDelegator.mSideOfTileEntity] instanceof ICoverComputerizable) return (IComputerizable)tData.mBehaviours[tDelegator.mSideOfTileEntity];

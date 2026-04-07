@@ -37,7 +37,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.level.Level;
 import vazkii.botania.api.item.IFlowerPlaceable;
 import vazkii.botania.api.subtile.SubTileEntity;
@@ -52,7 +52,7 @@ import static gregapi.data.CS.*;
 @Optional.InterfaceList(value = {
   @Optional.Interface(iface = "vazkii.botania.api.item.IFlowerPlaceable", modid = ModIDs.BOTA)
 })
-public class PrefixBlockItem extends ItemBlock implements IItemUpdatable, IPrefixItem, IItemGT, IItemNoGTOverride, IFlowerPlaceable {
+public class PrefixBlockItem extends BlockItem implements IItemUpdatable, IPrefixItem, IItemGT, IItemNoGTOverride, IFlowerPlaceable {
 	public final PrefixBlock mBlock;
 	
 	public PrefixBlockItem(Block aBlock) {

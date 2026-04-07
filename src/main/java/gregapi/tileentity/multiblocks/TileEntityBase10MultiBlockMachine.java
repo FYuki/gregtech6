@@ -58,7 +58,7 @@ public abstract class TileEntityBase10MultiBlockMachine extends MultiTileEntityB
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_STATE+".str", mStructureOkay);
+		UT.NBT.putBoolean(aNBT, NBT_STATE+".str", mStructureOkay);
 	}
 	
 	@Override
@@ -141,7 +141,7 @@ public abstract class TileEntityBase10MultiBlockMachine extends MultiTileEntityB
 	public boolean refreshStructureOnActiveStateChange() {return F;}
 	
 	@Override public abstract DelegatorTileEntity<Container> getItemInputTarget(byte aSide);
-	@Override public abstract DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide);
+	@Override public abstract DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide);
 	@Override public abstract DelegatorTileEntity<IFluidHandler> getFluidInputTarget(byte aSide);
 	@Override public abstract DelegatorTileEntity<IFluidHandler> getFluidOutputTarget(byte aSide, Fluid aOutput);
 	@Override public abstract String getTileEntityName();

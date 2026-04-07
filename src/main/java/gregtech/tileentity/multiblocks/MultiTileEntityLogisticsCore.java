@@ -75,14 +75,14 @@ public class MultiTileEntityLogisticsCore extends TileEntityBase10MultiBlockBase
 		super.readFromNBT2(aNBT);
 		if (aNBT.hasKey(NBT_ENERGY_ACCEPTED)) mEnergyTypeAccepted = TagData.createTagData(aNBT.getString(NBT_ENERGY_ACCEPTED));
 		mEnergy = aNBT.getLong(NBT_ENERGY);
-		mCPU_Logic = aNBT.getInteger("gt.cpu.logic");
-		mCPU_Control = aNBT.getInteger("gt.cpu.control");
-		mCPU_Storage = aNBT.getInteger("gt.cpu.storage");
-		mCPU_Conversion = aNBT.getInteger("gt.cpu.conversion");
-		oCPU_Logic = aNBT.getInteger("gt.cpu.logic.used");
-		oCPU_Control = aNBT.getInteger("gt.cpu.control.used");
-		oCPU_Storage = aNBT.getInteger("gt.cpu.storage.used");
-		oCPU_Conversion = aNBT.getInteger("gt.cpu.conversion.used");
+		mCPU_Logic = aNBT.getInt("gt.cpu.logic");
+		mCPU_Control = aNBT.getInt("gt.cpu.control");
+		mCPU_Storage = aNBT.getInt("gt.cpu.storage");
+		mCPU_Conversion = aNBT.getInt("gt.cpu.conversion");
+		oCPU_Logic = aNBT.getInt("gt.cpu.logic.used");
+		oCPU_Control = aNBT.getInt("gt.cpu.control.used");
+		oCPU_Storage = aNBT.getInt("gt.cpu.storage.used");
+		oCPU_Conversion = aNBT.getInt("gt.cpu.conversion.used");
 		for (int i = 0; i < mTanks.length; i++) mTanks[i] = new FluidTankGT(16000).readFromNBT(aNBT, NBT_TANK+"."+i);
 		
 		if (worldObj != null && isServerSide() && mHasToAddTimer) {
@@ -266,10 +266,10 @@ public class MultiTileEntityLogisticsCore extends TileEntityBase10MultiBlockBase
 				;
 				
 				Set<ITileEntityLogistics> tScanning = new HashSetNoNulls<>(), tScanningNext = new HashSetNoNulls<>();
-				Set<TileEntity> tScanned = new HashSetNoNulls<>();
+				Set<BlockEntity> tScanned = new HashSetNoNulls<>();
 				
 				for (int i = -2; i <= 2; i++) for (int j = -2; j <= 2; j++) for (int k = -2; k <= 2; k++) {
-					TileEntity tTileEntity = WD.te(worldObj, tX + i, tY + j, tZ + k, T);
+					BlockEntity tTileEntity = WD.te(worldObj, tX + i, tY + j, tZ + k, T);
 					if (tScanned.add(tTileEntity) && tTileEntity instanceof ITileEntityLogistics) tScanning.add((ITileEntityLogistics)tTileEntity);
 				}
 				
@@ -283,15 +283,15 @@ public class MultiTileEntityLogisticsCore extends TileEntityBase10MultiBlockBase
 							}
 							
 							switch (((ITileEntityLogisticsStorage)tLogistics).getLogisticsPriorityFluid()) {
-							case  1: tFluidStorageGeneric .add(new LogisticsData(new DelegatorTileEntity<>((TileEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterFluid())); break;
-							case  2: tFluidStorageSemi    .add(new LogisticsData(new DelegatorTileEntity<>((TileEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterFluid())); break;
-							case  3: tFluidStorageFiltered.add(new LogisticsData(new DelegatorTileEntity<>((TileEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterFluid())); break;
+							case  1: tFluidStorageGeneric .add(new LogisticsData(new DelegatorTileEntity<>((BlockEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterFluid())); break;
+							case  2: tFluidStorageSemi    .add(new LogisticsData(new DelegatorTileEntity<>((BlockEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterFluid())); break;
+							case  3: tFluidStorageFiltered.add(new LogisticsData(new DelegatorTileEntity<>((BlockEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterFluid())); break;
 							}
 							
 							switch (((ITileEntityLogisticsStorage)tLogistics).getLogisticsPriorityItem()) {
-							case  1: tStackStorageGeneric .add(new LogisticsData(new DelegatorTileEntity<>((TileEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterItem())); break;
-							case  2: tStackStorageSemi    .add(new LogisticsData(new DelegatorTileEntity<>((TileEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterItem())); break;
-							case  3: tStackStorageFiltered.add(new LogisticsData(new DelegatorTileEntity<>((TileEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterItem())); break;
+							case  1: tStackStorageGeneric .add(new LogisticsData(new DelegatorTileEntity<>((BlockEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterItem())); break;
+							case  2: tStackStorageSemi    .add(new LogisticsData(new DelegatorTileEntity<>((BlockEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterItem())); break;
+							case  3: tStackStorageFiltered.add(new LogisticsData(new DelegatorTileEntity<>((BlockEntity)tLogistics, SIDE_ANY), ((ITileEntityLogisticsStorage)tLogistics).getLogisticsFilterItem())); break;
 							}
 						}
 						
@@ -319,7 +319,7 @@ public class MultiTileEntityLogisticsCore extends TileEntityBase10MultiBlockBase
 									continue;
 								}
 								
-								DelegatorTileEntity<TileEntity> tAdjacent = tLogistics.getAdjacentTileEntity(tSide);
+								DelegatorTileEntity<BlockEntity> tAdjacent = tLogistics.getAdjacentTileEntity(tSide);
 								if (tAdjacent.mTileEntity instanceof ITileEntityLogistics && ((ITileEntityLogistics)tAdjacent.mTileEntity).canLogistics(SIDE_ANY)) {
 									// Ignore those ones to reduce likelihood of infinite Loops.
 								} else {
@@ -439,7 +439,7 @@ public class MultiTileEntityLogisticsCore extends TileEntityBase10MultiBlockBase
 							int tMaxDistance = Math.max(Math.abs(tLogistics.getOffsetX(tSide) - tX), Math.max(Math.abs(tLogistics.getOffsetY(tSide) - tY), Math.abs(tLogistics.getOffsetZ(tSide) - tZ)));
 							if (tMaxDistance <= mCPU_Control + 2) {
 								oCPU_Control = Math.max(oCPU_Control, tMaxDistance-2);
-								DelegatorTileEntity<TileEntity> tAdjacent = tLogistics.getAdjacentTileEntity(tSide);
+								DelegatorTileEntity<BlockEntity> tAdjacent = tLogistics.getAdjacentTileEntity(tSide);
 								if (tAdjacent.mTileEntity instanceof ITileEntityLogistics && ((ITileEntityLogistics)tAdjacent.mTileEntity).canLogistics(tAdjacent.mSideOfTileEntity) && tScanned.add(tAdjacent.mTileEntity)) tScanningNext.add((ITileEntityLogistics)tAdjacent.mTileEntity);
 							}
 						}
@@ -610,48 +610,48 @@ public class MultiTileEntityLogisticsCore extends TileEntityBase10MultiBlockBase
 	}
 	
 	static class LogisticsData {
-		public final DelegatorTileEntity<TileEntity> mTarget;
+		public final DelegatorTileEntity<BlockEntity> mTarget;
 		public final Fluid mFluidFilter;
 		public final ItemStack mItemFilter;
 		public final int mStackSize;
 		
-		public LogisticsData(DelegatorTileEntity<TileEntity> aTarget, Fluid aFluidFilter, ItemStack aItemFilter, int aStackSize) {
+		public LogisticsData(DelegatorTileEntity<BlockEntity> aTarget, Fluid aFluidFilter, ItemStack aItemFilter, int aStackSize) {
 			mTarget = aTarget;
 			mFluidFilter = aFluidFilter;
 			mItemFilter = aItemFilter;
 			mStackSize = aStackSize;
 		}
-		public LogisticsData(DelegatorTileEntity<TileEntity> aTarget, Fluid aFluidFilter, ItemStack aItemFilter) {
+		public LogisticsData(DelegatorTileEntity<BlockEntity> aTarget, Fluid aFluidFilter, ItemStack aItemFilter) {
 			mTarget = aTarget;
 			mFluidFilter = aFluidFilter;
 			mItemFilter = aItemFilter;
 			mStackSize = 0;
 		}
-		public LogisticsData(DelegatorTileEntity<TileEntity> aTarget, ItemStack aItemFilter, int aStackSize) {
+		public LogisticsData(DelegatorTileEntity<BlockEntity> aTarget, ItemStack aItemFilter, int aStackSize) {
 			mTarget = aTarget;
 			mFluidFilter = null;
 			mItemFilter = aItemFilter;
 			mStackSize = aStackSize;
 		}
-		public LogisticsData(DelegatorTileEntity<TileEntity> aTarget, ItemStack aItemFilter) {
+		public LogisticsData(DelegatorTileEntity<BlockEntity> aTarget, ItemStack aItemFilter) {
 			mTarget = aTarget;
 			mFluidFilter = null;
 			mItemFilter = aItemFilter;
 			mStackSize = 0;
 		}
-		public LogisticsData(DelegatorTileEntity<TileEntity> aTarget, Fluid aFluidFilter) {
+		public LogisticsData(DelegatorTileEntity<BlockEntity> aTarget, Fluid aFluidFilter) {
 			mTarget = aTarget;
 			mFluidFilter = aFluidFilter;
 			mItemFilter = null;
 			mStackSize = 0;
 		}
-		public LogisticsData(DelegatorTileEntity<TileEntity> aTarget, int aStackSize) {
+		public LogisticsData(DelegatorTileEntity<BlockEntity> aTarget, int aStackSize) {
 			mTarget = aTarget;
 			mFluidFilter = null;
 			mItemFilter = null;
 			mStackSize = aStackSize;
 		}
-		public LogisticsData(DelegatorTileEntity<TileEntity> aTarget) {
+		public LogisticsData(DelegatorTileEntity<BlockEntity> aTarget) {
 			mTarget = aTarget;
 			mFluidFilter = null;
 			mItemFilter = null;

@@ -62,7 +62,7 @@ public abstract class BlockBaseLeaves extends BlockBaseTree implements IShearabl
 	public final Block[] mLogs;
 	public final byte[] mLogMetas;
 	
-	public BlockBaseLeaves(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons, Block aSaplings, Block[] aLogs, byte[] aLogMetas) {
+	public BlockBaseLeaves(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons, Block aSaplings, Block[] aLogs, byte[] aLogMetas) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, Math.min(8, aMaxMeta), aIcons);
 		setCreativeTab(CreativeModeTab.tabDecorations);
 		mSaplings = aSaplings;

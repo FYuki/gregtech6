@@ -73,26 +73,26 @@ public class MultiTileEntityButtonAdvanced extends TileEntityBase09FacingSingle 
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_MODE, mInverted);
-		UT.NBT.setBoolean(aNBT, NBT_MODE+".lamp", mLampMode);
-		UT.NBT.setBoolean(aNBT, NBT_VISUAL, mGlowInverted);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_MODE, mInverted);
+		UT.NBT.putBoolean(aNBT, NBT_MODE+".lamp", mLampMode);
+		UT.NBT.putBoolean(aNBT, NBT_VISUAL, mGlowInverted);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
 		UT.NBT.setNumber (aNBT, NBT_PROGRESS, mLength);
-		if (mMaxLength != 20) aNBT.setLong(NBT_MAXPROGRESS, mMaxLength);
-		if (mStrength  != 15) aNBT.setByte(NBT_REDSTONE, mStrength);
-		if (mType      !=  0) aNBT.setByte(NBT_TEXTURE+".0", mType);
-		if (mIndex     !=  0) aNBT.setByte(NBT_TEXTURE+".1", mIndex);
+		if (mMaxLength != 20) aNBT.putLong(NBT_MAXPROGRESS, mMaxLength);
+		if (mStrength  != 15) aNBT.putByte(NBT_REDSTONE, mStrength);
+		if (mType      !=  0) aNBT.putByte(NBT_TEXTURE+".0", mType);
+		if (mIndex     !=  0) aNBT.putByte(NBT_TEXTURE+".1", mIndex);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		UT.NBT.setBoolean(aNBT, NBT_MODE, mInverted);
-		UT.NBT.setBoolean(aNBT, NBT_MODE+".lamp", mLampMode);
-		UT.NBT.setBoolean(aNBT, NBT_VISUAL, mGlowInverted);
-		if (mMaxLength != 20) aNBT.setLong(NBT_MAXPROGRESS, mMaxLength);
-		if (mStrength  != 15) aNBT.setByte(NBT_REDSTONE, mStrength);
-		if (mType      !=  0) aNBT.setByte(NBT_TEXTURE+".0", mType);
-		if (mIndex     !=  0) aNBT.setByte(NBT_TEXTURE+".1", mIndex);
+		UT.NBT.putBoolean(aNBT, NBT_MODE, mInverted);
+		UT.NBT.putBoolean(aNBT, NBT_MODE+".lamp", mLampMode);
+		UT.NBT.putBoolean(aNBT, NBT_VISUAL, mGlowInverted);
+		if (mMaxLength != 20) aNBT.putLong(NBT_MAXPROGRESS, mMaxLength);
+		if (mStrength  != 15) aNBT.putByte(NBT_REDSTONE, mStrength);
+		if (mType      !=  0) aNBT.putByte(NBT_TEXTURE+".0", mType);
+		if (mIndex     !=  0) aNBT.putByte(NBT_TEXTURE+".1", mIndex);
 		return aNBT;
 	}
 	

@@ -58,7 +58,7 @@ import net.neoforged.neoforge.common.IPlantable;
 import gregapi.stubs.IIcon; // stub
 
 public class BlockBaseLilyPad extends BlockBaseMeta implements IPlantable, IRenderedBlock {
-	public BlockBaseLilyPad(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
+	public BlockBaseLilyPad(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(ItemBlockBase.class, aNameInternal, Material.plants, soundTypeGrass, aMaxMeta, aIcons);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.015625F, 1.0F);
 		setCreativeTab(CreativeModeTab.tabDecorations);
@@ -103,7 +103,7 @@ public class BlockBaseLilyPad extends BlockBaseMeta implements IPlantable, IRend
 		if (!aWorld.canMineBlock(aPlayer, aX, aY, aZ) || !aPlayer.canPlayerEdit(aX, aY, aZ, tPos.sideHit, aStack)) return aStack;
 		if (aWorld.getBlock(aX, aY, aZ).getMaterial() == Material.water && WD.meta(aWorld, aX, aY, aZ) == 0 && aWorld.isAirBlock(aX, aY+1, aZ)) {
 			aWorld.setBlock(aX, aY+1, aZ, this, ST.meta_(aStack), 3);
-			if (!UT.Entities.hasInfiniteItems(aPlayer)) {aStack.stackSize--;}
+			if (!UT.Entities.hasInfiniteItems(aPlayer)) {aStack.shrink(1);}
 		}
 		return aStack;
 	}

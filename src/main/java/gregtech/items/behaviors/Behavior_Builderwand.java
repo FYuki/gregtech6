@@ -44,7 +44,7 @@ public class Behavior_Builderwand extends AbstractBehaviorDefault {
 	public boolean onItemUse(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (aWorld.isRemote || aPlayer == null || !(aItem instanceof MultiItemTool) || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		
-		TileEntity aTileEntity = WD.te(aWorld, aX, aY, aZ, T);
+		BlockEntity aTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		
 		if (MD.TC.mLoaded && aTileEntity instanceof INode) {
 			for (int tX = -1; tX <= 1; tX++)
@@ -62,11 +62,11 @@ public class Behavior_Builderwand extends AbstractBehaviorDefault {
 					// Doublechecking Block Permissions at that location.
 					if (!aPlayer.canPlayerEdit(aX + tX, aY + tY, aZ + tZ, aSide, tStack)) continue;
 					
-					int tOldSize = tStack.stackSize;
+					int tOldSize = tStack.getCount();
 					if (tStack.tryPlaceItemIntoWorld(aPlayer, aWorld, aX + tX, aY + tY, aZ + tZ, SIDE_TOP, 0.5F, 0.25F, 0.5F)) {
 						UT.Sounds.send(SFX.MC_XP, aWorld, aX + tX, aY + tY, aZ + tZ);
 						if (UT.Entities.hasInfiniteItems(aPlayer)) {
-							tStack.stackSize = tOldSize;
+							tStack.setCount(tOldSize);
 						} else {
 							ST.use(aPlayer, T, tStack, 0);
 							((MultiItemTool)aItem).doDamage(aStack, 1, aPlayer, F);
@@ -99,8 +99,8 @@ public class Behavior_Builderwand extends AbstractBehaviorDefault {
 				if (ST.invalid(tStack)) continue;
 				Block tBlock = ST.block(tStack);
 				if (ST.invalid(tBlock)) {
-					if (tStack.getItem() instanceof ItemBlock) {
-						tBlock = ((ItemBlock)tStack.getItem()).field_150939_a;
+					if (tStack.getItem() instanceof BlockItem) {
+						tBlock = ((BlockItem)tStack.getItem()).field_150939_a;
 						if (ST.invalid(tBlock)) continue;
 					} else continue;
 				}
@@ -119,10 +119,10 @@ public class Behavior_Builderwand extends AbstractBehaviorDefault {
 				if (!aPlayer.canPlayerEdit(aX+tX            , aY+tY            , aZ+tZ            , aSide, tStack)) continue;
 				if (!aPlayer.canPlayerEdit(aX+tX+OFFX[aSide], aY+tY+OFFY[aSide], aZ+tZ+OFFZ[aSide], aSide, tStack)) continue;
 				
-				int tOldSize = tStack.stackSize;
+				int tOldSize = tStack.getCount();
 				if (tStack.tryPlaceItemIntoWorld(aPlayer, aWorld, aX+tX, aY+tY, aZ+tZ, aSide, aHitX, aHitY, aHitZ)) {
 					if (UT.Entities.hasInfiniteItems(aPlayer)) {
-						tStack.stackSize = tOldSize;
+						tStack.setCount(tOldSize);
 					} else {
 						ST.use(aPlayer, T, tStack, 0);
 						((MultiItemTool)aItem).doDamage(aStack, 1, aPlayer, F);

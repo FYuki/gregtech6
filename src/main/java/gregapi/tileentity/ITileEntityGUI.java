@@ -33,8 +33,8 @@ public interface ITileEntityGUI extends ITileEntityUnloadable {
 	/** Gets the GUI Elements. Negative GUIIDs are internal Usage. For example -1, -2, -3, -4, -5 and -6 are the Covers on the Side -GUIID-1 */
 	public Object getGUIServer(int aGUIID, Player aPlayer);
 	
-	/** Opens the GUI with this ID of this TileEntity */
+	/** Opens the GUI with this ID of this BlockEntity */
 	public boolean openGUI(Player aPlayer, int aID);
-	/** Opens the GUI with the ID = 0 of this TileEntity */
+	/** Opens the GUI with the ID = 0 of this BlockEntity */
 	public boolean openGUI(Player aPlayer);
 }

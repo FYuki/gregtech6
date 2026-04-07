@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 public class StoneLayerOres {
 	public boolean mGenerateIndicators;

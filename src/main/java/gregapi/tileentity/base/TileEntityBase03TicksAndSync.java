@@ -33,7 +33,7 @@ import static gregapi.data.CS.*;
 /**
  * @author Gregorius Techneticies
  * 
- * TileEntity with Network Code
+ * BlockEntity with Network Code
  */
 public abstract class TileEntityBase03TicksAndSync extends TileEntityBase02AdjacentTEBuffer implements ITileEntitySynchronising {
 	/** Gets set if/when needed. */
@@ -140,7 +140,7 @@ public abstract class TileEntityBase03TicksAndSync extends TileEntityBase02Adjac
 		mIsRunningTick = F;
 	}
 	
-	/** The very first Tick happening to this TileEntity */
+	/** The very first Tick happening to this BlockEntity */
 	public void onTickFirst(boolean aIsServerSide) {/**/}
 	
 	/** The first Part of the Tick. */

@@ -88,7 +88,7 @@ public class MultiTileEntityBoilerTank extends TileEntityBase09FacingSingle impl
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		if (mEfficiency != 10000) aNBT.setShort(NBT_EFFICIENCY, mEfficiency);
+		if (mEfficiency != 10000) aNBT.putShort(NBT_EFFICIENCY, mEfficiency);
 		for (int i = 0; i < mTanks.length; i++) mTanks[i].writeToNBT(aNBT, NBT_TANK+"."+i);
 	}
 	

@@ -73,7 +73,7 @@ public class MultiTileEntityPipeItem extends TileEntityBase10ConnectorRendered i
 	 * Utility to quickly add a whole set of Item Pipes.
 	 * May use up to 25 IDs, even if it is just 6 right now!
 	 */
-	public static void addItemPipes(int aID, int aCreativeTabID, long aStepSize, int aInvSize, boolean aRecipe, boolean aBlocking, MultiTileEntityRegistry aRegistry, MultiTileEntityBlock aBlock, Class<? extends TileEntity> aClass, OreDictMaterial aMat) {
+	public static void addItemPipes(int aID, int aCreativeTabID, long aStepSize, int aInvSize, boolean aRecipe, boolean aBlocking, MultiTileEntityRegistry aRegistry, MultiTileEntityBlock aBlock, Class<? extends BlockEntity> aClass, OreDictMaterial aMat) {
 		OreDictManager.INSTANCE.setTarget_(OP.pipeMedium               , aMat, aRegistry.add(aMat.getLocal() + " Item Pipe"                        , "Item Pipes", aID+ 2, aCreativeTabID, aClass, aMat.mToolQuality, 64, aBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 2.0F, NBT_RESISTANCE, 6.0F, NBT_COLOR, UT.Code.getRGBInt(aMat.fRGBaSolid), NBT_PIPERENDER, 0, NBT_DIAMETER, PX_P[ 8], NBT_PIPESIZE, aStepSize      , NBT_INV_SIZE, aInvSize  , NBT_OPAQUE, aBlocking), aRecipe?new Object[]{"PPP", "wzh"       , 'P', OP.plateCurved.dat(aMat)}:ZL), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.pipeLarge                , aMat, aRegistry.add("Large " + aMat.getLocal() + " Item Pipe"             , "Item Pipes", aID+ 3, aCreativeTabID, aClass, aMat.mToolQuality, 32, aBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 2.0F, NBT_RESISTANCE, 6.0F, NBT_COLOR, UT.Code.getRGBInt(aMat.fRGBaSolid), NBT_PIPERENDER, 0, NBT_DIAMETER, PX_P[12], NBT_PIPESIZE, aStepSize /   2, NBT_INV_SIZE, aInvSize*2, NBT_OPAQUE, aBlocking), aRecipe?new Object[]{"PPP", "wzh", "PPP", 'P', OP.plateCurved.dat(aMat)}:ZL), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.pipeHuge                 , aMat, aRegistry.add("Huge " + aMat.getLocal() + " Item Pipe"              , "Item Pipes", aID+ 4, aCreativeTabID, aClass, aMat.mToolQuality, 16, aBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 2.0F, NBT_RESISTANCE, 6.0F, NBT_COLOR, UT.Code.getRGBInt(aMat.fRGBaSolid), NBT_PIPERENDER, 0, NBT_DIAMETER, PX_P[16], NBT_PIPESIZE, aStepSize /   4, NBT_INV_SIZE, aInvSize*4, NBT_OPAQUE, aBlocking), aRecipe?new Object[]{"PPP", "wzh", "PPP", 'P', OP.plateDouble.dat(aMat)}:ZL), T, F, T);
@@ -104,10 +104,10 @@ public class MultiTileEntityPipeItem extends TileEntityBase10ConnectorRendered i
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte("gt.olast", oLastReceivedFrom);
-		aNBT.setByte("gt.mlast", mLastReceivedFrom);
-		aNBT.setByte(NBT_INPUT, mDisabledInputs);
-		aNBT.setByte(NBT_OUTPUT, mDisabledOutputs);
+		aNBT.putByte("gt.olast", oLastReceivedFrom);
+		aNBT.putByte("gt.mlast", mLastReceivedFrom);
+		aNBT.putByte(NBT_INPUT, mDisabledInputs);
+		aNBT.putByte(NBT_OUTPUT, mDisabledOutputs);
 		UT.NBT.setNumber(aNBT, "gt.mtransfer", mTransferredItems);
 	}
 	
@@ -208,7 +208,7 @@ public class MultiTileEntityPipeItem extends TileEntityBase10ConnectorRendered i
 					}
 				}
 				if (tUpdate) {
-					DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mLastReceivedFrom);
+					DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mLastReceivedFrom);
 					if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) {
 						((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, this);
 					}
@@ -223,17 +223,17 @@ public class MultiTileEntityPipeItem extends TileEntityBase10ConnectorRendered i
 	@Override
 	public boolean insertItemStackIntoTileEntity(Object aSender, byte aSide) {
 		if (!FACE_CONNECTED[aSide][mDisabledOutputs] && canEmitItemsTo(aSide, aSender)) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aSide);
 			if (ST.canConnect(tDelegator) && !(tDelegator.mTileEntity instanceof TileEntityBase09Connector)) {
 				if (!(tDelegator.mTileEntity instanceof HopperBlockEntity || tDelegator.mTileEntity instanceof DispenserBlockEntity) || getMetaDataAtSide(aSide) != tDelegator.mSideOfTileEntity) {
 					// special cases for the win...
 					CoverData tCovers = getCoverData();
 					if (tCovers != null && tCovers.mBehaviours[aSide] instanceof CoverFilterItem && tCovers.mNBTs[aSide] != null) {
 						ItemStack tStack = ST.load(tCovers.mNBTs[aSide], "gt.filter.item");
-						return ST.valid(tStack) && ST.move(new DelegatorTileEntity<>((TileEntity)aSender, SIDE_ANY), tDelegator, ST.hashset(tStack), F, F, tCovers.mVisuals[aSide] != 0, T, 64, 1, 64, 1) > 0;
+						return ST.valid(tStack) && ST.move(new DelegatorTileEntity<>((BlockEntity)aSender, SIDE_ANY), tDelegator, ST.hashset(tStack), F, F, tCovers.mVisuals[aSide] != 0, T, 64, 1, 64, 1) > 0;
 					}
 					// well normal case is this.
-					return ST.move(new DelegatorTileEntity<>((TileEntity)aSender, SIDE_ANY), tDelegator) > 0;
+					return ST.move(new DelegatorTileEntity<>((BlockEntity)aSender, SIDE_ANY), tDelegator) > 0;
 				}
 			}
 		}
@@ -253,7 +253,7 @@ public class MultiTileEntityPipeItem extends TileEntityBase10ConnectorRendered i
 	@Override
 	public void onConnectionChange(byte aPreviousConnections) {
 		for (byte tSide : ALL_SIDES_VALID) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 			if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) {
 				((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, this);
 			}
@@ -272,7 +272,7 @@ public class MultiTileEntityPipeItem extends TileEntityBase10ConnectorRendered i
 	@Override public boolean canEmitItemsTo                 (byte aSide, Object aSender) {return (aSender != this || aSide != mLastReceivedFrom) && connected(aSide);}
 	@Override public boolean canAcceptItemsFrom             (byte aSide, Object aSender) {return connected(aSide);}
 	
-	@Override public boolean canConnect                     (byte aSide, DelegatorTileEntity<TileEntity> aDelegator) {return aDelegator.mTileEntity instanceof ISidedInventory ? aDelegator.mTileEntity instanceof ITileEntityCanDelegate || ((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(aDelegator.mSideOfTileEntity).length > 0 : ST.canConnect(aDelegator);}
+	@Override public boolean canConnect                     (byte aSide, DelegatorTileEntity<BlockEntity> aDelegator) {return aDelegator.mTileEntity instanceof ISidedInventory ? aDelegator.mTileEntity instanceof ITileEntityCanDelegate || ((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(aDelegator.mSideOfTileEntity).length > 0 : ST.canConnect(aDelegator);}
 	
 	@Override public long getProgressValue                  (byte aSide) {return getPipeContent()*64;}
 	@Override public long getProgressMax                    (byte aSide) {return getMaxPipeCapacity()*64;}

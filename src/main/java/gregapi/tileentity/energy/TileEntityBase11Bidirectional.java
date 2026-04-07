@@ -45,7 +45,7 @@ public abstract class TileEntityBase11Bidirectional extends TileEntityBase10Ener
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_REVERSED, mReversed);
+		UT.NBT.putBoolean(aNBT, NBT_REVERSED, mReversed);
 	}
 	
 	@Override

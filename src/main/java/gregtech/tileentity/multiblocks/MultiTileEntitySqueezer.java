@@ -156,7 +156,7 @@ public class MultiTileEntitySqueezer extends TileEntityBase10MultiBlockMachine {
 	
 	@Override
 	public void updateAdjacentToggleableEnergySources() {
-		DelegatorTileEntity<TileEntity> tDelegator;
+		DelegatorTileEntity<BlockEntity> tDelegator;
 		if (SIDES_AXIS_X[mFacing]) {
 			tDelegator = WD.te(worldObj, getOffsetXN(mFacing, 2), yCoord+1, zCoord - 3, SIDE_Z_POS, F);
 			if (tDelegator.mTileEntity instanceof ITileEntityAdjacentOnOff && tDelegator.mTileEntity instanceof ITileEntityEnergy && ((ITileEntityEnergy)tDelegator.mTileEntity).isEnergyEmittingTo(mEnergyTypeAccepted, tDelegator.mSideOfTileEntity, T)) ((ITileEntityAdjacentOnOff)tDelegator.mTileEntity).setAdjacentOnOff(getStateOnOff());
@@ -176,7 +176,7 @@ public class MultiTileEntitySqueezer extends TileEntityBase10MultiBlockMachine {
 	}
 	
 	@Override
-	public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {
+	public DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide) {
 		return getAdjacentTileEntity(SIDE_BOTTOM);
 	}
 	

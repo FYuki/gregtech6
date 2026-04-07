@@ -76,16 +76,16 @@ public class MultiTileEntityEngineElectric extends TileEntityBase09FacingSingle 
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		if (mState != 15) aNBT.setByte(NBT_MODE, mState);
-		aNBT.setByte(NBT_PISTON, mPiston);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
+		if (mState != 15) aNBT.putByte(NBT_MODE, mState);
+		aNBT.putByte(NBT_PISTON, mPiston);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE_ENERGY, mEmitsEnergy);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		if (mState != 15) aNBT.setByte(NBT_MODE, mState);
+		if (mState != 15) aNBT.putByte(NBT_MODE, mState);
 		return aNBT;
 	}
 	

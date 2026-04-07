@@ -18,6 +18,7 @@
  */
 
 package gregapi;
+import gregapi.stubs.FMLInterModComms;
 
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.ItemList;
@@ -76,15 +77,15 @@ public class NEI_RecipeMap extends TemplateRecipeHandler {
 			API.registerUsageHandler(this);
 			
 			CompoundTag tNBT = UT.NBT.make();
-			tNBT.setString ("modId"            , MD.GT.mID);
-			tNBT.setString ("modName"          , MD.GT.mName);
-			tNBT.setString ("handler"          , mRecipeMap.mNameNEI);
-			tNBT.setString ("itemName"         , ST.regMeta(mRecipeMap.mRecipeMachineList.isEmpty() ? ST.make(Blocks.lit_furnace, 1, 0) : mRecipeMap.mRecipeMachineList.get(0)));
-			tNBT.setInteger("handlerHeight"    , 135);
-			tNBT.setInteger("handlerWidth"     , 166);
-			tNBT.setInteger("maxRecipesPerPage",   2);
-			tNBT.setInteger("yShift"           ,   6);
-			tNBT.setBoolean("modRequired"      ,   T);
+			tNBT.putString ("modId"            , MD.GT.mID);
+			tNBT.putString ("modName"          , MD.GT.mName);
+			tNBT.putString ("handler"          , mRecipeMap.mNameNEI);
+			tNBT.putString ("itemName"         , ST.regMeta(mRecipeMap.mRecipeMachineList.isEmpty() ? ST.make(Blocks.lit_furnace, 1, 0) : mRecipeMap.mRecipeMachineList.get(0)));
+			tNBT.putInt("handlerHeight"    , 135);
+			tNBT.putInt("handlerWidth"     , 166);
+			tNBT.putInt("maxRecipesPerPage",   2);
+			tNBT.putInt("yShift"           ,   6);
+			tNBT.putBoolean("modRequired"      ,   T);
 			FMLInterModComms.sendMessage("NotEnoughItems", "registerHandlerInfo", tNBT);
 		} else {
 			GuiCraftingRecipe.craftinghandlers.add(this);
@@ -123,10 +124,10 @@ public class NEI_RecipeMap extends TemplateRecipeHandler {
 				if (ST.meta_(tStack) == W) {
 					List<ItemStack> permutations = ItemList.itemMap.get(tStack.getItem());
 					if (!permutations.isEmpty()) {
-						for(ItemStack stack : permutations) tDisplayStacks.add(ST.amount(tStack.stackSize, stack));
+						for(ItemStack stack : permutations) tDisplayStacks.add(ST.amount(tStack.getCount(), stack));
 					} else {
-						ItemStack base = ST.make(tStack.getItem(), tStack.stackSize, 0);
-						base.stackTagCompound = tStack.stackTagCompound;
+						ItemStack base = ST.make(tStack.getItem(), tStack.getCount(), 0);
+						base.getTag() = tStack.getTag();
 						tDisplayStacks.add(base);
 					}
 				} else {
@@ -662,13 +663,13 @@ public class NEI_RecipeMap extends TemplateRecipeHandler {
 			for (PositionedStack tStack : tRecipe.mOutputs) if (aStack == tStack.item) {
 				if (tStack instanceof FixedPositionedStack && ((FixedPositionedStack)tStack).mChance > 0 && ((FixedPositionedStack)tStack).mChance != ((FixedPositionedStack)tStack).mMaxChance) {
 					long tChance = UT.Code.units(((FixedPositionedStack)tStack).mChance, ((FixedPositionedStack)tStack).mMaxChance, 10000, F);
-					currenttip.add(1, LH.Chat.BLINKING_CYAN + "Chance: " + (tChance / 100) + "." + ((tChance % 100)<10?"0"+(tChance % 100):(tChance % 100)) + "%" + (tStack.item.stackSize>1?" each":""));
+					currenttip.add(1, LH.Chat.BLINKING_CYAN + "Chance: " + (tChance / 100) + "." + ((tChance % 100)<10?"0"+(tChance % 100):(tChance % 100)) + "%" + (tStack.item.getCount()>1?" each":""));
 				}
 				break;
 			}
 			for (PositionedStack tStack : tRecipe.mInputs) if (aStack == tStack.item) {
 				if (!gregapi.data.IL.Display_Fluid.equal(tStack.item, T, T)) {
-					if (tStack.item.stackSize == 0) currenttip.add(1, LH.Chat.BLINKING_CYAN + "Does not get consumed in the process");
+					if (tStack.item.getCount() == 0) currenttip.add(1, LH.Chat.BLINKING_CYAN + "Does not get consumed in the process");
 				}
 				break;
 			}

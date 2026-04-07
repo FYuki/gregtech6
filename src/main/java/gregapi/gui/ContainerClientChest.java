@@ -27,7 +27,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import gregapi.tileentity.ITileEntityInventoryGUI;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 
 /**
  * @author Gregorius Techneticies

@@ -64,7 +64,7 @@ public class CoverRetrieverItem extends AbstractCoverAttachment {
 			ArrayList<ITileEntityItemPipe> tUsedPipes = new ArrayListNoNulls<>();
 			ItemStack tStack = ST.load(aData.mNBTs[aSide], "gt.filter.item");
 			ItemStackSet<ItemStackContainer> tFilter = ST.invalid(tStack) ? null : ST.hashset(tStack);
-			DelegatorTileEntity<TileEntity> tTarget = aData.mTileEntity.getAdjacentTileEntity(aSide);
+			DelegatorTileEntity<BlockEntity> tTarget = aData.mTileEntity.getAdjacentTileEntity(aSide);
 			
 			for (ITileEntityItemPipe tPipe : UT.Code.sortByValuesAcending(ITileEntityItemPipe.Util.scanPipes((ITileEntityItemPipe)aData.mTileEntity, new HashMap<ITileEntityItemPipe, Long>(), 0, T, F)).keySet()) {
 				if (tUsedPipes.add(tPipe)) for (byte tSide : ALL_SIDES_VALID) if (tPipe.canAcceptItemsFrom(tSide, aData.mTileEntity) && (tSide != aSide || tPipe != aData.mTileEntity)) {

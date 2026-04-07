@@ -37,6 +37,6 @@ public interface ITileEntityDelegating extends ITileEntityCanDelegate {
 	TOOLTIP_EXTENDER_CONTROL   = LH.add("gt.tileentity.extender.tooltip.control"  , "Relays Control Functions"              ),
 	TOOLTIP_EXTENDER_ALL       = LH.add("gt.tileentity.extender.tooltip.all"      , "Relays everything"                     );
 	
-	/** Gets the TileEntity which is responsible for handling this Side. DO NOT RETURN NULL! Return a DelegatorTileEntity Object without TileEntity, or a DelegatorTileEntity with the 'this' Object in order to not delegate. */
-	public DelegatorTileEntity<TileEntity> getDelegateTileEntity(byte aSide);
+	/** Gets the BlockEntity which is responsible for handling this Side. DO NOT RETURN NULL! Return a DelegatorTileEntity Object without BlockEntity, or a DelegatorTileEntity with the 'this' Object in order to not delegate. */
+	public DelegatorTileEntity<BlockEntity> getDelegateTileEntity(byte aSide);
 }

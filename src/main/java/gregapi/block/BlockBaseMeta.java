@@ -39,7 +39,7 @@ public abstract class BlockBaseMeta extends BlockBaseSealable {
 	/** For Creative Subsets, not actually important. */
 	private final byte mMaxMeta;
 	
-	public BlockBaseMeta(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
+	public BlockBaseMeta(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType);
 		mMaxMeta = (byte)UT.Code.bind(1, 16, aMaxMeta);
 		mIcons = aIcons;

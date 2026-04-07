@@ -33,7 +33,7 @@ import gregapi.item.multiitem.energy.EnergyStatDebug;
 import gregapi.lang.LanguageHandler;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
+import gregapi.stubs.EnergyConfigHandler;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -222,7 +222,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	public boolean destroyCheck(ItemStack aStack, Player aPlayer) {
-		if (aStack.stackSize <= 0) {
+		if (aStack.getCount() <= 0) {
 			if (aPlayer != null) aPlayer.destroyCurrentEquippedItem();
 			return T;
 		}
@@ -292,7 +292,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	public int fill(ItemStack aStack, FluidStack aFluid, boolean doFill) {
-		if (aStack == null || aStack.stackSize != 1) return 0;
+		if (aStack == null || aStack.getCount() != 1) return 0;
 		
 		ItemStack tStack = FL.fill(aFluid, aStack, F, F, F, F);
 		if (tStack != null) {
@@ -341,14 +341,14 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	public boolean isAllowedToFill(ItemStack aStack, FluidStack aFluid) {return T;}
 	
 	public FluidStack drain(ItemStack aStack, int aMaxDrain, boolean aDoDrain) {
-		if (aStack == null || aStack.stackSize != 1) return null;
+		if (aStack == null || aStack.getCount() != 1) return null;
 		
 		FluidStack tFluid = FL.getFluid(aStack, F);
 		if (tFluid != null && aMaxDrain >= tFluid.amount) {
 			if (aDoDrain) {
 				ItemStack tStack = ST.container(aStack, F);
 				if (tStack == null) {
-					aStack.stackSize = 0;
+					aStack.setCount(0);
 					return tFluid;
 				}
 				aStack.setItemDamage(ST.meta_(tStack));
@@ -390,7 +390,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	
 	@Override
 	public int getItemStackLimit(ItemStack aStack) {
-		if (aStack.hasTagCompound() && aStack.getTagCompound().hasKey(NBT_ENERGY)) return 1;
+		if (aStack.hasTag() && aStack.getTagCompound().hasKey(NBT_ENERGY)) return 1;
 		Long[] tStats = getFluidContainerStats(aStack);
 		if (tStats != null) return (int)(long)tStats[1];
 		return UT.Code.bindStack(getDefaultStackLimit(aStack));

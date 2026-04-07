@@ -49,7 +49,7 @@ public class MultiTileEntityLocker extends TileEntityBase09FacingSingle implemen
 	public void onTick2(long aTimer, boolean aIsServerSide) {
 		super.onTick2(aTimer, aIsServerSide);
 		if (aIsServerSide && mInventoryChanged) for (byte tSide : ALL_SIDES_VALID) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 			if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) ((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, this);
 		}
 	}

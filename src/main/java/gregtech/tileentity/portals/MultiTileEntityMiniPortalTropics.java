@@ -113,10 +113,10 @@ public class MultiTileEntityMiniPortalTropics extends MultiTileEntityMiniPortal 
 	public boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
 			ItemStack aStack = aPlayer.inventory.getCurrentItem();
-			if (ST.valid(aStack) && aStack.stackSize > 0 && ST.equal(aStack, MD.TROPIC, "cocktail")) {
+			if (ST.valid(aStack) && aStack.getCount() > 0 && ST.equal(aStack, MD.TROPIC, "cocktail")) {
 				setPortalActive();
 				if (mTarget != null) UT.Entities.sendchat(aPlayer, "X: " + mTarget.xCoord + "   Y: " + mTarget.yCoord + "   Z: " + mTarget.zCoord);
-				if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
+				if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
 			}
 		}
 		return T;

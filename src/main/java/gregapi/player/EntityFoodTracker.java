@@ -47,12 +47,12 @@ public class EntityFoodTracker implements IExtendedEntityProperties {
 	@Override
 	public void saveNBTData(CompoundTag aNBT) {
 		CompoundTag tNBT = UT.NBT.make();
-		if (mAlcohol     != 0) tNBT.setByte("a", mAlcohol    );
-		if (mCaffeine    != 0) tNBT.setByte("c", mCaffeine   );
-		if (mSugar       != 0) tNBT.setByte("s", mSugar      );
-		if (mDehydration != 0) tNBT.setByte("d", mDehydration);
-		if (mFat         != 0) tNBT.setByte("f", mFat        );
-		if (mRadiation   != 0) tNBT.setByte("r", mRadiation  );
+		if (mAlcohol     != 0) tNBT.putByte("a", mAlcohol    );
+		if (mCaffeine    != 0) tNBT.putByte("c", mCaffeine   );
+		if (mSugar       != 0) tNBT.putByte("s", mSugar      );
+		if (mDehydration != 0) tNBT.putByte("d", mDehydration);
+		if (mFat         != 0) tNBT.putByte("f", mFat        );
+		if (mRadiation   != 0) tNBT.putByte("r", mRadiation  );
 		if (tNBT.hasNoTags()) aNBT.removeTag("gt.props.food"); else aNBT.setTag("gt.props.food", tNBT);
 	}
 	

@@ -69,8 +69,8 @@ public class MultiTileEntityWireRedstoneInsulated extends TileEntityBase10Connec
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mMode != 0) aNBT.setByte(NBT_MODE, mMode);
-		aNBT.setByte("gt.mreceived", mReceived);
+		if (mMode != 0) aNBT.putByte(NBT_MODE, mMode);
+		aNBT.putByte("gt.mreceived", mReceived);
 		UT.NBT.setNumber(aNBT, "gt.mredstone", mRedstone);
 	}
 	
@@ -107,7 +107,7 @@ public class MultiTileEntityWireRedstoneInsulated extends TileEntityBase10Connec
 	
 	public long getRedstoneAtSide(byte aSide) {
 		if (SIDES_INVALID[aSide]) return 0;
-		DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide);
+		DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aSide);
 		if (tDelegator.mTileEntity instanceof ITileEntityRedstoneWire) return canAcceptRedstoneFromWire(aSide, REDSTONE_ID) && ((ITileEntityRedstoneWire)tDelegator.mTileEntity).canEmitRedstoneToWire(tDelegator.mSideOfTileEntity, REDSTONE_ID) ? ((ITileEntityRedstoneWire)tDelegator.mTileEntity).getRedstoneMinusLoss(tDelegator.mSideOfTileEntity, REDSTONE_ID) : 0;
 		if (!canAcceptRedstoneFromVanilla(aSide)) return 0;
 		// Do not accept Redstone coming from any Redstone Sink! (Such as Droppers or Dispensers)
@@ -169,7 +169,7 @@ public class MultiTileEntityWireRedstoneInsulated extends TileEntityBase10Connec
 	@Override public long getRedstoneValue                  (byte aSide, int aRedstoneID) {return aRedstoneID == REDSTONE_ID ? mRedstone         : 0;}
 	@Override public long getRedstoneMinusLoss              (byte aSide, int aRedstoneID) {return aRedstoneID == REDSTONE_ID ? mRedstone - mLoss : 0;}
 	
-	@Override public boolean canConnect                     (byte aSide, DelegatorTileEntity<TileEntity> aDelegator) {return T;}
+	@Override public boolean canConnect                     (byte aSide, DelegatorTileEntity<BlockEntity> aDelegator) {return T;}
 	
 	@Override public long getProgressValue                  (byte aSide) {return (1000*mRedstone)/MAX_RANGE;}
 	@Override public long getProgressMax                    (byte aSide) {return 16000;}

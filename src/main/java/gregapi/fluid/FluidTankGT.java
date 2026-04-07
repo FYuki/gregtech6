@@ -44,7 +44,7 @@ public class FluidTankGT implements IFluidTank {
 	/** HashMap of adjustable Tank Sizes based on Fluids if needed. */
 	private Map<String, Long> mAdjustableCapacity = null;
 	private long mAdjustableMultiplier = 1;
-	/** Gives you a Tank Index in case there is multiple Tanks on a TileEntity that cares. */
+	/** Gives you a Tank Index in case there is multiple Tanks on a BlockEntity that cares. */
 	public int mIndex = 0;
 	
 	public FluidTankGT() {mCapacity = Long.MAX_VALUE;}
@@ -73,7 +73,7 @@ public class FluidTankGT implements IFluidTank {
 			CompoundTag tNBT = UT.NBT.make();
 			mFluid.amount = UT.Code.bindInt(mAmount);
 			aNBT.setTag(aKey, mFluid.writeToNBT(tNBT));
-			if (mAmount > Integer.MAX_VALUE) tNBT.setLong("LAmount", mAmount);
+			if (mAmount > Integer.MAX_VALUE) tNBT.putLong("LAmount", mAmount);
 		} else {
 			aNBT.removeTag(aKey);
 		}
@@ -86,7 +86,7 @@ public class FluidTankGT implements IFluidTank {
 			CompoundTag tNBT = UT.NBT.make();
 			mFluid.amount = UT.Code.bindInt(mAmount);
 			aNBT.setTag(aKey, mFluid.writeToNBT(tNBT));
-			if (mAmount > Integer.MAX_VALUE) tNBT.setLong("LAmount", mAmount);
+			if (mAmount > Integer.MAX_VALUE) tNBT.putLong("LAmount", mAmount);
 		} else {
 			aNBT.removeTag(aKey);
 		}

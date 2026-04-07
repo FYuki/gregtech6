@@ -35,7 +35,7 @@ import net.neoforged.api.distmarker.OnlyIn;
  * ItemID+MetaData to Integer, including the WildCard Damage Value when you use rightclick to place it.
  * You just need to use @GT_Utility.stackToInt(ItemStack aStack) to get it.
  * 
- * All Functions run usually in a seperate try/catch Block, so that failed Logic won't crash the TileEntity.
+ * All Functions run usually in a seperate try/catch Block, so that failed Logic won't crash the BlockEntity.
  */
 public abstract class GT_CircuitryBehavior {
 	/**

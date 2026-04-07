@@ -64,7 +64,7 @@ public class MultiTileEntityScaffold extends TileEntityBase09FacingSingle implem
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_DESIGN, mDesign);
+		aNBT.putByte(NBT_DESIGN, mDesign);
 	}
 	
 	@Override
@@ -103,7 +103,7 @@ public class MultiTileEntityScaffold extends TileEntityBase09FacingSingle implem
 		if (isConnectedVertically()) return T;
 		Block tBlock = getBlock(getCoords());
 		for (byte tSide : SIDES_AXIS_X[mFacing] ? ALL_SIDES_X : ALL_SIDES_Z) for (int i = 1; i < 256; i++) if (tBlock == getBlockAtSideAndDistance(tSide, i)) {
-			TileEntity tTileEntity = getTileEntityAtSideAndDistance(tSide, i);
+			BlockEntity tTileEntity = getTileEntityAtSideAndDistance(tSide, i);
 			if (tTileEntity instanceof MultiTileEntityScaffold) {
 				if (((MultiTileEntityScaffold)tTileEntity).isConnectedVertically()) return T;
 			} else break;

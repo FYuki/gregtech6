@@ -73,13 +73,13 @@ public class MultiTileEntityDustFunnel extends TileEntityBase07Paintable impleme
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_MODE, mMode);
+		aNBT.putByte(NBT_MODE, mMode);
 		if (mContent != null) mContent.save(NBT_MATERIALS, aNBT);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		aNBT.setByte(NBT_MODE, mMode);
+		aNBT.putByte(NBT_MODE, mMode);
 		return aNBT;
 	}
 	
@@ -104,7 +104,7 @@ public class MultiTileEntityDustFunnel extends TileEntityBase07Paintable impleme
 			if (slotHas(0) && (mContent == null || mContent.mAmount < DUST_TYPES[mMode].mAmount)) {
 				OreDictItemData tData = OM.anydata(slot(0));
 				if (OM.prefixcontainsmaterialmatches(tData, mContent == null || mContent.mMaterial == MT.NULL ? null : mContent.mMaterial, TD.Prefix.DUST_BASED)) {
-					int tSize = (int)Math.min(slot(0).stackSize, UT.Code.divup(DUST_TYPES[mMode].mAmount - (mContent == null ? 0 : mContent.mAmount), tData.mMaterial.mAmount));
+					int tSize = (int)Math.min(slot(0).getCount(), UT.Code.divup(DUST_TYPES[mMode].mAmount - (mContent == null ? 0 : mContent.mAmount), tData.mMaterial.mAmount));
 					mContent = OM.stack(tData.mMaterial.mMaterial, tData.mMaterial.mAmount * tSize + (mContent == null ? 0 : mContent.mAmount));
 					decrStackSize(0, tSize);
 					temp = T;

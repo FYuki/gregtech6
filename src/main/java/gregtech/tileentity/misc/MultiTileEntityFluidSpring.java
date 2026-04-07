@@ -61,7 +61,7 @@ public class MultiTileEntityFluidSpring extends TileEntityBase04MultiTileEntitie
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		FL.save(aNBT, "gt.spring", mFluid);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
 	}
 	
 	@Override

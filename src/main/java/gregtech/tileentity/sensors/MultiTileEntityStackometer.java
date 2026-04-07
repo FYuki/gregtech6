@@ -40,7 +40,7 @@ public class MultiTileEntityStackometer extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.stackometer");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof Container) {
 			long rAmount = 0;
 			if (aDelegator.mTileEntity instanceof ISidedInventory) {
@@ -49,14 +49,14 @@ public class MultiTileEntityStackometer extends MultiTileEntitySensorTE {
 				if (tSlots != null && tSlots.length >  0) {
 					for (int i : tSlots) {
 						ItemStack tStack = ((Container)aDelegator.mTileEntity).getStackInSlot(i);
-						if (tStack != null && tStack.stackSize > 0 && !IL.Display_Fluid.equal(tStack, T, T)) rAmount++;
+						if (tStack != null && tStack.getCount() > 0 && !IL.Display_Fluid.equal(tStack, T, T)) rAmount++;
 					}
 					return rAmount;
 				}
 			}
 			for (int i = 0, j = ((Container)aDelegator.mTileEntity).getSizeInventory(); i < j; i++) {
 				ItemStack tStack = ((Container)aDelegator.mTileEntity).getStackInSlot(i);
-				if (tStack != null && tStack.stackSize > 0 && !IL.Display_Fluid.equal(tStack, T, T)) rAmount++;
+				if (tStack != null && tStack.getCount() > 0 && !IL.Display_Fluid.equal(tStack, T, T)) rAmount++;
 			}
 			return rAmount;
 		}
@@ -64,7 +64,7 @@ public class MultiTileEntityStackometer extends MultiTileEntitySensorTE {
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof Container) {
 			if (aDelegator.mTileEntity instanceof ISidedInventory) return ((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(aDelegator.mSideOfTileEntity).length;
 			return ((Container)aDelegator.mTileEntity).getSizeInventory();

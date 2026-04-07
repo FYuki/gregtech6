@@ -61,7 +61,7 @@ public class MultiTileEntitySafeKeyLocked extends MultiTileEntitySafe implements
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_KEY, mID);
-		UT.NBT.setBoolean(aNBT, NBT_OPEN, mOpened);
+		UT.NBT.putBoolean(aNBT, NBT_OPEN, mOpened);
 	}
 	
 	@Override

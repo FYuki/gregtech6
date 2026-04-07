@@ -57,19 +57,19 @@ import static gregapi.data.CS.*;
  * Whatever you do, DO NOT GET THE UTTERLY RETARDED IDEA OF ADDING YOUR MULTITILEENTITIES TO MY REGISTRY!!! INSTANCIATE YOUR OWN REGISTRY!!!
  * 
  * ================================================================================================================================================
- * The way this whole System works is very simple. The setTileEntity call can set the TileEntity of your choice at every Location you want.
- * If now the BlockContainer doesn't return a TileEntity, but instead the ItemBlock manually sets the TileEntity, you can have every single
- * TileEntity being placed at every Block you want. If that Block then is compatible with your TileEntity (via Interfaces and such) it can
- * easily make use of the TileEntity no matter which one it is.
+ * The way this whole System works is very simple. The setTileEntity call can set the BlockEntity of your choice at every Location you want.
+ * If now the BlockContainer doesn't return a BlockEntity, but instead the BlockItem manually sets the BlockEntity, you can have every single
+ * BlockEntity being placed at every Block you want. If that Block then is compatible with your BlockEntity (via Interfaces and such) it can
+ * easily make use of the BlockEntity no matter which one it is.
  * 
  * "But what is with the Loading of those TileEntities? Don't they get deleted on startup?" You think? No they don't get deleted. Minecraft
- * can load every TileEntity just by a Name->Class Map (you know about that when you have ever created a TileEntity yourself), and the remaining
- * Stats can be saved inside the NBT of the TileEntity.
+ * can load every BlockEntity just by a Name->Class Map (you know about that when you have ever created a BlockEntity yourself), and the remaining
+ * Stats can be saved inside the NBT of the BlockEntity.
  * 
  * In the end I have a dynamic collection of Blocks to get the vanilla Materials and Sound Effects right, a Registry of TileEntities to be
  * attached to those Blocks via additional custom ItemBlocks to enable everything, and an automatic Network Handler.
  * 
- * The only thing needed to be done manually is something that transmits the Data from the Server to the Client to set the proper TileEntity there.
+ * The only thing needed to be done manually is something that transmits the Data from the Server to the Client to set the proper BlockEntity there.
  * 
  * In order to do that, just send one of the 5 Packets (PacketSyncDataByteAndIDs, PacketSyncDataShortAndIDs, PacketSyncDataIntegerAndIDs, 
  * PacketSyncDataLongAndIDs or PacketSyncDataByteArrayAndIDs) for transmitting the ID to the Client with aID1 = getMultiTileEntityRegistryID() and
@@ -90,7 +90,7 @@ public class MultiTileEntityRegistry {
 	public final String mNameInternal;
 	public final MultiTileEntityBlockInternal mBlock;
 	
-	private static final MultiTileEntityBlockInternal regblock(String aNameInternal, MultiTileEntityBlockInternal aBlock, Class<? extends ItemBlock> aItemClass) {
+	private static final MultiTileEntityBlockInternal regblock(String aNameInternal, MultiTileEntityBlockInternal aBlock, Class<? extends BlockItem> aItemClass) {
 		ST.register(aBlock, aNameInternal, aItemClass);
 		return aBlock;
 	}
@@ -98,16 +98,16 @@ public class MultiTileEntityRegistry {
 	/** @param aNameInternal the internal Name of the Item. DO NOT START YOUR UNLOCALISED NAME WITH "gt."!!! */
 	public MultiTileEntityRegistry(String aNameInternal) {this(aNameInternal, new MultiTileEntityBlockInternal(), MultiTileEntityItemInternal.class);}
 	/** @param aNameInternal the internal Name of the Item. DO NOT START YOUR UNLOCALISED NAME WITH "gt."!!! */
-	public MultiTileEntityRegistry(String aNameInternal, MultiTileEntityBlockInternal aBlock, Class<? extends ItemBlock> aItemClass) {this(aNameInternal, aBlock, aItemClass, RendererBlockTextured.INSTANCE);}
+	public MultiTileEntityRegistry(String aNameInternal, MultiTileEntityBlockInternal aBlock, Class<? extends BlockItem> aItemClass) {this(aNameInternal, aBlock, aItemClass, RendererBlockTextured.INSTANCE);}
 	/** @param aNameInternal the internal Name of the Item. DO NOT START YOUR UNLOCALISED NAME WITH "gt."!!! */
-	public MultiTileEntityRegistry(String aNameInternal, MultiTileEntityBlockInternal aBlock, Class<? extends ItemBlock> aItemClass, Object aItemRenderer) {
+	public MultiTileEntityRegistry(String aNameInternal, MultiTileEntityBlockInternal aBlock, Class<? extends BlockItem> aItemClass, Object aItemRenderer) {
 		this(aNameInternal, regblock(aNameInternal, aBlock, aItemClass));
 		if (CODE_CLIENT) MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(mBlock), aItemRenderer == null ? RendererBlockTextured.INSTANCE : (IItemRenderer)aItemRenderer);
 	}
 	/** @param aNameInternal the internal Name of the Item. DO NOT START YOUR UNLOCALISED NAME WITH "gt."!!! */
 	public MultiTileEntityRegistry(String aNameInternal, MultiTileEntityBlockInternal aBlock) {
-		if (!GAPI.mStartedPreInit) throw new IllegalStateException("The MultiTileEntity Registry must be initialised at the Preload Phase and not before, because it relies on an ItemBlock being created!");
-		if (GAPI.mStartedInit) throw new IllegalStateException("The MultiTileEntity Registry must be initialised at the Preload Phase and not later, because it relies on an ItemBlock being created!");
+		if (!GAPI.mStartedPreInit) throw new IllegalStateException("The MultiTileEntity Registry must be initialised at the Preload Phase and not before, because it relies on an BlockItem being created!");
+		if (GAPI.mStartedInit) throw new IllegalStateException("The MultiTileEntity Registry must be initialised at the Preload Phase and not later, because it relies on an BlockItem being created!");
 		mNameInternal = aNameInternal;
 		mBlock = aBlock;
 		mBlock.mMultiTileEntityRegistry = this;
@@ -125,7 +125,7 @@ public class MultiTileEntityRegistry {
 		return NAMED_REGISTRIES.get(aRegistryName);
 	}
 	
-	public static TileEntity getCanonicalTileEntity(int aRegistryID, int aMultiTileEntityID) {
+	public static BlockEntity getCanonicalTileEntity(int aRegistryID, int aMultiTileEntityID) {
 		MultiTileEntityRegistry tRegistry = getRegistry(aRegistryID);
 		if (tRegistry == null) return null;
 		MultiTileEntityClassContainer tClassContainer = tRegistry.getClassContainer(aMultiTileEntityID);
@@ -133,7 +133,7 @@ public class MultiTileEntityRegistry {
 		return tClassContainer.mCanonicalTileEntity;
 	}
 	
-	public static TileEntity getCanonicalTileEntity(String aRegistryName, int aMultiTileEntityID) {
+	public static BlockEntity getCanonicalTileEntity(String aRegistryName, int aMultiTileEntityID) {
 		MultiTileEntityRegistry tRegistry = getRegistry(aRegistryName);
 		if (tRegistry == null) return null;
 		MultiTileEntityClassContainer tClassContainer = tRegistry.getClassContainer(aMultiTileEntityID);
@@ -145,7 +145,7 @@ public class MultiTileEntityRegistry {
 	public int currentID() {return ST.id(mBlock);}
 	
 	/** Adds a new MultiTileEntity. It is highly recommended to do this in either the PreInit or the Init Phase. PostInit might not work well.*/
-	public ItemStack add(String aLocalised, String aCategoricalName, int aID, int aCreativeTabID, Class<? extends TileEntity> aClass, int aBlockMetaData, int aStackSize, MultiTileEntityBlock aBlock, CompoundTag aParameters, Object... aRecipe) {
+	public ItemStack add(String aLocalised, String aCategoricalName, int aID, int aCreativeTabID, Class<? extends BlockEntity> aClass, int aBlockMetaData, int aStackSize, MultiTileEntityBlock aBlock, CompoundTag aParameters, Object... aRecipe) {
 		return add(aLocalised, aCategoricalName, new MultiTileEntityClassContainer(aID, aCreativeTabID, aClass, aBlockMetaData, aStackSize, aBlock, aParameters), aRecipe);
 	}
 	
@@ -240,11 +240,11 @@ public class MultiTileEntityRegistry {
 	public MultiTileEntityClassContainer getClassContainer(int aID) {return mRegistry.get((short)aID);}
 	public MultiTileEntityClassContainer getClassContainer(ItemStack aStack) {return mRegistry.get(ST.meta_(aStack));}
 	
-	public TileEntity getNewTileEntity(int aID)                                                 {MultiTileEntityContainer tContainer =  getNewTileEntityContainer(null  ,  0,  0,  0, aID, null); return tContainer == null ? null : tContainer.mTileEntity;}
-	public TileEntity getNewTileEntity(Level aWorld, int aX, int aY, int aZ, int aID)           {MultiTileEntityContainer tContainer =  getNewTileEntityContainer(aWorld, aX, aY, aZ, aID, null); return tContainer == null ? null : tContainer.mTileEntity;}
+	public BlockEntity getNewTileEntity(int aID)                                                 {MultiTileEntityContainer tContainer =  getNewTileEntityContainer(null  ,  0,  0,  0, aID, null); return tContainer == null ? null : tContainer.mTileEntity;}
+	public BlockEntity getNewTileEntity(Level aWorld, int aX, int aY, int aZ, int aID)           {MultiTileEntityContainer tContainer =  getNewTileEntityContainer(aWorld, aX, aY, aZ, aID, null); return tContainer == null ? null : tContainer.mTileEntity;}
 	
-	public TileEntity getNewTileEntity(ItemStack aStack)                                        {MultiTileEntityContainer tContainer =  getNewTileEntityContainer(null  ,  0,  0,  0, ST.meta_(aStack), aStack.getTagCompound()); return tContainer == null ? null : tContainer.mTileEntity;}
-	public TileEntity getNewTileEntity(Level aWorld, int aX, int aY, int aZ, ItemStack aStack)  {MultiTileEntityContainer tContainer =  getNewTileEntityContainer(aWorld, aX, aY, aZ, ST.meta_(aStack), aStack.getTagCompound()); return tContainer == null ? null : tContainer.mTileEntity;}
+	public BlockEntity getNewTileEntity(ItemStack aStack)                                        {MultiTileEntityContainer tContainer =  getNewTileEntityContainer(null  ,  0,  0,  0, ST.meta_(aStack), aStack.getTagCompound()); return tContainer == null ? null : tContainer.mTileEntity;}
+	public BlockEntity getNewTileEntity(Level aWorld, int aX, int aY, int aZ, ItemStack aStack)  {MultiTileEntityContainer tContainer =  getNewTileEntityContainer(aWorld, aX, aY, aZ, ST.meta_(aStack), aStack.getTagCompound()); return tContainer == null ? null : tContainer.mTileEntity;}
 	
 	public MultiTileEntityContainer getNewTileEntityContainer(ItemStack aStack)                                                 {return getNewTileEntityContainer(null  ,  0,  0,  0, ST.meta_(aStack), aStack.getTagCompound());}
 	public MultiTileEntityContainer getNewTileEntityContainer(Level aWorld, int aX, int aY, int aZ, ItemStack aStack)           {return getNewTileEntityContainer(aWorld, aX, aY, aZ, ST.meta_(aStack), aStack.getTagCompound());}
@@ -253,7 +253,7 @@ public class MultiTileEntityRegistry {
 	public MultiTileEntityContainer getNewTileEntityContainer(Level aWorld, int aX, int aY, int aZ, int aID, CompoundTag aNBT) {
 		MultiTileEntityClassContainer tClass = mRegistry.get((short)aID);
 		if (tClass == null || tClass.mBlock == null) return null;
-		MultiTileEntityContainer rContainer = new MultiTileEntityContainer((TileEntity)UT.Reflection.callConstructor(tClass.mClass, -1, null, T), tClass.mBlock, tClass.mBlockMetaData);
+		MultiTileEntityContainer rContainer = new MultiTileEntityContainer((BlockEntity)UT.Reflection.callConstructor(tClass.mClass, -1, null, T), tClass.mBlock, tClass.mBlockMetaData);
 		if (rContainer.mTileEntity == null) return null;
 		rContainer.mTileEntity.setWorldObj(aWorld);
 		rContainer.mTileEntity.xCoord = aX;

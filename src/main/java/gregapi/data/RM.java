@@ -18,6 +18,7 @@
  */
 
 package gregapi.data;
+import gregapi.stubs.FMLInterModComms;
 
 import appeng.api.AEApi;
 import com.cricketcraft.chisel.api.carving.CarvingUtils;
@@ -222,7 +223,7 @@ public class RM {
 	
 	public static boolean pack(ItemStack aContent, ItemStack aFull) {
 		if (ST.invalid(aFull) || ST.invalid(aContent)) return F;
-		Boxinator.addRecipe2(T, 16, 16, aContent, ST.tag(aContent.stackSize), aFull);
+		Boxinator.addRecipe2(T, 16, 16, aContent, ST.tag(aContent.getCount()), aFull);
 		return T;
 	}
 	public static boolean pack(ItemStack aContent, long aAmount, ItemStack aFull) {
@@ -246,7 +247,7 @@ public class RM {
 	
 	public static boolean compact(ItemStack aContent, ItemStack aFull) {
 		if (ST.invalid(aFull) || ST.invalid(aContent)) return F;
-		Boxinator .addRecipe2(T, 16, 16, aContent, ST.tag(aContent.stackSize), aFull);
+		Boxinator .addRecipe2(T, 16, 16, aContent, ST.tag(aContent.getCount()), aFull);
 		Compressor.addRecipe1(T, 16, 16, aContent, aFull);
 		ic2_compressor(aContent, aFull);
 		return T;
@@ -682,7 +683,7 @@ public class RM {
 	public static boolean biomass(ItemStack aBiomass) {return biomass(aBiomass, 64);}
 	public static boolean biomass(ItemStack aBiomass, long aSpeed) {
 		if (ST.invalid(aBiomass)) return F;
-		int tSize = aBiomass.stackSize;
+		int tSize = aBiomass.getCount();
 		if (tSize <= 0) return F;
 		aBiomass = ST.amount(1, aBiomass);
 		RM.Fermenter.addRecipe1(F, 16, (aSpeed * 2) / tSize, aBiomass, FL.Rotten_Drink.make(              1080 / tSize), FL.BiomassIC2.make(3240   / tSize, FL.Biomass), ZL_IS);
@@ -779,10 +780,10 @@ public class RM {
 	
 	public static ItemStack get_smelting(ItemStack aInput) {return get_smelting(aInput, F, NI);}
 	public static ItemStack get_smelting(ItemStack aInput, boolean aRemoveInput, ItemStack aOutputSlot) {
-		if (aInput == null || aInput.stackSize < 1) return NI;
+		if (aInput == null || aInput.getCount() < 1) return NI;
 		ItemStack rStack = OM.get(FurnaceRecipes.smelting().getSmeltingResult(aInput));
-		if (rStack != null && (aOutputSlot == null || (ST.equal(rStack, aOutputSlot) && rStack.stackSize + aOutputSlot.stackSize <= aOutputSlot.getMaxStackSize()))) {
-			if (aRemoveInput) aInput.stackSize--;
+		if (rStack != null && (aOutputSlot == null || (ST.equal(rStack, aOutputSlot) && rStack.getCount() + aOutputSlot.getCount() <= aOutputSlot.getMaxStackSize()))) {
+			if (aRemoveInput) aInput.shrink(1);
 			return rStack;
 		}
 		return NI;
@@ -1000,9 +1001,9 @@ public class RM {
 					try {
 						if (ST.block(aInput) != Blocks.OBSIDIAN && ST.block(aInput) != Blocks.GRAVEL) {
 							mods.railcraft.api.crafting.IRockCrusherRecipe tRecipe = mods.railcraft.api.crafting.RailcraftCraftingManager.rockCrusher.createNewRecipe(ST.amount(1, aInput), ST.meta_(aInput) != W, F);
-							tRecipe.addOutput(ST.copy(aOutput1), 1.0F/aInput.stackSize);
-							if (aOutput2 != null) tRecipe.addOutput(ST.copy(aOutput2), (0.01F*(aChance2<=0?10:aChance2))/aInput.stackSize);
-							if (aOutput3 != null) tRecipe.addOutput(ST.copy(aOutput3), (0.01F*(aChance3<=0?10:aChance3))/aInput.stackSize);
+							tRecipe.addOutput(ST.copy(aOutput1), 1.0F/aInput.getCount());
+							if (aOutput2 != null) tRecipe.addOutput(ST.copy(aOutput2), (0.01F*(aChance2<=0?10:aChance2))/aInput.getCount());
+							if (aOutput3 != null) tRecipe.addOutput(ST.copy(aOutput3), (0.01F*(aChance3<=0?10:aChance3))/aInput.getCount());
 						}
 					} catch(Throwable e) {/*Do nothing*/}
 				}
@@ -1067,7 +1068,7 @@ public class RM {
 	
 	public static void te_furnace(int energy, ItemStack input, ItemStack output) {
 		CompoundTag toSend = UT.NBT.make();
-		toSend.setInteger("energy", energy);
+		toSend.putInt("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("output", UT.NBT.make());
 		input.writeToNBT(toSend.getCompoundTag("input"));
@@ -1083,14 +1084,14 @@ public class RM {
 	public static void te_pulverizer(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
 		if (input == null || primaryOutput == null) return;
 		CompoundTag toSend = UT.NBT.make();
-		toSend.setInteger("energy", energy);
+		toSend.putInt("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("primaryOutput", UT.NBT.make());
 		toSend.setTag("secondaryOutput", UT.NBT.make());
 		input.writeToNBT(toSend.getCompoundTag("input"));
 		primaryOutput.writeToNBT(toSend.getCompoundTag("primaryOutput"));
 		if (secondaryOutput != null) secondaryOutput.writeToNBT(toSend.getCompoundTag("secondaryOutput"));
-		toSend.setInteger("secondaryChance", secondaryChance);
+		toSend.putInt("secondaryChance", secondaryChance);
 		FMLInterModComms.sendMessage("ThermalExpansion", "PulverizerRecipe", toSend);
 	}
 	public static void te_sawmill(int energy, ItemStack input, ItemStack primaryOutput) {
@@ -1102,14 +1103,14 @@ public class RM {
 	public static void te_sawmill(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
 		if (input == null || primaryOutput == null) return;
 		CompoundTag toSend = UT.NBT.make();
-		toSend.setInteger("energy", energy);
+		toSend.putInt("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("primaryOutput", UT.NBT.make());
 		toSend.setTag("secondaryOutput", UT.NBT.make());
 		input.writeToNBT(toSend.getCompoundTag("input"));
 		primaryOutput.writeToNBT(toSend.getCompoundTag("primaryOutput"));
 		if (secondaryOutput != null) secondaryOutput.writeToNBT(toSend.getCompoundTag("secondaryOutput"));
-		toSend.setInteger("secondaryChance", secondaryChance);
+		toSend.putInt("secondaryChance", secondaryChance);
 		FMLInterModComms.sendMessage("ThermalExpansion", "SawmillRecipe", toSend);
 	}
 	public static void te_smelter(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput) {
@@ -1121,7 +1122,7 @@ public class RM {
 	public static void te_smelter(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
 		if (primaryInput == null || secondaryInput == null || primaryOutput == null) return;
 		CompoundTag toSend = UT.NBT.make();
-		toSend.setInteger("energy", energy);
+		toSend.putInt("energy", energy);
 		toSend.setTag("primaryInput", UT.NBT.make());
 		toSend.setTag("secondaryInput", UT.NBT.make());
 		toSend.setTag("primaryOutput", UT.NBT.make());
@@ -1130,18 +1131,18 @@ public class RM {
 		secondaryInput.writeToNBT(toSend.getCompoundTag("secondaryInput"));
 		primaryOutput.writeToNBT(toSend.getCompoundTag("primaryOutput"));
 		if (secondaryOutput != null) secondaryOutput.writeToNBT(toSend.getCompoundTag("secondaryOutput"));
-		toSend.setInteger("secondaryChance", secondaryChance);
+		toSend.putInt("secondaryChance", secondaryChance);
 		FMLInterModComms.sendMessage("ThermalExpansion", "SmelterRecipe", toSend);
 	}
 	public static void te_smelter_ore(OreDictMaterial aMaterial) {
 		CompoundTag toSend = UT.NBT.make();
-		toSend.setString("oreType", aMaterial.toString());
+		toSend.putString("oreType", aMaterial.toString());
 		FMLInterModComms.sendMessage("ThermalExpansion", "SmelterBlastOreType", toSend);
 	}
 	public static void te_crucible(int energy, ItemStack input, FluidStack output) {
 		if (input == null || output == null) return;
 		CompoundTag toSend = UT.NBT.make();
-		toSend.setInteger("energy", energy);
+		toSend.putInt("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("output", UT.NBT.make());
 		input.writeToNBT(toSend.getCompoundTag("input"));
@@ -1151,27 +1152,27 @@ public class RM {
 	public static void te_fill(int energy, ItemStack input, ItemStack output, FluidStack fluid, boolean reversible) {
 		if (input == null || output == null || fluid == null) return;
 		CompoundTag toSend = UT.NBT.make();
-		toSend.setInteger("energy", energy);
+		toSend.putInt("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("output", UT.NBT.make());
 		toSend.setTag("fluid", UT.NBT.make());
 		input.writeToNBT(toSend.getCompoundTag("input"));
 		output.writeToNBT(toSend.getCompoundTag("output"));
-		UT.NBT.setBoolean(toSend, "reversible", reversible);
+		UT.NBT.putBoolean(toSend, "reversible", reversible);
 		fluid.writeToNBT(toSend.getCompoundTag("fluid"));
 		FMLInterModComms.sendMessage("ThermalExpansion", "TransposerFillRecipe", toSend);
 	}
 	public static void te_extract(int energy, ItemStack input, ItemStack output, FluidStack fluid, int chance, boolean reversible) {
 		if (input == null || output == null || fluid == null) return;
 		CompoundTag toSend = UT.NBT.make();
-		toSend.setInteger("energy", energy);
+		toSend.putInt("energy", energy);
 		toSend.setTag("input", UT.NBT.make());
 		toSend.setTag("output", UT.NBT.make());
 		toSend.setTag("fluid", UT.NBT.make());
 		input.writeToNBT(toSend.getCompoundTag("input"));
 		output.writeToNBT(toSend.getCompoundTag("output"));
-		UT.NBT.setBoolean(toSend, "reversible", reversible);
-		toSend.setInteger("chance", chance);
+		UT.NBT.putBoolean(toSend, "reversible", reversible);
+		toSend.putInt("chance", chance);
 		fluid.writeToNBT(toSend.getCompoundTag("fluid"));
 		FMLInterModComms.sendMessage("ThermalExpansion", "TransposerExtractRecipe", toSend);
 	}

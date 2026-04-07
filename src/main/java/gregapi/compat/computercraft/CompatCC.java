@@ -45,7 +45,7 @@ public class CompatCC extends CompatBase implements ICompatCC, IPeripheralProvid
 	
 	@Override
 	public IPeripheral getPeripheral(Level aWorld, int aX, int aY, int aZ, int aSide) {
-		DelegatorTileEntity<TileEntity> aDelegator = WD.te(aWorld, aX, aY, aZ, (byte)aSide, F);
+		DelegatorTileEntity<BlockEntity> aDelegator = WD.te(aWorld, aX, aY, aZ, (byte)aSide, F);
 		if (SIDES_VALID[aDelegator.mSideOfTileEntity] && aDelegator.mTileEntity instanceof ITileEntityCoverable) {
 			CoverData tData = ((ITileEntityCoverable)aDelegator.mTileEntity).getCoverData();
 			if (tData != null && tData.mBehaviours[aDelegator.mSideOfTileEntity] instanceof ICoverComputerizable) return new ComputerizablePeripheral((ICoverComputerizable)tData.mBehaviours[aDelegator.mSideOfTileEntity], aDelegator);
@@ -56,9 +56,9 @@ public class CompatCC extends CompatBase implements ICompatCC, IPeripheralProvid
 	public static class ComputerizablePeripheral implements IPeripheral {
 		public final IComputerizable mComputerizable;
 		public final String mType;
-		public final DelegatorTileEntity<TileEntity> mDelegator;
+		public final DelegatorTileEntity<BlockEntity> mDelegator;
 		
-		public ComputerizablePeripheral(IComputerizable aComputerizable, DelegatorTileEntity<TileEntity> aDelegator) {
+		public ComputerizablePeripheral(IComputerizable aComputerizable, DelegatorTileEntity<BlockEntity> aDelegator) {
 			mComputerizable = aComputerizable;
 			mDelegator = aDelegator;
 			mType = aComputerizable.getComputerizableName(mDelegator);

@@ -18,6 +18,7 @@
  */
 
 package gregtech.loaders.a;
+import gregapi.stubs.FMLInterModComms;
 
 import net.neoforged.fml.InterModComms;
 import gregapi.block.MaterialGas;

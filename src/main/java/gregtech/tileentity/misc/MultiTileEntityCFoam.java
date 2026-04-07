@@ -63,15 +63,15 @@ public class MultiTileEntityCFoam extends TileEntityBase07Paintable implements I
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_FOAMDRIED, mFoamDried);
-		UT.NBT.setBoolean(aNBT, NBT_OWNABLE, mOwnable);
-		if (mOwner != null) aNBT.setString(NBT_OWNER, mOwner.toString());
+		UT.NBT.putBoolean(aNBT, NBT_FOAMDRIED, mFoamDried);
+		UT.NBT.putBoolean(aNBT, NBT_OWNABLE, mOwnable);
+		if (mOwner != null) aNBT.putString(NBT_OWNER, mOwner.toString());
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		UT.NBT.setBoolean(aNBT, NBT_FOAMDRIED, mFoamDried);
-		UT.NBT.setBoolean(aNBT, NBT_OWNABLE, mOwnable);
+		UT.NBT.putBoolean(aNBT, NBT_FOAMDRIED, mFoamDried);
+		UT.NBT.putBoolean(aNBT, NBT_OWNABLE, mOwnable);
 		return super.writeItemNBT2(aNBT);
 	}
 	

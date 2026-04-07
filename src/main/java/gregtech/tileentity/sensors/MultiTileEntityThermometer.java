@@ -41,7 +41,7 @@ public class MultiTileEntityThermometer extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.thermometer");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof ITileEntityTemperature) return ((ITileEntityTemperature)aDelegator.mTileEntity).getTemperatureValue(aDelegator.mSideOfTileEntity);
 		try {
 			if (aDelegator.mTileEntity instanceof IReactor) return ((IReactor)aDelegator.mTileEntity).getHeat() / 5;
@@ -54,7 +54,7 @@ public class MultiTileEntityThermometer extends MultiTileEntitySensorTE {
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof ITileEntityTemperature) return ((ITileEntityTemperature)aDelegator.mTileEntity).getTemperatureMax  (aDelegator.mSideOfTileEntity);
 		try {
 			if (aDelegator.mTileEntity instanceof IReactor) return ((IReactor)aDelegator.mTileEntity).getMaxHeat() / 5;

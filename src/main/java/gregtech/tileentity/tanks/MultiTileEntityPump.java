@@ -83,8 +83,8 @@ public class MultiTileEntityPump extends TileEntityBase09FacingSingle implements
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ACTIVE_DATA, mActiveData);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
 		mTank.writeToNBT(aNBT, NBT_TANK);
 	}
 	

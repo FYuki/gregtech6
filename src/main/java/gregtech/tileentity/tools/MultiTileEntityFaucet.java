@@ -66,7 +66,7 @@ public class MultiTileEntityFaucet extends TileEntityBase11AttachmentSmall imple
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_MODE, mAutoPull);
+		UT.NBT.putBoolean(aNBT, NBT_MODE, mAutoPull);
 	}
 	
 	@Override
@@ -81,7 +81,7 @@ public class MultiTileEntityFaucet extends TileEntityBase11AttachmentSmall imple
 	public void onTick2(long aTimer, boolean aIsServerSide) {
 		if (aIsServerSide) {
 			if (mAutoPull ? SERVER_TIME % 20 == 5 : (mBlockUpdated && hasRedstoneIncoming())) {
-				DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
+				DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mFacing);
 				if (tDelegator.mTileEntity instanceof ITileEntityCrucible) {
 					((ITileEntityCrucible)tDelegator.mTileEntity).fillMoldAtSide(this, tDelegator.mSideOfTileEntity, mFacing);
 				}
@@ -101,7 +101,7 @@ public class MultiTileEntityFaucet extends TileEntityBase11AttachmentSmall imple
 	
 	@Override
 	public long getMoldRequiredMaterialUnits() {
-		DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(SIDE_BOTTOM);
+		DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(SIDE_BOTTOM);
 		if (tDelegator.mTileEntity instanceof ITileEntityMold) return ((ITileEntityMold)tDelegator.mTileEntity).getMoldRequiredMaterialUnits();
 		if (tDelegator.mTileEntity instanceof MultiTileEntityBathingPot || tDelegator.mTileEntity instanceof MultiTileEntityMixingBowl) return U;
 		return 0;
@@ -114,7 +114,7 @@ public class MultiTileEntityFaucet extends TileEntityBase11AttachmentSmall imple
 			UT.Sounds.send(SFX.MC_FIZZ, this, F);
 			worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.flowing_lava, 1, 3);
 		}
-		DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(SIDE_BOTTOM);
+		DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(SIDE_BOTTOM);
 		while (tDelegator.mY > 0 && (tDelegator.mTileEntity instanceof MultiTileEntityFaucet || (!(tDelegator.mTileEntity instanceof MultiTileEntityBathingPot || tDelegator.mTileEntity instanceof MultiTileEntityMixingBowl || tDelegator.mTileEntity instanceof ITileEntityMold) && !WD.hasCollide(tDelegator.mWorld, tDelegator.mX, tDelegator.mY, tDelegator.mZ)))) {
 			tDelegator = WD.te(tDelegator.mWorld, tDelegator.mX, tDelegator.mY-1, tDelegator.mZ, SIDE_TOP, F);
 		}
@@ -137,7 +137,7 @@ public class MultiTileEntityFaucet extends TileEntityBase11AttachmentSmall imple
 	@Override
 	public boolean onBlockActivated3(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mFacing);
 			if (tDelegator.mTileEntity instanceof ITileEntityCrucible) {
 				((ITileEntityCrucible)tDelegator.mTileEntity).fillMoldAtSide(this, tDelegator.mSideOfTileEntity, mFacing);
 			}

@@ -93,7 +93,7 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 	@Override
 	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
-		if (aNBT.hasKey(NBT_COLOR)) mRGBa = aNBT.getInteger(NBT_COLOR);
+		if (aNBT.hasKey(NBT_COLOR)) mRGBa = aNBT.getInt(NBT_COLOR);
 		if (aNBT.hasKey(NBT_FACING)) mFacing = aNBT.getByte(NBT_FACING);
 		if (aNBT.hasKey(NBT_PAINTED)) mIsPainted = aNBT.getBoolean(NBT_PAINTED);
 		if (aNBT.hasKey(NBT_TRAPPED)) mIsTrapped = aNBT.getBoolean(NBT_TRAPPED);
@@ -107,15 +107,15 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_FACING, mFacing);
-		UT.NBT.setBoolean(aNBT, NBT_TRAPPED, mIsTrapped);
-		if (UT.Code.stringValid(mDungeonLootName)) aNBT.setString("gt.dungeonloot", mDungeonLootName);
+		aNBT.putByte(NBT_FACING, mFacing);
+		UT.NBT.putBoolean(aNBT, NBT_TRAPPED, mIsTrapped);
+		if (UT.Code.stringValid(mDungeonLootName)) aNBT.putString("gt.dungeonloot", mDungeonLootName);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT(CompoundTag aNBT) {
 		aNBT = super.writeItemNBT(aNBT);
-		if (UT.Code.stringValid(mDungeonLootName)) aNBT.setString("gt.dungeonloot", mDungeonLootName);
+		if (UT.Code.stringValid(mDungeonLootName)) aNBT.putString("gt.dungeonloot", mDungeonLootName);
 		return aNBT;
 	}
 	
@@ -136,7 +136,7 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 		if (aIsServerSide) {
 			if (mInventoryChanged) {
 				for (byte tSide : ALL_SIDES_VALID) {
-					DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+					DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 					if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) {
 						((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, this);
 					}
@@ -299,8 +299,8 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 	@Override public int getPaint() {return mRGBa;}
 	@Override public boolean canRecolorItem(ItemStack aStack) {return T;}
 	@Override public boolean canDecolorItem(ItemStack aStack) {return mIsPainted;}
-	@Override public boolean recolorItem(ItemStack aStack, int aRGB) {if (paint((isPainted() ? UT.Code.mixRGBInt(aRGB, getPaint()) : aRGB) & ALL_NON_ALPHA_COLOR)) {UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make())); return T;} return F;}
-	@Override public boolean decolorItem(ItemStack aStack) {if (unpaint()) {UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make())); return T;} return F;}
+	@Override public boolean recolorItem(ItemStack aStack, int aRGB) {if (paint((isPainted() ? UT.Code.mixRGBInt(aRGB, getPaint()) : aRGB) & ALL_NON_ALPHA_COLOR)) {UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make())); return T;} return F;}
+	@Override public boolean decolorItem(ItemStack aStack) {if (unpaint()) {UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make())); return T;} return F;}
 	
 	@Override public int isProvidingWeakPower  (byte aOppositeSide) {return mIsTrapped && mUsingPlayers > 0 ? 15 : 0;}
 	@Override public int isProvidingStrongPower(byte aOppositeSide) {return mIsTrapped && mUsingPlayers > 0 ? 15 : 0;}
@@ -346,7 +346,7 @@ public class MultiTileEntityChest extends TileEntityBase05Inventories implements
 		public final Map<String, ResourceLocation[]> mResources = new HashMap<>();
 		
 		@Override
-		public void renderTileEntityAt(TileEntity aTileEntity, double aX, double aY, double aZ, float aPartialTick) {
+		public void renderTileEntityAt(BlockEntity aTileEntity, double aX, double aY, double aZ, float aPartialTick) {
 			if (aTileEntity instanceof MultiTileEntityChest) {
 				double tLidAngle = 1 - (((MultiTileEntityChest)aTileEntity).oLidAngle + (((MultiTileEntityChest)aTileEntity).mLidAngle - ((MultiTileEntityChest)aTileEntity).oLidAngle) * aPartialTick); tLidAngle = -(((1 - tLidAngle*tLidAngle*tLidAngle) * Math.PI) / 2);
 				ResourceLocation[] tLocation = mResources.get(((MultiTileEntityChest)aTileEntity).mTextureName);

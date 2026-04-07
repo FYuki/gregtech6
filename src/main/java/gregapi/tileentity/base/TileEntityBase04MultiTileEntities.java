@@ -53,7 +53,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	private String mCustomName = null;
 	
 	// Function has to stay even though I moved it up to the root class, because compatibility.
-	/** return the internal Name of this TileEntity to be registered. DO NOT START YOUR NAME WITH "gt."!!! */
+	/** return the internal Name of this BlockEntity to be registered. DO NOT START YOUR NAME WITH "gt."!!! */
 	public abstract String getTileEntityName();
 	
 	@Override
@@ -96,9 +96,9 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 			}
 		}
 		// read the Coords if it has them.
-		if (aNBT.hasKey("x")) xCoord = aNBT.getInteger("x");
-		if (aNBT.hasKey("y")) yCoord = aNBT.getInteger("y");
-		if (aNBT.hasKey("z")) zCoord = aNBT.getInteger("z");
+		if (aNBT.hasKey("x")) xCoord = aNBT.getInt("x");
+		if (aNBT.hasKey("y")) yCoord = aNBT.getInt("y");
+		if (aNBT.hasKey("z")) zCoord = aNBT.getInt("z");
 		// make sure Y is not negative because this causes crashes.
 		if (yCoord < 0) WD.invalidateTileEntityWithNegativeYCoord(xCoord, yCoord, zCoord, this);
 		// read the custom Name.
@@ -113,11 +113,11 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	public final void writeToNBT(CompoundTag aNBT) {
 		super.writeToNBT(aNBT);
 		// write the IDs
-		aNBT.setShort(NBT_MTE_ID, mMTEID);
-		aNBT.setShort(NBT_MTE_REG, mMTERegistry);
+		aNBT.putShort(NBT_MTE_ID, mMTEID);
+		aNBT.putShort(NBT_MTE_REG, mMTERegistry);
 		// write the Custom Name
 		if (UT.Code.stringValid(mCustomName)) aNBT.setTag("display", UT.NBT.makeString(aNBT.getCompoundTag("display"), "Name", mCustomName));
-		if (isPainted()) {aNBT.setInteger(NBT_COLOR, getPaint()); aNBT.setBoolean(NBT_PAINTED, T);}
+		if (isPainted()) {aNBT.putInt(NBT_COLOR, getPaint()); aNBT.putBoolean(NBT_PAINTED, T);}
 		// write the rest
 		try {writeToNBT2(aNBT);} catch(Throwable e) {e.printStackTrace(ERR);}
 	}
@@ -128,7 +128,7 @@ public abstract class TileEntityBase04MultiTileEntities extends TileEntityBase03
 	public CompoundTag writeItemNBT(CompoundTag aNBT) {
 		if (UT.Code.stringValid(mCustomName)) aNBT.setTag("display", UT.NBT.makeString(aNBT.getCompoundTag("display"), "Name", mCustomName));
 		if (UT.Code.stringValid(ERROR_MESSAGE) && isClientSide()) aNBT.setTag("display", UT.NBT.makeString(aNBT.getCompoundTag("display"), "Name", ERROR_MESSAGE));
-		if (isPainted()) {aNBT.setInteger(NBT_COLOR, getPaint()); aNBT.setBoolean(NBT_PAINTED, T);}
+		if (isPainted()) {aNBT.putInt(NBT_COLOR, getPaint()); aNBT.putBoolean(NBT_PAINTED, T);}
 		return aNBT;
 	}
 	

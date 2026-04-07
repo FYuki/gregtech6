@@ -117,16 +117,16 @@ public abstract class TileEntityBase06Covers extends TileEntityBase05Inventories
 		}
 		if (attachCoversFirst(aSide)) {
 			ItemStack aStack = aPlayer.getCurrentEquippedItem();
-			if (aStack != null && aStack.stackSize > 0 && setCoverItem(tSide, aStack, aPlayer, F, T)) {
-				if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
+			if (aStack != null && aStack.getCount() > 0 && setCoverItem(tSide, aStack, aPlayer, F, T)) {
+				if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
 				return T;
 			}
 			return onBlockActivated3(aPlayer, aSide, aHitX, aHitY, aHitZ);
 		}
 		if (onBlockActivated3(aPlayer, aSide, aHitX, aHitY, aHitZ)) return T;
 		ItemStack aStack = aPlayer.getCurrentEquippedItem();
-		if (aStack != null && aStack.stackSize > 0 && setCoverItem(tSide, aStack, aPlayer, F, T)) {
-			if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
+		if (aStack != null && aStack.getCount() > 0 && setCoverItem(tSide, aStack, aPlayer, F, T)) {
+			if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
 			return T;
 		}
 		return F;

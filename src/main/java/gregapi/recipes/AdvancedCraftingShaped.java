@@ -57,9 +57,9 @@ public class AdvancedCraftingShaped extends ShapedOreRecipe implements ICrafting
 		if (mKeepingNBT) {
 			ItemStack tStack = null;
 			for (int i = 0; i < aGrid.getSizeInventory(); i++) {
-				if (aGrid.getStackInSlot(i) != null && aGrid.getStackInSlot(i).hasTagCompound()) {
+				if (aGrid.getStackInSlot(i) != null && aGrid.getStackInSlot(i).hasTag()) {
 					if (tStack != null) {
-						if ((tStack.hasTagCompound() != aGrid.getStackInSlot(i).hasTagCompound()) || (tStack.hasTagCompound() && !tStack.getTagCompound().equals(aGrid.getStackInSlot(i).getTagCompound()))) return F;
+						if ((tStack.hasTag() != aGrid.getStackInSlot(i).hasTag()) || (tStack.hasTag() && !tStack.getTagCompound().equals(aGrid.getStackInSlot(i).getTagCompound()))) return F;
 					}
 					tStack = aGrid.getStackInSlot(i);
 				}
@@ -77,7 +77,7 @@ public class AdvancedCraftingShaped extends ShapedOreRecipe implements ICrafting
 			
 			// Keeping NBT
 			if (mKeepingNBT) for (int i = 0; i < aGrid.getSizeInventory(); i++) {
-				if (aGrid.getStackInSlot(i) != null && aGrid.getStackInSlot(i).hasTagCompound()) {
+				if (aGrid.getStackInSlot(i) != null && aGrid.getStackInSlot(i).hasTag()) {
 					UT.NBT.set(rStack, (CompoundTag)aGrid.getStackInSlot(i).getTagCompound().copy());
 					break;
 				}

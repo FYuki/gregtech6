@@ -36,7 +36,7 @@ import net.minecraft.world.level.Level;
  * @author Gregorius Techneticies
  */
 public abstract class BlockBaseMachineUpdate extends BlockBaseMeta {
-	public BlockBaseMachineUpdate(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons, int aBitMask) {
+	public BlockBaseMachineUpdate(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons, int aBitMask) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, aMaxMeta, aIcons);
 		ITileEntityMachineBlockUpdateable.Util.registerMachineBlock(this, aBitMask);
 		setCreativeTab(CreativeModeTab.tabRedstone);

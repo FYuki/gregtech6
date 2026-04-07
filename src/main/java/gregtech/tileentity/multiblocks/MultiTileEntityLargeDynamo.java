@@ -99,7 +99,7 @@ public class MultiTileEntityLargeDynamo extends TileEntityBase11MultiBlockConver
 	
 	public ITileEntityUnloadable mEmitter = null;
 	
-	@Override public TileEntity getEmittingTileEntity() {if (mEmitter == null || mEmitter.isDead()) {mEmitter = null; TileEntity tTileEntity = getTileEntityAtSideAndDistance(OPOS[mFacing], 3); if (tTileEntity instanceof ITileEntityUnloadable) mEmitter = (ITileEntityUnloadable)tTileEntity;} return mEmitter == null ? this : (TileEntity)mEmitter;}
+	@Override public BlockEntity getEmittingTileEntity() {if (mEmitter == null || mEmitter.isDead()) {mEmitter = null; BlockEntity tTileEntity = getTileEntityAtSideAndDistance(OPOS[mFacing], 3); if (tTileEntity instanceof ITileEntityUnloadable) mEmitter = (ITileEntityUnloadable)tTileEntity;} return mEmitter == null ? this : (BlockEntity)mEmitter;}
 	@Override public byte getEmittingSide() {return OPOS[mFacing];}
 	@Override public boolean isInput (byte aSide) {return aSide == mFacing;}
 	@Override public boolean isOutput(byte aSide) {return aSide == OPOS[mFacing];}

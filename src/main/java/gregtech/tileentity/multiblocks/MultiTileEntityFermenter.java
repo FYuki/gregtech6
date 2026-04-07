@@ -162,7 +162,7 @@ public class MultiTileEntityFermenter extends TileEntityBase10MultiBlockMachine 
 	}
 	
 	@Override
-	public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {
+	public DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide) {
 		return WD.te(worldObj, getOffsetX(OPOS[mFacing], 5), yCoord+1, getOffsetZ(OPOS[mFacing], 5), OPOS[mFacing], F);
 	}
 	

@@ -106,7 +106,7 @@ public class GT_EnergyArmor_Item extends ArmorItem /*implements ISpecialArmor*/ 
 	private static void setCharge(ItemStack aStack) {
 		CompoundTag tNBT = aStack.getTagCompound();
 		if (tNBT == null) tNBT = UT.NBT.make();
-		tNBT.setInteger("charge", 1000000000);
+		tNBT.putInt("charge", 1000000000);
 		aStack.setTagCompound(tNBT);
 	}
 	

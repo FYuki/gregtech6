@@ -31,7 +31,7 @@ import net.minecraft.core.Direction; // was Direction
  * @author Gregorius Techneticies
  */
 public abstract class BlockBaseBeamFlammable extends BlockBaseBeam {
-	public BlockBaseBeamFlammable(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
+	public BlockBaseBeamFlammable(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, Math.min(4, aMaxMeta), aIcons);
 	}
 	

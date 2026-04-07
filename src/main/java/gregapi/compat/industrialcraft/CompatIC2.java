@@ -37,10 +37,10 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import ic2.api.crops.Crops;
 import ic2.api.event.RetextureEvent;
-import ic2.api.recipe.IRecipeInput;
+import gregapi.stubs.ic2.IRecipeInput;
 import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.RecipeInputOreDict;
-import ic2.api.recipe.RecipeOutput;
+import gregapi.stubs.ic2.RecipeOutput;
 import ic2.core.Ic2Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -84,13 +84,13 @@ public class CompatIC2 extends CompatBase implements ICompatIC2 {
 	
 	@SubscribeEvent
 	public void onRetextureEvent(RetextureEvent aEvent) {
-		TileEntity tTileEntity = WD.te(aEvent.world, aEvent.x, aEvent.y, aEvent.z, T);
+		BlockEntity tTileEntity = WD.te(aEvent.world, aEvent.x, aEvent.y, aEvent.z, T);
 		if (tTileEntity instanceof ITileEntityCoverable) {
 			CoverData tData = ((ITileEntityCoverable)tTileEntity).getCoverData();
 			if (tData != null && tData.mBehaviours[aEvent.side] instanceof CoverTextureCanvas) {
 				if (tData.mNBTs[aEvent.side] == null) tData.mNBTs[aEvent.side] = UT.NBT.make();
-				tData.mNBTs[aEvent.side].setInteger(NBT_CANVAS_BLOCK, Block.getIdFromBlock(aEvent.referencedBlock));
-				tData.mNBTs[aEvent.side].setInteger(NBT_CANVAS_META , aEvent.referencedMeta);
+				tData.mNBTs[aEvent.side].putInt(NBT_CANVAS_BLOCK, Block.getIdFromBlock(aEvent.referencedBlock));
+				tData.mNBTs[aEvent.side].putInt(NBT_CANVAS_META , aEvent.referencedMeta);
 				tData.mBehaviours[aEvent.side].onCoverPlaced((byte)aEvent.side, tData, null, tData.getCoverItem((byte)aEvent.side));
 				aEvent.applied = T;
 			}
@@ -125,7 +125,7 @@ public class CompatIC2 extends CompatBase implements ICompatIC2 {
 	public boolean scrapbox(float aChance, ItemStack aOutput) {
 		if (ST.invalid(aOutput) || aChance <= 0) return F;
 		aOutput = OM.get_(aOutput);
-		aOutput.stackSize = 1;
+		aOutput.setCount(1);
 		//if (Config.troll && !ST.equal(aOutput, ST.make(Items.wooden_hoe, 1, 0))) return F;
 		aChance = (float)ConfigsGT.RECIPES.get(ConfigCategories.Machines.scrapboxdrops, aOutput, aChance);
 		if (aChance <= 0) return F;
@@ -152,7 +152,7 @@ public class CompatIC2 extends CompatBase implements ICompatIC2 {
 		if (aBlock != null && aBlock != NB) ic2.api.tile.ExplosionWhitelist.addWhitelistedBlock(aBlock);
 	}
 	
-	@Override public Object makeInput(ItemStack aStack) {return new RecipeInputItemStack(ST.copy(aStack), aStack.stackSize);}
+	@Override public Object makeInput(ItemStack aStack) {return new RecipeInputItemStack(ST.copy(aStack), aStack.getCount());}
 	@Override public Object makeInput(String aOreDict, long aAmount) {return new RecipeInputOreDict(aOreDict, UT.Code.bindStack(aAmount));}
 	@Override public Object makeOutput(CompoundTag aNBT, ItemStack... aStacks) {return new RecipeOutput(aNBT, aStacks);}
 	@Override public boolean isReactorItem(ItemStack aStack) {try {return ST.valid(aStack) && aStack.getItem() instanceof ic2.api.reactor.IReactorComponent;} catch (Throwable e) {/*Do nothing*/} return F;}

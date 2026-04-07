@@ -1,0 +1,3 @@
+package ic2.api.item;
+// PHASE8: stub for compat
+import net.minecraft.world.item.ItemStack; public interface IElectricItemManager { double charge(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean simulate); double discharge(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate); double getCharge(ItemStack stack); boolean canUse(ItemStack stack, double amount); boolean use(ItemStack stack, double amount, Object entity); void chargeFromArmor(ItemStack stack, Object entity); String getToolTip(ItemStack stack); int getTier(ItemStack stack); }

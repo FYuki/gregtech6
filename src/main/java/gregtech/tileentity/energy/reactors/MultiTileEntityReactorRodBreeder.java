@@ -42,7 +42,7 @@ public class MultiTileEntityReactorRodBreeder extends MultiTileEntityReactorRodB
 	public void readFromNBT2(CompoundTag aNBT) {
 		super.readFromNBT2(aNBT);
 		mDurability = aNBT.getLong(aNBT.hasKey(NBT_DURABILITY) ? NBT_DURABILITY : NBT_MAXDURABILITY);
-		if (aNBT.hasKey(NBT_NUCLEAR_LOSS)) mNeutronLoss = aNBT.getInteger(NBT_NUCLEAR_LOSS);
+		if (aNBT.hasKey(NBT_NUCLEAR_LOSS)) mNeutronLoss = aNBT.getInt(NBT_NUCLEAR_LOSS);
 		if (aNBT.hasKey(NBT_VALUE)) mProduct = aNBT.getShort(NBT_VALUE);
 	}
 
@@ -88,7 +88,7 @@ public class MultiTileEntityReactorRodBreeder extends MultiTileEntityReactorRodB
 			mDurability = 0;
 			aReactor.updateClientData();
 		}
-		UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make()));
+		UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make()));
 		return T;
 	}
 	

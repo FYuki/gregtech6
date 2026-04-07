@@ -419,20 +419,20 @@ public abstract class MultiItemRandom extends MultiItem implements Runnable {
 	
 	public boolean setSetup(ItemStack aStack, String aSetup) {
 		if (OM.is(OD_USB_STICKS[2], aStack)) {
-			if (!aStack.hasTagCompound()) aStack.setTagCompound(UT.NBT.make());
+			if (!aStack.hasTag()) aStack.setTagCompound(UT.NBT.make());
 			aStack.getTagCompound().setTag(NBT_USB_DATA, UT.NBT.makeString(UT.NBT.makeString(NBT_REACTOR_SETUP_NAME, ""+aSetup.hashCode()), NBT_REACTOR_SETUP, aSetup));
-			aStack.getTagCompound().setByte(NBT_USB_TIER, (byte)2);
+			aStack.getTagCompound().putByte(NBT_USB_TIER, (byte)2);
 			return T;
 		}
 		return F;
 	}
 	
 	public void setPlanName(ItemStack aStack, String aName) {
-		aStack.getTagCompound().getCompoundTag(NBT_USB_DATA).setString(NBT_REACTOR_SETUP_NAME, aName);
+		aStack.getTagCompound().getCompoundTag(NBT_USB_DATA).putString(NBT_REACTOR_SETUP_NAME, aName);
 	}
 	
 	public boolean hasSetup(ItemStack aStack) {
-		return OM.is(OD_USB_STICKS[2], aStack) && aStack.hasTagCompound() && aStack.getTagCompound().getCompoundTag(NBT_USB_DATA).hasKey(NBT_REACTOR_SETUP);
+		return OM.is(OD_USB_STICKS[2], aStack) && aStack.hasTag() && aStack.getTagCompound().getCompoundTag(NBT_USB_DATA).hasKey(NBT_REACTOR_SETUP);
 	}
 	
 	public String getSetup(ItemStack aStack) {

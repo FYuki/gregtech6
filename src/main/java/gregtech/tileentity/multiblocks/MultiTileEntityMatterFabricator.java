@@ -260,7 +260,7 @@ public class MultiTileEntityMatterFabricator extends TileEntityBase10MultiBlockM
 	}
 	
 	@Override
-	public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {
+	public DelegatorTileEntity<BlockEntity> getItemOutputTarget(byte aSide) {
 		return getAdjacentTileEntity(SIDE_BOTTOM);
 	}
 	

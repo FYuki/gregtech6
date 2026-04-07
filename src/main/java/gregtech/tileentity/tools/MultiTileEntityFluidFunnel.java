@@ -71,16 +71,16 @@ public class MultiTileEntityFluidFunnel extends TileEntityBase11AttachmentSmall 
 			if (aStack != null) {
 				FluidStack tFluid = FL.getFluid(ST.amount(1, aStack), T);
 				if (!FL.gas(tFluid, T) && tFluid.amount > 0 && (mAcidProof || !FL.acid(tFluid))) {
-					DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
+					DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mFacing);
 					if (tDelegator.mTileEntity instanceof ITileEntityFunnelAccessible) {
 						int tAmount = ((ITileEntityFunnelAccessible)tDelegator.mTileEntity).funnelFill(tDelegator.mSideOfTileEntity, tFluid, F);
 						if (tAmount >= tFluid.amount && ((ITileEntityFunnelAccessible)tDelegator.mTileEntity).funnelFill(tDelegator.mSideOfTileEntity, tFluid, T) > 0) {
 							UT.Sounds.send(SFX.MC_LIQUID_WATER, this, F);
-							aStack.stackSize--;
+							aStack.shrink(1);
 							ST.give(aPlayer, ST.container(ST.amount(1, aStack), T), T);
 							return T;
 						}
-						if (aStack.getItem() instanceof IFluidContainerItem && aStack.stackSize == 1) {
+						if (aStack.getItem() instanceof IFluidContainerItem && aStack.getCount() == 1) {
 							UT.Sounds.send(SFX.MC_LIQUID_WATER, this, F);
 							((IFluidContainerItem)aStack.getItem()).drain(aStack, ((ITileEntityFunnelAccessible)tDelegator.mTileEntity).funnelFill(tDelegator.mSideOfTileEntity, tFluid, T), T);
 							return T;

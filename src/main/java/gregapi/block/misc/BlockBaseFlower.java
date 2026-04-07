@@ -43,7 +43,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.PlantType;
@@ -145,17 +145,17 @@ public abstract class BlockBaseFlower extends BlockFlower implements IBlockBase,
 	
 	@Override
 	public boolean onItemUse(ItemBlockBase aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, int aSide, float aHitX, float aHitY, float aHitZ) {
-		if (aStack.stackSize == 0) return F;
+		if (aStack.getCount() == 0) return F;
 		
 		Block tBlock = aWorld.getBlock(aX, aY, aZ);
-		TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
+		BlockEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		
 		if (tTileEntity instanceof TileEntityFlowerPot) {
 			if (((TileEntityFlowerPot)tTileEntity).getFlowerPotItem() == null) {
 				((TileEntityFlowerPot)tTileEntity).func_145964_a(aItem, ST.meta(aStack));
 				tTileEntity.markDirty();
 				if (!aWorld.setBlockMetadataWithNotify(aX, aY, aZ, ST.meta(aStack), 2)) aWorld.markBlockForUpdate(aX, aY, aZ);
-				if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
+				if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
 			}
 			return T;
 		}
@@ -170,7 +170,7 @@ public abstract class BlockBaseFlower extends BlockFlower implements IBlockBase,
 		
 		if (aItem.placeBlockAt(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ, onBlockPlaced(aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ, aItem.getMetadata(aStack.getItemDamage())))) {
 			aWorld.playSoundEffect(aX+0.5F, aY+0.5F, aZ+0.5F, stepSound.func_150496_b(), (stepSound.getVolume() + 1.0F) / 2.0F, stepSound.getPitch() * 0.8F);
-			if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
+			if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
 		}
 		return T;
 	}

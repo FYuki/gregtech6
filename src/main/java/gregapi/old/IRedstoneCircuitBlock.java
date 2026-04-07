@@ -62,9 +62,9 @@ public interface IRedstoneCircuitBlock {
 	public byte getMetaIDAtSide(byte aSide);
 	
 	/**
-	 * returns whatever TileEntity is adjacent to the Redstone Circuit Block
+	 * returns whatever BlockEntity is adjacent to the Redstone Circuit Block
 	 */
-	public TileEntity getTileEntityAtSide(byte aSide);
+	public BlockEntity getTileEntityAtSide(byte aSide);
 	
 	/**
 	 * returns worldObj.rand.nextInt(aRange)

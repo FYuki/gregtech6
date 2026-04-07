@@ -82,9 +82,9 @@ public class MultiTileEntityBookShelf extends TileEntityBase09FacingSingle imple
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (UT.Code.stringValid(mDungeonLootNameFront)) aNBT.setString("gt.dungeonloot.front", mDungeonLootNameFront);
-		if (UT.Code.stringValid(mDungeonLootNameBack)) aNBT.setString("gt.dungeonloot.back", mDungeonLootNameBack);
-		if (mRedstoneDelay != 0) aNBT.setByte(NBT_REDSTONE, mRedstoneDelay);
+		if (UT.Code.stringValid(mDungeonLootNameFront)) aNBT.putString("gt.dungeonloot.front", mDungeonLootNameFront);
+		if (UT.Code.stringValid(mDungeonLootNameBack)) aNBT.putString("gt.dungeonloot.back", mDungeonLootNameBack);
+		if (mRedstoneDelay != 0) aNBT.putByte(NBT_REDSTONE, mRedstoneDelay);
 	}
 	
 	@Override
@@ -231,7 +231,7 @@ public class MultiTileEntityBookShelf extends TileEntityBase09FacingSingle imple
 		ItemStack tStack = aPlayer.getCurrentEquippedItem();
 		if (ST.valid(tStack) && BooksGT.BOOK_REGISTER.containsKey(tStack, T)) {
 			slot(aSlot, ST.amount(1, tStack));
-			tStack.stackSize--;
+			tStack.shrink(1);
 			updateInventory();
 			playCollect();
 			return T;

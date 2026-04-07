@@ -57,16 +57,16 @@ public class Behavior_Place_Dynamite extends AbstractBehaviorDefault {
 			ItemStack tStack = aPlayer.inventory.mainInventory[aPlayer.inventory.mainInventory.length-i-1];
 			if (IL.Boomstick.equal(tStack, F, T) || IL.Dynamite.equal(tStack, F, T) || IL.Dynamite_Strong.equal(tStack, F, T)) {
 				CompoundTag tOldTag = tStack.getTagCompound();
-				if (tStack.hasTagCompound()) {
+				if (tStack.hasTag()) {
 					tStack.setTagCompound((CompoundTag)tStack.getTagCompound().copy());
 				} else {
 					tStack.setTagCompound(UT.NBT.make());
 				}
-				tStack.getTagCompound().setBoolean(NBT_MODE, T);
-				int tOldSize = tStack.stackSize;
+				tStack.getTagCompound().putBoolean(NBT_MODE, T);
+				int tOldSize = tStack.getCount();
 				if (tStack.tryPlaceItemIntoWorld(aPlayer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ)) {
 					if (UT.Entities.hasInfiniteItems(aPlayer)) {
-						tStack.stackSize = tOldSize;
+						tStack.setCount(tOldSize);
 					} else {
 						((MultiItemTool)aItem).doDamage(aStack, 100, aPlayer, F);
 						ST.use(aPlayer, T, tStack, 0);

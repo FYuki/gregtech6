@@ -30,7 +30,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 // PHASE3: Configuration removed — use NeoForge ModConfigSpec or file-based config
 import gregapi.stubs.Property;
 

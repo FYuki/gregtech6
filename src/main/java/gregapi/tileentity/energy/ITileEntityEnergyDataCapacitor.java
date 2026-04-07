@@ -60,7 +60,7 @@ public interface ITileEntityEnergyDataCapacitor extends ITileEntityUnloadable {
 	 * 
 	 * @param aEnergyType The Type of Energy
 	 * @param aSide 0 - 5 = Vanilla Directions of the Implementors Block. 6 = No specific Side (don't do Side checks for this Side)
-	 * @return if this TileEntity has anything to do with this Type of Energy, depending on insert or extract request. The returning Value must be constant for this TileEntity.
+	 * @return if this BlockEntity has anything to do with this Type of Energy, depending on insert or extract request. The returning Value must be constant for this BlockEntity.
 	 */
 	public boolean isEnergyCapacitorType(TagData aEnergyType, byte aSide);
 	
@@ -68,7 +68,7 @@ public interface ITileEntityEnergyDataCapacitor extends ITileEntityUnloadable {
 	 * Gets all the Types of Energy, which are relevant to this Capacitor.
 	 * 
 	 * @param aSide 0 - 5 = Vanilla Directions of the Implementors Block. 6 = No specific Side (should return all related Types of Energy)
-	 * @return any Type of Energy that is related to this TileEntity. This is especially useful for Data Displays and Redstone Conditions, where people can select the Energy Type via GUI or something.
+	 * @return any Type of Energy that is related to this BlockEntity. This is especially useful for Data Displays and Redstone Conditions, where people can select the Energy Type via GUI or something.
 	 */
 	public Collection<TagData> getEnergyCapacitorTypes(byte aSide);
 }

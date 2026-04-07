@@ -47,8 +47,8 @@ public abstract class TileEntityBase11Motor extends TileEntityBase10EnergyConver
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_REVERSED, mCounterClockwise);
-		UT.NBT.setBoolean(aNBT, NBT_VISUAL, mConverter.mFast);
+		UT.NBT.putBoolean(aNBT, NBT_REVERSED, mCounterClockwise);
+		UT.NBT.putBoolean(aNBT, NBT_VISUAL, mConverter.mFast);
 	}
 	
 	@Override

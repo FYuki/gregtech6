@@ -45,7 +45,7 @@ public interface IItemEnergy {
 	//   This could be used for remote re-chargable Items.
 	// The Inventory Parameters are for the Inventory the Item is inside.
 	//   If it is inside a Player, then please always add the Player Inventory.
-	//   If this is inside a TileEntity, then you are not required to add the Container, even if it has an Inventory.
+	//   If this is inside a BlockEntity, then you are not required to add the Container, even if it has an Inventory.
 	
 	/**
 	 * You do not have to check for this Function, this is only for things like Slot insertion Conditions and similar.

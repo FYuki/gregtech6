@@ -75,7 +75,7 @@ public class MultiTileEntityStorageInserter extends TileEntityBase07Paintable im
 			Block tBlock = WD.block(worldObj, aX, aY+i, aZ);
 			if (tBlock.getMaterial() != Material.carpet && WD.hasCollide(worldObj, aX, aY+i, aZ, tBlock)) break;
 			for (byte tSide : ALL_SIDES_HORIZONTAL) {
-				TileEntity tTileEntity = getTileEntity(aX+OFFX[tSide], aY+i, aZ+OFFZ[tSide]);
+				BlockEntity tTileEntity = getTileEntity(aX+OFFX[tSide], aY+i, aZ+OFFZ[tSide]);
 				if (tTileEntity instanceof MultiTileEntityStorageInserter) {
 					temp = F;
 				} else if (tTileEntity instanceof MultiTileEntityMassStorage) {

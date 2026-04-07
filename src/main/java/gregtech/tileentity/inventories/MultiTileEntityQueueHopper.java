@@ -73,12 +73,12 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mMode != 64) aNBT.setByte(NBT_MODE, mMode);
+		if (mMode != 64) aNBT.putByte(NBT_MODE, mMode);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		if (mMode != 64) aNBT.setByte(NBT_MODE, mMode);
+		if (mMode != 64) aNBT.putByte(NBT_MODE, mMode);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -107,7 +107,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		super.onPlaced(aStack, aPlayer, aMTEContainer, aWorld, aX, aY, aZ, aSide, aHitX, aHitY, aHitZ);
 		if (isServerSide() && SIDES_BOTTOM_HORIZONTAL[mFacing]) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(mFacing);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(mFacing);
 			if (tDelegator.mTileEntity instanceof ITileEntityConnector && SIDES_VALID[tDelegator.mSideOfTileEntity] && ((ITileEntityConnector)tDelegator.mTileEntity).allowInteraction(aPlayer) && UT.Code.haveOneCommonElement(((ITileEntityConnector)tDelegator.mTileEntity).getConnectorTypes(tDelegator.mSideOfTileEntity), TD.Connectors.ALL_ITEM_TRANSPORT)) {
 				((ITileEntityConnector)tDelegator.mTileEntity).connect(tDelegator.mSideOfTileEntity, T);
 			}
@@ -183,7 +183,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 						if (!slotHas(i)) {
 							slot(i, WD.suck(tDelegator));
 							if (slotHas(i)) {
-								tMovedItems += slot(i).stackSize;
+								tMovedItems += slot(i).getCount();
 								updateInventory();
 							}
 							
@@ -207,7 +207,7 @@ public class MultiTileEntityQueueHopper extends TileEntityBase09FacingSingle imp
 			}
 			if (tMovedItems > 0) {
 				for (byte tSide : ALL_SIDES_BUT_TOP) if (tSide != mFacing) {
-					DelegatorTileEntity<TileEntity> tDelegatorUpdate = getAdjacentTileEntity(tSide);
+					DelegatorTileEntity<BlockEntity> tDelegatorUpdate = getAdjacentTileEntity(tSide);
 					if (tDelegatorUpdate.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) {
 						((ITileEntityAdjacentInventoryUpdatable)tDelegatorUpdate.mTileEntity).adjacentInventoryUpdated(tDelegatorUpdate.mSideOfTileEntity, this);
 					}

@@ -71,7 +71,7 @@ public class Behavior_Cropnalyzer extends AbstractBehaviorDefault {
 		ArrayList<String> rList = new ArrayListNoNulls<>();
 		long rEUAmount = 0;
 		
-		TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
+		BlockEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		
 		if (tTileEntity instanceof ic2.api.crops.ICropTile) {
 			rList.add("--- X: " + aX + " Y: " + aY + " Z: " + aZ + " ---");

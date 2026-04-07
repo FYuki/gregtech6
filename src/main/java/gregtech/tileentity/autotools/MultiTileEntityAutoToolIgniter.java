@@ -66,7 +66,7 @@ public class MultiTileEntityAutoToolIgniter extends TileEntityBase09FacingSingle
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
 	}
 	
 	@Override
@@ -83,7 +83,7 @@ public class MultiTileEntityAutoToolIgniter extends TileEntityBase09FacingSingle
 			if (SERVER_TIME % 10 == 0) {
 				if (mCoolDown > 0) mCoolDown--;
 				if (mEnergy > 0) {
-					DelegatorTileEntity<TileEntity> tD = getAdjacentTileEntity(mFacing);
+					DelegatorTileEntity<BlockEntity> tD = getAdjacentTileEntity(mFacing);
 					if (IBlockToolable.Util.onToolClick(TOOL_igniter, mEnergy * 20, mQuality, null, null, null, F, null, tD.mWorld, tD.mSideOfTileEntity, tD.mX, tD.mY, tD.mZ, 0.5F, 0.5F, 0.5F) > 0 || WD.fire(tD.mWorld, tD.getCoords(), F)) mSendSound = 1;
 					mEnergy = 0;
 					mCoolDown = 10;

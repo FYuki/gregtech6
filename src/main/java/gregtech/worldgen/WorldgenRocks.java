@@ -38,6 +38,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies

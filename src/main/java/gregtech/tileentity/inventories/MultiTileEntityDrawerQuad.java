@@ -63,14 +63,14 @@ public class MultiTileEntityDrawerQuad extends TileEntityBase09FacingSingle impl
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_MODE, mSidedAccess);
+		UT.NBT.putBoolean(aNBT, NBT_MODE, mSidedAccess);
 	}
 	
 	@Override
 	public void onTick2(long aTimer, boolean aIsServerSide) {
 		super.onTick2(aTimer, aIsServerSide);
 		if (aIsServerSide && mInventoryChanged) for (byte tSide : ALL_SIDES_VALID) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 			if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) ((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, this);
 		}
 	}

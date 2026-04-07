@@ -81,7 +81,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 	 * Utility to quickly add a whole set of Fluid Pipes.
 	 * May use up to 20 IDs, even if it is just 7 right now!
 	 */
-	public static void addFluidPipes(int aID, int aCreativeTabID, long aStat, boolean aGasProof, boolean aAcidProof, boolean aPlasmaProof, boolean aMagicProof, boolean aContactDamage, boolean aFlammable, boolean aRecipe, boolean aBlocking, MultiTileEntityRegistry aRegistry, MultiTileEntityBlock aBlock, Class<? extends TileEntity> aClass, OreDictMaterial aMat) {
+	public static void addFluidPipes(int aID, int aCreativeTabID, long aStat, boolean aGasProof, boolean aAcidProof, boolean aPlasmaProof, boolean aMagicProof, boolean aContactDamage, boolean aFlammable, boolean aRecipe, boolean aBlocking, MultiTileEntityRegistry aRegistry, MultiTileEntityBlock aBlock, Class<? extends BlockEntity> aClass, OreDictMaterial aMat) {
 		addFluidPipes(aID, aCreativeTabID, aStat, aGasProof, aAcidProof, aPlasmaProof, aMagicProof, aContactDamage, aFlammable, aRecipe, aBlocking, aRegistry, aBlock, aClass, (long)(aMat.mMeltingPoint * 1.25), aMat);
 	}
 	
@@ -89,7 +89,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 	 * Utility to quickly add a whole set of Fluid Pipes.
 	 * May use up to 20 IDs, even if it is just 7 right now!
 	 */
-	public static void addFluidPipes(int aID, int aCreativeTabID, long aStat, boolean aGasProof, boolean aAcidProof, boolean aPlasmaProof, boolean aMagicProof, boolean aContactDamage, boolean aFlammable, boolean aRecipe, boolean aBlocking, MultiTileEntityRegistry aRegistry, MultiTileEntityBlock aBlock, Class<? extends TileEntity> aClass, long aMaxTemperature, OreDictMaterial aMat) {
+	public static void addFluidPipes(int aID, int aCreativeTabID, long aStat, boolean aGasProof, boolean aAcidProof, boolean aPlasmaProof, boolean aMagicProof, boolean aContactDamage, boolean aFlammable, boolean aRecipe, boolean aBlocking, MultiTileEntityRegistry aRegistry, MultiTileEntityBlock aBlock, Class<? extends BlockEntity> aClass, long aMaxTemperature, OreDictMaterial aMat) {
 		OreDictManager.INSTANCE.setTarget_(OP.pipeTiny     , aMat, aRegistry.add("Tiny " + aMat.getLocal() + " Fluid Pipe"     , "Fluid Pipes", aID   , aCreativeTabID, aClass, aMat.mToolQuality, 64, aBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, aBlocking?2.0F:1.0F, NBT_RESISTANCE, aBlocking?6.0F:2.0F, NBT_COLOR, UT.Code.getRGBInt(aMat.fRGBaSolid), NBT_PIPERENDER, 0, NBT_DIAMETER, PX_P[ 4], NBT_CONTACTDAMAGE, aContactDamage, NBT_TANK_CAPACITY, aStat    , NBT_OPAQUE, aBlocking, NBT_GASPROOF, aGasProof, NBT_ACIDPROOF, aAcidProof, NBT_PLASMAPROOF, aPlasmaProof, NBT_MAGICPROOF, aMagicProof, NBT_FLAMMABILITY, aFlammable ? 150 : 0, NBT_TEMPERATURE, aMaxTemperature, NBT_TANK_COUNT, 1), aRecipe?new Object[]{"sP ", "wzh"       , 'P', OP.plateCurved.dat(aMat)}:ZL), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.pipeSmall    , aMat, aRegistry.add("Small " + aMat.getLocal() + " Fluid Pipe"    , "Fluid Pipes", aID+ 1, aCreativeTabID, aClass, aMat.mToolQuality, 64, aBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, aBlocking?2.0F:1.0F, NBT_RESISTANCE, aBlocking?6.0F:2.0F, NBT_COLOR, UT.Code.getRGBInt(aMat.fRGBaSolid), NBT_PIPERENDER, 0, NBT_DIAMETER, PX_P[ 6], NBT_CONTACTDAMAGE, aContactDamage, NBT_TANK_CAPACITY, aStat* 2L, NBT_OPAQUE, aBlocking, NBT_GASPROOF, aGasProof, NBT_ACIDPROOF, aAcidProof, NBT_PLASMAPROOF, aPlasmaProof, NBT_MAGICPROOF, aMagicProof, NBT_FLAMMABILITY, aFlammable ? 150 : 0, NBT_TEMPERATURE, aMaxTemperature, NBT_TANK_COUNT, 1), aRecipe?new Object[]{" P ", "wzh"       , 'P', OP.plateCurved.dat(aMat)}:ZL), T, F, T);
 		OreDictManager.INSTANCE.setTarget_(OP.pipeMedium   , aMat, aRegistry.add(aMat.getLocal() + " Fluid Pipe"               , "Fluid Pipes", aID+ 2, aCreativeTabID, aClass, aMat.mToolQuality, 32, aBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, aBlocking?2.0F:1.0F, NBT_RESISTANCE, aBlocking?6.0F:2.0F, NBT_COLOR, UT.Code.getRGBInt(aMat.fRGBaSolid), NBT_PIPERENDER, 0, NBT_DIAMETER, PX_P[ 8], NBT_CONTACTDAMAGE, aContactDamage, NBT_TANK_CAPACITY, aStat* 6L, NBT_OPAQUE, aBlocking, NBT_GASPROOF, aGasProof, NBT_ACIDPROOF, aAcidProof, NBT_PLASMAPROOF, aPlasmaProof, NBT_MAGICPROOF, aMagicProof, NBT_FLAMMABILITY, aFlammable ? 150 : 0, NBT_TEMPERATURE, aMaxTemperature, NBT_TANK_COUNT, 1), aRecipe?new Object[]{"PPP", "wzh"       , 'P', OP.plateCurved.dat(aMat)}:ZL), T, F, T);
@@ -115,7 +115,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 		if (aNBT.hasKey(NBT_TANK_CAPACITY)) mCapacity = aNBT.getLong(NBT_TANK_CAPACITY);
 		if (aNBT.hasKey(NBT_TEMPERATURE)) mMaxTemperature = aNBT.getLong(NBT_TEMPERATURE);
 		if (aNBT.hasKey(NBT_TANK_COUNT)) {
-			mTanks = new FluidTankGT[Math.max(1, aNBT.getInteger(NBT_TANK_COUNT))];
+			mTanks = new FluidTankGT[Math.max(1, aNBT.getInt(NBT_TANK_COUNT))];
 			mLastReceivedFrom = new byte[mTanks.length];
 			for (int i = 0; i < mTanks.length; i++) {
 				mTanks[i] = new FluidTankGT(aNBT, NBT_TANK+"."+i, mCapacity).setIndex(i);
@@ -141,7 +141,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 		super.writeToNBT2(aNBT);
 		for (int i = 0; i < mTanks.length; i++) {
 			mTanks[i].writeToNBT(aNBT, NBT_TANK+"."+i);
-			aNBT.setByte("gt.mlast."+i, mLastReceivedFrom[i]);
+			aNBT.putByte("gt.mlast."+i, mLastReceivedFrom[i]);
 		}
 		UT.NBT.setNumber(aNBT, "gt.mtransfer", mTransferredAmount);
 	}
@@ -183,7 +183,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 							}
 							
 							for (byte tSide : ALL_SIDES_VALID) if (tPipe.connected(tSide)) {
-								DelegatorTileEntity<TileEntity> tDelegator = tPipe.getAdjacentTileEntity(tSide);
+								DelegatorTileEntity<BlockEntity> tDelegator = tPipe.getAdjacentTileEntity(tSide);
 								if (tDelegator.mTileEntity instanceof MultiTileEntityPipeFluid) {
 									if (tDone.add((MultiTileEntityPipeFluid)tDelegator.mTileEntity)) {
 										tNext.add((MultiTileEntityPipeFluid)tDelegator.mTileEntity);
@@ -260,10 +260,10 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 		
 		DelegatorTileEntity<MultiTileEntityPipeFluid>[] tAdjacentPipes = new DelegatorTileEntity[6];
 		DelegatorTileEntity<IFluidHandler>[] tAdjacentTanks = new DelegatorTileEntity[6];
-		DelegatorTileEntity<TileEntity>[] tAdjacentOther = new DelegatorTileEntity[6];
+		DelegatorTileEntity<BlockEntity>[] tAdjacentOther = new DelegatorTileEntity[6];
 		
 		for (byte tSide : ALL_SIDES_VALID) if (canEmitFluidsTo(tSide)) {
-			DelegatorTileEntity<TileEntity> tTileEntity = getAdjacentTileEntity(tSide);
+			DelegatorTileEntity<BlockEntity> tTileEntity = getAdjacentTileEntity(tSide);
 			if (tTileEntity != null) {
 				if (tTileEntity.mTileEntity instanceof MultiTileEntityPipeFluid) {
 					tAdjacentPipes[tSide] = new DelegatorTileEntity<>((MultiTileEntityPipeFluid)tTileEntity.mTileEntity, tTileEntity);
@@ -339,7 +339,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public void distribute(FluidTankGT aTank, DelegatorTileEntity<MultiTileEntityPipeFluid>[] aAdjacentPipes, DelegatorTileEntity<IFluidHandler>[] aAdjacentTanks, DelegatorTileEntity<TileEntity>[] aAdjacentOther) {
+	public void distribute(FluidTankGT aTank, DelegatorTileEntity<MultiTileEntityPipeFluid>[] aAdjacentPipes, DelegatorTileEntity<IFluidHandler>[] aAdjacentTanks, DelegatorTileEntity<BlockEntity>[] aAdjacentOther) {
 		// Top Priority is filling Cauldrons and other specialties.
 		for (byte tSide : ALL_SIDES_VALID) if (aAdjacentOther[tSide] != null) {
 			// Covers let distribution happen, right?
@@ -433,7 +433,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 	public boolean breakBlock() {
 		// Do the same thing Factorio does and just dump Fluid to adjacent connected things.
 		for (byte tSide : ALL_SIDES_VALID) if (canEmitFluidsTo(tSide)) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 			for (FluidTankGT tTank : mTanks) if (tTank.has()) {
 				if (isCovered(tSide) && mCovers.mBehaviours[tSide].interceptFluidDrain(tSide, mCovers, tSide, tTank.get())) continue;
 				mTransferredAmount += FL.move(tTank, tDelegator);
@@ -448,7 +448,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 	@Override
 	public void onConnectionChange(byte aPreviousConnections) {
 		for (byte tSide : ALL_SIDES_VALID) {
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide);
 			if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) {
 				((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, this);
 			}
@@ -491,7 +491,7 @@ public class MultiTileEntityPipeFluid extends TileEntityBase10ConnectorRendered 
 	}
 	
 	@Override
-	public boolean canConnect(byte aSide, DelegatorTileEntity<TileEntity> aDelegator) {
+	public boolean canConnect(byte aSide, DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof IFluidHandler) {
 			// Extenders should always be connectable.
 			if (aDelegator.mTileEntity instanceof ITileEntityCanDelegate) return T;

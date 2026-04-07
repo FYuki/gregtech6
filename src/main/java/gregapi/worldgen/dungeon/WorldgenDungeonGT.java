@@ -48,6 +48,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -345,8 +346,8 @@ public class WorldgenDungeonGT extends WorldgenObject {
 	}
 	
 	public static boolean setCoins(Level aWorld, int aX, int aY, int aZ, DungeonData aData, Random aRandom) {
-		for (int i = 0; i < 16; i++) aData.mCoin.setByte("gt.coin.stacksize."+i, (byte)(aRandom.nextInt(3) == 0 ? aRandom.nextInt(8) : 0));
-		aData.mCoin.setByte("gt.coin.stacksize."+aRandom.nextInt(16), (byte)(1+aRandom.nextInt(8)));
+		for (int i = 0; i < 16; i++) aData.mCoin.putByte("gt.coin.stacksize."+i, (byte)(aRandom.nextInt(3) == 0 ? aRandom.nextInt(8) : 0));
+		aData.mCoin.putByte("gt.coin.stacksize."+aRandom.nextInt(16), (byte)(1+aRandom.nextInt(8)));
 		aData.mMTERegistryGT.mBlock.placeBlock(aWorld, aX, aY, aZ, SIDE_UNKNOWN, (short)32700, aData.mCoin, T, T);
 		return T;
 	}
@@ -360,7 +361,7 @@ public class WorldgenDungeonGT extends WorldgenObject {
 	public static boolean setFlowerPot(Level aWorld, int aX, int aY, int aZ, DungeonData aData, Random aRandom) {
 		int tIndex = aRandom.nextInt(BlocksGT.POT_FLOWER_TILES.length);
 		aWorld.setBlock(aX, aY, aZ, Blocks.flower_pot, 0, 2);
-		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if (tTileEntity instanceof TileEntityFlowerPot) ((TileEntityFlowerPot)tTileEntity).func_145964_a(Item.getItemFromBlock(BlocksGT.POT_FLOWER_TILES[tIndex]), BlocksGT.POT_FLOWER_METAS[tIndex]);
 		return T;
 	}

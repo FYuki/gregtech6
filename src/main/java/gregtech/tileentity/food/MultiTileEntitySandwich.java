@@ -92,14 +92,14 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_REDSTONE, mRedstone);
+		UT.NBT.putBoolean(aNBT, NBT_REDSTONE, mRedstone);
 		for (int i = 0; i < mStacks.length; i++) ST.save(aNBT, "sandwich."+i, mStacks[i]);
 	}
 	
 	@Override
 	public final CompoundTag writeItemNBT(CompoundTag aNBT) {
 		aNBT = super.writeItemNBT(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_REDSTONE, mRedstone);
+		UT.NBT.putBoolean(aNBT, NBT_REDSTONE, mRedstone);
 		for (int i = 0; i < mStacks.length; i++) ST.save(aNBT, "sandwich."+i, ST.amount(1, mStacks[i]));
 		return aNBT;
 	}
@@ -122,7 +122,7 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 		if (tCount == 1) if (ST.valid(mStacks[0]) && ST.container(mStacks[0], T) == null) rList.add(mStacks[0]);
 		if (rList.isEmpty()) {
 			MultiTileEntityRegistry tRegistry = MultiTileEntityRegistry.getRegistry(getMultiTileEntityRegistryID());
-			if (tRegistry != null) rList.add(tRegistry.getItem(getMultiTileEntityID(), mStacks[0].stackSize, writeItemNBT(UT.NBT.make())));
+			if (tRegistry != null) rList.add(tRegistry.getItem(getMultiTileEntityID(), mStacks[0].getCount(), writeItemNBT(UT.NBT.make())));
 		}
 		return rList;
 	}
@@ -153,7 +153,7 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 		// Bottles count as 4 times the value! :D
 		if (IL.Bottle_Empty.equal(ST.container(aStack, T), T, T)) rStackSize = (int)UT.Code.divup(rStackSize, 4);
 		// Check if the Stacksize is correct.
-		if (aStack.stackSize < rStackSize) return 0;
+		if (aStack.getCount() < rStackSize) return 0;
 		// Special Case for Redstone.
 		if (!mRedstone && OD.itemRedstone.is(aStack)) {
 			// Make the Sandwich output Redstone depending on Size.
@@ -215,7 +215,7 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 		return null;
 	}
 	public int getIngredientCount() {
-		return ST.valid(mStacks[0]) ? mStacks[0].stackSize : 1;
+		return ST.valid(mStacks[0]) ? mStacks[0].getCount() : 1;
 	}
 	
 	public void updateSandwich() {
@@ -302,12 +302,12 @@ public class MultiTileEntitySandwich extends TileEntityBase03MultiTileEntities i
 	
 	@Override
 	public ItemStack getRotten(ItemStack aStack) {
-		return IL.ENVM_Rotten_Food.get(aStack.stackSize);
+		return IL.ENVM_Rotten_Food.get(aStack.getCount());
 	}
 	
 	@Override
 	public ItemStack getRotten(ItemStack aStack, Level aWorld, int aX, int aY, int aZ) {
-		return IL.ENVM_Rotten_Food.get(aStack.stackSize);
+		return IL.ENVM_Rotten_Food.get(aStack.getCount());
 	}
 	
 	@Override

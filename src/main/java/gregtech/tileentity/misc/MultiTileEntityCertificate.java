@@ -58,7 +58,7 @@ public class MultiTileEntityCertificate extends TileEntityBase09FacingSingle imp
 		File aTargetFile = new File(new File(aSaveLocation, "gregtech"), "certificates.support.dat");
 		if (!aTargetFile.exists()) {try {aTargetFile.createNewFile();} catch (Throwable e) {e.printStackTrace(ERR);}}
 		CompoundTag aNBT = UT.NBT.make();
-		for (int i = 0; i < ALREADY_RECEIVED.size(); i++) aNBT.setString(""+i, ALREADY_RECEIVED.get(i));
+		for (int i = 0; i < ALREADY_RECEIVED.size(); i++) aNBT.putString(""+i, ALREADY_RECEIVED.get(i));
 		try {CompressedStreamTools.write(aNBT, aTargetFile);} catch (Throwable e) {e.printStackTrace(ERR);}
 	}
 	

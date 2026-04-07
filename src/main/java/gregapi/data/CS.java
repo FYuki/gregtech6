@@ -80,6 +80,7 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 import gregapi.stubs.Configuration; // stub
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -1377,24 +1378,24 @@ public class CS {
 		public static ArrayListNoNulls<FluidTankGT> GARBAGE_FLUIDS = new ArrayListNoNulls<>();
 		
 		public static int trash(ItemStack aStack) {
-			if (ST.invalid(aStack) || aStack.stackSize <= 0 || ST.meta_(aStack) == W || BLACKLIST.contains(aStack, T)) return 0;
-			if (aStack.hasTagCompound()) {
+			if (ST.invalid(aStack) || aStack.getCount() <= 0 || ST.meta_(aStack) == W || BLACKLIST.contains(aStack, T)) return 0;
+			if (aStack.hasTag()) {
 				for (ItemStack tGarbage : GARBAGE_ITEMS) if (ST.equal(aStack, tGarbage)) {
-					tGarbage.stackSize = UT.Code.bind31((long)tGarbage.stackSize + (long)aStack.stackSize);
-					return aStack.stackSize;
+					tGarbage.setCount(UT.Code.bind31((long)tGarbage.getCount() + (long)aStack.getCount()));
+					return aStack.getCount();
 				}
 				GARBAGE_ITEMS.add(aStack.copy());
-				return aStack.stackSize;
+				return aStack.getCount();
 			}
 			ItemStack tGarbage = GARBAGE_MAP_ITEMS.get(aStack);
 			if (ST.valid(tGarbage)) {
-				tGarbage.stackSize = UT.Code.bind31((long)tGarbage.stackSize + (long)aStack.stackSize);
-				return aStack.stackSize;
+				tGarbage.setCount(UT.Code.bind31((long)tGarbage.getCount() + (long)aStack.getCount()));
+				return aStack.getCount();
 			}
 			aStack = aStack.copy();
 			GARBAGE_MAP_ITEMS.put(aStack, aStack);
 			GARBAGE_ITEMS.add(aStack);
-			return aStack.stackSize;
+			return aStack.getCount();
 		}
 		public static long trash(ItemStack[] aInventory) {
 			if (aInventory == null) return 0;
@@ -1485,7 +1486,7 @@ public class CS {
 				for (int i = 0; i < Integer.MAX_VALUE; i++) {
 					if (!aNBT.hasKey(""+i)) break;
 					ItemStack aStack = ST.load(aNBT, ""+i);
-					if (aStack == null || aStack.stackSize <= 0 || BLACKLIST.contains(aStack, T)) continue;
+					if (aStack == null || aStack.getCount() <= 0 || BLACKLIST.contains(aStack, T)) continue;
 					GARBAGE_ITEMS.add(aStack);
 				}
 			}

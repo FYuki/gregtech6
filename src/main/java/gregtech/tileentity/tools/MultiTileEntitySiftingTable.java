@@ -68,8 +68,8 @@ public class MultiTileEntitySiftingTable extends TileEntityBase07Paintable imple
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_STATE, mState);
-		aNBT.setByte(NBT_PROGRESS, mClickCount);
+		aNBT.putByte(NBT_STATE, mState);
+		aNBT.putByte(NBT_PROGRESS, mClickCount);
 	}
 	
 	@Override
@@ -250,7 +250,7 @@ public class MultiTileEntitySiftingTable extends TileEntityBase07Paintable imple
 						} else {
 							if (tRecipe.mCanBeBuffered) mLastRecipe = tRecipe;
 							if (tRecipe.isRecipeInputEqual(T, F, ZL_FS, ST.array(aStack))) {
-								if (aStack.stackSize <= 0) slotKill(0);
+								if (aStack.getCount() <= 0) slotKill(0);
 								ItemStack[] tOutputs = tRecipe.getOutputs();
 								for (int i = 0, j = Math.min(tOutputs.length, 12); i < j; i++) addStackToSlot(i+1, tOutputs[i]);
 								UT.Entities.exhaust(tPlayer, tRecipe.getAbsoluteTotalPower() / 1000.0);

@@ -51,7 +51,7 @@ public abstract class TileEntityBase10FacingDouble extends TileEntityBase09Facin
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_FAC2NG, mSecondFacing);
+		aNBT.putByte(NBT_FAC2NG, mSecondFacing);
 	}
 	
 	@Override

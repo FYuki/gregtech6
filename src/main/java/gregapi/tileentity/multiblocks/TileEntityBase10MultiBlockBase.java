@@ -80,7 +80,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 				new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay_front/side")
 				};
 			} else {
-				TileEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
+				BlockEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
 				if (tCanonicalTileEntity instanceof TileEntityBase10MultiBlockBase) {
 					mTextures = ((TileEntityBase10MultiBlockBase)tCanonicalTileEntity).mTextures;
 					mTexturesFront = ((TileEntityBase10MultiBlockBase)tCanonicalTileEntity).mTexturesFront;
@@ -92,7 +92,7 @@ public abstract class TileEntityBase10MultiBlockBase extends TileEntityBase09Fac
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_STATE+".str", mStructureOkay);
+		UT.NBT.putBoolean(aNBT, NBT_STATE+".str", mStructureOkay);
 	}
 	
 	@Override

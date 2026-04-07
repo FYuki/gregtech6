@@ -33,6 +33,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies

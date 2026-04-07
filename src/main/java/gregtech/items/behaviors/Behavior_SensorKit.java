@@ -38,15 +38,15 @@ public class Behavior_SensorKit extends AbstractBehaviorDefault {
 	@Override
 	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
 		if (aPlayer instanceof ServerPlayer) {
-			TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
+			BlockEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 			if (tTileEntity instanceof Container && !((Container)tTileEntity).isUseableByPlayer(aPlayer)) return F;/*
 			if (tTileEntity instanceof IGregTechDeviceInformation && ((IGregTechDeviceInformation)tTileEntity).isGivingInformation()) {
-				UT.Stacks.set(aStack, IL.NC_SensorCard.get(aStack.stackSize));
+				UT.Stacks.set(aStack, IL.NC_SensorCard.get(aStack.getCount()));
 				CompoundTag tNBT = aStack.getTagCompound();
 				if (tNBT == null) tNBT = new CompoundTag();
-				tNBT.setInteger("x", aX);
-				tNBT.setInteger("y", aY);
-				tNBT.setInteger("z", aZ);
+				tNBT.putInt("x", aX);
+				tNBT.putInt("y", aY);
+				tNBT.putInt("z", aZ);
 				aStack.setTagCompound(tNBT);
 			}*/
 			return T;

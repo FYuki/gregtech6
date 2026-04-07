@@ -39,14 +39,14 @@ public class MultiTileEntityTachometer extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.tachometer");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof MultiTileEntityAxle   ) return ((MultiTileEntityAxle   )aDelegator.mTileEntity).mTransferredLast;
 		if (aDelegator.mTileEntity instanceof MultiTileEntityGearBox) return ((MultiTileEntityGearBox)aDelegator.mTileEntity).mTransferredLast;
 		return 0;
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof MultiTileEntityAxle   ) return ((MultiTileEntityAxle)aDelegator.mTileEntity).mPower * ((MultiTileEntityAxle)aDelegator.mTileEntity).mSpeed;
 		if (aDelegator.mTileEntity instanceof MultiTileEntityGearBox) return ((MultiTileEntityGearBox)aDelegator.mTileEntity).mMaxThroughPut * 16;
 		return 0;

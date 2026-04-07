@@ -44,7 +44,7 @@ public interface IRenderedBlockObject {
 	@OnlyIn(Dist.CLIENT)
 	public boolean setBlockBounds(Block aBlock, int aRenderPass, boolean[] aShouldSideBeRendered);
 	
-	/** gets the Amount of Render Passes for this TileEntity or similar Handler. Only gets called once per Rendering. */
+	/** gets the Amount of Render Passes for this BlockEntity or similar Handler. Only gets called once per Rendering. */
 	@OnlyIn(Dist.CLIENT)
 	public int getRenderPasses(Block aBlock, boolean[] aShouldSideBeRendered);
 	

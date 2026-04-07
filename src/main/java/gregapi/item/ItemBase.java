@@ -39,7 +39,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.Direction;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.level.Level;
 
 import java.util.List;

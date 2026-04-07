@@ -77,34 +77,34 @@ public abstract class MultiTileEntityPlaceable extends TileEntityBase03MultiTile
 	public boolean onBlockActivated2(Player aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isClientSide()) return T;
 		ItemStack aStack = aPlayer.getCurrentEquippedItem();
-		if (ST.invalid(mStack) || mStack.stackSize <= 0) return setToAir();
+		if (ST.invalid(mStack) || mStack.getCount() <= 0) return setToAir();
 		if (ST.equal(aStack, mStack)) {
-			if (mStack.stackSize >= 64) return T;
-			if (mStack.stackSize + aStack.stackSize > 64) {
-				aStack.stackSize -= (64-mStack.stackSize);
-				mStack.stackSize = 64;
+			if (mStack.getCount() >= 64) return T;
+			if (mStack.getCount() + aStack.getCount() > 64) {
+				aStack.shrink((64-mStack.getCount()));
+				mStack.setCount(64);
 				mSize = ST.size(mStack);
 				updateClientData();
 				playCollect();
 				return T;
 			}
-			mStack.stackSize += aStack.stackSize;
+			mStack.grow(aStack.getCount());
 			mSize = ST.size(mStack);
 			updateClientData();
-			aStack.stackSize = 0;
+			aStack.setCount(0);
 			playCollect();
 			return T;
 		}
 		if (ST.give(aPlayer, ST.amount(1, mStack), T, worldObj, xCoord+0.5, yCoord+0.5, zCoord+0.5)) {
 			MultiTileEntityPlaceable tSelected = this;
 			for (int i = 1; i < 255; i++) {
-				TileEntity tTileEntity = getTileEntityAtSideAndDistance(SIDE_UP, i);
+				BlockEntity tTileEntity = getTileEntityAtSideAndDistance(SIDE_UP, i);
 				if (tTileEntity instanceof MultiTileEntityPlaceable && ST.equal(mStack, ((MultiTileEntityPlaceable)tTileEntity).mStack)) {
 					tSelected = (MultiTileEntityPlaceable)tTileEntity;
 				} else break;
 			}
 			tSelected.playCollect();
-			if (--tSelected.mStack.stackSize <= 0) return tSelected.setToAir();
+			if (--tSelected.mStack.getCount() <= 0) return tSelected.setToAir();
 			tSelected.mSize = ST.size(tSelected.mStack);
 			tSelected.updateClientData();
 			return T;

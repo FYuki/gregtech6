@@ -50,7 +50,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.core.Direction;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.level.Level;
 import gregapi.stubs.ISpecialArmor;
 import gregapi.stubs.EnumHelper;

@@ -40,7 +40,7 @@ public class MultiTileEntityItemometer extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.itemometer");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof Container) {
 			long rAmount = 0;
 			if (aDelegator.mTileEntity instanceof ISidedInventory) {
@@ -49,14 +49,14 @@ public class MultiTileEntityItemometer extends MultiTileEntitySensorTE {
 				if (tSlots != null && tSlots.length >  0) {
 					for (int i : tSlots) {
 						ItemStack tStack = ((Container)aDelegator.mTileEntity).getStackInSlot(i);
-						if (tStack != null && !IL.Display_Fluid.equal(tStack, T, T)) rAmount += tStack.stackSize;
+						if (tStack != null && !IL.Display_Fluid.equal(tStack, T, T)) rAmount += tStack.getCount();
 					}
 					return rAmount;
 				}
 			}
 			for (int i = 0, j = ((Container)aDelegator.mTileEntity).getSizeInventory(); i < j; i++) {
 				ItemStack tStack = ((Container)aDelegator.mTileEntity).getStackInSlot(i);
-				if (tStack != null && !IL.Display_Fluid.equal(tStack, T, T)) rAmount += tStack.stackSize;
+				if (tStack != null && !IL.Display_Fluid.equal(tStack, T, T)) rAmount += tStack.getCount();
 			}
 			return rAmount;
 		}
@@ -64,7 +64,7 @@ public class MultiTileEntityItemometer extends MultiTileEntitySensorTE {
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof Container) {
 			if (aDelegator.mTileEntity instanceof ISidedInventory) return (long)((ISidedInventory)aDelegator.mTileEntity).getAccessibleSlotsFromSide(aDelegator.mSideOfTileEntity).length * ((Container)aDelegator.mTileEntity).getInventoryStackLimit();
 			return (long)((Container)aDelegator.mTileEntity).getSizeInventory() * ((Container)aDelegator.mTileEntity).getInventoryStackLimit();

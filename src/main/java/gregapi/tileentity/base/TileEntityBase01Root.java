@@ -88,6 +88,7 @@ import java.util.List;
 
 import static gregapi.data.CS.*;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -97,14 +98,14 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 @Optional.InterfaceList(value = {
   @Optional.Interface(iface = "appeng.api.movable.IMovableTile", modid = ModIDs.AE)
 })
-public abstract class TileEntityBase01Root extends TileEntity implements ITileEntity, ITileEntityGUI, IMovableTile {
-	/** If this TileEntity checks for the LevelChunk to be loaded before returning Level based values. If this is set to T, this TileEntity will not cause worfin' Chunks, uhh I mean orphan Chunks. */
+public abstract class TileEntityBase01Root extends BlockEntity implements ITileEntity, ITileEntityGUI, IMovableTile {
+	/** If this BlockEntity checks for the LevelChunk to be loaded before returning Level based values. If this is set to T, this BlockEntity will not cause worfin' Chunks, uhh I mean orphan Chunks. */
 	public boolean mIgnoreUnloadedChunks = T;
 	
-	/** This Variable checks if this TileEntity is dead, because Minecraft is too stupid to have proper TileEntity unloading. */
+	/** This Variable checks if this BlockEntity is dead, because Minecraft is too stupid to have proper BlockEntity unloading. */
 	public boolean mIsDead = F;
 	
-	/** This Variable checks if this TileEntity should refresh when the Block is being set. That way you can turn this check off any time you need it. */
+	/** This Variable checks if this BlockEntity should refresh when the Block is being set. That way you can turn this check off any time you need it. */
 	public boolean mShouldRefresh = T;
 	
 	/** This Variable is for a buffered Block Update. */
@@ -116,7 +117,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	/** This Variable is for forcing the Selection Box to be full. */
 	public boolean FORCE_FULL_SELECTION_BOXES = F;
 	
-	/** If this TileEntity is ticking at all */
+	/** If this BlockEntity is ticking at all */
 	public final boolean mIsTicking;
 	
 	private final BlockPos mReturnedCoordinates = new BlockPos();
@@ -138,9 +139,9 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	@Override
 	public void readFromNBT(CompoundTag aNBT) {
 		// load ID and Coords
-		if (aNBT.hasKey("x")) xCoord = aNBT.getInteger("x");
-		if (aNBT.hasKey("y")) yCoord = aNBT.getInteger("y");
-		if (aNBT.hasKey("z")) zCoord = aNBT.getInteger("z");
+		if (aNBT.hasKey("x")) xCoord = aNBT.getInt("x");
+		if (aNBT.hasKey("y")) yCoord = aNBT.getInt("y");
+		if (aNBT.hasKey("z")) zCoord = aNBT.getInt("z");
 		// make sure Y is not negative because this causes crashes.
 		if (yCoord < 0) WD.invalidateTileEntityWithNegativeYCoord(xCoord, yCoord, zCoord, this);
 	}
@@ -150,13 +151,13 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 		// make sure Y is not negative because this causes crashes.
 		if (yCoord < 0) WD.invalidateTileEntityWithNegativeYCoord(xCoord, yCoord, zCoord, this);
 		// save ID and Coords
-		aNBT.setString("id", getTileEntityName());
-		aNBT.setInteger("x", xCoord);
-		aNBT.setInteger("y", yCoord);
-		aNBT.setInteger("z", zCoord);
+		aNBT.putString("id", getTileEntityName());
+		aNBT.putInt("x", xCoord);
+		aNBT.putInt("y", yCoord);
+		aNBT.putInt("z", zCoord);
 	}
 	
-	/** return the internal Name of this TileEntity to be registered. DO NOT START YOUR NAME WITH "gt."!!! */
+	/** return the internal Name of this BlockEntity to be registered. DO NOT START YOUR NAME WITH "gt."!!! */
 	public abstract String getTileEntityName();
 	
 	@Override public void markDirty() {/* Oh no, I won't let this do anything anymore! It's only useful for Comparators and that didn't work properly anyways! */}
@@ -210,29 +211,29 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	@Override public boolean getAirOffset(int aX, int aY, int aZ) {return getAir(xCoord+aX, yCoord+aY, zCoord+aZ);}
 	@Override public boolean getAirAtSide(byte aSide) {return getAirAtSideAndDistance(aSide, 1);}
 	@Override public boolean getAirAtSideAndDistance(byte aSide, int aDistance) {return getAir(getOffsetX(aSide, aDistance), getOffsetY(aSide, aDistance), getOffsetZ(aSide, aDistance));}
-	@Override public TileEntity getTileEntityOffset(int aX, int aY, int aZ) {return getTileEntity(xCoord+aX, yCoord+aY, zCoord+aZ);}
-	@Override public TileEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance) {return getTileEntity(getOffsetX(aSide, aDistance), getOffsetY(aSide, aDistance), getOffsetZ(aSide, aDistance));}
-	@Override public DelegatorTileEntity<TileEntity         > getAdjacentTileEntity     (byte aSide) {return getAdjacentTileEntity(aSide, T, F);}
+	@Override public BlockEntity getTileEntityOffset(int aX, int aY, int aZ) {return getTileEntity(xCoord+aX, yCoord+aY, zCoord+aZ);}
+	@Override public BlockEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance) {return getTileEntity(getOffsetX(aSide, aDistance), getOffsetY(aSide, aDistance), getOffsetZ(aSide, aDistance));}
+	@Override public DelegatorTileEntity<BlockEntity         > getAdjacentTileEntity     (byte aSide) {return getAdjacentTileEntity(aSide, T, F);}
 	@Override public DelegatorTileEntity<Container         > getAdjacentInventory      (byte aSide) {return getAdjacentInventory(aSide, T, F);}
 	@Override public DelegatorTileEntity<ISidedInventory    > getAdjacentSidedInventory (byte aSide) {return getAdjacentSidedInventory(aSide, T, F);}
 	@Override public DelegatorTileEntity<IFluidHandler      > getAdjacentTank           (byte aSide) {return getAdjacentTank(aSide, T, F);}
-	@Override public DelegatorTileEntity<Container         > getAdjacentInventory      (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof Container      ?(Container        )tDelegator.mTileEntity:null, tDelegator);}
-	@Override public DelegatorTileEntity<ISidedInventory    > getAdjacentSidedInventory (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof ISidedInventory ?(ISidedInventory   )tDelegator.mTileEntity:null, tDelegator);}
-	@Override public DelegatorTileEntity<IFluidHandler      > getAdjacentTank           (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof IFluidHandler   ?(IFluidHandler     )tDelegator.mTileEntity:null, tDelegator);}
+	@Override public DelegatorTileEntity<Container         > getAdjacentInventory      (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof Container      ?(Container        )tDelegator.mTileEntity:null, tDelegator);}
+	@Override public DelegatorTileEntity<ISidedInventory    > getAdjacentSidedInventory (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof ISidedInventory ?(ISidedInventory   )tDelegator.mTileEntity:null, tDelegator);}
+	@Override public DelegatorTileEntity<IFluidHandler      > getAdjacentTank           (byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aSide, aAllowDelegates, aNotConnectToDelegators); return new DelegatorTileEntity<>(tDelegator.mTileEntity instanceof IFluidHandler   ?(IFluidHandler     )tDelegator.mTileEntity:null, tDelegator);}
 	
 	@Override
-	public DelegatorTileEntity<TileEntity> getAdjacentTileEntity(byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {
-		TileEntity tTileEntity = getTileEntityAtSideAndDistance(aSide, 1);
+	public DelegatorTileEntity<BlockEntity> getAdjacentTileEntity(byte aSide, boolean aAllowDelegates, boolean aNotConnectToDelegators) {
+		BlockEntity tTileEntity = getTileEntityAtSideAndDistance(aSide, 1);
 		if (tTileEntity == null) return new DelegatorTileEntity<>(null, worldObj, getOffsetX(aSide), getOffsetY(aSide), getOffsetZ(aSide), OPOS[aSide]);
 		if (aNotConnectToDelegators && tTileEntity instanceof ITileEntityCanDelegate && ((ITileEntityCanDelegate)tTileEntity).isExtender(aSide)) return new DelegatorTileEntity<>(null, worldObj, getOffsetX(aSide), getOffsetY(aSide), getOffsetZ(aSide), OPOS[aSide]);
 		if (aAllowDelegates && tTileEntity instanceof ITileEntityDelegating) return ((ITileEntityDelegating)tTileEntity).getDelegateTileEntity(OPOS[aSide]);
 		return new DelegatorTileEntity<>(tTileEntity, tTileEntity.getWorldObj(), tTileEntity.xCoord, tTileEntity.yCoord, tTileEntity.zCoord, OPOS[aSide]);
 	}
 	
-	public List<DelegatorTileEntity<TileEntity>> allAdjacentTileEntities(boolean aAllowDelegates, boolean aNotConnectToDelegators) {
-		ArrayListNoNulls<DelegatorTileEntity<TileEntity>> rDelegates = new ArrayListNoNulls<>();
+	public List<DelegatorTileEntity<BlockEntity>> allAdjacentTileEntities(boolean aAllowDelegates, boolean aNotConnectToDelegators) {
+		ArrayListNoNulls<DelegatorTileEntity<BlockEntity>> rDelegates = new ArrayListNoNulls<>();
 		for (byte tSide : ALL_SIDES_VALID) {
-			DelegatorTileEntity<TileEntity> tDelegate = getAdjacentTileEntity(tSide, aAllowDelegates, aNotConnectToDelegators);
+			DelegatorTileEntity<BlockEntity> tDelegate = getAdjacentTileEntity(tSide, aAllowDelegates, aNotConnectToDelegators);
 			if (tDelegate.mTileEntity != null) rDelegates.add(tDelegate);
 		}
 		return rDelegates;
@@ -290,7 +291,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	}
 	
 	@Override
-	public TileEntity getTileEntity(int aX, int aY, int aZ) {
+	public BlockEntity getTileEntity(int aX, int aY, int aZ) {
 		if (worldObj == null) return null;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ)) return null;
 		return WD.te(worldObj, aX, aY, aZ, T);
@@ -346,14 +347,14 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	}
 	
 	@Override
-	public TileEntity getTileEntity(BlockPos aCoords) {
+	public BlockEntity getTileEntity(BlockPos aCoords) {
 		if (worldObj == null) return null;
 		if (mIgnoreUnloadedChunks && crossedChunkBorder(aCoords) && !worldObj.blockExists(aCoords.posX, aCoords.posY, aCoords.posZ)) return null;
 		return WD.te(worldObj, aCoords, T);
 	}
 	
-	public DelegatorTileEntity<TileEntity> delegator(byte aSide) {
-		return new DelegatorTileEntity<TileEntity>(this, aSide);
+	public DelegatorTileEntity<BlockEntity> delegator(byte aSide) {
+		return new DelegatorTileEntity<BlockEntity>(this, aSide);
 	}
 	
 	@Override
@@ -417,7 +418,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	
 	@Override
 	public void updateEntity() {
-		// Well, if the TileEntity gets ticked, it is alive.
+		// Well, if the BlockEntity gets ticked, it is alive.
 		if (isDead()) setAlive();
 		
 		if (isServerSide() && !mIsAddedToEnet && mDoEnetCheck) try {loadIntoEnet();} catch(Throwable e) {mDoEnetCheck = F;}
@@ -531,7 +532,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public boolean needsToSyncEverything() {return F;}
 	
 	public boolean shouldSideBeRendered(byte aSide) {
-		TileEntity tTileEntity = getTileEntityAtSideAndDistance(aSide, 1);
+		BlockEntity tTileEntity = getTileEntityAtSideAndDistance(aSide, 1);
 		return tTileEntity instanceof ITileEntitySurface ? !((ITileEntitySurface)tTileEntity).isSurfaceOpaque(OPOS[aSide]) : !WD.visOpq(worldObj, getOffsetX(aSide), getOffsetY(aSide), getOffsetZ(aSide), SIDES_VERTICAL[aSide] || WD.border(xCoord, zCoord, getOffsetX(aSide), getOffsetZ(aSide)), F);
 	}
 	
@@ -546,7 +547,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	
 	public void updateTanks() {/**/}
 	public void updateInventory() {/**/}
-	public void updateAdjacentInventories() {for (byte tSide : ALL_SIDES_VALID) {DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(tSide); if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) ((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, (Container)this);}}
+	public void updateAdjacentInventories() {for (byte tSide : ALL_SIDES_VALID) {DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(tSide); if (tDelegator.mTileEntity instanceof ITileEntityAdjacentInventoryUpdatable) ((ITileEntityAdjacentInventoryUpdatable)tDelegator.mTileEntity).adjacentInventoryUpdated(tDelegator.mSideOfTileEntity, (Container)this);}}
 	
 	public void playClick() {UT.Sounds.send(SFX.MC_CLICK, this, F);}
 	public void playCollect() {UT.Sounds.send(SFX.MC_COLLECT, 0.2F, this, F);}
@@ -599,7 +600,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 		return tBlock.hasComparatorInputOverride()?UT.Code.bind4(tBlock.getComparatorInputOverride(worldObj, getOffsetX(aSide), getOffsetY(aSide), getOffsetZ(aSide), OPOS[aSide])):getRedstoneIncoming(aSide);
 	}
 	
-	// A Default implementation of the Fluid Tank behaviour, so that every TileEntity can use this to simplify its Code.
+	// A Default implementation of the Fluid Tank behaviour, so that every BlockEntity can use this to simplify its Code.
 	
 	protected IFluidTank getFluidTankFillable(byte aSide, FluidStack aFluidToFill) {return null;}
 	protected IFluidTank getFluidTankDrainable(byte aSide, FluidStack aFluidToDrain) {return null;}
@@ -763,8 +764,8 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	
 	public int getSinkTier() {return UT.Code.tierMax(getEnergySizeInputRecommended(TD.Energy.EU, SIDE_ANY));}
 	public int getSourceTier() {return UT.Code.tierMax(getEnergySizeOutputRecommended(TD.Energy.EU, SIDE_ANY));}
-	public boolean acceptsEnergyFrom(TileEntity aEmitter, Direction aDirection) {return !(aEmitter instanceof ITileEntityEnergy) && isEnergyAcceptingFrom(TD.Energy.EU, UT.Code.side(aDirection), T);}
-	public boolean emitsEnergyTo(TileEntity aReceiver, Direction aDirection) {return !(aReceiver instanceof ITileEntityEnergy) && isEnergyEmittingTo(TD.Energy.EU, UT.Code.side(aDirection), T);}
+	public boolean acceptsEnergyFrom(BlockEntity aEmitter, Direction aDirection) {return !(aEmitter instanceof ITileEntityEnergy) && isEnergyAcceptingFrom(TD.Energy.EU, UT.Code.side(aDirection), T);}
+	public boolean emitsEnergyTo(BlockEntity aReceiver, Direction aDirection) {return !(aReceiver instanceof ITileEntityEnergy) && isEnergyEmittingTo(TD.Energy.EU, UT.Code.side(aDirection), T);}
 	public double getDemandedEnergy() {long tSize = getEnergySizeInputMax(TD.Energy.EU, SIDE_ANY); return tSize * doEnergyInjection(TD.Energy.EU, SIDE_ANY, tSize, 256, F);}
 	
 	public double injectEnergy(Direction aDirection, double aAmount, double aSize) {
@@ -841,7 +842,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public boolean ignorePlayerCollisionWhenPlacing(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {return ignorePlayerCollisionWhenPlacing();}
 	public boolean ignorePlayerCollisionWhenPlacing() {return F;}
 	
-	/** Old Coordinate containing Variant of onCoordinateChange, use only if you really need the Coordinates, as there is also a No-Parameter variant in use for some TileEntity Types! */
+	/** Old Coordinate containing Variant of onCoordinateChange, use only if you really need the Coordinates, as there is also a No-Parameter variant in use for some BlockEntity Types! */
 	public void onCoordinateChange(Level aWorld, int aOldX, int aOldY, int aOldZ) {onCoordinateChange();}
 	public void onCoordinateChange() {/**/}
 	
@@ -871,7 +872,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public ItemStack slot(int aIndex) {return NI;}
 	public ItemStack slotTake(int aIndex) {return NI;}
 	public boolean slotTrash(int aIndex) {return GarbageGT.trash(slotTake(aIndex)) > 0;}
-	public boolean slotNull(int aIndex) {if (slotHas(aIndex) && slot(aIndex).stackSize < 0) return slotKill(aIndex); return F;}
+	public boolean slotNull(int aIndex) {if (slotHas(aIndex) && slot(aIndex).getCount() < 0) return slotKill(aIndex); return F;}
 	public boolean slotKill(int aIndex) {slot(aIndex, NI); return T;}
 	public boolean slotHas(int aIndex) {return F;}
 	public boolean invempty() {return T;}
@@ -884,11 +885,11 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	
 	public int addStackToConnectedInventory(byte aSide, ItemStack aStack, boolean aOnlyAddIfItAlreadyHasItemsOfThatTypeOrIsDedicated) {
 		if (ST.invalid(aStack)) return 0;
-		int rCount = 0, aCount = aStack.stackSize;
+		int rCount = 0, aCount = aStack.getCount();
 		for (int tSlot : getAccessibleSlotsOfConnectedInventory()) if (ST.equal(slot(tSlot), aStack)) {
 			aOnlyAddIfItAlreadyHasItemsOfThatTypeOrIsDedicated = F;
-			int tChange = Math.min(aCount, slot(tSlot).getMaxStackSize() - slot(tSlot).stackSize);
-			slot(tSlot).stackSize += tChange;
+			int tChange = Math.min(aCount, slot(tSlot).getMaxStackSize() - slot(tSlot).getCount());
+			slot(tSlot).getCount() += tChange;
 			rCount += tChange;
 			aCount -= tChange;
 			if (aCount <= 0) {
@@ -910,13 +911,13 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public int removeStackFromConnectedInventory(byte aSide, ItemStack aStack, boolean aOnlyRemoveIfItCanRemoveAllAtOnce) {
 		if (ST.invalid(aStack)) return 0;
 		int rCount = 0;
-		if (!aOnlyRemoveIfItCanRemoveAllAtOnce || getAmountOfItemsInConnectedInventory(aSide, aStack, aStack.stackSize) >= aStack.stackSize) {
+		if (!aOnlyRemoveIfItCanRemoveAllAtOnce || getAmountOfItemsInConnectedInventory(aSide, aStack, aStack.getCount()) >= aStack.getCount()) {
 			for (int tSlot : getAccessibleSlotsOfConnectedInventory()) if (ST.equal(slot(tSlot), aStack)) {
-				int tChange = Math.min(aStack.stackSize - rCount, slot(tSlot).stackSize);
-				slot(tSlot).stackSize -= tChange;
-				if (slot(tSlot).stackSize <= 0) slotKill(tSlot);
+				int tChange = Math.min(aStack.getCount() - rCount, slot(tSlot).getCount());
+				slot(tSlot).getCount() -= tChange;
+				if (slot(tSlot).getCount() <= 0) slotKill(tSlot);
 				rCount += tChange;
-				if (rCount >= aStack.stackSize) {
+				if (rCount >= aStack.getCount()) {
 					updateInventory();
 					return rCount;
 				}
@@ -929,7 +930,7 @@ public abstract class TileEntityBase01Root extends TileEntity implements ITileEn
 	public long getAmountOfItemsInConnectedInventory(byte aSide, ItemStack aStack, long aStopCountingAtThisNumber) {
 		if (ST.invalid(aStack)) return 0;
 		long rCount = 0;
-		for (int tSlot : getAccessibleSlotsOfConnectedInventory()) if (ST.equal(slot(tSlot), aStack) && (rCount += slot(tSlot).stackSize) >= aStopCountingAtThisNumber) break;
+		for (int tSlot : getAccessibleSlotsOfConnectedInventory()) if (ST.equal(slot(tSlot), aStack) && (rCount += slot(tSlot).getCount()) >= aStopCountingAtThisNumber) break;
 		return rCount;
 	}
 	

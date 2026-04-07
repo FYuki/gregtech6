@@ -45,7 +45,7 @@ public class Drops_SmallOre extends Drops {
 	}
 	
 	@Override
-	public ArrayList<ItemStack> getDrops(PrefixBlock aBlock, Level aWorld, int aX, int aY, int aZ, short aMetaData, TileEntity aTileEntity, int aFortune, boolean aSilkTouch) {
+	public ArrayList<ItemStack> getDrops(PrefixBlock aBlock, Level aWorld, int aX, int aY, int aZ, short aMetaData, BlockEntity aTileEntity, int aFortune, boolean aSilkTouch) {
 		ArrayList<ItemStack> rList = ST.arraylist();
 		OreDictMaterial aMaterial = aBlock.getMetaMaterial(aMetaData);
 		if (aMaterial != null) aMaterial = aMaterial.mTargetCrushing.mMaterial;

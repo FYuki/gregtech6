@@ -44,7 +44,7 @@ import gregapi.stubs.IIcon; // stub
  * @author Gregorius Techneticies
  */
 public abstract class BlockBaseBeam extends BlockBaseMeta {
-	public BlockBaseBeam(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
+	public BlockBaseBeam(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, Math.min(4, aMaxMeta), aIcons);
 		for (int i = 0; i < 16; i++) OM.reg(ST.make(this, 1, i), OD.beamWood);
 		if (MD.RC.mLoaded) try {EntityTunnelBore.addMineableBlock(this);} catch(Throwable e) {e.printStackTrace(ERR);}

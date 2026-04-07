@@ -92,7 +92,7 @@ public class MultiTileEntityGeneratorLiquid extends TileEntityBase09FacingSingle
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_COOLDOWN, mCooldown);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mBurning);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mBurning);
 		mTank.writeToNBT(aNBT, NBT_TANK);
 	}
 	

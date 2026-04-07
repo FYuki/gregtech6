@@ -32,12 +32,13 @@ import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.core.Direction; // was Direction
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
  */
 public final class DelegatorTileEntity<T> extends WorldAndCoords {
-	/** the TileEntity. This should be an instance of TileEntity. */
+	/** the BlockEntity. This should be an instance of BlockEntity. */
 	public final T mTileEntity;
 	/** the Side of the Delegate responsible for handling. So a TE-Tesseract alike can go a curve. */
 	public final byte mSideOfTileEntity;
@@ -49,7 +50,7 @@ public final class DelegatorTileEntity<T> extends WorldAndCoords {
 	}
 	
 	public DelegatorTileEntity(T aTileEntity, byte aSideOfTileEntity) {
-		super((TileEntity)aTileEntity);
+		super((BlockEntity)aTileEntity);
 		mTileEntity = aTileEntity;
 		mSideOfTileEntity = aSideOfTileEntity;
 	}
@@ -93,7 +94,7 @@ public final class DelegatorTileEntity<T> extends WorldAndCoords {
 	public boolean equalSideWorldAndCoords(DelegatorTileEntity<?> aOther) {return aOther.mWorld == mWorld && equalSideAndCoords(aOther);}
 	public boolean equalSideTileEntityAndCoords(DelegatorTileEntity<?> aOther) {return aOther.mTileEntity == mTileEntity && equalSideAndCoords(aOther);}
 	
-	public boolean exists() {return mTileEntity instanceof ITileEntityUnloadable ? !((ITileEntityUnloadable)mTileEntity).isDead() : mTileEntity != null && !((TileEntity)mTileEntity).isInvalid() && mWorld != null && mWorld.blockExists(mX, mY, mZ);}
+	public boolean exists() {return mTileEntity instanceof ITileEntityUnloadable ? !((ITileEntityUnloadable)mTileEntity).isDead() : mTileEntity != null && !((BlockEntity)mTileEntity).isInvalid() && mWorld != null && mWorld.blockExists(mX, mY, mZ);}
 	
 	@Override public Level getWorld() {return mWorld;}
 	@Override public int getX() {return mX;}
@@ -118,7 +119,7 @@ public final class DelegatorTileEntity<T> extends WorldAndCoords {
 	@Override public boolean isClientSide() {return mWorld == null ? cpw.mods.fml.common.FMLCommonHandler.instance().getEffectiveSide().isClient() :  mWorld.isRemote;}
 	@Override public int rng(int aRange) {return RNGSUS.nextInt(aRange);}
 	@Override public int getRandomNumber(int aRange) {return RNGSUS.nextInt(aRange);}
-	@Override public TileEntity getTileEntity   (int aX, int aY, int aZ) {return mWorld==null?null:mWorld.getTileEntity(aX, aY, aZ);}
+	@Override public BlockEntity getTileEntity   (int aX, int aY, int aZ) {return mWorld==null?null:mWorld.getTileEntity(aX, aY, aZ);}
 	@Override public Block getBlock             (int aX, int aY, int aZ) {return mWorld==null?NB:mWorld.getBlock(aX, aY, aZ);}
 	@Override public byte getMetaData           (int aX, int aY, int aZ) {return mWorld==null?0:UT.Code.bind4(mWorld.getBlockMetadata(aX, aY, aZ));}
 	@Override public byte getLightLevel         (int aX, int aY, int aZ) {return mWorld==null?0:UT.Code.bind4((long)mWorld.getLightBrightness(aX, aY, aZ)*15);}
@@ -127,7 +128,7 @@ public final class DelegatorTileEntity<T> extends WorldAndCoords {
 	@Override public boolean getRain            (int aX, int aY, int aZ) {return mWorld==null||mWorld.getPrecipitationHeight(aX, aZ) <= aY;}
 	@Override public boolean getAir             (int aX, int aY, int aZ) {return mWorld==null||mWorld.getBlock(aX, aY, aZ).isAir(mWorld, aX, aY, aZ);}
 	@Override public Biome getBiome      (int aX, int aZ) {return mWorld==null?null:mWorld.getBiomeGenForCoords(aX, aZ);}
-	@Override public TileEntity getTileEntity   (BlockPos aCoords) {return mWorld==null?null:mWorld.getTileEntity(aCoords.posX, aCoords.posY, aCoords.posZ);}
+	@Override public BlockEntity getTileEntity   (BlockPos aCoords) {return mWorld==null?null:mWorld.getTileEntity(aCoords.posX, aCoords.posY, aCoords.posZ);}
 	@Override public Block getBlock             (BlockPos aCoords) {return mWorld==null?NB:mWorld.getBlock(aCoords.posX, aCoords.posY, aCoords.posZ);}
 	@Override public byte getMetaData           (BlockPos aCoords) {return mWorld==null?0:UT.Code.bind4(mWorld.getBlockMetadata(aCoords.posX, aCoords.posY, aCoords.posZ));}
 	@Override public byte getLightLevel         (BlockPos aCoords) {return mWorld==null?0:UT.Code.bind4((long)mWorld.getLightBrightness(aCoords.posX, aCoords.posY, aCoords.posZ)*15);}

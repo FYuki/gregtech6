@@ -31,7 +31,7 @@ import net.minecraft.core.Direction; // was Direction
  * @author Gregorius Techneticies
  */
 public abstract class BlockBaseSealable extends BlockBase implements IBlockSealable {
-	public BlockBaseSealable(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType) {
+	public BlockBaseSealable(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType);
 	}
 	

@@ -84,7 +84,7 @@ public class MultiTileEntityLongDistanceTransformer extends TileEntityBase09Faci
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		if (mTargetPos != null && mTarget != this) {
-		UT.NBT.setBoolean(aNBT, NBT_TARGET, T);
+		UT.NBT.putBoolean(aNBT, NBT_TARGET, T);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_X, mTargetPos.posX);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_Y, mTargetPos.posY);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_Z, mTargetPos.posZ);
@@ -92,8 +92,8 @@ public class MultiTileEntityLongDistanceTransformer extends TileEntityBase09Faci
 		UT.NBT.setNumber(aNBT, NBT_THROUGHPUT, mThroughput);
 		}
 		UT.NBT.setNumber(aNBT, NBT_ACTIVE_DATA, mActiveData);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE, mActive);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE, mActive);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
 	}
 	
 	@Override
@@ -159,7 +159,7 @@ public class MultiTileEntityLongDistanceTransformer extends TileEntityBase09Faci
 		} else if (mTarget == null || mTarget.isDead()) {
 			mTarget = null;
 			if (worldObj.blockExists(mTargetPos.posX, mTargetPos.posY, mTargetPos.posZ)) {
-				TileEntity tTileEntity = WD.te(worldObj, mTargetPos, T);
+				BlockEntity tTileEntity = WD.te(worldObj, mTargetPos, T);
 				if (tTileEntity instanceof MultiTileEntityLongDistanceTransformer) {
 					mTarget = (MultiTileEntityLongDistanceTransformer)tTileEntity;
 				} else {
@@ -208,7 +208,7 @@ public class MultiTileEntityLongDistanceTransformer extends TileEntityBase09Faci
 							worldObj.setBlock(aCoords.posX, aCoords.posY, aCoords.posZ, Blocks.fire, 0, 3);
 						}
 					} else {
-						TileEntity tTileEntity = getTileEntity(aCoords);
+						BlockEntity tTileEntity = getTileEntity(aCoords);
 						if (tTileEntity != this && tTileEntity instanceof MultiTileEntityLongDistanceTransformer) {
 							if (tWires.contains(((MultiTileEntityLongDistanceTransformer)tTileEntity).getOffset(((MultiTileEntityLongDistanceTransformer)tTileEntity).mFacing, 1))) {
 								mTarget = (MultiTileEntityLongDistanceTransformer)tTileEntity;

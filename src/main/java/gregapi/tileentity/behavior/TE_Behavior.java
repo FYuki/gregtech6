@@ -23,9 +23,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class TE_Behavior {
-	public final TileEntity mTileEntity;
+	public final BlockEntity mTileEntity;
 	
-	public TE_Behavior(TileEntity aTileEntity, CompoundTag aNBT) {
+	public TE_Behavior(BlockEntity aTileEntity, CompoundTag aNBT) {
 		mTileEntity = aTileEntity;
 		if (aNBT != null) load(aNBT);
 	}

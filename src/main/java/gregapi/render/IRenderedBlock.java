@@ -60,11 +60,11 @@ public interface IRenderedBlock {
 	@OnlyIn(Dist.CLIENT)
 	public int getRenderPasses(BlockGetter aWorld, int aX, int aY, int aZ, boolean[] aShouldSideBeRendered);
 	
-	/** if this Block lets the TileEntity or a similar Handler do all the Inventory Render work. */
+	/** if this Block lets the BlockEntity or a similar Handler do all the Inventory Render work. */
 	@OnlyIn(Dist.CLIENT)
 	public IRenderedBlockObject passRenderingToObject(ItemStack aStack);
 	
-	/** if this Block lets the TileEntity or a similar Handler do all the Level Render work. */
+	/** if this Block lets the BlockEntity or a similar Handler do all the Level Render work. */
 	@OnlyIn(Dist.CLIENT)
 	public IRenderedBlockObject passRenderingToObject(BlockGetter aWorld, int aX, int aY, int aZ);
 }

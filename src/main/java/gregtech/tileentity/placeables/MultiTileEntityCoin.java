@@ -86,21 +86,21 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, "gt.coin.unique", mIsUnique);
-		aNBT.setString(NBT_MATERIAL, mMaterial.toString());
-		for (int i = 0; i < mShape[0].length; i++) aNBT.setShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
-		for (int i = 0; i < mShape[1].length; i++) aNBT.setShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
-		for (int i = 0; i < mCoinStackSizes.length; i++) aNBT.setByte("gt.coin.stacksize."+i, mCoinStackSizes[i]);
+		UT.NBT.putBoolean(aNBT, "gt.coin.unique", mIsUnique);
+		aNBT.putString(NBT_MATERIAL, mMaterial.toString());
+		for (int i = 0; i < mShape[0].length; i++) aNBT.putShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
+		for (int i = 0; i < mShape[1].length; i++) aNBT.putShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
+		for (int i = 0; i < mCoinStackSizes.length; i++) aNBT.putByte("gt.coin.stacksize."+i, mCoinStackSizes[i]);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT(CompoundTag aNBT) {
 		aNBT = super.writeItemNBT(aNBT);
 		OreDictMaterialStack.saveList(NBT_RECYCLING_MATS, aNBT, Arrays.asList(OM.stack(mMaterial, U9)));
-		UT.NBT.setBoolean(aNBT, "gt.coin.unique", mIsUnique);
-		aNBT.setString(NBT_MATERIAL, mMaterial.toString());
-		for (int i = 0; i < mShape[0].length; i++) aNBT.setShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
-		for (int i = 0; i < mShape[1].length; i++) aNBT.setShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
+		UT.NBT.putBoolean(aNBT, "gt.coin.unique", mIsUnique);
+		aNBT.putString(NBT_MATERIAL, mMaterial.toString());
+		for (int i = 0; i < mShape[0].length; i++) aNBT.putShort("gt.coin.shape.0."+i, (short)UT.Code.getBits(mShape[0][i]));
+		for (int i = 0; i < mShape[1].length; i++) aNBT.putShort("gt.coin.shape.1."+i, (short)UT.Code.getBits(mShape[1][i]));
 		return aNBT;
 	}
 	
@@ -165,7 +165,7 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 					}
 				} else {
 					if (mCoinStackSizes[tIndex] < COIN_STACKSIZE && ST.equal(aStack, tStack)) {
-						if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.stackSize--;
+						if (!UT.Entities.hasInfiniteItems(aPlayer)) aStack.shrink(1);
 						mCoinStackSizes[tIndex]++;
 						updateClientData();
 					}
@@ -192,15 +192,15 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 	public int onDespawn(ItemEntity aEntity, ItemStack aStack) {
 		CompoundTag aNBT = aStack.getTagCompound();
 		if (aNBT != null && !aEntity.worldObj.isRemote && aEntity.onGround) {
-			if (aStack.stackSize > 0) for (byte tSide : ALL_SIDES_MIDDLE_DOWN) if (aStack.stackSize > 0) {
-				TileEntity tTileEntity = WD.te(aEntity.worldObj, UT.Code.roundDown(aEntity.posX)+OFFX[tSide], UT.Code.roundDown(aEntity.posY)+OFFY[tSide], UT.Code.roundDown(aEntity.posZ)+OFFZ[tSide], T);
+			if (aStack.getCount() > 0) for (byte tSide : ALL_SIDES_MIDDLE_DOWN) if (aStack.getCount() > 0) {
+				BlockEntity tTileEntity = WD.te(aEntity.worldObj, UT.Code.roundDown(aEntity.posX)+OFFX[tSide], UT.Code.roundDown(aEntity.posY)+OFFY[tSide], UT.Code.roundDown(aEntity.posZ)+OFFZ[tSide], T);
 				if (tTileEntity instanceof MultiTileEntityCoin) {
 					CompoundTag tNBT = ((MultiTileEntityCoin)tTileEntity).writeItemNBT(UT.NBT.make());
 					if (tNBT.equals(aNBT)) {
 						for (int i = 0; i < mCoinStackSizes.length; i++) {
-							int tDifference = Math.min(aStack.stackSize, COIN_STACKSIZE - ((MultiTileEntityCoin)tTileEntity).mCoinStackSizes[i]);
+							int tDifference = Math.min(aStack.getCount(), COIN_STACKSIZE - ((MultiTileEntityCoin)tTileEntity).mCoinStackSizes[i]);
 							if (tDifference > 0) {
-								aStack.stackSize -= tDifference;
+								aStack.shrink(tDifference);
 								((MultiTileEntityCoin)tTileEntity).mCoinStackSizes[i] += tDifference;
 							}
 						}
@@ -209,20 +209,20 @@ public class MultiTileEntityCoin extends TileEntityBase04MultiTileEntities imple
 				}
 			}
 			
-			if (aStack.stackSize > 0) for (byte tSide : ALL_SIDES_MIDDLE_DOWN) if (aStack.stackSize > 0) {
+			if (aStack.getCount() > 0) for (byte tSide : ALL_SIDES_MIDDLE_DOWN) if (aStack.getCount() > 0) {
 				if (aEntity.worldObj.canPlaceEntityOnSide(MTE_REGISTRY.mBlock, UT.Code.roundDown(aEntity.posX)+OFFX[tSide], UT.Code.roundDown(aEntity.posY)+OFFY[tSide], UT.Code.roundDown(aEntity.posZ)+OFFZ[tSide], F, SIDE_TOP, aEntity, aStack)) {
 					CompoundTag tNBT = (CompoundTag)aNBT.copy();
 					int tUsedAmount = 0;
 					for (int i = 0; i < mCoinStackSizes.length; i++) {
-						int tDifference = Math.min(aStack.stackSize - tUsedAmount, COIN_STACKSIZE);
+						int tDifference = Math.min(aStack.getCount() - tUsedAmount, COIN_STACKSIZE);
 						if (tDifference > 0) {
 							tUsedAmount += tDifference;
-							tNBT.setByte("gt.coin.stacksize."+i, (byte)tDifference);
+							tNBT.putByte("gt.coin.stacksize."+i, (byte)tDifference);
 						}
 					}
 					if (tUsedAmount > 0 && MTE_REGISTRY.mBlock.placeBlock(aEntity.worldObj, UT.Code.roundDown(aEntity.posX)+OFFX[tSide], UT.Code.roundDown(aEntity.posY)+OFFY[tSide], UT.Code.roundDown(aEntity.posZ)+OFFZ[tSide], SIDE_UNKNOWN, INSTANCE.getMultiTileEntityID(), tNBT, T, F)) {
-						aStack.stackSize-=tUsedAmount;
-						TileEntity tTileEntity = WD.te(aEntity.worldObj, UT.Code.roundDown(aEntity.posX)+OFFX[tSide], UT.Code.roundDown(aEntity.posY)+OFFY[tSide], UT.Code.roundDown(aEntity.posZ)+OFFZ[tSide], T);
+						aStack.shrink(tUsedAmount);
+						BlockEntity tTileEntity = WD.te(aEntity.worldObj, UT.Code.roundDown(aEntity.posX)+OFFX[tSide], UT.Code.roundDown(aEntity.posY)+OFFY[tSide], UT.Code.roundDown(aEntity.posZ)+OFFZ[tSide], T);
 						if (tTileEntity instanceof MultiTileEntityCoin) ((MultiTileEntityCoin)tTileEntity).shuffle();
 					}
 				}

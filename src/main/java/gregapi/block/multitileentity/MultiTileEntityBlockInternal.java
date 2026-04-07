@@ -39,7 +39,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.StatCollector;
+import gregapi.stubs.StatCollector;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import gregapi.stubs.IIconRegister; // stub
@@ -70,7 +70,7 @@ public class MultiTileEntityBlockInternal extends Block implements IBlock, IItem
 	
 	@Override
 	public IRenderedBlockObject passRenderingToObject(ItemStack aStack) {
-		TileEntity tTileEntity = mMultiTileEntityRegistry.getNewTileEntity(aStack);
+		BlockEntity tTileEntity = mMultiTileEntityRegistry.getNewTileEntity(aStack);
 		return tTileEntity instanceof IRenderedBlockObject ? (IRenderedBlockObject)tTileEntity : null;
 	}
 	
@@ -98,19 +98,19 @@ public class MultiTileEntityBlockInternal extends Block implements IBlock, IItem
 		aWorld.setBlock(aX, aY, aZ, aMTEContainer.mBlock, 15-aMTEContainer.mBlockMetaData, 2);
 		// Make sure the Block has been set, yes I know setBlock has a true/false return value, but guess what, it is not reliable in 0.0001% of cases!
 		if (aWorld.getBlock(aX, aY, aZ) != aMTEContainer.mBlock) {aWorld.setBlock(aX, aY, aZ, NB, 0, 0); return F;}
-		// TileEntity should not refresh yet!
+		// BlockEntity should not refresh yet!
 		((IMultiTileEntity)aMTEContainer.mTileEntity).setShouldRefresh(F);
-		// Fake-Set the TileEntity first, bypassing a lot of checks.
+		// Fake-Set the BlockEntity first, bypassing a lot of checks.
 		WD.te (aWorld, aX, aY, aZ, aMTEContainer.mTileEntity, F);
 		// Now set the Block with the REAL MetaData.
 		WD.set(aWorld, aX, aY, aZ, aMTEContainer.mBlock, aMTEContainer.mBlockMetaData, 0, F);
-		// When the TileEntity is set now it SHOULD refresh!
+		// When the BlockEntity is set now it SHOULD refresh!
 		((IMultiTileEntity)aMTEContainer.mTileEntity).setShouldRefresh(T);
 		// But make sure again that the Block we have set was actually set properly, because 0.0001%!
 		if (aWorld.getBlock(aX, aY, aZ) != aMTEContainer.mBlock) {aWorld.setBlock(aX, aY, aZ, NB, 0, 0); return F;}
-		// And finally properly set the TileEntity for real!
+		// And finally properly set the BlockEntity for real!
 		WD.te (aWorld, aX, aY, aZ, aMTEContainer.mTileEntity, aCauseBlockUpdates);
-		// Yep, all this just to set one Block and its TileEntity properly...
+		// Yep, all this just to set one Block and its BlockEntity properly...
 		
 		
 		try {

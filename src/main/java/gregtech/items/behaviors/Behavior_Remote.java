@@ -57,7 +57,7 @@ public class Behavior_Remote extends AbstractBehaviorDefault {
 			UT.Entities.sendchat(aPlayer, "Cant hold more than 64 Coordinates per Dimension!");
 			UT.Sounds.send(SFX.GT_BEEP, 0.5F, 0.5F, aWorld, tCoords);
 		} else {
-			TileEntity tTileEntity = WD.te(aWorld, tCoords, F);
+			BlockEntity tTileEntity = WD.te(aWorld, tCoords, F);
 			if (tTileEntity instanceof ITileEntityRemoteActivateable) {
 				UT.Entities.sendchat(aPlayer, "Coordinates added!");
 				UT.Sounds.send(SFX.GT_BEEP, 0.5F, 1.0F, aWorld, tCoords);
@@ -74,11 +74,11 @@ public class Behavior_Remote extends AbstractBehaviorDefault {
 	
 	@Override
 	public ItemStack onItemRightClick(MultiItem aItem, ItemStack aStack, Level aWorld, Player aPlayer) {
-		if (aWorld.isRemote || aPlayer.isSneaking() || !aStack.hasTagCompound()) return aStack;
+		if (aWorld.isRemote || aPlayer.isSneaking() || !aStack.hasTag()) return aStack;
 		ArrayListNoNulls<BlockPos> tToBeKept = new ArrayListNoNulls<>();
 		for (BlockPos tCoords : getCoords(aStack.getTagCompound(), aWorld.provider.dimensionId)) {
 			if (Math.abs(tCoords.posX - aPlayer.posX) <= 128 && Math.abs(tCoords.posY - aPlayer.posY) <= 128 && Math.abs(tCoords.posZ - aPlayer.posZ) <= 128) {
-				TileEntity tTileEntity = WD.te(aWorld, tCoords, F);
+				BlockEntity tTileEntity = WD.te(aWorld, tCoords, F);
 				if (tTileEntity instanceof ITileEntityRemoteActivateable && ((ITileEntityRemoteActivateable)tTileEntity).remoteActivate()) tToBeKept.add(tCoords);
 			} else {
 				tToBeKept.add(tCoords);
@@ -95,7 +95,7 @@ public class Behavior_Remote extends AbstractBehaviorDefault {
 		if (tList.size() >= 64) return F;
 		BlockPos tCoords = new BlockPos(aX, aY, aZ);
 		if (tList.contains(tCoords)) return T;
-		TileEntity tTileEntity = WD.te(aWorld, tCoords, F);
+		BlockEntity tTileEntity = WD.te(aWorld, tCoords, F);
 		if (tTileEntity instanceof ITileEntityRemoteActivateable) {
 			UT.Sounds.send(SFX.GT_BEEP, 0.5F, 1.0F, aWorld, tCoords);
 			tList.add(tCoords);
@@ -113,7 +113,7 @@ public class Behavior_Remote extends AbstractBehaviorDefault {
 		CompoundTag tNBT = aNBT.getCompoundTag("gt.remote.dim."+aDimension);
 		if (tNBT.hasNoTags()) return rList;
 		int i = -1; while (tNBT.hasKey("c"+(++i))) {
-			rList.add(new BlockPos(tNBT.getInteger("x"+i), tNBT.getInteger("y"+i), tNBT.getInteger("z"+i)));
+			rList.add(new BlockPos(tNBT.getInt("x"+i), tNBT.getInt("y"+i), tNBT.getInt("z"+i)));
 		}
 		return rList;
 	}
@@ -125,7 +125,7 @@ public class Behavior_Remote extends AbstractBehaviorDefault {
 			CompoundTag tNBT = UT.NBT.make();
 			for (int i = 0, j = aList.size(); i < j; i++) {
 				BlockPos tCoords = aList.get(i);
-				UT.NBT.setBoolean(tNBT, "c"+i, T);
+				UT.NBT.putBoolean(tNBT, "c"+i, T);
 				UT.NBT.setNumber (tNBT, "x"+i, tCoords.posX);
 				UT.NBT.setNumber (tNBT, "y"+i, tCoords.posY);
 				UT.NBT.setNumber (tNBT, "z"+i, tCoords.posZ);

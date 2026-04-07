@@ -29,7 +29,7 @@ public class TE_Behavior_Active_Trinary extends TE_Behavior {
 	public byte mState = 0;
 	public boolean mActive = F;
 	
-	public TE_Behavior_Active_Trinary(TileEntity aTileEntity, CompoundTag aNBT) {
+	public TE_Behavior_Active_Trinary(BlockEntity aTileEntity, CompoundTag aNBT) {
 		super(aTileEntity, aNBT);
 	}
 	

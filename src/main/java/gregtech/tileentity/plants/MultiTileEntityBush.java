@@ -71,8 +71,8 @@ public class MultiTileEntityBush extends TileEntityBase09FacingSingle implements
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_STATE, mStage);
-		aNBT.setByte(NBT_PROGRESS, mGrowth);
+		aNBT.putByte(NBT_STATE, mStage);
+		aNBT.putByte(NBT_PROGRESS, mGrowth);
 		ST.save(aNBT, NBT_VALUE, mBerry);
 	}
 	
@@ -108,7 +108,7 @@ public class MultiTileEntityBush extends TileEntityBase09FacingSingle implements
 				if (getBlockAtSide(SIDE_UP) == Blocks.snow_layer) worldObj.setBlockToAir(xCoord, yCoord+1, zCoord);
 				
 				if (SIDES_VALID[mFacing]) {
-					TileEntity tTileEntity = getTileEntityAtSideAndDistance(mFacing, 1);
+					BlockEntity tTileEntity = getTileEntityAtSideAndDistance(mFacing, 1);
 					if (tTileEntity instanceof MultiTileEntityBush) {
 						if (!ST.equal(((MultiTileEntityBush)tTileEntity).mBerry, mBerry, F)) {
 							mBerry = ((MultiTileEntityBush)tTileEntity).mBerry;
@@ -181,7 +181,7 @@ public class MultiTileEntityBush extends TileEntityBase09FacingSingle implements
 	
 	@Override
 	public boolean canPlace(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
-		TileEntity tTileEntity = aWorld.getTileEntity(aX-OFFX[aSide], aY-OFFY[aSide], aZ-OFFZ[aSide]);
+		BlockEntity tTileEntity = aWorld.getTileEntity(aX-OFFX[aSide], aY-OFFY[aSide], aZ-OFFZ[aSide]);
 		if (tTileEntity instanceof MultiTileEntityBush && SIDES_INVALID[((MultiTileEntityBush)tTileEntity).mFacing] && (ST.invalid(mBerry) || ST.equal(((MultiTileEntityBush)tTileEntity).mBerry, mBerry, F))) {
 			mFacing = OPOS[aSide];
 			mBerry = ((MultiTileEntityBush)tTileEntity).mBerry;

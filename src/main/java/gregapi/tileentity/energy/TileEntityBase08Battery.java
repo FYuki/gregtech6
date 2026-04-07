@@ -80,14 +80,14 @@ public abstract class TileEntityBase08Battery extends TileEntityBase07Paintable 
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE_ENERGY, F);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE_ENERGY, F);
 		super.writeToNBT2(aNBT);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		UT.NBT.setBoolean(aNBT, NBT_ACTIVE_ENERGY, F);
+		UT.NBT.putBoolean(aNBT, NBT_ACTIVE_ENERGY, F);
 		return super.writeItemNBT2(aNBT);
 	}
 	
@@ -211,7 +211,7 @@ public abstract class TileEntityBase08Battery extends TileEntityBase07Paintable 
 	public ItemStack setEnergyStored(TagData aEnergyType, ItemStack aStack, long aAmount) {
 		if ((aEnergyType != mType && aEnergyType != null) || ST.size(aStack) <= 0) return aStack;
 		mEnergy = aAmount;
-		UT.NBT.set(aStack, writeItemNBT(aStack.hasTagCompound() ? aStack.getTagCompound() : UT.NBT.make()));
+		UT.NBT.set(aStack, writeItemNBT(aStack.hasTag() ? aStack.getTagCompound() : UT.NBT.make()));
 		return ST.update_(aStack);
 	}
 	
@@ -225,6 +225,6 @@ public abstract class TileEntityBase08Battery extends TileEntityBase07Paintable 
 	@Override public long getEnergySizeOutputMax(TagData aEnergyType, ItemStack aStack) {return aEnergyType == mType || aEnergyType == null ? mSizeMax : 0;}
 	@Override public Collection<TagData> getEnergyTypes(ItemStack aStack) {return new HashSetNoNulls<>(F, mType);}
 	@Override public boolean isEnergyType(TagData aEnergyType, ItemStack aStack, boolean aEmitting) {return (aEnergyType == mType || aEnergyType == null);}
-	@Override public boolean canEnergyInjection (TagData aEnergyType, ItemStack aStack, long aSize) {return (aEnergyType == mType || aEnergyType == null) && aStack.stackSize == 1 && aSize <= getEnergySizeInputMax (aEnergyType, aStack) && aSize >= getEnergySizeInputMin (aEnergyType, aStack);}
-	@Override public boolean canEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize) {return (aEnergyType == mType || aEnergyType == null) && aStack.stackSize == 1 && aSize <= getEnergySizeOutputMax(aEnergyType, aStack) && aSize >= getEnergySizeOutputMin(aEnergyType, aStack);}
+	@Override public boolean canEnergyInjection (TagData aEnergyType, ItemStack aStack, long aSize) {return (aEnergyType == mType || aEnergyType == null) && aStack.getCount() == 1 && aSize <= getEnergySizeInputMax (aEnergyType, aStack) && aSize >= getEnergySizeInputMin (aEnergyType, aStack);}
+	@Override public boolean canEnergyExtraction(TagData aEnergyType, ItemStack aStack, long aSize) {return (aEnergyType == mType || aEnergyType == null) && aStack.getCount() == 1 && aSize <= getEnergySizeOutputMax(aEnergyType, aStack) && aSize >= getEnergySizeOutputMin(aEnergyType, aStack);}
 }

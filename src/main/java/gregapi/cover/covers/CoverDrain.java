@@ -56,6 +56,7 @@ import openmods.utils.EnchantmentUtils;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -89,7 +90,7 @@ public class CoverDrain extends AbstractCoverAttachment {
 						if (MD.OB.mLoaded) {
 							try {
 								if (FL.fillAll((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.XP.make(LiquidXpUtils.xpToLiquidRatio(((EntityXPOrb)tEntity).getXpValue())), T)) {
-									UT.Sounds.send(SFX.MC_XP, 0.1F, (RNGSUS.nextFloat()-RNGSUS.nextFloat()) * 0.35F + 0.9F, (TileEntity)aData.mTileEntity);
+									UT.Sounds.send(SFX.MC_XP, 0.1F, (RNGSUS.nextFloat()-RNGSUS.nextFloat()) * 0.35F + 0.9F, (BlockEntity)aData.mTileEntity);
 									aData.mTileEntity.getWorld().removeEntity(tEntity);
 									tEntity.setDead();
 									continue;
@@ -97,7 +98,7 @@ public class CoverDrain extends AbstractCoverAttachment {
 							} catch(Throwable e) {e.printStackTrace(ERR);}
 						}
 						if (FL.fillAll((IFluidHandler)aData.mTileEntity, ALL_SIDES_THIS_AND_ANY[aCoverSide], FL.XP.make(((EntityXPOrb)tEntity).getXpValue() * 20, FL.Mob, UT.Code.units(((EntityXPOrb)tEntity).getXpValue(), 3, 200, F)), T)) {
-							UT.Sounds.send(SFX.MC_XP, 0.1F, (RNGSUS.nextFloat()-RNGSUS.nextFloat()) * 0.35F + 0.9F, (TileEntity)aData.mTileEntity);
+							UT.Sounds.send(SFX.MC_XP, 0.1F, (RNGSUS.nextFloat()-RNGSUS.nextFloat()) * 0.35F + 0.9F, (BlockEntity)aData.mTileEntity);
 							aData.mTileEntity.getWorld().removeEntity(tEntity);
 							tEntity.setDead();
 							continue;

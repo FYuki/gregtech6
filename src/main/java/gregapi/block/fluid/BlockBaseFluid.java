@@ -88,7 +88,7 @@ public class BlockBaseFluid extends BlockFluidFinite implements IBlock, IItemGT,
 		mFlammability = aFlammability;
 		setBlockName(mNameInternal = aNameInternal);
 		setResistance(FL.gas(mFluid) ? 1 : 30);
-		ST.register(this, mNameInternal, ItemBlock.class);
+		ST.register(this, mNameInternal, BlockItem.class);
 		FL.BLOCKS.put(mFluid.getName(), this);
 		displacements.put(this, F);
 		LanguageHandler.set(getLocalizedName(), getLocalizedName()); // WAILA is retarded...
@@ -352,7 +352,7 @@ public class BlockBaseFluid extends BlockFluidFinite implements IBlock, IItemGT,
 		if (aBlock == NB) return T;
 		if (aBlock == this || aBlock.getMaterial() == Material.water || WD.visOpq(aBlock)) return F;
 		if (aBlock.isAir(aWorld, aX, aY, aZ)) return T;
-		TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+		BlockEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 		if (tTileEntity instanceof ITileEntitySurface) return !((ITileEntitySurface)tTileEntity).isSurfaceOpaque(OPOS[aSide]);
 		return T;
 	}

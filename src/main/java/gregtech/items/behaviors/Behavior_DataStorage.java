@@ -35,7 +35,7 @@ public class Behavior_DataStorage extends AbstractBehaviorDefault {
 	
 	@Override
 	public List<String> getAdditionalToolTips(MultiItem aItem, List<String> aList, ItemStack aStack) {
-		if (aStack != null && aStack.hasTagCompound()) {
+		if (aStack != null && aStack.hasTag()) {
 			CompoundTag tUSB = aStack.getTagCompound().getCompoundTag(NBT_USB_DATA);
 			if (tUSB != null) {
 				UT.NBT.getDataToolTip(tUSB, aList, T);

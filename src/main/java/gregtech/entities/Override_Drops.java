@@ -708,13 +708,13 @@ public class Override_Drops {
 					if (ST.item_(tStack) == Items.porkchop) {
 						switch(tRandomNumber%3) {
 						case 0: ST.set(tStack, (aBurn?IL.Food_Ham_Cooked:IL.Food_Ham_Raw).get(1), F, F); break;
-						case 1: ST.set(tStack, (aBurn?IL.Food_Bacon_Cooked:IL.Food_Bacon_Raw).get(UT.Code.bindStack(tStack.stackSize * (3+RNGSUS.nextInt(3)))), T, F); break;
+						case 1: ST.set(tStack, (aBurn?IL.Food_Bacon_Cooked:IL.Food_Bacon_Raw).get(UT.Code.bindStack(tStack.getCount() * (3+RNGSUS.nextInt(3)))), T, F); break;
 						}
 					} else
 					if (ST.item_(tStack) == Items.cooked_porkchop) {
 						switch(tRandomNumber%3) {
 						case 0: ST.set(tStack, IL.Food_Ham_Cooked.get(1), F, F); break;
-						case 1: ST.set(tStack, IL.Food_Bacon_Cooked.get(UT.Code.bindStack(tStack.stackSize * (3L+RNGSUS.nextInt(3)))), T, F); break;
+						case 1: ST.set(tStack, IL.Food_Bacon_Cooked.get(UT.Code.bindStack(tStack.getCount() * (3L+RNGSUS.nextInt(3)))), T, F); break;
 						}
 					} else
 					if (OM.is("listAllbeefraw", tStack)) {

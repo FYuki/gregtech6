@@ -47,7 +47,7 @@ public interface ITileEntityEnergy extends ITileEntityUnloadable {
 	public long getEnergySizeOutputMax(TagData aEnergyType, byte aSide);
 	public static class Util {
 		public static final long emitEnergyToNetwork(TagData aEnergyType, long aSize, long aAmount, ITileEntityEnergy aEmitter) {return gregapi.tileentity.energy.ITileEntityEnergy.Util.emitEnergyToNetwork(aEnergyType, aSize, aAmount, aEmitter);}
-		public static final long emitEnergyToSide(TagData aEnergyType, byte aSideOutOf, long aSize, long aAmount, TileEntity aEmitter) {return gregapi.tileentity.energy.ITileEntityEnergy.Util.emitEnergyToSide(aEnergyType, aSideOutOf, aSize, aAmount, aEmitter);}
-		public static final long insertEnergyInto(TagData aEnergyType, byte aSideInto, long aSize, long aAmount, Object aEmitter, TileEntity aReceiver) {return gregapi.tileentity.energy.ITileEntityEnergy.Util.insertEnergyInto(aEnergyType, aSideInto, aSize, aAmount, aEmitter, aReceiver);}
+		public static final long emitEnergyToSide(TagData aEnergyType, byte aSideOutOf, long aSize, long aAmount, BlockEntity aEmitter) {return gregapi.tileentity.energy.ITileEntityEnergy.Util.emitEnergyToSide(aEnergyType, aSideOutOf, aSize, aAmount, aEmitter);}
+		public static final long insertEnergyInto(TagData aEnergyType, byte aSideInto, long aSize, long aAmount, Object aEmitter, BlockEntity aReceiver) {return gregapi.tileentity.energy.ITileEntityEnergy.Util.insertEnergyInto(aEnergyType, aSideInto, aSize, aAmount, aEmitter, aReceiver);}
 	}
 }

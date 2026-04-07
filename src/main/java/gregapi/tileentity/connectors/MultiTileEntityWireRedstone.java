@@ -44,7 +44,7 @@ public class MultiTileEntityWireRedstone extends MultiTileEntityWireRedstoneInsu
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mState != 0) aNBT.setByte(NBT_STATE, mState);
+		if (mState != 0) aNBT.putByte(NBT_STATE, mState);
 	}
 	
 	@Override

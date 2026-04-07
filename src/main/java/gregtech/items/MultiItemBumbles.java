@@ -312,7 +312,7 @@ public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItem
 					continue;
 				}
 				if (tBlock == Blocks.flower_pot) {
-					TileEntity tTileEntity = WD.te(aWorld, aX+i, aY+j, aZ+k, F);
+					BlockEntity tTileEntity = WD.te(aWorld, aX+i, aY+j, aZ+k, F);
 					if (tTileEntity instanceof TileEntityFlowerPot) {
 						if (Block.getBlockFromItem(((TileEntityFlowerPot)tTileEntity).getFlowerPotItem()) == Blocks.cactus) return new BlockPos(aX+i, aY+j, aZ+k);
 					}
@@ -505,7 +505,7 @@ public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItem
 		String tTooltip = getFlowerTooltip(aMeta);
 		if (UT.Code.stringValid(tTooltip)) aList.add(LH.Chat.CYAN + "Requirement:" + LH.Chat._WHITE + tTooltip);
 		CompoundTag aBumbleTag = null;
-		if (aStack.hasTagCompound()) aBumbleTag = aStack.getTagCompound().getCompoundTag("gt.bumble");
+		if (aStack.hasTag()) aBumbleTag = aStack.getTagCompound().getCompoundTag("gt.bumble");
 		if (aBumbleTag == null || aBumbleTag.hasNoTags()) {
 			aList.add(LH.Chat.BLINKING_RED + "No Genetic Data to display");
 			aList.add(LH.Chat.CYAN + "Generates random 'Outsider-Plains-Biome' Genes when used");
@@ -619,7 +619,7 @@ public class MultiItemBumbles extends MultiItemRandomWithCompat implements IItem
 		Block aBlock = WD.block(aWorld, aX, aY, aZ, F);
 		if (aBlock == NB) return F;
 		if (aBlock == Blocks.flower_pot) {
-			TileEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, F);
+			BlockEntity tTileEntity = WD.te(aWorld, aX, aY, aZ, F);
 			if (tTileEntity instanceof TileEntityFlowerPot) {
 				aBlock = Block.getBlockFromItem(((TileEntityFlowerPot)tTileEntity).getFlowerPotItem());
 				return aBlock == Blocks.yellow_flower || aBlock == Blocks.red_flower;

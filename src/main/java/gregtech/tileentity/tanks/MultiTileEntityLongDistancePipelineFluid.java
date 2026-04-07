@@ -73,13 +73,13 @@ public class MultiTileEntityLongDistancePipelineFluid extends TileEntityBase09Fa
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		if (mTargetPos != null && mTarget != this) {
-		UT.NBT.setBoolean(aNBT, NBT_TARGET, T);
+		UT.NBT.putBoolean(aNBT, NBT_TARGET, T);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_X, mTargetPos.posX);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_Y, mTargetPos.posY);
 		UT.NBT.setNumber(aNBT, NBT_TARGET_Z, mTargetPos.posZ);
 		UT.NBT.setNumber(aNBT, NBT_THROUGHPUT, mTemperature);
 		}
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
 	}
 	
 	@Override
@@ -122,7 +122,7 @@ public class MultiTileEntityLongDistancePipelineFluid extends TileEntityBase09Fa
 		} else if (mTarget == null || mTarget.isDead()) {
 			mTarget = null;
 			if (worldObj.blockExists(mTargetPos.posX, mTargetPos.posY, mTargetPos.posZ)) {
-				TileEntity tTileEntity = WD.te(worldObj, mTargetPos, T);
+				BlockEntity tTileEntity = WD.te(worldObj, mTargetPos, T);
 				if (tTileEntity instanceof MultiTileEntityLongDistancePipelineFluid) {
 					mTarget = (MultiTileEntityLongDistancePipelineFluid)tTileEntity;
 				} else {
@@ -165,7 +165,7 @@ public class MultiTileEntityLongDistancePipelineFluid extends TileEntityBase09Fa
 						if (tOldChecks.add(tCoords = new BlockPos(aCoords.posX, aCoords.posY, aCoords.posZ + 1))) tNewChecks.add(tCoords);
 						if (tOldChecks.add(tCoords = new BlockPos(aCoords.posX, aCoords.posY, aCoords.posZ - 1))) tNewChecks.add(tCoords);
 					} else {
-						TileEntity tTileEntity = getTileEntity(aCoords);
+						BlockEntity tTileEntity = getTileEntity(aCoords);
 						if (tTileEntity != this && tTileEntity instanceof MultiTileEntityLongDistancePipelineFluid) {
 							if (tWires.contains(((MultiTileEntityLongDistancePipelineFluid)tTileEntity).getOffset(((MultiTileEntityLongDistancePipelineFluid)tTileEntity).mFacing, 1))) {
 								mTarget = (MultiTileEntityLongDistancePipelineFluid)tTileEntity;

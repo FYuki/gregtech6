@@ -106,7 +106,7 @@ public class PrefixBlockFallingEntity extends FallingBlockEntity {
 	@Override
 	protected void writeEntityToNBT(CompoundTag aNBT) {
 		super.writeEntityToNBT(aNBT);
-		aNBT.setShort("MetaData", ST.meta_(mStack));
+		aNBT.putShort("MetaData", ST.meta_(mStack));
 	}
 	
 	@Override

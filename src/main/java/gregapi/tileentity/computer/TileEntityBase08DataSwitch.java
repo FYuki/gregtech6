@@ -50,7 +50,7 @@ public abstract class TileEntityBase08DataSwitch extends TileEntityBase07Paintab
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		if (mMode != 0) aNBT.setByte(NBT_MODE, mMode);
+		if (mMode != 0) aNBT.putByte(NBT_MODE, mMode);
 	}
 	
 	static {
@@ -75,7 +75,7 @@ public abstract class TileEntityBase08DataSwitch extends TileEntityBase07Paintab
 		if (isServerSide() && isUseableByPlayerGUI(aPlayer)) {
 			ItemStack aHeldItem = aPlayer.inventory.getCurrentItem();
 			if (OM.is(OD_USB_STICKS[0], aHeldItem)) {
-				if (aHeldItem.hasTagCompound() && aHeldItem.getTagCompound().hasKey(NBT_USB_TIER)) {
+				if (aHeldItem.hasTag() && aHeldItem.getTagCompound().hasKey(NBT_USB_TIER)) {
 					setUSBData(aSide, aHeldItem.getTagCompound().getByte(NBT_USB_TIER), aHeldItem.getTagCompound().getCompoundTag(NBT_USB_DATA));
 					playClick();
 				} else {
@@ -102,7 +102,7 @@ public abstract class TileEntityBase08DataSwitch extends TileEntityBase07Paintab
 				DelegatorTileEntity<Container> tDelegator = getAdjacentInventory(tSide);
 				if (tDelegator.mTileEntity != null) for (int i = 0, j = tDelegator.mTileEntity.getSizeInventory(); i < j; i++) {
 					ItemStack tUSB = tDelegator.mTileEntity.getStackInSlot(i);
-					if (OM.is(OD_USB_CABLES[0], tUSB) && (!tUSB.hasTagCompound() || !tUSB.getTagCompound().hasKey(NBT_USB_DIRECTION) || SIDES_EQUAL[tUSB.getTagCompound().getByte(NBT_USB_DIRECTION)][tDelegator.mSideOfTileEntity])) {
+					if (OM.is(OD_USB_CABLES[0], tUSB) && (!tUSB.hasTag() || !tUSB.getTagCompound().hasKey(NBT_USB_DIRECTION) || SIDES_EQUAL[tUSB.getTagCompound().getByte(NBT_USB_DIRECTION)][tDelegator.mSideOfTileEntity])) {
 						tDelegator.mTileEntity.markDirty();
 						break;
 					}

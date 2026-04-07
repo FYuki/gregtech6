@@ -36,7 +36,7 @@ public class Behavior_DataStorage16 extends AbstractBehaviorDefault {
 	@Override
 	public List<String> getAdditionalToolTips(MultiItem aItem, List<String> aList, ItemStack aStack) {
 		if (aStack != null) {
-			if (aStack.hasTagCompound() && aStack.getTagCompound().hasKey(NBT_USB_DRIVE)) {
+			if (aStack.hasTag() && aStack.getTagCompound().hasKey(NBT_USB_DRIVE)) {
 				CompoundTag tDrive = aStack.getTagCompound().getCompoundTag(NBT_USB_DRIVE);
 				if (tDrive.hasNoTags()) {
 					aList.add(LH.Chat.CYAN + "Uncleanly Formatted");

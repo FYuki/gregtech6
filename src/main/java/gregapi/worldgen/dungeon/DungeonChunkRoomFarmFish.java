@@ -67,7 +67,7 @@ public class DungeonChunkRoomFarmFish extends DungeonChunkRoomEmpty {
 			aData.set( 9,  0,  6, tFishTrap);
 			aData.set( 9,  0,  9, tFishTrap);
 			
-			TileEntity
+			BlockEntity
 			tTileEntity = WD.te(aData.mWorld, aData.mX+6, aData.mY, aData.mZ+6, T); if (tTileEntity instanceof Container) ((Container)tTileEntity).setInventorySlotContents(18, ST.make(MD.HaC, "fishtrapbaitItem", aData.nextStack()));
 			tTileEntity = WD.te(aData.mWorld, aData.mX+6, aData.mY, aData.mZ+9, T); if (tTileEntity instanceof Container) ((Container)tTileEntity).setInventorySlotContents(18, ST.make(MD.HaC, "fishtrapbaitItem", aData.nextStack()));
 			tTileEntity = WD.te(aData.mWorld, aData.mX+9, aData.mY, aData.mZ+6, T); if (tTileEntity instanceof Container) ((Container)tTileEntity).setInventorySlotContents(18, ST.make(MD.HaC, "fishtrapbaitItem", aData.nextStack()));

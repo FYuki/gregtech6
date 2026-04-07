@@ -35,12 +35,12 @@ public class TriggerBC_Energy_Capacity_Empty extends TriggerBC {
 	}
 	
 	@Override
-	public boolean isActive(TileEntity aTarget, byte aSideOfTileEntity, IStatementContainer aSource, IStatementParameter[] aParameters) {
+	public boolean isActive(BlockEntity aTarget, byte aSideOfTileEntity, IStatementContainer aSource, IStatementParameter[] aParameters) {
 		return ((ITileEntityEnergyDataCapacitor)aTarget).getEnergyStored(mEnergyType, aSideOfTileEntity) <= 0;
 	}
 	
 	@Override
-	public boolean isApplicable(TileEntity aTarget, byte aSideOfTileEntity) {
+	public boolean isApplicable(BlockEntity aTarget, byte aSideOfTileEntity) {
 		return aTarget instanceof ITileEntityEnergyDataCapacitor && ((ITileEntityEnergyDataCapacitor)aTarget).isEnergyCapacitorType(mEnergyType, aSideOfTileEntity);
 	}
 }

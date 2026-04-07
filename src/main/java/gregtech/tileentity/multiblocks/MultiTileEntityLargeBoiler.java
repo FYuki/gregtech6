@@ -90,7 +90,7 @@ public class MultiTileEntityLargeBoiler extends TileEntityBase10MultiBlockBase i
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
 		UT.NBT.setNumber(aNBT, NBT_ENERGY, mEnergy);
-		if (mEfficiency != 10000) aNBT.setShort(NBT_EFFICIENCY, mEfficiency);
+		if (mEfficiency != 10000) aNBT.putShort(NBT_EFFICIENCY, mEfficiency);
 		for (int i = 0; i < mTanks.length; i++) mTanks[i].writeToNBT(aNBT, NBT_TANK+"."+i);
 	}
 	
@@ -211,7 +211,7 @@ public class MultiTileEntityLargeBoiler extends TileEntityBase10MultiBlockBase i
 					int tTargets = 0;
 					
 					@SuppressWarnings("unchecked")
-					DelegatorTileEntity<TileEntity>[] tDelegators = new DelegatorTileEntity[] {
+					DelegatorTileEntity<BlockEntity>[] tDelegators = new DelegatorTileEntity[] {
 					  WD.te(worldObj, getOffsetXN(mFacing, 1)  , yCoord+3, getOffsetZN(mFacing, 1)  , SIDE_Y_NEG, F)
 					, WD.te(worldObj, getOffsetXN(mFacing, 1)-2, yCoord+1, getOffsetZN(mFacing, 1)  , SIDE_X_POS, F)
 					, WD.te(worldObj, getOffsetXN(mFacing, 1)+2, yCoord+1, getOffsetZN(mFacing, 1)  , SIDE_X_NEG, F)

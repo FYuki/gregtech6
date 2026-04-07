@@ -66,7 +66,7 @@ public abstract class TileEntityBase11MultiBlockConverter extends TileEntityBase
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		UT.NBT.setBoolean(aNBT, NBT_STOPPED, mStopped);
+		UT.NBT.putBoolean(aNBT, NBT_STOPPED, mStopped);
 		mActivity.save(aNBT);
 		writeEnergyBehavior(aNBT);
 	}
@@ -120,7 +120,7 @@ public abstract class TileEntityBase11MultiBlockConverter extends TileEntityBase
 	@Override public void setVisualData(byte aData) {mActivity.mState = aData;}
 	@Override public byte getVisualData() {return mActivity.mState;}
 	
-	public abstract TileEntity getEmittingTileEntity();
+	public abstract BlockEntity getEmittingTileEntity();
 	public abstract byte getEmittingSide();
 	
 	public void doConversion(long aTimer) {

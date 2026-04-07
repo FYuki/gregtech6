@@ -60,12 +60,12 @@ public abstract class PrefixItemBauble extends PrefixItem implements IBauble, IW
 	@Override
 	public void onWornTick(ItemStack aStack, LivingEntity aPlayer) {
 		if (aPlayer.ticksExisted % 120 == 0 && !UT.Entities.isInvincible(aPlayer)) {
-			UT.Entities.applyRadioactivity(aPlayer, UT.Entities.getRadioactivityLevel(aStack), aStack.stackSize);
+			UT.Entities.applyRadioactivity(aPlayer, UT.Entities.getRadioactivityLevel(aStack), aStack.getCount());
 		}
 	}
 	
 	@Override public void onEquipped(ItemStack aStack, LivingEntity aPlayer) {/**/}
 	@Override public void onUnequipped(ItemStack aStack, LivingEntity aPlayer) {/**/}
-	@Override public boolean canEquip(ItemStack aStack, LivingEntity aPlayer) {return T;/*aStack != null && aStack.stackSize == 1;*/}
+	@Override public boolean canEquip(ItemStack aStack, LivingEntity aPlayer) {return T;/*aStack != null && aStack.getCount() == 1;*/}
 	@Override public boolean canUnequip(ItemStack aStack, LivingEntity aPlayer) {return T;}
 }

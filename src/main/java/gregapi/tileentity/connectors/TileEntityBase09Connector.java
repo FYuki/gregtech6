@@ -71,7 +71,7 @@ public abstract class TileEntityBase09Connector extends TileEntityBase08Directio
 		if (isClientSide()) return 0;
 		if (aTool.equals(getFacingTool())) {
 			byte aTargetSide = UT.Code.getSideWrenching(aSide, aHitX, aHitY, aHitZ);
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aTargetSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aTargetSide);
 			if (tDelegator.mTileEntity instanceof ITileEntity && !((ITileEntity)tDelegator.mTileEntity).allowInteraction(aPlayer)) return 0;
 			return (connected(aTargetSide)?disconnect(aTargetSide, T):connect(aTargetSide, T))?10000:0;
 		}
@@ -82,7 +82,7 @@ public abstract class TileEntityBase09Connector extends TileEntityBase08Directio
 	public boolean onPlaced(ItemStack aStack, Player aPlayer, MultiTileEntityContainer aMTEContainer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ) {
 		if (isServerSide()) {
 			aSide = OPOS[aSide];
-			DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide);
+			DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aSide);
 			if (tDelegator.mTileEntity instanceof ITileEntity && !((ITileEntity)tDelegator.mTileEntity).allowInteraction(aPlayer)) return T;
 			connect(aSide, T);
 			for (byte tSide : ALL_SIDES_VALID) {
@@ -112,7 +112,7 @@ public abstract class TileEntityBase09Connector extends TileEntityBase08Directio
 		if (SIDES_INVALID[aSide]) return F;
 		if (connected(aSide)) return T;
 		if (hasCovers() && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptConnect(aSide, mCovers)) return F;
-		DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide);
+		DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aSide);
 		if (tDelegator.mTileEntity instanceof ITileEntityConnector) {
 			if (tDelegator.mTileEntity instanceof ITileEntityCoverable && ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData() != null && ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData().mBehaviours[tDelegator.mSideOfTileEntity] != null && ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData().mBehaviours[tDelegator.mSideOfTileEntity].interceptConnect(tDelegator.mSideOfTileEntity, ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData())) return F;
 			if (SIDES_VALID[tDelegator.mSideOfTileEntity] && UT.Code.haveOneCommonElement(((ITileEntityConnector)tDelegator.mTileEntity).getConnectorTypes(tDelegator.mSideOfTileEntity), getConnectorTypes(aSide))) {
@@ -156,7 +156,7 @@ public abstract class TileEntityBase09Connector extends TileEntityBase08Directio
 	public boolean disconnect(byte aSide, boolean aNotify) {
 		if (SIDES_INVALID[aSide]) return F;
 		if (!connected(aSide)) return T;
-		DelegatorTileEntity<TileEntity> tDelegator = getAdjacentTileEntity(aSide);
+		DelegatorTileEntity<BlockEntity> tDelegator = getAdjacentTileEntity(aSide);
 		if (hasCovers() && mCovers.mBehaviours[aSide] != null && mCovers.mBehaviours[aSide].interceptDisconnect(aSide, mCovers)) return F;
 		if (tDelegator.mTileEntity instanceof ITileEntityCoverable && ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData() != null && ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData().mBehaviours[tDelegator.mSideOfTileEntity] != null && ((ITileEntityCoverable)tDelegator.mTileEntity).getCoverData().mBehaviours[tDelegator.mSideOfTileEntity].interceptDisconnect(tDelegator.mSideOfTileEntity, mCovers)) return F;
 		byte oConnections = mConnections;
@@ -173,5 +173,5 @@ public abstract class TileEntityBase09Connector extends TileEntityBase08Directio
 	
 	// Stuff to Override
 	public void onConnectionChange(byte aPreviousConnections) {/**/}
-	public boolean canConnect(byte aSide, DelegatorTileEntity<TileEntity> aDelegator) {return F;}
+	public boolean canConnect(byte aSide, DelegatorTileEntity<BlockEntity> aDelegator) {return F;}
 }

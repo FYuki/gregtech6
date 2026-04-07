@@ -64,12 +64,12 @@ public class MultiTileEntityGrindStone extends TileEntityBase09FacingSingle impl
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_STATE, mStone);
+		aNBT.putByte(NBT_STATE, mStone);
 	}
 	
 	@Override
 	public CompoundTag writeItemNBT2(CompoundTag aNBT) {
-		aNBT.setByte(NBT_STATE, mStone);
+		aNBT.putByte(NBT_STATE, mStone);
 		return aNBT;
 	}
 	

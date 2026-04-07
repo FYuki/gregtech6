@@ -39,7 +39,7 @@ import gregapi.stubs.IIcon; // stub
  * @author Gregorius Techneticies
  */
 public abstract class BlockBaseBale extends BlockBaseMeta {
-	public BlockBaseBale(Class<? extends ItemBlock> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
+	public BlockBaseBale(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {
 		super(aItemClass, aNameInternal, aMaterial, aSoundType, Math.min(4, aMaxMeta), aIcons);
 		setCreativeTab(CreativeModeTab.tabDecorations);
 		if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("forester", ST.make(this, 1, W));

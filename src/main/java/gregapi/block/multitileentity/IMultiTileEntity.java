@@ -64,10 +64,10 @@ import gregapi.stubs.IIconRegister; // stub
  * Interfaces to override Block Functionality.
  */
 public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
-	/** Those two IDs HAVE to be saved inside the NBT of the TileEntity itself. They get set by the Registry itself, when the TileEntity is placed. */
+	/** Those two IDs HAVE to be saved inside the NBT of the BlockEntity itself. They get set by the Registry itself, when the BlockEntity is placed. */
 	public short getMultiTileEntityID();
 	public short getMultiTileEntityRegistryID();
-	/** Called by the Registry with the default NBT Parameters and the two IDs you have to save, when the TileEntity is created. aNBT may be null, take that into account if you decide to call the regular readFromNBT Function from here. */
+	/** Called by the Registry with the default NBT Parameters and the two IDs you have to save, when the BlockEntity is created. aNBT may be null, take that into account if you decide to call the regular readFromNBT Function from here. */
 	public void initFromNBT(CompoundTag aNBT, short aMTEID, short aMTERegistry);
 	/** Writes eventual Item Data to the NBT. */
 	public CompoundTag writeItemNBT(CompoundTag aNBT);
@@ -82,7 +82,7 @@ public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
 	public static interface IMTE_OnNeighborBlockChange              extends IMultiTileEntity {public void onNeighborBlockChange(Level aWorld, Block aBlock);}
 	public static interface IMTE_OnBlockExploded                    extends IMultiTileEntity {public void onExploded(Explosion aExplosion);}
 	public static interface IMTE_GetPickBlock                       extends IMultiTileEntity {public ItemStack getPickBlock(HitResult aTarget);}
-	public static interface IMTE_BreakBlock                         extends IMultiTileEntity {/** return true to prevent the TileEntity from being removed. */public boolean breakBlock();}
+	public static interface IMTE_BreakBlock                         extends IMultiTileEntity {/** return true to prevent the BlockEntity from being removed. */public boolean breakBlock();}
 	public static interface IMTE_GetStackFromBlock                  extends IMultiTileEntity {public ItemStack getStackFromBlock(byte aSide);}
 	public static interface IMTE_GetFlammability                    extends IMultiTileEntity {public int getFlammability(byte aSide, boolean aDefault);}
 	public static interface IMTE_GetFireSpreadSpeed                 extends IMultiTileEntity {public int getFireSpreadSpeed(byte aSide, boolean aDefault);}
@@ -247,34 +247,34 @@ public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
 	}
 	
 	public static interface IMTE_OnRegistration extends IMultiTileEntity {
-		/** Called when the TileEntity is being registered at the MultiTileEntity Registry. */
+		/** Called when the BlockEntity is being registered at the MultiTileEntity Registry. */
 		public void onRegistration(MultiTileEntityRegistry aRegistry, short aID);
 	}
 	
 	public static interface IMTE_OnRegistrationFirst extends IMultiTileEntity {
-		/** Called when a TileEntity of this particular Class is being registered first at any MultiTileEntity Registry. So basically one call per Class. */
+		/** Called when a BlockEntity of this particular Class is being registered first at any MultiTileEntity Registry. So basically one call per Class. */
 		public void onRegistrationFirst(MultiTileEntityRegistry aRegistry, short aID);
 	}
 	
 	public static interface IMTE_OnRegistrationFirstOfRegister extends IMultiTileEntity {
-		/** Called when a TileEntity of this particular Class is being registered first at a MultiTileEntity Registry. So basically one call per Class and Registry. */
+		/** Called when a BlockEntity of this particular Class is being registered first at a MultiTileEntity Registry. So basically one call per Class and Registry. */
 		public void onRegistrationFirstOfRegister(MultiTileEntityRegistry aRegistry, short aID);
 	}
 	
 	public static interface IMTE_OnRegistrationClient extends IMultiTileEntity {
-		/** Called when the TileEntity is being registered at the MultiTileEntity Registry. */
+		/** Called when the BlockEntity is being registered at the MultiTileEntity Registry. */
 		@OnlyIn(Dist.CLIENT)
 		public void onRegistrationClient(MultiTileEntityRegistry aRegistry, short aID);
 	}
 	
 	public static interface IMTE_OnRegistrationFirstClient extends IMultiTileEntity {
-		/** Called when a TileEntity of this particular Class is being registered first at any MultiTileEntity Registry. So basically one call per Class. */
+		/** Called when a BlockEntity of this particular Class is being registered first at any MultiTileEntity Registry. So basically one call per Class. */
 		@OnlyIn(Dist.CLIENT)
 		public void onRegistrationFirstClient(MultiTileEntityRegistry aRegistry, short aID);
 	}
 	
 	public static interface IMTE_OnRegistrationFirstOfRegisterClient extends IMultiTileEntity {
-		/** Called when a TileEntity of this particular Class is being registered first at a MultiTileEntity Registry. So basically one call per Class and Registry. */
+		/** Called when a BlockEntity of this particular Class is being registered first at a MultiTileEntity Registry. So basically one call per Class and Registry. */
 		@OnlyIn(Dist.CLIENT)
 		public void onRegistrationFirstOfRegisterClient(MultiTileEntityRegistry aRegistry, short aID);
 	}
@@ -284,7 +284,7 @@ public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
 	}
 	
 	public static interface IMTE_CanPlace extends IMultiTileEntity {
-		/** Return false if this TileEntity cannot be placed at that Location. */
+		/** Return false if this BlockEntity cannot be placed at that Location. */
 		public boolean canPlace(ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float aHitX, float aHitY, float aHitZ);
 	}
 	

@@ -35,13 +35,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EnvironmentOC extends ManagedEnvironment implements ManagedPeripheral, NamedBlock {
-	public final DelegatorTileEntity<TileEntity> mDelegator;
+	public final DelegatorTileEntity<BlockEntity> mDelegator;
 	public final IComputerizable mDeviceType;
 	public final String mDeviceName;
 	public final String[] mDeviceMethods;
 	public final List<String> mDeviceMethodList;
 	
-	public EnvironmentOC(IComputerizable aDeviceType, DelegatorTileEntity<TileEntity> aDelegator) {
+	public EnvironmentOC(IComputerizable aDeviceType, DelegatorTileEntity<BlockEntity> aDelegator) {
 		mDelegator = aDelegator;
 		mDeviceType = aDeviceType;
 		mDeviceName = mDeviceType.getComputerizableName(mDelegator);

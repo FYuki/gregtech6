@@ -43,7 +43,7 @@ public class CompatWD extends CompatBase implements ICompatWD, IBlockTransformer
 	}
 	
 	@Override
-	public boolean isApplicable(Block aBlock, int aMeta, TileEntity aTileEntity) {
+	public boolean isApplicable(Block aBlock, int aMeta, BlockEntity aTileEntity) {
 		// Anything with Covers, including all directional Blocks, and the Chest which happens to be special.
 		return aTileEntity instanceof ITileEntityCoverable || aTileEntity instanceof MultiTileEntityChest;
 	}
@@ -158,8 +158,8 @@ public class CompatWD extends CompatBase implements ICompatWD, IBlockTransformer
 		}
 	}
 	
-	@Override public boolean isJumpReady(Block aBlock, int aMeta, TileEntity aTileEntity, StringBuilder aStringBuilder) {return T;}
-	@Override public Tag saveExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity) {return null;}
-	@Override public void removeExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity) {/**/}
-	@Override public void restoreExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, TileEntity aTileEntity, ITransformation aTransformation, Tag aNBT) {/**/}
+	@Override public boolean isJumpReady(Block aBlock, int aMeta, BlockEntity aTileEntity, StringBuilder aStringBuilder) {return T;}
+	@Override public Tag saveExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, BlockEntity aTileEntity) {return null;}
+	@Override public void removeExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, BlockEntity aTileEntity) {/**/}
+	@Override public void restoreExternals(Level world, int aX, int aY, int aZ, Block aBlock, int aMeta, BlockEntity aTileEntity, ITransformation aTransformation, Tag aNBT) {/**/}
 }

@@ -43,6 +43,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -308,16 +309,16 @@ public class WorldgenStreets extends WorldgenObject {
 					for (int i = -3; i < 3; i++) for (int j = -3; j < 3; j++) WD.set(aWorld, i, mHeight-1, j, Blocks.iron_block, 0, 0);
 					for (int i = -2; i < 2; i++) for (int j = -2; j < 2; j++) WD.set(aWorld, i, mHeight  , j, Blocks.iron_block, 0, 0);
 					
-					TileEntity tTileEntity;
+					BlockEntity tTileEntity;
 					
 					WD.set(aWorld, -1, mHeight+1, -1, Blocks.beacon, 0, 3);
 					tTileEntity = WD.te(aWorld, -1, mHeight+1, -1, T);
 					if (tTileEntity instanceof BeaconBlockEntity) {
 						CompoundTag tNBT = UT.NBT.make();
 						tTileEntity.writeToNBT(tNBT);
-						tNBT.setInteger("Primary", Potion.moveSpeed.id);
-						tNBT.setInteger("Secondary", Potion.moveSpeed.id);
-						tNBT.setInteger("Levels", 4);
+						tNBT.putInt("Primary", Potion.moveSpeed.id);
+						tNBT.putInt("Secondary", Potion.moveSpeed.id);
+						tNBT.putInt("Levels", 4);
 						tTileEntity.readFromNBT(tNBT);
 					}
 					
@@ -326,9 +327,9 @@ public class WorldgenStreets extends WorldgenObject {
 					if (tTileEntity instanceof BeaconBlockEntity) {
 						CompoundTag tNBT = UT.NBT.make();
 						tTileEntity.writeToNBT(tNBT);
-						tNBT.setInteger("Primary", Potion.digSpeed.id);
-						tNBT.setInteger("Secondary", Potion.digSpeed.id);
-						tNBT.setInteger("Levels", 4);
+						tNBT.putInt("Primary", Potion.digSpeed.id);
+						tNBT.putInt("Secondary", Potion.digSpeed.id);
+						tNBT.putInt("Levels", 4);
 						tTileEntity.readFromNBT(tNBT);
 					}
 					
@@ -337,9 +338,9 @@ public class WorldgenStreets extends WorldgenObject {
 					if (tTileEntity instanceof BeaconBlockEntity) {
 						CompoundTag tNBT = UT.NBT.make();
 						tTileEntity.writeToNBT(tNBT);
-						tNBT.setInteger("Primary", Potion.damageBoost.id);
-						tNBT.setInteger("Secondary", Potion.damageBoost.id);
-						tNBT.setInteger("Levels", 4);
+						tNBT.putInt("Primary", Potion.damageBoost.id);
+						tNBT.putInt("Secondary", Potion.damageBoost.id);
+						tNBT.putInt("Levels", 4);
 						tTileEntity.readFromNBT(tNBT);
 					}
 					
@@ -348,9 +349,9 @@ public class WorldgenStreets extends WorldgenObject {
 					if (tTileEntity instanceof BeaconBlockEntity) {
 						CompoundTag tNBT = UT.NBT.make();
 						tTileEntity.writeToNBT(tNBT);
-						tNBT.setInteger("Primary", Potion.resistance.id);
-						tNBT.setInteger("Secondary", Potion.regeneration.id);
-						tNBT.setInteger("Levels", 4);
+						tNBT.putInt("Primary", Potion.resistance.id);
+						tNBT.putInt("Secondary", Potion.regeneration.id);
+						tNBT.putInt("Levels", 4);
 						tTileEntity.readFromNBT(tNBT);
 					}
 				}

@@ -144,7 +144,7 @@ public class FoodStat implements IFoodStat {
 	@Override
 	public void onEaten(Item aItem, ItemStack aStack, Player aPlayer, boolean aConsumeItem, boolean aMakeSound) {
 		if (aConsumeItem && !UT.Entities.hasInfiniteItems(aPlayer)) {
-			aStack.stackSize--;
+			aStack.shrink(1);
 			ItemStack tStack = OM.get(ST.copy(mEmptyContainer));
 			if (tStack == null && mAutoDetectEmpty) tStack = ST.container(aStack, F);
 			ST.give(aPlayer, tStack, F);

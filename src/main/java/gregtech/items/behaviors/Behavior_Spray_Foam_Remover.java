@@ -56,7 +56,7 @@ public class Behavior_Spray_Foam_Remover extends AbstractBehaviorDefault {
 	
 	@Override
 	public boolean onItemUseFirst(MultiItem aItem, ItemStack aStack, Player aPlayer, Level aWorld, int aX, int aY, int aZ, byte aSide, float hitX, float hitY, float hitZ) {
-		if (aWorld.isRemote || aStack.stackSize != 1 || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
+		if (aWorld.isRemote || aStack.getCount() != 1 || !aPlayer.canPlayerEdit(aX, aY, aZ, aSide, aStack)) return F;
 		
 		boolean rOutput = F;
 		
@@ -83,7 +83,7 @@ public class Behavior_Spray_Foam_Remover extends AbstractBehaviorDefault {
 		
 		if (tUses <= 0) {
 			if (mEmpty == null) {
-				aStack.stackSize--;
+				aStack.shrink(1);
 			} else {
 				aStack.func_150996_a(mEmpty.getItem());
 				ST.meta_(aStack, ST.meta_(mEmpty));
@@ -95,7 +95,7 @@ public class Behavior_Spray_Foam_Remover extends AbstractBehaviorDefault {
 	public long remove(Level aWorld, int aX, int aY, int aZ, byte aSide, long aUses, Player aPlayer, ItemStack aStack) {
 		if (aUses < 1) return 0;
 		
-		DelegatorTileEntity<TileEntity> aTileEntity = WD.te(aWorld, aX, aY, aZ, aSide, T);
+		DelegatorTileEntity<BlockEntity> aTileEntity = WD.te(aWorld, aX, aY, aZ, aSide, T);
 		if (aTileEntity.mTileEntity instanceof ITileEntityFoamable) return ((ITileEntityFoamable)aTileEntity.mTileEntity).removeFoam(aTileEntity.mSideOfTileEntity, aPlayer) ? 10 : 0;
 		Block aBlock = aTileEntity.getBlock(); aWorld = aTileEntity.mWorld; aX = aTileEntity.mX; aY = aTileEntity.mY; aZ = aTileEntity.mZ;
 		if (aBlock instanceof IBlockFoamable) return ((IBlockFoamable)aBlock).removeFoam(aWorld, aX, aY, aZ, aTileEntity.mSideOfTileEntity) ? aBlock instanceof BlockCFoamFresh && SIDES_VALID[((BlockMetaType)aBlock).mSide] ? 5 : 10 : 0;

@@ -60,7 +60,7 @@ public class MultiTileEntityLaserBuildcraft extends TileEntityBase10EnergyConver
 		if (EnergyCompat.BC_LASER) {
 			long tOutput = UT.Code.units(mStorage.mEnergy, mConverter.mEnergyIN.mRec, mConverter.mEnergyOUT.mRec, F);
 			
-			DelegatorTileEntity<TileEntity> tLaser = getAdjacentTileEntity(mFacing, F, F);
+			DelegatorTileEntity<BlockEntity> tLaser = getAdjacentTileEntity(mFacing, F, F);
 			
 			mActivity.mActive = (tOutput >= mConverter.mEnergyOUT.mMin && tLaser.mTileEntity instanceof ILaserTarget && ((ILaserTarget)tLaser.mTileEntity).requiresLaserEnergy());
 			

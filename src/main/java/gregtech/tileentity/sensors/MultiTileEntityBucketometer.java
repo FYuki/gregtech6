@@ -43,7 +43,7 @@ public class MultiTileEntityBucketometer extends MultiTileEntitySensorTE {
 	@Override public String getSensorDescription() {return LH.get("gt.tooltip.sensor.bucketometer");}
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof IFluidHandler) {
 			FluidTankInfo[] tInfo = ((IFluidHandler)aDelegator.mTileEntity).getTankInfo(FORGE_DIR[aDelegator.mSideOfTileEntity]);
 			if (tInfo != null) {
@@ -64,7 +64,7 @@ public class MultiTileEntityBucketometer extends MultiTileEntitySensorTE {
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		if (aDelegator.mTileEntity instanceof IFluidHandler) {
 			FluidTankInfo[] tInfo = ((IFluidHandler)aDelegator.mTileEntity).getTankInfo(FORGE_DIR[aDelegator.mSideOfTileEntity]);
 			if (tInfo != null) {

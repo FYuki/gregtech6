@@ -55,7 +55,7 @@ public interface ITileEntityItemPipe extends ITileEntityConnector {
 	/**
 	 * Executes the Sending Code for inserting Stacks into the TileEntities.
 	 * @param aSender the BaseMetaTileEntity sending the Stack.
-	 * @param aSide the Side of the PIPE facing the TileEntity.
+	 * @param aSide the Side of the PIPE facing the BlockEntity.
 	 * @return if this Side was allowed to Output into the Block.
 	 */
 	public boolean insertItemStackIntoTileEntity(Object aSender, byte aSide);
@@ -82,14 +82,14 @@ public interface ITileEntityItemPipe extends ITileEntityConnector {
 				for (byte aSide : ALL_SIDES_VALID) {
 					if (aSuckItems) {
 						if (aPipe.canAcceptItemsFrom(aSide, null)) {
-							DelegatorTileEntity<TileEntity> tDelegator = aPipe.getAdjacentTileEntity(aSide);
+							DelegatorTileEntity<BlockEntity> tDelegator = aPipe.getAdjacentTileEntity(aSide);
 							if (tDelegator.mTileEntity instanceof ITileEntityItemPipe && UT.Code.haveOneCommonElement(aPipe.getConnectorTypes(aSide), ((ITileEntityItemPipe)tDelegator.mTileEntity).getConnectorTypes(tDelegator.mSideOfTileEntity)) && ((ITileEntityItemPipe)tDelegator.mTileEntity).canEmitItemsTo(tDelegator.mSideOfTileEntity, null)) {
 								scanPipes((ITileEntityItemPipe)tDelegator.mTileEntity, aMap, aStep, aSuckItems, aIgnoreCapacity);
 							}
 						}
 					} else {
 						if (aPipe.canEmitItemsTo(aSide, null)) {
-							DelegatorTileEntity<TileEntity> tDelegator = aPipe.getAdjacentTileEntity(aSide);
+							DelegatorTileEntity<BlockEntity> tDelegator = aPipe.getAdjacentTileEntity(aSide);
 							if (tDelegator.mTileEntity instanceof ITileEntityItemPipe && UT.Code.haveOneCommonElement(aPipe.getConnectorTypes(aSide), ((ITileEntityItemPipe)tDelegator.mTileEntity).getConnectorTypes(tDelegator.mSideOfTileEntity)) && ((ITileEntityItemPipe)tDelegator.mTileEntity).canAcceptItemsFrom(tDelegator.mSideOfTileEntity, null)) {
 								scanPipes((ITileEntityItemPipe)tDelegator.mTileEntity, aMap, aStep, aSuckItems, aIgnoreCapacity);
 							}

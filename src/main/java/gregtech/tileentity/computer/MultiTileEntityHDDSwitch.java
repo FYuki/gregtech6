@@ -57,7 +57,7 @@ public class MultiTileEntityHDDSwitch extends TileEntityBase08DataSwitch {
 	@Override
 	public CompoundTag getUSBData(byte aSide, int aUSBTier) {
 		ItemStack tDrive = slot(0);
-		if (OM.is(OD_USB_DRIVES[aUSBTier], tDrive) && tDrive.hasTagCompound()) {
+		if (OM.is(OD_USB_DRIVES[aUSBTier], tDrive) && tDrive.hasTag()) {
 			CompoundTag tDriveData = tDrive.getTagCompound().getCompoundTag(NBT_USB_DRIVE);
 			if (tDriveData.getByte(NBT_USB_TIER+mMode) <= aUSBTier) return tDriveData.hasKey(NBT_USB_DATA+mMode) ? tDriveData.getCompoundTag(NBT_USB_DATA+mMode) : null;
 		}
@@ -68,14 +68,14 @@ public class MultiTileEntityHDDSwitch extends TileEntityBase08DataSwitch {
 	public boolean setUSBData(byte aSide, int aUSBTier, CompoundTag aData) {
 		ItemStack tDrive = slot(0);
 		if (OM.is(OD_USB_DRIVES[aUSBTier], tDrive)) {
-			if (!tDrive.hasTagCompound()) tDrive.setTagCompound(UT.NBT.make());
+			if (!tDrive.hasTag()) tDrive.setTagCompound(UT.NBT.make());
 			CompoundTag tDriveData = tDrive.getTagCompound().getCompoundTag(NBT_USB_DRIVE);
 			if (aData == null || aData.hasNoTags()) {
 				tDriveData.removeTag(NBT_USB_DATA+mMode);
 				tDriveData.removeTag(NBT_USB_TIER+mMode);
 			} else {
 				tDriveData.setTag(NBT_USB_DATA+mMode, aData);
-				tDriveData.setByte(NBT_USB_TIER+mMode, (byte)aUSBTier);
+				tDriveData.putByte(NBT_USB_TIER+mMode, (byte)aUSBTier);
 			}
 			if (tDriveData.hasNoTags()) {
 				tDrive.getTagCompound().removeTag(NBT_USB_DRIVE);

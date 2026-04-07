@@ -24,6 +24,7 @@ import static gregapi.data.CS.*;
 import java.util.AbstractSet;
 import java.util.HashMap;
 import java.util.Iterator;
+import net.minecraft.world.level.biome.Biome;
 
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 

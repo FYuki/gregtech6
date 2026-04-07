@@ -80,7 +80,7 @@ public class ToolCompat {
 	/** Providing compatibility for vanilla Blocks and certain Mod Interfaces. */
 	public static long onToolClick(Block aBlock, String aTool, long aRemainingDurability, long aQuality, Entity aPlayer, List<String> aChatReturn, Container aPlayerInventory, boolean aSneaking, ItemStack aStack, Level aWorld, byte aSide, int aX, int aY, int aZ, float aHitX, float aHitY, float aHitZ) {
 		byte aMeta = WD.meta(aWorld, aX, aY, aZ);
-		TileEntity aTileEntity = WD.te(aWorld, aX, aY, aZ, T);
+		BlockEntity aTileEntity = WD.te(aWorld, aX, aY, aZ, T);
 		Player aEntityPlayer = aPlayer instanceof Player ? (Player)aPlayer : null;
 		LivingEntity aEntityLiving = aPlayer instanceof LivingEntity ? (LivingEntity)aPlayer : null;
 		
@@ -372,7 +372,7 @@ public class ToolCompat {
 		}
 		
 		} catch(Throwable e) {
-			FMLLog.severe("Exception occured when ToolCompat was used at the Coordinates: [%d;%d;%d] at '%s' with TileEntity '%s' using the Tool '%s' %s", aX, aY, aZ, aBlock.getUnlocalizedName(), aTileEntity.getClass(), aTool, e.toString());
+			FMLLog.severe("Exception occured when ToolCompat was used at the Coordinates: [%d;%d;%d] at '%s' with BlockEntity '%s' using the Tool '%s' %s", aX, aY, aZ, aBlock.getUnlocalizedName(), aTileEntity.getClass(), aTool, e.toString());
 			e.printStackTrace(ERR);
 		}
 		return 0;

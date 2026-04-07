@@ -38,7 +38,7 @@ public class Slot_Render extends Slot_Holo {
 	 */
 	@Override
 	public void putStack(ItemStack aStack) {
-		if (inventory instanceof TileEntity && ((TileEntity)inventory).getWorldObj().isRemote) {
+		if (inventory instanceof BlockEntity && ((BlockEntity)inventory).getWorldObj().isRemote) {
 			inventory.setInventorySlotContents(getSlotIndex(), aStack);
 		}
 		onSlotChanged();

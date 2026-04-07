@@ -43,7 +43,7 @@ public class MultiTileEntityWeightometerMedium extends MultiTileEntitySensorTE {
 	public static final double MAX_WEIGHT = B[16]-1;
 	
 	@Override
-	public long getCurrentValue(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentValue(DelegatorTileEntity<BlockEntity> aDelegator) {
 		double rWeightKG = 0;
 		if (aDelegator.mTileEntity instanceof ITileEntityWeight) {
 			rWeightKG = ((ITileEntityWeight)aDelegator.mTileEntity).getWeightValue(aDelegator.mSideOfTileEntity);
@@ -63,7 +63,7 @@ public class MultiTileEntityWeightometerMedium extends MultiTileEntitySensorTE {
 	}
 	
 	@Override
-	public long getCurrentMax(DelegatorTileEntity<TileEntity> aDelegator) {
+	public long getCurrentMax(DelegatorTileEntity<BlockEntity> aDelegator) {
 		return B[16]-1;
 	}
 	

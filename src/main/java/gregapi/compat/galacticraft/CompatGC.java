@@ -30,7 +30,7 @@ import micdoodle8.mods.galacticraft.api.power.EnergySource.EnergySourceAdjacent;
 import micdoodle8.mods.galacticraft.api.power.IEnergyHandlerGC;
 import micdoodle8.mods.galacticraft.api.transmission.NetworkType;
 import micdoodle8.mods.galacticraft.api.transmission.tile.IConnector;
-import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
+import gregapi.stubs.EnergyConfigHandler;
 import net.neoforged.neoforge.common.NeoForge;
 
 public class CompatGC extends CompatBase implements ICompatGC {

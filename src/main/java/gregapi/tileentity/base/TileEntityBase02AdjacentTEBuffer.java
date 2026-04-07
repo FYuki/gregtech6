@@ -30,7 +30,7 @@ import net.minecraft.core.BlockPos; // was BlockPos
 /**
  * @author Gregorius Techneticies
  * 
- * Improved TileEntity with less Lag in regards of getting adjacent TileEntities, a Timer and a Coordinate Check in case it gets moved by Frames or something.
+ * Improved BlockEntity with less Lag in regards of getting adjacent TileEntities, a Timer and a Coordinate Check in case it gets moved by Frames or something.
  */
 public abstract class TileEntityBase02AdjacentTEBuffer extends TileEntityBase01Root implements ITileEntityNeedsSaving {
 	public TileEntityBase02AdjacentTEBuffer() {
@@ -45,9 +45,9 @@ public abstract class TileEntityBase02AdjacentTEBuffer extends TileEntityBase01R
 	
 	/**
 	 * Buffers adjacent TileEntities for faster access
-	 * "this" means that there is no TileEntity, while "null" means that it doesn't know if there is even a TileEntity and still needs to check that if needed.
+	 * "this" means that there is no BlockEntity, while "null" means that it doesn't know if there is even a BlockEntity and still needs to check that if needed.
 	 */
-	private final TileEntity[] mBufferedTileEntities = new TileEntity[6];
+	private final BlockEntity[] mBufferedTileEntities = new BlockEntity[6];
 	
 	private void clearNullMarkersFromTileEntityBuffer() {
 		for (int i = 0; i < mBufferedTileEntities.length; i++) if (mBufferedTileEntities[i] == this) mBufferedTileEntities[i] = null;
@@ -61,12 +61,12 @@ public abstract class TileEntityBase02AdjacentTEBuffer extends TileEntityBase01R
 	 * YOU MUST HAVE THIS INSIDE YOUR BLOCK CODE!!!
 	 * 
 	 *  public void onNeighborChange(BlockGetter aWorld, int aX, int aY, int aZ, int aTileX, int aTileY, int aTileZ) {
-	 *      TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+	 *      BlockEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 	 *      if (tTileEntity instanceof ITileEntity) ((ITileEntity)tTileEntity).onAdjacentBlockChange(aTileX, aTileY, aTileZ);
 	 *  }
 	 *  
 	 *  public void onNeighborBlockChange(Level aWorld, int aX, int aY, int aZ, Block aBlock) {
-	 *      TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
+	 *      BlockEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 	 *      if (tTileEntity instanceof ITileEntity) ((ITileEntity)tTileEntity).onAdjacentBlockChange(aX, aY, aZ);
 	 *  }
 	 */
@@ -85,7 +85,7 @@ public abstract class TileEntityBase02AdjacentTEBuffer extends TileEntityBase01R
 	 * Highly optimised in order to return adjacent TileEntities much faster.
 	 */
 	@Override
-	public TileEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance) {
+	public BlockEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance) {
 		if (worldObj == null) return null;
 		if (aDistance != 1) return super.getTileEntityAtSideAndDistance(aSide, aDistance);
 		if (SIDES_INVALID[aSide] || mBufferedTileEntities[aSide] == this) return null;
@@ -96,7 +96,7 @@ public abstract class TileEntityBase02AdjacentTEBuffer extends TileEntityBase01R
 			if (mIgnoreUnloadedChunks && !worldObj.blockExists(tCoords.posX, tCoords.posY, tCoords.posZ)) return null;
 		}
 		if (mBufferedTileEntities[aSide] == null) {
-			TileEntity tTileEntity = WD.te(worldObj, tCoords.posX, tCoords.posY, tCoords.posZ, T);
+			BlockEntity tTileEntity = WD.te(worldObj, tCoords.posX, tCoords.posY, tCoords.posZ, T);
 			if (tTileEntity == null) {mBufferedTileEntities[aSide] = this; return null;}
 			if (tChunksCrossed) WD.mark(tTileEntity);
 			if (tTileEntity.xCoord == tCoords.posX && tTileEntity.yCoord == tCoords.posY && tTileEntity.zCoord == tCoords.posZ) return mBufferedTileEntities[aSide] = tTileEntity;

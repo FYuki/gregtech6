@@ -43,6 +43,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * @author Gregorius Techneticies
@@ -167,7 +168,7 @@ public class WorldgenTesting extends WorldgenObject {
 			tRegistry.mBlock.placeBlock(aWorld, 36, mHeight-3, -18, SIDE_UNKNOWN, (short)26304, UT.NBT.make(NBT_CONNECTION, (byte)(SBIT_U | SBIT_D)), T, T);
 			tRegistry.mBlock.placeBlock(aWorld, 36, mHeight-4, -18, SIDE_UNKNOWN, (short)26304, UT.NBT.make(NBT_CONNECTION, (byte)(SBIT_U | SBIT_S)), T, T);
 			tRegistry.mBlock.placeBlock(aWorld, 36, mHeight-4, -17, SIDE_UNKNOWN, (short)26304, UT.NBT.make(NBT_CONNECTION, SBIT_N), T, T);
-			TileEntity tTileEntity = WD.te(aWorld, 36, mHeight-4, -17, T);
+			BlockEntity tTileEntity = WD.te(aWorld, 36, mHeight-4, -17, T);
 			if (tTileEntity instanceof TileEntityBase06Covers) ((TileEntityBase06Covers)tTileEntity).setCoverItem(SIDE_Z_POS, IL.Cover_Drain.get(1), null, T, F);
 			
 			tRegistry.mBlock.placeBlock(aWorld, 35, mHeight+2, -18, SIDE_UNKNOWN, (short)32705, UT.NBT.make(NBT_FACING, SIDE_X_POS), T, T);

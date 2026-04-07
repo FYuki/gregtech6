@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class TE_Behavior_Energy extends TE_Behavior {
 	public final TagData mType;
 	
-	public TE_Behavior_Energy(TileEntity aTileEntity, CompoundTag aNBT, TagData aEnergyType) {
+	public TE_Behavior_Energy(BlockEntity aTileEntity, CompoundTag aNBT, TagData aEnergyType) {
 		super(aTileEntity, aNBT);
 		mType = aEnergyType;
 	}

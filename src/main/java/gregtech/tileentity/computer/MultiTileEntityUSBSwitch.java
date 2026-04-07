@@ -57,7 +57,7 @@ public class MultiTileEntityUSBSwitch extends TileEntityBase08DataSwitch {
 	@Override
 	public CompoundTag getUSBData(byte aSide, int aUSBTier) {
 		ItemStack tUSB = slot(mMode);
-		if (OM.is(OD_USB_STICKS[aUSBTier], tUSB) && tUSB.hasTagCompound() && tUSB.getTagCompound().getByte(NBT_USB_TIER) <= aUSBTier) {
+		if (OM.is(OD_USB_STICKS[aUSBTier], tUSB) && tUSB.hasTag() && tUSB.getTagCompound().getByte(NBT_USB_TIER) <= aUSBTier) {
 			return tUSB.getTagCompound().getCompoundTag(NBT_USB_DATA);
 		}
 		return null;
@@ -67,13 +67,13 @@ public class MultiTileEntityUSBSwitch extends TileEntityBase08DataSwitch {
 	public boolean setUSBData(byte aSide, int aUSBTier, CompoundTag aData) {
 		ItemStack tUSB = slot(mMode);
 		if (OM.is(OD_USB_STICKS[aUSBTier], tUSB)) {
-			if (!tUSB.hasTagCompound()) tUSB.setTagCompound(UT.NBT.make());
+			if (!tUSB.hasTag()) tUSB.setTagCompound(UT.NBT.make());
 			if (aData == null || aData.hasNoTags()) {
 				tUSB.getTagCompound().removeTag(NBT_USB_DATA);
 				tUSB.getTagCompound().removeTag(NBT_USB_TIER);
 			} else {
 				tUSB.getTagCompound().setTag(NBT_USB_DATA, aData);
-				tUSB.getTagCompound().setByte(NBT_USB_TIER, (byte)aUSBTier);
+				tUSB.getTagCompound().putByte(NBT_USB_TIER, (byte)aUSBTier);
 			}
 			if (tUSB.getTagCompound().hasNoTags()) tUSB.setTagCompound(null);
 			return T;

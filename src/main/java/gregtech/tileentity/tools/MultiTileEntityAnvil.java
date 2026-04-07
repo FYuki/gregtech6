@@ -248,9 +248,9 @@ public class MultiTileEntityAnvil extends TileEntityBase09FacingSingle implement
 			}
 			if (slotHas(0)) {
 				if (!slotHas(1)) {
-					if (slot(0).stackSize % 2 != 0 && ST.give(aPlayer, ST.amount(1, slot(0)), T, worldObj, xCoord+0.5, yCoord+1.2, zCoord+0.5)) slot(0).stackSize--;
-					if (slot(0).stackSize > 1) {
-						slot(0).stackSize /= 2;
+					if (slot(0).getCount() % 2 != 0 && ST.give(aPlayer, ST.amount(1, slot(0)), T, worldObj, xCoord+0.5, yCoord+1.2, zCoord+0.5)) slot(0).getCount()--;
+					if (slot(0).getCount() > 1) {
+						slot(0).getCount() /= 2;
 						slot(1, ST.copy(slot(0)));
 					}
 					slotNull(0);
@@ -258,9 +258,9 @@ public class MultiTileEntityAnvil extends TileEntityBase09FacingSingle implement
 					return T;
 				}
 			} else if (slotHas(1)) {
-				if (slot(1).stackSize % 2 != 0 && ST.give(aPlayer, ST.amount(1, slot(1)), T, worldObj, xCoord+0.5, yCoord+1.2, zCoord+0.5)) slot(1).stackSize--;
-				if (slot(1).stackSize > 1) {
-					slot(1).stackSize /= 2;
+				if (slot(1).getCount() % 2 != 0 && ST.give(aPlayer, ST.amount(1, slot(1)), T, worldObj, xCoord+0.5, yCoord+1.2, zCoord+0.5)) slot(1).getCount()--;
+				if (slot(1).getCount() > 1) {
+					slot(1).getCount() /= 2;
 					slot(0, ST.copy(slot(1)));
 				}
 				slotNull(1);

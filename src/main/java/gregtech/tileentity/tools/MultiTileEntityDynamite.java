@@ -75,8 +75,8 @@ public class MultiTileEntityDynamite extends TileEntityBase09FacingSingle implem
 	@Override
 	public void writeToNBT2(CompoundTag aNBT) {
 		super.writeToNBT2(aNBT);
-		aNBT.setByte(NBT_STATE, mCountDown);
-		UT.NBT.setBoolean(aNBT, NBT_MODE, mSunk);
+		aNBT.putByte(NBT_STATE, mCountDown);
+		UT.NBT.putBoolean(aNBT, NBT_MODE, mSunk);
 	}
 	
 	@Override
