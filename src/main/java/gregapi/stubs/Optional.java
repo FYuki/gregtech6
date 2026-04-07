@@ -7,4 +7,6 @@ public @interface Optional {
     @interface Interface { String iface() default ""; String modid() default ""; }
     @Retention(RetentionPolicy.RUNTIME) @Target(ElementType.METHOD)
     @interface Method { String modid() default ""; }
+    @Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE)
+    @interface InterfaceList { Interface[] value(); }
 }

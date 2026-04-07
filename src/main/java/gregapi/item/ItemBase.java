@@ -87,9 +87,9 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 		//
 	}
 	
-	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
+	public ItemStack onDispense(BlockSource aSource, ItemStack aStack) {
 		Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
-		Position iposition = DispenserBlock.func_149939_a(aSource);
+		Position iposition = BlockPos.containing(aSource.pos());
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 		return aStack;
@@ -97,7 +97,7 @@ public class ItemBase extends Item implements IItemProjectile, IItemUpdatable, I
 	
 	public static class GT_Item_Dispense extends BehaviorProjectileDispense {
 		@Override
-		public ItemStack dispenseStack(IBlockSource aSource, ItemStack aStack) {
+		public ItemStack dispenseStack(BlockSource aSource, ItemStack aStack) {
 			return ((ItemBase)aStack.getItem()).onDispense(aSource, aStack);
 		}
 		

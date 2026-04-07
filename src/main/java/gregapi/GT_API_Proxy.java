@@ -18,6 +18,7 @@
  */
 
 package gregapi;
+import gregapi.stubs.HarvestDropsEvent;
 
 import cofh.lib.util.ComparableItem;
 // PHASE2: FMLCommonHandler removed → use NeoForge.EVENT_BUS
@@ -961,9 +962,9 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		// Do not refill Foods!
 		if (ST.food(aEvent.original) > 0) return;
 		// Do not refill Edibles!
-		if (aEvent.original.getItemUseAction() == UseAnim.eat) return;
+		if (aEvent.original.getUseAnimation() == UseAnim.EAT) return;
 		// Do not refill Drinkables!
-		if (aEvent.original.getItemUseAction() == UseAnim.drink) return;
+		if (aEvent.original.getUseAnimation() == UseAnim.DRINK) return;
 		// Move into First Row.
 		if (tSlot < 9) {
 			if (ST.equal(aEvent.original, tInv[tSlot+27], T)) {
@@ -1133,7 +1134,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						UT.Entities.sendchat(aEvent.entityPlayer, tChatReturn, F);
 						if (tDamage > 0) {
 							aStack.damageItem((int)UT.Code.units(tDamage, 10000, 1, T), aEvent.entityPlayer);
-							if (aStack.getItemDamage() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
+							if (aStack.getDamageValue() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
 							aEvent.setCanceled(T);
 						}
 						return;
@@ -1145,7 +1146,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						UT.Entities.sendchat(aEvent.entityPlayer, tChatReturn, F);
 						if (tDamage > 0) {
 							aStack.damageItem((int)UT.Code.units(tDamage, 10000, 1, T), aEvent.entityPlayer);
-							if (aStack.getItemDamage() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
+							if (aStack.getDamageValue() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
 							aEvent.setCanceled(T);
 						}
 						return;
@@ -1157,7 +1158,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 						UT.Entities.sendchat(aEvent.entityPlayer, tChatReturn, F);
 						if (tDamage > 0) {
 							aStack.damageItem((int)UT.Code.units(tDamage, 10000, 1, T), aEvent.entityPlayer);
-							if (aStack.getItemDamage() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
+							if (aStack.getDamageValue() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
 							UT.Sounds.send(SFX.MC_IGNITE, aEvent.world, aEvent.x, aEvent.y, aEvent.z);
 							aEvent.setCanceled(T);
 						}
@@ -1275,7 +1276,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onBlockHarvestingEvent(BlockEvent.HarvestDropsEvent aEvent) {
+	public void onBlockHarvestingEvent(HarvestDropsEvent aEvent) {
 		Iterator<ItemStack> aDrops = aEvent.drops.iterator();
 		Block aBlock = (aEvent.block == Blocks.DEEPSLATE_REDSTONE_ORE ? Blocks.redstone_ore : aEvent.block == Blocks.REDSTONE_LAMP ? Blocks.REDSTONE_LAMP : aEvent.block == BlocksGT.EtFu_Deepslate_Lit_Redstone_Ore ? BlocksGT.EtFu_Deepslate_Redstone_Ore : aEvent.block);
 		

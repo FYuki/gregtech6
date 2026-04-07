@@ -326,7 +326,7 @@ public interface IMultiTileEntity extends ITileEntitySpecificPlacementBehavior {
 	}
 	
 	public static interface IMTE_GetItemUseAction extends IMultiTileEntity {
-		public UseAnim getItemUseAction(MultiTileEntityItemInternal aItem, ItemStack aStack);
+		public UseAnim getUseAnimation(MultiTileEntityItemInternal aItem, ItemStack aStack);
 	}
 	
 	public static interface IMTE_OnEaten extends IMultiTileEntity {

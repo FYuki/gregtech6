@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.early;
+import gregapi.stubs.HarvestDropsEvent;
 
 import biomesoplenty.common.blocks.BlockBOPLilypad;
 import gregapi.block.misc.BlockBaseLilyPad;
@@ -73,7 +74,7 @@ public class GT_Tool_Sense extends ToolStats {
 	}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		int rConversions = 0;
 		if (sIsHarvestingRightNow.get() == null && aPlayer instanceof ServerPlayer) {
 			sIsHarvestingRightNow.set(this);

@@ -103,7 +103,7 @@ public class FoodStatFluid implements IFoodStat {
 		IFoodStat rStats = null;
 		FluidStack tFluid = FL.getFluid(aStack, T);
 		if (tFluid != null) rStats = DrinksGT.REGISTER.get(tFluid.getFluid().getName());
-		if (rStats == null) return UseAnim.drink;
+		if (rStats == null) return UseAnim.DRINK;
 		return rStats.getFoodAction(aItem, aStack);
 	}
 	

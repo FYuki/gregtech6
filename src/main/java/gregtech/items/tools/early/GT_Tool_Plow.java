@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.early;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.data.MT;
 import gregapi.data.OP;
@@ -64,7 +65,7 @@ public class GT_Tool_Plow extends ToolStats {
 	}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		int rConversions = 0;
 		if (sIsHarvestingRightNow.get() == null && aPlayer instanceof ServerPlayer) {
 			sIsHarvestingRightNow.set(this);

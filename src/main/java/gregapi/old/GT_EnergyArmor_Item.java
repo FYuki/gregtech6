@@ -18,6 +18,7 @@
  */
 
 package gregapi.old;
+import gregapi.stubs.ArmorProperties;
 
 import static gregapi.data.CS.*;
 

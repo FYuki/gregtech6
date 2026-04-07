@@ -50,8 +50,8 @@ public interface IBehavior<E extends Item> {
 	public List<String> getAdditionalToolTips(E aItem, List<String> aList, ItemStack aStack);
 	public void onUpdate(E aItem, ItemStack aStack, Level aWorld, Entity aPlayer, int aTimer, boolean aIsInHand);
 	public boolean isItemStackUsable(E aItem, ItemStack aStack);
-	public boolean canDispense(E aItem, IBlockSource aSource, ItemStack aStack);
-	public ItemStack onDispense(E aItem, IBlockSource aSource, ItemStack aStack);
+	public boolean canDispense(E aItem, BlockSource aSource, ItemStack aStack);
+	public ItemStack onDispense(E aItem, BlockSource aSource, ItemStack aStack);
 	public boolean hasProjectile(E aItem, TagData aProjectileType, ItemStack aStack);
 	public EntityProjectile getProjectile(E aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ);
 	public EntityProjectile getProjectile(E aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed);
@@ -65,15 +65,15 @@ public interface IBehavior<E extends Item> {
 		@Override public List<String> getAdditionalToolTips(MultiItem aItem, List<String> aList, ItemStack aStack) {return aList;}
 		@Override public void onUpdate(MultiItem aItem, ItemStack aStack, Level aWorld, Entity aPlayer, int aTimer, boolean aIsInHand) {/**/}
 		@Override public boolean isItemStackUsable(MultiItem aItem, ItemStack aStack) {return T;}
-		@Override public boolean canDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {return F;}
+		@Override public boolean canDispense(MultiItem aItem, BlockSource aSource, ItemStack aStack) {return F;}
 		@Override public boolean hasProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack) {return F;}
 		@Override public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, double aX, double aY, double aZ) {return null;}
 		@Override public EntityProjectile getProjectile(MultiItem aItem, TagData aProjectileType, ItemStack aStack, Level aWorld, LivingEntity aEntity, float aSpeed) {return null;}
 		
 		@Override
-		public ItemStack onDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
+		public ItemStack onDispense(MultiItem aItem, BlockSource aSource, ItemStack aStack) {
 			Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
-			Position iposition = DispenserBlock.func_149939_a(aSource);
+			Position iposition = BlockPos.containing(aSource.pos());
 			ItemStack itemstack1 = aStack.splitStack(1);
 			BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 			return aStack;

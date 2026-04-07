@@ -59,10 +59,10 @@ public class Behavior_Bucket_Simple extends AbstractBehaviorDefault {
 		mDefaultFullBucket = aDefault;
 	}
 	
-	@Override public boolean canDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {return T;}
+	@Override public boolean canDispense(MultiItem aItem, BlockSource aSource, ItemStack aStack) {return T;}
 	
 	@Override
-	public ItemStack onDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
+	public ItemStack onDispense(MultiItem aItem, BlockSource aSource, ItemStack aStack) {
 		if (aStack.getCount() > 1) return super.onDispense(aItem, aSource, aStack);
 		FluidStack mFluid = FL.getFluid(aStack, T);
 		ItemStack tBucket = ST.make(Items.bucket, 1, 0);

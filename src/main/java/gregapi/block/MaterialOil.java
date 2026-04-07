@@ -28,7 +28,7 @@ public class MaterialOil extends MaterialLiquid {
 	public static MaterialOil instance = new MaterialOil();
 	
 	private MaterialOil() {
-		super(MapColor.blackColor);
+		super(MapColor.COLOR_BLACK);
 		setNoPushMobility();
 		setReplaceable();
 	}

@@ -18,6 +18,7 @@
  */
 
 package gregapi.item;
+import gregapi.stubs.ArmorProperties;
 
 import gregapi.stubs.Optional;
 import net.neoforged.api.distmarker.Dist;
@@ -115,9 +116,9 @@ public class ItemArmorBase extends ArmorItem implements IItemUpdatable, IItemGT,
 		//
 	}
 	
-	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
+	public ItemStack onDispense(BlockSource aSource, ItemStack aStack) {
 		Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
-		Position iposition = DispenserBlock.func_149939_a(aSource);
+		Position iposition = BlockPos.containing(aSource.pos());
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 		return aStack;
@@ -125,7 +126,7 @@ public class ItemArmorBase extends ArmorItem implements IItemUpdatable, IItemGT,
 	
 	public static class GT_Item_Dispense extends BehaviorProjectileDispense {
 		@Override
-		public ItemStack dispenseStack(IBlockSource aSource, ItemStack aStack) {
+		public ItemStack dispenseStack(BlockSource aSource, ItemStack aStack) {
 			return ((ItemArmorBase)aStack.getItem()).onDispense(aSource, aStack);
 		}
 		
@@ -136,7 +137,7 @@ public class ItemArmorBase extends ArmorItem implements IItemUpdatable, IItemGT,
 	}
 	
 	@Override public String getArmorTexture(ItemStack aStack, Entity aEntity, int aSlot, String aType) {return mArmorTexture;}
-	@Override public ArmorProperties getProperties(LivingEntity aPlayer, ItemStack aStack, DamageSource aSource, double aDamage, int aSlot) {return aSource.isUnblockable() ? new ArmorProperties(0, 0, 0) : new ArmorProperties(0, damageReduceAmount / 25.0, getMaxDamage() + 1 - aStack.getItemDamage());}
+	@Override public ArmorProperties getProperties(LivingEntity aPlayer, ItemStack aStack, DamageSource aSource, double aDamage, int aSlot) {return aSource.isUnblockable() ? new ArmorProperties(0, 0, 0) : new ArmorProperties(0, damageReduceAmount / 25.0, getMaxDamage() + 1 - aStack.getDamageValue());}
 	@Override public int getArmorDisplay(Player aPlayer, ItemStack aStack, int aSlot) {return getArmorMaterial().getDamageReductionAmount(aSlot);}
 	@Override public void damageArmor(LivingEntity aEntity, ItemStack aStack, DamageSource aSource, int aDamage, int aSlot) {aStack.damageItem(aDamage, aEntity);}
 	@Override public boolean isMetalArmor(ItemStack aStack, Player aPlayer) {return mMetalArmor;}

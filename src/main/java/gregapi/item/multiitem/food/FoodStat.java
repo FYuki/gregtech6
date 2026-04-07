@@ -73,7 +73,7 @@ public class FoodStat implements IFoodStat {
 		mSugar = aSugar;
 		mFat = aFat;
 		mRadiation = aRadiation;
-		mAction = aAction==null?UseAnim.eat:aAction;
+		mAction = aAction==null?UseAnim.EAT:aAction;
 		mPotionEffects = aPotionEffects;
 		mEmptyContainer = ST.copy(aEmptyContainer);
 		mInvisibleParticles = aInvisibleParticles;

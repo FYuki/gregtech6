@@ -88,14 +88,14 @@ public class Behavior_Arrow extends AbstractBehaviorDefault {
 	}
 	
 	@Override
-	public boolean canDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
+	public boolean canDispense(MultiItem aItem, BlockSource aSource, ItemStack aStack) {
 		return T;
 	}
 	
 	@Override
-	public ItemStack onDispense(MultiItem aItem, IBlockSource aSource, ItemStack aStack) {
+	public ItemStack onDispense(MultiItem aItem, BlockSource aSource, ItemStack aStack) {
 		Level aWorld = aSource.getWorld();
-		Position tPosition = DispenserBlock.func_149939_a(aSource);
+		Position tPosition = BlockPos.containing(aSource.pos());
 		Direction tFacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
 		EntityProjectile tEntityArrow = getProjectile(aItem, TD.Projectiles.ARROW, aStack, aWorld, tPosition.getX(), tPosition.getY(), tPosition.getZ());
 		if (tEntityArrow != null) {

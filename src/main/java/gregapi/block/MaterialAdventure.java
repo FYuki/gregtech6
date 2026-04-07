@@ -26,7 +26,7 @@ import static gregapi.data.CS.F;
 
 public class MaterialAdventure extends Material {
 	public static Material
-	  WOOD = new MaterialAdventure(MapColor.woodColor).setBurning()
+	  WOOD = new MaterialAdventure(MapColor.WOOD).setBurning()
 	;
 	
 	private MaterialAdventure(MapColor aColor) {

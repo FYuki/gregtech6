@@ -147,9 +147,9 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 		}
 	}
 	
-	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
+	public ItemStack onDispense(BlockSource aSource, ItemStack aStack) {
 		Level aWorld = aSource.getWorld();
-		Position tPosition = DispenserBlock.func_149939_a(aSource);
+		Position tPosition = BlockPos.containing(aSource.pos());
 		Direction tFacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
 		EntityProjectile tProjectile = getProjectile(mProjectileType, aStack, aWorld, tPosition.getX(), tPosition.getY(), tPosition.getZ());
 		if (tProjectile != null) {
@@ -163,14 +163,14 @@ public class PrefixItemProjectile extends PrefixItem implements IItemProjectile 
 		
 		// Default Item Dropping.
 		Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
-		Position iposition = DispenserBlock.func_149939_a(aSource);
+		Position iposition = BlockPos.containing(aSource.pos());
 		ItemStack itemstack1 = aStack.splitStack(1);
 		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 		return aStack;
 	}
 	
 	public static class MetaItemDispense extends BehaviorProjectileDispense {
-		@Override public ItemStack dispenseStack(IBlockSource aSource, ItemStack aStack) {return ((PrefixItemProjectile)aStack.getItem()).onDispense(aSource, aStack);}
+		@Override public ItemStack dispenseStack(BlockSource aSource, ItemStack aStack) {return ((PrefixItemProjectile)aStack.getItem()).onDispense(aSource, aStack);}
 		@Override protected IProjectile getProjectileEntity(Level aWorld, Position aPosition) {return null;}
 	}
 }

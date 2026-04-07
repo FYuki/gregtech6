@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.early;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.data.MT;
 import gregapi.data.OP;
@@ -50,7 +51,7 @@ public class GT_Tool_PickaxeConstruction extends GT_Tool_Pickaxe {
 	}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		if (aBlock == Blocks.ender_chest) {
 			aDrops.clear();
 			aDrops.add(ST.make(Blocks.ender_chest, 1, 0));

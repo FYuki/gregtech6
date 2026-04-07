@@ -28,7 +28,7 @@ public class MaterialMachines extends Material {
 	public static MaterialMachines instance = new MaterialMachines();
 	
 	private MaterialMachines() {
-		super(MapColor.ironColor);
+		super(MapColor.METAL);
 		setRequiresTool();
 		setImmovableMobility();
 	}

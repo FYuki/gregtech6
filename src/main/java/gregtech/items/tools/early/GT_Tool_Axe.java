@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.early;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.block.MaterialAdventure;
 import gregapi.block.tree.BlockBaseBeam;
@@ -102,7 +103,7 @@ public class GT_Tool_Axe extends ToolStats {
 	private static boolean LOCK = T;
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMeta, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMeta, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		int rAmount = 0;
 		if (LOCK && !MD.TreeCap.mLoaded && !aPlayer.worldObj.isRemote && !aPlayer.isSneaking() && !aBlock.getClass().getName().startsWith("com.ferreusveritas.dynamictrees") && (aBlock instanceof BlockHugeMushroom || aBlock.isWood(aPlayer.worldObj, aX, aY, aZ) || OP.log.contains(ST.make(aBlock, 1, aMeta)) || WoodDictionary.WOODS.containsKey(aBlock, aMeta, T))) {
 			LOCK = F;

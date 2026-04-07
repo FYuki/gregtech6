@@ -18,6 +18,7 @@
  */
 
 package gregapi.item.multiitem.tools;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.item.multiitem.MultiItemTool;
 import gregapi.oredict.OreDictMaterial;
@@ -186,7 +187,7 @@ public interface IToolStats {
 	 * This lets you modify the Drop List, when this type of Tool has been used.
 	 * @return the Amount of modified Items.
 	 */
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableConversions, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent);
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableConversions, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent);
 	
 	/**
 	 * @return Returns a broken Version of the Item.

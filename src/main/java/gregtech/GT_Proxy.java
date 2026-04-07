@@ -221,18 +221,18 @@ public abstract class GT_Proxy extends Abstract_Proxy {
 					if (!aEvent.world.isRemote && !UT.Entities.hasInfiniteItems(aEvent.entityPlayer) && RNGSUS.nextInt(100) >= mFlintChance) {
 						aEvent.setCanceled(T);
 						aStack.damageItem(1, aEvent.entityPlayer);
-						if (aStack.getItemDamage() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
+						if (aStack.getDamageValue() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
 						return;
 					}
 					List<String> tChatReturn = new ArrayListNoNulls<>();
-					long tDamage = IBlockToolable.Util.onToolClick(TOOL_igniter, aStack.getItemDamage()*10000, 1, aEvent.entityPlayer, tChatReturn, aEvent.entityPlayer.inventory, aEvent.entityPlayer.isSneaking(), aStack, aEvent.world, (byte)aEvent.face, aEvent.x, aEvent.y, aEvent.z, 0.5F, 0.5F, 0.5F);
+					long tDamage = IBlockToolable.Util.onToolClick(TOOL_igniter, aStack.getDamageValue()*10000, 1, aEvent.entityPlayer, tChatReturn, aEvent.entityPlayer.inventory, aEvent.entityPlayer.isSneaking(), aStack, aEvent.world, (byte)aEvent.face, aEvent.x, aEvent.y, aEvent.z, 0.5F, 0.5F, 0.5F);
 					UT.Entities.sendchat(aEvent.entityPlayer, tChatReturn, F);
 					if (tDamage > 0) {
 						aEvent.setCanceled(T);
 						UT.Sounds.send(SFX.MC_IGNITE, aEvent.world, aEvent.x, aEvent.y, aEvent.z);
 						if (!UT.Entities.hasInfiniteItems(aEvent.entityPlayer)) {
 							aStack.damageItem(UT.Code.bindInt(UT.Code.units(tDamage, 10000, 1, T)), aEvent.entityPlayer);
-							if (aStack.getItemDamage() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
+							if (aStack.getDamageValue() >= aStack.getMaxDamage()) ST.use(aEvent.entityPlayer, aStack);
 						}
 						return;
 					}

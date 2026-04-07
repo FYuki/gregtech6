@@ -402,14 +402,14 @@ public class MultiTileEntityItemInternal extends BlockItem implements squeek.app
 	}
 	
 	@Override
-	public UseAnim getItemUseAction(ItemStack aStack) {
+	public UseAnim getUseAnimation(ItemStack aStack) {
 		MultiTileEntityContainer tTileEntityContainer = mBlock.mMultiTileEntityRegistry.getNewTileEntityContainer(aStack);
 		if (tTileEntityContainer != null && tTileEntityContainer.mTileEntity instanceof IMTE_GetItemUseAction) {
-			UseAnim rAction = ((IMTE_GetItemUseAction)tTileEntityContainer.mTileEntity).getItemUseAction(this, aStack);
+			UseAnim rAction = ((IMTE_GetItemUseAction)tTileEntityContainer.mTileEntity).getUseAnimation(this, aStack);
 			updateItemStack(aStack);
 			return rAction;
 		}
-		return UseAnim.none;
+		return UseAnim.NONE;
 	}
 	
 	@Override

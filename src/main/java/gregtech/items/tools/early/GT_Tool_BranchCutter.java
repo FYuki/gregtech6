@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.early;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.block.tree.BlockBaseLeaves;
 import gregapi.data.IL;
@@ -79,7 +80,7 @@ public class GT_Tool_BranchCutter extends ToolStats {
 	@Override public boolean isGrafter()                                                    {return T;}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		if (aBlock.getMaterial() == Material.leaves) aEvent.dropChance = Math.min(1.0F, Math.max(aEvent.dropChance, (UT.Code.bind4(aStack.getItem().getHarvestLevel(aStack, ""))+1) * 0.2F));
 		if (aBlock == Blocks.OAK_LEAVES) {
 			aDrops.clear();

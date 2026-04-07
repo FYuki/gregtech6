@@ -415,7 +415,7 @@ public class ContainerCommon extends Container {
 							}
 							aSlot.onPickupFromSlot(aPlayer, aPlayerInventory.getItemStack());
 						} else if (aSlot.isItemValid(tHeldStack)) {
-							if (tTempStack.getItem() == tHeldStack.getItem() && tTempStack.getItemDamage() == tHeldStack.getItemDamage() && ItemStack.areItemStackTagsEqual(tTempStack, tHeldStack)) {
+							if (tTempStack.getItem() == tHeldStack.getItem() && tTempStack.getDamageValue() == tHeldStack.getDamageValue() && ItemStack.areItemStackTagsEqual(tTempStack, tHeldStack)) {
 								tTempStackSize = (aMouse == 0 ? tHeldStack.getCount() : 1);
 								if (tTempStackSize > aSlot.getSlotStackLimit() - tTempStack.getCount()) {
 									tTempStackSize = aSlot.getSlotStackLimit() - tTempStack.getCount();
@@ -432,7 +432,7 @@ public class ContainerCommon extends Container {
 								aSlot.putStack(tHeldStack);
 								aPlayerInventory.setItemStack(tTempStack);
 							}
-						} else if (tTempStack.getItem() == tHeldStack.getItem() && tHeldStack.getMaxStackSize() > 1 && (!tTempStack.getHasSubtypes() || tTempStack.getItemDamage() == tHeldStack.getItemDamage()) && ItemStack.areItemStackTagsEqual(tTempStack, tHeldStack)) {
+						} else if (tTempStack.getItem() == tHeldStack.getItem() && tHeldStack.getMaxStackSize() > 1 && (!tTempStack.getHasSubtypes() || tTempStack.getDamageValue() == tHeldStack.getDamageValue()) && ItemStack.areItemStackTagsEqual(tTempStack, tHeldStack)) {
 							tTempStackSize = tTempStack.getCount();
 
 							if (tTempStackSize > 0 && tTempStackSize + tHeldStack.getCount() <= tHeldStack.getMaxStackSize()) {

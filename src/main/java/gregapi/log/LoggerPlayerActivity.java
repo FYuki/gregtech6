@@ -18,6 +18,7 @@
  */
 
 package gregapi.log;
+import gregapi.stubs.HarvestDropsEvent;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class LoggerPlayerActivity implements Runnable {
 	}
 	
 	@SubscribeEvent
-	public void onBlockHarvestingEvent(BlockEvent.HarvestDropsEvent aEvent) {
+	public void onBlockHarvestingEvent(HarvestDropsEvent aEvent) {
 		if (aEvent.harvester != null && !aEvent.world.isRemote && mLog != null) mBufferedPlayerActivity.add(UT.Code.dateAndTime()+";HARVEST_BLOCK;"+aEvent.harvester.getCommandSenderName()+";DIM:"+aEvent.world.provider.dimensionId+";"+aEvent.x+";"+aEvent.y+";"+aEvent.z+";|;"+aEvent.x/10+";"+aEvent.y/10+";"+aEvent.z/10);
 	}
 	

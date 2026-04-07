@@ -285,9 +285,9 @@ public abstract class MultiItemRandom extends MultiItem implements Runnable {
 	}
 	
 	@Override
-	public UseAnim getItemUseAction(ItemStack aStack) {
+	public UseAnim getUseAnimation(ItemStack aStack) {
 		IFoodStat tStat = mFoodStats.get((short)getDamage(aStack));
-		return tStat == null ? UseAnim.none : tStat.getFoodAction(this, aStack);
+		return tStat == null ? UseAnim.NONE : tStat.getFoodAction(this, aStack);
 	}
 	
 	@Override

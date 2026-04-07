@@ -18,6 +18,7 @@
  */
 
 package gregapi.item.multiitem.tools;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.damage.DamageSources;
 import gregapi.data.IL;
@@ -105,11 +106,11 @@ public abstract class ToolStats implements IToolStats {
 	public String getDeathMessage() {return "Why is there no custom Death Message for this Tool?";}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		return 0;
 	}
 	
-	public boolean harvestGrass(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public boolean harvestGrass(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		if (aBlock == Blocks.tallgrass) {
 			switch(aMetaData) {
 			case 1: case 2: aDrops.add(IL.Grass.get(1+RNGSUS.nextInt(1+aFortune))); return T;
@@ -146,7 +147,7 @@ public abstract class ToolStats implements IToolStats {
 		return F;
 	}
 	
-	public boolean harvestStick(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public boolean harvestStick(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		if (aBlock == Blocks.tallgrass) {
 			switch(aMetaData) {
 			case 0: aDrops.add(OP.stick.mat(MT.WOODS.Dead, 1+RNGSUS.nextInt(2+aFortune))); return T;

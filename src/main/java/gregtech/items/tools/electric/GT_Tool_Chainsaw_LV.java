@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.electric;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.block.MaterialAdventure;
 import gregapi.data.MD;
@@ -84,7 +85,7 @@ public class GT_Tool_Chainsaw_LV extends GT_Tool_Axe {
 	}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		if (aBlock.getMaterial() == Material.leaves && aBlock instanceof IShearable) {
 			aPlayer.worldObj.setBlock(aX, aY, aZ, aBlock, aMetaData, 0);
 			if (((IShearable)aBlock).isShearable(aStack, aPlayer.worldObj, aX, aY, aZ)) {

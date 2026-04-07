@@ -126,7 +126,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 	}
 	
 	@Override
-	public ItemStack onDispense(IBlockSource aSource, ItemStack aStack) {
+	public ItemStack onDispense(BlockSource aSource, ItemStack aStack) {
 		ArrayList<IBehavior<MultiItem>> tList = mItemBehaviors.get(ST.meta_(aStack));
 		if (tList != null) for (IBehavior<MultiItem> tBehavior : tList) if (tBehavior.canDispense(this, aSource, aStack)) return tBehavior.onDispense(this, aSource, aStack);
 		return super.onDispense(aSource, aStack);

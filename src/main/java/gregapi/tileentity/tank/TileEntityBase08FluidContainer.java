@@ -346,8 +346,8 @@ public abstract class TileEntityBase08FluidContainer extends TileEntityBase07Pai
 		return isDrinkable() && aStack.getCount() == 1 ? Math.max(FoodStatFluid.INSTANCE.getFoodLevel(aStack.getItem(), aStack, null) * 8, 32) : 0;
 	}
 	
-	public UseAnim getItemUseAction(MultiTileEntityItemInternal aItem, ItemStack aStack) {
-		return isDrinkable() && aStack.getCount() == 1 ? FoodStatFluid.INSTANCE.getFoodAction(aStack.getItem(), aStack) : UseAnim.none;
+	public UseAnim getUseAnimation(MultiTileEntityItemInternal aItem, ItemStack aStack) {
+		return isDrinkable() && aStack.getCount() == 1 ? FoodStatFluid.INSTANCE.getFoodAction(aStack.getItem(), aStack) : UseAnim.NONE;
 	}
 	
 	public ItemStack onEaten(MultiTileEntityItemInternal aItem, ItemStack aStack, Level aWorld, Player aPlayer) {

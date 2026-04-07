@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.early;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.data.IL;
 import gregapi.data.MT;
@@ -84,7 +85,7 @@ public class GT_Tool_Scissors extends ToolStats {
 	@Override public boolean canCollect()                                                   {return T;}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		if (aBlock == Blocks.vine) {
 			aDrops.clear();
 			aDrops.add(ST.make(Blocks.vine, 1, 0));

@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.early;
+import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.block.metatype.BlockStones;
 import gregapi.data.IL;
@@ -57,7 +58,7 @@ public class GT_Tool_Club extends GT_Tool_HardHammer {
 	@Override public boolean isMiningTool()                                                 {return F;}
 	
 	@Override
-	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public int convertBlockDrops(List<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, long aAvailableDurability, int aX, int aY, int aZ, byte aMetaData, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		Block aDrop = aDrops.size() == 1 ? ST.block(aDrops.get(0)) : NB;
 		if (aDrop == NB) aDrop = aBlock;
 		if (aDrop == Blocks.STONE || aDrop == Blocks.COBBLESTONE || aDrop == Blocks.MOSSY_COBBLESTONE || aDrop == Blocks.STONE_BRICKS || aDrop == Blocks.stone_brick_stairs || aDrop == Blocks.cobblestone_wall || aDrop == Blocks.stone_button || aDrop == Blocks.stone_pressure_plate) {

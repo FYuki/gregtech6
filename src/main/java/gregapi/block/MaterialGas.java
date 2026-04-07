@@ -28,7 +28,7 @@ public class MaterialGas extends MaterialLiquid {
 	public static MaterialGas instance = new MaterialGas();
 	
 	private MaterialGas() {
-		super(MapColor.snowColor);
+		super(MapColor.SNOW);
 		setNoPushMobility();
 		setReplaceable();
 	}

@@ -28,7 +28,7 @@ public class MaterialScoopable extends Material {
 	public static MaterialScoopable instance = new MaterialScoopable();
 	
 	private MaterialScoopable() {
-		super(MapColor.foliageColor);
+		super(MapColor.PLANT);
 		setRequiresTool();
 		setImmovableMobility();
 	}

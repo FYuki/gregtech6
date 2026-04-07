@@ -18,6 +18,7 @@
  */
 
 package gregapi.item.multiitem;
+import gregapi.stubs.HarvestDropsEvent;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -202,7 +203,7 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	/**
 	 * Called by the Block Harvesting Event within the GT_Proxy
 	 */
-	public void onHarvestBlockEvent(ArrayList<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, int aX, int aY, int aZ, byte aMeta, int aFortune, boolean aSilkTouch, BlockEvent.HarvestDropsEvent aEvent) {
+	public void onHarvestBlockEvent(ArrayList<ItemStack> aDrops, ItemStack aStack, Player aPlayer, Block aBlock, int aX, int aY, int aZ, byte aMeta, int aFortune, boolean aSilkTouch, HarvestDropsEvent aEvent) {
 		IToolStats tStats = getToolStats(aStack);
 		if (tStats == null || ST.instaharvest(aBlock, aMeta) || !isItemStackUsable(aStack) || getDigSpeed(aStack, aBlock, aMeta) <= 0) {
 			doDamage(aStack, 0, aPlayer, T);
@@ -293,10 +294,10 @@ public class MultiItemTool extends MultiItem implements IItemGTHandTool, IItemGT
 	}
 	
 	@Override
-	public UseAnim getItemUseAction(ItemStack aStack) {
+	public UseAnim getUseAnimation(ItemStack aStack) {
 		IToolStats tStats = getToolStats(aStack);
-		if (tStats != null && tStats.canBlock()) return UseAnim.block;
-		return UseAnim.none;
+		if (tStats != null && tStats.canBlock()) return UseAnim.BLOCK;
+		return UseAnim.NONE;
 	}
 	@Override
 	public int getMaxItemUseDuration(ItemStack aStack) {
