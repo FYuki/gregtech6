@@ -74,6 +74,10 @@ import gregapi.stubs.IIcon; // stub
 import gregapi.stubs.IIconRegister; // stub
 import net.minecraft.world.level.block.SoundType;
 import gregapi.block.Material;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.core.BlockPos;
 
 /**
  * @author Gregorius Techneticies

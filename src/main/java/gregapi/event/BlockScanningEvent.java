@@ -26,7 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.Level;
 
-@cpw.mods.fml.common.eventhandler.Cancelable
+@net.neoforged.bus.api.Cancelable
 public class BlockScanningEvent extends net.neoforged.neoforge.event.level.LevelEvent {
 	
 	public final Player mPlayer;

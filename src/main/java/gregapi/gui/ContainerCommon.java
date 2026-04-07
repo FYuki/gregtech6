@@ -26,7 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import gregapi.stubs.ICrafting;
-import net.minecraft.world.Container;
+import gregapi.stubs.GregContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
@@ -37,7 +37,7 @@ import static gregapi.data.CS.*;
 /**
  * @author Gregorius Techneticies
  */
-public class ContainerCommon extends Container {
+public class ContainerCommon extends GregContainer {
 	public final int mOffset, mSlotCount, mGUIID;
 	public ITileEntityInventoryGUI mTileEntity;
 	public Inventory mInventoryPlayer;

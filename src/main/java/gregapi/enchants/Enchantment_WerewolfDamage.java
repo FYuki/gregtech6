@@ -36,6 +36,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 
 import static gregapi.data.CS.RNGSUS;
+import gregapi.stubs.EnchantmentDamage;
 
 /**
  * @author Gregorius Techneticies

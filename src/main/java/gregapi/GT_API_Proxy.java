@@ -141,6 +141,7 @@ import static gregapi.data.CS.*;
 import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.WorldSettings; // stub
 import gregapi.stubs.IChunkProvider; // stub
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 /**
  * @author Gregorius Techneticies
@@ -222,9 +223,9 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 		MultiTileEntityRegistry.onServerStop();
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST) public void onWorldLoad  (WorldEvent.Load   aEvent) {checkSaveLocation(DimensionManager.getCurrentSaveRootDirectory(), F);}
-	//@SubscribeEvent(priority = EventPriority.LOWEST) public void onWorldUnload(WorldEvent.Unload aEvent) {checkSaveLocation(DimensionManager.getCurrentSaveRootDirectory(), F);}
-	//@SubscribeEvent(priority = EventPriority.LOWEST) public void onWorldSave  (WorldEvent.Save   aEvent) {checkSaveLocation(DimensionManager.getCurrentSaveRootDirectory(), F);}
+	@SubscribeEvent(priority = EventPriority.LOWEST) public void onWorldLoad  (LevelEvent.Load   aEvent) {checkSaveLocation(DimensionManager.getCurrentSaveRootDirectory(), F);}
+	//@SubscribeEvent(priority = EventPriority.LOWEST) public void onWorldUnload(LevelEvent.Unload aEvent) {checkSaveLocation(DimensionManager.getCurrentSaveRootDirectory(), F);}
+	//@SubscribeEvent(priority = EventPriority.LOWEST) public void onWorldSave  (LevelEvent.Save   aEvent) {checkSaveLocation(DimensionManager.getCurrentSaveRootDirectory(), F);}
 	
 	public  static final List<ITileEntityServerTickPre    > SERVER_TICK_PRE                = new ArrayListNoNulls<>(), SERVER_TICK_PR2  = new ArrayListNoNulls<>();
 	public  static final List<ITileEntityServerTickPost   > SERVER_TICK_POST               = new ArrayListNoNulls<>(), SERVER_TICK_PO2T = new ArrayListNoNulls<>();
@@ -689,7 +690,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onPlayerItemPickupEvent(cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent aEvent) {
+	public void onPlayerItemPickupEvent(net.neoforged.neoforge.event.entity.player.PlayerEvent.ItemPickupEvent aEvent) {
 		ST.check(aEvent.player, aEvent.pickedUp.getEntityItem());
 	}
 	
@@ -991,7 +992,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onItemUseFinish(PlayerUseItemEvent.Finish aEvent) {
+	public void onItemUseFinish(net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent.Finish aEvent) {
 		int[] tStats = FoodsGT.get(aEvent.item);
 		if (tStats != null) {
 			EntityFoodTracker tTracker = EntityFoodTracker.get(aEvent.entityPlayer);
@@ -1414,7 +1415,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onLoginEvent(cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent aEvent) {
+	public void onLoginEvent(net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent aEvent) {
 		if (DISABLE_ALL_IC2_COMPRESSOR_RECIPES) ic2.api.recipe.Recipes.compressor.getRecipes().clear();
 		if (DISABLE_ALL_IC2_EXTRACTOR_RECIPES ) ic2.api.recipe.Recipes.extractor .getRecipes().clear();
 		if (DISABLE_ALL_IC2_MACERATOR_RECIPES ) ic2.api.recipe.Recipes.macerator .getRecipes().clear();
