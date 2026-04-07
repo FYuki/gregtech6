@@ -57,7 +57,10 @@ import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderFallingBlock;
+import gregapi.stubs.RenderFallingBlock;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.player.Player;

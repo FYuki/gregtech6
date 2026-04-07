@@ -29,6 +29,7 @@ import gregapi.stubs.ICrafting;
 import gregapi.stubs.GregContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.Container;
 
 import java.util.List;
 

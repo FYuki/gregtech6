@@ -123,7 +123,10 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import gregapi.stubs.ItemExpireEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.entity.living.LivingTickEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
+import gregapi.stubs.EntityItemPickupEvent;
+import gregapi.stubs.FinalizeSpawnEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ChunkWatchEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -147,6 +150,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerDestroyItemEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.entity.player.ArrowNockEvent;
 import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
+import net.neoforged.bus.api.Event.Result;
 
 /**
  * @author Gregorius Techneticies
@@ -524,7 +528,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onLivingUpdate(LivingEvent.Tick aEvent) {
+	public void onLivingUpdate(LivingTickEvent aEvent) {
 		int
 		tX = UT.Code.roundDown(aEvent.entityLiving.posX),
 		tY = UT.Code.roundDown(aEvent.entityLiving.posY + aEvent.entityLiving.getEyeHeight()),
@@ -616,7 +620,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 				if (aEntity instanceof EntityXPOrb) {
 					if (tOrbs != null) tOrbs.add((EntityXPOrb)aEntity);
 				} else if (aEntity instanceof ItemEntity) {
-					ItemStack aStack = ((ItemEntity)aEntity).getEntityItem();
+					ItemStack aStack = ((ItemEntity)aEntity).getItem();
 					if (ST.valid(aStack)) {
 						ItemStack rStack = ST.copy(aStack);
 						boolean tBreak = F, tFireProof = F;
@@ -695,8 +699,8 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onPlayerItemPickupEvent(net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent aEvent) {
-		ST.check(aEvent.player, aEvent.pickedUp.getEntityItem());
+	public void onPlayerItemPickupEvent(EntityItemPickupEvent aEvent) {
+		ST.check(aEvent.player, aEvent.pickedUp.getItem());
 	}
 	
 	private int BEAR_INVENTORY_COOL_DOWN = 5;
@@ -1353,7 +1357,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 							if (tEntity != null) {
 								tEntity.isDead = F;
 								EntityItemPickupEvent tEvent = new EntityItemPickupEvent(aEvent.harvester, tEntity);
-								ST.set(aDrop, tEvent.item.getEntityItem(), T, T);
+								ST.set(aDrop, tEvent.item.getItem(), T, T);
 								// I have to ignore this event being cancellable because that causes Item Dupes.
 								NeoForge.EVENT_BUS.post(tEvent);
 								if (tEvent.getResult() == Result.ALLOW || tEntity.isDead || aDrop.getCount() <= 0 || ST.invalid(aDrop)) {
@@ -1378,7 +1382,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntitySpawningEvent(EntityJoinLevelEvent aEvent) {
 		if (aEvent.entity instanceof ItemEntity && !aEvent.entity.worldObj.isRemote) {
-			ItemStack aStack = ST.update(OM.get(((ItemEntity)aEvent.entity).getEntityItem()), aEvent.entity);
+			ItemStack aStack = ST.update(OM.get(((ItemEntity)aEvent.entity).getItem()), aEvent.entity);
 			if (ST.valid(aStack) && aStack.getCount() > 0) {
 				Item aItem = ST.item_(aStack);
 				if (ST.meta_(aStack) == W || aItem == Items.gold_nugget) ST.meta(aStack, 0);
@@ -1445,7 +1449,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onItemExpireEvent(ItemExpireEvent aEvent) {
 		if (aEvent.entity.worldObj.isRemote) return;
-		ItemStack aStack = aEvent.entityItem.getEntityItem();
+		ItemStack aStack = aEvent.entityItem.getItem();
 		int aX = UT.Code.roundDown(aEvent.entity.posX), aY = UT.Code.roundDown(aEvent.entity.posY), aZ = UT.Code.roundDown(aEvent.entity.posZ);
 		if (ST.valid(aStack)) {
 			if (ST.item_(aStack) instanceof MultiTileEntityItemInternal) {
@@ -1485,7 +1489,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onCheckSpawnEvent(MobSpawnEvent.FinalizeSpawn aEvent) {
+	public void onCheckSpawnEvent(FinalizeSpawnEvent aEvent) {
 		if (aEvent.getResult() == Result.DENY) return;
 		Class<? extends LivingEntity> aMobClass = aEvent.entityLiving.getClass();
 		Level aWorld = aEvent.world;

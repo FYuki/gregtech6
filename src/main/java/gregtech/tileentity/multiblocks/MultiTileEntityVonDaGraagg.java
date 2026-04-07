@@ -38,7 +38,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
+import gregapi.stubs.FinalizeSpawnEvent;
 
 import java.util.Collection;
 import java.util.List;
@@ -104,7 +104,7 @@ public class MultiTileEntityVonDaGraagg extends TileEntityBase10MultiBlockBase i
 	}
 	
 	@Override
-	public boolean inhibitMobSpawn(MobSpawnEvent.CheckSpawn aEvent, Level aWorld, int aX, int aY, int aZ) {
+	public boolean inhibitMobSpawn(FinalizeSpawnEvent aEvent, Level aWorld, int aX, int aY, int aZ) {
 		if (mCurrentRange <= 0 || aWorld != worldObj || Math.abs(aX - xCoord) > mCurrentRange || Math.abs(aZ - zCoord) > mCurrentRange) return F;
 		// Allow wild Mobs to spawn on Mossy Cobblestone.
 		for (int i = -5; i <= 5; i++) {

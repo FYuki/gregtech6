@@ -100,7 +100,7 @@ public class WD {
 		for (ItemEntity tItem : (Iterable<ItemEntity>)aWorld.getEntitiesWithinAABB(ItemEntity.class, AABB.getBoundingBox(aX, aY, aZ, aX+aL, aY+aH, aZ+aW))) {
 			if (!tItem.isDead) {
 				aWorld.removeEntity(tItem);
-				ItemStack rStack = tItem.getEntityItem();
+				ItemStack rStack = tItem.getItem();
 				tItem.setEntityItemStack(ST.amount(0, rStack));
 				tItem.setDead();
 				return rStack;
@@ -118,7 +118,7 @@ public class WD {
 		for (ItemEntity tItem : tList) {
 			if (!tItem.isDead) {
 				aWorld.removeEntity(tItem);
-				ItemStack rStack = tItem.getEntityItem();
+				ItemStack rStack = tItem.getItem();
 				tItem.setEntityItemStack(ST.amount(0, rStack));
 				tItem.setDead();
 				rOutput.add(rStack);

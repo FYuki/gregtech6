@@ -120,18 +120,18 @@ public class ItemArmorBase extends ArmorItem implements IItemUpdatable, IItemGT,
 		Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
 		Position iposition = BlockPos.containing(aSource.pos());
 		ItemStack itemstack1 = aStack.splitStack(1);
-		BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
+		DefaultDispenseItemBehavior.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 		return aStack;
 	}
 	
-	public static class GT_Item_Dispense extends BehaviorProjectileDispense {
+	public static class GT_Item_Dispense extends ProjectileDispenseBehavior {
 		@Override
 		public ItemStack dispenseStack(BlockSource aSource, ItemStack aStack) {
 			return ((ItemArmorBase)aStack.getItem()).onDispense(aSource, aStack);
 		}
-		
+
 		@Override
-		protected IProjectile getProjectileEntity(Level aWorld, Position aPosition) {
+		protected net.minecraft.world.entity.projectile.Projectile getProjectile(net.minecraft.server.level.ServerLevel aWorld, Position aPosition, ItemStack aStack) {
 			return null;
 		}
 	}

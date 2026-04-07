@@ -476,7 +476,7 @@ public class Override_Drops {
 			while (tAmount-->0) aDrops.add(ST.entity(aDead, OP.stick.mat(MT.Blizz, 1)));
 		} else if (aClass.equalsIgnoreCase("EntityTFTowerGolem")) {
 			for (ItemEntity tEntity : aDrops) {
-				ItemStack tStack = tEntity.getEntityItem();
+				ItemStack tStack = tEntity.getItem();
 				if (OM.is("ingotAnyIronOrSteel", tStack)) ST.set(tStack, OP.ingot.mat(MT.IronWood, 1), F, F);
 			}
 		} else if (aClass.equalsIgnoreCase("EntityTFWraith")) {
@@ -670,7 +670,7 @@ public class Override_Drops {
 		
 		// All of this Drop replacement does NOT work with Mo'Creatures Mobs at all...
 		if (!(aDead instanceof Player)) {
-			for (ItemEntity tEntity : aDrops) if (tEntity != null) {ItemStack tStack = tEntity.getEntityItem(); if (ST.valid(tStack)) {
+			for (ItemEntity tEntity : aDrops) if (tEntity != null) {ItemStack tStack = tEntity.getItem(); if (ST.valid(tStack)) {
 				// Replace stupid Wooden and Stone Tools that clutter up Mob Farms for no reason, but only if nonplayerkill.
 				if (!aPlayerKill) {
 					Item tItem = ST.item_(tStack);
