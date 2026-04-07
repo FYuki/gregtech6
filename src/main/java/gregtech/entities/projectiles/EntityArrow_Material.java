@@ -45,7 +45,7 @@ import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.util.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.WorldServer;
+import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
@@ -202,7 +202,7 @@ public class EntityArrow_Material extends EntityProjectile {
 						
 						if (!(tHitEntity instanceof Player) && UT.NBT.getEnchantmentLevel(Enchantment.looting, mArrow) > 0) {
 							Player tPlayer = null;
-							if (worldObj instanceof WorldServer) tPlayer = FakePlayerFactory.get((WorldServer)worldObj, new GameProfile(new UUID(0, 0), tShootingEntity instanceof LivingEntity?((LivingEntity)tShootingEntity).getCommandSenderName():"Arrow"));
+							if (worldObj instanceof ServerLevel) tPlayer = FakePlayerFactory.get((ServerLevel)worldObj, new GameProfile(new UUID(0, 0), tShootingEntity instanceof LivingEntity?((LivingEntity)tShootingEntity).getCommandSenderName():"Arrow"));
 							if (tPlayer != null) {
 								tPlayer.inventory.currentItem = 0;
 								tPlayer.inventory.setInventorySlotContents(0, getArrowItem());

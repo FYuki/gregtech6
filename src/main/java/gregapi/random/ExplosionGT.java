@@ -47,10 +47,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.ChunkPosition;
+
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.WorldServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.BlockPos;
 
 /**
  * @author Gregorius Techneticies
@@ -62,7 +63,7 @@ public class ExplosionGT extends Explosion {
 		tExplosion.isSmoking = aSmoking;
 		if (net.neoforged.neoforge.event.EventHooks.onExplosionStart(aWorld, tExplosion)) return tExplosion;
 		tExplosion.doExplosionA();
-		if (aWorld instanceof WorldServer) {
+		if (aWorld instanceof ServerLevel) {
 			tExplosion.doExplosionB(F);
 			if (!aSmoking) tExplosion.affectedBlockPositions.clear();
 			@SuppressWarnings("rawtypes")
@@ -92,7 +93,7 @@ public class ExplosionGT extends Explosion {
 	@SuppressWarnings("unchecked")
 	public void doExplosionA() {
 		float tSize = explosionSize;
-		HashSet<ChunkPosition> tPositions = new HashSet<>();
+		HashSet<BlockPos> tPositions = new HashSet<>();
 		for (int i = 0; i < 16; ++i) for (int j = 0; j < 16; ++j) for (int k = 0; k < 16; ++k) {
 			if (i == 0 || i == 15 || j == 0 || j == 15 || k == 0 || k == 15) {
 				double tIncX = i / 7.5F - 1, tIncY = j / 7.5F - 1, tIncZ = k / 7.5F - 1;
@@ -108,7 +109,7 @@ public class ExplosionGT extends Explosion {
 						tPow -= (f3 + 0.3F) * tMul;
 					}
 					if (tPow > 0 && (exploder == null || exploder.func_145774_a(this, mWorld, tFloorX, tFloorY, tFloorZ, tBlock, tPow))) {
-						tPositions.add(new ChunkPosition(tFloorX, tFloorY, tFloorZ));
+						tPositions.add(new BlockPos(tFloorX, tFloorY, tFloorZ));
 					}
 					tX += tIncX * tMul; tY += tIncY * tMul; tZ += tIncZ * tMul;
 				}
@@ -151,7 +152,7 @@ public class ExplosionGT extends Explosion {
 			@SuppressWarnings("rawtypes")
 			Iterator tIterator = affectedBlockPositions.iterator();
 			while (tIterator.hasNext()) {
-				final ChunkPosition tPos = (ChunkPosition)tIterator.next();
+				final BlockPos tPos = (BlockPos)tIterator.next();
 				final Block tBlock = mWorld.getBlock(tPos.chunkPosX, tPos.chunkPosY, tPos.chunkPosZ);
 				if (aEffects) {
 					double d0 = (tPos.chunkPosX + mWorld.rand.nextFloat());
@@ -182,7 +183,7 @@ public class ExplosionGT extends Explosion {
 			@SuppressWarnings("rawtypes")
 			Iterator tIterator = affectedBlockPositions.iterator();
 			while (tIterator.hasNext()) {
-				final ChunkPosition tPos = (ChunkPosition)tIterator.next();
+				final BlockPos tPos = (BlockPos)tIterator.next();
 				final Block tBlock = mWorld.getBlock(tPos.chunkPosX, tPos.chunkPosY, tPos.chunkPosZ), tAbove = mWorld.getBlock(tPos.chunkPosX, tPos.chunkPosY - 1, tPos.chunkPosZ);
 				if (tBlock.getMaterial() == Material.air && tAbove.func_149730_j() && RNGSUS.nextInt(3) == 0) {
 					mWorld.setBlock(tPos.chunkPosX, tPos.chunkPosY, tPos.chunkPosZ, Blocks.fire);

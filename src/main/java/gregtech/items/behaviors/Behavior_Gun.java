@@ -61,7 +61,7 @@ import net.minecraft.core.BlockPos; // was BlockPos
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.WorldServer;
+import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import twilightforest.entity.boss.EntityTFLich;
 
@@ -284,9 +284,9 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 			// The Reason I didn't just up the Enchantment Level like I did with Looting is because that would increase the Side Effects too.
 			tMagicDamage *= mMagic;
 			
-			if (aPlayer.worldObj instanceof WorldServer) {
+			if (aPlayer.worldObj instanceof ServerLevel) {
 				if (UT.NBT.getEnchantmentLevel(Enchantment.looting, aBullet) > 0) {
-					tPlayer = FakePlayerFactory.get((WorldServer)aPlayer.worldObj, new GameProfile(new UUID(0, 0), ((LivingEntity)aPlayer).getCommandSenderName()));
+					tPlayer = FakePlayerFactory.get((ServerLevel)aPlayer.worldObj, new GameProfile(new UUID(0, 0), ((LivingEntity)aPlayer).getCommandSenderName()));
 					tPlayer.inventory.currentItem = 0;
 					tPlayer.inventory.setInventorySlotContents(0, aBullet);
 					tPlayer.setPositionAndRotation(aPlayer.posX, aPlayer.posY, aPlayer.posZ, aPlayer.rotationYaw, aPlayer.rotationPitch);

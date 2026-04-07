@@ -50,6 +50,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.NeoForge;
 
 import static gregapi.data.CS.*;
+import cpw.mods.fml.common.event.*;
 
 public class CompatIC2 extends CompatBase implements ICompatIC2 {
 	public CompatIC2() {

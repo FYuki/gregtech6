@@ -72,7 +72,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 // PHASE3: import WorldProvider removed — use DimensionType
-import net.minecraft.world.WorldServer;
+import net.minecraft.server.level.ServerLevel;
 // PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.chunk.LevelChunk;
 import gregapi.stubs.DimensionManager;
@@ -255,7 +255,7 @@ public class WD {
 	public static boolean dimAETHER(WorldProvider aProvider, String aProviderClassName) {return MD.AETHEL.mLoaded ? "AetherWorldProvider".equalsIgnoreCase(aProviderClassName) : MD.AETHER.mLoaded && "WorldProviderAether".equalsIgnoreCase(aProviderClassName);}
 	
 	public static boolean move(Entity aEntity, int aDimension, double aX, double aY, double aZ) {
-		WorldServer tTargetWorld = DimensionManager.getWorld(aDimension), tOriginalWorld = DimensionManager.getWorld(aEntity.worldObj.provider.dimensionId);
+		ServerLevel tTargetWorld = DimensionManager.getWorld(aDimension), tOriginalWorld = DimensionManager.getWorld(aEntity.worldObj.provider.dimensionId);
 		if (tTargetWorld != null && tOriginalWorld != null && tTargetWorld != tOriginalWorld) {
 			if (aEntity.ridingEntity != null) aEntity.mountEntity(null);
 			if (aEntity.riddenByEntity != null) aEntity.riddenByEntity.mountEntity(null);

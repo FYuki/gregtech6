@@ -33,6 +33,8 @@ import net.minecraft.world.level.Level;
 // PHASE7: import ShapedOreRecipe removed — use datapack recipes
 
 import static gregapi.data.CS.*;
+import gregapi.stubs.ShapelessOreRecipe;
+import gregapi.stubs.ShapedOreRecipe;
 
 /**
  * @author Gregorius Techneticies

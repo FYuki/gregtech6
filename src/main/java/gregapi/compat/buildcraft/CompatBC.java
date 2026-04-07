@@ -34,6 +34,7 @@ import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.BlockGetter;
 
 import static gregapi.data.CS.T;
+import cpw.mods.fml.common.event.*;
 
 
 public class CompatBC extends CompatBase implements ICompatBC {

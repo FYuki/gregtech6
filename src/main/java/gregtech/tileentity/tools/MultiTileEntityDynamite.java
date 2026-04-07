@@ -46,7 +46,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.ChunkPosition;
+
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 
@@ -225,7 +225,7 @@ public class MultiTileEntityDynamite extends TileEntityBase09FacingSingle implem
 			for (int tX = UT.Code.roundDown(explosionX) - 1; tX <= UT.Code.roundDown(explosionX) + 1; tX++) for (int tY = UT.Code.roundDown(explosionY) - 1; tY <= UT.Code.roundDown(explosionY) + 1; tY++) for (int tZ = UT.Code.roundDown(explosionZ) - 1; tZ <= UT.Code.roundDown(explosionZ) + 1; tZ++) {
 				Block tBlock = mWorld.getBlock(tX, tY, tZ);
 				if (tBlock == Blocks.mob_spawner || WD.bedrock(tBlock)) continue;
-				if (tBlock.getExplosionResistance(exploder, mWorld, tX, tY, tZ, explosionX, explosionY, explosionZ) <= mMaxExplosionResistance) affectedBlockPositions.add(new ChunkPosition(tX, tY, tZ));
+				if (tBlock.getExplosionResistance(exploder, mWorld, tX, tY, tZ, explosionX, explosionY, explosionZ) <= mMaxExplosionResistance) affectedBlockPositions.add(new BlockPos(tX, tY, tZ));
 			}
 			List tList = mWorld.getEntitiesWithinAABBExcludingEntity(exploder, AABB.getBoundingBox(explosionX - 2, explosionY - 2, explosionZ - 2, explosionX + 2, explosionY + 2, explosionZ + 2));
 			net.neoforged.neoforge.event.EventHooks.onExplosionDetonate(mWorld, this, tList, explosionSize);
@@ -244,14 +244,14 @@ public class MultiTileEntityDynamite extends TileEntityBase09FacingSingle implem
 				mWorld.spawnParticle("largeexplode", explosionX, explosionY, explosionZ, 1, 0, 0);
 			}
 			Iterator iterator;
-			ChunkPosition tCoords;
+			BlockPos tCoords;
 			int i, j, k;
 			Block tBlock;
 			
 			if (isSmoking) {
 				iterator = affectedBlockPositions.iterator();
 				while (iterator.hasNext()) {
-					tCoords = (ChunkPosition)iterator.next();
+					tCoords = (BlockPos)iterator.next();
 					i = tCoords.chunkPosX;
 					j = tCoords.chunkPosY;
 					k = tCoords.chunkPosZ;

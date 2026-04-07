@@ -53,6 +53,7 @@ import gregapi.stubs.IIcon; // stub
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.BonemealableBlock;
 import gregapi.block.Material;
+import net.minecraft.world.level.block.Block;
 
 /**
  * @author Gregorius Techneticies
