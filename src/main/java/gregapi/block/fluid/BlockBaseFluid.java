@@ -19,6 +19,7 @@
 
 package gregapi.block.fluid;
 
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.block.IBlock;
 import gregapi.block.IBlockOnHeadInside;
 import gregapi.block.MaterialGas;

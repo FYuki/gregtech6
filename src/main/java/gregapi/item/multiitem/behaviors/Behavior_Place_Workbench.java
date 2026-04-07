@@ -20,6 +20,7 @@
 package gregapi.item.multiitem.behaviors;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 import gregapi.data.OD;
 import gregapi.item.multiitem.MultiItem;

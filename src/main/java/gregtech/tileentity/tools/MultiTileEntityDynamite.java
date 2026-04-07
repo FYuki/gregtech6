@@ -54,6 +54,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 /**
  * @author Gregorius Techneticies

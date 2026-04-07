@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class EntityArrow_Material extends EntityProjectile {
 	private int mHitBlockX = -1;

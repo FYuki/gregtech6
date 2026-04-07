@@ -21,6 +21,7 @@ package gregtech.loaders.a;
 import gregapi.stubs.FMLInterModComms;
 
 import net.neoforged.fml.InterModComms;
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.block.MaterialGas;
 import gregapi.block.MaterialOil;
 import gregapi.block.fluid.BlockBaseFluid;
@@ -45,6 +46,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.NBTTagString; // PHASE8: stub for old code
 import net.minecraft.world.effect.MobEffect;
 
 import static gregapi.data.CS.*;

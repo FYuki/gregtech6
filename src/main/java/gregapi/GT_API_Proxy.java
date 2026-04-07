@@ -138,6 +138,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.WorldSettings; // stub
 import gregapi.stubs.IChunkProvider; // stub
 

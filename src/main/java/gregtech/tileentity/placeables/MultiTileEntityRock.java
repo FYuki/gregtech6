@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 /**
  * @author Gregorius Techneticies

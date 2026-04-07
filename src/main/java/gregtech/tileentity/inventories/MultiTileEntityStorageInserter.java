@@ -20,6 +20,7 @@
 package gregtech.tileentity.inventories;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 import gregapi.code.ArrayListNoNulls;
 import gregapi.data.TD;

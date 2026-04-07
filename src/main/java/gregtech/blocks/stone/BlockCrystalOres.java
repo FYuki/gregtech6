@@ -38,6 +38,7 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class BlockCrystalOres extends BlockBaseMeta {
 	public static OreDictMaterial[] ORE_MATERIALS = {MT.OREMATS.Arsenopyrite, MT.OREMATS.Chalcopyrite, MT.OREMATS.Cinnabar, MT.OREMATS.Cobaltite, MT.OREMATS.Galena, MT.OREMATS.Kesterite, MT.OREMATS.Molybdenite, MT.Pyrite, MT.OREMATS.Sphalerite, MT.OREMATS.Stannite, MT.OREMATS.Stibnite, MT.OREMATS.Tetrahedrite};

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class BlockTreeLeavesCD extends BlockBaseLeaves implements Runnable {
 	public BlockTreeLeavesCD(String aUnlocalised, Block aSaplings) {

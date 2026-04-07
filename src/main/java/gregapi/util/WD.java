@@ -84,6 +84,7 @@ import twilightforest.TwilightForestMod;
 import java.util.*;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.WorldProvider; // stub
 import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
 import net.minecraft.world.level.biome.Biome;

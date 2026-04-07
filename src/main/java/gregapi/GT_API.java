@@ -106,6 +106,7 @@ import java.io.PrintStream;
 import java.util.*;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.IIconRegister; // stub
 import gregapi.stubs.Configuration; // stub
 import gregapi.stubs.MissingMappingsEvent; // stub

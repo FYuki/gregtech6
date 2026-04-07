@@ -29,6 +29,7 @@ import gregapi.util.ST;
 import net.minecraft.world.level.material.PushReaction;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class BlockGlowtus extends BlockBaseLilyPad implements Runnable {
 	public BlockGlowtus(String aUnlocalised) {

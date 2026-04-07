@@ -20,6 +20,7 @@
 package gregapi.worldgen;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 import java.util.ArrayList;
 import java.util.List;

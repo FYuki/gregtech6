@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class BlockCFoamFresh extends BlockColored implements IBlockFoamable {
 	public BlockCFoamFresh(String aUnlocalised) {

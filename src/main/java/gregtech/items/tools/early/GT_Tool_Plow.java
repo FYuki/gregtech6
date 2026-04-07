@@ -38,6 +38,7 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class GT_Tool_Plow extends ToolStats {
 	private ThreadLocal<Object> sIsHarvestingRightNow = new ThreadLocal<>();

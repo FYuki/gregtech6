@@ -37,6 +37,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.block.Blocks;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class Loader_Ores implements Runnable {
 	@Override

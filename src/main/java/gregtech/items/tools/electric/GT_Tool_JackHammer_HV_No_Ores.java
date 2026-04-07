@@ -20,6 +20,7 @@
 package gregtech.items.tools.electric;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 import gregapi.block.IPrefixBlock;
 import gregapi.block.metatype.BlockStones;

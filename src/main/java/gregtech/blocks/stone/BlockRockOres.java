@@ -40,6 +40,7 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 /** Dense Ores that typically generate in large Layers. */
 public class BlockRockOres extends BlockBaseMeta {

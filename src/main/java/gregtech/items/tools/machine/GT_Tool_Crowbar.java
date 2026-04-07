@@ -43,6 +43,7 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class GT_Tool_Crowbar extends ToolStats {
 	@Override

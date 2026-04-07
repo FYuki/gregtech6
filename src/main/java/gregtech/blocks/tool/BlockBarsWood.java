@@ -19,6 +19,7 @@
 
 package gregtech.blocks.tool;
 
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.block.misc.BlockBaseBars;
 import gregapi.data.ANY;
 import gregapi.data.LH;

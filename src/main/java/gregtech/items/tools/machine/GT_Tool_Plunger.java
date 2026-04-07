@@ -35,6 +35,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class GT_Tool_Plunger extends ToolStats {
 	@Override

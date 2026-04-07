@@ -19,6 +19,7 @@
 
 package gregtech.blocks;
 
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.block.misc.BlockBaseBale;
 import gregapi.data.IL;
 import gregapi.data.LH;

@@ -39,6 +39,7 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 /** Vanilla Style GT6 Stone Ores, mainly used for Twilight Forest, so the Ore Magnet doesn't pull glitched Ores. */
 public class BlockVanillaOresA extends BlockBaseMeta {

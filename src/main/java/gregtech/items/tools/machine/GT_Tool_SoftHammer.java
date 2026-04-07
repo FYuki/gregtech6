@@ -33,6 +33,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 
 import static gregapi.data.CS.TOOL_softhammer;
+import gregapi.block.Material; // PHASE3: stub
 
 public class GT_Tool_SoftHammer extends ToolStats {
 	@Override

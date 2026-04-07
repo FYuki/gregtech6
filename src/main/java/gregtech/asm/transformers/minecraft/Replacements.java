@@ -19,6 +19,7 @@
 
 package gregtech.asm.transformers.minecraft;
 
+import gregapi.block.Material; // PHASE3: stub
 import java.util.Random;
 
 import net.minecraft.world.level.block.Block;

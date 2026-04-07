@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.tools.electric;
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.block.MaterialAdventure;

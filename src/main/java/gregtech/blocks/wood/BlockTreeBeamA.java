@@ -19,6 +19,7 @@
 
 package gregtech.blocks.wood;
 
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.block.tree.BlockBaseBeamFlammable;
 import gregapi.data.LH;
 import gregapi.old.Textures;

@@ -42,6 +42,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class BlockTreeLogA extends BlockBaseLogFlammable implements IBlockToolable {
 	public BlockTreeLogA(String aUnlocalised) {

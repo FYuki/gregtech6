@@ -41,6 +41,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 import net.minecraft.world.level.biome.Biome;
 
 /**

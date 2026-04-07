@@ -69,6 +69,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class Behavior_Gun extends AbstractBehaviorDefault {
 	public static Behavior_Gun BULLETS_SMALL  = new Behavior_Gun(TD.Projectiles.BULLET_SMALL , 1.00F, 10000, 16);

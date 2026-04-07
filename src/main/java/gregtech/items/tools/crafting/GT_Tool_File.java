@@ -35,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import static gregapi.data.CS.TOOL_file;
+import gregapi.block.Material; // PHASE3: stub
 
 public class GT_Tool_File extends ToolStats {
 	@Override

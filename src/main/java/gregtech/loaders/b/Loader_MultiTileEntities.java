@@ -19,6 +19,7 @@
 
 package gregtech.loaders.b;
 
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.block.MaterialMachines;
 import gregapi.block.MaterialScoopable;
 import gregapi.block.multitileentity.MultiTileEntityBlock;

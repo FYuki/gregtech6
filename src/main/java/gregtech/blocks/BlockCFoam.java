@@ -20,6 +20,7 @@
 package gregtech.blocks;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 import gregapi.block.IBlockFoamable;
 import gregapi.block.metatype.BlockColored;

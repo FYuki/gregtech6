@@ -20,6 +20,7 @@
 package gregtech.blocks.tree;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 import java.util.Random;
 

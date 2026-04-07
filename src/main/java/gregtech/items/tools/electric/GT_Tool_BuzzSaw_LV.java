@@ -19,6 +19,7 @@
 
 package gregtech.items.tools.electric;
 
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.block.misc.BlockBaseBars;
 import gregapi.data.CS.SFX;
 import gregapi.data.MD;

@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class GT_Tool_Screwdriver extends ToolStats {
 	public static final List<String> mEffectiveList = Arrays.asList(

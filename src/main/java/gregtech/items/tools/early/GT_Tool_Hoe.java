@@ -34,6 +34,7 @@ import net.minecraft.world.item.ItemStack;
 import gregapi.stubs.AchievementList;
 
 import static gregapi.data.CS.TOOL_hoe;
+import gregapi.block.Material; // PHASE3: stub
 
 public class GT_Tool_Hoe extends ToolStats {
 	@Override

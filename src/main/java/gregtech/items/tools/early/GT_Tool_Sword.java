@@ -39,6 +39,7 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 import java.util.List;
 
 import static gregapi.data.CS.T;
+import gregapi.block.Material; // PHASE3: stub
 import static gregapi.data.CS.TOOL_sword;
 
 public class GT_Tool_Sword extends ToolStats {

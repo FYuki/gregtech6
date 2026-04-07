@@ -53,6 +53,7 @@ import net.minecraft.core.Direction; // was Direction
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.IIcon; // stub
 
 public abstract class BlockBaseSpike extends BlockBaseSealable implements IBlockOnWalkOver, IBlockToolable, IRenderedBlock {

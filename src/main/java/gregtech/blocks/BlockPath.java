@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.IIcon; // stub
 
 public class BlockPath extends BlockBaseMeta implements IBlockOnWalkOver, IRenderedBlock {

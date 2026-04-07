@@ -36,6 +36,7 @@ import net.minecraft.world.item.ItemStack;
 import gregapi.stubs.AchievementList;
 
 import static gregapi.data.CS.T;
+import gregapi.block.Material; // PHASE3: stub
 import static gregapi.data.CS.TOOL_pickaxe;
 
 public class GT_Tool_Pickaxe extends ToolStats {

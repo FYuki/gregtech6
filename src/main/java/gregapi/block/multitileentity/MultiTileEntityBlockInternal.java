@@ -20,6 +20,7 @@
 package gregapi.block.multitileentity;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 import gregapi.block.IBlock;
 import gregapi.block.IBlockPlacable;

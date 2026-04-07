@@ -42,6 +42,7 @@ import net.minecraft.core.Direction; // was Direction
 import java.util.ArrayList;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class BlockDiggable extends BlockBaseMeta implements IBlockOnWalkOver {
 	public static boolean[] IS_CLAY = {F,T,F,T,T,T,T,F,F,F,F,F,F,F,F,F};

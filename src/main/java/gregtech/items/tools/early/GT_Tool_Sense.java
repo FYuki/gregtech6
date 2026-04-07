@@ -43,6 +43,7 @@ import twilightforest.block.BlockTFHugeWaterLily;
 import java.util.List;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 
 public class GT_Tool_Sense extends ToolStats {
 	private final ThreadLocal<Object> sIsHarvestingRightNow = new ThreadLocal<>();

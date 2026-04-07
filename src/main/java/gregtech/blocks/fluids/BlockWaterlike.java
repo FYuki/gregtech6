@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.IIcon; // stub
 import gregapi.stubs.IIconRegister; // stub
 

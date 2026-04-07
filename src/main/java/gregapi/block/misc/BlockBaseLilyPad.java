@@ -20,6 +20,7 @@
 package gregapi.block.misc;
 
 import static gregapi.data.CS.*;
+import gregapi.block.Material; // PHASE3: stub
 // PHASE3: net.minecraftforge.common.EnumPlantType removed; use net.neoforged.neoforge.common.PlantType fields directly
 
 import java.util.List;
