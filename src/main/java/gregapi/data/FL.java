@@ -41,6 +41,7 @@ import gregapi.stubs.FluidTank;
 import gregapi.stubs.IFluidTank;
 import net.minecraft.world.level.material.Fluid;
 import gregapi.stubs.FluidContainerRegistry.FluidContainerData;
+import gregapi.stubs.BlockFluidBase; // stub
 
 import java.util.*;
 
@@ -999,9 +1000,9 @@ public enum FL {
 	
 	public static boolean contains(ItemStack aStack, FluidStack aFluid, boolean aCheckIFluidContainerItems) {
 		if (ST.invalid(aStack) || aFluid == null) return F;
-		if (aCheckIFluidContainerItems && aStack.getItem() instanceof IFluidContainerItem && ((IFluidContainerItem)aStack.getItem()).getCapacity(aStack) > 0) return aFluid.isFluidEqual(((IFluidContainerItem)aStack.getItem()).getFluid(aStack = ST.amount(1, aStack)));
+		if (aCheckIFluidContainerItems && aStack.getItem() instanceof IFluidContainerItem && ((IFluidContainerItem)aStack.getItem()).getCapacity(aStack) > 0) return aFluid.isSameFluid(((IFluidContainerItem)aStack.getItem()).getFluid(aStack = ST.amount(1, aStack)));
 		FluidContainerData tData = FULL_TO_DATA.get(new ItemStackContainer(aStack));
-		return tData!=null && tData.fluid.isFluidEqual(aFluid);
+		return tData!=null && tData.fluid.isSameFluid(aFluid);
 	}
 	
 	public static FluidStack getFluid(ItemStack aStack, boolean aCheckIFluidContainerItems) {

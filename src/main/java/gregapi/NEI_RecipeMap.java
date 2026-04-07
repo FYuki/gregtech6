@@ -563,7 +563,7 @@ public class NEI_RecipeMap extends TemplateRecipeHandler {
 				if (tFluid != null) {
 					tResults.add(FL.display(tFluid, F, F));
 					for (FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) {
-						if (tData.fluid.isFluidEqual(tFluid)) tResults.add(ST.copy(tData.filledContainer));
+						if (tData.fluid.isSameFluid(tFluid)) tResults.add(ST.copy(tData.filledContainer));
 					}
 				}
 			}
@@ -603,7 +603,7 @@ public class NEI_RecipeMap extends TemplateRecipeHandler {
 				if (tFluid != null) {
 					tInputs.add(FL.display(tFluid, F, F));
 					for (FluidContainerData tData : FluidContainerRegistry.getRegisteredFluidContainerData()) {
-						if (tData.fluid.isFluidEqual(tFluid)) tInputs.add(ST.copy(tData.filledContainer));
+						if (tData.fluid.isSameFluid(tFluid)) tInputs.add(ST.copy(tData.filledContainer));
 					}
 				}
 			}

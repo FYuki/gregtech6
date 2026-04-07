@@ -618,7 +618,7 @@ public abstract class TileEntityBase01Root extends BlockEntity implements ITileE
 	public FluidStack drain(Direction aDirection, FluidStack aFluid, boolean aDoDrain) {
 		if (aFluid == null || aFluid.amount <= 0) return null;
 		IFluidTank tTank = getFluidTankDrainable(UT.Code.side(aDirection), aFluid);
-		if (tTank == null || tTank.getFluid() == null || tTank.getFluidAmount() == 0 || !tTank.getFluid().isFluidEqual(aFluid)) return null;
+		if (tTank == null || tTank.getFluid() == null || tTank.getFluidAmount() == 0 || !tTank.getFluid().isSameFluid(aFluid)) return null;
 		FluidStack rDrained = tTank.drain(aFluid.amount, aDoDrain);
 		if (rDrained != null && aDoDrain) updateTanks();
 		return rDrained;
@@ -671,7 +671,7 @@ public abstract class TileEntityBase01Root extends BlockEntity implements ITileE
 	public FluidStack drain(MultiTileEntityMultiBlockPart aPart, byte aDirection, FluidStack aFluid, boolean aDoDrain) {
 		if (aFluid == null || aFluid.amount <= 0) return null;
 		IFluidTank tTank = getFluidTankDrainable(aPart, SIDE_ANY, aFluid);
-		if (tTank == null || tTank.getFluid() == null || tTank.getFluidAmount() == 0 || !tTank.getFluid().isFluidEqual(aFluid)) return null;
+		if (tTank == null || tTank.getFluid() == null || tTank.getFluidAmount() == 0 || !tTank.getFluid().isSameFluid(aFluid)) return null;
 		FluidStack rDrained = tTank.drain(aFluid.amount, aDoDrain);
 		if (rDrained != null && aDoDrain) updateTanks();
 		return rDrained;

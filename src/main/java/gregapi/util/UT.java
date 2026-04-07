@@ -458,9 +458,9 @@ public class UT {
 		
 		@Deprecated public static boolean containsFluid(ItemStack aStack, FluidStack aFluid, boolean aCheckIFluidContainerItems) {
 			if (ST.invalid(aStack) || aFluid == null) return F;
-			if (aCheckIFluidContainerItems && aStack.getItem() instanceof IFluidContainerItem && ((IFluidContainerItem)aStack.getItem()).getCapacity(aStack) > 0) return aFluid.isFluidEqual(((IFluidContainerItem)aStack.getItem()).getFluid(aStack = ST.amount(1, aStack)));
+			if (aCheckIFluidContainerItems && aStack.getItem() instanceof IFluidContainerItem && ((IFluidContainerItem)aStack.getItem()).getCapacity(aStack) > 0) return aFluid.isSameFluid(((IFluidContainerItem)aStack.getItem()).getFluid(aStack = ST.amount(1, aStack)));
 			FluidContainerData tData = sFilled2Data.get(new ItemStackContainer(aStack));
-			return tData!=null && tData.fluid.isFluidEqual(aFluid);
+			return tData!=null && tData.fluid.isSameFluid(aFluid);
 		}
 		
 		@Deprecated public static FluidStack getFluidForFilledItem(ItemStack aStack, boolean aCheckIFluidContainerItems) {

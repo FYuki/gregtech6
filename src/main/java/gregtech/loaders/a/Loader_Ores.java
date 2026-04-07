@@ -32,7 +32,7 @@ import gregapi.oredict.OreDictPrefix;
 import gregapi.render.BlockTextureCopied;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Block.SoundType;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.block.Blocks;
 

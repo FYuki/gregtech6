@@ -80,6 +80,7 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 import gregapi.stubs.Configuration; // stub
+import gregapi.stubs.BlockFluidClassic; // stub
 import net.minecraft.world.level.biome.Biome;
 
 /**

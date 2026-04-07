@@ -321,7 +321,7 @@ public abstract class MultiItem extends ItemBase implements IItemEnergy {
 			return (int)(long)tStats[0];
 		}
 		
-		if (!tFluid.isFluidEqual(aFluid)) return 0;
+		if (!tFluid.isSameFluid(aFluid)) return 0;
 		
 		int space = (int)(long)tStats[0] - tFluid.amount;
 		if (aFluid.amount <= space) {
