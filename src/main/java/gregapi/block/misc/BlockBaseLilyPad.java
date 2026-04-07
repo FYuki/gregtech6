@@ -57,6 +57,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.PlantType;
 import net.neoforged.neoforge.common.IPlantable;
 import gregapi.stubs.IIcon; // stub
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockBaseLilyPad extends BlockBaseMeta implements IPlantable, IRenderedBlock {
 	public BlockBaseLilyPad(Class<? extends BlockItem> aItemClass, String aNameInternal, Material aMaterial, SoundType aSoundType, long aMaxMeta, IIconContainer[] aIcons) {

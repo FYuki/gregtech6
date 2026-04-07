@@ -30,6 +30,8 @@ import gregapi.render.ITexture;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
+import net.minecraft.world.level.block.SoundType;
+import gregapi.block.Material;
 
 /**
  * @author Gregorius Techneticies

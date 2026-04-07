@@ -47,7 +47,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.ChunkPosition;
-import net.minecraft.world.Explosion;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 
 import java.util.Iterator;

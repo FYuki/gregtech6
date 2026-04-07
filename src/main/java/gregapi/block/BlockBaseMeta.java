@@ -29,6 +29,7 @@ import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.BlockItem;
 import gregapi.stubs.IIcon; // stub
+import net.minecraft.world.level.block.SoundType;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 
 /**

@@ -36,6 +36,7 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockConcreteReinforced extends BlockColored {
 	public BlockConcreteReinforced(String aUnlocalised) {

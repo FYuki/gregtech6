@@ -47,7 +47,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.Explosion;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 // PHASE3: import FluidRegistry removed — use NeoForge fluid registry
 import net.neoforged.neoforge.fluids.FluidStack;

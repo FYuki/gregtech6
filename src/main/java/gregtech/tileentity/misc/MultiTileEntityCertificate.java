@@ -39,7 +39,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.Explosion;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 
 import java.io.File;

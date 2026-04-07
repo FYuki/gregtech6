@@ -34,6 +34,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Direction; // was Direction
 import gregapi.stubs.IIcon; // stub
+import net.minecraft.world.level.block.SoundType;
 
 /**
  * @author Gregorius Techneticies

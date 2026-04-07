@@ -46,6 +46,7 @@ import java.util.ArrayList;
 
 import static gregapi.data.CS.*;
 import gregapi.block.Material; // PHASE3: stub
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockGlassGlow extends BlockColored {
 	public BlockGlassGlow(String aUnlocalised) {

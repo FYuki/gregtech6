@@ -60,7 +60,7 @@ import net.minecraft.world.item.ItemStack;
 import gregapi.stubs.StatList;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.util.*;
-import net.minecraft.world.Explosion;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.IPlantable;
@@ -72,6 +72,7 @@ import java.util.*;
 import static gregapi.data.CS.*;
 import gregapi.stubs.IIcon; // stub
 import gregapi.stubs.IIconRegister; // stub
+import net.minecraft.world.level.block.SoundType;
 
 /**
  * @author Gregorius Techneticies

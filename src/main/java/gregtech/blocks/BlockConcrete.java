@@ -46,6 +46,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockConcrete extends BlockColored implements IBlockToolable {
 	public BlockConcrete(String aUnlocalised) {

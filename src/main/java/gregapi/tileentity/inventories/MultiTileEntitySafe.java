@@ -37,7 +37,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.Explosion;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import gregapi.stubs.ChestGenHooks;
 

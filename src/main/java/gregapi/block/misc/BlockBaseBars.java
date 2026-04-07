@@ -55,6 +55,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import gregapi.stubs.IIcon; // stub
+import net.minecraft.world.level.block.SoundType;
 
 public abstract class BlockBaseBars extends BlockBaseSealable implements IRenderedBlock {
 	public final OreDictMaterial mMat;

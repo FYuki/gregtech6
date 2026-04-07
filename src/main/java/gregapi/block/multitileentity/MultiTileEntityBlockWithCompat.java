@@ -32,6 +32,7 @@ import openblocks.api.IPaintableBlock;
 import vazkii.botania.api.mana.IManaTrigger;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.block.SoundType;
 
 /**
  * @author Gregorius Techneticies

@@ -50,6 +50,7 @@ import java.util.Random;
 import static gregapi.data.CS.*;
 // net.minecraftforge.common.EnumPlantType.Plains replaced by net.neoforged.neoforge.common.PlantType
 import gregapi.stubs.IIcon; // stub
+import net.minecraft.world.level.block.SoundType;
 
 /**
  * @author Gregorius Techneticies

@@ -30,6 +30,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockStonesGT extends BlockStones {
 	public final boolean mWitherProof;

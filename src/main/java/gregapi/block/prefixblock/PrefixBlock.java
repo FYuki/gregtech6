@@ -65,7 +65,7 @@ import net.minecraft.world.phys.AABB;
 // PHASE4: import IIcon removed — use TextureAtlasSprite
 import net.minecraft.world.phys.HitResult;
 import gregapi.stubs.StatCollector;
-import net.minecraft.world.Explosion;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import gregapi.stubs.MinecraftForgeClient;
@@ -79,6 +79,8 @@ import java.util.Random;
 import static gregapi.data.CS.*;
 import gregapi.stubs.IIcon; // stub
 import gregapi.stubs.IIconRegister; // stub
+import net.minecraft.world.level.block.SoundType;
+import gregapi.block.Material;
 
 /**
  * @author Gregorius Techneticies

@@ -34,6 +34,7 @@ import net.minecraft.world.level.Level;
 
 import static gregapi.data.CS.ALL_SIDES_VALID;
 import gregapi.block.Material; // PHASE3: stub
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockTreePlanks extends BlockBasePlanksFlammable {
 	public BlockTreePlanks(String aName) {

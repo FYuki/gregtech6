@@ -58,6 +58,7 @@ import static gregapi.data.CS.*;
 import gregapi.block.Material; // PHASE3: stub
 import static gregapi.data.OP.gearGtSmall;
 import static gregapi.data.OP.rockGt;
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockStones extends BlockMetaType implements IOreDictListenerEvent, IBlockToolable, IBlockOnWalkOver, BonemealableBlock, Runnable {
 	public static final boolean[]

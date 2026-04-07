@@ -39,6 +39,7 @@ import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockAsphalt extends BlockColored implements IBlockOnWalkOver {
 	public BlockAsphalt(String aUnlocalised) {

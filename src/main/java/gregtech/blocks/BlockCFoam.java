@@ -34,6 +34,7 @@ import gregapi.render.IIconContainer;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
 
 public class BlockCFoam extends BlockColored implements IBlockFoamable {
 	public BlockCFoam(String aUnlocalised) {

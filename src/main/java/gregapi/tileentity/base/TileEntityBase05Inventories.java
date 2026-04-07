@@ -31,7 +31,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.world.Explosion;
+import net.minecraft.world.level.Explosion;
 
 import static gregapi.data.CS.*;
 
