@@ -73,6 +73,7 @@ import static gregapi.data.CS.*;
 import gregapi.stubs.IIcon; // stub
 import gregapi.stubs.IIconRegister; // stub
 import net.minecraft.world.level.block.SoundType;
+import gregapi.block.Material;
 
 /**
  * @author Gregorius Techneticies

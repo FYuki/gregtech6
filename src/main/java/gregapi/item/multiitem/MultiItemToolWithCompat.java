@@ -103,27 +103,27 @@ public class MultiItemToolWithCompat extends MultiItemTool implements IWarpingGe
 	}
 	
 	@Override
-	public boolean canLink(Player aPlayer, ItemStack aStack, EntityMinecart cart) {
+	public boolean canLink(Player aPlayer, ItemStack aStack, AbstractMinecart cart) {
 		if (!isItemStackUsable(aStack)) return F;
 		IToolStats tStats = getToolStats(aStack);
 		return tStats != null && tStats.isCrowbar();
 	}
 	
 	@Override
-	public void onLink(Player aPlayer, ItemStack aStack, EntityMinecart cart) {
+	public void onLink(Player aPlayer, ItemStack aStack, AbstractMinecart cart) {
 		IToolStats tStats = getToolStats(aStack);
 		if (tStats != null && !UT.Entities.hasInfiniteItems(aPlayer)) doDamage(aStack, tStats.getToolDamagePerEntityAttack(), aPlayer, T);
 	}
 	
 	@Override
-	public boolean canBoost(Player aPlayer, ItemStack aStack, EntityMinecart cart) {
+	public boolean canBoost(Player aPlayer, ItemStack aStack, AbstractMinecart cart) {
 		if (!isItemStackUsable(aStack)) return F;
 		IToolStats tStats = getToolStats(aStack);
 		return tStats != null && tStats.isCrowbar();
 	}
 	
 	@Override
-	public void onBoost(Player aPlayer, ItemStack aStack, EntityMinecart cart) {
+	public void onBoost(Player aPlayer, ItemStack aStack, AbstractMinecart cart) {
 		IToolStats tStats = getToolStats(aStack);
 		if (tStats != null && !UT.Entities.hasInfiniteItems(aPlayer)) doDamage(aStack, tStats.getToolDamagePerEntityAttack(), aPlayer, T);
 	}

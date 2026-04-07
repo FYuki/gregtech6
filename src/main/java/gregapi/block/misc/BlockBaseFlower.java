@@ -55,6 +55,7 @@ import java.util.Random;
 import static gregapi.data.CS.*;
 import gregapi.stubs.IIcon; // stub
 import gregapi.stubs.IIconRegister; // stub
+import gregapi.block.Material;
 
 /**
  * @author Gregorius Techneticies

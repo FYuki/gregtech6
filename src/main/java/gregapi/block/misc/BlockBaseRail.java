@@ -58,6 +58,7 @@ import java.util.Random;
 import static gregapi.data.CS.*;
 import gregapi.stubs.IIcon; // stub
 import gregapi.stubs.IIconRegister; // stub
+import gregapi.block.Material;
 
 /**
  * @author Gregorius Techneticies
@@ -236,7 +237,7 @@ public class BlockBaseRail extends BaseRailBlock implements IBlockBase, IBlockSe
 		boolean flag = (aMetaData & 8) != 0;
 		boolean flag1 = F;
 		@SuppressWarnings("unchecked")
-		List<EntityMinecart> list = aWorld.getEntitiesWithinAABB(EntityMinecart.class, AABB.getBoundingBox(aX + 0.125, aY, aZ + 0.125, aX + 0.875, aY + 0.875, aZ + 0.875));
+		List<AbstractMinecart> list = aWorld.getEntitiesWithinAABB(AbstractMinecart.class, AABB.getBoundingBox(aX + 0.125, aY, aZ + 0.125, aX + 0.875, aY + 0.875, aZ + 0.875));
 		
 		if (!list.isEmpty()) flag1 = T;
 		if (flag1 && !flag) {
@@ -267,17 +268,17 @@ public class BlockBaseRail extends BaseRailBlock implements IBlockBase, IBlockSe
 	public int getComparatorInputOverride(Level aWorld, int aX, int aY, int aZ, int aSide) {
 		if (mDetectorRail && (WD.meta(aWorld, aX, aY, aZ) & 8) > 0) {
 			@SuppressWarnings("unchecked")
-			List<EntityMinecartCommandBlock> list = aWorld.getEntitiesWithinAABB(EntityMinecartCommandBlock.class, AABB.getBoundingBox(aX + 0.125, aY, aZ + 0.125, aX + 0.875, aY + 0.875, aZ + 0.875));
+			List<MinecartCommandBlock> list = aWorld.getEntitiesWithinAABB(MinecartCommandBlock.class, AABB.getBoundingBox(aX + 0.125, aY, aZ + 0.125, aX + 0.875, aY + 0.875, aZ + 0.875));
 			if (list.size() > 0) return list.get(0).func_145822_e().func_145760_g();
 			@SuppressWarnings("unchecked")
-			List<EntityMinecart> list1 = aWorld.selectEntitiesWithinAABB(EntityMinecart.class, AABB.getBoundingBox(aX + 0.125, aY, aZ + 0.125, aX + 0.875, aY + 0.875, aZ + 0.875), IEntitySelector.selectInventories);
+			List<AbstractMinecart> list1 = aWorld.selectEntitiesWithinAABB(AbstractMinecart.class, AABB.getBoundingBox(aX + 0.125, aY, aZ + 0.125, aX + 0.875, aY + 0.875, aZ + 0.875), IEntitySelector.selectInventories);
 			if (list1.size() > 0) return Container.calcRedstoneFromInventory((Container)list1.get(0));
 		}
 		return 0;
 	}
 	
 	@Override
-	public float getRailMaxSpeed(Level aWorld, EntityMinecart aCart, int aX, int aY, int aZ) {
+	public float getRailMaxSpeed(Level aWorld, AbstractMinecart aCart, int aX, int aY, int aZ) {
 		switch(WD.meta(aWorld, aX, aY, aZ) & 7) {
 		case  0:
 			if (WD.block(aWorld, aX  , aY, aZ+1) instanceof BlockBaseRail && (WD.meta(aWorld, aX  , aY, aZ+1) & 7) == 0
@@ -291,7 +292,7 @@ public class BlockBaseRail extends BaseRailBlock implements IBlockBase, IBlockSe
 	}
 	
 	@Override
-	public void onMinecartPass(Level aWorld, EntityMinecart aCart, int aX, int aY, int aZ) {
+	public void onMinecartPass(Level aWorld, AbstractMinecart aCart, int aX, int aY, int aZ) {
 		if (mPowerRail) {
 			byte tRailMeta = WD.meta(aWorld, aX, aY, aZ);
 			double tMotion = Math.sqrt(aCart.motionX*aCart.motionX + aCart.motionZ*aCart.motionZ);

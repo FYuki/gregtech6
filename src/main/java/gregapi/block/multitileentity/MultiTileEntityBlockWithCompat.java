@@ -33,6 +33,7 @@ import vazkii.botania.api.mana.IManaTrigger;
 
 import static gregapi.data.CS.*;
 import net.minecraft.world.level.block.SoundType;
+import gregapi.block.Material;
 
 /**
  * @author Gregorius Techneticies

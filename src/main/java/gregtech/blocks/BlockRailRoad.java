@@ -97,7 +97,7 @@ public class BlockRailRoad extends BlockBaseRail {
 	}
 	
 	@Override
-	public void onMinecartPass(Level aWorld, EntityMinecart aCart, int aX, int aY, int aZ) {
+	public void onMinecartPass(Level aWorld, AbstractMinecart aCart, int aX, int aY, int aZ) {
 		double tMotion = Math.sqrt(aCart.motionX*aCart.motionX + aCart.motionZ*aCart.motionZ);
 		if (tMotion > 0.01) {
 			aCart.motionX *= 2;
