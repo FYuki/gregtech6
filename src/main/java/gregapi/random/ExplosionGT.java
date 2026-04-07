@@ -124,7 +124,7 @@ public class ExplosionGT extends Explosion {
 		for (int i1 = 0; i1 < tEntities.size(); ++i1) {
 			Entity tEntity = (Entity)tEntities.get(i1);
 			double tEntityDist = tEntity.getDistance(explosionX, explosionY, explosionZ) / tSize;
-			if (tEntityDist <= 1 && !(tEntity instanceof WitherBoss || tEntity instanceof EnderDragon || tEntity instanceof EntityDragonPart || tEntity.getClass().getName().toLowerCase().contains("boss"))) {
+			if (tEntityDist <= 1 && !(tEntity instanceof WitherBoss || tEntity instanceof EnderDragon || tEntity instanceof EnderDragonPart || tEntity.getClass().getName().toLowerCase().contains("boss"))) {
 				double tKnockX = tEntity.posX - explosionX, tKnockY = tEntity.posY + tEntity.getEyeHeight() - explosionY, tKnockZ = tEntity.posZ - explosionZ;
 				double tDist = Mth.sqrt_double(tKnockX * tKnockX + tKnockY * tKnockY + tKnockZ * tKnockZ);
 				if (tDist > 0) {

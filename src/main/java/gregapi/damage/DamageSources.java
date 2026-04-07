@@ -27,6 +27,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.*;
 
 import static gregapi.data.CS.F;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.network.chat.Component;
 /**
  * @author Gregorius Techneticies
  */
@@ -122,8 +124,8 @@ public class DamageSources {
 			return new Component(aMessage.replace("[KILLER]", EnumChatFormatting.GREEN+aNamePlayer+EnumChatFormatting.WHITE).replace("[VICTIM]", EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE));
 		} else if (aEntity instanceof LivingEntity) {
 			return new EntityDamageSource(aPlayer instanceof Player ? "player" : "mob", aPlayer).func_151519_b((LivingEntity)aEntity);
-		} else if (aEntity instanceof EntityDragonPart) {
-			return new EntityDamageSource(aPlayer instanceof Player ? "player" : "mob", aPlayer).func_151519_b((LivingEntity)((EntityDragonPart)aEntity).entityDragonObj);
+		} else if (aEntity instanceof EnderDragonPart) {
+			return new EntityDamageSource(aPlayer instanceof Player ? "player" : "mob", aPlayer).func_151519_b((LivingEntity)((EnderDragonPart)aEntity).parentMob);
 		}
 		return new Component(EnumChatFormatting.GREEN+aNamePlayer+EnumChatFormatting.WHITE+" has killed "+EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE);
 	}

@@ -254,7 +254,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		// Endermen require Disjunction Enchantment on the Bullet, or having a Weakness Potion Effect on them.
 		if (aTarget instanceof EntityEnderman && ((EntityEnderman)aTarget).getActivePotionEffect(Potion.weakness) == null && UT.NBT.getEnchantmentLevel(Enchantment_EnderDamage.INSTANCE, aBullet) <= 0) for (int i = 0; i < 64; ++i) if (((EntityEnderman)aTarget).teleportRandomly()) return F;
 		// LivingEntity, Ender Dragon and End Crystals only.
-		if (!(aTarget instanceof LivingEntity || aTarget instanceof EntityDragonPart || aTarget instanceof EnderCrystal)) return F;
+		if (!(aTarget instanceof LivingEntity || aTarget instanceof EnderDragonPart || aTarget instanceof EnderCrystal)) return F;
 	//  // To make Railcrafts Damage Enchantments work... // I later figured I'd just hardcode it in.
 	//  NeoForge.EVENT_BUS.post(new AttackEntityEvent(aPlayer, aTarget));
 		
@@ -264,7 +264,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		float
 		tMassFactor = (tData!=null&&tData.nonemptyMaterial() ? (float)tData.mMaterial.weight() / 50.0F : 1),
 		tSpeedFactor = Math.min(2.0F, aPower/5000.0F),
-		tMagicDamage = (aTarget instanceof LivingEntity ? EnchantmentHelper.func_152377_a(aBullet, ((LivingEntity)aTarget).getCreatureAttribute()) : aTarget instanceof EntityDragonPart ? UT.NBT.getEnchantmentLevel(Enchantment_EnderDamage.INSTANCE, aBullet) : 0),
+		tMagicDamage = (aTarget instanceof LivingEntity ? EnchantmentHelper.func_152377_a(aBullet, ((LivingEntity)aTarget).getCreatureAttribute()) : aTarget instanceof EnderDragonPart ? UT.NBT.getEnchantmentLevel(Enchantment_EnderDamage.INSTANCE, aBullet) : 0),
 		tDamage = tSpeedFactor * Math.max(0, tGunMat.mToolQuality*0.5F + tMassFactor);
 		int
 		tImplosion  =      UT.NBT.getEnchantmentLevelImplosion(aBullet),

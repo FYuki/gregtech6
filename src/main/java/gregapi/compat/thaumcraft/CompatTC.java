@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 
 import static gregapi.data.CS.*;
+import cpw.mods.fml.common.event.*;
 
 public class CompatTC extends CompatBase implements ICompatTC {
 	public CompatTC() {

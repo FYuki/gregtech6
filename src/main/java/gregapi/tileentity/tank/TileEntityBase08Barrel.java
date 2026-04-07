@@ -49,6 +49,7 @@ import java.util.List;
 
 import static gregapi.data.CS.*;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler; // stub
+import gregapi.stubs.IFluidContainerItem;
 
 /**
  * @author Gregorius Techneticies
