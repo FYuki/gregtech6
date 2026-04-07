@@ -46,6 +46,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
+import gregapi.block.Material;
 
 public class BlockMetaType extends BlockBaseMeta {
 	public final float mHardnessMultiplier, mResistanceMultiplier;

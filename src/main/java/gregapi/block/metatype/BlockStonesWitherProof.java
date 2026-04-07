@@ -27,6 +27,7 @@ import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.SoundType;
+import gregapi.block.Material;
 
 public class BlockStonesWitherProof extends BlockStones {
 	public BlockStonesWitherProof(Class<? extends BlockItem> aItemClass, Material aVanillaMaterial, SoundType aVanillaSoundType, String aName, String aDefaultLocalised, OreDictMaterial aMaterial, float aResistanceMultiplier, float aHardnessMultiplier, int aHarvestLevel, IIconContainer[] aIcons) {

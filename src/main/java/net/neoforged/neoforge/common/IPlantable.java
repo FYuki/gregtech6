@@ -3,6 +3,7 @@ package net.neoforged.neoforge.common;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.PlantType;
 
 public interface IPlantable {
     PlantType getPlantType(BlockGetter world, BlockPos pos);

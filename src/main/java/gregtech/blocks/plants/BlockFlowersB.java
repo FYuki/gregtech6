@@ -138,7 +138,7 @@ public class BlockFlowersB extends BlockBaseFlower implements Runnable {
 	}
 	
 	@Override
-	public EnumPlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {
-		return EnumPlantType.Desert;
+	public PlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {
+		return PlantType.DESERT;
 	}
 }

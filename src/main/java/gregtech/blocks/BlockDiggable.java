@@ -107,8 +107,8 @@ public class BlockDiggable extends BlockBaseMeta implements IBlockOnWalkOver {
 	public boolean canSustainPlant(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
 		if (IS_CLAY[WD.meta(aWorld, aX, aY, aZ)]) return F;
 		if (aPlant == Blocks.reeds || aPlant instanceof BushBlock) return T;
-		EnumPlantType tType = aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ);
-		return tType == EnumPlantType.Plains || tType == EnumPlantType.Water || tType == EnumPlantType.Desert || tType == EnumPlantType.Beach;
+		PlantType tType = aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ);
+		return tType == PlantType.PLAINS || tType == PlantType.WATER || tType == PlantType.DESERT || tType == PlantType.BEACH;
 	}
 	
 	@Override

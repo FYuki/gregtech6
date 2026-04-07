@@ -628,7 +628,7 @@ public class BlockStones extends BlockMetaType implements IOreDictListenerEvent,
 	
 	@Override
 	public boolean canSustainPlant(BlockGetter aWorld, int aX, int aY, int aZ, Direction aSide, IPlantable aPlant) {
-		return PLANTABLE[WD.meta(aWorld, aX, aY, aZ)] && aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ) == EnumPlantType.Cave;
+		return PLANTABLE[WD.meta(aWorld, aX, aY, aZ)] && aPlant.getPlantType(aWorld, aX+aSide.offsetX, aY+aSide.offsetY, aZ+aSide.offsetZ) == PlantType.CAVE;
 	}
 	
 	@Override public boolean func_149851_a(Level aWorld, int aX, int aY, int aZ, boolean aIsRemote) {return MOSSY[WD.meta(aWorld, aX, aY, aZ)];}

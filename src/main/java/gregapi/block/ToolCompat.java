@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
+import net.minecraft.world.level.block.BonemealableBlock;
 
 /**
  * @author Gregorius Techneticies

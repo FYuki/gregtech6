@@ -126,7 +126,7 @@ public abstract class BlockBaseFlower extends BlockFlower implements IBlockBase,
 	@Override public int getItemStackLimit(ItemStack aStack) {return 64;}
 	@Override public ItemStack onItemRightClick(ItemStack aStack, Level aWorld, Player aPlayer) {return aStack;}
 	
-	@Override public EnumPlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {return EnumPlantType.Plains;}
+	@Override public PlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {return PlantType.PLAINS;}
 	@Override public Block getPlant(BlockGetter aWorld, int aX, int aY, int aZ) {return this;}
 	@Override public int getPlantMetadata(BlockGetter aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ);}
 	@Override public boolean canBlockStay(Level aWorld, int aX, int aY, int aZ) {return WD.oxygen(aWorld, aX, aY, aZ) && aWorld.getBlock(aX, aY - 1, aZ).canSustainPlant(aWorld, aX, aY - 1, aZ, Direction.UP, Blocks.yellow_flower);}
