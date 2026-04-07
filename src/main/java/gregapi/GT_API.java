@@ -893,7 +893,7 @@ public class GT_API extends Abstract_Mod {
 	
 	// PHASE7: FMLModIdMappingEvent removed in NeoForge — registry remapping via MissingMappingsEvent per registry.
 	// Block numeric ID fixups below are obsolete in 1.21 (all blocks use ResourceLocation keys).
-	public void onIDChangingEvent(net.neoforged.neoforge.registries.MissingMappingsEvent aEvent) {
+	public void onIDChangingEvent(gregapi.stubs.MissingMappingsEvent aEvent) {
 		// PHASE3: Block.blockRegistry numeric ID fixups removed — blocks use string keys in 1.21+
 		// if (Block.blockRegistry.getObjectById( 26) == null) ...
 		// PHASE3: Block.blockRegistry numeric ID fixups removed — blocks use ResourceLocation keys in NeoForge 1.21.

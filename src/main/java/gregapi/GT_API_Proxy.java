@@ -98,6 +98,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 import gregapi.stubs.FurnaceRecipes;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.nbt.CompoundTag;
@@ -142,6 +143,10 @@ import gregapi.block.Material; // PHASE3: stub
 import gregapi.stubs.WorldSettings; // stub
 import gregapi.stubs.IChunkProvider; // stub
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerDestroyItemEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.entity.player.ArrowNockEvent;
+import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 
 /**
  * @author Gregorius Techneticies
@@ -519,7 +524,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onLivingUpdate(LivingUpdateEvent aEvent) {
+	public void onLivingUpdate(LivingEvent.Tick aEvent) {
 		int
 		tX = UT.Code.roundDown(aEvent.entityLiving.posX),
 		tY = UT.Code.roundDown(aEvent.entityLiving.posY + aEvent.entityLiving.getEyeHeight()),
@@ -599,7 +604,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onWorldTick(WorldTickEvent aEvent) {
+	public void onWorldTick(LevelTickEvent aEvent) {
 		TOOL_SOUNDS = TOOL_SOUNDS_SETTING;
 		
 		if (aEvent.side.isServer() && aEvent.phase == Phase.END) {
@@ -690,7 +695,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onPlayerItemPickupEvent(net.neoforged.neoforge.event.entity.player.PlayerEvent.ItemPickupEvent aEvent) {
+	public void onPlayerItemPickupEvent(net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent aEvent) {
 		ST.check(aEvent.player, aEvent.pickedUp.getEntityItem());
 	}
 	
@@ -1371,7 +1376,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onEntitySpawningEvent(EntityJoinWorldEvent aEvent) {
+	public void onEntitySpawningEvent(EntityJoinLevelEvent aEvent) {
 		if (aEvent.entity instanceof ItemEntity && !aEvent.entity.worldObj.isRemote) {
 			ItemStack aStack = ST.update(OM.get(((ItemEntity)aEvent.entity).getEntityItem()), aEvent.entity);
 			if (ST.valid(aStack) && aStack.getCount() > 0) {
@@ -1480,7 +1485,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onCheckSpawnEvent(MobSpawnEvent.CheckSpawn aEvent) {
+	public void onCheckSpawnEvent(MobSpawnEvent.FinalizeSpawn aEvent) {
 		if (aEvent.getResult() == Result.DENY) return;
 		Class<? extends LivingEntity> aMobClass = aEvent.entityLiving.getClass();
 		Level aWorld = aEvent.world;
@@ -1530,7 +1535,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	//public static List<Mob> mMobsToFastDespawn = new ArrayListNoNulls<>();
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onEntityConstructingEvent(EntityConstructing aEvent) {
+	public void onEntityConstructingEvent(EntityEvent.EntityConstructing aEvent) {
 		if (Abstract_Mod.sFinalized >= Abstract_Mod.sModCountUsingGTAPI && aEvent.entity instanceof Player) EntityFoodTracker.add((Player)aEvent.entity);
 	}
 	
