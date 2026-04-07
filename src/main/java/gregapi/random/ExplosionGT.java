@@ -59,7 +59,7 @@ public class ExplosionGT extends Explosion {
 		ExplosionGT tExplosion = new ExplosionGT(aWorld, aEntity, aX, aY, aZ, aPower);
 		tExplosion.isFlaming = aFlaming;
 		tExplosion.isSmoking = aSmoking;
-		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(aWorld, tExplosion)) return tExplosion;
+		if (net.neoforged.neoforge.event.EventHooks.onExplosionStart(aWorld, tExplosion)) return tExplosion;
 		tExplosion.doExplosionA();
 		if (aWorld instanceof WorldServer) {
 			tExplosion.doExplosionB(F);
@@ -117,7 +117,7 @@ public class ExplosionGT extends Explosion {
 		tSize *= 2;
 		@SuppressWarnings("rawtypes")
 		List tEntities = mWorld.getEntitiesWithinAABBExcludingEntity(exploder, AABB.getBoundingBox(UT.Code.roundDown(explosionX - tSize - 1), UT.Code.roundDown(explosionY - tSize - 1), UT.Code.roundDown(explosionZ - tSize - 1), UT.Code.roundDown(explosionX + tSize + 1), UT.Code.roundDown(explosionY + tSize + 1), UT.Code.roundDown(explosionZ + tSize + 1)));
-		net.minecraftforge.event.ForgeEventFactory.onExplosionDetonate(mWorld, this, tEntities, tSize);
+		net.neoforged.neoforge.event.EventHooks.onExplosionDetonate(mWorld, this, tEntities, tSize);
 		Vec3 tVec3 = Vec3.createVectorHelper(explosionX, explosionY, explosionZ);
 		for (int i1 = 0; i1 < tEntities.size(); ++i1) {
 			Entity tEntity = (Entity)tEntities.get(i1);

@@ -20,7 +20,7 @@
 package gregapi.block.misc;
 
 import static gregapi.data.CS.*;
-import static net.minecraftforge.common.EnumPlantType.*;
+// PHASE3: net.minecraftforge.common.EnumPlantType removed; use net.neoforged.neoforge.common.PlantType fields directly
 
 import java.util.List;
 import java.util.Random;
@@ -81,7 +81,7 @@ public class BlockBaseLilyPad extends BlockBaseMeta implements IPlantable, IRend
 	@Override public boolean isSideSolid(int aMeta, byte aSide) {return F;}
 	@Override public boolean isSealable(byte aMeta, byte aSide) {return F;}
 	@Override public int getLightOpacity() {return LIGHT_OPACITY_NONE;}
-	@Override public EnumPlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {return Water;}
+	@Override public PlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {return PlantType.WATER;}
 	@Override public Block getPlant(BlockGetter aWorld, int aX, int aY, int aZ) {return this;}
 	@Override public int getPlantMetadata(BlockGetter aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ);}
 	@Override public float getBlockHardness(Level aWorld, int aX, int aY, int aZ) {return Blocks.waterlily.getBlockHardness(aWorld, aX, aY, aZ);}

@@ -1227,7 +1227,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void onUseHoeEvent(net.minecraftforge.event.entity.player.UseHoeEvent aEvent) {
+	public void onUseHoeEvent(net.neoforged.neoforge.event.entity.player.UseHoeEvent aEvent) {
 		if (aEvent.world.getBlock(aEvent.x, aEvent.y, aEvent.z) == Blocks.DIRT && aEvent.world.getBlockMetadata(aEvent.x, aEvent.y, aEvent.z) != 0) aEvent.setCanceled(T);
 	}
 	

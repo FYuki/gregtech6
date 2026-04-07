@@ -48,7 +48,7 @@ import gregapi.stubs.TerrainGen;
 import java.util.Random;
 
 import static gregapi.data.CS.*;
-import static net.minecraftforge.common.EnumPlantType.Plains;
+// net.minecraftforge.common.EnumPlantType.Plains replaced by net.neoforged.neoforge.common.PlantType
 import gregapi.stubs.IIcon; // stub
 
 /**
@@ -144,7 +144,7 @@ public abstract class BlockBaseSapling extends BlockBaseMeta implements IPlantab
 		return T;
 	}
 	
-	@Override public EnumPlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {return Plains;}
+	@Override public PlantType getPlantType(BlockGetter aWorld, int aX, int aY, int aZ) {return PlantType.PLAINS;}
 	@Override public Block getPlant(BlockGetter aWorld, int aX, int aY, int aZ) {return this;}
 	@Override public int getPlantMetadata(BlockGetter aWorld, int aX, int aY, int aZ) {return WD.meta(aWorld, aX, aY, aZ);}
 	@Override public boolean func_149851_a(Level aWorld, int aX, int aY, int aZ, boolean aIsRemote) {return T;}

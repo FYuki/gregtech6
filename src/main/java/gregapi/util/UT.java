@@ -63,7 +63,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.Tag;
-import net.minecraft.nbt.Tag.NBTPrimitive;
+import net.minecraft.nbt.NBTPrimitive;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
