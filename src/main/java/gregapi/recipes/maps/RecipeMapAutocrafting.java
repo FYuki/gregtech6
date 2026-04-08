@@ -30,6 +30,7 @@ import gregapi.random.IHasWorldAndCoords;
 import gregapi.recipes.ICraftingRecipeGT;
 import gregapi.recipes.Recipe;
 import gregapi.recipes.Recipe.RecipeMap;
+import gregapi.stubs.IRecipe;
 import gregapi.tileentity.ITileEntityInventoryGUI;
 import gregapi.tileentity.computer.ITileEntityUSBPort;
 import gregapi.tileentity.delegate.DelegatorTileEntity;

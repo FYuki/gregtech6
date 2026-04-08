@@ -32,6 +32,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.BlockGetter;
 import gregapi.stubs.IItemRenderer;
+import gregapi.stubs.ItemRenderType;
+import gregapi.stubs.ItemRendererHelper;
 
 /**
  * @author Gregorius Techneticies

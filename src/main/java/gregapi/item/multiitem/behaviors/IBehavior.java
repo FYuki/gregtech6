@@ -75,7 +75,7 @@ public interface IBehavior<E extends Item> {
 			Direction enumfacing = DispenserBlock.func_149937_b(aSource.getBlockMetadata());
 			Position iposition = BlockPos.containing(aSource.pos());
 			ItemStack itemstack1 = aStack.splitStack(1);
-			BehaviorDefaultDispenseItem.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
+			DefaultDispenseItemBehavior.doDispense(aSource.getWorld(), itemstack1, 6, enumfacing, iposition);
 			return aStack;
 		}
 	}

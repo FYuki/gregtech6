@@ -35,7 +35,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.NbtIo;
-import net.minecraft.nbt.NBTSizeTracker;
+import gregapi.stubs.NBTSizeTracker;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.BlockGetter;
 

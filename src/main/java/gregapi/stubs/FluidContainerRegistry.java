@@ -4,6 +4,11 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.minecraft.world.item.ItemStack;
 @SuppressWarnings("unused")
 public class FluidContainerRegistry {
+    public static class FluidContainerRegisterEvent {
+        public final FluidContainerData data;
+        public FluidContainerRegisterEvent(FluidContainerData data) { this.data = data; }
+    }
+
     public static class FluidContainerData {
         public final FluidStack fluid;
         public final ItemStack filledContainer;

@@ -150,7 +150,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerDestroyItemEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.entity.player.ArrowNockEvent;
 import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
-import net.neoforged.bus.api.Event.Result;
+import net.neoforged.bus.api.Event;
 
 /**
  * @author Gregorius Techneticies
@@ -1212,8 +1212,8 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 			if (ST.valid(aStack)) {
 				// Make sure that shelvable Items don't do a Rightclick Action instead of being shelved.
 				if (aTileEntity instanceof ITileEntityBookShelf && ((ITileEntityBookShelf)aTileEntity).isShelfFace((byte)aEvent.face)) {
-					aEvent.useBlock = Result.ALLOW;
-					if (BooksGT.BOOK_REGISTER.containsKey(aStack, T)) aEvent.useItem = Result.DENY;
+					aEvent.useBlock = Event.Result.ALLOW;
+					if (BooksGT.BOOK_REGISTER.containsKey(aStack, T)) aEvent.useItem = Event.Result.DENY;
 					return;
 				}
 				// Reload Guns with the potential Ammo in this Slot if applicable. Ugly Code, I know.
@@ -1360,7 +1360,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 								ST.set(aDrop, tEvent.item.getItem(), T, T);
 								// I have to ignore this event being cancellable because that causes Item Dupes.
 								NeoForge.EVENT_BUS.post(tEvent);
-								if (tEvent.getResult() == Result.ALLOW || tEntity.isDead || aDrop.getCount() <= 0 || ST.invalid(aDrop)) {
+								if (tEvent.getResult() == Event.Result.ALLOW || tEntity.isDead || aDrop.getCount() <= 0 || ST.invalid(aDrop)) {
 									aDrops.remove();
 								} else if (ST.add(aEvent.harvester, aDrop)) {
 									aDrops.remove();
@@ -1490,33 +1490,33 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onCheckSpawnEvent(FinalizeSpawnEvent aEvent) {
-		if (aEvent.getResult() == Result.DENY) return;
+		if (aEvent.getResult() == Event.Result.DENY) return;
 		Class<? extends LivingEntity> aMobClass = aEvent.entityLiving.getClass();
 		Level aWorld = aEvent.world;
 		int aX = UT.Code.roundDown(aEvent.x), aY = (int)UT.Code.bind(0, aWorld.getHeight(), UT.Code.roundDown(aEvent.y)), aZ = UT.Code.roundDown(aEvent.z);
 		
-		if (SPAWN_NO_BATS && aMobClass == EntityBat.class && aWorld.getBlock(aX, aY-2, aZ) != Blocks.STONE && aWorld.getBlock(aX, aY+2, aZ) != Blocks.STONE) {aEvent.setResult(Result.DENY); return;}
+		if (SPAWN_NO_BATS && aMobClass == EntityBat.class && aWorld.getBlock(aX, aY-2, aZ) != Blocks.STONE && aWorld.getBlock(aX, aY+2, aZ) != Blocks.STONE) {aEvent.setResult(Event.Result.DENY); return;}
 		
 		if (SPAWN_HOSTILES_ONLY_IN_DARKNESS && WD.dimOverworldLike(aWorld)) try {
 			LevelChunk tChunk = aWorld.getChunkFromBlockCoords(aX, aZ);
 			if (tChunk != null && tChunk.getBlockStorageArray() != null && tChunk.getBlockStorageArray()[aY >> 4] != null && tChunk.getBlockStorageArray()[aY >> 4].getExtBlocklightValue(aX & 15, aY & 15, aZ & 15) > 0) {
 				// Vanilla Mobs only, just in case.
-				if (aMobClass == Creeper.class || aMobClass == EntityEnderman.class || aMobClass == EntitySkeleton.class || aMobClass == EntityZombie.class || aMobClass == EntitySpider.class || aMobClass == EntityWitch.class || aMobClass == EntityBat.class) {aEvent.setResult(Result.DENY); return;}
+				if (aMobClass == Creeper.class || aMobClass == EntityEnderman.class || aMobClass == EntitySkeleton.class || aMobClass == EntityZombie.class || aMobClass == EntitySpider.class || aMobClass == EntityWitch.class || aMobClass == EntityBat.class) {aEvent.setResult(Event.Result.DENY); return;}
 				// Well, that Zombie is kindof like Vanilla, so it counts.
-				if (MD.TC.mLoaded) if (aEvent.entityLiving instanceof EntityBrainyZombie) {aEvent.setResult(Result.DENY); return;}
+				if (MD.TC.mLoaded) if (aEvent.entityLiving instanceof EntityBrainyZombie) {aEvent.setResult(Event.Result.DENY); return;}
 				// TODO Add Drowned and other Et Futurum Requiem Mobs once they are released.
-				if (MD.EtFu.mLoaded) if (aEvent.entityLiving instanceof EntityZombieVillager || aEvent.entityLiving instanceof EntityStray || aEvent.entityLiving instanceof EntityHusk) {aEvent.setResult(Result.DENY); return;}
+				if (MD.EtFu.mLoaded) if (aEvent.entityLiving instanceof EntityZombieVillager || aEvent.entityLiving instanceof EntityStray || aEvent.entityLiving instanceof EntityHusk) {aEvent.setResult(Event.Result.DENY); return;}
 			}
 		} catch(Throwable e) {e.printStackTrace(ERR);}
 		
 		if (aWorld.provider.dimensionId == 0 && aY >= WD.waterLevel(aWorld) - 16) {
 			if (GENERATE_BIOMES) {
-				if (UT.Code.inside(-96,  95, aX) && UT.Code.inside(-96,  95, aZ)) {aEvent.setResult(Result.DENY); return;}
+				if (UT.Code.inside(-96,  95, aX) && UT.Code.inside(-96,  95, aZ)) {aEvent.setResult(Event.Result.DENY); return;}
 			} else if (GENERATE_NEXUS) {
-				if (UT.Code.inside(  0,  48, aX) && UT.Code.inside(-64, -16, aZ)) {aEvent.setResult(Result.DENY); return;}
+				if (UT.Code.inside(  0,  48, aX) && UT.Code.inside(-64, -16, aZ)) {aEvent.setResult(Event.Result.DENY); return;}
 			}
-			if (GENERATE_STREETS && (UT.Code.inside(-48, 48, aX) || UT.Code.inside(-48, 48, aZ))) {aEvent.setResult(Result.DENY); return;}
-			if (SPAWN_ZONE_MOB_PROTECTION && UT.Code.inside(-144, 144, aX-aWorld.getWorldInfo().getSpawnX()) && UT.Code.inside(-144, 144, aZ-aWorld.getWorldInfo().getSpawnZ()) && WD.opq(aWorld, aX, 0, aZ, F, F)) {aEvent.setResult(Result.DENY); return;}
+			if (GENERATE_STREETS && (UT.Code.inside(-48, 48, aX) || UT.Code.inside(-48, 48, aZ))) {aEvent.setResult(Event.Result.DENY); return;}
+			if (SPAWN_ZONE_MOB_PROTECTION && UT.Code.inside(-144, 144, aX-aWorld.getWorldInfo().getSpawnX()) && UT.Code.inside(-144, 144, aZ-aWorld.getWorldInfo().getSpawnZ()) && WD.opq(aWorld, aX, 0, aZ, F, F)) {aEvent.setResult(Event.Result.DENY); return;}
 		}
 		
 		//if (aEvent.entity instanceof EntityMob && !(aEvent.entity instanceof IBossDisplayData) && ((EntityMob)aEvent.entity).getCanSpawnHere()) mMobsToFastDespawn.add((Mob)aEvent.entityLiving);
@@ -1527,7 +1527,7 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 				MOB_SPAWN_INHIBITORS.remove(i--);
 				tTileEntity.onUnregisterInhibitor();
 			} else try {
-				if (tTileEntity.inhibitMobSpawn(aEvent, aWorld, aX, aY, aZ)) {aEvent.setResult(Result.DENY); return;}
+				if (tTileEntity.inhibitMobSpawn(aEvent, aWorld, aX, aY, aZ)) {aEvent.setResult(Event.Result.DENY); return;}
 			} catch(Throwable e) {
 				MOB_SPAWN_INHIBITORS.remove(i--);
 				tTileEntity.setError("Spawn Inhibitor - " + e);
