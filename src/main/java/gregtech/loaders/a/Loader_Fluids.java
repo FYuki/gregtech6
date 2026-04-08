@@ -18,6 +18,7 @@
  */
 
 package gregtech.loaders.a;
+import gregapi.stubs.Potion;
 
 import gregapi.data.*;
 import gregapi.item.multiitem.food.FoodStatDrink;

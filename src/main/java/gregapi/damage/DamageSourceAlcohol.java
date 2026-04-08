@@ -36,6 +36,6 @@ public class DamageSourceAlcohol extends DamageSource {
 	
 	@Override
 	public Component func_151519_b(LivingEntity aTarget) {
-		return new Component(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + " died from alcohol poisoning");
+		return Component.literal(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + " died from alcohol poisoning");
 	}
 }

@@ -862,43 +862,43 @@ public abstract class GT_API_Proxy extends Abstract_Proxy {
 								if (tPlayer == null) continue;
 								if ("Bear989Sr".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									if (tPlayer.posY < 30) {
-										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Stop making Holes in the Ground, Bear!"));
+										UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Stop making Holes in the Ground, Bear!"));
 									} else {
 										// Bear does not like being called these names, so lets annoy him. XD
 										switch(tEmptySlots) {
-										case 0: UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Alright Buttercup, your Inventory is full, time to go home.")); break;
-										case 1: UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Your Inventory is starting to get full, Buttercup")); break;
-										case 2: UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Your Inventory is starting to get full, Bean989Sr")); break;
-										case 3: UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Your Inventory is starting to get full, Mr. Bear")); break;
+										case 0: UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Alright Buttercup, your Inventory is full, time to go home.")); break;
+										case 1: UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Your Inventory is starting to get full, Buttercup")); break;
+										case 2: UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Your Inventory is starting to get full, Bean989Sr")); break;
+										case 3: UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Your Inventory is starting to get full, Mr. Bear")); break;
 										}
 									}
 								} else if ("Bear989jr".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									ST.give(tPlayer, UT.NBT.addEnchantment(ST.make(Items.cookie, 1, 0, "Jr. Cookie"), Enchantment_WerewolfDamage.INSTANCE, 1), F);
-									UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Have a Jr. Cookie. Please tell Fatass to clean his Inventory, or smack him with it."));
+									UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Have a Jr. Cookie. Please tell Fatass to clean his Inventory, or smack him with it."));
 								} else if ("CrazyJ1984".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									ItemStack tArrow = ST.update(OP.arrowGtWood.mat(MT.Craponite, 1), aEvent.player);
 									if (ST.valid(tArrow)) {
 										ST.give(tPlayer, tArrow, F);
-										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "I'm not trying to tell you what to do, but please don't hurt Bear with this."));
+										UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "I'm not trying to tell you what to do, but please don't hurt Bear with this."));
 									} else {
-										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "I'm not trying to tell you what to do, but please don't hurt Bear."));
+										UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "I'm not trying to tell you what to do, but please don't hurt Bear."));
 									}
 								} else if ("TooShyShy78".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
 									ItemStack tArrow = ST.update(OP.arrowGtWood.mat(MT.Craponite, 1), aEvent.player);
 									if (ST.valid(tArrow)) {
 										ST.give(tPlayer, tArrow, F);
-										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "People around Bear always seem to suffer a severe case of Craponite Arrow in Inventory, I don't know why."));
+										UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "People around Bear always seem to suffer a severe case of Craponite Arrow in Inventory, I don't know why."));
 									} else {
-										UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Aaaaand Bears Inventory is full again isn't it..."));
+										UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Aaaaand Bears Inventory is full again isn't it..."));
 									}
 								} else if ("Ilirith".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
-									UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Could you tell Bear989Sr very gently, that his Inventory is a fucking mess again?"));
+									UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Could you tell Bear989Sr very gently, that his Inventory is a fucking mess again?"));
 								} else if ("Shadowkn1ght18".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
-									UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "Here is your special Message to make you tell Bear989Sr to clean his Inventory."));
+									UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "Here is your special Message to make you tell Bear989Sr to clean his Inventory."));
 								} else if ("e99999".equalsIgnoreCase(tPlayer.getCommandSenderName())) {
-									UT.Entities.chat(tPlayer, new Component(LH.Chat.DGRAY + "You get the sneaking suspicion that Bears Inventory may or may not be full right now."));
+									UT.Entities.chat(tPlayer, Component.literal(LH.Chat.DGRAY + "You get the sneaking suspicion that Bears Inventory may or may not be full right now."));
 								} else {
-									UT.Entities.chat(tPlayer, new Component(CHAT_GREG + "There is this fella called Bear-Nine-Eight-Nine, needing be reminded of his Inventory being a major Pine."));
+									UT.Entities.chat(tPlayer, Component.literal(CHAT_GREG + "There is this fella called Bear-Nine-Eight-Nine, needing be reminded of his Inventory being a major Pine."));
 								}
 							}
 						}

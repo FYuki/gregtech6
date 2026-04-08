@@ -18,6 +18,7 @@
  */
 
 package gregapi.item.multiitem.tools;
+import gregapi.stubs.Potion;
 import gregapi.stubs.HarvestDropsEvent;
 
 import gregapi.damage.DamageSources;

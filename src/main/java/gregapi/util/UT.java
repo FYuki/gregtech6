@@ -58,6 +58,10 @@ import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import gregapi.stubs.BlockFluidBase;
+import gregapi.stubs.Potion;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -2842,32 +2846,32 @@ public class UT {
 	public static class Entities {
 		/** Sends Messages to a Player */
 		public static void sendchat(Object aPlayer, String... aChatMessages) {
-			if (aPlayer instanceof ServerPlayer) for (String aMessage : aChatMessages) ((ServerPlayer)aPlayer).addChatComponentMessage(new Component(aMessage));
+			if (aPlayer instanceof ServerPlayer) for (String aMessage : aChatMessages) ((ServerPlayer)aPlayer).sendSystemMessage(Component.literal(aMessage));
 		}
 		
 		/** Sends Messages to a Player */
 		public static void sendchat(Object aPlayer, Component... aChatMessages) {
-			if (aPlayer instanceof ServerPlayer) for (Component aMessage : aChatMessages) ((ServerPlayer)aPlayer).addChatComponentMessage(aMessage);
+			if (aPlayer instanceof ServerPlayer) for (Component aMessage : aChatMessages) ((ServerPlayer)aPlayer).sendSystemMessage(aMessage);
 		}
 		
 		/** Sends Messages to a Player */
 		public static void sendchat(Object aPlayer, @SuppressWarnings("rawtypes") List aChatMessages, boolean aSkipFirst) {
-			if (aChatMessages != null && aPlayer instanceof ServerPlayer) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((ServerPlayer)aPlayer).addChatComponentMessage(aMessage instanceof Component ? (Component)aMessage : new Component(aMessage.toString()));
+			if (aChatMessages != null && aPlayer instanceof ServerPlayer) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((ServerPlayer)aPlayer).sendSystemMessage(aMessage instanceof Component ? (Component)aMessage : Component.literal(aMessage.toString()));
 		}
 		
 		public static void chat(Object aPlayer, String... aChatMessages) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aPlayer instanceof Player) for (String aMessage : aChatMessages) ((Player)aPlayer).addChatComponentMessage(new Component(aMessage));
+			if (aPlayer instanceof Player) for (String aMessage : aChatMessages) ((Player)aPlayer).sendSystemMessage(Component.literal(aMessage));
 		}
 		
 		public static void chat(Object aPlayer, Component... aChatMessages) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aPlayer instanceof Player) for (Component aMessage : aChatMessages) ((Player)aPlayer).addChatComponentMessage(aMessage);
+			if (aPlayer instanceof Player) for (Component aMessage : aChatMessages) ((Player)aPlayer).sendSystemMessage(aMessage);
 		}
 		
 		public static void chat(Object aPlayer, @SuppressWarnings("rawtypes") List aChatMessages, boolean aSkipFirst) {
 			if (aPlayer == null) aPlayer = GT_API.api_proxy.getThePlayer();
-			if (aChatMessages != null && aPlayer instanceof Player) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((Player)aPlayer).addChatComponentMessage(aMessage instanceof Component ? (Component)aMessage : new Component(aMessage.toString()));
+			if (aChatMessages != null && aPlayer instanceof Player) for (Object aMessage : aChatMessages) if (aSkipFirst) aSkipFirst=F; else ((Player)aPlayer).sendSystemMessage(aMessage instanceof Component ? (Component)aMessage : Component.literal(aMessage.toString()));
 		}
 		
 		

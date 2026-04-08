@@ -18,6 +18,7 @@
  */
 
 package gregtech.entities.projectiles;
+import gregapi.stubs.Potion;
 
 import gregapi.util.UT;
 import net.minecraft.world.entity.Entity;

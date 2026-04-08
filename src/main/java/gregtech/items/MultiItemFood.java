@@ -18,6 +18,7 @@
  */
 
 package gregtech.items;
+import gregapi.stubs.Potion;
 
 import gregapi.data.*;
 import gregapi.item.CreativeTab;

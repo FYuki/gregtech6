@@ -18,6 +18,7 @@
  */
 
 package gregtech;
+import gregapi.stubs.Potion;
 
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.bus.api.Event;

@@ -38,6 +38,7 @@ import gregtech.worldgen.TwilightTreasureReplacer;
 import ic2.api.item.IC2Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;

@@ -18,6 +18,7 @@
  */
 
 package gregtech.loaders.a;
+import gregapi.stubs.Potion;
 import gregapi.stubs.FMLInterModComms;
 
 import net.neoforged.fml.InterModComms;

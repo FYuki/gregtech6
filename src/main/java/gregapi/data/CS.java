@@ -18,6 +18,7 @@
  */
 
 package gregapi.data;
+import gregapi.stubs.Potion;
 
 import gregapi.api.Abstract_Mod;
 import gregapi.block.BlockBase;

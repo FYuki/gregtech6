@@ -137,6 +137,6 @@ public class GT_Tool_Club extends GT_Tool_HardHammer {
 	
 	@Override
 	public Component getDeathMessage(LivingEntity aPlayer, LivingEntity aEntity, String aNamePlayer, String aNameEntity) {
-		return aNamePlayer.equalsIgnoreCase("Bear989Sr") ? new Component(EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE+" got clubbed by a Bear!") : super.getDeathMessage(aPlayer, aEntity, aNamePlayer, aNameEntity);
+		return aNamePlayer.equalsIgnoreCase("Bear989Sr") ? Component.literal(EnumChatFormatting.RED+aNameEntity+EnumChatFormatting.WHITE+" got clubbed by a Bear!") : super.getDeathMessage(aPlayer, aEntity, aNamePlayer, aNameEntity);
 	}
 }

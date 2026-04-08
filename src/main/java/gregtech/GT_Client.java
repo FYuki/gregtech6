@@ -70,55 +70,55 @@ public class GT_Client extends GT_Proxy {
 					FIRST_CLIENT_PLAYER_TICK = F;
 					Component tLink;
 					if (!mMessage.isEmpty() && ConfigsGT.CLIENT.get(ConfigCategories.news, mMessage, T)) {
-						aEvent.player.addChatComponentMessage(new Component(mMessage));
-						aEvent.player.addChatComponentMessage(new Component(LH.Chat.DGRAY + ""));
-						tLink = new Component(LH.Chat.DGRAY + "disable message in the clientside gregtech.cfg");
+						aEvent.player.sendSystemMessage(Component.literal(mMessage));
+						aEvent.player.sendSystemMessage(Component.literal(LH.Chat.DGRAY + ""));
+						tLink = Component.literal(LH.Chat.DGRAY + "disable message in the clientside gregtech.cfg");
 						tLink.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, ConfigsGT.CLIENT.mConfig.getConfigFile().getAbsolutePath()));
-						aEvent.player.addChatComponentMessage(tLink);
+						aEvent.player.sendSystemMessage(tLink);
 					}
 					if (mVersionOutdated) {
-						aEvent.player.addChatComponentMessage(new Component("Major GT6 Update released, for details visit"));
-						tLink = new Component(LH.Chat.BLUE + "https://gregtech.mechaenetia.com/1.7.10");
+						aEvent.player.sendSystemMessage(Component.literal("Major GT6 Update released, for details visit"));
+						tLink = Component.literal(LH.Chat.BLUE + "https://gregtech.mechaenetia.com/1.7.10");
 						tLink.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://gregtech.mechaenetia.com/1.7.10"));
-						aEvent.player.addChatComponentMessage(tLink);
-						tLink = new Component(LH.Chat.DGRAY + "disable checker in the clientside gregtech.cfg");
+						aEvent.player.sendSystemMessage(tLink);
+						tLink = Component.literal(LH.Chat.DGRAY + "disable checker in the clientside gregtech.cfg");
 						tLink.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, ConfigsGT.CLIENT.mConfig.getConfigFile().getAbsolutePath()));
-						aEvent.player.addChatComponentMessage(tLink);
+						aEvent.player.sendSystemMessage(tLink);
 					}
 					if (MD.IC2.mLoaded && !MD.IC2C.mLoaded) {
 						try {
 							int tVersion = Integer.parseInt(((String)Class.forName("ic2.core.IC2").getField("VERSION").get(null)).substring(4, 7));
 							if (tVersion < 827) {
-								aEvent.player.addChatComponentMessage(new Component(LH.Chat.RED + "Please update IndustrialCraft!"));
+								aEvent.player.sendSystemMessage(Component.literal(LH.Chat.RED + "Please update IndustrialCraft!"));
 								// IC2 Site doesn't support https.
-								tLink = new Component(LH.Chat.BLUE + "http://ic2api.player.to:8080/job/IC2_experimental/827/");
+								tLink = Component.literal(LH.Chat.BLUE + "http://ic2api.player.to:8080/job/IC2_experimental/827/");
 								tLink.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://ic2api.player.to:8080/job/IC2_experimental/827/"));
-								aEvent.player.addChatComponentMessage(tLink);
+								aEvent.player.sendSystemMessage(tLink);
 							}
 						} catch(Throwable e) {/**/}
 					}
 					if (MD.TC.mLoaded) {
 						try {
 							if (Class.forName("com.chocohead.patcher.ThaumicFixer") != null) {
-								aEvent.player.addChatComponentMessage(new Component(LH.Chat.RED + "Warning! Chocoheads ThaumicFixer needs to be uninstalled!"));
-								aEvent.player.addChatComponentMessage(new Component(LH.Chat.ORANGE + "Not uninstalling it can lead to crashes when viewing Aspects."));
-								aEvent.player.addChatComponentMessage(new Component(LH.Chat.ORANGE + "Lag is already fixed with a better Version of the ASM Code,"));
-								aEvent.player.addChatComponentMessage(new Component(LH.Chat.ORANGE + "that doesn't obliterate the Thaumcraft API for no reason."));
+								aEvent.player.sendSystemMessage(Component.literal(LH.Chat.RED + "Warning! Chocoheads ThaumicFixer needs to be uninstalled!"));
+								aEvent.player.sendSystemMessage(Component.literal(LH.Chat.ORANGE + "Not uninstalling it can lead to crashes when viewing Aspects."));
+								aEvent.player.sendSystemMessage(Component.literal(LH.Chat.ORANGE + "Lag is already fixed with a better Version of the ASM Code,"));
+								aEvent.player.sendSystemMessage(Component.literal(LH.Chat.ORANGE + "that doesn't obliterate the Thaumcraft API for no reason."));
 							}
 						} catch(Throwable e) {/**/}
 					}
 					if (MD.COG.mLoaded && !MD.PFAA.mLoaded && ConfigsGT.CLIENT.get(ConfigCategories.general, "warnings_customoregen", T)) {
-						aEvent.player.addChatComponentMessage(new Component(LH.Chat.RED + "Warning! CustomOreGen will screw up all GregTech Worldgen with its Default Configs!"));
-						aEvent.player.addChatComponentMessage(new Component(LH.Chat.ORANGE + "If you don't even use CustomOreGen, I would highly recommend you to remove it."));
-						tLink = new Component(LH.Chat.DGRAY + "disable warning in the clientside gregtech.cfg");
+						aEvent.player.sendSystemMessage(Component.literal(LH.Chat.RED + "Warning! CustomOreGen will screw up all GregTech Worldgen with its Default Configs!"));
+						aEvent.player.sendSystemMessage(Component.literal(LH.Chat.ORANGE + "If you don't even use CustomOreGen, I would highly recommend you to remove it."));
+						tLink = Component.literal(LH.Chat.DGRAY + "disable warning in the clientside gregtech.cfg");
 						tLink.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, ConfigsGT.CLIENT.mConfig.getConfigFile().getAbsolutePath()));
-						aEvent.player.addChatComponentMessage(tLink);
+						aEvent.player.sendSystemMessage(tLink);
 					}
 					if (WOODMANS_BDAY) {
-						aEvent.player.addChatComponentMessage(new Component(LH.Chat.WHITE+"<"+LH.Chat.GREEN+">:]"+LH.Chat.WHITE+"> Have a nice day!"));
+						aEvent.player.sendSystemMessage(Component.literal(LH.Chat.WHITE+"<"+LH.Chat.GREEN+">:]"+LH.Chat.WHITE+"> Have a nice day!"));
 					}
 					if (APRIL_FOOLS) {
-						aEvent.player.addChatComponentMessage(new Component(CHAT_GREG + "Watch your Calendar!"));
+						aEvent.player.sendSystemMessage(Component.literal(CHAT_GREG + "Watch your Calendar!"));
 					}
 				}
 			}

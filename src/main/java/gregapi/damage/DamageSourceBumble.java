@@ -35,6 +35,6 @@ public class DamageSourceBumble extends DamageSource {
 	
 	@Override
 	public Component func_151519_b(LivingEntity aTarget) {
-		return new Component(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + " was allergic to Bumblebees");
+		return Component.literal(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + " was allergic to Bumblebees");
 	}
 }

@@ -18,6 +18,7 @@
  */
 
 package gregtech.render;
+import gregapi.stubs.Potion;
 
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;

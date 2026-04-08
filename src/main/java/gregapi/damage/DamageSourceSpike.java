@@ -36,6 +36,6 @@ public class DamageSourceSpike extends DamageSource {
 	
 	@Override
 	public Component func_151519_b(LivingEntity aTarget) {
-		return new Component(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + (APRIL_FOOLS ? " stepped on a LEGO!" : " was impaled by a Spike!"));
+		return Component.literal(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + (APRIL_FOOLS ? " stepped on a LEGO!" : " was impaled by a Spike!"));
 	}
 }

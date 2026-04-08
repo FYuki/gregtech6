@@ -18,6 +18,7 @@
  */
 
 package gregapi.item.multiitem.behaviors;
+import gregapi.stubs.Potion;
 
 import static gregapi.data.CS.*;
 

@@ -36,6 +36,6 @@ public class DamageSourceDehydration extends DamageSource {
 	
 	@Override
 	public Component func_151519_b(LivingEntity aTarget) {
-		return new Component(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + " took more than the deadly dose of Salt");
+		return Component.literal(EnumChatFormatting.RED+aTarget.getCommandSenderName()+EnumChatFormatting.WHITE + " took more than the deadly dose of Salt");
 	}
 }

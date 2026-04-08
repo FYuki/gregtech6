@@ -18,6 +18,7 @@
  */
 
 package gregapi.tileentity.connectors;
+import gregapi.stubs.Potion;
 
 import gregapi.GT_API_Proxy;
 import gregapi.block.multitileentity.IMultiTileEntity.IMTE_GetCollisionBoundingBoxFromPool;

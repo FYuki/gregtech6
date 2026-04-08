@@ -18,6 +18,7 @@
  */
 
 package gregapi.player;
+import gregapi.stubs.Potion;
 
 import gregapi.code.ArrayListNoNulls;
 import gregapi.damage.DamageSources;

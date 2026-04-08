@@ -18,6 +18,7 @@
  */
 
 package gregapi.item.multiitem.food;
+import gregapi.stubs.Potion;
 
 import gregapi.damage.DamageSources;
 import gregapi.data.LH;

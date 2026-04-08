@@ -18,6 +18,7 @@
  */
 
 package gregapi.old;
+import gregapi.stubs.Potion;
 
 
 public class GT_Spray_Ice_Item extends GT_Tool_Item {

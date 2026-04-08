@@ -18,6 +18,7 @@
  */
 
 package gregtech.items.behaviors;
+import gregapi.stubs.Potion;
 
 import com.mojang.authlib.GameProfile;
 import gregapi.block.misc.BlockBaseBars;

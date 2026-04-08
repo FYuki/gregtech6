@@ -18,6 +18,7 @@
  */
 
 package gregapi.enchants;
+import gregapi.stubs.Potion;
 
 import gregapi.config.Config;
 import gregapi.config.ConfigCategories;

@@ -18,6 +18,7 @@
  */
 
 package gregtech.entities.projectiles;
+import gregapi.stubs.Potion;
 
 import com.mojang.authlib.GameProfile;
 import gregapi.item.IItemProjectile.EntityProjectile;

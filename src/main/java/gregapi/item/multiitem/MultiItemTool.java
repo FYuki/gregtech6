@@ -18,6 +18,7 @@
  */
 
 package gregapi.item.multiitem;
+import gregapi.stubs.Potion;
 import gregapi.stubs.HarvestDropsEvent;
 
 import net.neoforged.api.distmarker.Dist;

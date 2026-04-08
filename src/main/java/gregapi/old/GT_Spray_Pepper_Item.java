@@ -18,6 +18,7 @@
  */
 
 package gregapi.old;
+import gregapi.stubs.Potion;
 
 import java.util.List;
 

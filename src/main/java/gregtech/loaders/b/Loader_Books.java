@@ -18,6 +18,7 @@
  */
 
 package gregtech.loaders.b;
+import gregapi.stubs.Potion;
 
 import gregapi.code.ArrayListNoNulls;
 import gregapi.data.OP;

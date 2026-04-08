@@ -18,6 +18,7 @@
  */
 
 package gregtech.worldgen.center;
+import gregapi.stubs.Potion;
 
 import static gregapi.data.CS.*;
 
