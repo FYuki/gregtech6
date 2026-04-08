@@ -18,6 +18,7 @@
  */
 
 package gregtech.compat;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;

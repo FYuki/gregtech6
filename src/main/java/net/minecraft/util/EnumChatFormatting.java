@@ -30,5 +30,4 @@ public enum EnumChatFormatting {
     @Override public String toString() { return delegate.toString(); }
     public boolean isColor() { return delegate.isColor(); }
     public boolean isFormat() { return delegate.isFormat(); }
-    public static EnumChatFormatting[] values() { return EnumChatFormatting.class.getEnumConstants(); }
 }

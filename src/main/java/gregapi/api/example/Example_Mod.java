@@ -18,6 +18,7 @@
  */
 
 package gregapi.api.example;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 
 /**
  * @author Your Name Here, also might be worth replacing that automatically generated Copyright notice with your LPGL compatible License/Name instead of mine.

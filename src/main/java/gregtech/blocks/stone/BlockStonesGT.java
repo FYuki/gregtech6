@@ -18,6 +18,7 @@
  */
 
 package gregtech.blocks.stone;
+import gregapi.block.Material; // PHASE3: stub
 
 import static gregapi.data.CS.*;
 
