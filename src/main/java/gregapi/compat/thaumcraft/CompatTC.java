@@ -18,6 +18,7 @@
  */
 
 package gregapi.compat.thaumcraft;
+import gregapi.stubs.IRecipe;
 
 import gregapi.stubs.FMLModIdMappingEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;

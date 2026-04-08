@@ -18,6 +18,7 @@
  */
 
 package gregapi.recipes;
+import gregapi.stubs.IRecipe;
 
 import gregapi.code.ICondition;
 import gregapi.data.MT;

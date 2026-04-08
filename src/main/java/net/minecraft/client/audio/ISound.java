@@ -7,4 +7,9 @@ public interface ISound {
     float getXPosF();
     float getYPosF();
     float getZPosF();
+    default AttenuationType getAttenuationType() { return AttenuationType.LINEAR; }
+
+    enum AttenuationType {
+        NONE, LINEAR;
+    }
 }

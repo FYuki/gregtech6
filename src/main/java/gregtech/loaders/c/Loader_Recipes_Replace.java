@@ -18,6 +18,7 @@
  */
 
 package gregtech.loaders.c;
+import gregapi.stubs.IRecipe;
 
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.HashSetNoNulls;

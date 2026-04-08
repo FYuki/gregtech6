@@ -18,6 +18,7 @@
  */
 
 package gregtech.compat;
+import gregapi.stubs.IRecipe;
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
