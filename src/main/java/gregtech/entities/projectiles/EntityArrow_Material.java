@@ -18,6 +18,7 @@
  */
 
 package gregtech.entities.projectiles;
+import net.minecraft.world.phys.HitResult;
 import gregapi.stubs.Potion;
 
 import com.mojang.authlib.GameProfile;

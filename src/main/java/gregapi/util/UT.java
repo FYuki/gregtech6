@@ -59,6 +59,7 @@ import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.network.chat.Component;
 import gregapi.stubs.BlockFluidBase;
 import gregapi.stubs.Potion;
