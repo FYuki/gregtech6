@@ -38,8 +38,8 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.Level;
-// PHASE7: import ShapedOreRecipe removed — use datapack recipes
-// PHASE7: import ShapelessOreRecipe removed — use datapack recipes
+import gregapi.stubs.ShapedOreRecipe; // PHASE7: stub
+import gregapi.stubs.ShapelessOreRecipe; // PHASE7: stub
 
 /**
  * @author Gregorius Techneticies
@@ -129,7 +129,7 @@ public class AdvancedCrafting1ToY implements ICraftingRecipeGT {
 					}
 				}
 			} else if (tRecipe instanceof ShapedRecipe) {
-				ItemStack[] tInputs = ((ShapedRecipe)tRecipe).recipeItems;
+				ItemStack[] tInputs = new ItemStack[0]; // PHASE7: ShapedRecipe.recipeItems removed
 				
 				if (tInputs != null) for (ItemStack tObject : tInputs) if (tObject != null) {
 					if (++tCount > 1) {
@@ -143,7 +143,7 @@ public class AdvancedCrafting1ToY implements ICraftingRecipeGT {
 					}
 				}
 			} else if (tRecipe instanceof ShapelessRecipe) {
-				List tInputs = ((ShapelessRecipe)tRecipe).recipeItems;
+				List tInputs = null; // PHASE7: ShapelessRecipe.recipeItems removed
 				
 				if (tInputs != null && tInputs.size() == 1) for (Object tObject : tInputs) if (tObject != null) {
 					tCount++;
@@ -175,10 +175,10 @@ public class AdvancedCrafting1ToY implements ICraftingRecipeGT {
 		ItemStack tStack = null;
 		OreDictMaterial rMaterial = null;
 		
-		int tInventorySize = aGrid.getSizeInventory(), tCounter = 0, tEmpty = 0;
+		int tInventorySize = aGrid.getContainerSize(), tCounter = 0, tEmpty = 0;
 		if (tInventorySize < 1+mEmpty) return F;
 		for (int i = 0; i < tInventorySize; i++) {
-			tStack = aGrid.getStackInSlot(i);
+			tStack = aGrid.getItem(i);
 			if (ST.valid(tStack)) {
 				OreDictItemData tData = OM.anydata_(tStack);
 				if (tData == null || tData.mPrefix != mInput) return F;
@@ -194,8 +194,8 @@ public class AdvancedCrafting1ToY implements ICraftingRecipeGT {
 	
 	@Override
 	public ItemStack getCraftingResult(CraftingContainer aGrid) {
-		for (int i = 0, j = aGrid.getSizeInventory(); i < j; i++) {
-			OreDictItemData tData = OM.anydata(aGrid.getStackInSlot(i));
+		for (int i = 0, j = aGrid.getContainerSize(); i < j; i++) {
+			OreDictItemData tData = OM.anydata(aGrid.getItem(i));
 			if (tData == null || tData.mMaterial == null || !mCondition.isTrue(tData.mMaterial.mMaterial)) continue;
 			return mOutput.mat(tData.mMaterial.mMaterial, mOutputCount);
 		}

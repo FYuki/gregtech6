@@ -24,9 +24,8 @@ import static gregapi.data.CS.*;
 import java.util.AbstractSet;
 import java.util.HashMap;
 import java.util.Iterator;
-import net.minecraft.world.level.biome.Biome;
 
-// PHASE5: import Biome removed — use net.minecraft.world.level.biome.Biome
+// PHASE5: Biome static fields removed in 1.21 — BiomeNameSet now accepts only Strings
 
 /**
  * @author Gregorius Techneticies
@@ -34,17 +33,17 @@ import net.minecraft.world.level.biome.Biome;
 public class BiomeNameSet extends AbstractSet<String> {
 	private transient HashMap<String, Object> map;
 	private static final Object OBJECT = new Object();
-	
+
 	@SafeVarargs
 	public BiomeNameSet(Object... aArray) {
 		map = new HashMap<>(Math.max((int)(aArray.length/.75F) + 1, 16));
-		for (Object aName : aArray) add(aName instanceof Biome ? ((Biome)aName).biomeName : aName.toString());
+		for (Object aName : aArray) add(aName.toString());
 	}
-	
+
 	@Override
 	public boolean contains(Object aName) {
 		if (aName == null) return F;
-		String aString = (aName instanceof Biome ? ((Biome)aName).biomeName : aName.toString());
+		String aString = aName.toString();
 		if (aString == null || aString.isEmpty()) return F;
 		return map.containsKey(aString.toLowerCase());
 	}

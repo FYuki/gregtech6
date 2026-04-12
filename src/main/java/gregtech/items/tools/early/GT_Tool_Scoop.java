@@ -29,6 +29,7 @@ import gregapi.item.multiitem.tools.ToolStats;
 import gregapi.old.Textures;
 import gregapi.render.IIconContainer;
 import gregapi.util.UT;
+import gregapi.block.Material;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.item.ItemStack;

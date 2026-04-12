@@ -1,13 +1,12 @@
 package gregapi.stubs;
-
-// PHASE7: IRecipe renamed to Recipe<C extends RecipeInput> in 1.21.
-// Stub interface keeps ICraftingRecipeGT and related classes compiling.
-// Real implementation deferred to Phase 7 (recipe system rewrite).
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+// PHASE7: IRecipe renamed to Recipe<C extends RecipeInput> in 1.21.
 @SuppressWarnings("unused")
 public interface IRecipe {
-    boolean matches(Object grid, Object world);
-    ItemStack getCraftingResult(Object grid);
+    boolean matches(CraftingContainer grid, Level world);
+    ItemStack getCraftingResult(CraftingContainer grid);
     ItemStack getRecipeOutput();
-    java.util.List<net.minecraft.core.NonNullList<ItemStack>> getRemainingItems(Object grid);
+    default java.util.List<net.minecraft.core.NonNullList<ItemStack>> getRemainingItems(CraftingContainer grid) { return java.util.Collections.emptyList(); }
 }

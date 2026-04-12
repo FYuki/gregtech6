@@ -208,105 +208,105 @@ public final class OreDictPrefix implements IOreDictListenerEvent, ITagDataConta
 	
 	public OreDictPrefix applyStackSizes() {
 		if (contains(PREFIX_UNUSED)) return this;
-		if (this != OP.block && this != OP.stone && this != OP.scrapGt) addListener(new IOreDictListenerEvent() {@Override public void onOreRegistration(OreDictRegistrationContainer aEvent) {if (!aEvent.mStack.getItem().isDamageable() && aEvent.mStack.getMaxStackSize() > 1 && !ST.isGT_(aEvent.mStack)) aEvent.mStack.getItem().setMaxStackSize(aEvent.mPrefix.mDefaultStackSize);}});
+		if (this != OP.block && this != OP.stone && this != OP.scrapGt) addListener(new IOreDictListenerEvent() {@Override public void onOreRegistration(OreDictRegistrationContainer aEvent) {if (!aEvent.mStack.isDamageableItem() && aEvent.mStack.getMaxStackSize() > 1 && !ST.isGT_(aEvent.mStack)) { /* PHASE3: setMaxStackSize removed in 1.21 */ }}});
 		
-		Items.ender_pearl       .setMaxStackSize(OP.gem.mDefaultStackSize);
-		Items.record_11         .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_13         .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_blocks     .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_cat        .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_chirp      .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_far        .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_mall       .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_mellohi    .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_stal       .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_strad      .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_wait       .setMaxStackSize(OP.record.mDefaultStackSize);
-		Items.record_ward       .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.ENDER_PEARL       .setMaxStackSize(OP.gem.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_11         .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_13         .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_BLOCKS     .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_CAT        .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_CHIRP      .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_FAR        .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_MALL       .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_MELLOHI    .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_STAL       .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_STRAD      .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_WAIT       .setMaxStackSize(OP.record.mDefaultStackSize);
+		// PHASE3: Items.MUSIC_DISC_WARD       .setMaxStackSize(OP.record.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.packed_ice             ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.ice                    ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.soul_sand              ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.GLOWSTONE              ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.snow_layer             ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.snow                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.CLAY                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.REDSTONE_LAMP          ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.DIRT                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.GRASS_BLOCK                  ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.mycelium               ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.GRAVEL                 ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.SAND                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.wool                   ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.MELON            ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.PUMPKIN                ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.lit_pumpkin            ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.DISPENSER              ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.PISTON                 ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.STICKY_PISTON          ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.crafting_table         ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.jukebox                ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.anvil                  ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.chest                  ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.trapped_chest          ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.NOTE_BLOCK              ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.mob_spawner            ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.bookshelf              ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.furnace                ).setMaxStackSize(OP.block.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.lit_furnace            ).setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.PACKED_ICE             .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.ICE                    .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.SOUL_SAND              .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.GLOWSTONE              .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.SNOW             .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.SNOW_BLOCK                   .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.CLAY                   .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.REDSTONE_LAMP          .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.DIRT                   .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.GRASS_BLOCK                  .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.MYCELIUM               .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.GRAVEL                 .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.SAND                   .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.WHITE_WOOL                   .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.MELON            .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.PUMPKIN                .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.JACK_O_LANTERN            .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.DISPENSER              .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.PISTON                 .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.STICKY_PISTON          .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.CRAFTING_TABLE         .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.JUKEBOX                .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.ANVIL                  .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.CHEST                  .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.TRAPPED_CHEST          .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.NOTE_BLOCK              .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.SPAWNER            .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.BOOKSHELF              .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.FURNACE                .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
+		// PHASE3: Blocks.FURNACE            .asItem().setMaxStackSize(OP.block.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.SANDSTONE              ).setMaxStackSize(OP.stone.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.OBSIDIAN               ).setMaxStackSize(OP.stone.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.STONE                  ).setMaxStackSize(OP.stone.mDefaultStackSize);
+		// PHASE3: Blocks.SANDSTONE              .asItem().setMaxStackSize(OP.stone.mDefaultStackSize);
+		// PHASE3: Blocks.OBSIDIAN               .asItem().setMaxStackSize(OP.stone.mDefaultStackSize);
+		// PHASE3: Blocks.STONE                  .asItem().setMaxStackSize(OP.stone.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.stone_slab             ).setMaxStackSize(OP.slab.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.double_stone_slab      ).setMaxStackSize(OP.slab.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.wooden_slab            ).setMaxStackSize(OP.slab.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.double_wooden_slab     ).setMaxStackSize(OP.slab.mDefaultStackSize);
+		// PHASE3: Blocks.STONE_SLAB             .asItem().setMaxStackSize(OP.slab.mDefaultStackSize);
+		// PHASE3: Blocks.SMOOTH_STONE_SLAB      .asItem().setMaxStackSize(OP.slab.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_SLAB            .asItem().setMaxStackSize(OP.slab.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_SLAB     .asItem().setMaxStackSize(OP.slab.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.stone_brick_stairs     ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.brick_stairs           ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.nether_brick_stairs    ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.sandstone_stairs       ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.stone_stairs           ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.oak_stairs             ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.jungle_stairs          ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.birch_stairs           ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.spruce_stairs          ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.acacia_stairs          ).setMaxStackSize(OP.stair.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.dark_oak_stairs        ).setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.STONE_BRICK_STAIRS     .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.BRICK_STAIRS           .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.NETHER_BRICK_STAIRS    .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.SANDSTONE_STAIRS       .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.COBBLESTONE_STAIRS           .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_STAIRS             .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.JUNGLE_STAIRS          .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.BIRCH_STAIRS           .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.SPRUCE_STAIRS          .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.ACACIA_STAIRS          .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
+		// PHASE3: Blocks.DARK_OAK_STAIRS        .asItem().setMaxStackSize(OP.stair.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.glass                  ).setMaxStackSize(OP.glass.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.stained_glass          ).setMaxStackSize(OP.glass.mDefaultStackSize);
+		// PHASE3: Blocks.GLASS                  .asItem().setMaxStackSize(OP.glass.mDefaultStackSize);
+		// PHASE3: Blocks.WHITE_STAINED_GLASS          .asItem().setMaxStackSize(OP.glass.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.glass_pane             ).setMaxStackSize(OP.paneGlass.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.stained_glass_pane     ).setMaxStackSize(OP.paneGlass.mDefaultStackSize);
+		// PHASE3: Blocks.GLASS_PANE             .asItem().setMaxStackSize(OP.paneGlass.mDefaultStackSize);
+		// PHASE3: Blocks.WHITE_STAINED_GLASS_PANE     .asItem().setMaxStackSize(OP.paneGlass.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.TERRACOTTA          ).setMaxStackSize(OP.stainedClay.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.WHITE_TERRACOTTA  ).setMaxStackSize(OP.stainedClay.mDefaultStackSize);
+		// PHASE3: Blocks.TERRACOTTA          .asItem().setMaxStackSize(OP.stainedClay.mDefaultStackSize);
+		// PHASE3: Blocks.WHITE_TERRACOTTA  .asItem().setMaxStackSize(OP.stainedClay.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.COBBLESTONE            ).setMaxStackSize(OP.stoneCobble.mDefaultStackSize);
+		// PHASE3: Blocks.COBBLESTONE            .asItem().setMaxStackSize(OP.stoneCobble.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.fence                  ).setMaxStackSize(OP.fence.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.fence_gate             ).setMaxStackSize(OP.fence.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.cobblestone_wall       ).setMaxStackSize(OP.fence.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.nether_brick_fence     ).setMaxStackSize(OP.fence.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_FENCE                  .asItem().setMaxStackSize(OP.fence.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_FENCE_GATE             .asItem().setMaxStackSize(OP.fence.mDefaultStackSize);
+		// PHASE3: Blocks.COBBLESTONE_WALL       .asItem().setMaxStackSize(OP.fence.mDefaultStackSize);
+		// PHASE3: Blocks.NETHER_BRICK_FENCE     .asItem().setMaxStackSize(OP.fence.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.MOSSY_COBBLESTONE      ).setMaxStackSize(OP.stoneMossy.mDefaultStackSize);
+		// PHASE3: Blocks.MOSSY_COBBLESTONE      .asItem().setMaxStackSize(OP.stoneMossy.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.STONE_BRICKS             ).setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.brick_block            ).setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.NETHER_BRICKS           ).setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
+		// PHASE3: Blocks.STONE_BRICKS             .asItem().setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
+		// PHASE3: Blocks.BRICKS            .asItem().setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
+		// PHASE3: Blocks.NETHER_BRICKS           .asItem().setMaxStackSize(OP.stoneBricks.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.sapling                ).setMaxStackSize(OP.treeSapling.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_SAPLING                .asItem().setMaxStackSize(OP.treeSapling.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.OAK_LEAVES                 ).setMaxStackSize(OP.treeLeaves.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.leaves2                ).setMaxStackSize(OP.treeLeaves.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_LEAVES                 .asItem().setMaxStackSize(OP.treeLeaves.mDefaultStackSize);
+		// PHASE3: Blocks.DARK_OAK_LEAVES                .asItem().setMaxStackSize(OP.treeLeaves.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.OAK_LOG                    ).setMaxStackSize(OP.log.mDefaultStackSize);
-		Item.getItemFromBlock(Blocks.DARK_OAK_LOG                   ).setMaxStackSize(OP.log.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_LOG                    .asItem().setMaxStackSize(OP.log.mDefaultStackSize);
+		// PHASE3: Blocks.DARK_OAK_LOG                   .asItem().setMaxStackSize(OP.log.mDefaultStackSize);
 		
-		Item.getItemFromBlock(Blocks.OAK_PLANKS                 ).setMaxStackSize(OP.plank.mDefaultStackSize);
+		// PHASE3: Blocks.OAK_PLANKS                 .asItem().setMaxStackSize(OP.plank.mDefaultStackSize);
 		
 		ST.forceProperMaxStacksizes();
 		

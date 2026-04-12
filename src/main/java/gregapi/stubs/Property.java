@@ -26,6 +26,7 @@ public class Property {
 	public Property setDefaultValue(String val) { return this; }
 	public Property setLanguageKey(String key) { return this; }
 
+	public boolean wasRead() { return false; }
 	public boolean hasChanged() { return false; }
 	public String getName() { return ""; }
 }

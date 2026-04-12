@@ -6,4 +6,5 @@ import java.util.ArrayList;
 import java.util.List;
 public class GuiCraftingRecipe {
     public static List<TemplateRecipeHandler> craftinghandlers = new ArrayList<>();
+    public static void openRecipeGui(String recipeName, Object... args) {}
 }

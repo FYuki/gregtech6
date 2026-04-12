@@ -27,7 +27,7 @@ import gregapi.item.multiitem.behaviors.Behavior_Plug_Leak;
 import gregapi.item.multiitem.tools.ToolStats;
 import gregapi.render.IIconContainer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SilverfishBlock;
+import net.minecraft.world.level.block.InfestedBlock;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -53,7 +53,7 @@ public class GT_Tool_Pickaxe extends ToolStats {
 	
 	@Override
 	public boolean isMinableBlock(Block aBlock, byte aMetaData) {
-		return TOOL_pickaxe.equalsIgnoreCase(aBlock.getHarvestTool(aMetaData)) || aBlock instanceof BlockSilverfish || aBlock.getMaterial() == Material.rock || aBlock.getMaterial() == Material.iron || aBlock.getMaterial() == Material.anvil || aBlock.getMaterial() == Material.glass || aBlock.getMaterial() == Material.packedIce || aBlock.getMaterial() == Material.ice || aBlock == Blocks.flower_pot;
+		return TOOL_pickaxe.equalsIgnoreCase(aBlock.getHarvestTool(aMetaData)) || aBlock instanceof InfestedBlock || aBlock.getMaterial() == Material.rock || aBlock.getMaterial() == Material.iron || aBlock.getMaterial() == Material.anvil || aBlock.getMaterial() == Material.glass || aBlock.getMaterial() == Material.packedIce || aBlock.getMaterial() == Material.ice || aBlock == Blocks.flower_pot;
 	}
 	
 	@Override

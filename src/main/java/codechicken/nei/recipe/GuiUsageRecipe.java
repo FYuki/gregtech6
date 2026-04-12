@@ -6,4 +6,5 @@ import java.util.ArrayList;
 import java.util.List;
 public class GuiUsageRecipe {
     public static List<TemplateRecipeHandler> usagehandlers = new ArrayList<>();
+    public static void openRecipeGui(String recipeName, Object... args) {}
 }

@@ -33,4 +33,5 @@ public class Configuration {
 	public void setComment(String category, String key, String comment) {}
 	public boolean hasCategory(String category) { return false; }
 	public void removeCategory(String category) {}
+	public java.io.File getConfigFile() { return new java.io.File("config/gregtech.cfg"); }
 }

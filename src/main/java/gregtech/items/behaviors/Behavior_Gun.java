@@ -46,7 +46,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragonPart;
-import net.minecraft.world.entity.boss.EnderCrystal;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
@@ -115,7 +115,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		for (Object tEntity : tEntities) if (tEntity instanceof Entity) {
 			AABB tBox = ((Entity)tEntity).boundingBox;
 			if (tBox != null) {
-				if (tEntity instanceof EnderCrystal) tBox = tBox.getOffsetBoundingBox(0, 1.3, 0);
+				if (tEntity instanceof EndCrystal) tBox = tBox.getOffsetBoundingBox(0, 1.3, 0);
 				if (tBox.calculateIntercept(tPos, tAim) != null) tTargets.add((Entity)tEntity);
 			}
 		}
@@ -255,7 +255,7 @@ public class Behavior_Gun extends AbstractBehaviorDefault {
 		// Endermen require Disjunction Enchantment on the Bullet, or having a Weakness Potion Effect on them.
 		if (aTarget instanceof EntityEnderman && ((EntityEnderman)aTarget).getActivePotionEffect(Potion.weakness) == null && UT.NBT.getEnchantmentLevel(Enchantment_EnderDamage.INSTANCE, aBullet) <= 0) for (int i = 0; i < 64; ++i) if (((EntityEnderman)aTarget).teleportRandomly()) return F;
 		// LivingEntity, Ender Dragon and End Crystals only.
-		if (!(aTarget instanceof LivingEntity || aTarget instanceof EnderDragonPart || aTarget instanceof EnderCrystal)) return F;
+		if (!(aTarget instanceof LivingEntity || aTarget instanceof EnderDragonPart || aTarget instanceof EndCrystal)) return F;
 	//  // To make Railcrafts Damage Enchantments work... // I later figured I'd just hardcode it in.
 	//  NeoForge.EVENT_BUS.post(new AttackEntityEvent(aPlayer, aTarget));
 		

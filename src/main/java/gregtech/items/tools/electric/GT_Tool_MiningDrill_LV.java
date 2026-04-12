@@ -30,7 +30,7 @@ import gregapi.old.Textures;
 import gregapi.render.IIconContainer;
 import gregapi.util.ST;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SilverfishBlock;
+import net.minecraft.world.level.block.InfestedBlock;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
@@ -101,7 +101,7 @@ public class GT_Tool_MiningDrill_LV extends ToolStats {
 	@Override
 	public boolean isMinableBlock(Block aBlock, byte aMetaData) {
 		String tTool = aBlock.getHarvestTool(aMetaData);
-		return (tTool != null && (tTool.equalsIgnoreCase(TOOL_pickaxe) || tTool.equalsIgnoreCase(TOOL_shovel))) || aBlock instanceof BlockSilverfish || aBlock.getMaterial() == Material.rock || aBlock.getMaterial() == Material.iron || aBlock.getMaterial() == Material.anvil || aBlock.getMaterial() == Material.sand || aBlock.getMaterial() == Material.grass || aBlock.getMaterial() == Material.ground || aBlock.getMaterial() == Material.snow || aBlock.getMaterial() == Material.craftedSnow || aBlock.getMaterial() == Material.clay || aBlock.getMaterial() == Material.glass || aBlock.getMaterial() == Material.packedIce || aBlock.getMaterial() == Material.ice || aBlock == Blocks.flower_pot;
+		return (tTool != null && (tTool.equalsIgnoreCase(TOOL_pickaxe) || tTool.equalsIgnoreCase(TOOL_shovel))) || aBlock instanceof InfestedBlock || aBlock.getMaterial() == Material.rock || aBlock.getMaterial() == Material.iron || aBlock.getMaterial() == Material.anvil || aBlock.getMaterial() == Material.sand || aBlock.getMaterial() == Material.grass || aBlock.getMaterial() == Material.ground || aBlock.getMaterial() == Material.snow || aBlock.getMaterial() == Material.craftedSnow || aBlock.getMaterial() == Material.clay || aBlock.getMaterial() == Material.glass || aBlock.getMaterial() == Material.packedIce || aBlock.getMaterial() == Material.ice || aBlock == Blocks.flower_pot;
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ import gregapi.block.metatype.BlockStones;
 import gregapi.data.CS.BlocksGT;
 import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SilverfishBlock;
+import net.minecraft.world.level.block.InfestedBlock;
 import net.minecraft.world.level.material.PushReaction;
 
 public class GT_Tool_JackHammer_HV_No_Ores extends GT_Tool_JackHammer_HV {
@@ -37,7 +37,7 @@ public class GT_Tool_JackHammer_HV_No_Ores extends GT_Tool_JackHammer_HV {
 	
 	@Override
 	public boolean isMinableBlock(Block aBlock, byte aMetaData) {
-		if (aBlock instanceof BlockSilverfish || BlocksGT.harvestableJackhammer.contains(aBlock)) return T;
+		if (aBlock instanceof InfestedBlock || BlocksGT.harvestableJackhammer.contains(aBlock)) return T;
 		if (aBlock instanceof BlockStones) return aMetaData < 3;
 		if (aBlock instanceof IPrefixBlock) return F;
 		return WD.stone(aBlock, aMetaData) && aBlock.getMaterial() == Material.rock;

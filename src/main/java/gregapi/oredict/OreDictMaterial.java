@@ -1218,7 +1218,7 @@ public final class OreDictMaterial implements ITagDataContainer<OreDictMaterial>
 	}
 	
 	public OreDictMaterial addEnchantmentForFishing(Enchantment aEnchantment, int aEnchantmentLevel) {
-		mEnchantmentFishing.add(new ObjectStack<>(aEnchantment, aEnchantment == Enchantment.field_151369_A ? Math.min(5, aEnchantmentLevel) : aEnchantmentLevel));
+		mEnchantmentFishing.add(new ObjectStack<>(aEnchantment, aEnchantmentLevel));
 		return this;
 	}
 	
@@ -1241,7 +1241,7 @@ public final class OreDictMaterial implements ITagDataContainer<OreDictMaterial>
 		if (aFluidStack != null) {
 			mLiquid = aFluidStack.copy();
 			mLiquidUnit = aUnit;
-			FLUID_MAP.put(aFluidStack.getFluid().getName(), OM.stack(this, UT.Code.units(aFluidStack.amount, aUnit, U, T)));
+			FLUID_MAP.put(net.minecraft.core.registries.BuiltInRegistries.FLUID.getKey(aFluidStack.getFluid()).toString(), OM.stack(this, UT.Code.units(aFluidStack.getAmount(), aUnit, U, T)));
 		}
 		return this;
 	}
@@ -1251,7 +1251,7 @@ public final class OreDictMaterial implements ITagDataContainer<OreDictMaterial>
 		if (aFluidStack != null) {
 			mGas = aFluidStack.copy();
 			mGasUnit = aUnit;
-			FLUID_MAP.put(aFluidStack.getFluid().getName(), OM.stack(this, UT.Code.units(aFluidStack.amount, aUnit, U, T)));
+			FLUID_MAP.put(net.minecraft.core.registries.BuiltInRegistries.FLUID.getKey(aFluidStack.getFluid()).toString(), OM.stack(this, UT.Code.units(aFluidStack.getAmount(), aUnit, U, T)));
 		}
 		return this;
 	}
@@ -1261,7 +1261,7 @@ public final class OreDictMaterial implements ITagDataContainer<OreDictMaterial>
 		if (aFluidStack != null) {
 			mPlasma = aFluidStack.copy();
 			mPlasmaUnit = aUnit;
-			FLUID_MAP.put(aFluidStack.getFluid().getName(), OM.stack(this, UT.Code.units(aFluidStack.amount, aUnit, U, T)));
+			FLUID_MAP.put(net.minecraft.core.registries.BuiltInRegistries.FLUID.getKey(aFluidStack.getFluid()).toString(), OM.stack(this, UT.Code.units(aFluidStack.getAmount(), aUnit, U, T)));
 		}
 		return this;
 	}
@@ -1298,7 +1298,7 @@ public final class OreDictMaterial implements ITagDataContainer<OreDictMaterial>
 	public FluidStack liquid(long aMaterialAmount, boolean aRoundUp) {
 		if (mLiquid == null) return FL.Error.make(1);
 		FluidStack rFluid = mLiquid.copy();
-		rFluid.amount = (int)UT.Code.units(aMaterialAmount, mLiquidUnit, rFluid.amount, aRoundUp);
+		rFluid.setAmount((int)((int)UT.Code.units(aMaterialAmount, mLiquidUnit, rFluid.getAmount(), aRoundUp)));
 		return rFluid;
 	}
 	
@@ -1306,7 +1306,7 @@ public final class OreDictMaterial implements ITagDataContainer<OreDictMaterial>
 	public FluidStack gas(long aMaterialAmount, boolean aRoundUp) {
 		if (mGas == null) return FL.Error.make(1);
 		FluidStack rFluid = mGas.copy();
-		rFluid.amount = (int)UT.Code.units(aMaterialAmount, mGasUnit, rFluid.amount, aRoundUp);
+		rFluid.setAmount((int)((int)UT.Code.units(aMaterialAmount, mGasUnit, rFluid.getAmount(), aRoundUp)));
 		return rFluid;
 	}
 	
@@ -1314,7 +1314,7 @@ public final class OreDictMaterial implements ITagDataContainer<OreDictMaterial>
 	public FluidStack plasma(long aMaterialAmount, boolean aRoundUp) {
 		if (mPlasma == null) return FL.Error.make(1);
 		FluidStack rFluid = mPlasma.copy();
-		rFluid.amount = (int)UT.Code.units(aMaterialAmount, mPlasmaUnit, rFluid.amount, aRoundUp);
+		rFluid.setAmount((int)((int)UT.Code.units(aMaterialAmount, mPlasmaUnit, rFluid.getAmount(), aRoundUp)));
 		return rFluid;
 	}
 	
