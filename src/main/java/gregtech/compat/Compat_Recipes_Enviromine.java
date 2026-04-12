@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -30,6 +30,6 @@ import gregapi.compat.CompatMods;
 public class Compat_Recipes_Enviromine extends CompatMods {
 	public Compat_Recipes_Enviromine(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Enviromine Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Enviromine Recipes.");
 	}
 }

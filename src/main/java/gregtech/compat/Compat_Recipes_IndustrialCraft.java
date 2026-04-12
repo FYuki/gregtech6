@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -49,7 +49,7 @@ public class Compat_Recipes_IndustrialCraft extends CompatMods {
 	public Compat_Recipes_IndustrialCraft(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
 	@SuppressWarnings("deprecation")
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {if (MD.IC2C.mLoaded) OUT.println("GT_Mod: Doing IC2-Classic Things."); else OUT.println("GT_Mod: Doing IC2-Exp Things.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {if (MD.IC2C.mLoaded) OUT.println("GT_Mod: Doing IC2-Classic Things."); else OUT.println("GT_Mod: Doing IC2-Exp Things.");
 		MultiTileEntityRegistry aRegistry = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
 		
 		String tName = "";

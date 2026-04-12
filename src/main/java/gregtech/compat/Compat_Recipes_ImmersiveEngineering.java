@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -45,7 +45,7 @@ public class Compat_Recipes_ImmersiveEngineering extends CompatMods {
 	public Compat_Recipes_ImmersiveEngineering(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Immersive Engineering Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Immersive Engineering Recipes.");
 		RM.sawing(16, 96, F, 100, ST.make(MD.IE, "woodenDevice", 1, 6), IL.Plank.get(6), OP.dustSmall.mat(MT.Wood, 2));
 		
 		RM.generify(ST.make(BlocksGT.Planks, 1, 10), ST.make(MD.IE, "treatedWood", 1, 0));

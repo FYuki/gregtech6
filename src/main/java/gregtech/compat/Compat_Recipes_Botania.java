@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -39,7 +39,7 @@ import static gregapi.util.CR.DEL_OTHER_SHAPED_RECIPES;
 public class Compat_Recipes_Botania extends CompatMods {
 	public Compat_Recipes_Botania(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {
 		OUT.println("GT_Mod: Doing Botania Recipes.");
 		CR.delate(MD.BOTA, "stone", 0, 2, 3, 4, 6, 7, 8, 10, 11, 12, 14, 15);
 		

@@ -18,7 +18,6 @@
  */
 
 package gregapi.api.example;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 
 /**
  * @author Your Name Here, also might be worth replacing that automatically generated Copyright notice with your LPGL compatible License/Name instead of mine.
@@ -48,7 +47,7 @@ public final class Example_Mod extends gregapi.api.Abstract_Mod {
 	/** Contains a ModData Object for ID and Name. Doesn't have to be changed. */
 	public static gregapi.code.ModData MOD_DATA = new gregapi.code.ModData(MOD_ID, MOD_NAME);
 	
-	@cpw.mods.fml.common.SidedProxy(modId = MOD_ID, clientSide = "gregapi.api.example.Example_Proxy_Client", serverSide = "gregapi.api.example.Example_Proxy_Server")
+	// PHASE8: @cpw.mods.fml.common.SidedProxy removed — replace with FMLEnvironment.dist.isClient() guard
 	public static gregapi.api.Abstract_Proxy PROXY;
 	
 	@Override public String getModID() {return MOD_ID;}
@@ -56,17 +55,17 @@ public final class Example_Mod extends gregapi.api.Abstract_Mod {
 	@Override public String getModNameForLog() {return "Example_Mod";}
 	@Override public gregapi.api.Abstract_Proxy getProxy() {return PROXY;}
 	
-	// Do not change these 7 Functions. Just keep them this way.
-	@cpw.mods.fml.common.Mod.EventHandler public final void onPreLoad           (cpw.mods.fml.common.event.FMLPreInitializationEvent    aEvent) {onModPreInit(aEvent);}
-	@cpw.mods.fml.common.Mod.EventHandler public final void onLoad              (cpw.mods.fml.common.event.FMLInitializationEvent       aEvent) {onModInit(aEvent);}
-	@cpw.mods.fml.common.Mod.EventHandler public final void onPostLoad          (cpw.mods.fml.common.event.FMLPostInitializationEvent   aEvent) {onModPostInit(aEvent);}
-	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStarting    (cpw.mods.fml.common.event.FMLServerStartingEvent       aEvent) {onModServerStarting(aEvent);}
-	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStarted     (cpw.mods.fml.common.event.FMLServerStartedEvent        aEvent) {onModServerStarted(aEvent);}
-	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStopping    (cpw.mods.fml.common.event.FMLServerStoppingEvent       aEvent) {onModServerStopping(aEvent);}
-	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStopped     (cpw.mods.fml.common.event.FMLServerStoppedEvent        aEvent) {onModServerStopped(aEvent);}
+	// PHASE8: @cpw.mods.fml.common.Mod.EventHandler lifecycle methods removed — wire via modEventBus/NeoForge.EVENT_BUS instead
+	// @cpw.mods.fml.common.Mod.EventHandler public final void onPreLoad           (cpw.mods.fml.common.event.FMLPreInitializationEvent    aEvent) {onModPreInit(aEvent);}
+	// @cpw.mods.fml.common.Mod.EventHandler public final void onLoad              (cpw.mods.fml.common.event.FMLInitializationEvent       aEvent) {onModInit(aEvent);}
+	// @cpw.mods.fml.common.Mod.EventHandler public final void onPostLoad          (cpw.mods.fml.common.event.FMLPostInitializationEvent   aEvent) {onModPostInit(aEvent);}
+	// @cpw.mods.fml.common.Mod.EventHandler public final void onServerStarting    (cpw.mods.fml.common.event.FMLServerStartingEvent       aEvent) {onModServerStarting(aEvent);}
+	// @cpw.mods.fml.common.Mod.EventHandler public final void onServerStarted     (cpw.mods.fml.common.event.FMLServerStartedEvent        aEvent) {onModServerStarted(aEvent);}
+	// @cpw.mods.fml.common.Mod.EventHandler public final void onServerStopping    (cpw.mods.fml.common.event.FMLServerStoppingEvent       aEvent) {onModServerStopping(aEvent);}
+	// @cpw.mods.fml.common.Mod.EventHandler public final void onServerStopped     (cpw.mods.fml.common.event.FMLServerStoppedEvent        aEvent) {onModServerStopped(aEvent);}
 	
 	@Override
-	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
+	public void onModPreInit2(net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent aEvent) {
 		// If you want to make yourself a new OreDict Prefix for your Component Items or similar.
 		final gregapi.oredict.OreDictPrefix tExamplePrefix = gregapi.oredict.OreDictPrefix.createPrefix("exampleprefix"); // This newly created OreDict Prefix is named "exampleprefix", so an Aluminium Item with this Prefix would be named "exampleprefixAluminium" in the OreDict.
 		tExamplePrefix.setCategoryName("Examples"); // That is what the Creative Tab of it would be named.
@@ -144,7 +143,7 @@ public final class Example_Mod extends gregapi.api.Abstract_Mod {
 	}
 	
 	@Override
-	public void onModInit2(cpw.mods.fml.common.event.FMLInitializationEvent aEvent) {
+	public void onModInit2(net.neoforged.fml.event.lifecycle.InterModEnqueueEvent aEvent) {
 		// Gets your initialised Registry.
 		gregapi.block.multitileentity.MultiTileEntityRegistry tExampleRegistry = gregapi.block.multitileentity.MultiTileEntityRegistry.getRegistry("example.multitileentity");
 		
@@ -205,27 +204,27 @@ public final class Example_Mod extends gregapi.api.Abstract_Mod {
 	}
 	
 	@Override
-	public void onModPostInit2(cpw.mods.fml.common.event.FMLPostInitializationEvent aEvent) {
+	public void onModPostInit2(net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent aEvent) {
 		// Insert your PostInit Code here and not above
 	}
 	
 	@Override
-	public void onModServerStarting2(cpw.mods.fml.common.event.FMLServerStartingEvent aEvent) {
+	public void onModServerStarting2(net.neoforged.neoforge.event.server.ServerStartingEvent aEvent) {
 		// Insert your ServerStarting Code here and not above
 	}
 	
 	@Override
-	public void onModServerStarted2(cpw.mods.fml.common.event.FMLServerStartedEvent aEvent) {
+	public void onModServerStarted2(net.neoforged.neoforge.event.server.ServerStartedEvent aEvent) {
 		// Insert your ServerStarted Code here and not above
 	}
 	
 	@Override
-	public void onModServerStopping2(cpw.mods.fml.common.event.FMLServerStoppingEvent aEvent) {
+	public void onModServerStopping2(net.neoforged.neoforge.event.server.ServerStoppingEvent aEvent) {
 		// Insert your ServerStopping Code here and not above
 	}
 	
 	@Override
-	public void onModServerStopped2(cpw.mods.fml.common.event.FMLServerStoppedEvent aEvent) {
+	public void onModServerStopped2(net.neoforged.neoforge.event.server.ServerStoppedEvent aEvent) {
 		// Insert your ServerStopped Code here and not above
 	}
 }

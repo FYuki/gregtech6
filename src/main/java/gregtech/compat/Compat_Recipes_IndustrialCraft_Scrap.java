@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -37,7 +37,7 @@ import static gregapi.data.CS.*;
 public class Compat_Recipes_IndustrialCraft_Scrap extends CompatMods {
 	public Compat_Recipes_IndustrialCraft_Scrap(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {
 		if (!MD.IC2C.mLoaded && COMPAT_IC2 != null) {
 			COMPAT_IC2.scrapbox(9.50F, ST.make(Items.wooden_hoe, 1, 0));
 			COMPAT_IC2.scrapbox(2.00F, ST.make(Items.wooden_axe, 1, 0));

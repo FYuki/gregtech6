@@ -38,13 +38,12 @@ import net.minecraft.core.Direction; // was Direction
 
 import static gregapi.data.CS.F;
 import static gregapi.data.CS.SIDES_VALID;
-import cpw.mods.fml.common.event.*;
 
 public class CompatOC extends CompatBase implements ICompatOC, SidedBlock {
 	public CompatOC() {/**/}
 	
 	@Override
-	public void onLoad(FMLInitializationEvent event) {
+	public void onLoad(InterModEnqueueEvent event) {
 		Driver.add(this);
 	}
 	

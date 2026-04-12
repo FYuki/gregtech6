@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
@@ -44,7 +44,7 @@ import net.minecraft.world.item.Item;
 public class Compat_Recipes_Tropicraft extends CompatMods {
 	public Compat_Recipes_Tropicraft(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Tropicraft Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Tropicraft Recipes.");
 		Item tChair = ST.item(MD.TROPIC, "chair"), tUmbrella = ST.item(MD.TROPIC, "umbrella"), tTorch = ST.item(MD.TROPIC, "tikiTorch");
 		CR.delate(MD.TROPIC, "pineappleCubes", "tile.blockOre", "tile.singleSlabs", "tile.plank", "tile.sifter", "ore", "tikiTorch", "chair", "umbrella", "waterWand", "blowGun", "portalEnchanter", "coconutBomb");
 		RM.biomass(ST.make(MD.TROPIC, "tile.flower", 16, W));

@@ -20,7 +20,6 @@
 package gregapi.compat.thaumcraft;
 import gregapi.stubs.IRecipe;
 
-import gregapi.stubs.FMLModIdMappingEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
@@ -60,8 +59,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import gregapi.stubs.MissingMappingsEvent;
+
 import static gregapi.data.CS.*;
-import cpw.mods.fml.common.event.*;
 
 public class CompatTC extends CompatBase implements ICompatTC {
 	public CompatTC() {
@@ -207,7 +207,7 @@ public class CompatTC extends CompatBase implements ICompatTC {
 	}
 	
 	@Override
-	public void onServerStarting(FMLServerStartingEvent aEvent) {
+	public void onServerStarting(ServerStartingEvent aEvent) {
 		// These ItemStacks are Enchanted BEFORE being copied in Thaumcraft, which leads to them always having the SAME Enchantment...
 		for (WeightedRandomLoot tLoot : WeightedRandomLoot.lootBagCommon) {
 			if (tLoot != null && (ST.equal(tLoot.item, Items.book) || ST.equal(tLoot.item, Items.enchanted_book))) {
@@ -217,12 +217,12 @@ public class CompatTC extends CompatBase implements ICompatTC {
 	}
 	
 	@Override
-	public void onServerStarted(FMLServerStartedEvent aEvent) {
+	public void onServerStarted(ServerStartedEvent aEvent) {
 		validate();
 	}
 	
 	@Override
-	public void onServerStopping(FMLServerStoppingEvent aEvent) {
+	public void onServerStopping(ServerStoppingEvent aEvent) {
 		validate();
 	}
 	
@@ -264,7 +264,7 @@ public class CompatTC extends CompatBase implements ICompatTC {
 	}
 	
 	@Override
-	public void onIDChanging(FMLModIdMappingEvent aEvent) {
+	public void onIDChanging(MissingMappingsEvent<?> aEvent) {
 		try {
 			// This fixes the frikkin Axe, so it can use OreDict Logs, which is broken in way too many ways... especially after the Block ID change of Vanilla MC that did not get ported properly into Thaumcraft.
 			ItemElementalAxe.oreDictLogs.clear();

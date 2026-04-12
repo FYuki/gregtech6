@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -36,7 +36,7 @@ import net.minecraft.world.item.Items;
 public class Compat_Recipes_Lycanites extends CompatMods {
 	public Compat_Recipes_Lycanites(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Lycanite Mobs Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Lycanite Mobs Recipes.");
 		CR.delate(MD.LycM_Inferno, "bucketpurelava");
 		if (FL.Lava_Pure.exists()) {
 			RM.Mixer.addRecipe1(T, 16, 16, ST.make(Items.ghast_tear, 1, W), FL.Lava         .make(1000), FL.Lava_Pure.make(1000), ZL_IS);

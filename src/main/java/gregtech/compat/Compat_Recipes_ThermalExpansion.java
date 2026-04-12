@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -43,7 +43,7 @@ import static gregapi.data.CS.*;
 public class Compat_Recipes_ThermalExpansion extends CompatMods {
 	public Compat_Recipes_ThermalExpansion(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Thermal Foundation Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Thermal Foundation Recipes.");
 		CR.remove(IL.TE_Rod_Blizz .get(1));
 		CR.remove(IL.TE_Rod_Blitz .get(1));
 		CR.remove(IL.TE_Rod_Basalz.get(1));

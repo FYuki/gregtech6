@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -38,7 +38,7 @@ import static gregapi.util.CR.DEF;
 public class Compat_Recipes_TwilightForest extends CompatMods {
 	public Compat_Recipes_TwilightForest(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing TF Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing TF Recipes.");
 		CR.shaped(IL.Stick.get(2), DEF, "s", "X", 'X', IL.TF_Dry_Bush);
 		CR.shaped(IL.Stick.get(2), DEF, "k", "X", 'X', IL.TF_Dry_Bush);
 		

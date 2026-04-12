@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -38,7 +38,7 @@ import net.minecraft.world.item.Item;
 public class Compat_Recipes_Voltz extends CompatMods {
 	public Compat_Recipes_Voltz(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Voltz Mod Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Voltz Mod Recipes.");
 		if (CR.remout(MD.ICBM, "icbmCAntidote")) {
 			RM.generify(MD.GC_GALAXYSPACE.mLoaded ? ST.make(MD.GC_GALAXYSPACE, "item.BasicItems", 1, 11) : IL.Pill_Iodine.get(1), ST.make(MD.ICBM, "icbmCAntidote", 1, 0));
 			CR.shapeless(ST.make(MD.ICBM, "icbmCAntidote", 1, 0), new Object[] {MD.GC_GALAXYSPACE.mLoaded ? ST.make(MD.GC_GALAXYSPACE, "item.BasicItems", 1, 11) : IL.Pill_Iodine});

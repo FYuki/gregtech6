@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -36,7 +36,7 @@ import gregapi.util.ST;
 public class Compat_Recipes_CandyCraft extends CompatMods {
 	public Compat_Recipes_CandyCraft(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing CandyCraft Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing CandyCraft Recipes.");
 		CR.delate(MD.CANDY, "I48", "I49");
 		CR.remove(NI, ST.make(MD.CANDY, "I49", 1, 0), NI, ST.make(MD.CANDY, "I49", 1, 0));
 		

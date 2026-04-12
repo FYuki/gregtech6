@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -37,7 +37,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 public class Compat_Recipes_Mekanism extends CompatMods {
 	public Compat_Recipes_Mekanism(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Mekanism Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Mekanism Recipes.");
 		ItemStack x = ST.make(MD.Mek, "Salt", 1, 0);
 		CR.remove(x, x, NI, x, x);
 		

@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -37,7 +37,7 @@ public class Compat_Recipes_Steamcraft2 extends CompatMods {
 	public Compat_Recipes_Steamcraft2(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Steamcraft 2 Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Steamcraft 2 Recipes.");
 		CR.delate(MD.SC2, "BlockSlate", "BlockLightSlate", "BlockRawBlackSlateStairs", "BlockRawBlueSlateStairs", "BlockRawGreySlateStairs", "BlockRawLightBlueSlateStairs", "BlockRawLightRedSlateStairs", "BlockRawRedSlateStairs", "BlockBrickBlackSlateStairs", "BlockBrickBlueSlateStairs", "BlockBrickGreySlateStairs", "BlockBrickLightBlueSlateStairs", "BlockBrickLightRedSlateStairs", "BlockBrickRedSlateStairs", "BlockCobbleBlackSlateStairs", "BlockCobbleBlueSlateStairs", "BlockCobbleGreySlateStairs", "BlockCobbleLightBlueSlateStairs", "BlockCobbleLightRedSlateStairs", "BlockCobbleRedSlateStairs");
 		CR.delate(ST.make(MD.SC2, "ItemTeapot"  , 1, 1));
 		CR.delate(ST.make(MD.SC2, "ItemResource", 1, 2));

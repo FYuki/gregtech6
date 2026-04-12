@@ -50,7 +50,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.NeoForge;
 
 import static gregapi.data.CS.*;
-import cpw.mods.fml.common.event.*;
 
 public class CompatIC2 extends CompatBase implements ICompatIC2 {
 	public CompatIC2() {
@@ -64,7 +63,7 @@ public class CompatIC2 extends CompatBase implements ICompatIC2 {
 	}
 	
 	@Override
-	public void onPostLoad(FMLPostInitializationEvent aEvent) {
+	public void onPostLoad(FMLLoadCompleteEvent aEvent) {
 		for (Object tOre : BlocksGT.stoneToSmallOres .values()) valuable((Block)tOre, 2);
 		for (Object tOre : BlocksGT.stoneToNormalOres.values()) valuable((Block)tOre, 3);
 		for (Object tOre : BlocksGT.stoneToBrokenOres.values()) valuable((Block)tOre, 3);
@@ -79,7 +78,7 @@ public class CompatIC2 extends CompatBase implements ICompatIC2 {
 	}
 	
 	@Override
-	public void onServerStarted(FMLServerStartedEvent aEvent) {
+	public void onServerStarted(ServerStartedEvent aEvent) {
 		if (MD.AA.mLoaded) Ic2Items.coffeeBeans = ST.make(MD.AA, "itemCoffeeBeans", 1, 0);
 	}
 	

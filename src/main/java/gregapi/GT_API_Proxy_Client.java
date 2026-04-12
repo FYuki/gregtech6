@@ -58,9 +58,6 @@ import gregapi.util.WD;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.client.Minecraft;
 import gregapi.stubs.RenderFallingBlock;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import net.minecraft.world.item.CreativeModeTab; // PHASE3: renamed
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.player.Player;
@@ -126,7 +123,7 @@ public class GT_API_Proxy_Client extends GT_API_Proxy {
 	
 	@Override
 	@SuppressWarnings("deprecation")
-	public void onProxyAfterPreInit(Abstract_Mod aMod, FMLPreInitializationEvent aEvent) {
+	public void onProxyAfterPreInit(Abstract_Mod aMod, FMLCommonSetupEvent aEvent) {
 		RenderingRegistry.registerEntityRenderingHandler(PrefixBlockFallingEntity.class, new RenderFallingBlock());
 		RenderingRegistry.registerBlockHandler(new RendererBlockFluid(RenderingRegistry.getNextAvailableRenderId()));
 		RenderingRegistry.registerBlockHandler(new RendererBlockTextured(RenderingRegistry.getNextAvailableRenderId()));
@@ -172,12 +169,12 @@ public class GT_API_Proxy_Client extends GT_API_Proxy {
 	}
 	
 	@Override
-	public void onProxyBeforeInit(Abstract_Mod aMod, FMLInitializationEvent aEvent) {
+	public void onProxyBeforeInit(Abstract_Mod aMod, InterModEnqueueEvent aEvent) {
 		for (OreDictMaterial tMaterial : OreDictMaterial.MATERIAL_MAP.values()) LH.add("gt.material." + tMaterial.mNameInternal, tMaterial.mNameLocal);
 	}
 	
 	@Override
-	public void onProxyAfterInit(Abstract_Mod aMod, FMLInitializationEvent aEvent) {
+	public void onProxyAfterInit(Abstract_Mod aMod, InterModEnqueueEvent aEvent) {
 		for (OreDictPrefix tPrefix : OreDictPrefix.VALUES) {
 			LH.add("oredict.prefix." + tPrefix.mNameInternal, tPrefix.mNameLocal);
 			tPrefix.mNameLocal = LH.get("oredict.prefix." + tPrefix.mNameInternal, tPrefix.mNameLocal);
@@ -185,7 +182,7 @@ public class GT_API_Proxy_Client extends GT_API_Proxy {
 	}
 	
 	@Override
-	public void onProxyAfterPostInit(Abstract_Mod aMod, FMLPostInitializationEvent aEvent) {
+	public void onProxyAfterPostInit(Abstract_Mod aMod, FMLLoadCompleteEvent aEvent) {
 		// Initialising the List of Decorative Plank Icons
 		for (int i = 0; i < PlankData.PLANKS.length; i++) {
 			Block tBlock = ST.block(PlankData.PLANKS[i]);

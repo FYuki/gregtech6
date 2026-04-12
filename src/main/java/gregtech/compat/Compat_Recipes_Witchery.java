@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -40,7 +40,7 @@ import net.minecraft.world.item.Items;
 public class Compat_Recipes_Witchery extends CompatMods {
 	public Compat_Recipes_Witchery(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Witchery Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Witchery Recipes.");
 		CR.remout(MD.WTCH, "ingredient", 26);
 		
 		CR.shaped(ST.make(MD.WTCH, "ingredient", 1,  7), CR.DEF_NCC, "B  ", "   ", "  k", 'B', Items.bone);

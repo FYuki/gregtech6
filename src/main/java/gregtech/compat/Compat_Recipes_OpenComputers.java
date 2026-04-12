@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -34,7 +34,7 @@ import gregapi.util.ST;
 public class Compat_Recipes_OpenComputers extends CompatMods {
 	public Compat_Recipes_OpenComputers(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Open Computers Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Open Computers Recipes.");
 		RM.rem_smelting(ST.make(MD.OC, "item", 1, 30));
 		CR.delate(MD.OC, "item", 30);
 		CR.delate(MD.OC, "wrench");

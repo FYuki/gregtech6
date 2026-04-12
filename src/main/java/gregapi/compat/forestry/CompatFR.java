@@ -39,13 +39,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import static gregapi.data.CS.*;
-import cpw.mods.fml.common.event.*;
 
 public class CompatFR extends CompatBase implements ICompatFR, IFarmable {
 	public ItemStackSet<ItemStackContainer> mWindfalls = ST.hashset();
 	
 	@Override
-	public void onPostLoad(FMLPostInitializationEvent aEvent) {
+	public void onPostLoad(FMLLoadCompleteEvent aEvent) {
 		Farmables.farmables.get("farmArboreal").add(this);
 	}
 	

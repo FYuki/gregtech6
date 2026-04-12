@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -41,7 +41,7 @@ import static gregapi.data.CS.*;
 public class Compat_Recipes_Reika extends CompatMods {
 	public Compat_Recipes_Reika(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {
 		if (MD.RoC.mLoaded) {
 			OUT.println("GT_Mod: Doing RotaryCraft Recipes.");
 			CR.delate(MD.RoC, "rotarycraft_item_machine"   , 116);

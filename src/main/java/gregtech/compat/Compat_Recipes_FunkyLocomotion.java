@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -37,7 +37,7 @@ import gregapi.util.ST;
 public class Compat_Recipes_FunkyLocomotion extends CompatMods {
 	public Compat_Recipes_FunkyLocomotion(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Funky Locomotion Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Funky Locomotion Recipes.");
 		CR.shaped(ST.make(MD.FUNK, "pusher" , 1, 0), CR.DEF_REM_REV_NCC, "FFF", "IPI", "IDI", 'P', OD.craftingPiston, 'D', OP.gem.dat(ANY.Diamond), 'I', OP.plate.dat(MT.Invar), 'F', OP.foil.dat(MT.Enderium));
 		CR.shaped(ST.make(MD.FUNK, "pusher" , 1, 6), CR.DEF_REM_REV_NCC, " G ", "RMR", " R ", 'M', ST.make(MD.FUNK, "pusher", 1, 0), 'R', OD.itemRedstone, 'G', OD.itemGlue);
 		CR.shaped(ST.make(MD.FUNK, "slider" , 1, 0), CR.DEF_REM_REV_NCC, " S ", "LML", " L ", 'M', ST.make(MD.FUNK, "pusher", 1, 0), 'L', OP.gem.dat(MT.Lapis), 'S', OP.wireFine.dat(MT.Signalum));

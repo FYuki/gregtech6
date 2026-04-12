@@ -34,7 +34,6 @@ import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.BlockGetter;
 
 import static gregapi.data.CS.T;
-import cpw.mods.fml.common.event.*;
 
 
 public class CompatBC extends CompatBase implements ICompatBC {
@@ -48,7 +47,7 @@ public class CompatBC extends CompatBase implements ICompatBC {
 	}
 	
 	@Override
-	public void onPostLoad(FMLPostInitializationEvent aEvent) {
+	public void onPostLoad(FMLLoadCompleteEvent aEvent) {
 		for (TagData tEnergyType : TD.Energy.ALL) {
 			new TriggerBC_Energy_Capacity_Empty(tEnergyType);
 			new TriggerBC_Energy_Capacity_Partial(tEnergyType);

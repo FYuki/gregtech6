@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 import gregapi.stubs.IRecipe;
 
 import static gregapi.data.CS.*;
@@ -52,7 +52,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 public class Compat_Recipes_GalactiCraft extends CompatMods {
 	public Compat_Recipes_GalactiCraft(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {
 		if (MD.GC.mLoaded) {
 			OUT.println("GT_Mod: Doing Galacticraft Recipes.");
 			for (OreDictMaterial tMat : ANY.Steel.mToThis) {

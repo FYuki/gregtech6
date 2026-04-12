@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -33,7 +33,7 @@ import static gregapi.data.CS.*;
 public class Compat_Recipes_ProjectRed extends CompatMods {
 	public Compat_Recipes_ProjectRed(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing PR Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing PR Recipes.");
 		CR.delate(MD.PR, "projectred.core.part", 40);
 		
 		CR.shaped(ST.make(MD.PR, "projectred.core.part", 1, 40), CR.DEF_NCC, " D ", "DID", " D ", 'D', OD.itemRedstone, 'I', OP.ingot.dat(ANY.Cu));

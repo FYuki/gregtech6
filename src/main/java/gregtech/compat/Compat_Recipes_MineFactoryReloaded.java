@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -41,7 +41,7 @@ import static gregapi.data.CS.*;
 public class Compat_Recipes_MineFactoryReloaded extends CompatMods {
 	public Compat_Recipes_MineFactoryReloaded(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {
 		OUT.println("GT_Mod: Doing MineFactory Reloaded Recipes.");
 		CR.delate(MD.MFR, "machine.2", 0, 1);
 		CR.remove(OM.dust(MT.Plastic), OM.dust(MT.Plastic), NI, OM.dust(MT.Plastic), OM.dust(MT.Plastic));

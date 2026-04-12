@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 
@@ -40,7 +40,7 @@ import net.minecraft.world.level.block.Blocks;
 public class Compat_Recipes_ExtraUtilities extends CompatMods {
 	public Compat_Recipes_ExtraUtilities(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing Extra Utilities Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing Extra Utilities Recipes.");
 		if (ConfigsGT.RECIPES.get(ConfigCategories.Recipes.disabledrecipes, "extra-utilities-trash-can-items", T)) {
 			ItemsGT.RECIPE_REMOVED_USE_TRASH_BIN_INSTEAD.add(ST.make(MD.ExU, "trashcan", 1, 0));
 			CR.delate(MD.ExU, "trashcan", 0);

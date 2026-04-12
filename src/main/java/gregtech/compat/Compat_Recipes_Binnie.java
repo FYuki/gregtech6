@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import gregapi.api.Abstract_Mod;
@@ -38,7 +38,7 @@ import static gregapi.data.CS.*;
 public class Compat_Recipes_Binnie extends CompatMods {
 	public Compat_Recipes_Binnie(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {
 		if (MD.BINNIE_TREE.mLoaded) {
 			OUT.println("GT_Mod: Doing Binnie Extra Trees Recipes.");
 			

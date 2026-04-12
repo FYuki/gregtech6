@@ -18,7 +18,7 @@
  */
 
 package gregtech.compat;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+
 
 import static gregapi.data.CS.*;
 import static gregapi.util.CR.*;
@@ -50,7 +50,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 public class Compat_Recipes_BuildCraft extends CompatMods {
 	public Compat_Recipes_BuildCraft(ModData aMod, Abstract_Mod aGTMod) {super(aMod, aGTMod);}
 	
-	@Override public void onPostLoad(FMLPostInitializationEvent aInitEvent) {OUT.println("GT_Mod: Doing BC Recipes.");
+	@Override public void onPostLoad(FMLLoadCompleteEvent aInitEvent) {OUT.println("GT_Mod: Doing BC Recipes.");
 		long tBits = DEF | DEL_OTHER_SHAPED_RECIPES | DEL_OTHER_NATIVE_RECIPES | ONLY_IF_HAS_OTHER_RECIPES;
 		
 		CR.shaped(ST.make(MD.BC, "woodenGearItem" , 1, 0), tBits, " X ", "X X", " X ", 'X', OP.stick.dat(ANY.Wood));
