@@ -1,0 +1,67 @@
+name: dev-flow
+description: "Claude（設計・レビュー）+ Copilot（実装）分担フロー"
+max_iterations: 5
+steps:
+- name: plan
+  agent: .takt/agents/planner.md
+  provider: claude
+  instruction_template: |
+    plan.mdとphases/{phase}ファイルを読み込み、
+    Copilot CLIへの実装指示プロンプトを生成して phases/{phase}-impl-prompt.mdに保存せよ。
+    コードは直接書かない。指示プロンプト生成のみ。
+    タスク: {task}
+  transitions:
+  - condition: done
+    next_step: implement
+
+- name: implement
+  agent: .takt/agents/worker.md
+  provider: copilot
+  # Copilot CLIで実装
+  edit: true
+  instruction_template: |
+    phases/{phase}-impl-prompt.mdの指示に従い実装・テストを行え。
+    完了後はテスト結果を報告せよ。
+  transitions:
+  - condition: done
+    next_step: review
+  - condition: blocked
+    next_step: ABORT
+
+- name: review
+  agent: .takt/agents/reviewer.md
+  provider: claude
+  # Claudeでレビュー
+  edit: false # コード変更禁止
+  instruction_template: |
+    以下のdiffのみを対象にレビューせよ。ソースコード全体は読まない。
+    {git_diff}
+  transitions:
+  - condition: approved
+    next_step: create_pr
+  - condition: needs_fix
+    next_step: implement
+
+- name: create_pr
+  agent: .takt/agents/worker.md
+  provider: copilot
+  edit: false
+  instruction_template: |
+    gh pr createコマンドでPRを作成せよ。
+    タイトルとdescriptionはdiffから自動生成すること。
+  transitions:
+  - condition: done
+    next_step: human_review
+
+- name: human_review
+  agent: .takt/agents/human-gate.md
+  provider: claude
+  edit: false
+  instruction_template: |
+    PRの内容をユーザーに確認を求めよ。
+    承認を得るまでここで停止すること。
+  transitions:
+  - condition: approved
+    next_step: COMPLETE
+  - condition: rejected
+    next_step: implement

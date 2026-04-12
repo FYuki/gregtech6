@@ -1,0 +1,6 @@
+language: ja
+provider: claude # デフォルトはClaudeを使用
+branch_name_strategy: romaji
+prevent_sleep: true # macOSスリープ防止（離席中の実行継続）
+notification_sound: true
+concurrency: 1
