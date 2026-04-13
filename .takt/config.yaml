@@ -1,6 +1,4 @@
 language: ja
-provider: claude # デフォルトはClaudeを使用
+provider: claude-sdk # claude-sdk = Node.js SDK経由（claude CLIサブプロセス起動より安定）
 branch_name_strategy: romaji
-prevent_sleep: true # macOSスリープ防止（離席中の実行継続）
-notification_sound: true
 concurrency: 1
