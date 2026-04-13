@@ -1,67 +1,96 @@
 name: dev-flow
-description: "Claude（設計・レビュー）+ Copilot（実装）分担フロー"
-max_iterations: 5
+description: "Claude（設計・レビュー）+ Coder（実装）分担フロー — GregTech 6 migration"
+max_steps: 20
+initial_step: plan
+workflow_config:
+  provider_options:
+    copilot:
+      network_access: true
+
 steps:
-- name: plan
-  agent: .takt/agents/planner.md
-  provider: claude
-  instruction_template: |
-    plan.mdとphases/{phase}ファイルを読み込み、
-    Copilot CLIへの実装指示プロンプトを生成して phases/{phase}-impl-prompt.mdに保存せよ。
-    コードは直接書かない。指示プロンプト生成のみ。
-    タスク: {task}
-  transitions:
-  - condition: done
-    next_step: implement
+  - name: plan
+    edit: false
+    persona: planner
+    provider_options:
+      claude:
+        allowed_tools:
+          - Read
+          - Glob
+          - Grep
+          - Bash
+    rules:
+      - condition: 実装指示プロンプトを生成した
+        next: implement
+      - condition: タスクが不明確・情報不足
+        next: ABORT
+    instruction: |
+      あなたはソフトウェア設計者です。コードを直接書いてはいけません。
 
-- name: implement
-  agent: .takt/agents/worker.md
-  provider: copilot
-  # Copilot CLIで実装
-  edit: true
-  instruction_template: |
-    phases/{phase}-impl-prompt.mdの指示に従い実装・テストを行え。
-    完了後はテスト結果を報告せよ。
-  transitions:
-  - condition: done
-    next_step: review
-  - condition: blocked
-    next_step: ABORT
+      ## タスク
+      {task}
 
-- name: review
-  agent: .takt/agents/reviewer.md
-  provider: claude
-  # Claudeでレビュー
-  edit: false # コード変更禁止
-  instruction_template: |
-    以下のdiffのみを対象にレビューせよ。ソースコード全体は読まない。
-    {git_diff}
-  transitions:
-  - condition: approved
-    next_step: create_pr
-  - condition: needs_fix
-    next_step: implement
+      ## やること
+      1. 調査：関連ファイルをRead/Glob/Grepで確認する
+      2. 実装指示プロンプトを `phases/` ディレクトリに保存する
+         - ファイル名: `phases/<phase>-impl-prompt.md`
+         - 内容: 対象ファイル一覧・具体的な実装手順・テスト要件・git操作
 
-- name: create_pr
-  agent: .takt/agents/worker.md
-  provider: copilot
-  edit: false
-  instruction_template: |
-    gh pr createコマンドでPRを作成せよ。
-    タイトルとdescriptionはdiffから自動生成すること。
-  transitions:
-  - condition: done
-    next_step: human_review
+      コードは一切書かない。指示プロンプト生成のみ行う。
 
-- name: human_review
-  agent: .takt/agents/human-gate.md
-  provider: claude
-  edit: false
-  instruction_template: |
-    PRの内容をユーザーに確認を求めよ。
-    承認を得るまでここで停止すること。
-  transitions:
-  - condition: approved
-    next_step: COMPLETE
-  - condition: rejected
-    next_step: implement
+  - name: implement
+    edit: true
+    persona: coder
+    provider_options:
+      claude:
+        allowed_tools:
+          - Read
+          - Glob
+          - Grep
+          - Edit
+          - Write
+          - Bash
+    required_permission_mode: edit
+    rules:
+      - condition: 実装完了・テスト通過
+        next: review
+      - condition: 実装を進行できない
+        next: ABORT
+      - condition: ユーザーへの確認が必要
+        next: implement
+        requires_user_input: true
+        interactive_only: true
+    instruction: |
+      あなたはコーディングワーカーです。
+
+      ## タスク
+      `phases/` ディレクトリ内の最新の `*-impl-prompt.md` を読み込み、
+      その指示に従い実装・テストを行ってください。
+
+      - 設計判断は行わない。指示の範囲内でのみ作業する
+      - テスト要件を満たしていることを確認してから完了とする
+
+  - name: review
+    edit: false
+    persona: supervisor
+    provider_options:
+      claude:
+        allowed_tools:
+          - Glob
+          - Grep
+          - Bash
+    rules:
+      - condition: 問題なし・承認
+        next: COMPLETE
+      - condition: 修正が必要
+        next: implement
+    instruction: |
+      あなたはコードレビュアーです。
+
+      ## レビュー対象
+      `git diff HEAD~1` の差分のみをレビューしてください。
+      ソースコード全体を読み込んではいけません。
+
+      ## レビュー観点
+      `.takt/review/checklist.md` の項目に従って判定する。
+
+      結果を `review/review-result.md` に書き出してください。
