@@ -57,7 +57,7 @@ public class CompatBC extends CompatBase implements ICompatBC {
 	}
 	
 	@Override
-	public void onServerStarting(FMLServerStartingEvent aEvent) {
+	public void onServerStarting(ServerStartingEvent aEvent) {
 		BuildCraftAPI.registerWorldProperty("wood", new WorldPropertyIsLog());
 	}
 	
