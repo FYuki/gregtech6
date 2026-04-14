@@ -1,5 +1,5 @@
 name: dev-flow
-description: "Claude（設計・レビュー）+ Coder（実装）分担フロー — GregTech 6 migration"
+description: "Claude（設計・レビュー）+ Copilot（実装）分担フロー — GregTech 6 migration"
 max_steps: 20
 initial_step: plan
 workflow_config:
@@ -11,6 +11,7 @@ steps:
   - name: plan
     edit: false
     persona: planner
+    provider: claude
     provider_options:
       claude:
         allowed_tools:
@@ -22,6 +23,10 @@ steps:
       - condition: 実装指示プロンプトを生成した
         next: implement
       - condition: タスクが不明確・情報不足
+        next: plan
+        requires_user_input: true
+        interactive_only: true
+      - condition: 解決不能
         next: ABORT
     instruction: |
       あなたはソフトウェア設計者です。コードを直接書いてはいけません。
@@ -40,19 +45,11 @@ steps:
   - name: implement
     edit: true
     persona: coder
-    provider_options:
-      claude:
-        allowed_tools:
-          - Read
-          - Glob
-          - Grep
-          - Edit
-          - Write
-          - Bash
+    provider: copilot
     required_permission_mode: edit
     rules:
       - condition: 実装完了・テスト通過
-        next: review
+        next: create_pr
       - condition: 実装を進行できない
         next: ABORT
       - condition: ユーザーへの確認が必要
@@ -69,9 +66,23 @@ steps:
       - 設計判断は行わない。指示の範囲内でのみ作業する
       - テスト要件を満たしていることを確認してから完了とする
 
+  - name: create_pr
+    edit: false
+    persona: coder
+    provider: copilot
+    rules:
+      - condition: PR作成完了
+        next: review
+      - condition: PR作成失敗
+        next: ABORT
+    instruction: |
+      gh pr create コマンドでPRを作成してください。
+      タイトルとdescriptionはdiffから自動生成すること。
+
   - name: review
     edit: false
     persona: supervisor
+    provider: claude
     provider_options:
       claude:
         allowed_tools:
@@ -80,9 +91,11 @@ steps:
           - Bash
     rules:
       - condition: 問題なし・承認
-        next: COMPLETE
-      - condition: 修正が必要
+        next: human_review
+      - condition: 軽微な実装ミス
         next: implement
+      - condition: 設計上の問題・根本的な方向性の誤り
+        next: plan
     instruction: |
       あなたはコードレビュアーです。
 
@@ -94,3 +107,15 @@ steps:
       `.takt/review/checklist.md` の項目に従って判定する。
 
       結果を `review/review-result.md` に書き出してください。
+
+  - name: human_review
+    edit: false
+    persona: human-gate
+    provider: claude
+    rules:
+      - condition: ユーザーが承認
+        next: COMPLETE
+      - condition: ユーザーが差し戻し
+        next: implement
+    instruction: |
+      .takt/agents/human-gate.md の指示に従い、ユーザーにPR確認を求めてください。
